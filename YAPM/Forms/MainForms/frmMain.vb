@@ -1731,21 +1731,6 @@ Public Class frmMain
         frm.ShowDialog()
     End Sub
 
-    Public Sub TakeFullPower()
-        clsOpenedHandles.EnableDebug()
-        'Me.lvProcess.Items.Clear()
-        'Me.tvProc.Nodes.Clear()
-        'Dim nn As New TreeNode
-        'nn.Text = "[System process]"
-        'nn.Tag = "0"
-        'Dim n2 As New TreeNode
-        'n2.Text = "System"
-        'n2.Tag = "4"
-        'nn.Nodes.Add(n2)
-        'Me.tvProc.Nodes.Add(nn)
-        'refreshProcessList()
-    End Sub
-
     'Private Sub butProcessPermuteLvTv_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessPermuteLvTv.Click
     '    Static _oldProcessColumnWidth As Integer = 100
     '    If butProcessPermuteLvTv.Text = "Listview" Then

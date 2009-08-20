@@ -43,6 +43,8 @@
 ' - GdiBlendMode
 ' - GdiStockObject
 ' - ServiceFlags
+' - PoolType
+' - ObjectFlags
 
 Option Strict On
 
@@ -1226,6 +1228,30 @@ Namespace Native.Api
 #Region "Declarations used for handles"
 
         <Flags()> _
+        Public Enum ObjectFlags As UInteger
+            Inherit = &H2
+            Permanent = &H10
+            Exclusive = &H20
+            CaseInsensitive = &H40
+            OpenIf = &H80
+            OpenLink = &H100
+            KernelHandle = &H200
+            ForceAccessCheck = &H400
+            ValidAttributes = &H7F2
+
+        End Enum
+
+        Public Enum PoolType As UInteger
+            NonPagedPool
+            PagedPool
+            NonPagedPoolMustSucceed
+            DontUseThisType
+            NonPagedPoolCacheAligned
+            PagedPoolCacheAligned
+            NonPagedPoolCacheAlignedMustS
+        End Enum
+
+        <Flags()> _
         Public Enum DuplicateOptions As Integer
             CloseSource = &H1
             SameAccess = &H2
@@ -1237,6 +1263,15 @@ Namespace Native.Api
             ProtectFromClose = &H1
             Inherit = &H2
             AuditObjectClose = &H4
+        End Enum
+
+        Public Enum ObjectInformationClass As Integer
+            ObjectAttributes = 0
+            ObjectNameInformation = 1
+            ObjectTypeInformation = 2
+            ObjectTypesInformation = 3
+            ObjectHandleFlagInformation = 4
+            ObjectSessionInformation = 5
         End Enum
 
 #End Region

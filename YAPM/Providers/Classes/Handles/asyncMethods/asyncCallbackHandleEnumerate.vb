@@ -116,7 +116,7 @@ Public Class asyncCallbackHandleEnumerate
                         Dim retName As String
                         Dim retObjectCount As Integer
                         Dim retPid As Integer
-                        Dim retPointerCount As Integer
+                        Dim retPointerCount As UInteger
                         Dim retType As String
                         With cHandle.handles_Renamed
                             retHandleCount = .GetHandleCount(i)
@@ -159,7 +159,7 @@ Public Class asyncCallbackHandleEnumerate
                         Dim retName As String
                         Dim retObjectCount As Integer
                         Dim retPid As Integer
-                        Dim retPointerCount As Integer
+                        Dim retPointerCount As UInteger
                         Dim retType As String
                         With cHandle.handles_Renamed
                             retHandleCount = .GetHandleCount(i)

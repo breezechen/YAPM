@@ -23,8 +23,9 @@
 ' Thanks to ShareVB for the KernelMemory driver.
 ' http://www.vbfrance.com/codes/LISTER-HANDLES-FICHIERS-CLE-REGISTRES-OUVERTS-PROGRAMME-NT_39333.aspx
 
-Option Strict Off
+Option Strict On
 
+Imports YAPM.Native.Api
 Imports System.Runtime.InteropServices
 
 Public Class clsOpenedHandles
@@ -36,77 +37,26 @@ Public Class clsOpenedHandles
     'constantes
     '==========================================================================================
 
-    'constante pour NtQuerySystemInformation
-    Private Const SystemHandleInformation As Integer = 16
-    Private Const STATUS_INFO_LENGTH_MISMATCH As Integer = &HC0000004
+    Private Const STATUS_INFO_LENGTH_MISMATCH As UInteger = &HC0000004
     Private Const STATUS_SUCCESS As Integer = &H0
-
-    'constante pour NtQueryObject
-    Private Const ObjectBasicInformation As Integer = 0 ' 0 Y N
-    Private Const ObjectNameInformation As Integer = 1 ' 1 Y N
-    Private Const ObjectTypeInformation As Integer = 2 ' 2 Y N
-    Private Const ObjectAllTypesInformation As Integer = 3 ' 3 Y N
-    Private Const ObjectHandleInformation As Integer = 4 ' 4 Y Y
-
-    'autorise à créer un thread dans le processus
-    Private Const PROCESS_CREATE_THREAD As Integer = &H2
-    'autorise les opérations sur la mémoire du processus
-    Private Const PROCESS_VM_OPERATION As Integer = &H8
-    'autorise les lectures sur la mémoire du processus
-    Private Const PROCESS_VM_READ As Integer = &H10
-    'autorise les écritures sur la mémoire du processus
-    Private Const PROCESS_VM_WRITE As Integer = &H20
-    'autorise à dupliquer un handle (pour OpenProcess)
-    Private Const PROCESS_DUP_HANDLE As Integer = (&H40S)
-    'avec le même accès que dans le processus original (pour DuplicateHandle)
-    Private Const DUPLICATE_SAME_ACCESS As Integer = &H2S
-    'inclure les processus dans la vue (pour CreateToolhelp32Snapshot)
-    Private Const TH32CS_SNAPPROCESS As Integer = &H2S
-
-    Private Const PIPE_NOWAIT As Integer = &H1
-    Private Const PIPE_WAIT As Integer = &H0
-    Private Const PIPE_READMODE_MESSAGE As Integer = &H2
-    Private Const PIPE_READMODE_BYTE As Integer = &H0
-
-    'constantes pour OBJECT_ATTRIBUTES
-    Private Const OBJ_INHERIT As Integer = &H2
-    Private Const OBJ_PERMANENT As Integer = &H10
-    Private Const OBJ_EXCLUSIVE As Integer = &H20
-    Private Const OBJ_CASE_INSENSITIVE As Integer = &H40
-    Private Const OBJ_OPENIF As Integer = &H80
-    Private Const OBJ_OPENLINK As Integer = &H100
-    Private Const OBJ_KERNEL_HANDLE As Integer = &H200
-
-    'accès aux dossiers
-    Private Const DIRECTORY_QUERY As Integer = &H1
-    Private Const DIRECTORY_TRAVERSE As Integer = &H2
-    Private Const DIRECTORY_CREATE_OBJECT As Integer = &H4
-    Private Const DIRECTORY_CREATE_SUBDIRECTORY As Integer = &H8
-
-    'accès au liens symboliques
-    Private Const SYMBOLIC_LINK_QUERY As Integer = &H1
 
     'constantes d'erreur
     Private Const STATUS_NO_MORE_ENTRIES As Integer = &H8000001A
     Private Const STATUS_BUFFER_TOO_SMALL As Integer = &HC0000023
 
-    '==========================================================================================
-    'structures perso
-    '==========================================================================================
-
     'structure contenant des infos sur un handle d'un processus
     Private Structure HandleInfo
         Dim ProcessID As Integer 'ID du processus propriétaire
-        Dim Flags As Byte ' 0x01 = PROTECT_FROM_CLOSE, 0x02 = INHERIT
-        Dim Handle As Short 'valeur du handle
+        Dim Flags As NativeEnums.HandleFlags  ' 0x01 = PROTECT_FROM_CLOSE, 0x02 = INHERIT
+        Dim Handle As IntPtr  'valeur du handle
         Dim ObjectName As String 'nom de l'objet
         Dim NameInformation As String 'type de l'ojet
         'UPGRADE_NOTE: Objecta été mis à niveau vers Object_Renamed. Cliquez ici : 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1061"'
-        Dim Object_Renamed As Integer 'adresse de l'objet
-        Dim GrantedAccess As Integer 'accès autorisés à l'objet
-        Dim Attributes As Integer 'attributs
+        Dim Object_Renamed As IntPtr  'adresse de l'objet
+        Dim GrantedAccess As Native.Security.StandardRights  'accès autorisés à l'objet
+        Dim Attributes As UInteger 'attributs
         Dim HandleCount As Integer 'nombre de handle de ce type dans le système
-        Dim PointerCount As Integer 'nombre de références pointeurs à cet objet dans le système
+        Dim PointerCount As UInteger 'nombre de références pointeurs à cet objet dans le système
         Dim CreateTime As Decimal 'date de création de l'objet
         Dim GenericRead As Integer 'accès générique
         Dim GenericWrite As Integer
@@ -118,196 +68,15 @@ Public Class clsOpenedHandles
         Dim InvalidAttributes As Integer 'définit les attributs invalides pour ce type d'objet
         Dim ValidAccess As Integer '
         Dim Unknown As Byte
-        Dim MaintainHandleDatabase As Byte '
-        Dim PoolType As Integer 'type de pool utilisé par l'objet
+        Dim MaintainHandleDatabase As UShort  '
+        Dim PoolType As NativeEnums.PoolType  'type de pool utilisé par l'objet
         Dim PagedPoolUsage As Integer 'paged pool utilisé
         Dim NonPagedPoolUsage As Integer 'non-paged pool utilisé
     End Structure
 
-    'une entrée d'un dossier
-    Private Structure DirectoryEntry
-        Dim ObjectName As String
-        Dim ObjectTypeName As String
-    End Structure
-
-    '==========================================================================================
-    'structures Windows
-    '==========================================================================================
-
-    'structure contenant une chaine de caractere UNICODE
-    <StructLayout(LayoutKind.Sequential, Pack:=1)> _
-    Private Structure UNICODE_STRING
-        Dim Length As Short
-        Dim MaximumLength As Short
-        Dim Buffer As IntPtr
-    End Structure
-
-    <StructLayout(LayoutKind.Sequential)> _
-    Private Structure GENERIC_MAPPING
-        Dim GenericRead As Integer
-        Dim GenericWrite As Integer
-        Dim GenericExecute As Integer
-        Dim GenericAll As Integer
-    End Structure
-
-    '==========================================================================================
-    'structures non documentées
-    '==========================================================================================
-
-    'structure de donnée de handle renvoyée par NtQuerySystemInformation
-    <StructLayout(LayoutKind.Sequential, Pack:=1)> _
-    Private Structure SYSTEM_HANDLE_INFORMATION ' Information Class 16
-        Dim ProcessID As Integer
-        Dim ObjectTypeNumber As Byte
-        Dim Flags As Byte ' 0x01 = PROTECT_FROM_CLOSE, 0x02 = INHERIT
-        Dim Handle As Short
-        Dim Object_Pointer As Integer
-        Dim GrantedAccess As Integer
-    End Structure
-
-    'informations sur une entrée du contenu d'un dossier
-    '<StructLayout(LayoutKind.Sequential)> _
-    'Private Structure DIRECTORY_BASIC_INFORMATION
-    '    Dim ObjectName As UNICODE_STRING
-    '    Dim ObjectTypeName As UNICODE_STRING
-    'End Structure
-
-    'structure contenant des infos sur les type d'objet du systeme
-    <StructLayout(LayoutKind.Sequential)> _
-    Private Structure OBJECT_BASIC_INFORMATION ' Information Class 0
-        Dim Attributes As Integer
-        Dim GrantedAccess As Integer
-        Dim HandleCount As Integer
-        Dim PointerCount As Integer
-        Dim PagedPoolUsage As Integer
-        Dim NonPagedPoolUsage As Integer
-        Dim Reserved1 As Integer
-        Dim Reserved2 As Integer
-        Dim Reserved3 As Integer
-        Dim NameInformationLength As Integer
-        Dim TypeInformationLength As Integer
-        Dim SecurityDescriptorLength As Integer
-        Dim CreateTime As Long
-    End Structure
-
-    'structure contenant le nom d'un type d'objet
-    <StructLayout(LayoutKind.Sequential)> _
-    Private Structure OBJECT_NAME_INFORMATION ' Information Class 1
-        Dim Name As UNICODE_STRING
-    End Structure
-
-    'attributs d'un objet
-    <StructLayout(LayoutKind.Sequential)> _
-    Private Structure OBJECT_ATTRIBUTES
-        Dim Length As Integer
-        Dim RootDirectoryHandle As Integer
-        Dim ObjectName As IntPtr 'PUNICODE_STRING
-        Dim Attributes As Integer
-        Dim SecurityDescriptor As Integer
-        Dim SecurityQualityOfService As Integer
-    End Structure
-
-    'information sur un type d'objet
-    <StructLayout(LayoutKind.Sequential)> _
-    Private Structure OBJECT_TYPE_INFORMATION ' Information Class 2
-        Dim Name As UNICODE_STRING
-        Dim ObjectCount As Integer
-        Dim HandleCount As Integer
-        Dim Reserved1 As Integer
-        Dim Reserved2 As Integer
-        Dim Reserved3 As Integer
-        Dim Reserved4 As Integer
-        Dim PeakObjectCount As Integer
-        Dim PeakHandleCount As Integer
-        Dim Reserved5 As Integer
-        Dim Reserved6 As Integer
-        Dim Reserved7 As Integer
-        Dim Reserved8 As Integer
-        Dim InvalidAttributes As Integer
-        Dim GenericMapping As GENERIC_MAPPING
-        Dim ValidAccess As Integer
-        Dim Unknown As Byte
-        Dim MaintainHandleDatabase As Byte
-        Dim PoolType As Integer
-        Dim PagedPoolUsage As Integer
-        Dim NonPagedPoolUsage As Integer
-    End Structure
-
-    'information sur les types d'objets
-    '<StructLayout(LayoutKind.Sequential)> _
-    'Private Structure OBJECT_ALL_TYPES_INFORMATION 'Information Class 3
-    '    Dim NumberOfTypes As Integer
-    '    Dim TypeInformation As OBJECT_TYPE_INFORMATION
-    'End Structure
-
-    'information sur les attributs de handles
-    '<StructLayout(LayoutKind.Sequential)> _
-    'Private Structure OBJECT_HANDLE_ATTRIBUTE_INFORMATION ' Information Class 4
-    '    Dim Inherit As Byte
-    '    Dim ProtectFromClose As Byte
-    'End Structure
-
-    '==========================================================================================
-    'API natives (non documentées)
-    '==========================================================================================
-
-    'renvoie des informations sur le systeme
-    Private Declare Function NtQuerySystemInformation Lib "ntdll" (ByVal SystemInformationClass As Integer, ByVal SystemInformation As IntPtr, ByVal SystemInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
-
-    'renvoie des infos sur un type d'objet
-    Private Declare Function NtQueryObject Lib "ntdll" (ByVal ObjectHandle As Integer, ByVal ObjectInformationClass As Integer, ByVal ObjectInformation As IntPtr, ByVal ObjectInformationLength As Integer, ByRef ReturnLength As Integer) As Integer
-
-
-    '==========================================================================================
-    'API documentées
-    '==========================================================================================
-
-    'attendre indéfiniment après un handle
-    Private Const INFINITE As Integer = &HFFFF
-    'attend après un objet
-    Private Declare Function WaitForSingleObject Lib "kernel32" (ByVal hHandle As Integer, ByVal dwMilliseconds As Integer) As Integer
-
-    'renvoie une liste des lecteurs du système
-    Private Declare Function GetLogicalDriveStrings Lib "kernel32.dll" Alias "GetLogicalDriveStringsA" (ByVal nBufferLength As Integer, ByVal lpBuffer As String) As Integer
-    'copie une zone mémoire dans une autre
-
-    'renvoie le handle d'un module
-    Private Declare Function GetModuleHandle Lib "kernel32" Alias "GetModuleHandleA" (ByVal lpModuleName As String) As Integer
-    'récupère l'adresse d'une API
-    Private Declare Function GetProcAddress Lib "kernel32" (ByVal hModule As Integer, ByVal lpProcName As String) As Integer
-
-    'crée un thread dans un autre processus
-    Private Declare Function CreateRemoteThread Lib "kernel32" (ByVal hProcess As Integer, ByVal lpThreadAttributes As Integer, ByVal dwStackSize As Integer, ByVal lpStartAddress As Integer, ByVal lpParameter As Integer, ByVal dwCreationFlags As Integer, ByVal lpThreadId As Integer) As Integer
-    'renvoie le code de retour d'un thread
-    Private Declare Function GetExitCodeThread Lib "kernel32" (ByVal hThread As Integer, ByRef lpExitCode As Integer) As Integer
-    'renvoie le handle du processus appelant (-1)
-    Private Declare Function GetCurrentProcess Lib "kernel32.dll" () As Integer
-    'ouvrir le processus
-    Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Integer, ByVal bInheritHandle As Integer, ByVal dwProcessID As Integer) As Integer
-
-    'permet de dupliquer un handle d'un prosessus vers un autre
-    Private Declare Function DuplicateHandle Lib "kernel32.dll" (ByVal hSourceProcessHandle As Integer, ByVal hSourceHandle As Integer, ByVal hTargetProcessHandle As Integer, ByRef lpTargetHandle As Integer, ByVal dwDesiredAccess As Integer, ByVal bInheritHandle As Integer, ByVal dwOptions As Integer) As Integer
-
-    'fermer un handle
-    Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Integer) As Integer
-
-    'donne le nom interne d'un lettre de lecteur
-    Private Declare Function QueryDosDevice Lib "kernel32.dll" Alias "QueryDosDeviceA" (ByVal lpDeviceName As String, ByVal lpTargetPath As String, ByVal ucchMax As Integer) As Integer
-
-    Private Declare Function GetProcessIdApi Lib "kernel32.dll" Alias "GetProcessId" (ByVal ProcessHandle As Integer) As Integer
-    <DllImport("kernel32.dll", SetLastError:=True)> _
-    Private Shared Function GetProcessIdOfThread(ByVal ThreadHandle As Integer) As Integer
-    End Function
-    <DllImport("kernel32.dll", SetLastError:=True)> _
-    Private Shared Function GetThreadId(ByVal ThreadHandle As Integer) As Integer
-    End Function
-
-    '==========================================================================================
-    'Variables globales à la classe
-    '==========================================================================================
 
     'handle du processus actuellement ouvert
-    Dim hProcess As Integer
+    Dim hProcess As IntPtr
     'PID du processus actuellement ouvert
     Dim lastPID As Integer
 
@@ -317,35 +86,19 @@ Public Class clsOpenedHandles
     Dim m_cHandles As Integer
 
     'handle vers le driver
-    Dim hDriver As Integer
-    Dim driver As clsDriverCtrl
+    Dim hDriver As IntPtr
+    Dim driver As DriverCtrl
 
     'numéro de type des objets de type "File"
     Dim m_ObjectTypeNumber As Long
 
-    ' Vista or later ?
-    Dim _isVista As Boolean = False
 
     '==========================================================================================
     'pour envoyer une requête au driver
     '==========================================================================================
 
-    'crée ou ouvre un fichier ou pilote
-    Private Declare Function CreateFile Lib "kernel32.dll" Alias "CreateFileA" (ByVal lpFileName As String, ByVal dwDesiredAccess As Integer, ByVal dwShareMode As Integer, ByVal lpSecurityAttributes As Integer, ByVal dwCreationDisposition As Integer, ByVal dwFlagsAndAttributes As Integer, ByVal hTemplateFile As Integer) As Integer
     'permet d'envoyer des requêtes à un pilote
-    Private Declare Function DeviceIoControl Lib "kernel32.dll" (ByVal hDevice As Integer, ByVal dwIoControlCode As Integer, ByRef lpInBuffer As SYSTEM_HANDLE_INFORMATION, ByVal nInBufferSize As Integer, ByVal lpOutBuffer As IntPtr, ByVal nOutBufferSize As Integer, ByRef lpBytesReturned As Integer, ByVal lpOverlapped As Integer) As Integer
-    'accès en lecture
-    Private Const GENERIC_READ As Integer = &H80000000
-    'accès en écriture
-    Private Const GENERIC_WRITE As Integer = &H40000000
-    'partage de lecture
-    Private Const FILE_SHARE_READ As Integer = &H1
-    'partage d'écriture
-    Private Const FILE_SHARE_WRITE As Integer = &H2
-    'ouvrir seulement si existant
-    Private Const OPEN_EXISTING As Integer = 3
-    ' Version of Windows Vista
-    Private Const VISTA_MAJOR_VERSION As Integer = 6
+    Private Declare Function DeviceIoControl Lib "kernel32.dll" (ByVal hDevice As IntPtr, ByVal dwIoControlCode As Integer, ByRef lpInBuffer As NativeStructs.SystemHandleInformation, ByVal nInBufferSize As Integer, ByVal lpOutBuffer As IntPtr, ByVal nOutBufferSize As Integer, ByRef lpBytesReturned As Integer, ByVal lpOverlapped As Integer) As Integer
 
 
     'requête pour obtenir le nom d'un handle
@@ -364,47 +117,33 @@ Public Class clsOpenedHandles
     'pour obtenir le privilège Debug
     '==========================================================================================
 
-    'constantes
-    'demande l'ajustement des privilèges
-    Private Const TOKEN_ADJUST_PRIVILEGES As Integer = &H20
-    'demande d'infos sur un token privilege
-    Private Const TOKEN_QUERY As Integer = &H8
     'demande l'autorisation d'activer un privilège
-    Private Const SE_PRIVILEGE_ENABLED As Integer = &H2
+    'Private Const SE_PRIVILEGE_ENABLED As Integer = &H2
 
-    'type de Local Unique ID pour le token
-    Private Structure LUID
-        Dim LowPart As Integer
-        Dim HighPart As Integer
-    End Structure
-    'LUID + attributs
-    Private Structure LUID_AND_ATTRIBUTES
-        Dim pLuid As LUID
-        Dim Attributes As Integer
-    End Structure
-    'structure de privilèges de token
-    Private Structure TOKEN_PRIVILEGES
-        Dim PrivilegeCount As Integer
-        Dim Privileges As LUID_AND_ATTRIBUTES
-    End Structure
-    'ouvre le token du processus
-    Private Declare Function OpenProcessToken Lib "advapi32" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
-    'ajuste les privilèges
-    Private Declare Function AdjustTokenPrivileges Lib "advapi32" (ByVal TokenHandle As Integer, ByVal DisableAllPrivileges As Integer, ByRef NewState As TOKEN_PRIVILEGES, ByVal BufferLength As Integer, ByRef PreviousState As TOKEN_PRIVILEGES, ByRef ReturnLength As Integer) As Integer
-    'regarde la valeur du privilèges
-    Private Declare Function LookupPrivilegeValue Lib "advapi32" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer
+    ''type de Local Unique ID pour le token
+    'Private Structure LUID
+    '    Dim LowPart As Integer
+    '    Dim HighPart As Integer
+    'End Structure
+    ''LUID + attributs
+    'Private Structure LUID_AND_ATTRIBUTES
+    '    Dim pLuid As LUID
+    '    Dim Attributes As Integer
+    'End Structure
+    ''structure de privilèges de token
+    'Private Structure TOKEN_PRIVILEGES
+    '    Dim PrivilegeCount As Integer
+    '    Dim Privileges As LUID_AND_ATTRIBUTES
+    'End Structure
+    ''ouvre le token du processus
+    'Private Declare Function OpenProcessToken Lib "advapi32" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
+    ''ajuste les privilèges
+    'Private Declare Function AdjustTokenPrivileges Lib "advapi32" (ByVal TokenHandle As Integer, ByVal DisableAllPrivileges As Integer, ByRef NewState As TOKEN_PRIVILEGES, ByVal BufferLength As Integer, ByRef PreviousState As TOKEN_PRIVILEGES, ByRef ReturnLength As Integer) As Integer
+    ''regarde la valeur du privilèges
+    'Private Declare Function LookupPrivilegeValue Lib "advapi32" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer
 
     'on ouvre un handle du driver KernelMemory
-    Private Function OpenDriver() As Integer
-        OpenDriver = CreateFile("\\.\KernelMemory", _
-                        GENERIC_READ Or GENERIC_WRITE, _
-                        FILE_SHARE_READ Or FILE_SHARE_WRITE, _
-                        0, _
-                        OPEN_EXISTING, _
-                        0, _
-                        0)
-    End Function
-    Private Declare Sub ZeroMemory Lib "kernel32.dll" Alias "RtlZeroMemory" (ByVal Destination As Integer, ByVal Length As Integer)
+
 
     'nombre de handles
     Public ReadOnly Property Count() As Integer
@@ -441,22 +180,22 @@ Public Class clsOpenedHandles
     Public Function GetHandle(ByVal dwIndex As Integer) As IntPtr  'valeur du handle
         Return m_Files(dwIndex).Handle
     End Function
-    Public Function GetObject_Renamed(ByVal dwIndex As Integer) As Integer 'adresse de l'objet
+    Public Function GetObject_Renamed(ByVal dwIndex As Integer) As IntPtr  'adresse de l'objet
         Return m_Files(dwIndex).Object_Renamed
     End Function
     Public Function GetObjectCount(ByVal dwIndex As Integer) As Integer 'nombre d'objet
         Return m_Files(dwIndex).ObjectCount
     End Function
-    Public Function GetGrantedAccess(ByVal dwIndex As Integer) As Integer 'accès autorisés à l'objet
+    Public Function GetGrantedAccess(ByVal dwIndex As Integer) As Native.Security.StandardRights  'accès autorisés à l'objet
         Return m_Files(dwIndex).GrantedAccess
     End Function
-    Public Function GetAttributes(ByVal dwIndex As Integer) As Integer 'attributs
+    Public Function GetAttributes(ByVal dwIndex As Integer) As UInteger 'attributs
         Return m_Files(dwIndex).Attributes
     End Function
     Public Function GetHandleCount(ByVal dwIndex As Integer) As Integer 'nombre de handle de ce type dans le système
         Return m_Files(dwIndex).HandleCount
     End Function
-    Public Function GetPointerCount(ByVal dwIndex As Integer) As Integer 'nombre de références pointeurs à cet objet dans le système
+    Public Function GetPointerCount(ByVal dwIndex As Integer) As UInteger 'nombre de références pointeurs à cet objet dans le système
         Return m_Files(dwIndex).PointerCount
     End Function
     Public Function GetCreateTime(ByVal dwIndex As Integer) As Decimal 'date de création de l'objet
@@ -476,12 +215,12 @@ Public Class clsOpenedHandles
         Dim X As Integer 'compteur
         Dim ret As Integer 'valeur de retour des fonctions utilisées
         Dim lpBufferHandles As IntPtr 'pointeur vers le buffer BufferHandles
-        Dim Handle As SYSTEM_HANDLE_INFORMATION 'un handle
+        Dim Handle As NativeStructs.SystemHandleInformation  'un handle
 
         Length = &H100 'longueur minimale du buffer
         lpBufferHandles = Marshal.AllocHGlobal(Length)  'redimensionne le buffer
         'tant que la longueur n'est pas suffisante
-        Do While NtQuerySystemInformation(SystemHandleInformation, lpBufferHandles, Length, ret) = STATUS_INFO_LENGTH_MISMATCH
+        Do While NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, lpBufferHandles, Length, ret) = STATUS_INFO_LENGTH_MISMATCH
             'on multiplie la taille du buffer par 2
             Length = Length * 2
             'on réalloue le buffer
@@ -497,7 +236,7 @@ Public Class clsOpenedHandles
         'pour chaque handle
         For X = 0 To m_cHandles - 1
             'on copie les informations sur le handle
-            Handle = Marshal.PtrToStructure(New IntPtr(lpBufferHandles.ToInt32 + 4 + 16 * X), Handle.GetType)
+            Handle = CType(Marshal.PtrToStructure(New IntPtr(lpBufferHandles.ToInt32 + 4 + 16 * X), Handle.GetType), NativeStructs.SystemHandleInformation)
             ' Only if handle belongs to specified process
             If oneProcessId = -1 OrElse oneProcessId = Handle.ProcessID Then
                 'on demande plus d'informations sur le handle de fichier
@@ -513,29 +252,30 @@ Public Class clsOpenedHandles
         Dim Length As Integer 'longueur du buffer
         Dim X As Integer 'compteur
         Dim ret As Integer 'valeur de retour des fonctions utilisées
-        Dim lpBufferHandles As IntPtr 'pointeur vers le buffer BufferHandles
-        Dim Handle As SYSTEM_HANDLE_INFORMATION 'un handle
+        Dim Handle As NativeStructs.SystemHandleInformation  'un handle
 
+        ' PERFISSUE
         Length = &H100 'longueur minimale du buffer
-        lpBufferHandles = Marshal.AllocHGlobal(Length)  'redimensionne le buffer
+        Dim memAlloc As New Native.Memory.MemoryAlloc(Length)
         'tant que la longueur n'est pas suffisante
-        Do While NtQuerySystemInformation(SystemHandleInformation, lpBufferHandles, Length, ret) = STATUS_INFO_LENGTH_MISMATCH
+        Do While NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, _
+                            memAlloc.Pointer, memAlloc.Size, ret) = STATUS_INFO_LENGTH_MISMATCH
             'on multiplie la taille du buffer par 2
             Length = Length * 2
             'on réalloue le buffer
-            Marshal.FreeHGlobal(lpBufferHandles)
-            lpBufferHandles = Marshal.AllocHGlobal(Length)
+            memAlloc.Resize(Length)
         Loop
 
         'demande le nombre de handles
-        m_cHandles = Marshal.ReadInt32(lpBufferHandles)
+        m_cHandles = memAlloc.ReadInt32(0)
 
         'on fait de la place pour un handle de fichier
         ReDim m_Files(m_cHandles - 1)
         'pour chaque handle
         For X = 0 To m_cHandles - 1
             'on copie les informations sur le handle
-            Handle = Marshal.PtrToStructure(New IntPtr(lpBufferHandles.ToInt32 + 4 + 16 * X), Handle.GetType)
+            ' &h4 because of HandleCount on 4 first bytes
+            Handle = memAlloc.ReadStruct(Of NativeStructs.SystemHandleInformation)(&H4, X)
             ' Only if handle belongs to specified process
             For Each __pid As Integer In PIDs
                 If __pid = Handle.ProcessID Then
@@ -547,7 +287,7 @@ Public Class clsOpenedHandles
         'on ferme le handle du dernier processus ouvert
         CloseProcessForHandle()
 
-        Marshal.FreeHGlobal(lpBufferHandles)
+        memAlloc.Free()
     End Sub
 
     'ouvre un handle du processus ProcessID s'il n'est pas déjà ouvert
@@ -555,9 +295,10 @@ Public Class clsOpenedHandles
         's'il n'est pas ouvert
         If ProcessID <> lastPID Then
             'on ferme le précédent
-            CloseHandle(hProcess)
+            NativeFunctions.CloseHandle(hProcess)
             'on ouvre le processus demandé pour dupliquer des handles
-            hProcess = OpenProcess(PROCESS_DUP_HANDLE, 0, ProcessID)
+            hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.DupHandle, _
+                                                   False, ProcessID)
             'on stocke le PID du processus ouvert
             lastPID = ProcessID
         End If
@@ -566,23 +307,24 @@ Public Class clsOpenedHandles
     'ferme le handle du dernier processus ouvert
     Private Sub CloseProcessForHandle()
         'on le ferme
-        CloseHandle(hProcess)
+        NativeFunctions.CloseHandle(hProcess)
         'on l'indique
-        hProcess = 0
+        hProcess = IntPtr.Zero
         lastPID = 0
     End Sub
 
     'remplit un buffer avec les infos sur l'objet spécifié par l'index
     '==============================================================
-    Private Function RetrieveObject(ByRef Handle As SYSTEM_HANDLE_INFORMATION) As HandleInfo
-        Dim Length As Integer 'longueur
+    Private Function RetrieveObject(ByRef Handle As  _
+                                    NativeStructs.SystemHandleInformation) As HandleInfo
+        Dim Length As UInteger   'longueur
         Dim ret As Integer 'valeur de retour des fonctions utilisées
-        Dim ret2 As Integer 'valeur de retour des fonctions utilisées
-        Dim hHandle As Integer 'handle dupliqué dans notre processus
+        Dim ret2 As UInteger 'valeur de retour des fonctions utilisées
+        Dim hHandle As IntPtr  'handle dupliqué dans notre processus
         'contient des infos sur un objet
-        Dim ObjBasic As OBJECT_BASIC_INFORMATION
-        Dim ObjType As OBJECT_TYPE_INFORMATION
-        Dim ObjName As OBJECT_NAME_INFORMATION
+        Dim ObjBasic As NativeStructs.ObjectBasicInformation
+        Dim ObjType As NativeStructs.ObjectTypeInformation
+        Dim ObjName As NativeStructs.ObjectNameInformation
         'renvoie le type d'un objet
         Dim m_ObjectTypeName As String
         'renvoie le nom d'un objet
@@ -593,30 +335,32 @@ Public Class clsOpenedHandles
         Dim h As New HandleInfo
 
         'on ouvre un handle du processus propriétaire du handle si ce n'est pas déjà fait
-        OpenProcessForHandle(Handle.ProcessID)
+        OpenProcessForHandle(Handle.ProcessId)
 
         ' on copie le handle recherché dans notre processus avec les mêmes droits d'accès
-        DuplicateHandle(hProcess, Handle.Handle, GetCurrentProcess, hHandle, 0, 0, DUPLICATE_SAME_ACCESS)
+        NativeFunctions.DuplicateHandle(hProcess, New IntPtr(Handle.Handle), New IntPtr(NativeFunctions.GetCurrentProcess), hHandle, 0, False, NativeEnums.DuplicateOptions.SameAccess)
 
         'si pas de handle
-        If hHandle = 0 Then Return h
+        If hHandle.IsNull Then
+            Return h
+        End If
 
         'on fait de la place pour les informations de bases de l'objet
         BufferObjBasic = Marshal.AllocHGlobal(Marshal.SizeOf(ObjBasic))
 
         'renvoie des infos Basic sur l'objet
-        ret2 = NtQueryObject(hHandle, ObjectBasicInformation, BufferObjBasic, Marshal.SizeOf(ObjBasic), ret)
-        ObjBasic = Marshal.PtrToStructure(BufferObjBasic, ObjBasic.GetType)
+        ret2 = NativeFunctions.NtQueryObject(hHandle, NativeEnums.ObjectInformationClass.ObjectAttributes, BufferObjBasic, Marshal.SizeOf(ObjBasic), ret)
+        ObjBasic = CType(Marshal.PtrToStructure(BufferObjBasic, ObjBasic.GetType), NativeStructs.ObjectBasicInformation)
 
         Marshal.FreeHGlobal(BufferObjBasic)
 
         'alloue un buffer à la taille des données Type
-        BufferObjType = Marshal.AllocHGlobal(ObjBasic.TypeInformationLength + 2)
+        BufferObjType = Marshal.AllocHGlobal(New IntPtr(ObjBasic.TypeInformationLength + 2))
 
         'demande les infos Type de l'objet
-        ret2 = NtQueryObject(hHandle, ObjectTypeInformation, BufferObjType, ObjBasic.TypeInformationLength + 2, ret)
+        ret2 = NativeFunctions.NtQueryObject(hHandle, NativeEnums.ObjectInformationClass.ObjectTypeInformation, BufferObjType, CInt(ObjBasic.TypeInformationLength + 2), ret)
         'copie le descripteur dans le pointeur de tableau
-        ObjType = Marshal.PtrToStructure(BufferObjType, ObjType.GetType)
+        ObjType = CType(Marshal.PtrToStructure(BufferObjType, ObjType.GetType), NativeStructs.ObjectTypeInformation)
 
         'copie les données du nom dans le buffer alloué
         m_ObjectTypeName = Marshal.PtrToStringUni(ObjType.Name.Buffer)
@@ -630,29 +374,29 @@ Public Class clsOpenedHandles
             Length = 512
         Else
             'si on longueur est spécifié on l'utilise
-            Length = ObjBasic.NameInformationLength + 2
+            Length = CUInt(ObjBasic.NameInformationLength + 2)
         End If
         'on alloue le buffer pour le nom de l'object
-        BufferObjName = Marshal.AllocCoTaskMem(Length)
+        BufferObjName = Marshal.AllocCoTaskMem(CInt(Length))
         'Dim x As Integer
         'For x = 0 To Length - 1
         'Marshal.WriteByte(BufferObjName, x, CByte(0))
         'Next
-        ZeroMemory(BufferObjName, Length)
+        NativeFunctions.ZeroMemory(BufferObjName, New IntPtr(Length))
 
         'on demande le nom de l'objet
         'si c'est un fichier
         If m_ObjectTypeName = "File" Then
             'on envoit notre requête au driver
             'seul le mode kernel permet d'accéder à la zone mémoire des objets 2K
-            ret2 = DeviceIoControl(hDriver, IOCTL_KERNELMEMORY_GETOBJECTNAME, Handle, 16, BufferObjName, Length, ret, 0)
+            ret = DeviceIoControl(hDriver, IOCTL_KERNELMEMORY_GETOBJECTNAME, Handle, 16, BufferObjName, CInt(Length), ret, 0)
             'sinon
         Else
             'on demande le nom du handle directement
-            ret2 = NtQueryObject(hHandle, ObjectNameInformation, BufferObjName, Length, ret)
+            ret2 = NativeFunctions.NtQueryObject(hHandle, NativeEnums.ObjectInformationClass.ObjectNameInformation, BufferObjName, CInt(Length), ret)
         End If
         'on copie les descripteur dans le pointeur de tableau
-        ObjName = Marshal.PtrToStructure(BufferObjName, ObjName.GetType)
+        ObjName = CType(Marshal.PtrToStructure(BufferObjName, ObjName.GetType), NativeStructs.ObjectNameInformation)
 
         'convertit le nom en String VB
         'alloue un buffer chaine
@@ -664,24 +408,24 @@ Public Class clsOpenedHandles
 
         If m_ObjectTypeName = "File" Then
             'si c'est un fichier, on fournit le nom DOS
-            m_ObjectName = GetDosFileName(m_ObjectName)
+            m_ObjectName = Common.Misc.DeviceDriveNameToDosDriveName(m_ObjectName)
         ElseIf m_ObjectTypeName = "Key" Then
             'si c'est une clé de registre on fournit son nom classique
             m_ObjectName = GetKeyName(m_ObjectName)
         ElseIf m_ObjectTypeName = "Process" Then
             ' If it's a process, we retrieve processID from handle
-            Dim i As Integer = GetProcessIdApi(hHandle)
+            Dim i As Integer = NativeFunctions.GetProcessId(hHandle)
             m_ObjectName = GetProcessNameFromPID(i) & " (" & CStr(i) & ")"
-        ElseIf m_ObjectTypeName = "Thread" AndAlso _isVista Then
+        ElseIf m_ObjectTypeName = "Thread" AndAlso cEnvironment.IsWindowsVistaOrAbove Then
             ' Have to get thread ID, and then, Process ID
             ' These functions are only present in a VISTA OS
-            Dim i As Integer = GetThreadId(hHandle)
-            Dim i2 As Integer = GetProcessIdOfThread(hHandle)
+            Dim i As Integer = NativeFunctions.GetThreadId(hHandle)
+            Dim i2 As Integer = NativeFunctions.GetProcessIdOfThread(hHandle)
             m_ObjectName = GetProcessNameFromPID(i2) & " (" & CStr(i2) & ")" & "  - " & CStr(i)
         End If
 
         ' on ferme la copie du handle recherché
-        CloseHandle(hHandle)
+        NativeFunctions.CloseHandle(hHandle)
 
         'on stocke les infos
         With RetrieveObject
@@ -693,22 +437,22 @@ Public Class clsOpenedHandles
             .GenericRead = ObjType.GenericMapping.GenericRead
             .GenericWrite = ObjType.GenericMapping.GenericWrite
             .GrantedAccess = Handle.GrantedAccess
-            .Handle = Handle.Handle
-            .HandleCount = ObjType.HandleCount
+            .Handle = New IntPtr(Handle.Handle)
+            .HandleCount = ObjType.TotalNumberOfHandles
             .InvalidAttributes = ObjType.InvalidAttributes
-            .MaintainHandleDatabase = ObjType.MaintainHandleDatabase
+            .MaintainHandleDatabase = ObjType.MaintainTypeList
             .NameInformation = m_ObjectTypeName
             .NonPagedPoolUsage = ObjType.NonPagedPoolUsage
-            .Object_Renamed = Handle.Object_Pointer
-            .ObjectCount = ObjType.ObjectCount
+            .Object_Renamed = Handle.Object
+            .ObjectCount = ObjType.TotalNumberOfObjects
             .ObjectName = m_ObjectName
             .PagedPoolUsage = ObjType.PagedPoolUsage
-            .PeakHandleCount = ObjType.PeakHandleCount
-            .PeakObjectCount = ObjType.PeakObjectCount
+            .PeakHandleCount = ObjType.HighWaterNumberOfHandles
+            .PeakObjectCount = ObjType.HighWaterNumberOfObjects
             .PointerCount = ObjBasic.PointerCount
             .PoolType = ObjType.PoolType
-            .ProcessID = Handle.ProcessID
-            .Unknown = ObjType.Unknown
+            .ProcessID = Handle.ProcessId
+            .Unknown = ObjType.MaintainHandleCount
             .ValidAccess = ObjType.ValidAccess
         End With
     End Function
@@ -716,49 +460,6 @@ Public Class clsOpenedHandles
     '==========================================================================================
     'informations sur les objets de l'espace de nom interne de Windows
     '==========================================================================================
-
-    'renvoie le nom DOS d'un nom de fichier interne à Windows
-    '========================================================
-    'strInternalFilename : nom interne d'un fichier
-    'renvoie une chaine
-    Public Function GetDosFileName(ByVal strInternalFilename As String) As String
-        Dim strBuff As String 'buffer chaine pour les lettres de lecteur du système
-        'Dim SymNames() As String
-        'Dim ubSym As Integer 'liste de liens symboliques correspondant et taille de cette liste
-        Dim X As Integer 'var de contrôle
-        'Dim ObjName, objSymName As String 'nom de l'objet et nom du lien
-        Dim strLetters() As String, strLetter As String
-        Dim strInt As String, ret As Integer
-        'si erreur
-        On Error GoTo Fin
-        'si pas de nom spécifié
-        If Len(strInternalFilename) = 0 Then Return ""
-
-        'on prépare le buffer
-        strBuff = Space(255)
-        'on demande la liste des lecteurs
-        GetLogicalDriveStrings(255, strBuff)
-        'la liste est séparée par des nul et terminée par deux nuls
-        'on les remplace par des "|"
-        strLetters = Split(strBuff, vbNullChar)
-
-        For X = 0 To UBound(strLetters)
-            strInt = New String(" ", 256)
-            If Len(strLetters(X)) > 1 Then
-                strLetter = Mid$(strLetters(X), 1, 2)
-                ret = QueryDosDevice(strLetter, strInt, 256)
-                Dim _i As Integer = InStr(strInt, vbNullChar)
-                If _i > 0 Then
-                    strInt = Mid(strInt, 1, InStr(strInt, vbNullChar) - 1)
-                End If
-                If InStr(1, strInternalFilename, strInt, CompareMethod.Text) > 0 Then
-                    Return Replace(strInternalFilename, strInt & "\", strLetters(X))
-                End If
-            End If
-        Next
-Fin:
-        Return strInternalFilename
-    End Function
 
     'renvoie le nom de clé de registre à partir du nom interne
     '=========================================================
@@ -793,7 +494,7 @@ Fin:
     'UPGRADE_NOTE: Class_Initializea été mis à niveau vers Class_Initialize_Renamed. Cliquez ici : 'ms-help://MS.VSCC.2003/commoner/redir/redirect.htm?keyword="vbup1061"'
     Private Sub Class_Initialize_Renamed()
         Dim ret As Integer
-        driver = New clsDriverCtrl
+        driver = New DriverCtrl
         'autorise le privilège Debug afin de pouvoir ouvrir des handles vers les processus systèmes
         'EnableDebug()
         'init des infos sur le driver
@@ -811,9 +512,9 @@ Fin:
             'démarre le driver
             ret = .StartService()
             'If (ret) Then MsgBox(.FormatErrorMessage(ret))
+            'uvre un handle vers le driver
+            hDriver = .OpenDriver
         End With
-        'uvre un handle vers le driver
-        hDriver = OpenDriver()
         'demande le numéro du type "File" pour les objets File de cette version système
         'cela permet d'être indépendant de la version de NT/2K/XP : numéros différents suivant la version
         m_ObjectTypeNumber = GetObjectTypeNumber("File")
@@ -821,7 +522,6 @@ Fin:
 
     Public Sub New()
         MyBase.New()
-        _isVista = Environment.OSVersion.Platform = PlatformID.Win32NT AndAlso Environment.OSVersion.Version.Major >= VISTA_MAJOR_VERSION
         Class_Initialize_Renamed()
     End Sub
 
@@ -831,7 +531,7 @@ Fin:
         'ferme un éventuel handle de processus ouvert
         CloseProcessForHandle()
         'ferme le handle du driver KernelMemory
-        CloseHandle(hDriver)
+        NativeFunctions.CloseHandle(hDriver)
         'arrête le driver KernelMemory
         Try
             If driver IsNot Nothing Then
@@ -867,26 +567,26 @@ Fin:
         'pointeur vers la prochaine information de type
         Dim lpTypeInfo As IntPtr
         'informations sur un type
-        Dim TypeInfo As OBJECT_TYPE_INFORMATION
+        Dim TypeInfo As NativeStructs.ObjectTypeInformation
         'nom d'un type
         Dim strType As String
 
         'is vista ??
-        If Environment.OSVersion.Platform = PlatformID.Win32NT AndAlso Environment.OSVersion.Version.Major >= VISTA_MAJOR_VERSION Then
+        If Environment.OSVersion.Platform = PlatformID.Win32NT AndAlso Environment.OSVersion.Version.Major >= 6 Then
             Dim b As IntPtr = Marshal.AllocHGlobal(4)
             'on demande la taille requise pour la liste des infos de type
-            NtQueryObject(0&, ObjectAllTypesInformation, b, 4&, cbReqLength)
+            NativeFunctions.NtQueryObject(IntPtr.Zero, NativeEnums.ObjectInformationClass.ObjectTypesInformation, b, 4&, cbReqLength)
             Marshal.FreeHGlobal(b)
         Else
             'on demande la taille requise pour la liste des infos de type
-            NtQueryObject(0&, ObjectAllTypesInformation, IntPtr.Zero, 0&, cbReqLength)
+            NativeFunctions.NtQueryObject(IntPtr.Zero, NativeEnums.ObjectInformationClass.ObjectTypesInformation, IntPtr.Zero, 0&, cbReqLength)
         End If
 
         'on prépare le buffer
         buffObjTypes = Marshal.AllocHGlobal(cbReqLength)
 
         'on demande la liste des informations de type
-        NtQueryObject(0, ObjectAllTypesInformation, buffObjTypes, cbReqLength, cbReqLength)
+        NativeFunctions.NtQueryObject(IntPtr.Zero, NativeEnums.ObjectInformationClass.ObjectTypesInformation, buffObjTypes, cbReqLength, cbReqLength)
 
         'on copie le nombre d'informations de type contenu dans la liste : le premier double mot
         cTypeCount = Marshal.ReadInt32(buffObjTypes, 0)
@@ -896,7 +596,7 @@ Fin:
         'pour chaque info de type
         For X = 0 To cTypeCount - 1
             'on copie les informations sur le type
-            TypeInfo = Marshal.PtrToStructure(lpTypeInfo, TypeInfo.GetType)
+            TypeInfo = CType(Marshal.PtrToStructure(lpTypeInfo, TypeInfo.GetType), NativeStructs.ObjectTypeInformation)
             'on fait de la place pour le nom du type (en UNICODE)
             'strType = Space(TypeInfo.Name.Length / 2)
             'on copie la chaine UNICODE du nom de type
@@ -929,74 +629,32 @@ Fin:
         Return 0
     End Function
 
-    'autorise le privilège SeDebugPrivilege
-    Shared Sub EnableDebug()
-        Dim hProc As Integer 'handle du processus actuel
-        Dim hToken As Integer 'handle du token
-        Dim mLUID As LUID 'LUID du privilège
-        Dim mPriv As TOKEN_PRIVILEGES 'privilèges
-        Dim mNewPriv As TOKEN_PRIVILEGES 'nouveaux privilèges
-        'renvoie le processus actuel
-        hProc = GetCurrentProcess()
-        'ouvre le token
-        OpenProcessToken(hProc, TOKEN_ADJUST_PRIVILEGES + TOKEN_QUERY, hToken)
-        'regarde la valeur du privilège
-        LookupPrivilegeValue("", "SeDebugPrivilege", mLUID)
-        'nombre de privilèges
-        mPriv.PrivilegeCount = 1
-        'attribut ENABLED
-        mPriv.Privileges.Attributes = SE_PRIVILEGE_ENABLED
-        'LUID de privilège
-        mPriv.Privileges.pLuid = mLUID
-        'ajuste le token
-        AdjustTokenPrivileges(hToken, False, mPriv, 4 + (12 * mPriv.PrivilegeCount), mNewPriv, 4 + (12 * mNewPriv.PrivilegeCount))
-        'ferme le handle de token
-        CloseHandle(hToken)
-    End Sub
-
-    'autorise le privilège SeShutdownPrivilege
-    Shared Sub EnableShutDown()
-        Dim hProc As Integer 'handle du processus actuel
-        Dim hToken As Integer 'handle du token
-        Dim mLUID As LUID 'LUID du privilège
-        Dim mPriv As TOKEN_PRIVILEGES 'privilèges
-        Dim mNewPriv As TOKEN_PRIVILEGES 'nouveaux privilèges
-        'renvoie le processus actuel
-        hProc = GetCurrentProcess()
-        'ouvre le token
-        OpenProcessToken(hProc, TOKEN_ADJUST_PRIVILEGES + TOKEN_QUERY, hToken)
-        'regarde la valeur du privilège
-        LookupPrivilegeValue("", "SeShutdownPrivilege", mLUID)
-        'nombre de privilèges
-        mPriv.PrivilegeCount = 1
-        'attribut ENABLED
-        mPriv.Privileges.Attributes = SE_PRIVILEGE_ENABLED
-        'LUID de privilège
-        mPriv.Privileges.pLuid = mLUID
-        'ajuste le token
-        AdjustTokenPrivileges(hToken, False, mPriv, 4 + (12 * mPriv.PrivilegeCount), mNewPriv, 4 + (12 * mNewPriv.PrivilegeCount))
-        'ferme le handle de token
-        CloseHandle(hToken)
-    End Sub
-
     'permet de fermer un handle hHandle dans le processus dwProcessID
     Public Function CloseProcessLocalHandle(ByVal dwProcessID As Integer, ByVal hHandle As IntPtr) As Integer
-        Dim hMod As Integer
-        Dim lpProc As Integer
-        Dim hThread As Integer
-        Dim hProcess As Integer
+        Dim hMod As IntPtr
+        Dim lpProc As IntPtr
+        Dim hThread As IntPtr
+        Dim hProcess As IntPtr
+        Dim res As Integer
 
-        hMod = GetModuleHandle("kernel32.dll")
-        lpProc = GetProcAddress(hMod, "CloseHandle")
-        hProcess = OpenProcess(PROCESS_CREATE_THREAD Or PROCESS_VM_OPERATION Or PROCESS_VM_WRITE Or PROCESS_VM_READ, 0, dwProcessID)
-        If hProcess Then
-            hThread = CreateRemoteThread(hProcess, 0, 0, lpProc, hHandle, 0, 0)
-            If hThread Then
-                WaitForSingleObject(hThread, INFINITE)
-                GetExitCodeThread(hThread, CloseProcessLocalHandle)
-                CloseHandle(hThread)
+        hMod = NativeFunctions.GetModuleHandle("kernel32.dll")
+        lpProc = NativeFunctions.GetProcAddress(hMod, "CloseHandle")
+        hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.CreateThread Or _
+                                            Native.Security.ProcessAccess.VmOperation Or _
+                                            Native.Security.ProcessAccess.VmWrite Or _
+                                            Native.Security.ProcessAccess.VmRead, False, _
+                                            dwProcessID)
+        If hProcess.IsNotNull Then
+            hThread = NativeFunctions.CreateRemoteThread(hProcess, IntPtr.Zero, 0, _
+                                                         lpProc, hHandle, 0, 0)
+            If hThread.IsNotNull Then
+                NativeFunctions.WaitForSingleObject(hThread, NativeConstants.WAIT_INFINITE)
+                NativeFunctions.GetExitCodeThread(hThread, res)
+                NativeFunctions.CloseHandle(hThread)
             End If
-            CloseHandle(hProcess)
+            NativeFunctions.CloseHandle(hProcess)
         End If
+
+        Return res
     End Function
 End Class

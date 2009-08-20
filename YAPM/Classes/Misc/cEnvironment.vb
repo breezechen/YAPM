@@ -167,9 +167,9 @@ Public Class cEnvironment
         'TOCHANGE : should be more generic
         Select Case privilege
             Case PrivilegeToRequest.DebugPrivilege
-                clsOpenedHandles.EnableDebug()
+                Native.Objects.Token.SetPrivilegeStatus(System.Diagnostics.Process.GetCurrentProcess.Id, "SeDebugPrivilege", Native.Api.NativeEnums.SePrivilegeAttributes.Enabled)
             Case PrivilegeToRequest.ShutdownPrivilege
-                clsOpenedHandles.EnableShutDown()
+                Native.Objects.Token.SetPrivilegeStatus(System.Diagnostics.Process.GetCurrentProcess.Id, "SeShutdownPrivilege", Native.Api.NativeEnums.SePrivilegeAttributes.Enabled)
         End Select
     End Sub
 

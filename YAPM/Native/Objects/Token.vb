@@ -40,9 +40,71 @@ Namespace Native.Objects
         ' Public properties
         ' ========================================
 
+
         ' ========================================
         ' Other public
         ' ========================================
+        Public Shared PrivilegeNames As String() = { _
+                        "SeCreateTokenPrivilege", _
+                        "SeAssignPrimaryTokenPrivilege", _
+                        "SeLockMemoryPrivilege", _
+                        "SeIncreaseQuotaPrivilege", _
+                        "SeUnsolicitedInputPrivilege", _
+                        "SeMachineAccountPrivilege", _
+                        "SeTcbPrivilege", _
+                        "SeSecurityPrivilege", _
+                        "SeTakeOwnershipPrivilege", _
+                        "SeLoadDriverPrivilege", _
+                        "SeSystemProfilePrivilege", _
+                        "SeSystemtimePrivilege", _
+                        "SeProfileSingleProcessPrivilege", _
+                        "SeIncreaseBasePriorityPrivilege", _
+                        "SeCreatePagefilePrivilege", _
+                        "SeCreatePermanentPrivilege", _
+                        "SeBackupPrivilege", _
+                        "SeRestorePrivilege", _
+                        "SeShutdownPrivilege", _
+                        "SeDebugPrivilege", _
+                        "SeAuditPrivilege", _
+                        "SeSystemEnvironmentPrivilege", _
+                        "SeChangeNotifyPrivilege", _
+                        "SeRemoteShutdownPrivilege", _
+                        "SeCreateGlobalPrivilege", _
+                        "SeCreateTokenPrivilege", _
+                        "SeAssignPrimaryTokenPrivilege", _
+                        "SeLockMemoryPrivilege", _
+                        "SeIncreaseQuotaPrivilege", _
+                        "SeUnsolicitedInputPrivilege", _
+                        "SeMachineAccountPrivilege", _
+                        "SeTcbPrivilege", _
+                        "SeSecurityPrivilege", _
+                        "SeTakeOwnershipPrivilege", _
+                        "SeLoadDriverPrivilege", _
+                        "SeSystemProfilePrivilege", _
+                        "SeSystemtimePrivilege", _
+                        "SeProfileSingleProcessPrivilege", _
+                        "SeIncreaseBasePriorityPrivilege", _
+                        "SeCreatePagefilePrivilege", _
+                        "SeCreatePermanentPrivilege", _
+                        "SeBackupPrivilege", _
+                        "SeRestorePrivilege", _
+                        "SeShutdownPrivilege", _
+                        "SeDebugPrivilege", _
+                        "SeAuditPrivilege", _
+                        "SeSystemEnvironmentPrivilege", _
+                        "SeChangeNotifyPrivilege", _
+                        "SeRemoteShutdownPrivilege", _
+                        "SeCreateGlobalPrivilege", _
+                        "SeUndockPrivilege", _
+                        "SeManageVolumePrivilege", _
+                        "SeImpersonatePrivilege", _
+                        "SeEnableDelegationPrivilege", _
+                        "SeSyncAgentPrivilege", _
+                        "SeTrustedCredManAccessPrivilege", _
+                        "SeRelabelPrivilege", _
+                        "SeIncreaseWorkingSetPrivilege", _
+                        "SeTimeZonePrivilege", _
+                        "SeCreateSymbolicLinkPrivilege"}
 
 
         ' ========================================

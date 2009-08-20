@@ -22,6 +22,15 @@ Refactoring OK :
 
 
 BUGS CRITIQUES
+- copy to cb : trier par ordre alphabétique
+- FAQ : histoire du securepassword
+- relocated dlls + others highlightings (isTask, wow64...)
+- dans le bug report -> mettre le nombre de bits
+- extend dico et ajout de TryAdd ?
+- refermer les handles quand les processes meurent !
+- &ventuellement ajouter 'kill by method' option (et mettre virer terminateprocess, kick de tous les threads (très efficace !!), virer tous les handles, kill avec remoteThread, try to crash (WriteMem foireux)...)
+- bouton 'centrer form' dans choix pos&size
+- exclusive use of core (dispo que quand multi proco) => enleve pour tous les process l'affinité sur les cores sélectionnés (puis form avec liste des process pour lesquels çà a echoué), pas de messages d'erreur
 - begin debugged marche pas
 - problème icones menu principal cachées (Vista seulement)
 - reports à faire (vérifier l'utilisation de GetAvailbleProperties)
@@ -163,3 +172,4 @@ Temp Change log :
 - support de Windows x64 basique (NOT COMPLETED YET)
 - highlighting des process systèmes OK sur toutes les cultures
 - fixed 'key already added' (cEnvVariable) when searching an item
+- 'center on screen' pour les windows

@@ -36,7 +36,7 @@ Imports System.Runtime.InteropServices
     Private _pid As Integer
     Private _name As String
     Private _handleCount As Integer
-    Private _pointerCount As Integer
+    Private _pointerCount As UInteger
     Private _objectCount As Integer
 
 #End Region
@@ -68,7 +68,7 @@ Imports System.Runtime.InteropServices
             Return _handleCount
         End Get
     End Property
-    Public ReadOnly Property PointerCount() As Integer
+    Public ReadOnly Property PointerCount() As UInteger
         Get
             Return _pointerCount
         End Get
@@ -89,7 +89,7 @@ Imports System.Runtime.InteropServices
     ' Constructor of this class
     Public Sub New(ByVal handle As IntPtr, ByVal type As String, ByVal pid As Integer, _
         ByVal name As String, ByVal handlecount As Integer, _
-        ByVal pointercount As Integer, ByVal objectCount As Integer)
+        ByVal pointercount As UInteger, ByVal objectCount As Integer)
 
         _handle = handle
         _handleCount = handlecount

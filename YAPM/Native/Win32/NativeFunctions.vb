@@ -113,6 +113,14 @@ Namespace Native.Api
         End Function
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function GetProcessIdOfThread(ByVal ThreadHandle As IntPtr) As Integer
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function GetThreadId(ByVal ThreadHandle As IntPtr) As Integer
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function GetProcessId(ByVal ProcessHandle As IntPtr) As Integer
         End Function
 
@@ -321,6 +329,11 @@ Namespace Native.Api
 
         ' OK
 #Region "Declarations used for threads"
+
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function GetExitCodeThread(<[In]()> ByVal ThreadHandle As IntPtr, _
+                <Out()> ByRef ExitCode As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
 
         <DllImport("kernel32.dll")> _
         Public Shared Function SetThreadAffinityMask(ByVal hThread As IntPtr, _
@@ -1020,6 +1033,10 @@ Namespace Native.Api
 #Region "General declarations"
 
         <DllImport("kernel32.dll")> _
+        Public Shared Sub ZeroMemory(ByVal addr As IntPtr, ByVal size As IntPtr)
+        End Sub
+
+        <DllImport("kernel32.dll")> _
         Public Shared Function GetTickCount() As Integer
         End Function
 
@@ -1116,6 +1133,15 @@ Namespace Native.Api
 
         ' OK
 #Region "Declarations used for handles"
+
+        <DllImport("ntdll.dll")> _
+        Public Shared Function NtQueryObject(<[In]()> ByVal Handle As IntPtr, _
+                    <[In]()> ByVal ObjectInformationClass As ObjectInformationClass, _
+                    <Out()> ByVal ObjectInformation As IntPtr, _
+                    <[In]()> ByVal ObjectInformationLength As Integer, _
+                    <Out()> ByRef ReturnLength As Integer) As UInteger
+
+        End Function
 
         <DllImport("ntdll.dll")> _
         Public Shared Function NtDuplicateObject(ByVal SourceProcessHandle As IntPtr, _

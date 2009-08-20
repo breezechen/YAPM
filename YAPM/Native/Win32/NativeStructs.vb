@@ -36,6 +36,7 @@
 ' - SystemHandleInformation
 ' - EnumServiceStatusProcess
 ' - ServiceStatusProcess
+' - ObjectTypeInformation
 
 Option Strict On
 
@@ -1156,6 +1157,50 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for handles"
 
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure ObjectAttributes
+            Dim Length As Integer
+            Dim RootDirectoryHandle As IntPtr
+            Dim ObjectName As IntPtr 'PUNICODE_STRING
+            Dim Attributes As ObjectFlags
+            Dim SecurityDescriptor As IntPtr
+            Dim SecurityQualityOfService As IntPtr
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure GenericMapping
+            Dim GenericRead As Integer
+            Dim GenericWrite As Integer
+            Dim GenericExecute As Integer
+            Dim GenericAll As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure ObjectTypeInformation
+            Public Name As UnicodeString
+            Public TotalNumberOfObjects As Integer
+            Public TotalNumberOfHandles As Integer
+            Public TotalPagedPoolUsage As Integer
+            Public TotalNonPagedPoolUsage As Integer
+            Public TotalNamePoolUsage As Integer
+            Public TotalHandleTableUsage As Integer
+            Public HighWaterNumberOfObjects As Integer
+            Public HighWaterNumberOfHandles As Integer
+            Public HighWaterPagedPoolUsage As Integer
+            Public HighWaterNonPagedPoolUsage As Integer
+            Public HighWaterNamePoolUsage As Integer
+            Public HighWaterHandleTableUsage As Integer
+            Public InvalidAttributes As Integer
+            Public GenericMapping As GenericMapping
+            Public ValidAccess As Integer
+            Public SecurityRequired As Byte
+            Public MaintainHandleCount As Byte
+            Public MaintainTypeList As UShort
+            Public PoolType As PoolType
+            Public PagedPoolUsage As Integer
+            Public NonPagedPoolUsage As Integer
+        End Structure
+
         Public Structure SystemHandleInformation
             Public ProcessId As Integer
             Public ObjectTypeNumber As Byte
@@ -1163,6 +1208,28 @@ Namespace Native.Api
             Public Handle As Short
             Public [Object] As IntPtr
             Public GrantedAccess As Security.StandardRights
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure ObjectNameInformation
+            Dim Name As UnicodeString
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure ObjectBasicInformation
+            Dim Attributes As UInteger
+            Dim GrantedAccess As Integer
+            Dim HandleCount As UInteger
+            Dim PointerCount As UInteger
+            Dim PagedPoolUsage As UInteger
+            Dim NonPagedPoolUsage As UInteger
+            Dim Reserved1 As Integer
+            Dim Reserved2 As Integer
+            Dim Reserved3 As Integer
+            Dim NameInformationLength As UInteger
+            Dim TypeInformationLength As UInteger
+            Dim SecurityDescriptorLength As UInteger
+            Dim CreateTime As ULong
         End Structure
 
 #End Region
