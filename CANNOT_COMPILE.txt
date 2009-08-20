@@ -1,7 +1,0 @@
-This revision of the code can't be compiled, as I'm currently refactoring it.
-
-The last compilable revision is the revision 767.
-http://yaprocmon.svn.sourceforge.net/viewvc/yaprocmon/?pathrev=767
-
-
-violent_ken
