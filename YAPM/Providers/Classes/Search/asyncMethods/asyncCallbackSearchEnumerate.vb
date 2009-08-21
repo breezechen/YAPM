@@ -201,7 +201,7 @@ Public Class asyncCallbackSearchEnumerate
                 ' ---- HANDLES
                 If (pObj.includ And searchInfos.SearchInclude.SearchHandles) = searchInfos.SearchInclude.SearchHandles Then
                     Dim _tmpDico As New Dictionary(Of String, cHandle)
-                    _tmpDico = cHandle.CurrentLocalHandles
+                    _tmpDico = Native.Objects.Handle.EnumerateCurrentLocalHandles
                     For Each cp As cHandle In _tmpDico.Values
                         For Each field As String In handleInfos.GetAvailableProperties
                             Dim scomp As String = cp.GetInformation(field)

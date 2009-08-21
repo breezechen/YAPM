@@ -26,8 +26,6 @@ Public Class cHandle
     Private _handleInfos As handleInfos
     Private Shared WithEvents _connection As cHandleConnection
 
-    Public Shared handles_Renamed As clsOpenedHandles
-
 #Region "Properties"
 
     Public Shared Property Connection() As cHandleConnection
@@ -136,6 +134,12 @@ Public Class cHandle
         Static _old_ObjectCount As String = ""
         Static _old_Handle As String = ""
         Static _old_Process As String = ""
+        Static _old_ObjectAddress As String = ""
+        Static _old_GrantedAccess As String = ""
+        Static _old_Attributes As String = ""
+        Static _old_CreateTime As String = ""
+        Static _old_PagedPoolUsage As String = ""
+        Static _old_NonPagedPoolUsage As String = ""
 
         Dim hasChanged As Boolean = True
 
@@ -208,6 +212,48 @@ Public Class cHandle
                 Else
                     _old_Process = res
                 End If
+            Case "ObjectAddress"
+                res = "0x" & Me.Infos.ObjectAddress.ToString("x")
+                If res = _old_ObjectAddress Then
+                    hasChanged = False
+                Else
+                    _old_ObjectAddress = res
+                End If
+            Case "GrantedAccess"
+                res = Me.Infos.GrantedAccess.ToString
+                If res = _old_GrantedAccess Then
+                    hasChanged = False
+                Else
+                    _old_GrantedAccess = res
+                End If
+            Case "Attributes"
+                res = Me.Infos.Attributes.ToString
+                If res = _old_Attributes Then
+                    hasChanged = False
+                Else
+                    _old_Attributes = res
+                End If
+            Case "CreateTime"
+                res = Me.Infos.CreateTime.ToString
+                If res = _old_CreateTime Then
+                    hasChanged = False
+                Else
+                    _old_CreateTime = res
+                End If
+            Case "PagedPoolUsage"
+                res = Me.Infos.PagedPoolUsage.ToString
+                If res = _old_PagedPoolUsage Then
+                    hasChanged = False
+                Else
+                    _old_PagedPoolUsage = res
+                End If
+            Case "NonPagedPoolUsage"
+                res = Me.Infos.NonPagedPoolUsage.ToString
+                If res = _old_NonPagedPoolUsage Then
+                    hasChanged = False
+                Else
+                    _old_NonPagedPoolUsage = res
+                End If
         End Select
 
         Return hasChanged
@@ -242,15 +288,5 @@ Public Class cHandle
     End Sub
 
 #End Region
-
-    ' Return driver control class
-    Public Shared Function GetOpenedHandlesClass() As clsOpenedHandles
-        Return handles_Renamed
-    End Function
-
-    ' Return all handles
-    Public Shared Function CurrentLocalHandles(Optional ByVal all As Boolean = True) As Dictionary(Of String, cHandle)
-        Return asyncCallbackHandleEnumerate.getCurrentLocalHandles(all)
-    End Function
 
 End Class

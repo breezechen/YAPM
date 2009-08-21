@@ -25,27 +25,55 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports YAPM.Native.Api
 
 <Serializable()> Public Class handleInfos
     Inherits generalInfos
 
-#Region "Private attributes"
+#Region "Friend attributes"
 
-    Private _handle As IntPtr
-    Private _type As String
-    Private _pid As Integer
-    Private _name As String
-    Private _handleCount As Integer
-    Private _pointerCount As UInteger
-    Private _objectCount As Integer
+    ' Ok, all these attributes are FRIEND because HandleEnumeration needs to access
+    ' to them, but let's assume the user won't corrupt these variables...
+
+    Friend _ProcessID As Integer 'ID du processus propriétaire
+    Friend _Flags As NativeEnums.HandleFlags  ' 0x01 = PROTECT_FROM_CLOSE, 0x02 = INHERIT
+    Friend _Handle As IntPtr  'valeur du handle
+    Friend _ObjectName As String 'nom de l'objet
+    Friend _NameInformation As String 'type de l'ojet
+    Friend _ObjectAddress As IntPtr  'adresse de l'objet
+    Friend _GrantedAccess As Native.Security.StandardRights  'accès autorisés à l'objet
+    Friend _Attributes As UInteger 'attributs
+    Friend _HandleCount As Integer 'nombre de handle de ce type dans le système
+    Friend _PointerCount As UInteger 'nombre de références pointeurs à cet objet dans le système
+    Friend _CreateTime As Decimal 'date de création de l'objet
+    Friend _GenericRead As Integer 'accès générique
+    Friend _GenericWrite As Integer
+    Friend _GenericExecute As Integer
+    Friend _GenericAll As Integer
+    Friend _ObjectCount As Integer '
+    Friend _PeakObjectCount As Integer '
+    Friend _PeakHandleCount As Integer '
+    Friend _InvalidAttributes As Integer 'définit les attributs invalides pour ce type d'objet
+    Friend _ValidAccess As Integer '
+    Friend _Unknown As Byte
+    Friend _MaintainHandleDatabase As UShort  '
+    Friend _PoolType As NativeEnums.PoolType  'type de pool utilisé par l'objet
+    Friend _PagedPoolUsage As Integer 'paged pool utilisé
+    Friend _NonPagedPoolUsage As Integer 'non-paged pool utilisé
 
 #End Region
 
 #Region "Read only properties"
 
+    Public ReadOnly Property Key() As String
+        Get
+            Return _ProcessID.ToString & "-" & _Handle.ToString
+        End Get
+    End Property
+
     Public ReadOnly Property ProcessID() As Integer
         Get
-            Return _pid
+            Return _ProcessID
         End Get
     End Property
     Public ReadOnly Property Handle() As IntPtr
@@ -55,17 +83,17 @@ Imports System.Runtime.InteropServices
     End Property
     Public ReadOnly Property Type() As String
         Get
-            Return _type
+            Return _NameInformation
         End Get
     End Property
     Public ReadOnly Property Name() As String
         Get
-            Return _name
+            Return _ObjectName
         End Get
     End Property
     Public ReadOnly Property HandleCount() As Integer
         Get
-            Return _handleCount
+            Return _HandleCount
         End Get
     End Property
     Public ReadOnly Property PointerCount() As UInteger
@@ -78,6 +106,36 @@ Imports System.Runtime.InteropServices
             Return _objectCount
         End Get
     End Property
+    Public ReadOnly Property ObjectAddress() As IntPtr
+        Get
+            Return _ObjectAddress
+        End Get
+    End Property
+    Public ReadOnly Property GrantedAccess() As Native.Security.StandardRights
+        Get
+            Return _GrantedAccess
+        End Get
+    End Property
+    Public ReadOnly Property Attributes() As UInteger
+        Get
+            Return _Attributes
+        End Get
+    End Property
+    Public ReadOnly Property CreateTime() As Decimal
+        Get
+            Return _CreateTime
+        End Get
+    End Property
+    Public ReadOnly Property PagedPoolUsage() As Integer
+        Get
+            Return _PagedPoolUsage
+        End Get
+    End Property
+    Public ReadOnly Property NonPagedPoolUsage() As Integer
+        Get
+            Return _NonPagedPoolUsage
+        End Get
+    End Property
 
 #End Region
 
@@ -86,44 +144,34 @@ Imports System.Runtime.InteropServices
     ' Public
     ' ========================================
 
-    ' Constructor of this class
-    Public Sub New(ByVal handle As IntPtr, ByVal type As String, ByVal pid As Integer, _
-        ByVal name As String, ByVal handlecount As Integer, _
-        ByVal pointercount As UInteger, ByVal objectCount As Integer)
-
-        _handle = handle
-        _handleCount = handlecount
-        _type = type
-        _name = name
-        _pid = pid
-        _pointerCount = pointercount
-        _objectCount = objectCount
-
-    End Sub
-
     ' Merge an old and a new instance
     Public Sub Merge(ByRef newI As handleInfos)
         With newI
-            _handle = .Handle
-            _handleCount = .HandleCount
-            _name = .Name
-            _objectCount = .ObjectCount
-            _pointerCount = .PointerCount
-            _pid = .ProcessID
-            _type = .Type
+            _Handle = .Handle
+            _HandleCount = .HandleCount
+            _ObjectName = .Name
+            _ObjectCount = .ObjectCount
+            _PointerCount = .PointerCount
+            _ProcessID = .ProcessID
+            _NameInformation = .Type
         End With
     End Sub
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False) As String()
-        Dim s(5) As String
+        Dim s(10) As String
 
-        s(0) = "Type"
-        s(1) = "Name"
-        s(2) = "HandleCount"
-        s(3) = "PointerCount"
-        s(4) = "ObjectCount"
-        s(5) = "Process"
+        s(0) = "Name"
+        s(1) = "HandleCount"
+        s(2) = "PointerCount"
+        s(3) = "ObjectCount"
+        s(4) = "Process"
+        s(5) = "ObjectAddress"
+        s(6) = "GrantedAccess"
+        s(7) = "Attributes"
+        s(8) = "CreateTime"
+        s(9) = "PagedPoolUsage"
+        s(10) = "NonPagedPoolUsage"
 
         If includeFirstProp Then
             Dim s2(s.Length) As String

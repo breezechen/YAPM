@@ -92,7 +92,7 @@ Public Class asyncCallbackHandleEnumerate
                 ' Local
                 Dim _dico As New Dictionary(Of String, handleInfos)
 
-                Call enumHandles(pObj, _dico)
+                Native.Objects.Handle.EnumerateHandleByProcessIds(pObj.pid, pObj.unNamed, _dico)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
@@ -102,85 +102,5 @@ Public Class asyncCallbackHandleEnumerate
         sem.Release()
 
     End Sub
-
-    ' Return handles
-    Friend Shared Sub enumHandles(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, handleInfos))
-        Call cHandle.handles_Renamed.Refresh(pObj.pid)
-
-        For i As Integer = 0 To cHandle.handles_Renamed.Count - 1
-            If cHandle.handles_Renamed.GetHandle(i) .IsNotNull Then
-                If pObj.unNamed OrElse (Len(cHandle.handles_Renamed.GetObjectName(i)) > 0) Then
-                    With cHandle.handles_Renamed
-                        Dim retHandleCount As Integer
-                        Dim retHandle As IntPtr
-                        Dim retName As String
-                        Dim retObjectCount As Integer
-                        Dim retPid As Integer
-                        Dim retPointerCount As UInteger
-                        Dim retType As String
-                        With cHandle.handles_Renamed
-                            retHandleCount = .GetHandleCount(i)
-                            retHandle = .GetHandle(i)
-                            retName = .GetObjectName(i)
-                            retObjectCount = .GetObjectCount(i)
-                            retPid = .GetProcessID(i)
-                            retPointerCount = .GetPointerCount(i)
-                            retType = .GetNameInformation(i)
-                        End With
-                        Dim _key As String = retPid.ToString & "-" & retHandle.ToString & "-" & retType & "-" & retName
-                        Dim ret As New handleInfos(retHandle, retType, retPid, retName, retHandleCount, retPointerCount, retObjectCount)
-                        ' This verification should not be needed, but in reality
-                        ' it IS needed
-                        ' TOCHECK
-                        If _dico.ContainsKey(_key) = False Then
-                            _dico.Add(_key, ret)
-                        End If
-                    End With
-                End If
-            End If
-        Next
-    End Sub
-
-    ' Return local handles (protected by semaphore)
-    Friend Shared Function getCurrentLocalHandles(Optional ByVal all As Boolean = True) As Dictionary(Of String, cHandle)
-
-        sem.WaitOne()
-
-        Dim _dico As New Dictionary(Of String, cHandle)
-
-        Call cHandle.handles_Renamed.Refresh()
-
-        For i As Integer = 0 To cHandle.handles_Renamed.Count - 1
-            If cHandle.handles_Renamed.GetHandle(i) .IsNotNull Then
-                If all OrElse (Len(cHandle.handles_Renamed.GetObjectName(i)) > 0) Then
-                    With cHandle.handles_Renamed
-                        Dim retHandleCount As Integer
-                        Dim retHandle As IntPtr
-                        Dim retName As String
-                        Dim retObjectCount As Integer
-                        Dim retPid As Integer
-                        Dim retPointerCount As UInteger
-                        Dim retType As String
-                        With cHandle.handles_Renamed
-                            retHandleCount = .GetHandleCount(i)
-                            retHandle = .GetHandle(i)
-                            retName = .GetObjectName(i)
-                            retObjectCount = .GetObjectCount(i)
-                            retPid = .GetProcessID(i)
-                            retPointerCount = .GetPointerCount(i)
-                            retType = .GetNameInformation(i)
-                        End With
-                        Dim _key As String = retPid.ToString & "-" & retHandle.ToString & "-" & retType & "-" & retName
-                        Dim ret As New handleInfos(retHandle, retType, retPid, retName, retHandleCount, retPointerCount, retObjectCount)
-                        _dico.Add(_key, New cHandle(ret))
-                    End With
-                End If
-            End If
-        Next
-
-        sem.Release()
-
-        Return _dico
-    End Function
 
 End Class

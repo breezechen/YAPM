@@ -459,7 +459,7 @@
     <Compile Include="Classes\Download\cAsyncProcInfoDownload.vb" />
     <Compile Include="Classes\Download\cDownload.vb" />
     <Compile Include="Native\Driver\DriverCtrl.vb" />
-    <Compile Include="Classes\Driver\clsOpenedHandles.vb" />
+    <Compile Include="Native\Objects\HandleEnumeration.vb" />
     <Compile Include="Classes\Hotkeys\cHotkeys.vb" />
     <Compile Include="Classes\Hotkeys\cShortcut.vb" />
     <Compile Include="Classes\HTML\cHTML.vb" />

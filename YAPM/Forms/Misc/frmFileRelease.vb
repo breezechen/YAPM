@@ -48,7 +48,7 @@ Public Class frmFileRelease
         _frmMain.timerProcess.Enabled = False
         _frmMain.timerServices.Enabled = False
 
-        Dim sComp As String
+        'Dim sComp As String
         Dim i As Integer = 0
 
         Native.Objects.Process.SemCurrentProcesses.WaitOne()
@@ -81,25 +81,26 @@ Public Class frmFileRelease
         Next
         Native.Objects.Process.SemCurrentProcesses.Release()
 
-        cHandle.GetOpenedHandlesClass.Refresh()
-        For i = 0 To cHandle.GetOpenedHandlesClass.Count - 1
-            With cHandle.GetOpenedHandlesClass
-                If (Len(.GetObjectName(i)) > 0) Then
-                    sComp = .GetObjectName(i).ToLower
-                    If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-                        ' So we've found a result
-                        Dim newIt As New ListViewItem
-                        Dim n2 As New ListViewItem.ListViewSubItem
-                        newIt.Text = .GetProcessID(i) & " -- " & cProcess.GetProcessName(.GetProcessID(i))
-                        n2.Text = .GetNameInformation(i) & " -- " & .GetObjectName(i)
-                        newIt.SubItems.Add(n2)
-                        newIt.ImageKey = "handle"
-                        newIt.Tag = .GetHandle(i)
-                        Me.lv.Items.Add(newIt)
-                    End If
-                End If
-            End With
-        Next
+        ' TODO
+        'cHandle.GetOpenedHandlesClass.Refresh()
+        'For i = 0 To cHandle.GetOpenedHandlesClass.Count - 1
+        '    With cHandle.GetOpenedHandlesClass
+        '        If (Len(.GetObjectName(i)) > 0) Then
+        '            sComp = .GetObjectName(i).ToLower
+        '            If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
+        '                ' So we've found a result
+        '                Dim newIt As New ListViewItem
+        '                Dim n2 As New ListViewItem.ListViewSubItem
+        '                newIt.Text = .GetProcessID(i) & " -- " & cProcess.GetProcessName(.GetProcessID(i))
+        '                n2.Text = .GetNameInformation(i) & " -- " & .GetObjectName(i)
+        '                newIt.SubItems.Add(n2)
+        '                newIt.ImageKey = "handle"
+        '                newIt.Tag = .GetHandle(i)
+        '                Me.lv.Items.Add(newIt)
+        '            End If
+        '        End If
+        '    End With
+        'Next
 
 
         _frmMain.timerServices.Enabled = True
@@ -128,7 +129,7 @@ Public Class frmFileRelease
                                 ' Handle
                                 Dim Handle As IntPtr = CType(it.Tag, IntPtr)
                                 'TOCHANGE
-                                Call cHandle.GetOpenedHandlesClass.CloseProcessLocalHandle(pid, Handle)
+                                Call Native.Objects.Handle.CloseProcessLocalHandle(pid, Handle)
                         End Select
                     End If
                 End If

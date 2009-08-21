@@ -69,7 +69,8 @@ Public Class asyncCallbackHandleUnload
 
             Case Else
                 ' Local
-                Dim ret As Integer = cHandle.handles_Renamed.CloseProcessLocalHandle(pObj.pid, pObj.handle)
+                Dim ret As Integer = Native.Objects.Handle.CloseProcessLocalHandle(pObj.pid, _
+                                                                                   pObj.handle)
                 _deg.Invoke(ret <> 0, pObj.pid, pObj.handle, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub

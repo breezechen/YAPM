@@ -279,10 +279,12 @@ Public Module Program
         _systemInfo = New cSystemInfo       ' System informations
         _ConnectionForm = New frmConnection(theConnection)
 
-        ' FOR NOW, only on 32bits...
-        If cEnvironment.Is32Bits Then
-            cHandle.handles_Renamed = New clsOpenedHandles
-        End If
+
+        ' FOR NOW, we use kernel only on 32 bits systems...
+        Native.Objects.Handle.HandleEnumerationClass = _
+                    New Native.Objects.HandleEnumeration(_progParameters.UseKernelDriver And _
+                                                         cEnvironment.Is32Bits)
+
 
         ' Classes for client only
         If _progParameters.ModeServer = False Then
@@ -390,7 +392,7 @@ Public Module Program
 
         ' Uninstall driver
         Try
-            cHandle.GetOpenedHandlesClass.Close()
+            Native.Objects.Handle.HandleEnumerationClass.Close()
         Catch ex As Exception
             '
         End Try

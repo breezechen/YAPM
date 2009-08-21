@@ -15,10 +15,10 @@ Refactoring OK :
 - MemRegion (all)
 - Env var (all)
 - Network (all)
+- Handle (all)
 
 - Search
 - Log
-- Handle
 
 
 BUGS CRITIQUES
@@ -80,7 +80,6 @@ BUGS NON CRITIQUES
 - Click sur 'monitor counters' -> BeginUpdate/EndUpdate du TV et du LV de frmMain
 - monitoring de pleins des items -> thread spécifique nécessaire pour éviter les bloquages
 - systemInfo pour les pc remote
-- optimiser récupération handles / memory region
 - reprendre tout le code unmanaged (cProcessRW foiré, Marshal.Copy useless (utiliser GCHandle.Alloc...))
 - colorations listviewitems pour les modules (cf. flags)
 - SystemInfos -> afficher graphes en permanence (et pas que quand la form est affichée)
@@ -176,3 +175,6 @@ Temp Change log :
 - highlighting des process systèmes OK sur toutes les cultures
 - fixed 'key already added' (cEnvVariable) when searching an item
 - 'center on screen' pour les windows
+- optmisation récupération des handles
+- nouvelles informations pour les handles
+- désactivation temporaire de 'Release file'

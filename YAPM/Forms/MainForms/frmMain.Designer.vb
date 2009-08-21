@@ -4102,7 +4102,7 @@ Partial Class frmMain
         '
         Me.splitThreads.Panel2.Controls.Add(Me.rtb4)
         Me.splitThreads.Size = New System.Drawing.Size(852, 359)
-        Me.splitThreads.SplitterDistance = 234
+        Me.splitThreads.SplitterDistance = 233
         Me.splitThreads.TabIndex = 0
         '
         'SplitContainerThreads
@@ -4123,7 +4123,7 @@ Partial Class frmMain
         'SplitContainerThreads.Panel2
         '
         Me.SplitContainerThreads.Panel2.Controls.Add(Me.lvThreads)
-        Me.SplitContainerThreads.Size = New System.Drawing.Size(852, 234)
+        Me.SplitContainerThreads.Size = New System.Drawing.Size(852, 233)
         Me.SplitContainerThreads.SplitterDistance = 25
         Me.SplitContainerThreads.TabIndex = 0
         '
@@ -4173,7 +4173,7 @@ Partial Class frmMain
         Me.lvThreads.OverriddenDoubleBuffered = True
         Me.lvThreads.ProcessId = Nothing
         Me.lvThreads.ReorganizeColumns = True
-        Me.lvThreads.Size = New System.Drawing.Size(852, 205)
+        Me.lvThreads.Size = New System.Drawing.Size(852, 204)
         Me.lvThreads.TabIndex = 5
         Me.lvThreads.UseCompatibleStateImageBehavior = False
         Me.lvThreads.View = System.Windows.Forms.View.Details
@@ -4232,7 +4232,7 @@ Partial Class frmMain
         Me.rtb4.Location = New System.Drawing.Point(0, 0)
         Me.rtb4.Name = "rtb4"
         Me.rtb4.ReadOnly = True
-        Me.rtb4.Size = New System.Drawing.Size(852, 121)
+        Me.rtb4.Size = New System.Drawing.Size(852, 122)
         Me.rtb4.TabIndex = 7
         Me.rtb4.Text = "Click on a thread to get additionnal informations"
         '
@@ -7055,6 +7055,7 @@ Partial Class frmMain
         '
         'MenuItemFileRelease
         '
+        Me.MenuItemFileRelease.Enabled = False
         Me.VistaMenu.SetImage(Me.MenuItemFileRelease, Global.YAPM.My.Resources.Resources.locked)
         Me.MenuItemFileRelease.Index = 2
         Me.MenuItemFileRelease.Text = "&Release file..."

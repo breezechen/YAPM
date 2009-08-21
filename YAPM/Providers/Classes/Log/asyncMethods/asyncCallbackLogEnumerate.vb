@@ -189,7 +189,7 @@ Public Class asyncCallbackLogEnumerate
                     ' Get list
                     Dim pid(0) As Integer
                     pid(0) = pObj.pid
-                    Call asyncCallbackHandleEnumerate.enumHandles(New asyncCallbackHandleEnumerate.poolObj(pid, True, 0), __dicoHandles)
+                    Native.Objects.Handle.EnumerateHandleByProcessIds(pid, True, __dicoHandles)
 
                     ' Store in static dico if it is first refresh
                     If firstHandles Then

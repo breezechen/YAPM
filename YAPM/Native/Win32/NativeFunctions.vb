@@ -596,6 +596,17 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for system"
 
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function DeviceIoControl(ByVal FileHandle As IntPtr, _
+                                ByVal IoControlCode As Integer, _
+                                ByRef InBuffer As NativeStructs.SystemHandleInformation, _
+                                ByVal InBufferLength As Integer, _
+                                ByVal OutBuffer As IntPtr, _
+                                ByVal OutBufferLength As Integer, _
+                                ByRef BytesReturned As Integer, _
+                                ByVal Overlapped As IntPtr) As Boolean
+        End Function
+
         <DllImport("kernel32.dll")> _
         Public Shared Sub GetSystemInfo(<MarshalAs(UnmanagedType.Struct)> ByRef lpSystemInfo As SystemInfo)
         End Sub
