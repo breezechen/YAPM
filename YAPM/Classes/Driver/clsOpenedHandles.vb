@@ -113,37 +113,6 @@ Public Class clsOpenedHandles
     'renvoie ERROR_SUCCESS ou ERROR_BUFFER_TOO_SMALL
     Private Const IOCTL_KERNELMEMORY_GETOBJECTNAME As Integer = &H80002004
 
-    '==========================================================================================
-    'pour obtenir le privilège Debug
-    '==========================================================================================
-
-    'demande l'autorisation d'activer un privilège
-    'Private Const SE_PRIVILEGE_ENABLED As Integer = &H2
-
-    ''type de Local Unique ID pour le token
-    'Private Structure LUID
-    '    Dim LowPart As Integer
-    '    Dim HighPart As Integer
-    'End Structure
-    ''LUID + attributs
-    'Private Structure LUID_AND_ATTRIBUTES
-    '    Dim pLuid As LUID
-    '    Dim Attributes As Integer
-    'End Structure
-    ''structure de privilèges de token
-    'Private Structure TOKEN_PRIVILEGES
-    '    Dim PrivilegeCount As Integer
-    '    Dim Privileges As LUID_AND_ATTRIBUTES
-    'End Structure
-    ''ouvre le token du processus
-    'Private Declare Function OpenProcessToken Lib "advapi32" (ByVal ProcessHandle As Integer, ByVal DesiredAccess As Integer, ByRef TokenHandle As Integer) As Integer
-    ''ajuste les privilèges
-    'Private Declare Function AdjustTokenPrivileges Lib "advapi32" (ByVal TokenHandle As Integer, ByVal DisableAllPrivileges As Integer, ByRef NewState As TOKEN_PRIVILEGES, ByVal BufferLength As Integer, ByRef PreviousState As TOKEN_PRIVILEGES, ByRef ReturnLength As Integer) As Integer
-    ''regarde la valeur du privilèges
-    'Private Declare Function LookupPrivilegeValue Lib "advapi32" Alias "LookupPrivilegeValueA" (ByVal lpSystemName As String, ByVal lpName As String, ByRef lpLuid As LUID) As Integer
-
-    'on ouvre un handle du driver KernelMemory
-
 
     'nombre de handles
     Public ReadOnly Property Count() As Integer
@@ -210,33 +179,32 @@ Public Class clsOpenedHandles
 
     'crée le buffer contenant les handles
     'doit etre libérer avec DestroyHandlesBuffer avant de quitter l'application
+    Private memAllocPID As New Native.Memory.MemoryAlloc(&H100)
     Private Sub CreateQueryHandlesBuffer(Optional ByVal oneProcessId As Integer = -1)
         Dim Length As Integer 'longueur du buffer
         Dim X As Integer 'compteur
         Dim ret As Integer 'valeur de retour des fonctions utilisées
-        Dim lpBufferHandles As IntPtr 'pointeur vers le buffer BufferHandles
         Dim Handle As NativeStructs.SystemHandleInformation  'un handle
 
-        Length = &H100 'longueur minimale du buffer
-        lpBufferHandles = Marshal.AllocHGlobal(Length)  'redimensionne le buffer
+        Length = memAllocPIDs.Size  'longueur minimale du buffer
         'tant que la longueur n'est pas suffisante
-        Do While NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, lpBufferHandles, Length, ret) = STATUS_INFO_LENGTH_MISMATCH
+        Do While NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, _
+                            memAllocPIDs.Pointer, memAllocPIDs.Size, ret) = STATUS_INFO_LENGTH_MISMATCH
             'on multiplie la taille du buffer par 2
             Length = Length * 2
             'on réalloue le buffer
-            Marshal.FreeHGlobal(lpBufferHandles)
-            lpBufferHandles = Marshal.AllocHGlobal(Length)
+            memAllocPIDs.Resize(Length)
         Loop
 
         'demande le nombre de handles
-        m_cHandles = Marshal.ReadInt32(lpBufferHandles)
+        m_cHandles = memAllocPIDs.ReadInt32(0)
 
         'on fait de la place pour un handle de fichier
         ReDim m_Files(m_cHandles - 1)
         'pour chaque handle
         For X = 0 To m_cHandles - 1
-            'on copie les informations sur le handle
-            Handle = CType(Marshal.PtrToStructure(New IntPtr(lpBufferHandles.ToInt32 + 4 + 16 * X), Handle.GetType), NativeStructs.SystemHandleInformation)
+            ' &h4 because of HandleCount on 4 first bytes
+            Handle = memAllocPIDs.ReadStruct(Of NativeStructs.SystemHandleInformation)(&H4, X)
             ' Only if handle belongs to specified process
             If oneProcessId = -1 OrElse oneProcessId = Handle.ProcessID Then
                 'on demande plus d'informations sur le handle de fichier
@@ -246,39 +214,36 @@ Public Class clsOpenedHandles
         'on ferme le handle du dernier processus ouvert
         CloseProcessForHandle()
 
-        Marshal.FreeHGlobal(lpBufferHandles)
     End Sub
+    Private memAllocPIDs As New Native.Memory.MemoryAlloc(&H100)
     Private Sub CreateQueryHandlesBuffer(ByVal PIDs As Integer())
         Dim Length As Integer 'longueur du buffer
         Dim X As Integer 'compteur
         Dim ret As Integer 'valeur de retour des fonctions utilisées
         Dim Handle As NativeStructs.SystemHandleInformation  'un handle
 
-        ' PERFISSUE
-        Length = &H100 'longueur minimale du buffer
-        Dim memAlloc As New Native.Memory.MemoryAlloc(Length)
+        Length = memAllocPIDs.Size  'longueur minimale du buffer
         'tant que la longueur n'est pas suffisante
         Do While NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, _
-                            memAlloc.Pointer, memAlloc.Size, ret) = STATUS_INFO_LENGTH_MISMATCH
+                            memAllocPIDs.Pointer, memAllocPIDs.Size, ret) = STATUS_INFO_LENGTH_MISMATCH
             'on multiplie la taille du buffer par 2
             Length = Length * 2
             'on réalloue le buffer
-            memAlloc.Resize(Length)
+            memAllocPIDs.Resize(Length)
         Loop
 
         'demande le nombre de handles
-        m_cHandles = memAlloc.ReadInt32(0)
+        m_cHandles = memAllocPIDs.ReadInt32(0)
 
         'on fait de la place pour un handle de fichier
         ReDim m_Files(m_cHandles - 1)
         'pour chaque handle
         For X = 0 To m_cHandles - 1
-            'on copie les informations sur le handle
             ' &h4 because of HandleCount on 4 first bytes
-            Handle = memAlloc.ReadStruct(Of NativeStructs.SystemHandleInformation)(&H4, X)
+            Handle = memAllocPIDs.ReadStruct(Of NativeStructs.SystemHandleInformation)(&H4, X)
             ' Only if handle belongs to specified process
             For Each __pid As Integer In PIDs
-                If __pid = Handle.ProcessID Then
+                If __pid = Handle.ProcessId Then
                     'on demande plus d'informations sur le handle de fichier
                     m_Files(X) = RetrieveObject(Handle)
                 End If
@@ -287,7 +252,6 @@ Public Class clsOpenedHandles
         'on ferme le handle du dernier processus ouvert
         CloseProcessForHandle()
 
-        memAlloc.Free()
     End Sub
 
     'ouvre un handle du processus ProcessID s'il n'est pas déjà ouvert

@@ -49,6 +49,7 @@ Public Module Program
         Private requestReplaceTaskMgr As Boolean = False
         Private replaceTaskMgrValue As Boolean = False
         Private oneInstance As Boolean = True
+        Private useDriver As Boolean = True
         Public ReadOnly Property ModeServer() As Boolean
             Get
                 Return isServerMode
@@ -84,28 +85,35 @@ Public Module Program
                 Return oneInstance
             End Get
         End Property
+        Public ReadOnly Property UseKernelDriver() As Boolean
+            Get
+                Return useDriver
+            End Get
+        End Property
         Public Sub New(ByRef parameters As String())
             If parameters Is Nothing Then
                 Exit Sub
             End If
             For i As Integer = 0 To parameters.Length - 1
-                If parameters(i).ToLowerInvariant = "-server" Then
+                If parameters(i).ToUpperInvariant = "-SERVER" Then
                     isServerMode = True
-                ElseIf parameters(i).ToLowerInvariant = "-autoconnect" Then
+                ElseIf parameters(i).ToUpperInvariant = "-AUTOCONNECT" Then
                     isAutoConnectMode = True
-                ElseIf parameters(i).ToLowerInvariant = "-hide" Then
+                ElseIf parameters(i).ToUpperInvariant = "-HIDE" Then
                     isHidden = True
-                ElseIf parameters(i).ToLowerInvariant = "-port" Then
+                ElseIf parameters(i).ToUpperInvariant = "-PORT" Then
                     If parameters.Length - 1 >= i + 1 Then
                         remPort = CInt(Val(parameters(i + 1)))
                     End If
-                ElseIf parameters(i).ToLowerInvariant = "-reptaskmgr" Then
+                ElseIf parameters(i).ToUpperInvariant = "-REPTASKMGR" Then
                     If parameters.Length - 1 >= i + 1 Then
                         replaceTaskMgrValue = CBool(Val(parameters(i + 1)))
                         requestReplaceTaskMgr = True
                     End If
-                ElseIf parameters(i).ToLowerInvariant = "-donotcheckprevinstance" Then
+                ElseIf parameters(i).ToUpperInvariant = "-DONOTCHECKPREVINSTANCE" Then
                     oneInstance = False
+                ElseIf parameters(i).ToUpperInvariant = "-NODRIVER" Then
+                    useDriver = False
                 End If
             Next
         End Sub
