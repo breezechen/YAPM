@@ -204,7 +204,7 @@ Public Class cProcess
 
     Public ReadOnly Property IsOwnedProcess() As Boolean
         Get
-            Return (cToken.CurrentUserName = _processInfos.DomainName & "\" & _processInfos.UserName)
+            Return (Common.Objects.Token.CurrentUserName = _processInfos.DomainName & "\" & _processInfos.UserName)
         End Get
     End Property
 

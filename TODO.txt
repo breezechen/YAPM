@@ -4,22 +4,6 @@ Refactoring bugs
 - 64TODO
 - YAPM should run without the driver on x64 (for now) and user should be able to disable it (command line & option)
 
-Refactoring OK : 
-- Privileges (all)
-- Threads (all)
-- Modules (all)
-- Processes (all)
-- Windows (all)
-- Tasks (all)
-- General (all)
-- MemRegion (all)
-- Env var (all)
-- Network (all)
-- Handle (all)
-
-- Search
-- Log
-
 
 BUGS CRITIQUES
 - copy to cb : trier par ordre alphabétique

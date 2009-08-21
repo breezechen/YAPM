@@ -1,4 +1,4 @@
-' =======================================================
+﻿' =======================================================
 ' Yet Another (remote) Process Monitor (YAPM)
 ' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
 ' https://sourceforge.net/projects/yaprocmon/
@@ -18,20 +18,19 @@
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
 
+Option Strict On
+
 Imports System.Runtime.InteropServices
-Imports YAPM.Native.Api
 
-Namespace XXXX
+Namespace Common.Objects
 
-    Public Class XXX
+    Public Class Token
 
-	
-	
-	    ' ========================================
+        ' ========================================
         ' Private constants
         ' ========================================
 
-		
+
         ' ========================================
         ' Private attributes
         ' ========================================
@@ -41,15 +40,28 @@ Namespace XXXX
         ' Public properties
         ' ========================================
 
-		
+
         ' ========================================
         ' Other public
         ' ========================================
-		
-		
+
+
         ' ========================================
         ' Public functions
         ' ========================================
+
+        ' Return current user name
+        Public Shared ReadOnly Property CurrentUserName() As String
+            Get
+                Static retrieved As Boolean = False
+                Static value As String = ""
+                If retrieved = False Then
+                    retrieved = True
+                    value = System.Security.Principal.WindowsIdentity.GetCurrent.Name
+                End If
+                Return value
+            End Get
+        End Property
 
 
         ' ========================================

@@ -458,6 +458,7 @@
   <ItemGroup>
     <Compile Include="Classes\Download\cAsyncProcInfoDownload.vb" />
     <Compile Include="Classes\Download\cDownload.vb" />
+    <Compile Include="Common\Objects\Token.vb" />
     <Compile Include="Native\Driver\DriverCtrl.vb" />
     <Compile Include="Native\Objects\HandleEnumeration.vb" />
     <Compile Include="Classes\Hotkeys\cHotkeys.vb" />
@@ -470,9 +471,8 @@
     <Compile Include="Classes\Misc\cLog.vb" />
     <Compile Include="Classes\Misc\cMonitor.vb" />
     <Compile Include="Classes\Misc\cRegMonitor.vb" />
-    <Compile Include="Classes\Misc\cSystem.vb" />
+    <Compile Include="Native\Objects\System.vb" />
     <Compile Include="Classes\Misc\cSystemInfo.vb" />
-    <Compile Include="Classes\Misc\cToken.vb" />
     <Compile Include="Classes\Misc\cTrayIcon.vb" />
     <Compile Include="Classes\Misc\cWinTrust.vb" />
     <Compile Include="Classes\Shutdown\asyncMethods\asyncCallbackShutdownAction.vb" />
