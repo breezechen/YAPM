@@ -160,9 +160,8 @@ Public Class asyncCallbackModuleEnumerate
 
             Case Else
                 ' Local
-                Dim _dico As New Dictionary(Of String, moduleInfos)
-
-                Call enumModules(pObj, _dico, True)
+                Dim _dico As Dictionary(Of String, moduleInfos) = _
+                    Native.Objects.Module.EnumerateModulesByProcessIds(pObj.pid, True)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
@@ -172,17 +171,6 @@ Public Class asyncCallbackModuleEnumerate
 
         sem.Release()
 
-    End Sub
-
-    ' Enumerate modules (local)
-    Friend Shared Sub enumModules(ByVal pObj As poolObj, ByRef _dico As Dictionary(Of String, moduleInfos), ByVal getFileInfos As Boolean)
-        For Each id As Integer In pObj.pid
-            Dim _md As New Dictionary(Of String, moduleInfos)
-            _md = Native.Objects.Module.EnumerateModulesByProcessId(id, Not (getFileInfos))
-            For Each pair As System.Collections.Generic.KeyValuePair(Of String, moduleInfos) In _md
-                _dico.Add(pair.Key, pair.Value)
-            Next
-        Next
     End Sub
 
 End Class

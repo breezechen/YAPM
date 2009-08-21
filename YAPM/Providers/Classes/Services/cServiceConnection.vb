@@ -93,7 +93,7 @@ Public Class cServiceConnection
             Case Else
                 ' Local
                 If hSCM.IsNull Then
-                    hSCM = Native.Objects.Service.GetSCManagerHandle
+                    hSCM = Native.Objects.Service.GetSCManagerHandle(Native.Security.ServiceManagerAccess.EnumerateService)
                 End If
                 _connected = True
                 Try

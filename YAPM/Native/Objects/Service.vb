@@ -387,10 +387,8 @@ Namespace Native.Objects
         End Function
 
         ' Get SC manager handle
-        Public Shared Function GetSCManagerHandle() As IntPtr
-            Return NativeFunctions.OpenSCManager(Nothing, _
-                                                Nothing, _
-                                                Native.Security.ServiceManagerAccess.EnumerateService)
+        Public Shared Function GetSCManagerHandle(ByVal access As Native.Security.ServiceManagerAccess) As IntPtr
+            Return NativeFunctions.OpenSCManager(Nothing, Nothing, access)
         End Function
 
         ' Close SC manager handle

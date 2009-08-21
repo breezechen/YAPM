@@ -71,6 +71,22 @@ Namespace Native.Objects
         End Function
 
         ' Enumerate modules
+        Public Shared Function EnumerateModulesByProcessIds(ByVal pid() As Integer, _
+                Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
+
+            Dim _dico As New Dictionary(Of String, moduleInfos)
+
+            For Each id As Integer In pid
+                Dim _md As New Dictionary(Of String, moduleInfos)
+                _md = EnumerateModulesByProcessId(id, noFileInfo)
+                For Each pair As System.Collections.Generic.KeyValuePair(Of String, moduleInfos) In _md
+                    _dico.Add(pair.Key, pair.Value)
+                Next
+            Next
+            Return _dico
+        End Function
+
+        ' Enumerate modules
         Public Shared Function EnumerateModulesByProcessId(ByVal pid As Integer, _
                 Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
 
@@ -85,7 +101,7 @@ Namespace Native.Objects
             Dim reader As New ProcessMemReader(pid)
             hProc = reader.ProcessHandle
 
-            If hProc .IsNotNull Then
+            If hProc.IsNotNull Then
 
                 peb = reader.GetPebAddress
 
@@ -110,7 +126,7 @@ Namespace Native.Objects
                 Dim curEntry As Native.Api.NativeStructs.LdrDataTableEntry
                 Dim i As Integer = 0
 
-                Do While curObj .IsNotNull
+                Do While curObj.IsNotNull
 
                     If (i > 0 AndAlso curObj = firstObj) Then
                         Exit Do
@@ -120,7 +136,7 @@ Namespace Native.Objects
                     curEntry = CType(reader.ReadStruct(Of Native.Api.NativeStructs.LdrDataTableEntry)(curObj),  _
                                     Native.Api.NativeStructs.LdrDataTableEntry)
 
-                    If (curEntry.DllBase .IsNotNull) Then
+                    If (curEntry.DllBase.IsNotNull) Then
 
                         ' Retrive the path/name of the dll
                         dllPath = reader.ReadUnicodeString(curEntry.FullDllName)

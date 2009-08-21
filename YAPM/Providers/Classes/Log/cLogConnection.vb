@@ -72,7 +72,7 @@ Public Class cLogConnection
             Case Else
                 ' Local
                 If hSCM.IsNull Then
-                    hSCM = Native.Api.NativeFunctions.OpenSCManager(vbNullString, vbNullString, Native.Security.ServiceManagerAccess.EnumerateService)
+                    hSCM = Native.Objects.Service.GetSCManagerHandle(Native.Security.ServiceManagerAccess.EnumerateService)
                 End If
                 _connected = True
                 Try
@@ -97,8 +97,8 @@ Public Class cLogConnection
 
             Case Else
                 ' Local
-                If hSCM.ToInt32 > 0 Then
-                    Call Native.Api.NativeFunctions.CloseServiceHandle(hSCM)
+                If hSCM.IsNotNull Then
+                    Native.Objects.Service.CloseSCManagerHandle(hSCM)
                     hSCM = IntPtr.Zero
                 End If
                 _connected = False
