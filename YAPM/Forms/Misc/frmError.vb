@@ -44,6 +44,7 @@ Public Class frmError
         s &= vbNewLine & vbTab & "Physical memory : " & GetFormatedSize(My.Computer.Info.AvailablePhysicalMemory) & "/" & GetFormatedSize(My.Computer.Info.TotalPhysicalMemory)
         s &= vbNewLine & vbTab & "Virtual memory : " & GetFormatedSize(My.Computer.Info.AvailableVirtualMemory) & "/" & GetFormatedSize(My.Computer.Info.TotalVirtualMemory)
         s &= vbNewLine & vbTab & "Screen : " & My.Computer.Screen.Bounds.ToString
+        s &= vbNewLine & vbTab & "IntPtr.Size : " & IntPtr.Size.ToString
         s &= vbNewLine & vbNewLine
         s &= "User informations : "
         s &= vbNewLine & vbTab & "Admin : " & Program.IsAdministrator.ToString
@@ -52,28 +53,6 @@ Public Class frmError
         s &= vbNewLine & vbTab & "Path : " & My.Application.Info.DirectoryPath
         s &= vbNewLine & vbTab & "Version : " & My.Application.Info.Version.ToString
         s &= vbNewLine & vbTab & "WorkingSetSize : " & My.Application.Info.WorkingSet.ToString
-        s &= vbNewLine & vbNewLine
-        s &= "Dll informations : "
-        Try
-            s &= vbNewLine & vbTab & "Ribbon version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\System.Windows.Forms.Ribbon.dll").FileVersion
-        Catch ex As Exception
-            s &= vbNewLine & vbTab & "Ribbon version : CANNOT GET VERSION"
-        End Try
-        Try
-            s &= vbNewLine & vbTab & "TaskDialog version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\TaskDialog.dll").FileVersion
-        Catch ex As Exception
-            s &= vbNewLine & vbTab & "TaskDialog version : CANNOT GET VERSION"
-        End Try
-        Try
-            s &= vbNewLine & vbTab & "VistaMenu version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\VistaMenu.dll").FileVersion
-        Catch ex As Exception
-            s &= vbNewLine & vbTab & "VistaMenu version : CANNOT GET VERSION"
-        End Try
-        Try
-            s &= vbNewLine & vbTab & "SecurePasswordTextBox version : " & System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\SecurePasswordTextBox.dll").FileVersion
-        Catch ex As Exception
-            s &= vbNewLine & vbTab & "SecurePasswordTextBox version : CANNOT GET VERSION"
-        End Try
         s &= vbNewLine & vbNewLine
         s &= "Error informations : "
         s &= vbNewLine & vbTab & "Message : " & e.Message

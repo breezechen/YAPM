@@ -9,7 +9,6 @@ BUGS CRITIQUES
 - copy to cb : trier par ordre alphabétique
 - FAQ : histoire du securepassword
 - relocated dlls + others highlightings (isTask, wow64...)
-- dans le bug report -> mettre le nombre de bits
 - extend dico et ajout de TryAdd ?
 - refermer les handles quand les processes meurent !
 - &ventuellement ajouter 'kill by method' option (et mettre virer terminateprocess, kick de tous les threads (très efficace !!), virer tous les handles, kill avec remoteThread, try to crash (WriteMem foireux)...)

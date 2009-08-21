@@ -1058,6 +1058,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName)==BuildZipRelease  "$(TargetDir)make.vbs"</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==BuildZipRelease  "$(TargetDir)make.bat"</PostBuildEvent>
   </PropertyGroup>
 </Project>
