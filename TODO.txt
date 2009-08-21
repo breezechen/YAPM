@@ -6,6 +6,7 @@ Refactoring bugs
 
 
 BUGS CRITIQUES
+- env variables par remote -> cast invalide
 - copy to cb : trier par ordre alphabétique
 - FAQ : histoire du securepassword
 - relocated dlls + others highlightings (isTask, wow64...)

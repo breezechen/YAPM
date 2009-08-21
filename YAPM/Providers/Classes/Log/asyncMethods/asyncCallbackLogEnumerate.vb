@@ -283,7 +283,7 @@ Public Class asyncCallbackLogEnumerate
                     ' Get list
                     Dim pid(0) As Integer
                     pid(0) = pObj.pid
-                    __dicoModules = Native.Objects.Module.EnumerateModulesByProcessIds(pid, False)
+                    __dicoModules = Native.Objects.Module.EnumerateModulesByProcessIds(pid, True)
 
                     ' Store in static dico if it is first refresh
                     If firstModules Then

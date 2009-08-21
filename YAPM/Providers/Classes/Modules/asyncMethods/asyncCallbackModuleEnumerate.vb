@@ -161,7 +161,7 @@ Public Class asyncCallbackModuleEnumerate
             Case Else
                 ' Local
                 Dim _dico As Dictionary(Of String, moduleInfos) = _
-                    Native.Objects.Module.EnumerateModulesByProcessIds(pObj.pid, True)
+                    Native.Objects.Module.EnumerateModulesByProcessIds(pObj.pid, False)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)

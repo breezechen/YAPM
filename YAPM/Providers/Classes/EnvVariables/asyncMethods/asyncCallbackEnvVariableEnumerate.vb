@@ -78,7 +78,7 @@ Public Class asyncCallbackEnvVariableEnumerate
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _poolObj = pObj
                 Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestEnvironmentVariableList, pObj.pid, -1)
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestEnvironmentVariableList, pObj.pid, New IntPtr(-1))
                     cDat.InstanceId = _instanceId   ' Instance which request the list
                     con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
