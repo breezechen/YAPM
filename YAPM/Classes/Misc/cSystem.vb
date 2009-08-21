@@ -29,15 +29,15 @@ Public Class cSystem
     ' ========================================
     ' Public
     ' ========================================
-    Public Shared Function Hibernate(Optional ByVal force As Boolean = False) As Boolean
+    Public Shared Function Hibernate(Optional ByVal force As Boolean = True) As Boolean
         Return NativeFunctions.SetSuspendState(True, force, False)
     End Function
 
-    Public Shared Function Sleep(Optional ByVal force As Boolean = False) As Boolean
+    Public Shared Function Sleep(Optional ByVal force As Boolean = True) As Boolean
         Return NativeFunctions.SetSuspendState(False, force, False)
     End Function
 
-    Public Shared Function Logoff(Optional ByVal force As Boolean = False) As Boolean
+    Public Shared Function Logoff(Optional ByVal force As Boolean = True) As Boolean
         If force Then
             Return NativeFunctions.ExitWindowsEx(NativeEnums.ExitWindowsFlags.Logoff Or NativeEnums.ExitWindowsFlags.Force, 0)
         Else
@@ -49,7 +49,7 @@ Public Class cSystem
         Return NativeFunctions.LockWorkStation()
     End Function
 
-    Public Shared Function Shutdown(Optional ByVal force As Boolean = False) As Boolean
+    Public Shared Function Shutdown(Optional ByVal force As Boolean = True) As Boolean
         If force Then
             Return NativeFunctions.ExitWindowsEx(NativeEnums.ExitWindowsFlags.Shutdown Or NativeEnums.ExitWindowsFlags.Force, 0)
         Else
@@ -57,7 +57,7 @@ Public Class cSystem
         End If
     End Function
 
-    Public Shared Function Restart(Optional ByVal force As Boolean = False) As Boolean
+    Public Shared Function Restart(Optional ByVal force As Boolean = True) As Boolean
         If force Then
             Return NativeFunctions.ExitWindowsEx(NativeEnums.ExitWindowsFlags.Reboot Or NativeEnums.ExitWindowsFlags.Force, 0)
         Else
@@ -65,7 +65,7 @@ Public Class cSystem
         End If
     End Function
 
-    Public Shared Function Poweroff(Optional ByVal force As Boolean = False) As Boolean
+    Public Shared Function Poweroff(Optional ByVal force As Boolean = True) As Boolean
         If force Then
             Return NativeFunctions.ExitWindowsEx(NativeEnums.ExitWindowsFlags.Poweroff Or NativeEnums.ExitWindowsFlags.Force, 0)
         Else
