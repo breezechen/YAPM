@@ -6,7 +6,6 @@ Refactoring bugs
 
 
 BUGS CRITIQUES
-- FAQ : histoire du securepassword
 - others highlightings (isTask, wow64...)
 - extend dico et ajout de TryAdd ?
 - refermer les handles quand les processes meurent !
@@ -29,7 +28,6 @@ BUGS CRITIQUES
 BUGS NON CRITIQUES
 - lancer ngen de YAPM lors du premier lancement... (WaitForSingle du process ngen)
 - ajouter nouvelles infos pour les handles (cf struct récupérée)
-- timers dans les options -> mettre des numeric updown
 - is remote debugger present marche pas (cf _WIN32_WINNT)
 - merger toutes les dll dans un seul executable
 - increment sur le IntPtr
@@ -163,3 +161,4 @@ Temp Change log :
 - ajout notifications nouveaux processus/services
 - hilighting relocated modules
 - copy to clipboard items triés alphabétiquement
+- numeric updowns pour les intervalles dans frmPreferences
