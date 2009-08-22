@@ -604,16 +604,16 @@ Namespace Native.Api
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure PerformanceInformation
             Public Size As Integer
-            Public CommitTotal As Integer
-            Public CommitLimit As Integer
-            Public CommitPeak As Integer
-            Public PhysicalTotal As Integer
-            Public PhysicalAvailable As Integer
-            Public SystemCache As Integer
-            Public KernelTotal As Integer
-            Public KernelPaged As Integer
-            Public KernelNonPaged As Integer
-            Public PageSize As Integer
+            Public CommitTotal As IntPtr
+            Public CommitLimit As IntPtr
+            Public CommitPeak As IntPtr
+            Public PhysicalTotal As IntPtr
+            Public PhysicalAvailable As IntPtr
+            Public SystemCache As IntPtr
+            Public KernelTotal As IntPtr
+            Public KernelPaged As IntPtr
+            Public KernelNonPaged As IntPtr
+            Public PageSize As IntPtr
             Public HandlesCount As Integer
             Public ProcessCount As Integer
             Public ThreadCount As Integer
