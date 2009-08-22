@@ -102,6 +102,8 @@ Public Class Pref
         With My.Settings
             cThread.SetHighlightings(.EnableHighlightingSuspendedThread)
             cThread.SetHighlightingsColor(.HighlightingColorSuspendedThread)
+            cModule.SetHighlightings(.EnableHighlightingRelocatedModule)
+            cModule.SetHighlightingsColor(.HighlightingColorRelocatedModule)
             cProcess.SetHighlightings(.EnableHighlightingBeingDebugged, _
                                       .EnableHighlightingJobProcess, _
                                       .EnableHighlightingElevated, _

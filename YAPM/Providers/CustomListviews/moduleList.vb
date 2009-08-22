@@ -273,7 +273,7 @@ Public Class moduleList
             ElseIf _item.IsKilledItem Then
                 it.BackColor = DELETED_ITEM_COLOR
             Else
-                it.BackColor = Color.White
+                it.BackColor = _item.GetBackColor
             End If
         Next
 

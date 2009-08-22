@@ -73,11 +73,15 @@ Public Class frmPreferences
         Common.Misc.ReplaceTaskmgr(My.Settings.ReplaceTaskmgr)
 
         ' Highlightings
-        For Each it As ListViewItem In Me.lvHighlightingThread.Items
+        For Each it As ListViewItem In Me.lvHighlightingOther.Items
             If it.Text = "Suspended thread" Then
                 My.Settings.HighlightingColorSuspendedThread = it.BackColor
-                My.Settings.HighlightingPrioritySuspendedThread = CByte(it.Index + 1)
+                'My.Settings.HighlightingPrioritySuspendedThread = CByte(it.Index + 1)
                 My.Settings.EnableHighlightingSuspendedThread = it.Checked
+            ElseIf it.Text = "Relocated module" Then
+                My.Settings.HighlightingColorRelocatedModule = it.BackColor
+                'My.Settings.HighlightingPriorityRelocatedModule = CByte(it.Index + 1)
+                My.Settings.EnableHighlightingRelocatedModule = it.Checked
             End If
         Next
         For Each it As ListViewItem In Me.lvHighlightingProcess.Items
@@ -137,7 +141,7 @@ Public Class frmPreferences
         closeWithEchapKey(Me)
 
         Native.Functions.Misc.SetTheme(Me.lvHighlightingProcess.Handle)
-        Native.Functions.Misc.SetTheme(Me.lvHighlightingThread.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvHighlightingOther.Handle)
 
         Me.txtUpdate.Text = "Click on 'Check if YAPM is up to date' to check if a new version is available."
         SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr (do not forget to uncheck this option before you delete/move YAPM executable !!")
@@ -169,7 +173,7 @@ Public Class frmPreferences
         SetToolTip(Me.bufferSize, "Size of the buffer used to save history of statistics of one process (KB). The change of this value will be applied on the next start of YAPM.")
         SetToolTip(Me.chkAutoOnline, "Automatically retrieve online description of a process/service when detailed form is showned.")
         SetToolTip(Me.lvHighlightingProcess, "Enabled or not highlighting of items in listviews. Double click on a category to change its color.")
-        SetToolTip(Me.lvHighlightingThread, "Enabled or not highlighting of items in listviews. Double click on a category to change its color.")
+        SetToolTip(Me.lvHighlightingOther, "Enabled or not highlighting of items in listviews. Double click on a category to change its color.")
         SetToolTip(Me.cmdMoveDownProcess, "Decrease priority of selected category.")
         SetToolTip(Me.cmdMoveUpProcess, "Increase priority of selected category.")
         SetToolTip(Me.chkUserGroup, "Show or not user group/domain in process listview.")
@@ -211,11 +215,12 @@ Public Class frmPreferences
         End If
 
         ' Add items of "Highlighting listviews" in saved order
-        Me.lvHighlightingThread.Items.Clear()
+        Me.lvHighlightingOther.Items.Clear()
         Dim s() As ListViewItem
-        ReDim s(0)
-        s(My.Settings.HighlightingPrioritySuspendedThread - 1) = New ListViewItem("Suspended thread")
-        Me.lvHighlightingThread.Items.AddRange(s)
+        ReDim s(1)
+        s(0) = New ListViewItem("Suspended thread") ' index = My.Settings.HighlightingPrioritySuspendedThread - 1
+        s(1) = New ListViewItem("Relocated module")
+        Me.lvHighlightingOther.Items.AddRange(s)
         '
         Me.lvHighlightingProcess.Items.Clear()
         Dim s2() As ListViewItem
@@ -233,7 +238,8 @@ Public Class frmPreferences
         Call setColorOfHighlightingItems()
 
         ' Set checkboxes of "Highlighting items"
-        Me.lvHighlightingThread.Items(My.Settings.HighlightingPrioritySuspendedThread - 1).Checked = My.Settings.EnableHighlightingSuspendedThread
+        Me.lvHighlightingOther.Items(0).Checked = My.Settings.EnableHighlightingSuspendedThread
+        Me.lvHighlightingOther.Items(1).Checked = My.Settings.EnableHighlightingRelocatedModule
         Me.lvHighlightingProcess.Items(My.Settings.HighlightingPrioritySystemProcess - 1).Checked = My.Settings.EnableHighlightingSystemProcess
         Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityServiceProcess - 1).Checked = My.Settings.EnableHighlightingServiceProcess
         Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityOwnedProcess - 1).Checked = My.Settings.EnableHighlightingOwnedProcess
@@ -264,7 +270,8 @@ Public Class frmPreferences
         Me.lvHighlightingProcess.Items(My.Settings.HighlightingPriorityServiceProcess - 1).BackColor = My.Settings.HighlightingColorServiceProcess
         Me.lvHighlightingProcess.Items(My.Settings.HighlightingPrioritySystemProcess - 1).BackColor = My.Settings.HighlightingColorSystemProcess
         ' lvThread
-        Me.lvHighlightingThread.Items(My.Settings.HighlightingPrioritySuspendedThread - 1).BackColor = My.Settings.HighlightingColorSuspendedThread
+        Me.lvHighlightingOther.Items(0).BackColor = My.Settings.HighlightingColorSuspendedThread
+        Me.lvHighlightingOther.Items(1).BackColor = My.Settings.HighlightingColorRelocatedModule
     End Sub
 
     Private Sub cmdDefaut_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDefaut.Click
@@ -306,12 +313,13 @@ Public Class frmPreferences
         Me.lvHighlightingProcess.Items.Add("Service process").BackColor = Color.FromArgb(192, 255, 255)
         Me.lvHighlightingProcess.Items.Add("Owned process").BackColor = Color.FromArgb(255, 255, 192)
         Me.lvHighlightingProcess.Items.Add("System process").BackColor = Color.FromArgb(192, 192, 255)
-        Me.lvHighlightingThread.Items.Clear()
-        Me.lvHighlightingThread.Items.Add("Suspended thread").BackColor = Color.FromArgb(255, 255, 192)
+        Me.lvHighlightingOther.Items.Clear()
+        Me.lvHighlightingOther.Items.Add("Suspended thread").BackColor = Color.FromArgb(255, 255, 192)
+        Me.lvHighlightingOther.Items.Add("Relocated module").BackColor = Color.FromArgb(192, 255, 192)
         For Each it As ListViewItem In Me.lvHighlightingProcess.Items
             it.Checked = True
         Next
-        For Each it As ListViewItem In Me.lvHighlightingThread.Items
+        For Each it As ListViewItem In Me.lvHighlightingOther.Items
             it.Checked = True
         Next
 
@@ -606,11 +614,11 @@ Public Class frmPreferences
         End If
     End Sub
 
-    Private Sub lvHighlightingThread_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHighlightingThread.MouseDoubleClick
-        If Me.lvHighlightingThread.SelectedItems IsNot Nothing AndAlso Me.lvHighlightingThread.SelectedItems.Count = 1 Then
-            colDial.Color = Me.lvHighlightingThread.SelectedItems(0).BackColor
+    Private Sub lvHighlightingThread_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHighlightingOther.MouseDoubleClick
+        If Me.lvHighlightingOther.SelectedItems IsNot Nothing AndAlso Me.lvHighlightingOther.SelectedItems.Count = 1 Then
+            colDial.Color = Me.lvHighlightingOther.SelectedItems(0).BackColor
             colDial.ShowDialog()
-            Me.lvHighlightingThread.SelectedItems(0).BackColor = colDial.Color
+            Me.lvHighlightingOther.SelectedItems(0).BackColor = colDial.Color
         End If
     End Sub
 
@@ -657,4 +665,5 @@ Public Class frmPreferences
         End Try
 
     End Function
+
 End Class

@@ -26,6 +26,9 @@ Public Class cModule
     Private _moduleInfos As moduleInfos
     Private Shared WithEvents _connection As cModuleConnection
 
+    Private Shared _hlModuleRelocated As Boolean
+    Private Shared _hlModuleRelocatedColor As System.Drawing.Color
+
 #Region "Properties"
 
     Public Shared Property Connection() As cModuleConnection
@@ -585,5 +588,27 @@ Public Class cModule
     End Function
 
 #End Region
+
+
+#Region "Highlightings management"
+
+    ' Set highlightings
+    Public Shared Sub SetHighlightings(ByVal relocated As Boolean)
+        _hlModuleRelocated = relocated
+    End Sub
+    Public Shared Sub SetHighlightingsColor(ByVal relocated As Color)
+        _hlModuleRelocatedColor = relocated
+    End Sub
+
+    ' Return backcolor
+    Public Overrides Function GetBackColor() As System.Drawing.Color
+        If _hlModuleRelocated AndAlso (Me.Infos.Flags And Native.Api.NativeEnums.LdrpDataTableEntryFlags.ImageNotAtBase) = Native.Api.NativeEnums.LdrpDataTableEntryFlags.ImageNotAtBase Then
+            Return _hlModuleRelocatedColor
+        End If
+        Return MyBase.GetBackColor()
+    End Function
+
+#End Region
+
 
 End Class

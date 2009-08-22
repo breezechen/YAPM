@@ -1001,6 +1001,30 @@ Namespace My
                 Me("NotifyTerminatedProcesses") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("192, 255, 192")>  _
+        Public Property HighlightingColorRelocatedModule() As Global.System.Drawing.Color
+            Get
+                Return CType(Me("HighlightingColorRelocatedModule"),Global.System.Drawing.Color)
+            End Get
+            Set
+                Me("HighlightingColorRelocatedModule") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property EnableHighlightingRelocatedModule() As Boolean
+            Get
+                Return CType(Me("EnableHighlightingRelocatedModule"),Boolean)
+            End Get
+            Set
+                Me("EnableHighlightingRelocatedModule") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

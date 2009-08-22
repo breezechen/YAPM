@@ -6,14 +6,12 @@ Refactoring bugs
 
 
 BUGS CRITIQUES
-- env variables par remote -> cast invalide
 - copy to cb : trier par ordre alphabétique
 - FAQ : histoire du securepassword
-- relocated dlls + others highlightings (isTask, wow64...)
+- others highlightings (isTask, wow64...)
 - extend dico et ajout de TryAdd ?
 - refermer les handles quand les processes meurent !
-- &ventuellement ajouter 'kill by method' option (et mettre virer terminateprocess, kick de tous les threads (très efficace !!), virer tous les handles, kill avec remoteThread, try to crash (WriteMem foireux)...)
-- bouton 'centrer form' dans choix pos&size
+- éventuellement ajouter 'kill by method' option (et mettre virer terminateprocess, kick de tous les threads (très efficace !!), virer tous les handles, kill avec remoteThread, try to crash (WriteMem foireux)...)
 - exclusive use of core (dispo que quand multi proco) => enleve pour tous les process l'affinité sur les cores sélectionnés (puis form avec liste des process pour lesquels çà a echoué), pas de messages d'erreur
 - begin debugged marche pas
 - problème icones menu principal cachées (Vista seulement)
@@ -164,3 +162,4 @@ Temp Change log :
 - désactivation temporaire de 'Release file'
 - shutdown forcé par défaut
 - ajout notifications nouveaux processus/services
+- hilighting relocated modules
