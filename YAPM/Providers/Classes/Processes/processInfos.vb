@@ -317,7 +317,7 @@ Imports System.Runtime.InteropServices
     End Sub
 
     ' Retrieve all information's names availables
-    Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False) As String()
+    Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
         Dim s(49) As String
 
         s(0) = "PID"
@@ -377,6 +377,10 @@ Imports System.Runtime.InteropServices
             Array.Copy(s, 0, s2, 1, s.Length)
             s2(0) = "Name"
             s = s2
+        End If
+
+        If sorted Then
+            Array.Sort(s)
         End If
 
         Return s

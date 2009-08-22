@@ -158,7 +158,7 @@ Imports YAPM.Native.Api
     End Sub
 
     ' Retrieve all information's names availables
-    Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False) As String()
+    Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
         Dim s(10) As String
 
         s(0) = "Name"
@@ -178,6 +178,10 @@ Imports YAPM.Native.Api
             Array.Copy(s, 0, s2, 1, s.Length)
             s2(0) = "Type"
             s = s2
+        End If
+
+        If sorted Then
+            Array.Sort(s)
         End If
 
         Return s

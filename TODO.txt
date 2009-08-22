@@ -6,7 +6,6 @@ Refactoring bugs
 
 
 BUGS CRITIQUES
-- copy to cb : trier par ordre alphabétique
 - FAQ : histoire du securepassword
 - others highlightings (isTask, wow64...)
 - extend dico et ajout de TryAdd ?
@@ -163,3 +162,4 @@ Temp Change log :
 - shutdown forcé par défaut
 - ajout notifications nouveaux processus/services
 - hilighting relocated modules
+- copy to clipboard items triés alphabétiquement

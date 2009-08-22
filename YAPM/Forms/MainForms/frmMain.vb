@@ -423,31 +423,31 @@ Public Class frmMain
 
 
         ' Add some submenus (Copy to clipboard)
-        For Each ss As String In handleInfos.GetAvailableProperties(True)
+        For Each ss As String In handleInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyHandle.MenuItems.Add(ss, AddressOf MenuItemCopyHandle_Click)
         Next
-        For Each ss As String In moduleInfos.GetAvailableProperties(True)
+        For Each ss As String In moduleInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyModule.MenuItems.Add(ss, AddressOf MenuItemCopyModule_Click)
         Next
-        For Each ss As String In networkInfos.GetAvailableProperties(True)
+        For Each ss As String In networkInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyNetwork.MenuItems.Add(ss, AddressOf MenuItemCopyNetwork_Click)
         Next
-        For Each ss As String In searchInfos.GetAvailableProperties(True)
+        For Each ss As String In searchInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopySearch.MenuItems.Add(ss, AddressOf MenuItemCopySearch_Click)
         Next
-        For Each ss As String In serviceInfos.GetAvailableProperties(True)
+        For Each ss As String In serviceInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyService.MenuItems.Add(ss, AddressOf MenuItemCopyService_Click)
         Next
-        For Each ss As String In threadInfos.GetAvailableProperties(True)
+        For Each ss As String In threadInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyThread.MenuItems.Add(ss, AddressOf MenuItemCopyThread_Click)
         Next
-        For Each ss As String In windowInfos.GetAvailableProperties(True)
+        For Each ss As String In windowInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyWindow.MenuItems.Add(ss, AddressOf MenuItemCopyWindow_Click)
         Next
-        For Each ss As String In taskInfos.GetAvailableProperties(True)
+        For Each ss As String In taskInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyTask.MenuItems.Add(ss, AddressOf MenuItemCopyTask_Click)
         Next
-        For Each ss As String In processInfos.GetAvailableProperties(True)
+        For Each ss As String In processInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyProcess.MenuItems.Add(ss, AddressOf MenuItemCopyProcess_Click)
         Next
 
