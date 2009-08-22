@@ -937,6 +937,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\Misc\Pref.vb" />
+    <Compile Include="Wmi\Objects\Module.vb" />
+    <Compile Include="Wmi\Objects\Process.vb" />
+    <Compile Include="Wmi\Objects\Service.vb" />
+    <Compile Include="Wmi\Objects\Thread.vb" />
     <None Include="Resources\folder_info.png" />
     <None Include="Resources\info.png" />
     <None Include="Resources\process1.png" />
@@ -1045,9 +1049,6 @@
     <None Include="Misc\locked.gif" />
     <Content Include="process32.ico" />
     <Content Include="process_custom.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Wmi\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

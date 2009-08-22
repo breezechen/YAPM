@@ -202,17 +202,17 @@ Public Class asyncCallbackProcEnumerate
                         Dim _VM As New Native.Api.NativeStructs.VmCountersEx
                         With _VM
                             .PageFaultCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFaults.ToString))
-                            .PagefileUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFileUsage.ToString), IntPtr)
-                            .PeakPagefileUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakPageFileUsage.ToString), IntPtr)
-                            .PeakVirtualSize = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakVirtualSize.ToString), IntPtr)
-                            .PeakWorkingSetSize = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakWorkingSetSize.ToString), IntPtr)
-                            .PrivateBytes = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PrivatePageCount.ToString), IntPtr)
-                            .QuotaNonPagedPoolUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaNonPagedPoolUsage.ToString), IntPtr)
-                            .QuotaPagedPoolUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPagedPoolUsage.ToString), IntPtr)
-                            .QuotaPeakNonPagedPoolUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPeakNonPagedPoolUsage.ToString), IntPtr)
-                            .QuotaPeakPagedPoolUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPeakPagedPoolUsage.ToString), IntPtr)
-                            .VirtualSize = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.VirtualSize.ToString), IntPtr)
-                            .WorkingSetSize = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.WorkingSetSize.ToString), IntPtr)
+                            .PagefileUsage = New IntPtr(CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFileUsage.ToString)))
+                            .PeakPagefileUsage = New IntPtr(CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakPageFileUsage.ToString)))
+                            .PeakVirtualSize = New IntPtr(CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakVirtualSize.ToString)))
+                            .PeakWorkingSetSize = New IntPtr(CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakWorkingSetSize.ToString)))
+                            .PrivateBytes = New IntPtr(CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PrivatePageCount.ToString)))
+                            .QuotaNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaNonPagedPoolUsage.ToString)))
+                            .QuotaPagedPoolUsage = New IntPtr(CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPagedPoolUsage.ToString)))
+                            .QuotaPeakNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPeakNonPagedPoolUsage.ToString)))
+                            .QuotaPeakPagedPoolUsage = New IntPtr(CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPeakPagedPoolUsage.ToString)))
+                            .VirtualSize = New IntPtr(CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.VirtualSize.ToString)))
+                            .WorkingSetSize = New IntPtr(CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.WorkingSetSize.ToString)))
                         End With
                         .VirtualMemoryCounters = _VM
                     End With

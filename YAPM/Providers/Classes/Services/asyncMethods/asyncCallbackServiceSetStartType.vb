@@ -68,20 +68,15 @@ Public Class asyncCallbackServiceSetStartType
                     End Try
 
                 Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                    Dim res As Boolean
+                    Dim msg As String = ""
+                    res = Wmi.Objects.Service.SetServiceStartTypeByName(pObj.name, pObj.type, _
+                                                                        con.wmiSearcher, msg)
+
                     Try
-                        Dim res As Integer = 2        ' Access denied
-                        For Each srv As ManagementObject In con.wmiSearcher.Get
-                            If CStr(srv.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.Name.ToString)) = pObj.name Then
-                                Dim inParams As ManagementBaseObject = srv.GetMethodParameters("ChangeStartMode")
-                                inParams("StartMode") = pObj.type.ToString
-                                Dim outParams As ManagementBaseObject = srv.InvokeMethod("ChangeStartMode", inParams, Nothing)
-                                res = CInt(outParams("ReturnValue"))
-                                Exit For
-                            End If
-                        Next
-                        _deg.Invoke(res = 0, pObj.name, CType(res, Native.Api.Enums.SERVICE_RETURN_CODE_WMI).ToString, pObj.newAction)
+                        _deg.Invoke(res, pObj.name, msg, pObj.newAction)
                     Catch ex As Exception
-                        _deg.Invoke(False, pObj.name, ex.Message, pObj.newAction)
+                        '
                     End Try
 
                 Case Else

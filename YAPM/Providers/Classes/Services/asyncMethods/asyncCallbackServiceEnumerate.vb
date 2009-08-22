@@ -106,63 +106,14 @@ Public Class asyncCallbackServiceEnumerate
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
                 ' Save current collection
-                Dim res As ManagementObjectCollection = Nothing
-                Try
-                    res = con.wmiSearcher.Get()
-                Catch ex As Exception
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, False, Nothing, ex.Message, pObj.forInstanceId)
-                    sem.Release()
-                    Exit Sub
-                End Try
-
                 Dim _dico As New Dictionary(Of String, serviceInfos)
-                For Each refService As Management.ManagementObject In res
+                Dim res As Boolean
+                Dim msg As String = ""
 
-                    Dim obj As New Native.Api.NativeStructs.EnumServiceStatusProcess
-                    With obj
-                        .DisplayName = CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.DisplayName.ToString))
-                        .ServiceName = CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.Name.ToString))
-                        With .ServiceStatusProcess
-                            .CheckPoint = CInt(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.CheckPoint.ToString))
-                            If CBool(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.AcceptPause.ToString)) Then
-                                .ControlsAccepted = .ControlsAccepted Or Native.Api.NativeEnums.ServiceAccept.PauseContinue
-                            End If
-                            If CBool(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.AcceptStop.ToString)) Then
-                                .ControlsAccepted = .ControlsAccepted Or Native.Api.NativeEnums.ServiceAccept.Stop
-                            End If
-                            .CurrentState = Native.Functions.Service.GetServiceStateFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.State.ToString)))
-                            .ProcessID = CInt(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ProcessId.ToString))
-                            '.ServiceFlags
-                            .ServiceSpecificExitCode = CInt(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ServiceSpecificExitCode.ToString))
-                            .ServiceType = Native.Functions.Service.GetServiceTypeFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ServiceType.ToString)))
-                            .WaitHint = CInt(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.WaitHint.ToString))
-                            .Win32ExitCode = CInt(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ExitCode.ToString))
-                        End With
-                    End With
-
-
-                    ' Do we have to get fixed infos ?
-                    Dim _servInfos As New serviceInfos(obj, True)
-
-                    Dim conf As New Native.Api.NativeStructs.QueryServiceConfig
-                    With conf
-                        .BinaryPathName = CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.PathName.ToString))
-                        '.Dependencies
-                        .DisplayName = CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.DisplayName.ToString))
-                        .ErrorControl = Native.Functions.Service.GetServiceErrorControlFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.ErrorControl.ToString)))
-                        '.LoadOrderGroup 
-                        .ServiceStartName = CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.StartName.ToString))
-                        .StartType = Native.Functions.Service.GetServiceStartTypeFromString(CStr(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.StartMode.ToString)))
-                        .TagID = CInt(refService.GetPropertyValue(Native.Api.Enums.WMI_INFO_SERVICE.TagId.ToString))
-                    End With
-                    _servInfos.SetConfig(conf)
-
-                    _dico.Add(obj.ServiceName, _servInfos)
-                Next
-
+                res = Wmi.Objects.Service.EnumerateProcesses(pObj.pid, pObj.all, _
+                                                             con.wmiSearcher, _dico, msg)
                 Try
-                    ctrl.Invoke(deg, True, _dico, Nothing, 0)
+                    ctrl.Invoke(deg, res, _dico, msg, 0)
                 Catch ex As Exception
                     '
                 End Try

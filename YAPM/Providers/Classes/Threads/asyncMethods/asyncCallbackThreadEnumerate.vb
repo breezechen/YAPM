@@ -87,64 +87,13 @@ Public Class asyncCallbackThreadEnumerate
 
                 ' Save current collection
                 Dim _dico As New Dictionary(Of String, threadInfos)
-
-                For Each id As Integer In pObj.pid
-
-                    Dim res As ManagementObjectCollection = Nothing
-                    Try
-                        res = con.wmiSearcher.Get()
-                    Catch ex As Exception
-                        If deg IsNot Nothing AndAlso ctrl.Created Then _
-                            ctrl.Invoke(deg, False, Nothing, ex.Message)
-                        sem.Release()
-                        Exit Sub
-                    End Try
-
-                    For Each refThread As Management.ManagementObject In res
-
-                        Dim wmiId As Integer = CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ProcessHandle.ToString))
-                        Dim ex As Boolean = False
-                        For Each ii As Integer In pObj.pid
-                            If ii = wmiId Then
-                                ex = True
-                                Exit For
-                            End If
-                        Next
-                        ' If we have to get threads for this process...
-                        If ex Then
-                            Dim obj As New Native.Api.NativeStructs.SystemThreadInformation
-                            With obj
-                                .BasePriority = CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.PriorityBase.ToString))
-                                .CreateTime = 0
-                                .ClientId = New Native.Api.NativeStructs.ClientId(wmiId, _
-                                                              CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.Handle.ToString)))
-                                .KernelTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.KernelModeTime.ToString))
-                                .Priority = CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.Priority.ToString))
-                                Try
-                                    .StartAddress = CType(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.StartAddress.ToString), IntPtr)
-                                Catch ex0 As Exception
-                                    .StartAddress = New IntPtr(-1)
-                                End Try
-                                .State = CType(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ThreadState.ToString), ThreadState)
-                                .UserTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.UserModeTime.ToString))
-                                .WaitReason = CType(CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ThreadWaitReason.ToString)), Native.Api.NativeEnums.KwaitReason)
-                                Try
-                                    .WaitTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ElapsedTime.ToString))
-                                Catch ex1 As Exception
-                                    '
-                                End Try
-                            End With
-                            Dim _procInfos As New threadInfos(obj)
-                            Dim _key As String = obj.ClientId.UniqueThread.ToString & "-" & obj.ClientId.UniqueProcess.ToString
-                            If _dico.ContainsKey(_key) = False Then
-                                _dico.Add(_key, _procInfos)
-                            End If
-                        End If
-                    Next
-                Next
+                Dim msg As String = ""
+                Dim res As Boolean = _
+                        Wmi.Objects.Thread.EnumerateThreadByIds(pObj.pid, con.wmiSearcher, _
+                                                                _dico, msg)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Nothing, pObj.forInstanceId)
+                    ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
 
             Case Else
                 ' Local
