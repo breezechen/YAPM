@@ -54,6 +54,24 @@ Namespace Native.Api
 
     Public Class NativeEnums
 
+#Region "Declarations used for jobs"
+
+        Public Enum JobObjectInformationClass As Integer
+            JobObjectBasicAccountingInformation = 1
+            JobObjectBasicLimitInformation = 2
+            JobObjectBasicProcessIdList = 3
+            JobObjectBasicUIRestrictions = 4
+            JobObjectSecurityLimitInformation = 5
+            JobObjectEndOfJobTimeInformation = 6
+            JobObjectAssociateCompletionPortInformation = 7
+            JobObjectBasicAndIoAccountingInformation = 8
+            JobObjectExtendedLimitInformation = 9
+            JobObjectJobSetInformation = 10
+            JobObjectGroupInformation = 11      ' Not supported on XP/Vista
+        End Enum
+
+#End Region
+
 #Region "Declarations used for processes"
 
         <Flags()> _

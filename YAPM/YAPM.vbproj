@@ -609,6 +609,7 @@
     <Compile Include="Native\Functions\FMisc.vb" />
     <Compile Include="Native\Objects\EnvVariable.vb" />
     <Compile Include="Native\Objects\SystemInfo.vb" />
+    <Compile Include="Native\Security\JobAccess.vb" />
     <Compile Include="Native\Win32\NativeConstants.vb" />
     <Compile Include="Native\Win32\NativeEnums.vb" />
     <Compile Include="Native\Win32\NativeFunctions.vb" />

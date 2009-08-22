@@ -38,6 +38,47 @@ Namespace Native.Api
     Public Class NativeFunctions
 
         ' OK
+#Region "Declarations used for jobs"
+
+        <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+        Public Shared Function QueryInformationJobObject(<[In]()> ByVal JobHandle As IntPtr, _
+                            <[In]()> ByVal JobInformationClass As JobObjectInformationClass, _
+                            <Out()> ByVal JobInformation As IntPtr, _
+                            <[In]()> ByVal JobInformationLength As Integer, _
+                            <Out()> ByRef ReturnLength As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+        Public Shared Function OpenJobObject(<[In]()> ByVal DesiredAccess As Security.JobAccess, _
+                            <[In]()> ByVal Inherit As Boolean, _
+                            <[In]()> ByVal Name As String) As IntPtr
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function TerminateJobObject(<[In]()> ByVal JobHandle As IntPtr, _
+                                        <[In]()> ByVal ExitCode As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function AssignProcessToJobObject(<[In]()> ByVal JobHandle As IntPtr, _
+                                        <[In]()> ByVal ProcessHandle As IntPtr) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+        Public Shared Function CreateJobObject(<[In]()> ByVal SecurityAttributes As IntPtr, _
+                                        <[In]()> ByVal Name As String) As IntPtr
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
+        Public Shared Function SetInformationJobObject(<[In]()> ByVal JobHandle As IntPtr, _
+                <[In]()> ByVal JobInformationClass As JobObjectInformationClass, _
+                <Out()> ByVal JobInformation As IntPtr, _
+                <[In]()> ByVal JobInformationLength As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+#End Region
+
+        ' OK
 #Region "Declarations used for processes"
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
