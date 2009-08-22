@@ -57,6 +57,17 @@ Namespace Native.Api
 
 #End Region
 
+#Region "Declarations used for jobs"
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure SecurityAttributes
+            Public nLength As Integer
+            Public lpSecurityDescriptor As IntPtr
+            Public bInheritHandle As Boolean
+        End Structure
+
+#End Region
+
 #Region "Declarations used for processes"
 
         <StructLayout(LayoutKind.Sequential)> _

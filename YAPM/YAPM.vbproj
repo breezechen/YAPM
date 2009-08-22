@@ -279,6 +279,10 @@
       <DependentUpon>frmServer.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\jobList.resx">
+      <DependentUpon>jobList.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MemoryHexEditor.resx">
       <DependentUpon>MemoryHexEditor.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -471,6 +475,7 @@
     <Compile Include="Classes\Misc\cLog.vb" />
     <Compile Include="Classes\Misc\cMonitor.vb" />
     <Compile Include="Classes\Misc\cRegMonitor.vb" />
+    <Compile Include="Native\Objects\Job.vb" />
     <Compile Include="Native\Objects\System.vb" />
     <Compile Include="Classes\Misc\cSystemInfo.vb" />
     <Compile Include="Classes\Misc\cTrayIcon.vb" />
@@ -650,6 +655,12 @@
     <Compile Include="Providers\Classes\Handles\cHandle.vb" />
     <Compile Include="Providers\Classes\Handles\cHandleConnection.vb" />
     <Compile Include="Providers\Classes\Handles\handleInfos.vb" />
+    <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobAddProcess.vb" />
+    <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobEnumerate.vb" />
+    <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobTerminateJob.vb" />
+    <Compile Include="Providers\Classes\Jobs\cJob.vb" />
+    <Compile Include="Providers\Classes\Jobs\cJobConnection.vb" />
+    <Compile Include="Providers\Classes\Jobs\jobInfos.vb" />
     <Compile Include="Providers\Classes\Log\asyncMethods\asyncCallbackLogEnumerate.vb" />
     <Compile Include="Providers\Classes\Log\cLogConnection.vb" />
     <Compile Include="Providers\Classes\Log\cLogItem.vb" />
@@ -732,6 +743,12 @@
     <Compile Include="Providers\Classes\Windows\cWindow.vb" />
     <Compile Include="Providers\Classes\Windows\cWindowConnection.vb" />
     <Compile Include="Providers\Classes\Windows\windowInfos.vb" />
+    <Compile Include="Providers\CustomListviews\jobList.Designer.vb">
+      <DependentUpon>jobList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\jobList.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UserControls\MemoryHexEditor.Designer.vb">
       <DependentUpon>MemoryHexEditor.vb</DependentUpon>
     </Compile>

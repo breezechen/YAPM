@@ -65,7 +65,7 @@ Namespace Native.Api
         End Function
 
         <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)> _
-        Public Shared Function CreateJobObject(<[In]()> ByVal SecurityAttributes As IntPtr, _
+        Public Shared Function CreateJobObject(<[In]()> ByRef SecurityAttributes As SecurityAttributes, _
                                         <[In]()> ByVal Name As String) As IntPtr
         End Function
 

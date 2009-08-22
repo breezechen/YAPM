@@ -263,6 +263,7 @@ Public Class frmMain
             Native.Functions.Misc.SetTheme(Me.tv2.Handle)
             Native.Functions.Misc.SetTheme(Me.tvMonitor.Handle)
             Native.Functions.Misc.SetTheme(Me.lvFileString.Handle)
+            Native.Functions.Misc.SetTheme(Me.lvJob.Handle)
         End If
         Call frmMain_Resize(Nothing, Nothing)
     End Sub
@@ -428,6 +429,9 @@ Public Class frmMain
         Next
         For Each ss As String In moduleInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyModule.MenuItems.Add(ss, AddressOf MenuItemCopyModule_Click)
+        Next
+        For Each ss As String In jobInfos.GetAvailableProperties(True, True)
+            Me.MenuItemJobs.MenuItems.Add(ss, AddressOf MenuItemCopyJob_Click)
         Next
         For Each ss As String In networkInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyNetwork.MenuItems.Add(ss, AddressOf MenuItemCopyNetwork_Click)
@@ -748,6 +752,9 @@ Public Class frmMain
         'currentText = Ribbon.ActiveTab.Text
 
         Select Case Ribbon.ActiveTab.Text
+            Case "Jobs"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvJob.Items.Count) & " jobs created"
+                _tab.SelectedTab = Me.pageJobs
             Case "Services"
                 Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
                 _tab.SelectedTab = Me.pageServices
@@ -3040,6 +3047,7 @@ Public Class frmMain
             Me.MenuItemServices.Visible = False
             Me.MenuItemFiles.Visible = False
             Me.MenuItemSearch.Visible = False
+            Me.MenuItemJobs.Visible = False
         End If
 
         ' Change current tab of ribbon
@@ -3055,57 +3063,63 @@ Public Class frmMain
                     Me.MenuItemProcesses.Visible = True
                 End If
             Case 2
+                My.Settings.SelectedTab = "Jobs"
+                theTab = Me.JobTab
+                If My.Settings.UseRibbonStyle = False Then
+                    Me.MenuItemJobs.Visible = True
+                End If
+            Case 3
                 My.Settings.SelectedTab = "Modules"
                 theTab = Me.ModulesTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemModules.Visible = True
                 End If
-            Case 3
+            Case 4
                 My.Settings.SelectedTab = "Threads"
                 theTab = Me.ThreadTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemThreads.Visible = True
                 End If
-            Case 4
+            Case 5
                 My.Settings.SelectedTab = "Handles"
                 theTab = Me.HandlesTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemHandles.Visible = True
                 End If
-            Case 5
+            Case 6
                 My.Settings.SelectedTab = "Windows"
                 theTab = Me.WindowTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemWindows.Visible = True
                 End If
-            Case 6
+            Case 7
                 My.Settings.SelectedTab = "Monitor"
                 theTab = Me.MonitorTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemMonitor.Visible = True
                 End If
-            Case 7
+            Case 8
                 My.Settings.SelectedTab = "Services"
                 theTab = Me.ServiceTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemServices.Visible = True
                 End If
-            Case 8
+            Case 9
                 My.Settings.SelectedTab = "Network"
                 theTab = Me.NetworkTab
-            Case 9
+            Case 10
                 My.Settings.SelectedTab = "File"
                 theTab = Me.FileTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemFiles.Visible = True
                 End If
-            Case 10
+            Case 11
                 My.Settings.SelectedTab = "Search"
                 theTab = Me.SearchTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemSearch.Visible = True
                 End If
-            Case 11
+            Case 12
                 My.Settings.SelectedTab = "Help"
                 theTab = Me.HelpTab
                 Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
@@ -3312,6 +3326,7 @@ Public Class frmMain
         Me.lvTask.ClearItems()
         Me.lvServices.ClearItems()
         Me.lvNetwork.ClearItems()
+        Me.lvJob.ClearItems()
         Me.rtb6.Text = ""
 
         ' Connect all lvItems
@@ -3325,6 +3340,7 @@ Public Class frmMain
         Me.lvTask.ConnectionObj = Program.Connection
         Me.tv.ConnectionObj = Program.Connection
         Me.tv2.ConnectionObj = Program.Connection
+        Me.lvJob.ConnectionObj = Program.Connection
         Me.lvSearchResults.ConnectionObj = Program.Connection
         _shutdownConnection.ConnectionObj = Program.Connection
         Try
@@ -3375,6 +3391,7 @@ Public Class frmMain
         Me.lvSearchResults.CatchErrors = Not (_local)
         Me.lvTask.CatchErrors = Not (_local)
         Me.lvNetwork.CatchErrors = Not (_local)
+        Me.lvJob.CatchErrors = Not (_local)
 
         ' Enable all refreshments
         Me.timerProcess.Enabled = _local
@@ -3405,6 +3422,7 @@ Public Class frmMain
         Me.lvTask.ClearItems()
         Me.lvServices.ClearItems()
         Me.lvNetwork.ClearItems()
+        Me.lvJob.ClearItems()
         Me.rtb6.Text = ""
 
         For x As Integer = Application.OpenForms.Count - 1 To 0 Step -1
@@ -4799,6 +4817,19 @@ Public Class frmMain
         My.Computer.Clipboard.SetText(toCopy)
     End Sub
 
+    Private Sub MenuItemCopyJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cJob In Me.lvJob.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
     Private Sub MenuItemCopyProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
         Dim toCopy As String = ""
@@ -4932,7 +4963,7 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemReportMonitor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportMonitor.Click
-        Call Me.butMonitorSaveReport_click(Nothing, Nothing)
+        Call Me.butMonitorSaveReport_Click(Nothing, Nothing)
     End Sub
 
     Private Sub MenuItemReportWindows_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportWindows.Click
@@ -4998,7 +5029,7 @@ Public Class frmMain
     Private Sub butMonitorSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorSaveReport.Click
         'TODO
     End Sub
-   
+
     Private Sub MenuItemWShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWShow.Click
         Call Me.butWindowShow_Click(Nothing, Nothing)
     End Sub
@@ -5121,5 +5152,65 @@ Public Class frmMain
         Me.MenuItemNotifTP.Checked = Not (Me.MenuItemNotifTP.Checked)
         My.Settings.NotifyTerminatedProcesses = Me.MenuItemNotifTP.Checked
         My.Settings.Save()
+    End Sub
+
+    Private Sub timerJobs_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerJobs.Tick
+
+        Me.lvJob.UpdateTheItems()
+
+        If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
+            Dim ss As String = Me.Ribbon.ActiveTab.Text
+            If ss = "Jobs" Then
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvJob.Items.Count) & " jobs created"
+            End If
+        End If
+    End Sub
+
+    Private Sub lvJob_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvJob.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Dim selectionIsNotNothing As Boolean = (Me.lvJob.SelectedItems IsNot Nothing _
+                                        AndAlso Me.lvJob.SelectedItems.Count > 0)
+            Me.MenuItemJobTerminate.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemCopyJob.Enabled = selectionIsNotNothing
+            Me.mnuJob.Show(Me.lvJob, e.Location)
+        End If
+    End Sub
+
+    Private Sub MenuItemJobTerminate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemJobTerminate.Click
+        For Each cJ As cJob In Me.lvJob.GetSelectedItems
+            cJ.TerminateJob()
+        Next
+    End Sub
+
+    Private Sub MenuItemJobNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemJobNew.Click
+        ' Add selected processes to a new job
+        Dim sJob As String = _
+            Common.Misc.CInputBox("Enter the name of the new job to create", "Job creation")
+
+        If sJob Is Nothing OrElse sJob.Length = 0 Then
+            MsgBox("Job name must not be null", MsgBoxStyle.Information, "Job creation")
+            Exit Sub
+        End If
+
+        Dim job As cJob = cJob.CreateJobByName(sJob)
+        If job IsNot Nothing Then
+            ' Then we add the job to the menu
+            Me.MenuItemJobSeparation.Visible = True
+            Me.MenuItemProcAddToJob.MenuItems.Add(job.Infos.Name, AddressOf AddProcessToExistingJob_Click)
+            For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+                job.AddProcess(cp.Infos.Pid)
+            Next
+        End If
+    End Sub
+
+    Private Sub AddProcessToExistingJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        ' Add selected processes to an existing job 
+        Dim jobName As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim job As cJob = cJob.GetJobByName(jobName)
+        If job IsNot Nothing Then
+            For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+                job.AddProcess(cp.Infos.Pid)
+            Next
+        End If
     End Sub
 End Class
