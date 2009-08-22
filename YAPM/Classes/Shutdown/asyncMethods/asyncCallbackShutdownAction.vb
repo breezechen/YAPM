@@ -24,18 +24,9 @@ Option Strict On
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Management
+Imports YAPM.Native.Api.Enums
 
 Public Class asyncCallbackShutdownAction
-
-    Public Enum ShutdownType As Byte
-        [Restart]
-        [Shutdown]
-        [Poweroff]
-        [Sleep]
-        [Hibernate]
-        [Logoff]
-        [Lock]
-    End Enum
 
     Private con As cShutdownConnection
     Private _deg As HasShutdowned
@@ -91,30 +82,12 @@ Public Class asyncCallbackShutdownAction
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Dim msg As String = ""
+                Dim ret As Boolean = _
+                    Wmi.Objects.cSystem.ShutdownRemoteComputer(pObj.type, pObj.force, _
+                                                               con.wmiSearcher, msg)
                 Try
-                    Dim res As Integer = 2        ' Access denied
-                    Dim param As Native.Api.Enums.WMI_SHUTDOWN_VALUES
-                    If pObj.force Then
-                        param = param Or Native.Api.Enums.WMI_SHUTDOWN_VALUES.Force
-                    End If
-                    Select Case pObj.type
-                        Case ShutdownType.Logoff
-                            param = param Or Native.Api.Enums.WMI_SHUTDOWN_VALUES.LogOff
-                        Case ShutdownType.Poweroff
-                            param = param Or Native.Api.Enums.WMI_SHUTDOWN_VALUES.PowerOff
-                        Case ShutdownType.Restart
-                            param = param Or Native.Api.Enums.WMI_SHUTDOWN_VALUES.Reboot
-                        Case ShutdownType.Shutdown
-                            param = param Or Native.Api.Enums.WMI_SHUTDOWN_VALUES.Shutdown
-                    End Select
-                    Dim obj(0) As Object
-                    obj(0) = CObj(param)
-                    For Each osObj As ManagementObject In con.wmiSearcher.Get
-                        res = CInt(osObj.InvokeMethod("Win32Shutdown", obj))
-                        Exit For
-                    Next
-
-                    _deg.Invoke(res = 0, pObj.type, res.ToString)
+                    _deg.Invoke(ret, pObj.type, msg)
                 Catch ex As Exception
                     _deg.Invoke(False, pObj.type, ex.Message)
                 End Try

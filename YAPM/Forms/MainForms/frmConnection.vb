@@ -21,6 +21,7 @@
 Option Strict On
 
 Imports YAPM.Common.Misc
+Imports YAPM.Native.Api.Enums
 
 Public Class frmConnection
 
@@ -240,7 +241,7 @@ Public Class frmConnection
 #Region "Shutdown functions"
 
     Private _shutdownAction As asyncCallbackShutdownAction
-    Public Function ShutdownAction(ByVal type As asyncCallbackShutdownAction.ShutdownType, ByVal force As Boolean) As Integer
+    Public Function ShutdownAction(ByVal type As ShutdownType, ByVal force As Boolean) As Integer
 
         If _shutdownAction Is Nothing Then
             _shutdownAction = New asyncCallbackShutdownAction(New asyncCallbackShutdownAction.HasShutdowned(AddressOf shutdownDone), Program._frmMain._shutdownConnection)
@@ -252,7 +253,7 @@ Public Class frmConnection
             asyncCallbackShutdownAction.poolObj(type, force))
 
     End Function
-    Private Sub shutdownDone(ByVal Success As Boolean, ByVal type As asyncCallbackShutdownAction.ShutdownType, ByVal msg As String)
+    Private Sub shutdownDone(ByVal Success As Boolean, ByVal type As ShutdownType, ByVal msg As String)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not send " & type.ToString & " command")
@@ -262,17 +263,17 @@ Public Class frmConnection
     Private Sub cmdShutdown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdShutdown.Click
         Select Case Me.cbShutdown.Text
             Case "Restart"
-                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Restart, Me.chkForceShutdown.Checked)
+                Call ShutdownAction(ShutdownType.Restart, Me.chkForceShutdown.Checked)
             Case "Shutdown"
-                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Shutdown, Me.chkForceShutdown.Checked)
+                Call ShutdownAction(ShutdownType.Shutdown, Me.chkForceShutdown.Checked)
             Case "Poweroff"
-                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Poweroff, Me.chkForceShutdown.Checked)
+                Call ShutdownAction(ShutdownType.Poweroff, Me.chkForceShutdown.Checked)
             Case "Sleep"
-                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Sleep, Me.chkForceShutdown.Checked)
+                Call ShutdownAction(ShutdownType.Sleep, Me.chkForceShutdown.Checked)
             Case "Logoff"
-                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Logoff, Me.chkForceShutdown.Checked)
+                Call ShutdownAction(ShutdownType.Logoff, Me.chkForceShutdown.Checked)
             Case "Lock"
-                Call ShutdownAction(asyncCallbackShutdownAction.ShutdownType.Lock, Me.chkForceShutdown.Checked)
+                Call ShutdownAction(ShutdownType.Lock, Me.chkForceShutdown.Checked)
         End Select
     End Sub
 

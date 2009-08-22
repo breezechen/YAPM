@@ -937,6 +937,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Classes\Misc\Pref.vb" />
+    <Compile Include="Wmi\Objects\System.vb" />
     <Compile Include="Wmi\Objects\Module.vb" />
     <Compile Include="Wmi\Objects\Process.vb" />
     <Compile Include="Wmi\Objects\Service.vb" />
