@@ -51,7 +51,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="Priority" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1</Value>
+      <Value Profile="(Default)">3</Value>
     </Setting>
     <Setting Name="TaskInterval" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>

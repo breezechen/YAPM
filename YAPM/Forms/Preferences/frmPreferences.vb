@@ -289,7 +289,7 @@ Public Class frmPreferences
         _deletedcolor = -49104
         Me.chkTrayIcon.Checked = True
         Me.chkHideMinimized.Checked = False
-        Me.cbPriority.SelectedIndex = 1
+        Me.cbPriority.SelectedIndex = 3
         Me.txtTaskInterval.Text = "1000"
         Me.txtNetworkInterval.Text = "1000"
         Me.txtTrayInterval.Text = "1000"

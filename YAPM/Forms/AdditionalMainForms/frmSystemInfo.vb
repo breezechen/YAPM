@@ -49,8 +49,8 @@ Public Class frmSystemInfo
             ' Cache
             Me.lblCacheCurrent.Text = GetFormatedSize(ci.SystemCacheWsSize)
             Me.lblCacheErrors.Text = CStr(ci.SystemCacheWsFaults)
-            Me.lblCacheMaximum.Text = GetFormatedSize(Decimal.Multiply(ci.SystemCacheWsMaximum, _pagesize))
-            Me.lblCacheMinimum.Text = GetFormatedSize(ci.SystemCacheWsMinimum * _pagesize)
+            Me.lblCacheMaximum.Text = GetFormatedSize(Decimal.Multiply(ci.SystemCacheWsMaximum.ToInt64, _pagesize))
+            Me.lblCacheMinimum.Text = GetFormatedSize(ci.SystemCacheWsMinimum.ToInt64 * _pagesize)
             Me.lblCachePeak.Text = GetFormatedSize(ci.SystemCacheWsPeakSize)
 
             ' Total

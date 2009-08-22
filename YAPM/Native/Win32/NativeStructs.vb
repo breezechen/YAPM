@@ -1016,13 +1016,13 @@ Namespace Native.Api
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure SystemCacheInformation
-            Public SystemCacheWsSize As Integer
-            Public SystemCacheWsPeakSize As Integer
+            Public SystemCacheWsSize As IntPtr
+            Public SystemCacheWsPeakSize As IntPtr
             Public SystemCacheWsFaults As Integer
-            Public SystemCacheWsMinimum As Integer
-            Public SystemCacheWsMaximum As Integer
-            Public TransitionSharedPages As Integer
-            Public TransitionSharedPagesPeak As Integer
+            Public SystemCacheWsMinimum As IntPtr
+            Public SystemCacheWsMaximum As IntPtr
+            Public TransitionSharedPages As IntPtr
+            Public TransitionSharedPagesPeak As IntPtr
             Public Reserved1 As Integer
             Public Reserved2 As Integer
         End Structure
@@ -1046,9 +1046,9 @@ Namespace Native.Api
             Public LowestPhysicalPageNumber As Integer
             Public HighestPhysicalPageNumber As Integer
             Public AllocationGranularity As Integer
-            Public MinimumUserModeAddress As Integer
-            Public MaximumUserModeAddress As Integer
-            Public ActiveProcessorsAffinityMask As Integer
+            Public MinimumUserModeAddress As IntPtr
+            Public MaximumUserModeAddress As IntPtr
+            Public ActiveProcessorsAffinityMask As IntPtr
             Public NumberOfProcessors As Byte
         End Structure
 

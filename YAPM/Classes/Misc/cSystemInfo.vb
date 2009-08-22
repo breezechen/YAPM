@@ -39,10 +39,10 @@ Public Class cSystemInfo
     Private _processors As Integer
     Private _physicalPagesCount As Integer
     Private _timerResolution As Integer
-    Private _maxCache As Integer
-    Private _currentCache As Integer
-    Private _minCache As Integer
-    Private _peakCache As Integer
+    Private _maxCache As IntPtr
+    Private _currentCache As IntPtr
+    Private _minCache As IntPtr
+    Private _peakCache As IntPtr
     Private _cacheErrors As Integer
     Private _spi As NativeStructs.SystemPerformanceInformation
     Private _sbi As NativeStructs.SystemBasicInformation
@@ -96,22 +96,22 @@ Public Class cSystemInfo
             Return _cacheErrors
         End Get
     End Property
-    Public ReadOnly Property CachePeak() As Integer
+    Public ReadOnly Property CachePeak() As IntPtr
         Get
             Return _peakCache
         End Get
     End Property
-    Public ReadOnly Property CacheMin() As Integer
+    Public ReadOnly Property CacheMin() As IntPtr
         Get
             Return _minCache
         End Get
     End Property
-    Public ReadOnly Property CacheCurrent() As Integer
+    Public ReadOnly Property CacheCurrent() As IntPtr
         Get
             Return _currentCache
         End Get
     End Property
-    Public ReadOnly Property CacheMax() As Integer
+    Public ReadOnly Property CacheMax() As IntPtr
         Get
             Return _maxCache
         End Get
