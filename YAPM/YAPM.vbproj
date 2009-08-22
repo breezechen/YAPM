@@ -1058,7 +1058,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName)==BuildZipRelease "$(TargetDir)\make.bat"</PostBuildEvent>
   </PropertyGroup>
 </Project>
