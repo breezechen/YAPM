@@ -62,21 +62,12 @@ Public Class asyncCallbackProcKill
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Dim msg As String = ""
+                Dim ret As Boolean = _
+                    Wmi.Objects.Process.KillProcessById(pObj.pid, con.wmiSearcher, msg)
+
                 Try
-                    Dim _theProcess As Management.ManagementObject = Nothing
-                    For Each pp As Management.ManagementObject In con.wmiSearcher.Get
-                        If CInt(pp("ProcessId")) = pObj.pid Then
-                            _theProcess = pp
-                            Exit For
-                        End If
-                    Next
-                    If _theProcess IsNot Nothing Then
-                        Dim ret As Integer = 0
-                        ret = CInt(_theProcess.InvokeMethod("Terminate", Nothing))
-                        _deg.Invoke(ret = 0, pObj.pid, CType(ret, Native.Api.Enums.WmiProcessReturnCode).ToString, pObj.newAction)
-                    Else
-                        _deg.Invoke(False, pObj.pid, "Internal error", pObj.newAction)
-                    End If
+                    _deg.Invoke(ret, pObj.pid, msg, pObj.newAction)
                 Catch ex As Exception
                     _deg.Invoke(False, pObj.pid, ex.Message, pObj.newAction)
                 End Try

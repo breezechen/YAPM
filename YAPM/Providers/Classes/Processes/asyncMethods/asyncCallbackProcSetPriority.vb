@@ -65,18 +65,11 @@ Public Class asyncCallbackProcSetPriority
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Dim msg As String = ""
+                Dim ret As Boolean = _
+                        Wmi.Objects.Process.SetProcessPriorityById(pObj.pid, pObj.lvl, con.wmiSearcher, msg)
                 Try
-                    Dim res As Integer = 2        ' Access denied
-                    For Each srv As ManagementObject In con.wmiSearcher.Get
-                        If CInt(srv.GetPropertyValue(Native.Api.Enums.WMI_INFO_PROCESS.ProcessId.ToString)) = pObj.pid Then
-                            Dim inParams As ManagementBaseObject = srv.GetMethodParameters("SetPriority")
-                            inParams("Priority") = pObj.lvl
-                            Dim outParams As ManagementBaseObject = srv.InvokeMethod("SetPriority", inParams, Nothing)
-                            res = CInt(outParams("ReturnValue"))
-                            Exit For
-                        End If
-                    Next
-                    _deg.Invoke(res = 0, CType(res, Native.Api.Enums.WmiProcessReturnCode).ToString, pObj.newAction)
+                    _deg.Invoke(ret, msg, pObj.newAction)
                 Catch ex As Exception
                     _deg.Invoke(False, ex.Message, pObj.newAction)
                 End Try

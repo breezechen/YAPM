@@ -2392,7 +2392,7 @@ Public Class frmMain
             Me.MenuItemProcPriority.Enabled = selectionIsNotNothing
             Me.MenuItemProcReanalize.Enabled = selectionIsNotNothing
             Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcKillT.Enabled = selectionIsNotNothing
+            Me.MenuItemProcKillT.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcStop.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcSFileDetails.Enabled = selectionIsNotNothing AndAlso _local

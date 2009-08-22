@@ -65,34 +65,28 @@ Public Class asyncCallbackProcIncreasePriority
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                Try
-                    Dim _newlevel As ProcessPriorityClass
-                    Select Case pObj.level
-                        Case ProcessPriorityClass.AboveNormal
-                            _newlevel = ProcessPriorityClass.High
-                        Case ProcessPriorityClass.BelowNormal
-                            _newlevel = ProcessPriorityClass.Normal
-                        Case ProcessPriorityClass.High
-                            _newlevel = ProcessPriorityClass.RealTime
-                        Case ProcessPriorityClass.Idle
-                            _newlevel = ProcessPriorityClass.BelowNormal
-                        Case ProcessPriorityClass.Normal
-                            _newlevel = ProcessPriorityClass.AboveNormal
-                        Case ProcessPriorityClass.RealTime
-                            '
-                    End Select
+                Dim _newlevel As ProcessPriorityClass
+                Select Case pObj.level
+                    Case ProcessPriorityClass.AboveNormal
+                        _newlevel = ProcessPriorityClass.High
+                    Case ProcessPriorityClass.BelowNormal
+                        _newlevel = ProcessPriorityClass.Normal
+                    Case ProcessPriorityClass.High
+                        _newlevel = ProcessPriorityClass.RealTime
+                    Case ProcessPriorityClass.Idle
+                        _newlevel = ProcessPriorityClass.BelowNormal
+                    Case ProcessPriorityClass.Normal
+                        _newlevel = ProcessPriorityClass.AboveNormal
+                    Case ProcessPriorityClass.RealTime
+                        '
+                End Select
 
-                    Dim res As Integer = 2        ' Access denied
-                    For Each srv As ManagementObject In con.wmiSearcher.Get
-                        If CInt(srv.GetPropertyValue(Native.Api.Enums.WMI_INFO_PROCESS.ProcessId.ToString)) = pObj.pid Then
-                            Dim inParams As ManagementBaseObject = srv.GetMethodParameters("SetPriority")
-                            inParams("Priority") = _newlevel
-                            Dim outParams As ManagementBaseObject = srv.InvokeMethod("SetPriority", inParams, Nothing)
-                            res = CInt(outParams("ReturnValue"))
-                            Exit For
-                        End If
-                    Next
-                    _deg.Invoke(res = 0, CType(res, Native.Api.Enums.WmiProcessReturnCode).ToString, pObj.newAction)
+                Dim msg As String = ""
+                Dim ret As Boolean = _
+                        Wmi.Objects.Process.SetProcessPriorityById(pObj.pid, _newlevel, _
+                                                                   con.wmiSearcher, msg)
+                Try
+                    _deg.Invoke(ret, msg, pObj.newAction)
                 Catch ex As Exception
                     _deg.Invoke(False, ex.Message, pObj.newAction)
                 End Try

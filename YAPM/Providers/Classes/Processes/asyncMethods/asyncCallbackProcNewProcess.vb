@@ -63,15 +63,10 @@ Public Class asyncCallbackProcNewProcess
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Dim msg As String = ""
+                Dim res As Boolean = Wmi.Objects.Process.CreateNewProcessByPath(pObj.path, con.wmiSearcher, msg)
                 Try
-                    Dim objectGetOptions As New ObjectGetOptions()
-                    Dim managementPath As New ManagementPath("Win32_Process")
-                    Dim processClass As New ManagementClass(con.wmiSearcher.Scope, managementPath, objectGetOptions)
-                    Dim inParams As ManagementBaseObject = processClass.GetMethodParameters("Create")
-                    inParams("CommandLine") = pObj.path
-                    Dim outParams As ManagementBaseObject = processClass.InvokeMethod("Create", inParams, Nothing)
-                    Dim res As Integer = CInt(outParams("ProcessId"))
-                    _deg.Invoke(res > 0, pObj.path, CType(res, Native.Api.Enums.WmiProcessReturnCode).ToString, pObj.newAction)
+                    _deg.Invoke(res, pObj.path, msg, pObj.newAction)
                 Catch ex As Exception
                     _deg.Invoke(False, pObj.path, ex.Message, pObj.newAction)
                 End Try

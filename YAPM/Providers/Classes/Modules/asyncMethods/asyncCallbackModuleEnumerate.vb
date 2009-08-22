@@ -88,8 +88,6 @@ Public Class asyncCallbackModuleEnumerate
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-
-                ' Save current collection
                 Dim _dico As New Dictionary(Of String, moduleInfos)
                 Dim msg As String = ""
                 Dim res As Boolean = _

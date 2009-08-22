@@ -37,8 +37,8 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
         _process = process
     End Sub
 
-    ' For now it is not possible to get here UserObj, GDIObj and Affinity !
-    ' TOMODIFY !!
+    ' This function is only called for WMI connexion
+    ' It is called when user want to refresh statistics of a process in detailed view
     Public Sub Process(ByVal state As Object)
 
         Select Case _connection.ConnectionObj.ConnectionType
@@ -46,69 +46,13 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
 
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Dim msg As String = ""
+                Dim _newInfos As New Native.Api.NativeStructs.SystemProcessInformation
+                Dim ret As Boolean = _
+                    Wmi.Objects.Process.RefreshProcessInformationsById(_process.Infos.Pid, _
+                                                                _connection.wmiSearcher, msg, _newInfos)
 
-                ' Get infos
-                Dim refProcess As Management.ManagementObject = Nothing
-                Try
-                    ' Enumerate processes and find current process
-                    For Each tmpMngObj As Management.ManagementObject In _connection.wmiSearcher.Get
-                        If _process.Infos.Pid = CInt(tmpMngObj.GetPropertyValue(Native.Api.Enums.WMI_INFO_PROCESS.ProcessId.ToString)) Then
-                            refProcess = tmpMngObj
-                            Exit For
-                        End If
-                    Next
-
-                    ' Get informations from found process
-                    If refProcess IsNot Nothing Then
-
-                        Dim _newInfos As New Native.Api.NativeStructs.SystemProcessInformation
-                        With _newInfos
-                            .BasePriority = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.Priority.ToString))
-                            .HandleCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.HandleCount.ToString))
-                            '.InheritedFromProcessId = CInt(refProcess.Item(API.WMI_INFO.ParentProcessId.ToString))
-                            Dim _IO As New Native.Api.NativeStructs.IoCounters
-                            With _IO
-                                .OtherOperationCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.OtherOperationCount.ToString))
-                                .OtherTransferCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.OtherTransferCount.ToString))
-                                .ReadOperationCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.ReadOperationCount.ToString))
-                                .ReadTransferCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.ReadTransferCount.ToString))
-                                .WriteOperationCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.WriteOperationCount.ToString))
-                                .WriteTransferCount = CULng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.WriteTransferCount.ToString))
-                            End With
-                            .IoCounters = _IO
-                            .KernelTime = CLng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.KernelModeTime.ToString))
-                            .NumberOfThreads = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.ThreadCount.ToString))
-                            '.ProcessId = CInt(refProcess.Item(API.WMI_INFO.ProcessId.ToString))
-                            '.SessionId                 ' NOT IMPLEMENTED
-                            .UserTime = CLng(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.UserModeTime.ToString))
-                            Dim _VM As New Native.Api.NativeStructs.VmCountersEx
-                            With _VM
-                                .PageFaultCount = CInt(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFaults.ToString))
-                                .PagefileUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PageFileUsage.ToString), IntPtr)
-                                .PeakPagefileUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakPageFileUsage.ToString), IntPtr)
-                                .PeakVirtualSize = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakVirtualSize.ToString), IntPtr)
-                                .PeakWorkingSetSize = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PeakWorkingSetSize.ToString), IntPtr)
-                                .PrivateBytes = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.PrivatePageCount.ToString), IntPtr)
-                                .QuotaNonPagedPoolUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaNonPagedPoolUsage.ToString), IntPtr)
-                                .QuotaPagedPoolUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPagedPoolUsage.ToString), IntPtr)
-                                .QuotaPeakNonPagedPoolUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPeakNonPagedPoolUsage.ToString), IntPtr)
-                                .QuotaPeakPagedPoolUsage = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.QuotaPeakPagedPoolUsage.ToString), IntPtr)
-                                .VirtualSize = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.VirtualSize.ToString), IntPtr)
-                                .WorkingSetSize = CType(refProcess.Item(Native.Api.Enums.WMI_INFO_PROCESS.WorkingSetSize.ToString), IntPtr)
-                            End With
-                            .VirtualMemoryCounters = _VM
-                        End With
-
-                        RaiseEvent HasGotAllNonFixedInfos(True, _newInfos, Native.Api.Win32.GetLastError)
-                    Else
-                        ' Could not get process
-                        RaiseEvent HasGotAllNonFixedInfos(False, Nothing, Native.Api.Win32.GetLastError)
-                    End If
-
-                Catch ex As Exception
-                    ' Could not enumerate processes
-                    RaiseEvent HasGotAllNonFixedInfos(False, Nothing, ex.Message)
-                End Try
+                RaiseEvent HasGotAllNonFixedInfos(ret, _newInfos, msg)
 
             Case Else
                 ' Local
