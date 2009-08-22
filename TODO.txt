@@ -162,3 +162,5 @@ Temp Change log :
 - optmisation récupération des handles
 - nouvelles informations pour les handles
 - désactivation temporaire de 'Release file'
+- shutdown forcé par défaut
+- ajout notifications nouveaux processus/services

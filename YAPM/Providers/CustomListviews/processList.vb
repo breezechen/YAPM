@@ -35,6 +35,7 @@ Public Class processList
     ' ========================================
     ' Private
     ' ========================================
+    Private _firstRefresh As Boolean
     Private _first As Boolean
     Private _enumMethod As asyncCallbackProcEnumerate.ProcessEnumMethode = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
     Private _dicoNew As New Dictionary(Of String, cProcess)
@@ -66,6 +67,11 @@ Public Class processList
             _processConnection.EnumMethod = _enumMethod
         End Set
     End Property
+    Public ReadOnly Property FirstRefreshDone() As Boolean
+        Get
+            Return Not (_firstRefresh)
+        End Get
+    End Property
 
 #End Region
 
@@ -86,6 +92,7 @@ Public Class processList
         Me.SmallImageList = _IMG
         _IMG.Images.Add("noIcon", My.Resources.application_blue)
 
+        _firstRefresh = True
         _first = True
 
         ' Set handlers
@@ -101,6 +108,7 @@ Public Class processList
     ' Delete all items
     Public Sub ClearItems()
         _first = True
+        _firstRefresh = True
         _firstItemUpdate = True
         _buffDico.Clear()
         _dico.Clear()
@@ -321,6 +329,8 @@ Public Class processList
         MyBase.UpdateItems()
 
         generalLvSemaphore.Release()
+        _firstRefresh = False
+
     End Sub
 
     ' Force item refreshing
@@ -401,6 +411,7 @@ Public Class processList
 
     Private Sub Connect()
         _first = True
+        _firstRefresh = True
         _processConnection.ConnectionObj = _connectionObject
         Native.Objects.Process.ClearNewProcessesDico()
         _processConnection.Connect()

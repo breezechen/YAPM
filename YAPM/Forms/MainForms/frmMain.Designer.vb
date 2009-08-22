@@ -753,6 +753,15 @@ Partial Class frmMain
         Me.sbPanelCpu = New System.Windows.Forms.StatusBarPanel
         Me.sbPanelMemory = New System.Windows.Forms.StatusBarPanel
         Me.timerStatus = New System.Windows.Forms.Timer(Me.components)
+        Me.MenuItem29 = New System.Windows.Forms.MenuItem
+        Me.MenuItem31 = New System.Windows.Forms.MenuItem
+        Me.MenuItemNotifNP = New System.Windows.Forms.MenuItem
+        Me.MenuItemNotifTP = New System.Windows.Forms.MenuItem
+        Me.MenuItemNotifNS = New System.Windows.Forms.MenuItem
+        Me.MenuItemNotifDS = New System.Windows.Forms.MenuItem
+        Me.MenuItem46 = New System.Windows.Forms.MenuItem
+        Me.MenuItemNotifAll = New System.Windows.Forms.MenuItem
+        Me.MenuItemNotifNone = New System.Windows.Forms.MenuItem
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -5866,25 +5875,25 @@ Partial Class frmMain
         'MenuItemMainLog
         '
         Me.VistaMenu.SetImage(Me.MenuItemMainLog, Global.YAPM.My.Resources.Resources.document_text)
-        Me.MenuItemMainLog.Index = 7
+        Me.MenuItemMainLog.Index = 9
         Me.MenuItemMainLog.Text = "Show log"
         '
         'MenuItemMainOpenedW
         '
         Me.VistaMenu.SetImage(Me.MenuItemMainOpenedW, Global.YAPM.My.Resources.Resources.display16)
-        Me.MenuItemMainOpenedW.Index = 10
+        Me.MenuItemMainOpenedW.Index = 12
         Me.MenuItemMainOpenedW.Text = "Opened windows"
         '
         'MenuItemMainExit
         '
         Me.VistaMenu.SetImage(Me.MenuItemMainExit, Global.YAPM.My.Resources.Resources.cross)
-        Me.MenuItemMainExit.Index = 18
+        Me.MenuItemMainExit.Index = 20
         Me.MenuItemMainExit.Text = "Exit YAPM"
         '
         'MenuItemMainSysInfo
         '
         Me.VistaMenu.SetImage(Me.MenuItemMainSysInfo, Global.YAPM.My.Resources.Resources.taskmgr)
-        Me.MenuItemMainSysInfo.Index = 9
+        Me.MenuItemMainSysInfo.Index = 11
         Me.MenuItemMainSysInfo.Text = "System information"
         '
         'MenuItemServSelService
@@ -6274,7 +6283,7 @@ Partial Class frmMain
         'MenuItemMainFindWindow
         '
         Me.VistaMenu.SetImage(Me.MenuItemMainFindWindow, Global.YAPM.My.Resources.Resources.target16)
-        Me.MenuItemMainFindWindow.Index = 12
+        Me.MenuItemMainFindWindow.Index = 14
         Me.MenuItemMainFindWindow.Text = "Find a window"
         '
         'MenuItemCopyTask
@@ -6383,7 +6392,7 @@ Partial Class frmMain
         '
         'mnuMain
         '
-        Me.mnuMain.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemMainShow, Me.MenuItemMainToTray, Me.MenuItemMainAbout, Me.MenuItemMainAlwaysVisible, Me.MenuItem2, Me.MenuItem3, Me.MenuItem5, Me.MenuItemMainLog, Me.MenuItemMainReport, Me.MenuItemMainSysInfo, Me.MenuItemMainOpenedW, Me.MenuItemMainEmergencyH, Me.MenuItemMainFindWindow, Me.MenuItemMainSBA, Me.MenuItem15, Me.MenuItemRefProc, Me.MenuItemMainRefServ, Me.MenuItem18, Me.MenuItemMainExit})
+        Me.mnuMain.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemMainShow, Me.MenuItemMainToTray, Me.MenuItemMainAbout, Me.MenuItemMainAlwaysVisible, Me.MenuItem29, Me.MenuItem31, Me.MenuItem2, Me.MenuItem3, Me.MenuItem5, Me.MenuItemMainLog, Me.MenuItemMainReport, Me.MenuItemMainSysInfo, Me.MenuItemMainOpenedW, Me.MenuItemMainEmergencyH, Me.MenuItemMainFindWindow, Me.MenuItemMainSBA, Me.MenuItem15, Me.MenuItemRefProc, Me.MenuItemMainRefServ, Me.MenuItem18, Me.MenuItemMainExit})
         '
         'MenuItemMainAlwaysVisible
         '
@@ -6392,12 +6401,12 @@ Partial Class frmMain
         '
         'MenuItem2
         '
-        Me.MenuItem2.Index = 4
+        Me.MenuItem2.Index = 6
         Me.MenuItem2.Text = "-"
         '
         'MenuItem3
         '
-        Me.MenuItem3.Index = 5
+        Me.MenuItem3.Index = 7
         Me.MenuItem3.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemMainRestart, Me.MenuItemMainShutdown, Me.MenuItemMainPowerOff, Me.MenuItem11, Me.MenuItemMainSleep, Me.MenuItemMainHibernate, Me.MenuItem17, Me.MenuItemMainLogOff, Me.MenuItemMainLock})
         Me.MenuItem3.Text = "Shutdown"
         '
@@ -6448,46 +6457,46 @@ Partial Class frmMain
         '
         'MenuItem5
         '
-        Me.MenuItem5.Index = 6
+        Me.MenuItem5.Index = 8
         Me.MenuItem5.Text = "-"
         '
         'MenuItemMainReport
         '
-        Me.MenuItemMainReport.Index = 8
+        Me.MenuItemMainReport.Index = 10
         Me.MenuItemMainReport.Text = "Save system report..."
         '
         'MenuItemMainEmergencyH
         '
-        Me.MenuItemMainEmergencyH.Index = 11
+        Me.MenuItemMainEmergencyH.Index = 13
         Me.MenuItemMainEmergencyH.Text = "Emergency hotkeys..."
         '
         'MenuItemMainSBA
         '
         Me.MenuItemMainSBA.Enabled = False
-        Me.MenuItemMainSBA.Index = 13
+        Me.MenuItemMainSBA.Index = 15
         Me.MenuItemMainSBA.Text = "State based actions..."
         Me.MenuItemMainSBA.Visible = False
         '
         'MenuItem15
         '
-        Me.MenuItem15.Index = 14
+        Me.MenuItem15.Index = 16
         Me.MenuItem15.Text = "-"
         '
         'MenuItemRefProc
         '
         Me.MenuItemRefProc.Checked = True
-        Me.MenuItemRefProc.Index = 15
+        Me.MenuItemRefProc.Index = 17
         Me.MenuItemRefProc.Text = "Refresh process list"
         '
         'MenuItemMainRefServ
         '
         Me.MenuItemMainRefServ.Checked = True
-        Me.MenuItemMainRefServ.Index = 16
+        Me.MenuItemMainRefServ.Index = 18
         Me.MenuItemMainRefServ.Text = "Refresh service list"
         '
         'MenuItem18
         '
-        Me.MenuItem18.Index = 17
+        Me.MenuItem18.Index = 19
         Me.MenuItem18.Text = "-"
         '
         'mnuService
@@ -7322,6 +7331,52 @@ Partial Class frmMain
         '
         Me.timerStatus.Enabled = True
         Me.timerStatus.Interval = 1000
+        '
+        'MenuItem29
+        '
+        Me.MenuItem29.Index = 4
+        Me.MenuItem29.Text = "-"
+        '
+        'MenuItem31
+        '
+        Me.MenuItem31.Index = 5
+        Me.MenuItem31.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemNotifNP, Me.MenuItemNotifTP, Me.MenuItemNotifNS, Me.MenuItemNotifDS, Me.MenuItem46, Me.MenuItemNotifAll, Me.MenuItemNotifNone})
+        Me.MenuItem31.Text = "Notifications"
+        '
+        'MenuItemNotifNP
+        '
+        Me.MenuItemNotifNP.Index = 0
+        Me.MenuItemNotifNP.Text = "&New processes"
+        '
+        'MenuItemNotifTP
+        '
+        Me.MenuItemNotifTP.Index = 1
+        Me.MenuItemNotifTP.Text = "&Terminated processes"
+        '
+        'MenuItemNotifNS
+        '
+        Me.MenuItemNotifNS.Index = 2
+        Me.MenuItemNotifNS.Text = "&New services"
+        '
+        'MenuItemNotifDS
+        '
+        Me.MenuItemNotifDS.Index = 3
+        Me.MenuItemNotifDS.Text = "&Deleted services"
+        '
+        'MenuItem46
+        '
+        Me.MenuItem46.Index = 4
+        Me.MenuItem46.Text = "-"
+        '
+        'MenuItemNotifAll
+        '
+        Me.MenuItemNotifAll.Index = 5
+        Me.MenuItemNotifAll.Text = "&Enable all"
+        '
+        'MenuItemNotifNone
+        '
+        Me.MenuItemNotifNone.Index = 6
+        Me.MenuItemNotifNone.Text = "&Disable all"
         '
         'frmMain
         '
@@ -8169,5 +8224,14 @@ Partial Class frmMain
     Friend WithEvents MenuItem74 As System.Windows.Forms.MenuItem
     Friend WithEvents butProcessReduceWS As System.Windows.Forms.RibbonButton
     Friend WithEvents butProcessDumpF As System.Windows.Forms.RibbonButton
+    Friend WithEvents MenuItem29 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem31 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemNotifNP As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemNotifTP As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemNotifNS As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemNotifDS As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem46 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemNotifAll As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemNotifNone As System.Windows.Forms.MenuItem
 
 End Class

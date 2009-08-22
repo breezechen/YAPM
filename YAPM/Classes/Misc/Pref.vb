@@ -87,6 +87,10 @@ Public Class Pref
             _frmMain.butAlwaysDisplay.Checked = My.Settings.TopMost
             _frmMain.Visible = Not (My.Settings.StartHidden)
             _frmMain.MenuItemMainAlwaysVisible.Checked = My.Settings.TopMost
+            _frmMain.MenuItemNotifNP.Checked = My.Settings.NotifyNewProcesses
+            _frmMain.MenuItemNotifDS.Checked = My.Settings.NotifyDeletedServices
+            _frmMain.MenuItemNotifNS.Checked = My.Settings.NotifyNewServices
+            _frmMain.MenuItemNotifTP.Checked = My.Settings.NotifyTerminatedProcesses
             'If My.Settings.StartHidden Then
             '    _frmMain.Hide()
             '    _frmMain.Left = LEFT_POSITION_HIDDEN

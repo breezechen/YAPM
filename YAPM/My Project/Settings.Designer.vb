@@ -953,6 +953,54 @@ Namespace My
                 Me("ShowStatusBar") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property NotifyNewProcesses() As Boolean
+            Get
+                Return CType(Me("NotifyNewProcesses"),Boolean)
+            End Get
+            Set
+                Me("NotifyNewProcesses") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property NotifyDeletedServices() As Boolean
+            Get
+                Return CType(Me("NotifyDeletedServices"),Boolean)
+            End Get
+            Set
+                Me("NotifyDeletedServices") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property NotifyNewServices() As Boolean
+            Get
+                Return CType(Me("NotifyNewServices"),Boolean)
+            End Get
+            Set
+                Me("NotifyNewServices") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property NotifyTerminatedProcesses() As Boolean
+            Get
+                Return CType(Me("NotifyTerminatedProcesses"),Boolean)
+            End Get
+            Set
+                Me("NotifyTerminatedProcesses") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

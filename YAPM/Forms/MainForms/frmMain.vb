@@ -1797,22 +1797,26 @@ Public Class frmMain
 
     Private Sub creg_KeyAdded(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyAdded
         'log.AppendLine("Service added : " & key.name)
-        With Me.Tray
-            .BalloonTipText = key.name
-            .BalloonTipIcon = ToolTipIcon.Info
-            .BalloonTipTitle = "A new service has been created"
-            .ShowBalloonTip(3000)
-        End With
+        If My.Settings.NotifyNewServices Then
+            With Me.Tray
+                .BalloonTipText = key.name
+                .BalloonTipIcon = ToolTipIcon.Info
+                .BalloonTipTitle = "A new service has been created"
+                .ShowBalloonTip(3000)
+            End With
+        End If
     End Sub
 
     Private Sub creg_KeyDeleted(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyDeleted
         'log.AppendLine("Service deleted : " & key.name)
-        With Me.Tray
-            .BalloonTipText = key.name
-            .BalloonTipIcon = ToolTipIcon.Info
-            .BalloonTipTitle = "A service has been deleted"
-            .ShowBalloonTip(3000)
-        End With
+        If My.Settings.NotifyDeletedServices Then
+            With Me.Tray
+                .BalloonTipText = key.name
+                .BalloonTipIcon = ToolTipIcon.Info
+                .BalloonTipTitle = "A service has been deleted"
+                .ShowBalloonTip(3000)
+            End With
+        End If
     End Sub
 
     ' Refresh  task list in listview
@@ -2283,16 +2287,54 @@ Public Class frmMain
     End Sub
 
     Private Sub lvProcess_ItemAdded(ByRef item As cProcess) Handles lvProcess.ItemAdded
-        If item IsNot Nothing Then _
-        Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
-        If Me.MenuItemTaskSelProc.Enabled = False Then
-            MenuItemTaskSelProc.Enabled = True
+        If item IsNot Nothing Then
+            Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
+            If Me.MenuItemTaskSelProc.Enabled = False Then
+                MenuItemTaskSelProc.Enabled = True
+            End If
+            If My.Settings.NotifyNewProcesses AndAlso Me.lvProcess.FirstRefreshDone Then
+                Dim text As String = "Name : " & item.Infos.Name & " (" & item.Infos.Pid.ToString & ")"
+                If item.Infos.ParentProcessId > 0 Then
+                    text &= vbNewLine & "Parent : " & _
+                        cProcess.GetProcessName(item.Infos.ParentProcessId) & " (" & _
+                        cProcess.GetProcessName(item.Infos.ParentProcessId) & ")"
+                End If
+                If item.Infos.FileInfo IsNot Nothing Then
+                    text &= vbNewLine & "Company : " & item.Infos.FileInfo.CompanyName & _
+                        vbNewLine & "Description : " & item.Infos.FileInfo.FileDescription
+                End If
+                With Me.Tray
+                    .BalloonTipText = text
+                    .BalloonTipIcon = ToolTipIcon.Info
+                    .BalloonTipTitle = "A new process has been started"
+                    .ShowBalloonTip(3000)
+                End With
+            End If
         End If
     End Sub
 
     Private Sub lvProcess_ItemDeleted(ByRef item As cProcess) Handles lvProcess.ItemDeleted
-        If item IsNot Nothing Then _
-        Program.Log.AppendLine("Process deleted : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
+        If item IsNot Nothing Then
+            Program.Log.AppendLine("Process deleted : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
+            If My.Settings.NotifyTerminatedProcesses Then
+                Dim text As String = "Name : " & item.Infos.Name & " (" & item.Infos.Pid.ToString & ")"
+                If item.Infos.ParentProcessId > 0 Then
+                    text &= vbNewLine & "Parent : " & _
+                        cProcess.GetProcessName(item.Infos.ParentProcessId) & " (" & _
+                        cProcess.GetProcessName(item.Infos.ParentProcessId) & ")"
+                End If
+                If item.Infos.FileInfo IsNot Nothing Then
+                    text &= vbNewLine & "Company : " & item.Infos.FileInfo.CompanyName & _
+                        vbNewLine & "Description : " & item.Infos.FileInfo.FileDescription
+                End If
+                With Me.Tray
+                    .BalloonTipText = text
+                    .BalloonTipIcon = ToolTipIcon.Info
+                    .BalloonTipTitle = "A process has been terminated"
+                    .ShowBalloonTip(3000)
+                End With
+            End If
+        End If
     End Sub
 
     Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
@@ -5031,5 +5073,53 @@ Public Class frmMain
 
     Private Sub butProcessDumpF_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessDumpF.Click
         Call Me.MenuItemProcDump_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemNotifAll_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemNotifAll.Click
+        Me.MenuItemNotifDS.Checked = True
+        Me.MenuItemNotifNS.Checked = True
+        Me.MenuItemNotifNP.Checked = True
+        Me.MenuItemNotifTP.Checked = True
+        My.Settings.NotifyNewProcesses = True
+        My.Settings.NotifyNewServices = True
+        My.Settings.NotifyDeletedServices = True
+        My.Settings.NotifyTerminatedProcesses = True
+        My.Settings.Save()
+    End Sub
+
+    Private Sub MenuItemNotifNone_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemNotifNone.Click
+        Me.MenuItemNotifDS.Checked = False
+        Me.MenuItemNotifNS.Checked = False
+        Me.MenuItemNotifNP.Checked = False
+        Me.MenuItemNotifTP.Checked = False
+        My.Settings.NotifyNewProcesses = False
+        My.Settings.NotifyNewServices = False
+        My.Settings.NotifyDeletedServices = False
+        My.Settings.NotifyTerminatedProcesses = False
+        My.Settings.Save()
+    End Sub
+
+    Private Sub MenuItemNotifDS_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemNotifDS.Click
+        Me.MenuItemNotifDS.Checked = Not (Me.MenuItemNotifDS.Checked)
+        My.Settings.NotifyDeletedServices = Me.MenuItemNotifDS.Checked
+        My.Settings.Save()
+    End Sub
+
+    Private Sub MenuItemNotifNP_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemNotifNP.Click
+        Me.MenuItemNotifNP.Checked = Not (Me.MenuItemNotifNP.Checked)
+        My.Settings.NotifyNewProcesses = Me.MenuItemNotifNP.Checked
+        My.Settings.Save()
+    End Sub
+
+    Private Sub MenuItemNotifNS_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemNotifNS.Click
+        Me.MenuItemNotifNS.Checked = Not (Me.MenuItemNotifNS.Checked)
+        My.Settings.NotifyNewServices = Me.MenuItemNotifNS.Checked
+        My.Settings.Save()
+    End Sub
+
+    Private Sub MenuItemNotifTP_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemNotifTP.Click
+        Me.MenuItemNotifTP.Checked = Not (Me.MenuItemNotifTP.Checked)
+        My.Settings.NotifyTerminatedProcesses = Me.MenuItemNotifTP.Checked
+        My.Settings.Save()
     End Sub
 End Class
