@@ -21,6 +21,7 @@
 Option Strict On
 
 Imports System.Net
+Imports YAPM.Native.Api
 
 Public Class cJob
     Inherits cGeneralObject
@@ -33,6 +34,10 @@ Public Class cJob
     Private _procIds As New List(Of Integer)
 
     Private Shared WithEvents _connection As cJobConnection
+
+    ' Stats structs
+    Private basicAcIoInfo As NativeStructs.JobObjectBasicAndIoAccountingInformation
+    Private basicLimitInfo As NativeStructs.JobObjectBasicLimitInformation
 
 
 #Region "Properties"
@@ -93,6 +98,17 @@ Public Class cJob
     Public ReadOnly Property PidList() As List(Of Integer)
         Get
             Return _procIds
+        End Get
+    End Property
+
+    Public ReadOnly Property BasicAndIoAccountingInformation() As NativeStructs.JobObjectBasicAndIoAccountingInformation
+        Get
+            Return BasicAndIoAccountingInformation
+        End Get
+    End Property
+    Public ReadOnly Property BasicLimitInformation() As NativeStructs.JobObjectBasicLimitInformation
+        Get
+            Return BasicLimitInformation
         End Get
     End Property
 
@@ -193,7 +209,8 @@ Public Class cJob
         _procIds = Native.Objects.Job.GetProcessesInJobByHandle(_jobInfos.JobHandle)
 
         ' Refresh statistics
-
+        basicAcIoInfo = Native.Objects.Job.GeJobBasicAndIoAccountingInformationByHandle(_jobInfos.JobHandle)
+        basicLimitInfo = Native.Objects.Job.GeJobBasicLimitInformationByHandle(_jobInfos.JobHandle)
     End Sub
 
 #Region "Get information overriden methods"

@@ -56,6 +56,26 @@ Namespace Native.Api
 
 #Region "Declarations used for jobs"
 
+        ' http://msdn.microsoft.com/en-us/library/ms684155(VS.85).aspx
+        <Flags()> _
+        Public Enum EndOfJobTimeActionFlag As UInteger
+            TerminateAtEndOfJob = 0
+            PostAtEndOfJob = 1
+        End Enum
+
+        ' http://msdn.microsoft.com/en-us/library/ms684152(VS.85).aspx
+        <Flags()> _
+        Public Enum JobObjectBasicUiRestrictions As UInteger
+            [Handles] = &H1
+            ReadClipboard = &H2
+            WriteClipboard = &H4
+            SystemParameters = &H8
+            DisplaySettings = &H10
+            GlobalAtoms = &H20
+            Desktop = &H40
+            ExitWindows = &H80
+        End Enum
+
         ' http://msdn.microsoft.com/en-us/library/ms684147(VS.85).aspx
         <Flags()> _
         Public Enum JobObjectLimitFlags As UInteger

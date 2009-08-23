@@ -5205,6 +5205,11 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemJobTerminate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemJobTerminate.Click
+        If My.Settings.WarnDangerousActions Then
+            If MsgBox("Are you sure you want to terminate these jobs ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
         For Each cJ As cJob In Me.lvJob.GetSelectedItems
             cJ.TerminateJob()
         Next

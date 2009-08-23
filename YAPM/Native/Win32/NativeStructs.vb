@@ -59,6 +59,12 @@ Namespace Native.Api
 
 #Region "Declarations used for jobs"
 
+        ' http://msdn.microsoft.com/en-us/library/ms684155(VS.85).aspx
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure JobObjectEndOfJobTimeInformation
+            Public EndOfJobTimeAction As EndOfJobTimeActionFlag
+        End Structure
+
         ' http://msdn.microsoft.com/en-us/library/ms684143(VS.85).aspx
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure JobObjectBasicAccountingInformation
@@ -100,6 +106,12 @@ Namespace Native.Api
             Public ProcessIdsCount As Integer
             <MarshalAs(UnmanagedType.ByValArray)> _
             Public ProcessId As Integer()
+        End Structure
+
+        ' http://msdn.microsoft.com/en-us/library/ms684152(VS.85).aspx
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure JobObjectBasicUiRestrictions
+            Public UIRestrictionsClass As NativeEnums.JobObjectBasicUiRestrictions
         End Structure
 
         ' http://msdn.microsoft.com/en-us/library/ms684156(VS.85).aspx

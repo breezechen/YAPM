@@ -184,7 +184,7 @@ Namespace Native.Objects
 
             NativeFunctions.QueryInformationJobObject(hJob, _
                             NativeEnums.JobObjectInformationClass.JobObjectBasicProcessIdList, _
-                            memAlloc, memAlloc.Size, ret)
+                            memAlloc.Pointer, memAlloc.Size, ret)
 
             Dim list As NativeStructs.JobObjectBasicProcessIdList = _
                 memAlloc.ReadStruct(Of NativeStructs.JobObjectBasicProcessIdList)()
@@ -198,11 +198,91 @@ Namespace Native.Objects
             Return pids
         End Function
 
+        ' Query some informations
+        ' These 5 functions use QueryJobInformationByHandle
+        Public Shared Function GeJobBasicAndIoAccountingInformationByHandle(ByVal hJob As IntPtr) As NativeStructs.JobObjectBasicAndIoAccountingInformation
+            Return QueryJobInformationByHandle(Of NativeStructs.JobObjectBasicAndIoAccountingInformation)(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicAndIoAccountingInformation)
+        End Function
+
+        Public Shared Function GeJobBasicAccountingInformationByHandle(ByVal hJob As IntPtr) As NativeStructs.JobObjectBasicAccountingInformation
+            Return QueryJobInformationByHandle(Of NativeStructs.JobObjectBasicAccountingInformation)(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicAccountingInformation)
+        End Function
+
+        Public Shared Function GeJobBasicUiRestrictionsHandle(ByVal hJob As IntPtr) As NativeStructs.JobObjectBasicUiRestrictions
+            Return QueryJobInformationByHandle(Of NativeStructs.JobObjectBasicUiRestrictions)(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions)
+        End Function
+
+        Public Shared Function GeJobBasicLimitInformationByHandle(ByVal hJob As IntPtr) As NativeStructs.JobObjectBasicLimitInformation
+            Return QueryJobInformationByHandle(Of NativeStructs.JobObjectBasicLimitInformation)(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation)
+        End Function
+
+        Public Shared Function GeJobExtendedLimitInformationsByHandle(ByVal hJob As IntPtr) As NativeStructs.JobObjectExtendedLimitInformation
+            Return QueryJobInformationByHandle(Of NativeStructs.JobObjectExtendedLimitInformation)(hJob, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation)
+        End Function
+
+        ' Set some informations
+        ' These 5 functions use QueryJobInformationByHandle
+        Public Shared Function SeJobBasicLimitInformationByHandle(ByVal hJob As IntPtr, ByVal limit As NativeStructs.JobObjectBasicLimitInformation) As Boolean
+            Return SetJobInformationByHandle(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation, limit)
+        End Function
+
+        Public Shared Function SeJobBasicUiRestrictionsHandle(ByVal hJob As IntPtr, ByVal limit As NativeStructs.JobObjectBasicUiRestrictions) As Boolean
+            Return SetJobInformationByHandle(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions, limit)
+        End Function
+
+        Public Shared Function SeJobExtendedLimitInformationsByHandle(ByVal hJob As IntPtr, ByVal limit As NativeStructs.JobObjectExtendedLimitInformation) As Boolean
+            Return SetJobInformationByHandle(hJob, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation, limit)
+        End Function
+
+        Public Shared Function SeJobEndOfTimeInformationByHandle(ByVal hJob As IntPtr, ByVal limit As NativeStructs.JobObjectEndOfJobTimeInformation) As Boolean
+            Return SetJobInformationByHandle(hJob, NativeEnums.JobObjectInformationClass.JobObjectEndOfJobTimeInformation, limit)
+        End Function
+
+
+
 
         ' ========================================
         ' Private functions
         ' ========================================
 
+        ' Query a job information struct
+        Private Shared Function QueryJobInformationByHandle(Of T)(ByVal handle As IntPtr, _
+                                ByVal info As NativeEnums.JobObjectInformationClass) As T
+            Dim ret As Integer
+            Dim memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
+
+            If Not NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
+                                                             memAlloc.Size, ret) Then
+                ' Need a greater mem alloc
+                memAlloc.Resize(ret)
+
+                NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
+                                                          memAlloc.Size, ret)
+            End If
+
+            Dim struct As T = memAlloc.ReadStruct(Of T)()
+            memAlloc.Free()
+
+            Return struct
+
+        End Function
+
+        ' Set a job information struct
+        Private Shared Function SetJobInformationByHandle(Of T)(ByVal handle As IntPtr, _
+                                ByVal info As NativeEnums.JobObjectInformationClass, _
+                                ByVal limit As T) As Boolean
+
+            Dim ret As Boolean
+            Dim memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
+            memAlloc.WriteStruct(Of T)(limit)
+            ret = NativeFunctions.SetInformationJobObject(handle, info, memAlloc.Pointer, _
+                                                    memAlloc.Size)
+
+            memAlloc.Free()
+
+            Return ret
+
+        End Function
 
     End Class
 
