@@ -191,6 +191,9 @@ Public Class cJob
     Public Sub Merge(ByRef Thr As jobInfos)
         _jobInfos.Merge(Thr)
         _procIds = Native.Objects.Job.GetProcessesInJobByHandle(_jobInfos.JobHandle)
+
+        ' Refresh statistics
+
     End Sub
 
 #Region "Get information overriden methods"

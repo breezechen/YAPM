@@ -56,6 +56,25 @@ Namespace Native.Api
 
 #Region "Declarations used for jobs"
 
+        ' http://msdn.microsoft.com/en-us/library/ms684147(VS.85).aspx
+        <Flags()> _
+        Public Enum JobObjectLimitFlags As UInteger
+            WorkingSet = &H1
+            ProcessTime = &H2
+            JobTime = &H4
+            ActiveProcess = &H8
+            Affinity = &H10
+            PriorityClass = &H20
+            PreserveJobTime = &H40
+            SchedulingClass = &H80
+            ProcessMemory = &H100
+            JobMemory = &H200
+            DieOnUnhandledException = &H400
+            BreakawayOk = &H800
+            SilentBreakawayOk = &H1000
+            KillOnJobClose = &H2000
+        End Enum
+
         Public Enum JobObjectInformationClass As Integer
             JobObjectBasicAccountingInformation = 1
             JobObjectBasicLimitInformation = 2

@@ -59,19 +59,65 @@ Namespace Native.Api
 
 #Region "Declarations used for jobs"
 
+        ' http://msdn.microsoft.com/en-us/library/ms684143(VS.85).aspx
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SecurityAttributes
-            Public nLength As Integer
-            Public lpSecurityDescriptor As IntPtr
-            Public bInheritHandle As Boolean
+        Public Structure JobObjectBasicAccountingInformation
+            Public TotalUserTime As Long
+            Public TotalKernelTime As Long
+            Public ThisPeriodTotalUserTime As Long
+            Public ThisPeriodTotalKernelTime As Long
+            Public TotalPageFaultCount As Integer
+            Public TotalProcesses As Integer
+            Public ActiveProcesses As Integer
+            Public TotalTerminatedProcesses As Integer
         End Structure
 
+        ' http://msdn.microsoft.com/en-us/library/ms684144(VS.85).aspx
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure JobObjectBasicAndIoAccountingInformation
+            Public BasicInfo As JobObjectBasicAccountingInformation
+            Public IoInfo As IoCounters
+        End Structure
+
+        ' http://msdn.microsoft.com/en-us/library/ms684147(VS.85).aspx
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure JobObjectBasicLimitInformation
+            Public PerProcessUserTimeLimit As Long
+            Public PerJobUserTimeLimit As Long
+            Public LimitFlags As JobObjectLimitFlags
+            Public MinimumWorkingSetSize As Integer
+            Public MaximumWorkingSetSize As Integer
+            Public ActiveProcessLimit As Integer
+            Public Affinity As IntPtr
+            Public PriorityClass As Integer
+            Public SchedulingClass As Integer
+        End Structure
+
+        ' http://msdn.microsoft.com/en-us/library/ms684150(VS.85).aspx
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure JobObjectBasicProcessIdList
             Public AssignedProcessesCount As Integer
             Public ProcessIdsCount As Integer
             <MarshalAs(UnmanagedType.ByValArray)> _
             Public ProcessId As Integer()
+        End Structure
+
+        ' http://msdn.microsoft.com/en-us/library/ms684156(VS.85).aspx
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure JobObjectExtendedLimitInformation
+            Public BasicLimitInformation As JobObjectBasicLimitInformation
+            Public IoInfo As IoCounters
+            Public ProcessMemoryLimit As Integer
+            Public JobMemoryLimit As Integer
+            Public PeakProcessMemoryUsed As Integer
+            Public PeakJobMemoryUsed As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure SecurityAttributes
+            Public nLength As Integer
+            Public lpSecurityDescriptor As IntPtr
+            Public bInheritHandle As Boolean
         End Structure
 
 #End Region
