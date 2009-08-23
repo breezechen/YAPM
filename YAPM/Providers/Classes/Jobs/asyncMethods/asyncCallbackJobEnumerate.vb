@@ -91,7 +91,7 @@ Public Class asyncCallbackJobEnumerate
                 Dim _dico As Dictionary(Of String, cJob) = _
                         Native.Objects.Job.EnumerateCreatedJobs
 
-                If deg IsNot Nothing AndAlso ctrl.Created Then _
+                If deg IsNot Nothing Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
 
         End Select
