@@ -66,6 +66,14 @@ Namespace Native.Api
             Public bInheritHandle As Boolean
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure JobObjectBasicProcessIdList
+            Public AssignedProcessesCount As Integer
+            Public ProcessIdsCount As Integer
+            <MarshalAs(UnmanagedType.ByValArray)> _
+            Public ProcessId As Integer()
+        End Structure
+
 #End Region
 
 #Region "Declarations used for processes"

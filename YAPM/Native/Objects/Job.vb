@@ -176,6 +176,28 @@ Namespace Native.Objects
             Return colJobs
         End Function
 
+        ' Enumerate processes in a job
+        Public Shared Function GetProcessesInJobByHandle(ByVal hJob As IntPtr) As List(Of Integer)
+            Dim pids As New List(Of Integer)
+            Dim ret As Integer
+            Dim memAlloc As New Memory.MemoryAlloc(&H1000)
+
+            NativeFunctions.QueryInformationJobObject(hJob, _
+                            NativeEnums.JobObjectInformationClass.JobObjectBasicProcessIdList, _
+                            memAlloc, memAlloc.Size, ret)
+
+            Dim list As NativeStructs.JobObjectBasicProcessIdList = _
+                memAlloc.ReadStruct(Of NativeStructs.JobObjectBasicProcessIdList)()
+
+            For i As Integer = 0 To list.ProcessIdsCount - 1
+                pids.Add(memAlloc.ReadInt32(&H8, i))     ' &h8 cause of two first Int32
+            Next
+
+            memAlloc.Free()
+
+            Return pids
+        End Function
+
 
         ' ========================================
         ' Private functions

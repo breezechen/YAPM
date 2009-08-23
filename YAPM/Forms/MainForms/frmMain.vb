@@ -226,6 +226,20 @@ Public Class frmMain
 
     End Sub
 
+    ' Refresh job list
+    Public Sub refreshJobList()
+
+        ' Update list
+        Me.lvJob.UpdateTheItems()
+
+        If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
+            If Me.Ribbon.ActiveTab.Text = "Jobs" Then
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvJob.Items.Count) & " jobs created"
+            End If
+        End If
+
+    End Sub
+
     ' Refresh process list in listview
     Public Sub refreshProcessList()
 
@@ -2416,6 +2430,14 @@ Public Class frmMain
             Me.MenuItemProcSServices.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcSWindows.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcWSS.Enabled = selectionIsNotNothing AndAlso _notWMI
+
+            ' Job menuitems
+            Me.MenuItemJobs.Enabled = selectionIsNotNothing AndAlso _notWMI
+            If Me.lvProcess.SelectedItems.Count <> 1 Then
+                Me.MenuItemJobMng.Enabled = True
+            Else
+                Me.MenuItemJobMng.Enabled = (cJob.GetProcessJobById(Me.lvProcess.GetSelectedItem.Infos.Pid) IsNot Nothing)
+            End If
 
             Me.mnuProcess.Show(Me.lvProcess, e.Location)
         End If
@@ -5166,6 +5188,12 @@ Public Class frmMain
         End If
     End Sub
 
+    Private Sub lvJob_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvJob.MouseDoubleClick
+        If e.Button = Windows.Forms.MouseButtons.Left Then
+            Call butJobDetails_Click(Nothing, Nothing)
+        End If
+    End Sub
+
     Private Sub lvJob_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvJob.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Dim selectionIsNotNothing As Boolean = (Me.lvJob.SelectedItems IsNot Nothing _
@@ -5212,5 +5240,34 @@ Public Class frmMain
                 job.AddProcess(cp.Infos.Pid)
             Next
         End If
+    End Sub
+
+    Private Sub butJobRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butJobRefresh.Click
+        Me.refreshJobList()
+    End Sub
+
+    Private Sub butJobTerminate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butJobTerminate.Click
+        Call MenuItemJobTerminate_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butJobDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butJobDetails.Click
+        For Each it As cJob In Me.lvJob.GetSelectedItems
+            Dim frm As New frmJobInfo
+            frm.SetJob(it)
+            frm.TopMost = _frmMain.TopMost
+            frm.Show()
+        Next
+    End Sub
+
+    Private Sub MenuItemJobMng_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemJobMng.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            Dim cJ As cJob = cJob.GetProcessJobById(cp.Infos.Pid)
+            If cJ IsNot Nothing Then
+                Dim frm As New frmJobInfo
+                frm.SetJob(cJ)
+                frm.TopMost = _frmMain.TopMost
+                frm.Show()
+            End If
+        Next
     End Sub
 End Class

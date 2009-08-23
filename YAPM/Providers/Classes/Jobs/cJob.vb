@@ -90,6 +90,12 @@ Public Class cJob
         End Get
     End Property
 
+    Public ReadOnly Property PidList() As List(Of Integer)
+        Get
+            Return _procIds
+        End Get
+    End Property
+
 #End Region
 
 #Region "Shared method"
@@ -104,6 +110,17 @@ Public Class cJob
         ' SYNCISSUE ?
         For Each cJ As cJob In Native.Objects.Job.CreatedJobs.Values
             If cJ.Infos.Name = jobName Then
+                Return cJ
+            End If
+        Next
+        Return Nothing
+    End Function
+
+    ' Return job a process (if any)
+    Public Shared Function GetProcessJobById(ByVal pid As Integer) As cJob
+        ' SYNCISSUE ?
+        For Each cJ As cJob In Native.Objects.Job.CreatedJobs.Values
+            If cJ.PidList.Contains(pid) Then
                 Return cJ
             End If
         Next
@@ -137,11 +154,11 @@ Public Class cJob
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not add processes to job")
-        Else
-            ' OK, we add the process to the list..
-            _procIds.AddRange(pid)
         End If
         RemovePendingTask(actionNumber)
+
+        ' Refresh list of pid
+        _procIds = Native.Objects.Job.GetProcessesInJobByHandle(_jobInfos.JobHandle)
     End Sub
 
     ' Terminate a job
@@ -173,6 +190,7 @@ Public Class cJob
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Thr As jobInfos)
         _jobInfos.Merge(Thr)
+        _procIds = Native.Objects.Job.GetProcessesInJobByHandle(_jobInfos.JobHandle)
     End Sub
 
 #Region "Get information overriden methods"
