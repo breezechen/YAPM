@@ -41,9 +41,70 @@ Public Class frmJobInfo
         Select Case Me.tabProcess.SelectedTab.Text
 
             Case "General"
+                ' Update processes in job
+                Me.lvProcess.JobHandle = curJob.Infos.JobHandle
+                Me.lvProcess.UpdateTheItems()
 
 
             Case "Statistics"
+                ' CPU
+                Dim ts As Date
+                Dim s As String
+                Me.lblAffinity.Text = curJob.BasicLimitInformation.Affinity.ToString
+                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.TotalUserTime)
+                s = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                Me.lblUserTime.Text = s
+                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalUserTime)
+                s = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                Me.lblUserPeriod.Text = s
+                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.TotalKernelTime)
+                s = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                Me.lblKernelTime.Text = s
+                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalKernelTime)
+                s = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                Me.lblPeriodKernel.Text = s
+                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalKernelTime + curJob.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalUserTime)
+                s = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                Me.lblTotalPeriod.Text = s
+                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.TotalKernelTime + curJob.BasicAndIoAccountingInformation.BasicInfo.TotalUserTime)
+                s = String.Format("{0:00}", ts.Hour) & ":" & _
+                    String.Format("{0:00}", ts.Minute) & ":" & _
+                    String.Format("{0:00}", ts.Second) & ":" & _
+                    String.Format("{000}", ts.Millisecond)
+                Me.lblTotalTime.Text = s
+                Me.lblPriority.Text = curJob.BasicLimitInformation.PriorityClass.ToString
+
+                ' Others
+                Me.lblTotalProcesses.Text = curJob.BasicAndIoAccountingInformation.BasicInfo.TotalProcesses.ToString
+                Me.lblActiveProcesses.Text = curJob.BasicAndIoAccountingInformation.BasicInfo.ActiveProcesses.ToString
+                Me.lblTotalTerminatedProcesses.Text = curJob.BasicAndIoAccountingInformation.BasicInfo.TotalTerminatedProcesses.ToString
+                Me.lblMaxWSS.Text = GetFormatedSize(curJob.BasicLimitInformation.MaximumWorkingSetSize)
+                Me.lblMinWSS.Text = GetFormatedSize(curJob.BasicLimitInformation.MinimumWorkingSetSize)
+                Me.lblSchedulingClass.Text = curJob.BasicLimitInformation.SchedulingClass.ToString
+                Me.lblPageFaultCount.Text = curJob.BasicAndIoAccountingInformation.BasicInfo.TotalPageFaultCount.ToString
+
+                ' IO
+                Me.lblProcOther.Text = curJob.BasicAndIoAccountingInformation.IoInfo.OtherOperationCount.ToString
+                Me.lblProcOtherBytes.Text = GetFormatedSize(curJob.BasicAndIoAccountingInformation.IoInfo.OtherTransferCount)
+                Me.lblProcReads.Text = curJob.BasicAndIoAccountingInformation.IoInfo.WriteOperationCount.ToString
+                Me.lblProcReadBytes.Text = GetFormatedSize(curJob.BasicAndIoAccountingInformation.IoInfo.ReadTransferCount)
+                Me.lblProcWriteBytes.Text = curJob.BasicAndIoAccountingInformation.IoInfo.ReadOperationCount.ToString
+                Me.lblProcWrites.Text = GetFormatedSize(curJob.BasicAndIoAccountingInformation.IoInfo.WriteTransferCount)
 
 
             Case "Limitations"
@@ -63,7 +124,9 @@ Public Class frmJobInfo
         closeWithEchapKey(Me)
 
         ' Some tooltips
-
+        Native.Functions.Misc.SetTheme(Me.lvProcess.Handle)
+        SetToolTip(Me.cmdAddProcess, "Add processes to the job")
+        SetToolTip(Me.cmdTerminateJob, "Terminate the job")
 
         'Select Case My.Settings.ServSelectedTab
         '    Case "General"
@@ -85,7 +148,6 @@ Public Class frmJobInfo
     Public Sub SetJob(ByRef job As cJob)
 
         curJob = job
-
 
         _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
         _notWMI = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
@@ -111,6 +173,7 @@ Public Class frmJobInfo
         'theConnection.CopyFromInstance(Program.Connection)
         Try
             theConnection = Program.Connection
+            Me.lvProcess.ConnectionObj = theConnection
             theConnection.Connect()
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
@@ -133,4 +196,12 @@ Public Class frmJobInfo
         Call ChangeCaption()
     End Sub
 
+    Private Sub cmdTerminateJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdTerminateJob.Click
+        If My.Settings.WarnDangerousActions Then
+            If MsgBox("Are you sure you want to terminate the job ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
+        curJob.TerminateJob()
+    End Sub
 End Class

@@ -1297,6 +1297,11 @@ Public Class cProcess
         Return Native.Objects.Process.GetProcessPathById(pid)
     End Function
 
+    ' Return process from id
+    Public Shared Function GetProcessById(ByVal id As Integer) As cProcess
+        Return Native.Objects.Process.GetProcessById(id)
+    End Function
+
     ' Return Process name
     Public Shared Function GetProcessName(ByVal pid As Integer) As String
         Select Case pid

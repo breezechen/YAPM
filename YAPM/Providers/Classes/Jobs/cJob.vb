@@ -103,12 +103,12 @@ Public Class cJob
 
     Public ReadOnly Property BasicAndIoAccountingInformation() As NativeStructs.JobObjectBasicAndIoAccountingInformation
         Get
-            Return BasicAndIoAccountingInformation
+            Return basicAcIoInfo
         End Get
     End Property
     Public ReadOnly Property BasicLimitInformation() As NativeStructs.JobObjectBasicLimitInformation
         Get
-            Return BasicLimitInformation
+            Return basicLimitInfo
         End Get
     End Property
 

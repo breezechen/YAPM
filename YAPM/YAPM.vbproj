@@ -283,6 +283,10 @@
       <DependentUpon>frmServer.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\processesInJobList.resx">
+      <DependentUpon>processesInJobList.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\jobList.resx">
       <DependentUpon>jobList.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -668,6 +672,7 @@
     <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobAddProcess.vb" />
     <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobEnumerate.vb" />
     <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobTerminateJob.vb" />
+    <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackProcessesInJobEnumerate.vb" />
     <Compile Include="Providers\Classes\Jobs\cJob.vb" />
     <Compile Include="Providers\Classes\Jobs\cJobConnection.vb" />
     <Compile Include="Providers\Classes\Jobs\jobInfos.vb" />
@@ -753,6 +758,12 @@
     <Compile Include="Providers\Classes\Windows\cWindow.vb" />
     <Compile Include="Providers\Classes\Windows\cWindowConnection.vb" />
     <Compile Include="Providers\Classes\Windows\windowInfos.vb" />
+    <Compile Include="Providers\CustomListviews\processesInJobList.Designer.vb">
+      <DependentUpon>processesInJobList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\processesInJobList.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Providers\CustomListviews\jobList.Designer.vb">
       <DependentUpon>jobList.vb</DependentUpon>
     </Compile>

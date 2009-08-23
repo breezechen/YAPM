@@ -6,6 +6,8 @@ Refactoring bugs
 
 
 BUGS CRITIQUES
+- jobs (+ menu dans les processes in job dont 'go to process')
+
 - others highlightings (isTask, wow64...)
 - extend dico et ajout de TryAdd ?
 - refermer les handles quand les processes meurent !
@@ -129,7 +131,6 @@ BUGS NON CRITIQUES
 - enum module via read memory et LdrDataTableEntry (permet d'avoir plus d'infos)
 - SBA a réimplémenter
 - SBA -> sendmessage configurable
-- JOBs
 - cycles pour vista, I/O priority, WS shared
 - "monitor" sur les processus (sélection du PID, sélection de la catégorie Process/Processus et sélection des bonnes instances)
 - infos système dans le general report
@@ -164,3 +165,4 @@ Temp Change log :
 - numeric updowns pour les intervalles dans frmPreferences
 - corrections bug WMI
 - optimisation récupération des threads par WMI
+- added job management

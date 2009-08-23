@@ -24,11 +24,29 @@ Partial Class frmJobInfo
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmJobInfo))
+        Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.cmdAddProcess = New System.Windows.Forms.Button
+        Me.cmdTerminateJob = New System.Windows.Forms.Button
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.gpProcGeneralFile = New System.Windows.Forms.GroupBox
+        Me.lblCreationDate = New System.Windows.Forms.Label
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.lblJobId = New System.Windows.Forms.Label
+        Me.Label2 = New System.Windows.Forms.Label
         Me.TabPage2 = New System.Windows.Forms.TabPage
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
+        Me.lblPageFaultCount = New System.Windows.Forms.Label
+        Me.Label21 = New System.Windows.Forms.Label
+        Me.lblSchedulingClass = New System.Windows.Forms.Label
+        Me.Label27 = New System.Windows.Forms.Label
+        Me.lblMaxWSS = New System.Windows.Forms.Label
+        Me.Label25 = New System.Windows.Forms.Label
+        Me.lblMinWSS = New System.Windows.Forms.Label
+        Me.Label19 = New System.Windows.Forms.Label
         Me.lblTotalTerminatedProcesses = New System.Windows.Forms.Label
         Me.Label37 = New System.Windows.Forms.Label
         Me.lblActiveProcesses = New System.Windows.Forms.Label
@@ -61,6 +79,14 @@ Partial Class frmJobInfo
         Me.lblProcReads = New System.Windows.Forms.Label
         Me.Label42 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.lblPriority = New System.Windows.Forms.Label
+        Me.Label8 = New System.Windows.Forms.Label
+        Me.lblTotalPeriod = New System.Windows.Forms.Label
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.lblUserPeriod = New System.Windows.Forms.Label
+        Me.Label10 = New System.Windows.Forms.Label
+        Me.lblPeriodKernel = New System.Windows.Forms.Label
+        Me.Label28 = New System.Windows.Forms.Label
         Me.lblTotalTime = New System.Windows.Forms.Label
         Me.Label24 = New System.Windows.Forms.Label
         Me.lblUserTime = New System.Windows.Forms.Label
@@ -76,31 +102,20 @@ Partial Class frmJobInfo
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
-        Me.lblTotalPeriod = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.lblUserPeriod = New System.Windows.Forms.Label
-        Me.Label10 = New System.Windows.Forms.Label
-        Me.lblPeriodKernel = New System.Windows.Forms.Label
-        Me.Label28 = New System.Windows.Forms.Label
-        Me.lblPriority = New System.Windows.Forms.Label
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.lblMinWSS = New System.Windows.Forms.Label
-        Me.Label19 = New System.Windows.Forms.Label
-        Me.lblMaxWSS = New System.Windows.Forms.Label
-        Me.Label25 = New System.Windows.Forms.Label
-        Me.lblSchedulingClass = New System.Windows.Forms.Label
-        Me.Label27 = New System.Windows.Forms.Label
-        Me.lblPageFaultCount = New System.Windows.Forms.Label
-        Me.Label21 = New System.Windows.Forms.Label
-        Me.lblJobId = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.lblCreationDate = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.cmdTerminateJob = New System.Windows.Forms.Button
-        Me.cmdAddProcess = New System.Windows.Forms.Button
+        Me.lvProcess = New YAPM.processesInJobList
+        Me.c1 = New System.Windows.Forms.ColumnHeader
+        Me.c2 = New System.Windows.Forms.ColumnHeader
+        Me.c3 = New System.Windows.Forms.ColumnHeader
+        Me.c4 = New System.Windows.Forms.ColumnHeader
+        Me.c5 = New System.Windows.Forms.ColumnHeader
+        Me.c7 = New System.Windows.Forms.ColumnHeader
+        Me.c8 = New System.Windows.Forms.ColumnHeader
+        Me.c9 = New System.Windows.Forms.ColumnHeader
+        Me.c10 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.gpProcGeneralFile.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -138,6 +153,40 @@ Partial Class frmJobInfo
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'cmdAddProcess
+        '
+        Me.cmdAddProcess.Image = Global.YAPM.My.Resources.Resources.plus_circle
+        Me.cmdAddProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdAddProcess.Location = New System.Drawing.Point(234, 48)
+        Me.cmdAddProcess.Name = "cmdAddProcess"
+        Me.cmdAddProcess.Size = New System.Drawing.Size(131, 23)
+        Me.cmdAddProcess.TabIndex = 18
+        Me.cmdAddProcess.Text = "Add process to job"
+        Me.cmdAddProcess.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.cmdAddProcess.UseVisualStyleBackColor = True
+        '
+        'cmdTerminateJob
+        '
+        Me.cmdTerminateJob.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.cmdTerminateJob.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdTerminateJob.Location = New System.Drawing.Point(234, 19)
+        Me.cmdTerminateJob.Name = "cmdTerminateJob"
+        Me.cmdTerminateJob.Size = New System.Drawing.Size(105, 23)
+        Me.cmdTerminateJob.TabIndex = 17
+        Me.cmdTerminateJob.Text = "Terminate job"
+        Me.cmdTerminateJob.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.cmdTerminateJob.UseVisualStyleBackColor = True
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.lvProcess)
+        Me.GroupBox1.Location = New System.Drawing.Point(8, 90)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(631, 198)
+        Me.GroupBox1.TabIndex = 16
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Processes in job"
+        '
         'gpProcGeneralFile
         '
         Me.gpProcGeneralFile.Controls.Add(Me.lblCreationDate)
@@ -150,6 +199,44 @@ Partial Class frmJobInfo
         Me.gpProcGeneralFile.TabIndex = 15
         Me.gpProcGeneralFile.TabStop = False
         Me.gpProcGeneralFile.Text = "Main infos"
+        '
+        'lblCreationDate
+        '
+        Me.lblCreationDate.AutoSize = True
+        Me.lblCreationDate.Location = New System.Drawing.Point(103, 42)
+        Me.lblCreationDate.Name = "lblCreationDate"
+        Me.lblCreationDate.Size = New System.Drawing.Size(19, 13)
+        Me.lblCreationDate.TabIndex = 27
+        Me.lblCreationDate.Text = "00"
+        Me.lblCreationDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(7, 42)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(77, 13)
+        Me.Label3.TabIndex = 26
+        Me.Label3.Text = "Creation date"
+        '
+        'lblJobId
+        '
+        Me.lblJobId.AutoSize = True
+        Me.lblJobId.Location = New System.Drawing.Point(103, 23)
+        Me.lblJobId.Name = "lblJobId"
+        Me.lblJobId.Size = New System.Drawing.Size(19, 13)
+        Me.lblJobId.TabIndex = 25
+        Me.lblJobId.Text = "00"
+        Me.lblJobId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(7, 23)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(39, 13)
+        Me.Label2.TabIndex = 24
+        Me.Label2.Text = "Job ID"
         '
         'TabPage2
         '
@@ -186,6 +273,82 @@ Partial Class frmJobInfo
         Me.GroupBox5.TabIndex = 7
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Other"
+        '
+        'lblPageFaultCount
+        '
+        Me.lblPageFaultCount.AutoSize = True
+        Me.lblPageFaultCount.Location = New System.Drawing.Point(155, 126)
+        Me.lblPageFaultCount.Name = "lblPageFaultCount"
+        Me.lblPageFaultCount.Size = New System.Drawing.Size(19, 13)
+        Me.lblPageFaultCount.TabIndex = 13
+        Me.lblPageFaultCount.Text = "00"
+        Me.lblPageFaultCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Location = New System.Drawing.Point(8, 126)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(115, 13)
+        Me.Label21.TabIndex = 12
+        Me.Label21.Text = "TotalPageFaultCount"
+        '
+        'lblSchedulingClass
+        '
+        Me.lblSchedulingClass.AutoSize = True
+        Me.lblSchedulingClass.Location = New System.Drawing.Point(155, 108)
+        Me.lblSchedulingClass.Name = "lblSchedulingClass"
+        Me.lblSchedulingClass.Size = New System.Drawing.Size(19, 13)
+        Me.lblSchedulingClass.TabIndex = 11
+        Me.lblSchedulingClass.Text = "00"
+        Me.lblSchedulingClass.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label27
+        '
+        Me.Label27.AutoSize = True
+        Me.Label27.Location = New System.Drawing.Point(8, 108)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(91, 13)
+        Me.Label27.TabIndex = 10
+        Me.Label27.Text = "SchedulingClass"
+        '
+        'lblMaxWSS
+        '
+        Me.lblMaxWSS.AutoSize = True
+        Me.lblMaxWSS.Location = New System.Drawing.Point(155, 90)
+        Me.lblMaxWSS.Name = "lblMaxWSS"
+        Me.lblMaxWSS.Size = New System.Drawing.Size(19, 13)
+        Me.lblMaxWSS.TabIndex = 9
+        Me.lblMaxWSS.Text = "00"
+        Me.lblMaxWSS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label25
+        '
+        Me.Label25.AutoSize = True
+        Me.Label25.Location = New System.Drawing.Point(8, 90)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(137, 13)
+        Me.Label25.TabIndex = 8
+        Me.Label25.Text = "MaximumWorkingSetSize"
+        '
+        'lblMinWSS
+        '
+        Me.lblMinWSS.AutoSize = True
+        Me.lblMinWSS.Location = New System.Drawing.Point(155, 72)
+        Me.lblMinWSS.Name = "lblMinWSS"
+        Me.lblMinWSS.Size = New System.Drawing.Size(19, 13)
+        Me.lblMinWSS.TabIndex = 7
+        Me.lblMinWSS.Text = "00"
+        Me.lblMinWSS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(8, 72)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(136, 13)
+        Me.Label19.TabIndex = 6
+        Me.Label19.Text = "MinimumWorkingSetSize"
         '
         'lblTotalTerminatedProcesses
         '
@@ -530,6 +693,81 @@ Partial Class frmJobInfo
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "CPU"
         '
+        'lblPriority
+        '
+        Me.lblPriority.AutoSize = True
+        Me.lblPriority.Location = New System.Drawing.Point(116, 146)
+        Me.lblPriority.Name = "lblPriority"
+        Me.lblPriority.Size = New System.Drawing.Size(0, 13)
+        Me.lblPriority.TabIndex = 15
+        Me.lblPriority.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(6, 146)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(43, 13)
+        Me.Label8.TabIndex = 14
+        Me.Label8.Text = "Priority"
+        '
+        'lblTotalPeriod
+        '
+        Me.lblTotalPeriod.AutoSize = True
+        Me.lblTotalPeriod.Location = New System.Drawing.Point(116, 128)
+        Me.lblTotalPeriod.Name = "lblTotalPeriod"
+        Me.lblTotalPeriod.Size = New System.Drawing.Size(70, 13)
+        Me.lblTotalPeriod.TabIndex = 13
+        Me.lblTotalPeriod.Text = "00:00:00.158"
+        Me.lblTotalPeriod.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(6, 128)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(100, 13)
+        Me.Label6.TabIndex = 12
+        Me.Label6.Text = "Total time (period)"
+        '
+        'lblUserPeriod
+        '
+        Me.lblUserPeriod.AutoSize = True
+        Me.lblUserPeriod.Location = New System.Drawing.Point(116, 109)
+        Me.lblUserPeriod.Name = "lblUserPeriod"
+        Me.lblUserPeriod.Size = New System.Drawing.Size(19, 13)
+        Me.lblUserPeriod.TabIndex = 11
+        Me.lblUserPeriod.Text = "00"
+        Me.lblUserPeriod.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(6, 109)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(98, 13)
+        Me.Label10.TabIndex = 10
+        Me.Label10.Text = "User time (period)"
+        '
+        'lblPeriodKernel
+        '
+        Me.lblPeriodKernel.AutoSize = True
+        Me.lblPeriodKernel.Location = New System.Drawing.Point(116, 91)
+        Me.lblPeriodKernel.Name = "lblPeriodKernel"
+        Me.lblPeriodKernel.Size = New System.Drawing.Size(19, 13)
+        Me.lblPeriodKernel.TabIndex = 9
+        Me.lblPeriodKernel.Text = "00"
+        Me.lblPeriodKernel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label28
+        '
+        Me.Label28.AutoSize = True
+        Me.Label28.Location = New System.Drawing.Point(6, 91)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(107, 13)
+        Me.Label28.TabIndex = 8
+        Me.Label28.Text = "Kernel time (period)"
+        '
         'lblTotalTime
         '
         Me.lblTotalTime.AutoSize = True
@@ -668,229 +906,85 @@ Partial Class frmJobInfo
         '
         Me.VistaMenu.ContainerControl = Me
         '
-        'lblTotalPeriod
+        'lvProcess
         '
-        Me.lblTotalPeriod.AutoSize = True
-        Me.lblTotalPeriod.Location = New System.Drawing.Point(116, 128)
-        Me.lblTotalPeriod.Name = "lblTotalPeriod"
-        Me.lblTotalPeriod.Size = New System.Drawing.Size(70, 13)
-        Me.lblTotalPeriod.TabIndex = 13
-        Me.lblTotalPeriod.Text = "00:00:00.158"
-        Me.lblTotalPeriod.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lvProcess.AllowColumnReorder = True
+        Me.lvProcess.CatchErrors = False
+        Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
+        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcess.ConnectionObj = CConnection1
+        Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvProcess.FullRowSelect = True
+        ListViewGroup1.Header = "Processes"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        Me.lvProcess.HideSelection = False
+        Me.lvProcess.Location = New System.Drawing.Point(3, 18)
+        Me.lvProcess.Name = "lvProcess"
+        Me.lvProcess.OverriddenDoubleBuffered = True
+        Me.lvProcess.ReorganizeColumns = True
+        Me.lvProcess.Size = New System.Drawing.Size(625, 177)
+        Me.lvProcess.TabIndex = 4
+        Me.lvProcess.UseCompatibleStateImageBehavior = False
+        Me.lvProcess.View = System.Windows.Forms.View.Details
         '
-        'Label6
+        'c1
         '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(6, 128)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(100, 13)
-        Me.Label6.TabIndex = 12
-        Me.Label6.Text = "Total time (period)"
+        Me.c1.Text = "Name"
+        Me.c1.Width = 100
         '
-        'lblUserPeriod
+        'c2
         '
-        Me.lblUserPeriod.AutoSize = True
-        Me.lblUserPeriod.Location = New System.Drawing.Point(116, 109)
-        Me.lblUserPeriod.Name = "lblUserPeriod"
-        Me.lblUserPeriod.Size = New System.Drawing.Size(19, 13)
-        Me.lblUserPeriod.TabIndex = 11
-        Me.lblUserPeriod.Text = "00"
-        Me.lblUserPeriod.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.c2.Text = "PID"
+        Me.c2.Width = 40
         '
-        'Label10
+        'c3
         '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(6, 109)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(98, 13)
-        Me.Label10.TabIndex = 10
-        Me.Label10.Text = "User time (period)"
+        Me.c3.Text = "UserName"
+        Me.c3.Width = 100
         '
-        'lblPeriodKernel
+        'c4
         '
-        Me.lblPeriodKernel.AutoSize = True
-        Me.lblPeriodKernel.Location = New System.Drawing.Point(116, 91)
-        Me.lblPeriodKernel.Name = "lblPeriodKernel"
-        Me.lblPeriodKernel.Size = New System.Drawing.Size(19, 13)
-        Me.lblPeriodKernel.TabIndex = 9
-        Me.lblPeriodKernel.Text = "00"
-        Me.lblPeriodKernel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.c4.DisplayIndex = 5
+        Me.c4.Text = "TotalCpuTime"
+        Me.c4.Width = 80
         '
-        'Label28
+        'c5
         '
-        Me.Label28.AutoSize = True
-        Me.Label28.Location = New System.Drawing.Point(6, 91)
-        Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(107, 13)
-        Me.Label28.TabIndex = 8
-        Me.Label28.Text = "Kernel time (period)"
+        Me.c5.DisplayIndex = 6
+        Me.c5.Text = "WorkingSet"
+        Me.c5.Width = 80
         '
-        'lblPriority
+        'c7
         '
-        Me.lblPriority.AutoSize = True
-        Me.lblPriority.Location = New System.Drawing.Point(116, 146)
-        Me.lblPriority.Name = "lblPriority"
-        Me.lblPriority.Size = New System.Drawing.Size(0, 13)
-        Me.lblPriority.TabIndex = 15
-        Me.lblPriority.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.c7.DisplayIndex = 7
+        Me.c7.Text = "Priority"
+        Me.c7.Width = 70
         '
-        'Label8
+        'c8
         '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(6, 146)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(43, 13)
-        Me.Label8.TabIndex = 14
-        Me.Label8.Text = "Priority"
+        Me.c8.DisplayIndex = 8
+        Me.c8.Text = "Path"
+        Me.c8.Width = 350
         '
-        'lblMinWSS
+        'c9
         '
-        Me.lblMinWSS.AutoSize = True
-        Me.lblMinWSS.Location = New System.Drawing.Point(155, 72)
-        Me.lblMinWSS.Name = "lblMinWSS"
-        Me.lblMinWSS.Size = New System.Drawing.Size(19, 13)
-        Me.lblMinWSS.TabIndex = 7
-        Me.lblMinWSS.Text = "00"
-        Me.lblMinWSS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.c9.DisplayIndex = 9
+        Me.c9.Text = "StartTime"
+        Me.c9.Width = 250
         '
-        'Label19
+        'c10
         '
-        Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(8, 72)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(136, 13)
-        Me.Label19.TabIndex = 6
-        Me.Label19.Text = "MinimumWorkingSetSize"
+        Me.c10.DisplayIndex = 3
+        Me.c10.Text = "CpuUsage"
         '
-        'lblMaxWSS
+        'ColumnHeader20
         '
-        Me.lblMaxWSS.AutoSize = True
-        Me.lblMaxWSS.Location = New System.Drawing.Point(155, 90)
-        Me.lblMaxWSS.Name = "lblMaxWSS"
-        Me.lblMaxWSS.Size = New System.Drawing.Size(19, 13)
-        Me.lblMaxWSS.TabIndex = 9
-        Me.lblMaxWSS.Text = "00"
-        Me.lblMaxWSS.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label25
-        '
-        Me.Label25.AutoSize = True
-        Me.Label25.Location = New System.Drawing.Point(8, 90)
-        Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(137, 13)
-        Me.Label25.TabIndex = 8
-        Me.Label25.Text = "MaximumWorkingSetSize"
-        '
-        'lblSchedulingClass
-        '
-        Me.lblSchedulingClass.AutoSize = True
-        Me.lblSchedulingClass.Location = New System.Drawing.Point(155, 108)
-        Me.lblSchedulingClass.Name = "lblSchedulingClass"
-        Me.lblSchedulingClass.Size = New System.Drawing.Size(19, 13)
-        Me.lblSchedulingClass.TabIndex = 11
-        Me.lblSchedulingClass.Text = "00"
-        Me.lblSchedulingClass.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label27
-        '
-        Me.Label27.AutoSize = True
-        Me.Label27.Location = New System.Drawing.Point(8, 108)
-        Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(91, 13)
-        Me.Label27.TabIndex = 10
-        Me.Label27.Text = "SchedulingClass"
-        '
-        'lblPageFaultCount
-        '
-        Me.lblPageFaultCount.AutoSize = True
-        Me.lblPageFaultCount.Location = New System.Drawing.Point(155, 126)
-        Me.lblPageFaultCount.Name = "lblPageFaultCount"
-        Me.lblPageFaultCount.Size = New System.Drawing.Size(19, 13)
-        Me.lblPageFaultCount.TabIndex = 13
-        Me.lblPageFaultCount.Text = "00"
-        Me.lblPageFaultCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label21
-        '
-        Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(8, 126)
-        Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(115, 13)
-        Me.Label21.TabIndex = 12
-        Me.Label21.Text = "TotalPageFaultCount"
-        '
-        'lblJobId
-        '
-        Me.lblJobId.AutoSize = True
-        Me.lblJobId.Location = New System.Drawing.Point(103, 23)
-        Me.lblJobId.Name = "lblJobId"
-        Me.lblJobId.Size = New System.Drawing.Size(19, 13)
-        Me.lblJobId.TabIndex = 25
-        Me.lblJobId.Text = "00"
-        Me.lblJobId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(7, 23)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(39, 13)
-        Me.Label2.TabIndex = 24
-        Me.Label2.Text = "Job ID"
-        '
-        'lblCreationDate
-        '
-        Me.lblCreationDate.AutoSize = True
-        Me.lblCreationDate.Location = New System.Drawing.Point(103, 42)
-        Me.lblCreationDate.Name = "lblCreationDate"
-        Me.lblCreationDate.Size = New System.Drawing.Size(19, 13)
-        Me.lblCreationDate.TabIndex = 27
-        Me.lblCreationDate.Text = "00"
-        Me.lblCreationDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(7, 42)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(77, 13)
-        Me.Label3.TabIndex = 26
-        Me.Label3.Text = "Creation date"
-        '
-        'GroupBox1
-        '
-        Me.GroupBox1.Location = New System.Drawing.Point(8, 90)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(631, 198)
-        Me.GroupBox1.TabIndex = 16
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Processes in job"
-        '
-        'cmdTerminateJob
-        '
-        Me.cmdTerminateJob.Enabled = False
-        Me.cmdTerminateJob.Image = Global.YAPM.My.Resources.Resources.cross
-        Me.cmdTerminateJob.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdTerminateJob.Location = New System.Drawing.Point(234, 19)
-        Me.cmdTerminateJob.Name = "cmdTerminateJob"
-        Me.cmdTerminateJob.Size = New System.Drawing.Size(105, 23)
-        Me.cmdTerminateJob.TabIndex = 17
-        Me.cmdTerminateJob.Text = "Terminate job"
-        Me.cmdTerminateJob.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.cmdTerminateJob.UseVisualStyleBackColor = True
-        '
-        'cmdAddProcess
-        '
-        Me.cmdAddProcess.Enabled = False
-        Me.cmdAddProcess.Image = Global.YAPM.My.Resources.Resources.plus_circle
-        Me.cmdAddProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdAddProcess.Location = New System.Drawing.Point(234, 48)
-        Me.cmdAddProcess.Name = "cmdAddProcess"
-        Me.cmdAddProcess.Size = New System.Drawing.Size(131, 23)
-        Me.cmdAddProcess.TabIndex = 18
-        Me.cmdAddProcess.Text = "Add process to job"
-        Me.cmdAddProcess.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.cmdAddProcess.UseVisualStyleBackColor = True
+        Me.ColumnHeader20.DisplayIndex = 4
+        Me.ColumnHeader20.Text = "AverageCpuUsage"
         '
         'frmJobInfo
         '
@@ -904,6 +998,7 @@ Partial Class frmJobInfo
         Me.Text = "Service informations"
         Me.tabProcess.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
         Me.gpProcGeneralFile.ResumeLayout(False)
         Me.gpProcGeneralFile.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
@@ -992,4 +1087,15 @@ Partial Class frmJobInfo
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents cmdAddProcess As System.Windows.Forms.Button
     Friend WithEvents cmdTerminateJob As System.Windows.Forms.Button
+    Friend WithEvents lvProcess As YAPM.processesInJobList
+    Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c3 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c4 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c5 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c7 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c8 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c9 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents c10 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
 End Class

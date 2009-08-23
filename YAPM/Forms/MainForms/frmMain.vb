@@ -2432,7 +2432,7 @@ Public Class frmMain
             Me.MenuItemProcWSS.Enabled = selectionIsNotNothing AndAlso _notWMI
 
             ' Job menuitems
-            Me.MenuItemJobs.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemJobs.Enabled = selectionIsNotNothing AndAlso _local
             If Me.lvProcess.SelectedItems.Count <> 1 Then
                 Me.MenuItemJobMng.Enabled = True
             Else
@@ -3335,6 +3335,7 @@ Public Class frmMain
         Me.timerMonitoring.Enabled = False
         Me.timerTask.Enabled = False
         Me.timerNetwork.Enabled = False
+        Me.timerJobs.Enabled = False
 
         ' Clear all lvItems
         Me.lvProcess.ClearItems()
@@ -3421,6 +3422,7 @@ Public Class frmMain
         Me.timerMonitoring.Enabled = _local
         Me.timerNetwork.Enabled = _local
         Me.timerTask.Enabled = _local
+        Me.timerJobs.Enabled = _local
     End Sub
 
     Public Sub DisconnectFromMachine()

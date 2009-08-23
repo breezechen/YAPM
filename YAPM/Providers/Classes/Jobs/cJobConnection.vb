@@ -32,7 +32,8 @@ Public Class cJobConnection
 
     Friend Shared instanceId As Integer = 1
     Private _instanceId As Integer = 1
-    Dim _jobEnum As asyncCallbackJobEnumerate
+    Private _jobEnum As asyncCallbackJobEnumerate
+    Private _procInJobEnum As asyncCallbackProcessesInJobEnumerate
 
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
@@ -41,16 +42,25 @@ Public Class cJobConnection
         _jobEnum = New asyncCallbackJobEnumerate(_control, de, Me, _instanceId)
     End Sub
 
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedProcInJobEventHandler)
+        MyBase.New(ControlWhichGetInvoked, Conn)
+        instanceId += 1
+        _instanceId = instanceId
+        _procInJobEnum = New asyncCallbackProcessesInJobEnumerate(_control, de, Me, _instanceId)
+    End Sub
+
 
 #Region "Events, delegate, invoke..."
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, cJob), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Public Delegate Sub HasEnumeratedProcInJobEventHandler(ByVal Success As Boolean, ByVal List As List(Of Integer), ByVal errorMessage As String, ByVal instanceId As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
     Public HasEnumerated As HasEnumeratedEventHandler
+    Public HasEnumeratedProcessesInJob As HasEnumeratedProcInJobEventHandler
 
 #End Region
 
@@ -100,14 +110,22 @@ Public Class cJobConnection
 
 #End Region
 
-#Region "Enumerate services"
+#Region "Enumerate jobs"
 
-    ' Enumerate services
+    ' Enumerate jobs
     Public Function Enumerate(ByVal getFixedInfos As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
                 _jobEnum.Process), New  _
                 asyncCallbackJobEnumerate.poolObj(forInstanceId))
+    End Function
+
+    ' Enumerate processes in a job
+    Public Function EnumerateProcessesInJob(ByVal hJob As IntPtr, Optional ByVal forInstanceId As Integer = -1) As Integer
+        Call Threading.ThreadPool.QueueUserWorkItem(New  _
+                System.Threading.WaitCallback(AddressOf _
+                _procInJobEnum.Process), New  _
+                asyncCallbackProcessesInJobEnumerate.poolObj(hJob, forInstanceId))
     End Function
 
 #End Region
