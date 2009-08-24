@@ -4,6 +4,9 @@ Refactoring bugs
 - 64TODO
 - YAPM should run without the driver on x64 (for now) and user should be able to disable it (command line & option)
 
+- OKAY .... JOB enumeration works fine but take WAY TOO MUCH CPU TIME :-(
+Need to set timer to 4000 ? Or need to fine another solution ? Is it possible without kernel mode ?
+
 
 BUGS CRITIQUES
 - job refreshment timer (2000 par défaut)
