@@ -223,6 +223,10 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmAddToJob.resx">
+      <DependentUpon>frmAddToJob.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmChangeMemoryProtection.resx">
       <DependentUpon>frmChangeMemoryProtection.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -475,6 +479,12 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForms\frmJobInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmAddToJob.Designer.vb">
+      <DependentUpon>frmAddToJob.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmAddToJob.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Native\Driver\DriverCtrl.vb" />

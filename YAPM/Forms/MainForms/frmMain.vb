@@ -445,7 +445,7 @@ Public Class frmMain
             Me.MenuItemCopyModule.MenuItems.Add(ss, AddressOf MenuItemCopyModule_Click)
         Next
         For Each ss As String In jobInfos.GetAvailableProperties(True, True)
-            Me.MenuItemJobs.MenuItems.Add(ss, AddressOf MenuItemCopyJob_Click)
+            Me.MenuItemCopyJob.MenuItems.Add(ss, AddressOf MenuItemCopyJob_Click)
         Next
         For Each ss As String In networkInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyNetwork.MenuItems.Add(ss, AddressOf MenuItemCopyNetwork_Click)
@@ -2436,7 +2436,7 @@ Public Class frmMain
             If Me.lvProcess.SelectedItems.Count <> 1 Then
                 Me.MenuItemJobMng.Enabled = True
             Else
-                Me.MenuItemJobMng.Enabled = (cJob.GetProcessJobById(Me.lvProcess.GetSelectedItem.Infos.Pid) IsNot Nothing)
+                Me.MenuItemJobMng.Enabled = Me.lvJob.Items.Count > 0 AndAlso (cJob.GetProcessJobById(Me.lvProcess.GetSelectedItem.Infos.Pid) IsNot Nothing)
             End If
 
             Me.mnuProcess.Show(Me.lvProcess, e.Location)
@@ -5190,6 +5190,12 @@ Public Class frmMain
         End If
     End Sub
 
+    Private Sub lvJob_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvJob.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            Call butJobDetails_Click(Nothing, Nothing)
+        End If
+    End Sub
+
     Private Sub lvJob_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvJob.MouseDoubleClick
         If e.Button = Windows.Forms.MouseButtons.Left Then
             Call butJobDetails_Click(Nothing, Nothing)
@@ -5200,7 +5206,7 @@ Public Class frmMain
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Dim selectionIsNotNothing As Boolean = (Me.lvJob.SelectedItems IsNot Nothing _
                                         AndAlso Me.lvJob.SelectedItems.Count > 0)
-            Me.MenuItemJobTerminate.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemJobTerminate.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemCopyJob.Enabled = selectionIsNotNothing
             Me.mnuJob.Show(Me.lvJob, e.Location)
         End If
@@ -5215,38 +5221,6 @@ Public Class frmMain
         For Each cJ As cJob In Me.lvJob.GetSelectedItems
             cJ.TerminateJob()
         Next
-    End Sub
-
-    Private Sub MenuItemJobNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemJobNew.Click
-        ' Add selected processes to a new job
-        Dim sJob As String = _
-            Common.Misc.CInputBox("Enter the name of the new job to create", "Job creation")
-
-        If sJob Is Nothing OrElse sJob.Length = 0 Then
-            MsgBox("Job name must not be null", MsgBoxStyle.Information, "Job creation")
-            Exit Sub
-        End If
-
-        Dim job As cJob = cJob.CreateJobByName(sJob)
-        If job IsNot Nothing Then
-            ' Then we add the job to the menu
-            Me.MenuItemJobSeparation.Visible = True
-            Me.MenuItemProcAddToJob.MenuItems.Add(job.Infos.Name, AddressOf AddProcessToExistingJob_Click)
-            For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-                job.AddProcess(cp.Infos.Pid)
-            Next
-        End If
-    End Sub
-
-    Private Sub AddProcessToExistingJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        ' Add selected processes to an existing job 
-        Dim jobName As String = CType(sender, System.Windows.Forms.MenuItem).Text
-        Dim job As cJob = cJob.GetJobByName(jobName)
-        If job IsNot Nothing Then
-            For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-                job.AddProcess(cp.Infos.Pid)
-            Next
-        End If
     End Sub
 
     Private Sub butJobRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butJobRefresh.Click
@@ -5268,13 +5242,33 @@ Public Class frmMain
 
     Private Sub MenuItemJobMng_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemJobMng.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            Dim cJ As cJob = cJob.GetProcessJobById(cp.Infos.Pid)
-            If cJ IsNot Nothing Then
+            Dim theJob As cJob = Nothing
+            For Each jj As cJob In Me.lvJob.GetAllItems
+                If jj.PidList.Contains(cp.Infos.Pid) Then
+                    theJob = jj
+                    Exit For
+                End If
+            Next
+            If theJob IsNot Nothing Then
                 Dim frm As New frmJobInfo
-                frm.SetJob(cJ)
+                frm.SetJob(theJob)
                 frm.TopMost = _frmMain.TopMost
                 frm.Show()
             End If
         Next
+    End Sub
+
+    Private Sub MenuItemProcAddToJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcAddToJob.Click
+        ' Add to job
+
+        ' Get list of PIDs
+        Dim pid As New List(Of Integer)
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            pid.Add(cp.Infos.Pid)
+        Next
+
+        Dim frm As New frmAddToJob(pid)
+        frm.ShowDialog()
+
     End Sub
 End Class

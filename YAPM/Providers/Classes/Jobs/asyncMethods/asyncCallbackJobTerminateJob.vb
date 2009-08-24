@@ -29,7 +29,7 @@ Public Class asyncCallbackJobTerminateJob
     Private con As cJobConnection
     Private _deg As HasTerminatedJob
 
-    Public Delegate Sub HasTerminatedJob(ByVal Success As Boolean, ByVal jobId As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+    Public Delegate Sub HasTerminatedJob(ByVal Success As Boolean, ByVal jobName As String, ByVal msg As String, ByVal actionNumber As Integer)
 
     Public Sub New(ByVal deg As HasTerminatedJob, ByRef jobConnection As cJobConnection)
         _deg = deg
@@ -37,12 +37,12 @@ Public Class asyncCallbackJobTerminateJob
     End Sub
 
     Public Structure poolObj
-        Public jobId As Integer
+        Public jobName As String
         Public newAction As Integer
-        Public Sub New(ByVal _jobId As Integer, _
+        Public Sub New(ByVal name As String, _
                        ByVal act As Integer)
             newAction = act
-            jobId = _jobId
+            jobName = name
         End Sub
     End Structure
 
@@ -66,8 +66,8 @@ Public Class asyncCallbackJobTerminateJob
 
             Case Else
                 ' Local
-                Dim ret As Boolean = Native.Objects.Job.TerminateJobByJobId(pObj.jobId)
-                _deg.Invoke(ret, pObj.jobId, Native.Api.Win32.GetLastError, pObj.newAction)
+                Dim ret As Boolean = Native.Objects.Job.TerminateJobByJobName(pObj.jobName)
+                _deg.Invoke(ret, pObj.jobName, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub
 

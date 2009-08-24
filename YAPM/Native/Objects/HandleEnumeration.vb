@@ -52,9 +52,9 @@ Namespace Native.Objects
         Private memAllocPID As New Native.Memory.MemoryAlloc(&H100)
 
         ' Some other mem allocations 
-        Dim BufferObjType As New Native.Memory.MemoryAlloc(512)
-        Dim BufferObjName As New Native.Memory.MemoryAlloc(512)
-        Dim BufferObjBasic As New Native.Memory.MemoryAlloc(Marshal.SizeOf(GetType(NativeStructs.ObjectBasicInformation)))
+        Private BufferObjType As New Native.Memory.MemoryAlloc(512)
+        Private BufferObjName As New Native.Memory.MemoryAlloc(512)
+        Private BufferObjBasic As New Native.Memory.MemoryAlloc(Marshal.SizeOf(GetType(NativeStructs.ObjectBasicInformation)))
 
         ' Currently opened driver
         Private hProcess As IntPtr
@@ -194,7 +194,6 @@ Namespace Native.Objects
             End If
 
         End Sub
-
 
 
         ' ========================================

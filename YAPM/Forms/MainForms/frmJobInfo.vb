@@ -42,11 +42,15 @@ Public Class frmJobInfo
 
             Case "General"
                 ' Update processes in job
-                Me.lvProcess.JobHandle = curJob.Infos.JobHandle
+                Me.lvProcess.Job = curJob
                 Me.lvProcess.UpdateTheItems()
 
 
             Case "Statistics"
+
+                ' Refresh stats
+                curJob.Refresh()
+
                 ' CPU
                 Dim ts As Date
                 Dim s As String

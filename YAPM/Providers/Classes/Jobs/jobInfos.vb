@@ -30,13 +30,17 @@ Imports System.Net
 <Serializable()> Public Class jobInfos
     Inherits generalInfos
 
-    Private Shared jobNumber As Integer = 1
+    ' Handle (query access)
+    ' This handle is closed/reopened every time we refresh job list
+    ' So we won't interfer with jobs with JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit
+    Private _handleQuery As IntPtr
+
+    ' True if _handleQuery has not been duplicated but is owned by YAPM
+    Private _isHandleOwned As Boolean
 
 #Region "Private attributes"
 
     Private _name As String
-    Private _jobId As Integer
-    Private _handle As IntPtr
 
 #End Region
 
@@ -47,14 +51,14 @@ Imports System.Net
             Return _name
         End Get
     End Property
-    Public ReadOnly Property JobId() As Integer
+    Public ReadOnly Property IsHandleOwned() As Boolean
         Get
-            Return _jobId
+            Return _isHandleOwned
         End Get
     End Property
-    Public ReadOnly Property JobHandle() As IntPtr
+    Public ReadOnly Property HandleQuery() As IntPtr
         Get
-            Return _handle
+            Return _handleQuery
         End Get
     End Property
 
@@ -66,26 +70,26 @@ Imports System.Net
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByVal name As String, ByVal handle As IntPtr)
+    Public Sub New(ByVal name As String, ByVal handleQuery As IntPtr, _
+                   ByVal doWeOwnHandle As Boolean)
         _name = name
-        _handle = handle
-        jobNumber += 1
-        _jobId = jobNumber
+        _handleQuery = handleQuery
+        _isHandleOwned = doWeOwnHandle
     End Sub
 
     ' Merge an old and a new instance
     Public Sub Merge(ByRef newI As jobInfos)
         With newI
-            _name = .name
+            _name = .Name
+            _handleQuery = .HandleQuery   ' Merge handle ! Cause it may has been closed/reopened if it is a duplicated one
         End With
     End Sub
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
-        Dim s(1) As String
+        Dim s(0) As String
 
-        s(0) = "JobId"
-        s(1) = "ProcessesCount"
+        s(0) = "ProcessesCount"
 
         If includeFirstProp Then
             Dim s2(s.Length) As String

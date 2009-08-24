@@ -123,8 +123,7 @@ Public Class cJob
 
     ' Get a job by its name
     Public Shared Function GetJobByName(ByVal jobName As String) As cJob
-        ' SYNCISSUE ?
-        For Each cJ As cJob In Native.Objects.Job.CreatedJobs.Values
+        For Each cJ As cJob In Native.Objects.Job.EnumerateCreatedJobs.Values
             If cJ.Infos.Name = jobName Then
                 Return cJ
             End If
@@ -133,9 +132,9 @@ Public Class cJob
     End Function
 
     ' Return job a process (if any)
+    ' BUGGY -> Handle of this cJob retrieved is not up-to-date (closed)
     Public Shared Function GetProcessJobById(ByVal pid As Integer) As cJob
-        ' SYNCISSUE ?
-        For Each cJ As cJob In Native.Objects.Job.CreatedJobs.Values
+        For Each cJ As cJob In Native.Objects.Job.EnumerateCreatedJobs(True).Values
             If cJ.PidList.Contains(pid) Then
                 Return cJ
             End If
@@ -172,9 +171,6 @@ Public Class cJob
                    "Could not add processes to job")
         End If
         RemovePendingTask(actionNumber)
-
-        ' Refresh list of pid
-        _procIds = Native.Objects.Job.GetProcessesInJobByHandle(_jobInfos.JobHandle)
     End Sub
 
     ' Terminate a job
@@ -190,13 +186,13 @@ Public Class cJob
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackJobTerminateJob.poolObj(Me.Infos.JobId, newAction))
+            asyncCallbackJobTerminateJob.poolObj(Me.Infos.Name, newAction))
 
     End Function
-    Private Sub killJobDone(ByVal Success As Boolean, ByVal jobId As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+    Private Sub killJobDone(ByVal Success As Boolean, ByVal jobName As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not terminate job " & jobId.ToString)
+                   "Could not terminate job " & jobName)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -206,11 +202,41 @@ Public Class cJob
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Thr As jobInfos)
         _jobInfos.Merge(Thr)
-        _procIds = Native.Objects.Job.GetProcessesInJobByHandle(_jobInfos.JobHandle)
+        ' Refresh infos
+        Call Refresh()
+    End Sub
 
+    ' Refresh infos
+    Public Sub Refresh()
         ' Refresh statistics
-        basicAcIoInfo = Native.Objects.Job.GeJobBasicAndIoAccountingInformationByHandle(_jobInfos.JobHandle)
-        basicLimitInfo = Native.Objects.Job.GeJobBasicLimitInformationByHandle(_jobInfos.JobHandle)
+        ' NOT GOOD WAY
+        ' NEED TO BE GENERIC AND ASYNC
+
+        ' If we own a valid handle to the job (basically when the handle has not been
+        ' duplicated), we demand a refreshment by handle.
+        ' Otherwise, we just notify we need to refresh !
+        If Infos.IsHandleOwned Then
+            ' Refresh infos (the handle is valid as it is never closed
+            ' because YAPM natively owns it)
+            RefreshWithValidHandle()
+        Else
+            ' Notify we need to refresh infos !
+            ' It will be done next time we enumerate jobs, just before
+            ' the handle will be closed
+            Native.Objects.Job.DemandJobRefreshment(Me)
+        End If
+
+    End Sub
+
+    ' We assume the handle is valid (cause not yet closed) and query the stats
+    ' This is called before the duplicated handle is closed
+    Friend Sub RefreshWithValidHandle()
+        Dim hJob As IntPtr = Infos.HandleQuery
+        If hJob.IsNotNull Then
+            _procIds = Native.Objects.Job.GetProcessesInJobByHandle(hJob)
+            basicAcIoInfo = Native.Objects.Job.GeJobBasicAndIoAccountingInformationByHandle(hJob)
+            basicLimitInfo = Native.Objects.Job.GeJobBasicLimitInformationByHandle(hJob)
+        End If
     End Sub
 
 #Region "Get information overriden methods"
@@ -229,8 +255,6 @@ Public Class cJob
         Select Case info
             Case "Name"
                 res = Me.Infos.Name
-            Case "JobId"
-                res = Me.Infos.JobId.ToString
             Case "ProcessesCount"
                 res = _procIds.Count.ToString
         End Select
@@ -275,7 +299,7 @@ Public Class cJob
                     _old_JobName = res
                 End If
             Case "JobId"
-                res = Me.Infos.JobId.ToString
+                res = Me.Infos.Name
                 If res = _old_JobId Then
                     hasChanged = False
                 Else
