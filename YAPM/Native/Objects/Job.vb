@@ -333,11 +333,24 @@ Namespace Native.Objects
             mCount = memAllocJobs.ReadInt32(0)
 
             ' Resize our array
+            Dim objTypeOffsetInStruct As Integer = Native.Api.NativeStructs.SystemHandleInformation_ObjectTypeOffset
+            Dim structSize As Integer = Marshal.SizeOf(GetType(NativeStructs.SystemHandleInformation))
             For x = 0 To mCount - 1
+                ' We do not retrieve the entire SystemHandleInformation struct
+                ' cause it requires too much CPU time
+                ' We just retrieve the Byte which represent the object type
+
                 ' &h4 offset because of HandleCount on 4 first bytes
-                Handle = memAllocJobs.ReadStruct(Of NativeStructs.SystemHandleInformation)(&H4, x)
-                If Handle.ObjectTypeNumber = NativeConstants.HandleOjectTypeJob Then
+                Dim type As Integer = memAllocJobs.ReadByte(objTypeOffsetInStruct + _
+                                                                    &H4 + x * structSize)
+                If type = NativeConstants.HandleOjectTypeJob Then
+
                     ' This is a job !
+
+                    ' Get entire struct
+                    ' &h4 offset because of HandleCount on 4 first bytes
+                    Handle = memAllocJobs.ReadStruct(Of NativeStructs.SystemHandleInformation)(&H4, x)
+
                     ' Retrieve its name
                     Dim theName As String
                     Dim targetHandle As IntPtr

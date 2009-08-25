@@ -219,17 +219,27 @@ Namespace Native.Objects
             ' Get the number of handles (first 4 bytes)
             m_cHandles = memAllocPIDs.ReadInt32(0)
 
+
+            Dim procIdOffsetInStruct As Integer = Native.Api.NativeStructs.SystemHandleInformation_ProcessIdOffset
+            Dim structSize As Integer = Marshal.SizeOf(GetType(NativeStructs.SystemHandleInformation))
+
             ' Resize our array
             ReDim m_Files(m_cHandles - 1)
             For X = 0 To m_cHandles - 1
-                ' &h4 offset because of HandleCount on 4 first bytes
-                Handle = memAllocPIDs.ReadStruct(Of NativeStructs.SystemHandleInformation)(&H4, X)
+                ' Do not retrieve the whole struct cause it requires too much CPU
+                ' Just retrieve the processId for now
+                Dim pid As Integer = memAllocPIDs.ReadInt32(procIdOffsetInStruct + _
+                                                                    &H4 + X * structSize)
                 ' Only if handle belongs to specified process
-                If oneProcessId = -1 OrElse oneProcessId = Handle.ProcessId Then
-                    ' Retrieve informations about our handle
+                If oneProcessId = -1 OrElse oneProcessId = pid Then
+                    ' Ok, now we get the whole struct !
+                    ' &h4 offset because of HandleCount on 4 first bytes
+                    Handle = memAllocPIDs.ReadStruct(Of NativeStructs.SystemHandleInformation)(&H4, X)
+
                     m_Files(X) = RetrieveObject(Handle)
                 End If
             Next
+
 
             ' Close handle to last used process
             CloseProcessForHandle()
@@ -255,14 +265,23 @@ Namespace Native.Objects
             ' Get the number of handles (first 4 bytes)
             m_cHandles = memAllocPIDs.ReadInt32(0)
 
+            Dim procIdOffsetInStruct As Integer = Native.Api.NativeStructs.SystemHandleInformation_ProcessIdOffset
+            Dim structSize As Integer = Marshal.SizeOf(GetType(NativeStructs.SystemHandleInformation))
+
             ' Resize our array
             ReDim m_Files(m_cHandles - 1)
             For X = 0 To m_cHandles - 1
-                ' &h4 offset because of HandleCount on 4 first bytes
-                Handle = memAllocPIDs.ReadStruct(Of NativeStructs.SystemHandleInformation)(&H4, X)
+                ' Do not retrieve the whole struct cause it requires too much CPU
+                ' Just retrieve the processId for now
+                Dim pid As Integer = memAllocPIDs.ReadInt32(procIdOffsetInStruct + _
+                                                                    &H4 + X * structSize)
                 ' Only if handle belongs to specified process
                 For Each __pid As Integer In PIDs
-                    If __pid = Handle.ProcessId Then
+                    If pid = __pid Then
+                        ' Ok, now we get the whole struct !
+                        ' &h4 offset because of HandleCount on 4 first bytes
+                        Handle = memAllocPIDs.ReadStruct(Of NativeStructs.SystemHandleInformation)(&H4, X)
+
                         m_Files(X) = RetrieveObject(Handle)
                     End If
                 Next

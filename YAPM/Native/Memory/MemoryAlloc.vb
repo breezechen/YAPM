@@ -118,6 +118,13 @@ Namespace Native.Memory
             Marshal.Copy(New IntPtr(_ptr.ToInt32 + offset), buffer, startIndex, length)
         End Sub
 
+        Public Function ReadByte(ByVal offset As Integer) As Integer
+            Return Me.ReadByte(offset, 0)
+        End Function
+        Public Function ReadByte(ByVal offset As Integer, ByVal index As Integer) As Integer
+            Return Marshal.ReadByte(_ptr, offset + index * 4)
+        End Function
+
         Public Function ReadInt32(ByVal offset As Integer) As Integer
             Return Me.ReadInt32(offset, 0)
         End Function
