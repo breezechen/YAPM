@@ -24,19 +24,14 @@ Partial Class frmJobInfo
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmJobInfo))
-        Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection2 As YAPM.cConnection = New YAPM.cConnection
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.tabJob = New System.Windows.Forms.TabControl
         Me.pageGeneral = New System.Windows.Forms.TabPage
         Me.cmdAddProcess = New System.Windows.Forms.Button
         Me.cmdTerminateJob = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.gpProcGeneralFile = New System.Windows.Forms.GroupBox
-        Me.lblCreationDate = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.lblJobId = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
         Me.pageStats = New System.Windows.Forms.TabPage
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
         Me.lblPageFaultCount = New System.Windows.Forms.Label
@@ -115,7 +110,6 @@ Partial Class frmJobInfo
         Me.tabJob.SuspendLayout()
         Me.pageGeneral.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
-        Me.gpProcGeneralFile.SuspendLayout()
         Me.pageStats.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
@@ -142,11 +136,10 @@ Partial Class frmJobInfo
         Me.pageGeneral.Controls.Add(Me.cmdAddProcess)
         Me.pageGeneral.Controls.Add(Me.cmdTerminateJob)
         Me.pageGeneral.Controls.Add(Me.GroupBox1)
-        Me.pageGeneral.Controls.Add(Me.gpProcGeneralFile)
-        Me.pageGeneral.Location = New System.Drawing.Point(4, 23)
+        Me.pageGeneral.Location = New System.Drawing.Point(4, 22)
         Me.pageGeneral.Name = "pageGeneral"
         Me.pageGeneral.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageGeneral.Size = New System.Drawing.Size(647, 296)
+        Me.pageGeneral.Size = New System.Drawing.Size(647, 297)
         Me.pageGeneral.TabIndex = 0
         Me.pageGeneral.Text = "General"
         Me.pageGeneral.UseVisualStyleBackColor = True
@@ -155,7 +148,7 @@ Partial Class frmJobInfo
         '
         Me.cmdAddProcess.Image = Global.YAPM.My.Resources.Resources.plus_circle
         Me.cmdAddProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdAddProcess.Location = New System.Drawing.Point(234, 48)
+        Me.cmdAddProcess.Location = New System.Drawing.Point(8, 6)
         Me.cmdAddProcess.Name = "cmdAddProcess"
         Me.cmdAddProcess.Size = New System.Drawing.Size(131, 23)
         Me.cmdAddProcess.TabIndex = 18
@@ -167,7 +160,7 @@ Partial Class frmJobInfo
         '
         Me.cmdTerminateJob.Image = Global.YAPM.My.Resources.Resources.cross
         Me.cmdTerminateJob.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdTerminateJob.Location = New System.Drawing.Point(234, 19)
+        Me.cmdTerminateJob.Location = New System.Drawing.Point(145, 6)
         Me.cmdTerminateJob.Name = "cmdTerminateJob"
         Me.cmdTerminateJob.Size = New System.Drawing.Size(105, 23)
         Me.cmdTerminateJob.TabIndex = 17
@@ -178,73 +171,22 @@ Partial Class frmJobInfo
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.lvProcess)
-        Me.GroupBox1.Location = New System.Drawing.Point(8, 90)
+        Me.GroupBox1.Location = New System.Drawing.Point(8, 35)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(631, 198)
+        Me.GroupBox1.Size = New System.Drawing.Size(631, 253)
         Me.GroupBox1.TabIndex = 16
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Processes in job"
-        '
-        'gpProcGeneralFile
-        '
-        Me.gpProcGeneralFile.Controls.Add(Me.lblCreationDate)
-        Me.gpProcGeneralFile.Controls.Add(Me.Label3)
-        Me.gpProcGeneralFile.Controls.Add(Me.lblJobId)
-        Me.gpProcGeneralFile.Controls.Add(Me.Label2)
-        Me.gpProcGeneralFile.Location = New System.Drawing.Point(6, 6)
-        Me.gpProcGeneralFile.Name = "gpProcGeneralFile"
-        Me.gpProcGeneralFile.Size = New System.Drawing.Size(213, 78)
-        Me.gpProcGeneralFile.TabIndex = 15
-        Me.gpProcGeneralFile.TabStop = False
-        Me.gpProcGeneralFile.Text = "Main infos"
-        '
-        'lblCreationDate
-        '
-        Me.lblCreationDate.AutoSize = True
-        Me.lblCreationDate.Location = New System.Drawing.Point(103, 42)
-        Me.lblCreationDate.Name = "lblCreationDate"
-        Me.lblCreationDate.Size = New System.Drawing.Size(19, 13)
-        Me.lblCreationDate.TabIndex = 27
-        Me.lblCreationDate.Text = "00"
-        Me.lblCreationDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(7, 42)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(77, 13)
-        Me.Label3.TabIndex = 26
-        Me.Label3.Text = "Creation date"
-        '
-        'lblJobId
-        '
-        Me.lblJobId.AutoSize = True
-        Me.lblJobId.Location = New System.Drawing.Point(103, 23)
-        Me.lblJobId.Name = "lblJobId"
-        Me.lblJobId.Size = New System.Drawing.Size(19, 13)
-        Me.lblJobId.TabIndex = 25
-        Me.lblJobId.Text = "00"
-        Me.lblJobId.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(7, 23)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(39, 13)
-        Me.Label2.TabIndex = 24
-        Me.Label2.Text = "Job ID"
         '
         'pageStats
         '
         Me.pageStats.Controls.Add(Me.GroupBox5)
         Me.pageStats.Controls.Add(Me.GroupBox4)
         Me.pageStats.Controls.Add(Me.GroupBox2)
-        Me.pageStats.Location = New System.Drawing.Point(4, 23)
+        Me.pageStats.Location = New System.Drawing.Point(4, 22)
         Me.pageStats.Name = "pageStats"
         Me.pageStats.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageStats.Size = New System.Drawing.Size(647, 296)
+        Me.pageStats.Size = New System.Drawing.Size(647, 297)
         Me.pageStats.TabIndex = 8
         Me.pageStats.Text = "Statistics"
         Me.pageStats.UseVisualStyleBackColor = True
@@ -267,7 +209,7 @@ Partial Class frmJobInfo
         Me.GroupBox5.Controls.Add(Me.Label53)
         Me.GroupBox5.Location = New System.Drawing.Point(396, 7)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(200, 173)
+        Me.GroupBox5.Size = New System.Drawing.Size(222, 173)
         Me.GroupBox5.TabIndex = 7
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Other"
@@ -844,10 +786,10 @@ Partial Class frmJobInfo
         '
         'pageLimitations
         '
-        Me.pageLimitations.Location = New System.Drawing.Point(4, 23)
+        Me.pageLimitations.Location = New System.Drawing.Point(4, 22)
         Me.pageLimitations.Name = "pageLimitations"
         Me.pageLimitations.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageLimitations.Size = New System.Drawing.Size(647, 296)
+        Me.pageLimitations.Size = New System.Drawing.Size(647, 297)
         Me.pageLimitations.TabIndex = 5
         Me.pageLimitations.Text = "Limitations"
         Me.pageLimitations.UseVisualStyleBackColor = True
@@ -889,23 +831,23 @@ Partial Class frmJobInfo
         Me.lvProcess.AllowColumnReorder = True
         Me.lvProcess.CatchErrors = False
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
-        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcess.ConnectionObj = CConnection1
+        CConnection2.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcess.ConnectionObj = CConnection2
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup1.Header = "Processes"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup3.Header = "Processes"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Job = Nothing
         Me.lvProcess.Location = New System.Drawing.Point(3, 18)
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
         Me.lvProcess.ReorganizeColumns = True
-        Me.lvProcess.Size = New System.Drawing.Size(625, 177)
+        Me.lvProcess.Size = New System.Drawing.Size(625, 232)
         Me.lvProcess.TabIndex = 4
         Me.lvProcess.UseCompatibleStateImageBehavior = False
         Me.lvProcess.View = System.Windows.Forms.View.Details
@@ -974,12 +916,10 @@ Partial Class frmJobInfo
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(660, 359)
         Me.Name = "frmJobInfo"
-        Me.Text = "Service informations"
+        Me.Text = "Job informations"
         Me.tabJob.ResumeLayout(False)
         Me.pageGeneral.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
-        Me.gpProcGeneralFile.ResumeLayout(False)
-        Me.gpProcGeneralFile.PerformLayout()
         Me.pageStats.ResumeLayout(False)
         Me.GroupBox5.ResumeLayout(False)
         Me.GroupBox5.PerformLayout()
@@ -993,7 +933,6 @@ Partial Class frmJobInfo
     End Sub
     Friend WithEvents tabJob As System.Windows.Forms.TabControl
     Friend WithEvents pageGeneral As System.Windows.Forms.TabPage
-    Friend WithEvents gpProcGeneralFile As System.Windows.Forms.GroupBox
     Friend WithEvents pageLimitations As System.Windows.Forms.TabPage
     Friend WithEvents imgProcess As System.Windows.Forms.ImageList
     Friend WithEvents imgMain As System.Windows.Forms.ImageList
@@ -1059,10 +998,6 @@ Partial Class frmJobInfo
     Friend WithEvents lblPageFaultCount As System.Windows.Forms.Label
     Friend WithEvents Label21 As System.Windows.Forms.Label
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents lblCreationDate As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents lblJobId As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents cmdAddProcess As System.Windows.Forms.Button
     Friend WithEvents cmdTerminateJob As System.Windows.Forms.Button
     Friend WithEvents lvProcess As YAPM.processesInJobList

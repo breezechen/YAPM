@@ -36,6 +36,8 @@ Public Class frmJobInfo
     ' Refresh current tab
     Private Sub refreshJobTab()
 
+        Me.Text = "Job informations (" & curJob.Infos.Name & ")"
+
         If curJob Is Nothing Then Exit Sub
 
         Select Case Me.tabJob.SelectedTab.Text
@@ -44,7 +46,6 @@ Public Class frmJobInfo
                 ' Update processes in job
                 Me.lvProcess.Job = curJob
                 Me.lvProcess.UpdateTheItems()
-
 
             Case "Statistics"
 
@@ -131,6 +132,8 @@ Public Class frmJobInfo
         Native.Functions.Misc.SetTheme(Me.lvProcess.Handle)
         SetToolTip(Me.cmdAddProcess, "Add processes to the job")
         SetToolTip(Me.cmdTerminateJob, "Terminate the job")
+
+        Pref.LoadListViewColumns(Me.lvProcess, "COLmain_process")
 
         Select Case My.Settings.JobSelectedTab
             Case "General"
