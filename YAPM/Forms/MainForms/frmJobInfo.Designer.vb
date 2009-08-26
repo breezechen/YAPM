@@ -23,10 +23,10 @@ Partial Class frmJobInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
+        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmJobInfo))
-        Dim CConnection2 As YAPM.cConnection = New YAPM.cConnection
-        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Me.tabJob = New System.Windows.Forms.TabControl
         Me.pageGeneral = New System.Windows.Forms.TabPage
         Me.cmdAddProcess = New System.Windows.Forms.Button
@@ -91,9 +91,6 @@ Partial Class frmJobInfo
         Me.lblAffinity = New System.Windows.Forms.Label
         Me.Label18 = New System.Windows.Forms.Label
         Me.pageLimitations = New System.Windows.Forms.TabPage
-        Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
-        Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
-        Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
         Me.lvProcess = New YAPM.processesInJobList
@@ -794,29 +791,6 @@ Partial Class frmJobInfo
         Me.pageLimitations.Text = "Limitations"
         Me.pageLimitations.UseVisualStyleBackColor = True
         '
-        'imgServices
-        '
-        Me.imgServices.ImageStream = CType(resources.GetObject("imgServices.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgServices.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgServices.Images.SetKeyName(0, "ok")
-        Me.imgServices.Images.SetKeyName(1, "ko")
-        Me.imgServices.Images.SetKeyName(2, "key")
-        Me.imgServices.Images.SetKeyName(3, "thread")
-        Me.imgServices.Images.SetKeyName(4, "noicon")
-        Me.imgServices.Images.SetKeyName(5, "service")
-        '
-        'imgProcess
-        '
-        Me.imgProcess.ImageStream = CType(resources.GetObject("imgProcess.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgProcess.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgProcess.Images.SetKeyName(0, "noIcon")
-        '
-        'imgMain
-        '
-        Me.imgMain.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
-        Me.imgMain.ImageSize = New System.Drawing.Size(16, 16)
-        Me.imgMain.TransparentColor = System.Drawing.Color.Transparent
-        '
         'Timer
         '
         Me.Timer.Enabled = True
@@ -831,16 +805,16 @@ Partial Class frmJobInfo
         Me.lvProcess.AllowColumnReorder = True
         Me.lvProcess.CatchErrors = False
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
-        CConnection2.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcess.ConnectionObj = CConnection2
+        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcess.ConnectionObj = CConnection1
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup3.Header = "Processes"
-        ListViewGroup3.Name = "gpOther"
-        ListViewGroup4.Header = "Search result"
-        ListViewGroup4.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        ListViewGroup1.Header = "Processes"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.Job = Nothing
         Me.lvProcess.Location = New System.Drawing.Point(3, 18)
@@ -934,11 +908,8 @@ Partial Class frmJobInfo
     Friend WithEvents tabJob As System.Windows.Forms.TabControl
     Friend WithEvents pageGeneral As System.Windows.Forms.TabPage
     Friend WithEvents pageLimitations As System.Windows.Forms.TabPage
-    Friend WithEvents imgProcess As System.Windows.Forms.ImageList
-    Friend WithEvents imgMain As System.Windows.Forms.ImageList
     Friend WithEvents pageStats As System.Windows.Forms.TabPage
     Friend WithEvents Timer As System.Windows.Forms.Timer
-    Friend WithEvents imgServices As System.Windows.Forms.ImageList
     Friend WithEvents VistaMenu As wyDay.Controls.VistaMenu
     Friend WithEvents GroupBox5 As System.Windows.Forms.GroupBox
     Friend WithEvents lblTotalTerminatedProcesses As System.Windows.Forms.Label
