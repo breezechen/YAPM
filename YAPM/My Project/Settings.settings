@@ -245,5 +245,8 @@
     <Setting Name="JobInterval" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2000</Value>
     </Setting>
+    <Setting Name="JobSelectedTab" Type="System.String" Scope="User">
+      <Value Profile="(Default)">General</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -1037,6 +1037,18 @@ Namespace My
                 Me("JobInterval") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("General")>  _
+        Public Property JobSelectedTab() As String
+            Get
+                Return CType(Me("JobSelectedTab"),String)
+            End Get
+            Set
+                Me("JobSelectedTab") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

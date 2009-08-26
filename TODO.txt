@@ -9,8 +9,6 @@ BUGS CRITIQUES
 - bug dans la MAJ des handles (non créés à priori) et la liste des PIDs dans un job (exemple : process ajouté/supprimé en permanence dans liste de frmJobInfos // impossiblité d'aller à la form job depuis le menu Control Job...)
 - jobs (+ menu dans les processes in job dont 'go to process', double click pour ouvrir le détail...)
 - ajouter limites dans job + d'autres infos (dont le Name)
-- copy to cb dans frmMain (lvJob)
-- sauvegarde du dernier tab de frmDetailJob
 - columns des process dans frmDetailJob -> loadpref des prefs de frmMain.lvProcess
 
 - others highlightings (isTask, wow64...)

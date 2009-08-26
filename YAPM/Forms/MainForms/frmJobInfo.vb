@@ -38,7 +38,7 @@ Public Class frmJobInfo
 
         If curJob Is Nothing Then Exit Sub
 
-        Select Case Me.tabProcess.SelectedTab.Text
+        Select Case Me.tabJob.SelectedTab.Text
 
             Case "General"
                 ' Update processes in job
@@ -132,16 +132,14 @@ Public Class frmJobInfo
         SetToolTip(Me.cmdAddProcess, "Add processes to the job")
         SetToolTip(Me.cmdTerminateJob, "Terminate the job")
 
-        'Select Case My.Settings.ServSelectedTab
-        '    Case "General"
-        '        Me.tabProcess.SelectedTab = Me.TabPage1
-        '    Case "General - 2"
-        '        Me.tabProcess.SelectedTab = Me.TabPage2
-        '    Case "Dependencies"
-        '        Me.tabProcess.SelectedTab = Me.tabDep
-        '    Case "Informations"
-        '        Me.tabProcess.SelectedTab = Me.TabPage6
-        'End Select
+        Select Case My.Settings.JobSelectedTab
+            Case "General"
+                Me.tabJob.SelectedTab = Me.pageGeneral
+            Case "Statistics"
+                Me.tabJob.SelectedTab = Me.pageStats
+            Case "Limitations"
+                Me.tabJob.SelectedTab = Me.pageLimitations
+        End Select
 
         Call Connect()
         Call refreshJobTab()
@@ -165,10 +163,10 @@ Public Class frmJobInfo
         'Me.Text = curServ.Infos.Name & " (" & curServ.Infos.DisplayName & ")"
     End Sub
 
-    Private Sub tabProcess_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabProcess.SelectedIndexChanged
+    Private Sub tabProcess_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabJob.SelectedIndexChanged
         Call Me.refreshJobTab()
         Call ChangeCaption()
-        'My.Settings.ServSelectedTab = Me.tabProcess.SelectedTab.Text
+        My.Settings.JobSelectedTab = Me.tabJob.SelectedTab.Text
     End Sub
 
     ' Connection
