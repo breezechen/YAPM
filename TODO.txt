@@ -4,12 +4,8 @@ Refactoring bugs
 - 64TODO
 - YAPM should run without the driver on x64 (for now) and user should be able to disable it (command line & option)
 
-- OKAY .... JOB enumeration works fine but take WAY TOO MUCH CPU TIME :-(
-Need to set timer to 4000 ? Or need to fine another solution ? Is it possible without kernel mode ?
-
 
 BUGS CRITIQUES
-- job refreshment timer (2000 par défaut)
 - bug dans la MAJ des handles (non créés à priori) et la liste des PIDs dans un job (exemple : process ajouté/supprimé en permanence dans liste de frmJobInfos // impossiblité d'aller à la form job depuis le menu Control Job...)
 - jobs (+ menu dans les processes in job dont 'go to process', double click pour ouvrir le détail...)
 - ajouter limites dans job + d'autres infos (dont le Name)

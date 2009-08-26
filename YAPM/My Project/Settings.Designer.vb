@@ -1025,6 +1025,18 @@ Namespace My
                 Me("EnableHighlightingRelocatedModule") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2000")>  _
+        Public Property JobInterval() As Integer
+            Get
+                Return CType(Me("JobInterval"),Integer)
+            End Get
+            Set
+                Me("JobInterval") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

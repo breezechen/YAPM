@@ -424,6 +424,7 @@ Public Class frmMain
         Me.timerTrayIcon.Enabled = True
         Me.timerServices.Enabled = True
         Me.timerStatus.Enabled = True
+        Me.timerJobs.Enabled = True
 
         If Me.lvProcess.Items.Count > 1 Then
             Call Me.lvProcess.Focus()
@@ -3435,6 +3436,7 @@ Public Class frmMain
         Me.timerMonitoring.Enabled = False
         Me.timerTask.Enabled = False
         Me.timerNetwork.Enabled = False
+        Me.timerJobs.Enabled = False
 
         ' Clear all lvItems
         Me.lvProcess.ClearItems()

@@ -46,6 +46,7 @@ Public Class Pref
         _frmMain.timerNetwork.Interval = My.Settings.NetworkInterval
         _frmMain.timerTask.Interval = My.Settings.TaskInterval
         _frmMain.timerTrayIcon.Interval = My.Settings.TrayInterval
+        _frmMain.timerJobs.Interval = My.Settings.JobInterval
         Select Case My.Settings.Priority
             Case 0
                 Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.Idle
@@ -78,6 +79,8 @@ Public Class Pref
         taskList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
         threadList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
         threadList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        jobList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        jobList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
         _frmMain.Tray.Visible = My.Settings.ShowTrayIcon
         _frmMain.StatusBar.Visible = My.Settings.ShowStatusBar
         If first Then

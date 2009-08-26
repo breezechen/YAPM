@@ -34,6 +34,7 @@ Public Class frmPreferences
         _frmMain.timerNetwork.Interval = My.Settings.NetworkInterval
         _frmMain.timerServices.Interval = My.Settings.ServiceInterval
         _frmMain.timerTrayIcon.Interval = My.Settings.TrayInterval
+        _frmMain.timerJobs.Interval = My.Settings.JobInterval
         Me.Close()
     End Sub
 
@@ -53,6 +54,7 @@ Public Class frmPreferences
         My.Settings.Priority = Me.cbPriority.SelectedIndex
         My.Settings.TaskInterval = CInt(Val(Me.txtTaskInterval.Text))
         My.Settings.NetworkInterval = CInt(Val(Me.txtNetworkInterval.Text))
+        My.Settings.JobInterval = CInt(Val(Me.txtJobInterval.Text))
         My.Settings.UseRibbonStyle = Me.chkRibbon.Checked
         My.Settings.SearchEngine = Me.txtSearchEngine.Text
         My.Settings.CloseYAPMWithCloseButton = Me.chkCloseButton.Checked
@@ -160,7 +162,8 @@ Public Class frmPreferences
         SetToolTip(Me.chkTrayIcon, "Show tray icon.")
         SetToolTip(Me.cbPriority, "Priority of YAPM.")
         SetToolTip(Me.txtTaskInterval, "Set interval (milliseconds) between two refreshments of task list.")
-        SetToolTip(Me.txtNetworkInterval, "Set interval (milliseconds) between two refreshments of network list.")
+        SetToolTip(Me.txtNetworkInterval, "Set interval (milliseconds) between two refreshments of network connections list.")
+        SetToolTip(Me.txtJobInterval, "Set interval (milliseconds) between two refreshments of job list.")
         SetToolTip(Me.chkRibbon, "Show ribbon style menu.")
         SetToolTip(Me.txtSearchEngine, "Search engine for 'Internet search'. Use the keyword ITEM to specify the item name to search.")
         SetToolTip(Me.chkCloseButton, "Close YAPM when close button is pressed (minimize to tray if not checked).")
@@ -205,6 +208,7 @@ Public Class frmPreferences
         Me.chkAutoOnline.Checked = My.Settings.AutomaticInternetInfos
         Me.chkUserGroup.Checked = My.Settings.ShowUserGroupDomain
         Me.chkStatusBar.Checked = My.Settings.ShowStatusBar
+        Me.txtJobInterval.Text = My.Settings.JobInterval.ToString
 
         If My.Settings.HistorySize > 0 Then
             Me.bufferSize.Value = CInt(My.Settings.HistorySize / 1024)
@@ -279,8 +283,9 @@ Public Class frmPreferences
         Me.chkStartTray.Checked = False
         Me.chkStart.Checked = False
         Me.chkReplaceTaskmgr.Checked = False
-        Me.txtProcessIntervall.Text = "1000"
-        Me.txtServiceIntervall.Text = "2500"
+        Me.txtProcessIntervall.Value = 1000
+        Me.txtServiceIntervall.Value = 2500
+        Me.txtJobInterval.Value = 2000
         Me.chkTopMost.Checked = False
         Me.chkUserGroup.Checked = True
         Me.pctNewitems.BackColor = Color.FromArgb(-8323328)
@@ -290,10 +295,10 @@ Public Class frmPreferences
         Me.chkTrayIcon.Checked = True
         Me.chkHideMinimized.Checked = False
         Me.cbPriority.SelectedIndex = 3
-        Me.txtTaskInterval.Text = "1000"
-        Me.txtNetworkInterval.Text = "1000"
-        Me.txtTrayInterval.Text = "1000"
-        Me.txtSysInfoInterval.Text = "1000"
+        Me.txtTaskInterval.Value = 1000
+        Me.txtNetworkInterval.Value = 1000
+        Me.txtTrayInterval.Value = 1000
+        Me.txtSysInfoInterval.Value = 1000
         Me.chkRibbon.Checked = True
         Me.txtSearchEngine.Text = "http://www.google.com/search?hl=en&q=ITEM"
         Me.chkCloseButton.Checked = True

@@ -73,6 +73,12 @@ Partial Class frmPreferences
         Me.cbPriority = New System.Windows.Forms.ComboBox
         Me.Label5 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.txtSysInfoInterval = New System.Windows.Forms.NumericUpDown
+        Me.txtTrayInterval = New System.Windows.Forms.NumericUpDown
+        Me.txtNetworkInterval = New System.Windows.Forms.NumericUpDown
+        Me.txtTaskInterval = New System.Windows.Forms.NumericUpDown
+        Me.txtServiceIntervall = New System.Windows.Forms.NumericUpDown
+        Me.txtProcessIntervall = New System.Windows.Forms.NumericUpDown
         Me.Label9 = New System.Windows.Forms.Label
         Me.Label10 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
@@ -88,12 +94,8 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.txtProcessIntervall = New System.Windows.Forms.NumericUpDown
-        Me.txtServiceIntervall = New System.Windows.Forms.NumericUpDown
-        Me.txtTaskInterval = New System.Windows.Forms.NumericUpDown
-        Me.txtNetworkInterval = New System.Windows.Forms.NumericUpDown
-        Me.txtTrayInterval = New System.Windows.Forms.NumericUpDown
-        Me.txtSysInfoInterval = New System.Windows.Forms.NumericUpDown
+        Me.txtJobInterval = New System.Windows.Forms.NumericUpDown
+        Me.Label12 = New System.Windows.Forms.Label
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -105,13 +107,14 @@ Partial Class frmPreferences
         Me.TabPage4.SuspendLayout()
         CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
-        Me.TabPage2.SuspendLayout()
-        CType(Me.txtProcessIntervall, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtServiceIntervall, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTaskInterval, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtNetworkInterval, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTrayInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSysInfoInterval, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTrayInterval, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtNetworkInterval, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTaskInterval, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtServiceIntervall, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtProcessIntervall, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage2.SuspendLayout()
+        CType(Me.txtJobInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl
@@ -534,6 +537,8 @@ Partial Class frmPreferences
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.txtJobInterval)
+        Me.GroupBox2.Controls.Add(Me.Label12)
         Me.GroupBox2.Controls.Add(Me.txtSysInfoInterval)
         Me.GroupBox2.Controls.Add(Me.txtTrayInterval)
         Me.GroupBox2.Controls.Add(Me.txtNetworkInterval)
@@ -552,6 +557,66 @@ Partial Class frmPreferences
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Update intervals"
+        '
+        'txtSysInfoInterval
+        '
+        Me.txtSysInfoInterval.Location = New System.Drawing.Point(109, 136)
+        Me.txtSysInfoInterval.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
+        Me.txtSysInfoInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.txtSysInfoInterval.Name = "txtSysInfoInterval"
+        Me.txtSysInfoInterval.Size = New System.Drawing.Size(80, 22)
+        Me.txtSysInfoInterval.TabIndex = 18
+        Me.txtSysInfoInterval.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        '
+        'txtTrayInterval
+        '
+        Me.txtTrayInterval.Location = New System.Drawing.Point(109, 113)
+        Me.txtTrayInterval.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
+        Me.txtTrayInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.txtTrayInterval.Name = "txtTrayInterval"
+        Me.txtTrayInterval.Size = New System.Drawing.Size(80, 22)
+        Me.txtTrayInterval.TabIndex = 17
+        Me.txtTrayInterval.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        '
+        'txtNetworkInterval
+        '
+        Me.txtNetworkInterval.Location = New System.Drawing.Point(109, 90)
+        Me.txtNetworkInterval.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
+        Me.txtNetworkInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.txtNetworkInterval.Name = "txtNetworkInterval"
+        Me.txtNetworkInterval.Size = New System.Drawing.Size(80, 22)
+        Me.txtNetworkInterval.TabIndex = 16
+        Me.txtNetworkInterval.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        '
+        'txtTaskInterval
+        '
+        Me.txtTaskInterval.Location = New System.Drawing.Point(109, 67)
+        Me.txtTaskInterval.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
+        Me.txtTaskInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.txtTaskInterval.Name = "txtTaskInterval"
+        Me.txtTaskInterval.Size = New System.Drawing.Size(80, 22)
+        Me.txtTaskInterval.TabIndex = 15
+        Me.txtTaskInterval.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        '
+        'txtServiceIntervall
+        '
+        Me.txtServiceIntervall.Location = New System.Drawing.Point(109, 44)
+        Me.txtServiceIntervall.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
+        Me.txtServiceIntervall.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.txtServiceIntervall.Name = "txtServiceIntervall"
+        Me.txtServiceIntervall.Size = New System.Drawing.Size(80, 22)
+        Me.txtServiceIntervall.TabIndex = 14
+        Me.txtServiceIntervall.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        '
+        'txtProcessIntervall
+        '
+        Me.txtProcessIntervall.Location = New System.Drawing.Point(109, 21)
+        Me.txtProcessIntervall.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
+        Me.txtProcessIntervall.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.txtProcessIntervall.Name = "txtProcessIntervall"
+        Me.txtProcessIntervall.Size = New System.Drawing.Size(80, 22)
+        Me.txtProcessIntervall.TabIndex = 13
+        Me.txtProcessIntervall.Value = New Decimal(New Integer() {50, 0, 0, 0})
         '
         'Label9
         '
@@ -693,65 +758,24 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
-        'txtProcessIntervall
+        'txtJobInterval
         '
-        Me.txtProcessIntervall.Location = New System.Drawing.Point(109, 14)
-        Me.txtProcessIntervall.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
-        Me.txtProcessIntervall.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.txtProcessIntervall.Name = "txtProcessIntervall"
-        Me.txtProcessIntervall.Size = New System.Drawing.Size(80, 22)
-        Me.txtProcessIntervall.TabIndex = 13
-        Me.txtProcessIntervall.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.txtJobInterval.Location = New System.Drawing.Point(282, 21)
+        Me.txtJobInterval.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
+        Me.txtJobInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.txtJobInterval.Name = "txtJobInterval"
+        Me.txtJobInterval.Size = New System.Drawing.Size(80, 22)
+        Me.txtJobInterval.TabIndex = 20
+        Me.txtJobInterval.Value = New Decimal(New Integer() {50, 0, 0, 0})
         '
-        'txtServiceIntervall
+        'Label12
         '
-        Me.txtServiceIntervall.Location = New System.Drawing.Point(109, 37)
-        Me.txtServiceIntervall.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
-        Me.txtServiceIntervall.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.txtServiceIntervall.Name = "txtServiceIntervall"
-        Me.txtServiceIntervall.Size = New System.Drawing.Size(80, 22)
-        Me.txtServiceIntervall.TabIndex = 14
-        Me.txtServiceIntervall.Value = New Decimal(New Integer() {50, 0, 0, 0})
-        '
-        'txtTaskInterval
-        '
-        Me.txtTaskInterval.Location = New System.Drawing.Point(109, 60)
-        Me.txtTaskInterval.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
-        Me.txtTaskInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.txtTaskInterval.Name = "txtTaskInterval"
-        Me.txtTaskInterval.Size = New System.Drawing.Size(80, 22)
-        Me.txtTaskInterval.TabIndex = 15
-        Me.txtTaskInterval.Value = New Decimal(New Integer() {50, 0, 0, 0})
-        '
-        'txtNetworkInterval
-        '
-        Me.txtNetworkInterval.Location = New System.Drawing.Point(109, 83)
-        Me.txtNetworkInterval.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
-        Me.txtNetworkInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.txtNetworkInterval.Name = "txtNetworkInterval"
-        Me.txtNetworkInterval.Size = New System.Drawing.Size(80, 22)
-        Me.txtNetworkInterval.TabIndex = 16
-        Me.txtNetworkInterval.Value = New Decimal(New Integer() {50, 0, 0, 0})
-        '
-        'txtTrayInterval
-        '
-        Me.txtTrayInterval.Location = New System.Drawing.Point(109, 106)
-        Me.txtTrayInterval.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
-        Me.txtTrayInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.txtTrayInterval.Name = "txtTrayInterval"
-        Me.txtTrayInterval.Size = New System.Drawing.Size(80, 22)
-        Me.txtTrayInterval.TabIndex = 17
-        Me.txtTrayInterval.Value = New Decimal(New Integer() {50, 0, 0, 0})
-        '
-        'txtSysInfoInterval
-        '
-        Me.txtSysInfoInterval.Location = New System.Drawing.Point(109, 129)
-        Me.txtSysInfoInterval.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
-        Me.txtSysInfoInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.txtSysInfoInterval.Name = "txtSysInfoInterval"
-        Me.txtSysInfoInterval.Size = New System.Drawing.Size(80, 22)
-        Me.txtSysInfoInterval.TabIndex = 18
-        Me.txtSysInfoInterval.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(205, 23)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(71, 13)
+        Me.Label12.TabIndex = 19
+        Me.Label12.Text = "Jobs interval"
         '
         'frmPreferences
         '
@@ -789,14 +813,15 @@ Partial Class frmPreferences
         CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        CType(Me.txtSysInfoInterval, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTrayInterval, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtNetworkInterval, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTaskInterval, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtServiceIntervall, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtProcessIntervall, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
-        CType(Me.txtProcessIntervall, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtServiceIntervall, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTaskInterval, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtNetworkInterval, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTrayInterval, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtSysInfoInterval, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtJobInterval, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -861,4 +886,6 @@ Partial Class frmPreferences
     Friend WithEvents txtTaskInterval As System.Windows.Forms.NumericUpDown
     Friend WithEvents txtServiceIntervall As System.Windows.Forms.NumericUpDown
     Friend WithEvents txtProcessIntervall As System.Windows.Forms.NumericUpDown
+    Friend WithEvents txtJobInterval As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label12 As System.Windows.Forms.Label
 End Class
