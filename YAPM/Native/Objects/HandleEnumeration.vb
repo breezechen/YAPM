@@ -368,14 +368,16 @@ Namespace Native.Objects
                 NativeFunctions.DeviceIoControl(hDriver, IOCTL_KERNELMEMORY_GETOBJECTNAME, _
                                                         Handle, 16, BufferObjName.Pointer, _
                                                         512, ret, IntPtr.Zero)
+                ObjName = BufferObjName.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
+                m_ObjectName = Marshal.PtrToStringUni(BufferObjName.Pointer.Increment(8))
             Else
                 ' Not a file, so we query handle name withNtQueryObject
                 NativeFunctions.NtQueryObject(hHandle, _
                                 NativeEnums.ObjectInformationClass.ObjectNameInformation, _
-                                BufferObjName.Pointer, 512, ret)
+                                BufferObjName.Pointer, BufferObjName.Size, ret)
+                ObjName = BufferObjName.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
+                m_ObjectName = Marshal.PtrToStringUni(ObjName.Name.Buffer)
             End If
-            ObjName = BufferObjName.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
-            m_ObjectName = Marshal.PtrToStringUni(New IntPtr(BufferObjName.Pointer.ToInt32 + 8))
 
 
             ' Get the name of the handle for differents objects

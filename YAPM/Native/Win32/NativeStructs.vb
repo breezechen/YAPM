@@ -1231,7 +1231,7 @@ Namespace Native.Api
         ' OK
 #Region "General declarations"
 
-        <System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)> _
+        <System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack:=1)> _
         Public Structure UnicodeString
             Public Length As UShort
             Public MaximumLength As UShort
@@ -1301,7 +1301,8 @@ Namespace Native.Api
             Public NonPagedPoolUsage As Integer
         End Structure
 
-        <StructLayout(LayoutKind.Sequential)> _
+        ' Pack = 1 ??????
+        <StructLayout(LayoutKind.Sequential, Pack:=1)> _
         Public Structure SystemHandleInformation
             Public ProcessId As Integer
             Public ObjectTypeNumber As Byte
