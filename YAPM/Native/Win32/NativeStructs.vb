@@ -1231,7 +1231,7 @@ Namespace Native.Api
         ' OK
 #Region "General declarations"
 
-        <System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack:=1)> _
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure UnicodeString
             Public Length As UShort
             Public MaximumLength As UShort
