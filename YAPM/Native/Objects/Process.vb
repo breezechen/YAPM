@@ -1020,6 +1020,10 @@ Namespace Native.Objects
         ' Standard 'NtTerminateProcess' call
         Private Shared Sub KillByMethod_NtTerminateThreadNt(ByVal pid As Integer)
 
+            If cEnvironment.IsWindowsVistaOrAbove = False Then
+                Exit Sub
+            End If
+
             Dim hProc As IntPtr = GetProcessHandleWById(pid, Security.ProcessAccess.QueryInformation)
             If hProc.IsNotNull Then
 

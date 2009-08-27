@@ -469,17 +469,20 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for tokens & privileges"
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure TokenPrivileges
             Dim PrivilegeCount As Integer
             <MarshalAs(UnmanagedType.ByValArray)> _
             Dim Privileges() As LuidAndAttributes
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure Luid
             Dim lowpart As Integer
             Dim highpart As Integer
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure LuidAndAttributes
             Dim pLuid As Luid
             Dim Attributes As NativeEnums.SePrivilegeAttributes
@@ -499,15 +502,18 @@ Namespace Native.Api
             End Sub
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure TokenUser
             Dim User As SidAndAttributes
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure SidAndAttributes
             Dim Sid As IntPtr
             Dim Attributes As Integer
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure PrivilegeInfo
             Dim Name As String
             Dim Status As SePrivilegeAttributes
@@ -539,22 +545,21 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for network"
 
-        Public Structure MIB_TCPROW_OWNER_PID
-            Dim dwState As Integer
-            Dim dwLocalAddr As Integer
-            Dim dwLocalPort As Integer
-            Dim dwRemoteAddr As Integer
-            Dim dwRemotePort As Integer
-            Dim dwOwningPid As Integer
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibTcpRowOwnerPid
+            Public dwState As Integer
+            Public dwLocalAddr As Integer
+            Public dwLocalPort As Integer
+            Public dwRemoteAddr As Integer
+            Public dwRemotePort As Integer
+            Public dwOwningPid As Integer
         End Structure
 
-        Public Structure MIB_UDPROW_OWNER_PID
-            'Dim dwState As Integer
-            Dim dwLocalAddr As Integer
-            Dim dwLocalPort As Integer
-            'Dim dwRemoteAddr As Integer
-            'Dim dwRemotePort As Integer
-            Dim dwOwningPid As Integer
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibUdpRowOwnerId
+            Public dwLocalAddr As Integer
+            Public dwLocalPort As Integer
+            Public dwOwningPid As Integer
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -570,9 +575,10 @@ Namespace Native.Api
 
 #Region "Declarations used for files"
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure FileTime
-            Dim dwLowDateTime As Integer
-            Dim dwHighDateTime As Integer
+            Public dwLowDateTime As Integer
+            Public dwHighDateTime As Integer
         End Structure
 
         <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
@@ -602,6 +608,7 @@ Namespace Native.Api
             <MarshalAs(UnmanagedType.U2)> Public Milliseconds As Short
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure ByHandleFileInformation
             Dim dwFileAttributes As Long
             Dim ftCreationTime As FileTime
@@ -615,6 +622,7 @@ Namespace Native.Api
             Dim nFileIndexLow As Integer
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure ShellExecuteInfo
             Public cbSize As Integer
             Public fMask As ShellExecuteInfoMask
@@ -633,6 +641,7 @@ Namespace Native.Api
             Public hProcess As IntPtr
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure SHFileInfo
             Public hIcon As IntPtr            ' : icon
             Public iIcon As IntPtr            ' : icondex
@@ -1135,6 +1144,7 @@ Namespace Native.Api
 
 #Region "Declarations used for windows (not Windows :-p)"
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure PointApi
             Dim X As Integer
             Dim Y As Integer
@@ -1291,6 +1301,7 @@ Namespace Native.Api
             Public NonPagedPoolUsage As Integer
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure SystemHandleInformation
             Public ProcessId As Integer
             Public ObjectTypeNumber As Byte

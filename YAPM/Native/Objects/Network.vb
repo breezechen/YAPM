@@ -70,12 +70,12 @@ Namespace Native.Objects
                 Dim count As Integer = Marshal.ReadInt32(pt, 0)
 
                 For i As Integer = 0 To count - 1
-                    Dim tcp_item As NativeStructs.MIB_TCPROW_OWNER_PID
+                    Dim tcp_item As NativeStructs.MibTcpRowOwnerPid
 
                     ' Read struct with an offset of 4 bytes (these bytes contains item count)
                     ' 4 first bytes for Count
                     tcp_item = CType(Marshal.PtrToStructure(pt.Increment(4 + i * Marshal.SizeOf(tcp_item)), _
-                                                            GetType(NativeStructs.MIB_TCPROW_OWNER_PID)), NativeStructs.MIB_TCPROW_OWNER_PID)
+                                                            GetType(NativeStructs.MibTcpRowOwnerPid)), NativeStructs.MibTcpRowOwnerPid)
 
                     ' Test if belongs to PID list
                     Dim bOkToAdd As Boolean = allProcesses
@@ -133,12 +133,12 @@ Namespace Native.Objects
                 Dim count2 As Integer = Marshal.ReadInt32(pt, 0)
 
                 For i As Integer = 0 To count2 - 1
-                    Dim udp_item As NativeStructs.MIB_UDPROW_OWNER_PID
+                    Dim udp_item As NativeStructs.MibUdpRowOwnerId
 
                     ' Read struct with an offset of 4 bytes (these bytes contains item count)
                     ' 4 first bytes for Count
                     udp_item = CType(Marshal.PtrToStructure(pt.Increment(4 + i * Marshal.SizeOf(udp_item)), _
-                                                            GetType(NativeStructs.MIB_UDPROW_OWNER_PID)), NativeStructs.MIB_UDPROW_OWNER_PID)
+                                                            GetType(NativeStructs.MibUdpRowOwnerId)), NativeStructs.MibUdpRowOwnerId)
 
                     ' Test if belongs to PID list
                     Dim bOkToAdd As Boolean = allProcesses
