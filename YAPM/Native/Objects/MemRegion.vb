@@ -59,7 +59,7 @@ Namespace Native.Objects
             Dim hProcess As IntPtr
             Dim old As NativeEnums.MemoryProtectionType
 
-            hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, processId)
+            hProcess = Native.Objects.Process.GetProcessHandleById(processId, Security.ProcessAccess.VmOperation)
             If hProcess.IsNotNull Then
                 ret = NativeFunctions.VirtualProtectEx(hProcess, address, regSize.ToInt32, newProtection, old)
                 Call NativeFunctions.CloseHandle(hProcess)
@@ -78,7 +78,7 @@ Namespace Native.Objects
             Dim ret As Boolean
             Dim hProcess As IntPtr
 
-            hProcess = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.VmOperation, False, processId)
+            hProcess = Native.Objects.Process.GetProcessHandleById(processId, Security.ProcessAccess.VmOperation)
             If hProcess.IsNotNull Then
                 ret = Native.Api.NativeFunctions.VirtualFreeEx(hProcess, address, regSize.ToInt32, type)
                 Call Native.Api.NativeFunctions.CloseHandle(hProcess)
@@ -96,8 +96,8 @@ Namespace Native.Objects
             Dim mbi As Native.Api.NativeStructs.MemoryBasicInformation
             Dim mbiSize As Integer = Marshal.SizeOf(mbi)
 
-            lHandle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
-                                       Native.Security.ProcessAccess.VmRead, False, pid)
+            lHandle = Native.Objects.Process.GetProcessHandleById(pid, Security.ProcessAccess.QueryInformation Or _
+                                                                Security.ProcessAccess.VmRead)
 
             If lHandle.IsNotNull Then
                 ' We'll exit when VirtualQueryEx will fail

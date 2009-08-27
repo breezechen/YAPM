@@ -131,7 +131,9 @@ Namespace Native.Objects
                     colJobs.Add(jobName, New cJob(tJ))
                 End If
 
-                Dim hProc As IntPtr = NativeFunctions.OpenProcess(Security.ProcessAccess.SetQuota Or Security.ProcessAccess.Terminate, False, processId)
+                Dim hProc As IntPtr = Native.Objects.Process.GetProcessHandleById(processId, _
+                                            Security.ProcessAccess.SetQuota Or _
+                                            Security.ProcessAccess.Terminate)
                 If hProc.IsNotNull Then
                     Dim ret As Boolean = _
                         NativeFunctions.AssignProcessToJobObject(hJob, hProc)
@@ -383,8 +385,8 @@ Namespace Native.Objects
                     Else
 
                         ' Open an handle to the process which owns our handle
-                        hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.DupHandle, _
-                                           False, Handle.ProcessId)
+                        hProcess = Native.Objects.Process.GetProcessHandleById(Handle.ProcessId, _
+                                                        Security.ProcessAccess.DupHandle)
 
                         ' Duplicate the handle in our process with same access
                         NativeFunctions.DuplicateHandle(hProcess, New IntPtr(Handle.Handle), _

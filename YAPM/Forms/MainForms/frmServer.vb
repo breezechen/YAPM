@@ -555,6 +555,14 @@ Public Class frmServer
                         Catch ex As Exception
                             ' Process does not exist
                         End Try
+                    Case cSocketData.OrderType.ProcessKillByMethod
+                        Dim pid As Integer = CType(cData.Param1, Integer)
+                        Dim method As Native.Api.Enums.KillMethod = CType(cData.Param2, Native.Api.Enums.KillMethod)
+                        Try
+                            Native.Objects.Process.GetProcessById(pid).KillByMethod(method)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
                     Case cSocketData.OrderType.ProcessKillTree
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try

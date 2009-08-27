@@ -157,6 +157,9 @@ Namespace Native.Api
         ' Infinite time for WaitSingleObject
         Public Const WAIT_INFINITE As Integer = &HFFFF
 
+        ' Nt return status
+        Public Const STATUS_INFO_LENGTH_MISMATCH As UInteger = &HC0000004
+
 #End Region
 
         ' OK

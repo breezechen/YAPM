@@ -147,7 +147,8 @@ Namespace Native.Objects
             Dim hProcess As IntPtr
             Dim RetLen As Integer
 
-            hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation, False, pid)
+            hProcess = Native.Objects.Process.GetProcessHandleById(pid, _
+                                           Native.Security.ProcessAccess.QueryInformation)
             If hProcess .IsNotNull Then
                 NativeFunctions.OpenProcessToken(hProcess, Native.Security.TokenAccess.Query, hProcessToken)
                 If hProcessToken .IsNotNull Then
@@ -214,8 +215,8 @@ Namespace Native.Objects
             Dim ret2 As IntPtr
 
             ' Open handle to process
-            hProcess = NativeFunctions.OpenProcess(Security.ProcessAccess.QueryInformation, _
-                                                   False, processId)
+            hProcess = Native.Objects.Process.GetProcessHandleById(processId, _
+                                            Security.ProcessAccess.QueryInformation)
 
             If hProcess .IsNotNull Then
                 ' Get token handle

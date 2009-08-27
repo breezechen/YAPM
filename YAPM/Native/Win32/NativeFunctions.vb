@@ -193,13 +193,30 @@ Namespace Native.Api
                                            ByVal ProcessId As Integer) As IntPtr
         End Function
 
+        ' Vista and higher
+        ' <from PH>
+        <DllImport("ntdll.dll")> _
+        Public Shared Function NtGetNextProcess(<[In]()> ByVal ProcessHandle As IntPtr, _
+                    <[In]()> ByVal DesiredAccess As Security.ProcessAccess, _
+                    <[In]()> ByVal HandleAttributes As HandleFlags, _
+                    <[In]()> ByVal Flags As Integer, _
+                    <Out()> ByRef NewProcessHandle As IntPtr) As UInteger
+        End Function
+
+        <DllImport("ntdll.dll")> _
+        Public Shared Function NtOpenProcess(<Out()> ByRef ProcessHandle As IntPtr, _
+                            <[In]()> ByVal DesiredAccess As Security.ProcessAccess, _
+                            <[In]()> ByRef ObjectAttributes As ObjectAttributes, _
+                            <[In]()> ByRef ClientId As ClientId) As UInteger
+        End Function
+
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Sub ExitProcess(ByVal ExitCode As Integer)
         End Sub
 
-        <DllImport("kernel32.dll", SetLastError:=True)> _
-        Public Shared Function TerminateProcess(<[In]()> ByVal ProcessHandle As IntPtr, _
-            <[In]()> ByVal ExitCode As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        <DllImport("ntdll.dll", SetLastError:=True)> _
+        Public Shared Function NtTerminateProcess(<[In]()> ByVal ProcessHandle As IntPtr, _
+            <[In]()> ByVal ExitCode As Integer) As UInteger
         End Function
 
         <DllImport("advapi32.dll", SetLastError:=True)> _
@@ -370,6 +387,16 @@ Namespace Native.Api
 
         ' OK
 #Region "Declarations used for threads"
+
+        '<from PH>
+        <DllImport("ntdll.dll")> _
+        Public Shared Function NtGetNextThread(<[In]()> ByVal ProcessHandle As IntPtr, _
+                                <[In]()> ByVal ThreadHandle As IntPtr, _
+                                <[In]()> ByVal DesiredAccess As Security.ThreadAccess, _
+                                <[In]()> ByVal HandleAttributes As HandleFlags, _
+                                <[In]()> ByVal Flags As Integer, _
+                                <Out()> ByRef NewThreadHandle As IntPtr) As UInteger
+        End Function
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function GetExitCodeThread(<[In]()> ByVal ThreadHandle As IntPtr, _

@@ -76,11 +76,10 @@ Namespace Native.Objects
 
             hMod = NativeFunctions.GetModuleHandle("kernel32.dll")
             lpProc = NativeFunctions.GetProcAddress(hMod, "CloseHandle")
-            hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.CreateThread Or _
+            hProcess = Native.Objects.Process.GetProcessHandleById(dwProcessID, Native.Security.ProcessAccess.CreateThread Or _
                                                 Native.Security.ProcessAccess.VmOperation Or _
                                                 Native.Security.ProcessAccess.VmWrite Or _
-                                                Native.Security.ProcessAccess.VmRead, False, _
-                                                dwProcessID)
+                                                Native.Security.ProcessAccess.VmRead)
             If hProcess.IsNotNull Then
                 hThread = NativeFunctions.CreateRemoteThread(hProcess, IntPtr.Zero, 0, _
                                                              lpProc, hHandle, 0, 0)

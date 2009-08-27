@@ -37,8 +37,8 @@ Public Class ProcessMemReader
     ' Constructor & destructor
     ' ========================================
     Public Sub New(ByVal pid As Integer)
-        _hProc = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
-                                  Native.Security.ProcessAccess.VmRead, False, pid)
+        _hProc = Native.Objects.Process.GetProcessHandleById(pid, _
+                                                             Native.Security.ProcessAccess.QueryInformation Or Native.Security.ProcessAccess.VmRead)
     End Sub
     Public Sub Dispose() Implements System.IDisposable.Dispose
         If _hProc .IsNotNull Then

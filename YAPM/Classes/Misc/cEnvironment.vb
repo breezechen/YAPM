@@ -124,8 +124,8 @@ Public Class cEnvironment
             Else
 
                 Dim hTok As IntPtr
-                Dim hProc As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation, False, _
-                                                      Process.GetCurrentProcess.Id)
+                Dim hProc As IntPtr = Native.Objects.Process.GetProcessHandleById(Process.GetCurrentProcess.Id, _
+                                                                                  Native.Security.ProcessAccess.QueryInformation)
                 If hProc.IsNotNull Then
                     ' ?
                 End If

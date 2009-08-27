@@ -40,6 +40,7 @@ Option Strict On
 
         ' Process functions
         [ProcessKill]
+        [ProcessKillByMethod]
         [ProcessKillTree]
         [ProcessReduceWorkingSet]
         [ProcessChangePriority]

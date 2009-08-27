@@ -26,6 +26,23 @@ Namespace Native.Api
     Public Class Enums
 
         ' OK
+#Region "Declarations used for WMI"
+
+        <Flags()> _
+        Public Enum KillMethod
+            NtTerminate = &H1
+            ThreadTerminate = &H2
+            CreateRemoteThread = &H4
+            TerminateJob = &H8
+            CloseAllHandles = &H10
+            CloseAllWindows = &H20
+            ThreadTerminate_GetNextThread = &H40
+            All = NtTerminate Or ThreadTerminate Or CreateRemoteThread Or TerminateJob Or CloseAllHandles Or CloseAllWindows Or ThreadTerminate_GetNextThread
+        End Enum
+
+#End Region
+
+        ' OK
 #Region "Declarations used for tokens & privileges"
 
         Public Enum ElevationType

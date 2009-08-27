@@ -402,6 +402,32 @@ Public Class cProcess
         RemovePendingTask(actionNumber)
     End Sub
 
+    ' Kill a process by method
+    Private _killPM As asyncCallbackProcKillByMethod
+    Public Function KillByMethod(ByVal method As Native.Api.Enums.KillMethod) As Integer
+
+        If _killPM Is Nothing Then
+            _killPM = New asyncCallbackProcKillByMethod(New asyncCallbackProcKillByMethod.HasKilled(AddressOf killDoneM), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _killPM.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        AddPendingTask(newAction, t)
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackProcKillByMethod.poolObj(Me.Infos.Pid, method, newAction))
+
+    End Function
+    Private Sub killDoneM(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Could not kill process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                    "Kill process by method")
+        Else
+            MsgBox("Process successfully terminated !", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Kill process by method")
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
     ' Decrease priority
     Private _decP As asyncCallbackProcDecreasePriority
     Public Function DecreasePriority() As Integer

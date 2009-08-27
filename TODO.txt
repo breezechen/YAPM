@@ -169,3 +169,4 @@ Temp Change log :
 - corrections bug WMI
 - optimisation récupération des threads par WMI
 - added job management
+- added "Terminate by method" feature (with 5 methods)

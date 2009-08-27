@@ -39,9 +39,6 @@ Namespace Native.Objects
         ' IoCode for kernel function
         Private Const IOCTL_KERNELMEMORY_GETOBJECTNAME As Integer = &H80002004
 
-        ' NtStatus length mismatch
-        Private Const STATUS_INFO_LENGTH_MISMATCH As UInteger = &HC0000004
-
 
         ' ========================================
         ' Private attributes
@@ -210,7 +207,7 @@ Namespace Native.Objects
             Length = memAllocPIDs.Size
             ' While length is too small
             Do While NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, _
-                                memAllocPIDs.Pointer, memAllocPIDs.Size, ret) = STATUS_INFO_LENGTH_MISMATCH
+                                memAllocPIDs.Pointer, memAllocPIDs.Size, ret) = NativeConstants.STATUS_INFO_LENGTH_MISMATCH
                 ' Resize buffer
                 Length = Length * 2
                 memAllocPIDs.Resize(Length)
@@ -256,7 +253,7 @@ Namespace Native.Objects
             Length = memAllocPIDs.Size
             ' While length is too small
             Do While NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, _
-                                memAllocPIDs.Pointer, memAllocPIDs.Size, ret) = STATUS_INFO_LENGTH_MISMATCH
+                                memAllocPIDs.Pointer, memAllocPIDs.Size, ret) = NativeConstants.STATUS_INFO_LENGTH_MISMATCH
                 ' Resize buffer
                 Length = Length * 2
                 memAllocPIDs.Resize(Length)
@@ -297,8 +294,8 @@ Namespace Native.Objects
         Private Sub OpenProcessForHandle(ByVal ProcessID As Integer)
             If ProcessID <> lastPID Then
                 NativeFunctions.CloseHandle(hProcess)
-                hProcess = NativeFunctions.OpenProcess(Native.Security.ProcessAccess.DupHandle, _
-                                                       False, ProcessID)
+                hProcess = Native.Objects.Process.GetProcessHandleById(ProcessID, _
+                                                            Security.ProcessAccess.DupHandle)
                 lastPID = ProcessID
             End If
         End Sub

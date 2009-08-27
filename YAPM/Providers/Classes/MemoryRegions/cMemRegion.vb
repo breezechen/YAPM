@@ -63,9 +63,9 @@ Public Class cMemRegion
     Private Function getModuleName(ByVal ad As IntPtr) As String
 
         Dim sb As New StringBuilder(1024)
-        Dim _h As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.QueryInformation Or _
-                                            Native.Security.ProcessAccess.VmRead, _
-                                            False, Infos.ProcessId)
+        Dim _h As IntPtr = Native.Objects.Process.GetProcessHandleById(Infos.ProcessId, _
+                                            Native.Security.ProcessAccess.QueryInformation Or _
+                                            Native.Security.ProcessAccess.VmRead)
 
         If _h .IsNotNull Then
             Dim leng As Integer = Native.Api.NativeFunctions.GetMappedFileName(_h, ad, sb, sb.Capacity)

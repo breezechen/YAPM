@@ -62,7 +62,7 @@ Public Class ProcessRW
     ' =======================================================
     Public Sub New(ByVal processId As Integer)
         _pid = processId
-        _handle = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.All, False, processId)
+        _handle = Native.Objects.Process.GetProcessHandleById(processId, Native.Security.ProcessAccess.All)
         si = Native.Objects.SystemInfo.GetSystemInfo
     End Sub
     Protected Overrides Sub Finalize()

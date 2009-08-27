@@ -136,8 +136,8 @@ Namespace Native.Objects
 
         ' Suspend a thread
         Public Shared Function SuspendThreadByHandle(ByVal hThread As IntPtr) As Boolean
-            If hThread .IsNotNull Then
-                Return NativeFunctions.SuspendThread(hThread) > 0
+            If hThread.IsNotNull Then
+                Return NativeFunctions.SuspendThread(hThread) > -1
             Else
                 Return False
             End If
@@ -165,6 +165,16 @@ Namespace Native.Objects
                 Native.Api.NativeFunctions.CloseHandle(hThread)
             End If
 
+            Return ret
+        End Function
+
+        ' Kill a thread 
+        Public Shared Function KillThreadByHandle(ByVal hThread As IntPtr, _
+                                      Optional ByVal exitCode As Integer = 0) As Boolean
+            Dim ret As Boolean
+            If hThread.IsNotNull Then
+                ret = Native.Api.NativeFunctions.TerminateThread(hThread, exitCode)
+            End If
             Return ret
         End Function
 

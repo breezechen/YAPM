@@ -296,7 +296,6 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
         If Program.Parameters.ModeHidden Then
             Me.Left = Pref.LEFT_POSITION_HIDDEN
             Me.ShowInTaskbar = False
@@ -2431,6 +2430,7 @@ Public Class frmMain
             Me.MenuItemProcSServices.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcSWindows.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcWSS.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcKillByMethod.Enabled = selectionIsNotNothing AndAlso _notWMI
 
             ' Job menuitems
             Me.MenuItemJobs.Enabled = selectionIsNotNothing AndAlso _local
@@ -5272,5 +5272,14 @@ Public Class frmMain
         Dim frm As New frmAddToJob(pid)
         frm.ShowDialog()
 
+    End Sub
+
+    Private Sub MenuItemProcKillByMethod_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcKillByMethod.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            Dim frm As New frmKillProcessByMethod
+            frm.ProcessToKill = cp
+            frm.TopMost = _frmMain.TopMost
+            frm.Show()
+        Next
     End Sub
 End Class

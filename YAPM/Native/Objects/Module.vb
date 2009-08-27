@@ -51,8 +51,8 @@ Namespace Native.Objects
 
         ' Unload a module
         Public Shared Function UnloadModuleByAddress(ByVal address As IntPtr, ByVal pid As Integer) As Boolean
-            Dim hProc As IntPtr = Native.Api.NativeFunctions.OpenProcess(Native.Security.ProcessAccess.CreateThread, _
-                                                                         False, pid)
+            Dim hProc As IntPtr = Native.Objects.Process.GetProcessHandleById(pid, _
+                                                            Security.ProcessAccess.CreateThread)
             ' Create a remote thread a call FreeLibrary
             If hProc .IsNotNull Then
                 Dim kernel32 As IntPtr = _
