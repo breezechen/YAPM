@@ -885,23 +885,29 @@ Namespace Common
         ' Return dos drive name
         Public Shared Function DeviceDriveNameToDosDriveName(ByVal path As String) As String
 
-            Dim res As String = Nothing
-            Dim found As Boolean = False
+            If path IsNot Nothing Then
 
-            _semProtectDicoLogDrives.WaitOne()
-            For Each pair As System.Collections.Generic.KeyValuePair(Of String, String) In _DicoLogicalDrivesNames
-                If path.StartsWith(pair.Key) Then
-                    res = pair.Value & path.Substring(pair.Key.Length)
-                    found = True
-                    Exit For
+                Dim res As String = Nothing
+                Dim found As Boolean = False
+
+                _semProtectDicoLogDrives.WaitOne()
+                For Each pair As System.Collections.Generic.KeyValuePair(Of String, String) In _DicoLogicalDrivesNames
+                    If path.StartsWith(pair.Key) Then
+                        res = pair.Value & path.Substring(pair.Key.Length)
+                        found = True
+                        Exit For
+                    End If
+                Next
+                _semProtectDicoLogDrives.Release()
+
+                If found Then
+                    Return res
+                Else
+                    Return path
                 End If
-            Next
-            _semProtectDicoLogDrives.Release()
 
-            If found Then
-                Return res
             Else
-                Return path
+                Return Nothing
             End If
 
         End Function

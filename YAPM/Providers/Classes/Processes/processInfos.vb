@@ -264,7 +264,11 @@ Imports System.Runtime.InteropServices
             '_AffinityMask = 0
             _UserTime = .UserTime
             _KernelTime = .KernelTime
-            _StartTime = Date.FromFileTime(.CreateTime).Ticks
+            Try
+                _StartTime = Date.FromFileTime(.CreateTime).Ticks
+            Catch ex As Exception
+                '
+            End Try
             _MemoryInfos = .VirtualMemoryCounters
             _Priority = getPriorityClass(.BasePriority)
             _IOValues = .IoCounters
