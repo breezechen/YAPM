@@ -37,7 +37,7 @@ Public Class frmKillProcessByMethod
 
     Private Sub frmKillProcessByMethod_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Common.Misc.closeWithEchapKey(Me)
-        SetToolTip(Me.lstMethods, "List of avaialble methods to kill the process")
+        SetToolTip(Me.lstMethods, "List of available methods to kill the process")
         SetToolTip(Me.cmdExit, "Exit")
         SetToolTip(Me.cmdKill, "Kill process with selected methods")
         Native.Functions.Misc.SetTheme(Me.lstMethods.Handle)
@@ -60,7 +60,9 @@ Public Class frmKillProcessByMethod
     Private Sub cmdKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKill.Click
         Dim methods As Native.Api.Enums.KillMethod
         For Each it As ListViewItem In Me.lstMethods.CheckedItems
-            methods = methods Or CType(it.Tag, Native.Api.Enums.KillMethod)
+            If CType(it.Tag, Native.Api.Enums.KillMethod) <> Native.Api.Enums.KillMethod.All Then
+                methods = methods Or CType(it.Tag, Native.Api.Enums.KillMethod)
+            End If
         Next
 
         If MsgBox("Are you sure you want to kill this process ?", _
