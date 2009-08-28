@@ -26,6 +26,9 @@ Partial Class frmJobInfo
         Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection2 As YAPM.cConnection = New YAPM.cConnection
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmJobInfo))
         Me.tabJob = New System.Windows.Forms.TabControl
         Me.pageGeneral = New System.Windows.Forms.TabPage
@@ -103,8 +106,17 @@ Partial Class frmJobInfo
         Me.lblAffinity = New System.Windows.Forms.Label
         Me.Label18 = New System.Windows.Forms.Label
         Me.pageLimitations = New System.Windows.Forms.TabPage
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.cmdSetLimits = New System.Windows.Forms.Button
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox
+        Me.lvLimits = New YAPM.jobLimitList
+        Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
+        Me.MenuItemCopyLimit = New System.Windows.Forms.MenuItem
+        Me.TimerLimits = New System.Windows.Forms.Timer(Me.components)
+        Me.mnuLimit = New System.Windows.Forms.ContextMenu
         Me.tabJob.SuspendLayout()
         Me.pageGeneral.SuspendLayout()
         Me.SplitContainer.Panel1.SuspendLayout()
@@ -115,6 +127,11 @@ Partial Class frmJobInfo
         Me.GroupBox5.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
+        Me.pageLimitations.SuspendLayout()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -887,6 +904,7 @@ Partial Class frmJobInfo
         '
         'pageLimitations
         '
+        Me.pageLimitations.Controls.Add(Me.SplitContainer1)
         Me.pageLimitations.Location = New System.Drawing.Point(4, 22)
         Me.pageLimitations.Name = "pageLimitations"
         Me.pageLimitations.Padding = New System.Windows.Forms.Padding(3)
@@ -894,6 +912,83 @@ Partial Class frmJobInfo
         Me.pageLimitations.TabIndex = 5
         Me.pageLimitations.Text = "Limitations"
         Me.pageLimitations.UseVisualStyleBackColor = True
+        '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer1.Location = New System.Drawing.Point(3, 3)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer1.Panel1
+        '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.cmdSetLimits)
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.GroupBox3)
+        Me.SplitContainer1.Size = New System.Drawing.Size(689, 326)
+        Me.SplitContainer1.SplitterDistance = 25
+        Me.SplitContainer1.TabIndex = 20
+        '
+        'cmdSetLimits
+        '
+        Me.cmdSetLimits.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdSetLimits.Location = New System.Drawing.Point(5, 3)
+        Me.cmdSetLimits.Name = "cmdSetLimits"
+        Me.cmdSetLimits.Size = New System.Drawing.Size(72, 23)
+        Me.cmdSetLimits.TabIndex = 19
+        Me.cmdSetLimits.Text = "Add limit..."
+        Me.cmdSetLimits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdSetLimits.UseVisualStyleBackColor = True
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.lvLimits)
+        Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GroupBox3.Location = New System.Drawing.Point(0, 0)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(689, 297)
+        Me.GroupBox3.TabIndex = 17
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Active limitations"
+        '
+        'lvLimits
+        '
+        Me.lvLimits.AllowColumnReorder = True
+        Me.lvLimits.CatchErrors = False
+        Me.lvLimits.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader11, Me.ColumnHeader13})
+        CConnection2.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvLimits.ConnectionObj = CConnection2
+        Me.lvLimits.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvLimits.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvLimits.FullRowSelect = True
+        ListViewGroup3.Header = "Processes"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvLimits.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
+        Me.lvLimits.HideSelection = False
+        Me.lvLimits.JobName = Nothing
+        Me.lvLimits.Location = New System.Drawing.Point(3, 18)
+        Me.lvLimits.Name = "lvLimits"
+        Me.lvLimits.OverriddenDoubleBuffered = True
+        Me.lvLimits.ReorganizeColumns = True
+        Me.lvLimits.Size = New System.Drawing.Size(683, 276)
+        Me.lvLimits.TabIndex = 4
+        Me.lvLimits.UseCompatibleStateImageBehavior = False
+        Me.lvLimits.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader11
+        '
+        Me.ColumnHeader11.Text = "Limit"
+        Me.ColumnHeader11.Width = 314
+        '
+        'ColumnHeader13
+        '
+        Me.ColumnHeader13.Text = "Value"
+        Me.ColumnHeader13.Width = 319
         '
         'Timer
         '
@@ -903,6 +998,21 @@ Partial Class frmJobInfo
         'VistaMenu
         '
         Me.VistaMenu.ContainerControl = Me
+        '
+        'MenuItemCopyLimit
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyLimit, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyLimit.Index = 0
+        Me.MenuItemCopyLimit.Text = "Copy to clipboard"
+        '
+        'TimerLimits
+        '
+        Me.TimerLimits.Enabled = True
+        Me.TimerLimits.Interval = 1000
+        '
+        'mnuLimit
+        '
+        Me.mnuLimit.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyLimit})
         '
         'frmJobInfo
         '
@@ -927,6 +1037,11 @@ Partial Class frmJobInfo
         Me.GroupBox4.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        Me.pageLimitations.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
         CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1009,4 +1124,13 @@ Partial Class frmJobInfo
     Friend WithEvents c9 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c10 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
+    Friend WithEvents cmdSetLimits As System.Windows.Forms.Button
+    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
+    Friend WithEvents lvLimits As YAPM.jobLimitList
+    Friend WithEvents TimerLimits As System.Windows.Forms.Timer
+    Friend WithEvents ColumnHeader11 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader13 As System.Windows.Forms.ColumnHeader
+    Private WithEvents mnuLimit As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItemCopyLimit As System.Windows.Forms.MenuItem
 End Class

@@ -80,6 +80,10 @@ Namespace Native.Objects
         ' Call this function to start executin a code which uses a valid handle to a named job
         Public Shared Function BeginUsingValidJobHandle(ByVal name As String) As IntPtr
 
+            If name Is Nothing Then
+                Return IntPtr.Zero
+            End If
+
             ' Wait sem
             semDupHandles.WaitOne()
 
@@ -125,7 +129,7 @@ Namespace Native.Objects
 
                 If colJobs.ContainsKey(jobName) = False Then
                     ' Add the new job to the dico
-                    Dim tJ As New jobInfos(jobName, GetJobHandleByName(jobName, Security.JobAccess.Query), True)
+                    Dim tJ As New jobInfos(jobName)
                     Dim theJob As New cJob(tJ)
                     colJobs.Add(jobName, theJob)
                     Return theJob
@@ -159,7 +163,7 @@ Namespace Native.Objects
 
                 If colJobs.ContainsKey(jobName) = False Then
                     ' Add the new job to the dico
-                    Dim tJ As New jobInfos(jobName, GetJobHandleByName(jobName, Security.JobAccess.Query), True)
+                    Dim tJ As New jobInfos(jobName)
                     colJobs.Add(jobName, New cJob(tJ))
                 End If
 
@@ -220,7 +224,103 @@ Namespace Native.Objects
         End Function
 
         ' Enumerate created jobs
-        Public Shared Function EnumerateCreatedJobs(Optional ByVal refreshNow As Boolean = False) As Dictionary(Of String, cJob)
+        Public Shared Function EnumerateJobLimitsByJobName(ByVal jobName As String) As Dictionary(Of String, jobLimitInfos)
+            Dim ret As New Dictionary(Of String, jobLimitInfos)
+
+            ' First thing : we get a VALID handle to the job
+            Dim hJob As IntPtr = BeginUsingValidJobHandle(jobName)
+
+            If hJob.IsNotNull Then
+
+                ' UiRestrictions
+                Dim struct1 As NativeStructs.JobObjectBasicUiRestrictions = _
+                    QueryJobInformationByHandle(Of NativeStructs.JobObjectBasicUiRestrictions)(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions)
+                Dim flag1 As NativeEnums.JobObjectBasicUiRestrictions = struct1.UIRestrictionsClass
+
+                If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.Desktop) = NativeEnums.JobObjectBasicUiRestrictions.Desktop Then
+                    ret.Add("Desktop", New jobLimitInfos("Desktop", "Limited"))
+                End If
+                If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.DisplaySettings) = NativeEnums.JobObjectBasicUiRestrictions.DisplaySettings Then
+                    ret.Add("DisplaySettings", New jobLimitInfos("DisplaySettings", "Limited"))
+                End If
+                If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.ExitWindows) = NativeEnums.JobObjectBasicUiRestrictions.ExitWindows Then
+                    ret.Add("ExitWindows", New jobLimitInfos("ExitWindows", "Limited"))
+                End If
+                If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.GlobalAtoms) = NativeEnums.JobObjectBasicUiRestrictions.GlobalAtoms Then
+                    ret.Add("GlobalAtoms", New jobLimitInfos("GlobalAtoms", "Limited"))
+                End If
+                If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.Handles) = NativeEnums.JobObjectBasicUiRestrictions.Handles Then
+                    ret.Add("Handles", New jobLimitInfos("Handles", "Limited"))
+                End If
+                If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.ReadClipboard) = NativeEnums.JobObjectBasicUiRestrictions.ReadClipboard Then
+                    ret.Add("ReadClipboard", New jobLimitInfos("ReadClipboard", "Limited"))
+                End If
+                If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.SystemParameters) = NativeEnums.JobObjectBasicUiRestrictions.SystemParameters Then
+                    ret.Add("SystemParameters", New jobLimitInfos("SystemParameters", "Limited"))
+                End If
+                If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.WriteClipboard) = NativeEnums.JobObjectBasicUiRestrictions.WriteClipboard Then
+                    ret.Add("WriteClipboard", New jobLimitInfos("WriteClipboard", "Limited"))
+                End If
+
+                ' Other limitations
+                Dim struct2 As NativeStructs.JobObjectExtendedLimitInformation = _
+                    QueryJobInformationByHandle(Of NativeStructs.JobObjectExtendedLimitInformation)(hJob, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation)
+                Dim flag2 As NativeEnums.JobObjectLimitFlags = struct2.BasicLimitInformation.LimitFlags
+
+                If (flag2 And NativeEnums.JobObjectLimitFlags.ActiveProcess) = NativeEnums.JobObjectLimitFlags.ActiveProcess Then
+                    ret.Add("Active processes", New jobLimitInfos("Active processes", struct2.BasicLimitInformation.ActiveProcessLimit.ToString))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.Affinity) = NativeEnums.JobObjectLimitFlags.Affinity Then
+                    ret.Add("Affinity", New jobLimitInfos("Affinity", struct2.BasicLimitInformation.Affinity.ToString))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.BreakawayOk) = NativeEnums.JobObjectLimitFlags.BreakawayOk Then
+                    ret.Add("Breakaway OK", New jobLimitInfos("Breakaway OK", "Enabled"))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.DieOnUnhandledException) = NativeEnums.JobObjectLimitFlags.DieOnUnhandledException Then
+                    ret.Add("Die on unhandled exception", New jobLimitInfos("Die on unhandled exception", "Enabled"))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.JobMemory) = NativeEnums.JobObjectLimitFlags.JobMemory Then
+                    ret.Add("Committed memory for job", New jobLimitInfos("Committed memory for job", Common.Misc.GetFormatedSize(struct2.JobMemoryLimit)))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.JobTime) = NativeEnums.JobObjectLimitFlags.JobTime Then
+                    ret.Add("Usermode time for job", New jobLimitInfos("Usermode time for job", struct2.BasicLimitInformation.PerJobUserTimeLimit.ToString))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.KillOnJobClose) = NativeEnums.JobObjectLimitFlags.KillOnJobClose Then
+                    ret.Add("Kill on job close", New jobLimitInfos("Kill on job close", "Enabled"))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.PreserveJobTime) = NativeEnums.JobObjectLimitFlags.PreserveJobTime Then
+                    ret.Add("Preserve job time", New jobLimitInfos("Preserve job time", "Enabled"))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.PriorityClass) = NativeEnums.JobObjectLimitFlags.PriorityClass Then
+                    ret.Add("Priority class", New jobLimitInfos("Priority class", CType(struct2.BasicLimitInformation.PriorityClass, System.Diagnostics.ProcessPriorityClass).ToString))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.ProcessMemory) = NativeEnums.JobObjectLimitFlags.ProcessMemory Then
+                    ret.Add("Committed memory for each process", New jobLimitInfos("Committed memory for each process", Common.Misc.GetFormatedSize(struct2.ProcessMemoryLimit)))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.ProcessTime) = NativeEnums.JobObjectLimitFlags.ProcessTime Then
+                    ret.Add("Usermode time for each process", New jobLimitInfos("Usermode time for each process", struct2.BasicLimitInformation.PerProcessUserTimeLimit.ToString))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.SchedulingClass) = NativeEnums.JobObjectLimitFlags.SchedulingClass Then
+                    ret.Add("Scheduling class", New jobLimitInfos("Scheduling class", struct2.BasicLimitInformation.SchedulingClass.ToString))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.SilentBreakawayOk) = NativeEnums.JobObjectLimitFlags.SilentBreakawayOk Then
+                    ret.Add("Slient breakaway OK", New jobLimitInfos("Slient breakaway OK", "Enabled"))
+                End If
+                If (flag2 And NativeEnums.JobObjectLimitFlags.WorkingSet) = NativeEnums.JobObjectLimitFlags.WorkingSet Then
+                    ret.Add("Minimum working set size per process", New jobLimitInfos("Minimum working set size per process", Common.Misc.GetFormatedSize(struct2.BasicLimitInformation.MinimumWorkingSetSize)))
+                    ret.Add("Maximum working set size per process", New jobLimitInfos("Maximum working set size per process", Common.Misc.GetFormatedSize(struct2.BasicLimitInformation.MaximumWorkingSetSize)))
+                End If
+
+            End If
+
+            ' End using valid handle
+            EndUsingValidJobHandle()
+
+            Return ret
+        End Function
+
+        ' Enumerate created jobs
+        Public Shared Function EnumerateJobs(Optional ByVal refreshNow As Boolean = False) As Dictionary(Of String, cJob)
             Dim ret As Dictionary(Of String, cJob) = GetJobList()
 
             ' Refresh all infos on job
@@ -270,41 +370,41 @@ Namespace Native.Objects
 
         ' Query some informations
         ' These 5 functions use QueryJobInformationByHandle
-        Public Shared Function GeJobBasicAndIoAccountingInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicAndIoAccountingInformation
+        Public Shared Function GetJobBasicAndIoAccountingInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicAndIoAccountingInformation
             Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicAndIoAccountingInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicAndIoAccountingInformation)
         End Function
 
-        Public Shared Function GeJobBasicAccountingInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicAccountingInformation
+        Public Shared Function GetJobBasicAccountingInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicAccountingInformation
             Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicAccountingInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicAccountingInformation)
         End Function
 
-        Public Shared Function GeJobBasicUiRestrictionsName(ByVal jobName As String) As NativeStructs.JobObjectBasicUiRestrictions
+        Public Shared Function GetJobBasicUiRestrictionsName(ByVal jobName As String) As NativeStructs.JobObjectBasicUiRestrictions
             Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicUiRestrictions)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions)
         End Function
 
-        Public Shared Function GeJobBasicLimitInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicLimitInformation
+        Public Shared Function GetJobBasicLimitInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicLimitInformation
             Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicLimitInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation)
         End Function
 
-        Public Shared Function GeJobExtendedLimitInformationsByName(ByVal jobName As String) As NativeStructs.JobObjectExtendedLimitInformation
+        Public Shared Function GetJobExtendedLimitInformationsByName(ByVal jobName As String) As NativeStructs.JobObjectExtendedLimitInformation
             Return QueryJobInformationByName(Of NativeStructs.JobObjectExtendedLimitInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation)
         End Function
 
         ' Set some informations
         ' These 5 functions use QueryJobInformationByHandle
-        Public Shared Function SeJobBasicLimitInformationByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectBasicLimitInformation) As Boolean
+        Public Shared Function SetJobBasicLimitInformationByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectBasicLimitInformation) As Boolean
             Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation, limit)
         End Function
 
-        Public Shared Function SeJobBasicUiRestrictionsName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectBasicUiRestrictions) As Boolean
+        Public Shared Function SetJobBasicUiRestrictionsName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectBasicUiRestrictions) As Boolean
             Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions, limit)
         End Function
 
-        Public Shared Function SeJobExtendedLimitInformationsByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectExtendedLimitInformation) As Boolean
+        Public Shared Function SetJobExtendedLimitInformationsByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectExtendedLimitInformation) As Boolean
             Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation, limit)
         End Function
 
-        Public Shared Function SeJobEndOfTimeInformationByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectEndOfJobTimeInformation) As Boolean
+        Public Shared Function SetJobEndOfTimeInformationByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectEndOfJobTimeInformation) As Boolean
             Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectEndOfJobTimeInformation, limit)
         End Function
 
@@ -369,7 +469,7 @@ Namespace Native.Objects
             mCount = memAllocJobs.ReadInt32(0)
 
             ' Resize our array
-            Dim objTypeOffsetInStruct As Integer = Native.Api.NativeStructs.SystemHandleInformation_ObjectTypeOffset
+            Dim objTypeOffsetInStruct As Integer = NativeStructs.SystemHandleInformation_ObjectTypeOffset
             Dim structSize As Integer = Marshal.SizeOf(GetType(NativeStructs.SystemHandleInformation))
             For x = 0 To mCount - 1
                 ' We do not retrieve the entire SystemHandleInformation struct
@@ -409,7 +509,7 @@ Namespace Native.Objects
                             ' Add to dico
                             ' The key is the name
                             If Not (String.IsNullOrEmpty(theName)) AndAlso buf.ContainsKey(theName) = False Then
-                                Dim jj As cJob = New cJob(New jobInfos(theName, targetHandle, True))
+                                Dim jj As cJob = New cJob(New jobInfos(theName))
                                 buf.Add(theName, jj)
                             End If
 
@@ -443,7 +543,7 @@ Namespace Native.Objects
                             ' The key is theName
                             If String.IsNullOrEmpty(theName) = False Then
                                 If buf.ContainsKey(theName) = False Then
-                                    Dim jj As cJob = New cJob(New jobInfos(theName, targetHandle, False))
+                                    Dim jj As cJob = New cJob(New jobInfos(theName))
                                     buf.Add(theName, jj)
                                 End If
 
@@ -463,7 +563,7 @@ Namespace Native.Objects
                                 theName = "(no name)[" & noNameJobIndex.ToString & "]"
 
                                 If buf.ContainsKey(theName) = False Then
-                                    Dim jj As cJob = New cJob(New jobInfos(theName, targetHandle, False))
+                                    Dim jj As cJob = New cJob(New jobInfos(theName))
                                     buf.Add(theName, jj)
                                 End If
 
@@ -519,6 +619,33 @@ Namespace Native.Objects
 
             ' End using handle
             EndUsingValidJobHandle()
+
+            Return retStruct
+
+        End Function
+        Private Shared Function QueryJobInformationByHandle(Of T)(ByVal handle As IntPtr, _
+                        ByVal info As NativeEnums.JobObjectInformationClass) As T
+            Dim ret As Integer
+            Dim retStruct As T = Nothing
+
+            If handle.IsNotNull Then
+
+                Dim memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
+
+                If Not NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
+                                                                 memAlloc.Size, ret) Then
+                    ' Need a greater mem alloc
+                    memAlloc.Resize(ret)
+
+                    NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
+                                                              memAlloc.Size, ret)
+                End If
+
+                Dim struct As T = memAlloc.ReadStruct(Of T)()
+                memAlloc.Free()
+
+                retStruct = struct
+            End If
 
             Return retStruct
 

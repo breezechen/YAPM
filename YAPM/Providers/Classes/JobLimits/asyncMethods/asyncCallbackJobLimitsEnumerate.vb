@@ -27,13 +27,13 @@ Imports System.Windows.Forms
 Imports System.Management
 Imports System.Net
 
-Public Class asyncCallbackJobEnumerate
+Public Class asyncCallbackJobLimitsEnumerate
 
     Private ctrl As Control
     Private deg As [Delegate]
-    Private con As cJobConnection
+    Private con As cJobLimitConnection
     Private _instanceId As Integer
-    Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cJobConnection, ByVal iId As Integer)
+    Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cJobLimitConnection, ByVal iId As Integer)
         ctrl = ctr
         deg = de
         _instanceId = iId
@@ -41,9 +41,11 @@ Public Class asyncCallbackJobEnumerate
     End Sub
 
     Public Structure poolObj
+        Public JobName As String
         Public forInstanceId As Integer
-        Public Sub New(ByVal ii As Integer)
+        Public Sub New(ByVal _jobName As String, ByVal ii As Integer)
             forInstanceId = ii
+            JobName = _jobName
         End Sub
     End Structure
 
@@ -73,23 +75,16 @@ Public Class asyncCallbackJobEnumerate
         Select Case con.ConnectionObj.ConnectionType
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                '_poolObj = pObj
-                'Try
-                '    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestNetworkConnectionList, pObj.pid, pObj.all)
-                '    cDat.InstanceId = _instanceId   ' Instance which request the list
-                '    con.ConnectionObj.Socket.Send(cDat)
-                'Catch ex As Exception
-                '    MsgBox(ex.Message)
-                'End Try
+                'TODO
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-
+                ' TODO
 
             Case Else
                 ' Local
 
-                Dim _dico As Dictionary(Of String, cJob) = _
-                        Native.Objects.Job.EnumerateJobs
+                Dim _dico As Dictionary(Of String, jobLimitInfos) = _
+                        Native.Objects.Job.EnumerateJobLimitsByJobName(pObj.JobName)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)

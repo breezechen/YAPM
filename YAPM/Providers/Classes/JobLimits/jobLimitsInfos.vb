@@ -27,12 +27,13 @@ Option Strict On
 Imports System.Runtime.InteropServices
 Imports System.Net
 
-<Serializable()> Public Class jobInfos
+<Serializable()> Public Class jobLimitInfos
     Inherits generalInfos
 
 #Region "Private attributes"
 
     Private _name As String
+    Private _value As String
 
 #End Region
 
@@ -41,6 +42,11 @@ Imports System.Net
     Public ReadOnly Property Name() As String
         Get
             Return _name
+        End Get
+    End Property
+    Public ReadOnly Property Value() As String
+        Get
+            Return _value
         End Get
     End Property
 
@@ -52,25 +58,28 @@ Imports System.Net
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByVal name As String)
+    Public Sub New(ByVal name As String, ByVal value As String)
         _name = name
+        _value = value
     End Sub
 
     ' Merge an old and a new instance
-    Public Sub Merge(ByRef newI As jobInfos)
-        '
+    Public Sub Merge(ByRef newI As jobLimitInfos)
+        With newI
+            _value = .value
+        End With
     End Sub
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
         Dim s(0) As String
 
-        s(0) = "ProcessesCount"
+        s(0) = "Value"
 
         If includeFirstProp Then
             Dim s2(s.Length) As String
             Array.Copy(s, 0, s2, 1, s.Length)
-            s2(0) = "Name"
+            s2(0) = "Limit"
             s = s2
         End If
 

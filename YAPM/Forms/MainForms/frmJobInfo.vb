@@ -120,7 +120,7 @@ Public Class frmJobInfo
 
     Private Sub frmServiceInfo_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp
         If e.KeyCode = Keys.F5 Then
-            Call tabProcess_SelectedIndexChanged(Nothing, Nothing)
+            Call tabJob_SelectedIndexChanged(Nothing, Nothing)
         End If
     End Sub
 
@@ -130,10 +130,17 @@ Public Class frmJobInfo
 
         ' Some tooltips
         Native.Functions.Misc.SetTheme(Me.lvProcess.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvLimits.Handle)
         SetToolTip(Me.cmdAddProcess, "Add processes to the job")
         SetToolTip(Me.cmdTerminateJob, "Terminate the job")
+        SetToolTip(Me.cmdSetLimits, "Add a limit to the job")
 
         Pref.LoadListViewColumns(Me.lvProcess, "COLmain_process")
+
+        ' Add some submenus (Copy to clipboard)
+        For Each ss As String In jobLimitInfos.GetAvailableProperties(True)
+            Me.MenuItemCopyLimit.MenuItems.Add(ss, AddressOf MenuItemCopyLimit_Click)
+        Next
 
         Select Case My.Settings.JobSelectedTab
             Case "General"
@@ -149,6 +156,23 @@ Public Class frmJobInfo
 
     End Sub
 
+#Region "Copy to clipboard menus"
+
+    Private Sub MenuItemCopyLimit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cJobLimit In Me.lvLimits.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
+#End Region
+
     ' Get process to monitor
     Public Sub SetJob(ByRef job As cJob)
 
@@ -158,17 +182,12 @@ Public Class frmJobInfo
         _notWMI = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
 
         Me.Timer.Enabled = _local
+        Me.cmdSetLimits.Enabled = _notWMI
 
     End Sub
 
-    ' Change caption
-    Private Sub ChangeCaption()
-        'Me.Text = curServ.Infos.Name & " (" & curServ.Infos.DisplayName & ")"
-    End Sub
-
-    Private Sub tabProcess_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabJob.SelectedIndexChanged
+    Private Sub tabJob_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabJob.SelectedIndexChanged
         Call Me.refreshJobTab()
-        Call ChangeCaption()
         My.Settings.JobSelectedTab = Me.tabJob.SelectedTab.Text
     End Sub
 
@@ -179,6 +198,7 @@ Public Class frmJobInfo
         Try
             theConnection = Program.Connection
             Me.lvProcess.ConnectionObj = theConnection
+            Me.lvLimits.ConnectionObj = theConnection
             theConnection.Connect()
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
@@ -196,9 +216,6 @@ Public Class frmJobInfo
     Private Sub Timer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer.Tick
         ' Refresh informations about process
         Call Me.refreshJobTab()
-
-        ' Display caption
-        Call ChangeCaption()
     End Sub
 
     Private Sub cmdTerminateJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdTerminateJob.Click
@@ -211,6 +228,23 @@ Public Class frmJobInfo
     End Sub
 
     Private Sub cmdAddProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAddProcess.Click
+        '
+    End Sub
+
+    Private Sub TimerLimits_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerLimits.Tick
+        Me.lvLimits.JobName = curJob.Infos.Name
+        Me.lvLimits.UpdateTheItems()
+    End Sub
+
+    Private Sub lvLimits_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvLimits.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Dim selectedAtLeastOnce As Boolean = (Me.lvLimits.GetSelectedItems IsNot Nothing AndAlso Me.lvLimits.GetSelectedItems.Count >= 1)
+            Me.MenuItemCopyLimit.Enabled = selectedAtLeastOnce
+            Me.mnuLimit.Show(Me.lvLimits, e.Location)
+        End If
+    End Sub
+
+    Private Sub MenuItemLimitRemove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         '
     End Sub
 End Class

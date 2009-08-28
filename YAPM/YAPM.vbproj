@@ -223,6 +223,10 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmSetJobLimits.resx">
+      <DependentUpon>frmSetJobLimits.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmKillProcessByMethod.resx">
       <DependentUpon>frmKillProcessByMethod.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -289,6 +293,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForms\frmServer.resx">
       <DependentUpon>frmServer.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\jobLimitList.resx">
+      <DependentUpon>jobLimitList.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\processesInJobList.resx">
@@ -485,6 +493,12 @@
     <Compile Include="Forms\MainForms\frmJobInfo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\Misc\frmSetJobLimits.Designer.vb">
+      <DependentUpon>frmSetJobLimits.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmSetJobLimits.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Misc\frmKillProcessByMethod.Designer.vb">
       <DependentUpon>frmKillProcessByMethod.vb</DependentUpon>
     </Compile>
@@ -677,6 +691,10 @@
     <Compile Include="Native\Objects\Token.vb" />
     <Compile Include="Native\Structs.vb" />
     <Compile Include="Native\Objects\Process.vb" />
+    <Compile Include="Providers\Classes\JobLimits\asyncMethods\asyncCallbackJobLimitsEnumerate.vb" />
+    <Compile Include="Providers\Classes\JobLimits\cJobLimit.vb" />
+    <Compile Include="Providers\Classes\JobLimits\cJobLimitConnection.vb" />
+    <Compile Include="Providers\Classes\JobLimits\jobLimitsInfos.vb" />
     <Compile Include="Providers\Classes\General\cGeneralConnection.vb" />
     <Compile Include="Providers\Classes\General\cGeneralObject.vb" />
     <Compile Include="Providers\Classes\EnvVariables\asyncMethods\asyncCallbackEnvVariableEnumerate.vb" />
@@ -779,6 +797,12 @@
     <Compile Include="Providers\Classes\Windows\cWindow.vb" />
     <Compile Include="Providers\Classes\Windows\cWindowConnection.vb" />
     <Compile Include="Providers\Classes\Windows\windowInfos.vb" />
+    <Compile Include="Providers\CustomListviews\jobLimitList.Designer.vb">
+      <DependentUpon>jobLimitList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\jobLimitList.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Providers\CustomListviews\processesInJobList.Designer.vb">
       <DependentUpon>processesInJobList.vb</DependentUpon>
     </Compile>

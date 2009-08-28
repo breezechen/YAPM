@@ -123,7 +123,7 @@ Public Class cJob
 
     ' Get a job by its name
     Public Shared Function GetJobByName(ByVal jobName As String) As cJob
-        For Each cJ As cJob In Native.Objects.Job.EnumerateCreatedJobs.Values
+        For Each cJ As cJob In Native.Objects.Job.EnumerateJobs.Values
             If cJ.Infos.Name = jobName Then
                 Return cJ
             End If
@@ -134,7 +134,7 @@ Public Class cJob
     ' Return job a process (if any)
     ' BUGGY -> Handle of this cJob retrieved is not up-to-date (closed)
     Public Shared Function GetProcessJobById(ByVal pid As Integer) As cJob
-        For Each cJ As cJob In Native.Objects.Job.EnumerateCreatedJobs(True).Values
+        For Each cJ As cJob In Native.Objects.Job.EnumerateJobs(True).Values
             If cJ.PidList.Contains(pid) Then
                 Return cJ
             End If
@@ -213,8 +213,8 @@ Public Class cJob
         ' NEED TO BE GENERIC AND ASYNC
 
         _procIds = Native.Objects.Job.GetProcessesInJobByName(_jobInfos.Name)
-        basicAcIoInfo = Native.Objects.Job.GeJobBasicAndIoAccountingInformationByName(_jobInfos.Name)
-        basicLimitInfo = Native.Objects.Job.GeJobBasicLimitInformationByName(_jobInfos.Name)
+        basicAcIoInfo = Native.Objects.Job.GetJobBasicAndIoAccountingInformationByName(_jobInfos.Name)
+        basicLimitInfo = Native.Objects.Job.GetJobBasicLimitInformationByName(_jobInfos.Name)
 
     End Sub
 
