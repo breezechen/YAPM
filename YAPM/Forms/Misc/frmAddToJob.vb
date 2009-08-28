@@ -61,8 +61,8 @@ Public Class frmAddToJob
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
 
         If String.IsNullOrEmpty(Me.txtJobName.Text) Then
-            Me.DialogResult = System.Windows.Forms.DialogResult.OK
-            Me.Close()
+            MsgBox("Name must be not null.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Create job")
+            Exit Sub
         End If
 
         ' Now add the processes to job

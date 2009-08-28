@@ -107,6 +107,7 @@ Namespace Native.Objects
 
         ' Add a process to a job
         Public Shared Function CreateJobByName(ByVal jobName As String) As cJob
+
             ' Create a job
             Dim hJob As IntPtr
             Dim sa As New NativeStructs.SecurityAttributes
@@ -117,10 +118,6 @@ Namespace Native.Objects
             End With
 
             hJob = NativeFunctions.CreateJobObject(sa, jobName)
-
-            Dim l As NativeStructs.JobObjectExtendedLimitInformation
-            l.BasicLimitInformation.LimitFlags = NativeEnums.JobObjectLimitFlags.KillOnJobClose
-            SetJobInformationByHandle(hJob, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation, l)
 
             If hJob.IsNotNull Then
                 ' Add process to job
@@ -186,10 +183,8 @@ Namespace Native.Objects
             Dim ret As Boolean
 
             ' Open job by its name
-            ' Query a valid handle
+            ' Query a valid handle (all acces)
             hJob = BeginUsingValidJobHandle(jobName)
-
-            ' hJob = NativeFunctions.OpenJobObject(Security.JobAccess.Terminate, False, jobName)
 
             If hJob.IsNotNull Then
                 ' Then terminate job !
@@ -329,6 +324,7 @@ Namespace Native.Objects
             Dim Handle As NativeStructs.SystemHandleInformation
             Dim buf As New Dictionary(Of String, cJob)
             Dim hProcess As IntPtr
+            Dim noNameJobIndex As Integer = 0
 
             semDupHandles.WaitOne()
 
@@ -453,8 +449,26 @@ Namespace Native.Objects
                                     _dupHandles.Add(theName, targetHandle)
                                 End If
                             Else
-                                ' Close handle immediately as we can't access it (unnamed)
-                                Native.Objects.General.CloseHandle(targetHandle)
+                                ' Then the job has no name...
+                                ' We will create a name for this job, as a name
+                                ' is expected as a primary key for dictionaries.
+
+                                noNameJobIndex += 1
+                                theName = "(no name)[" & noNameJobIndex.ToString & "]"
+
+                                If buf.ContainsKey(theName) = False Then
+                                    Dim jj As cJob = New cJob(New jobInfos(theName, targetHandle, False))
+                                    buf.Add(theName, jj)
+                                End If
+
+                                ' Add the handle to the list of duplicated handles
+                                ' So we will close it just before next enumeration
+                                ' to avoid to multiple per 2 each enumeration the number
+                                ' of handles... And to avoid JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit issue
+                                If _dupHandles.ContainsKey(theName) = False Then
+                                    _dupHandles.Add(theName, targetHandle)
+                                End If
+
                             End If
 
                         End If
