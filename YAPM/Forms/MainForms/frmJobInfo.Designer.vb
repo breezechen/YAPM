@@ -29,9 +29,21 @@ Partial Class frmJobInfo
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmJobInfo))
         Me.tabJob = New System.Windows.Forms.TabControl
         Me.pageGeneral = New System.Windows.Forms.TabPage
+        Me.SplitContainer = New System.Windows.Forms.SplitContainer
         Me.cmdAddProcess = New System.Windows.Forms.Button
         Me.cmdTerminateJob = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.lvProcess = New YAPM.processesInJobList
+        Me.c1 = New System.Windows.Forms.ColumnHeader
+        Me.c2 = New System.Windows.Forms.ColumnHeader
+        Me.c3 = New System.Windows.Forms.ColumnHeader
+        Me.c4 = New System.Windows.Forms.ColumnHeader
+        Me.c5 = New System.Windows.Forms.ColumnHeader
+        Me.c7 = New System.Windows.Forms.ColumnHeader
+        Me.c8 = New System.Windows.Forms.ColumnHeader
+        Me.c9 = New System.Windows.Forms.ColumnHeader
+        Me.c10 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
         Me.pageStats = New System.Windows.Forms.TabPage
         Me.GroupBox5 = New System.Windows.Forms.GroupBox
         Me.lblPageFaultCount = New System.Windows.Forms.Label
@@ -93,19 +105,11 @@ Partial Class frmJobInfo
         Me.pageLimitations = New System.Windows.Forms.TabPage
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
-        Me.lvProcess = New YAPM.processesInJobList
-        Me.c1 = New System.Windows.Forms.ColumnHeader
-        Me.c2 = New System.Windows.Forms.ColumnHeader
-        Me.c3 = New System.Windows.Forms.ColumnHeader
-        Me.c4 = New System.Windows.Forms.ColumnHeader
-        Me.c5 = New System.Windows.Forms.ColumnHeader
-        Me.c7 = New System.Windows.Forms.ColumnHeader
-        Me.c8 = New System.Windows.Forms.ColumnHeader
-        Me.c9 = New System.Windows.Forms.ColumnHeader
-        Me.c10 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
         Me.tabJob.SuspendLayout()
         Me.pageGeneral.SuspendLayout()
+        Me.SplitContainer.Panel1.SuspendLayout()
+        Me.SplitContainer.Panel2.SuspendLayout()
+        Me.SplitContainer.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.pageStats.SuspendLayout()
         Me.GroupBox5.SuspendLayout()
@@ -125,30 +129,48 @@ Partial Class frmJobInfo
         Me.tabJob.Multiline = True
         Me.tabJob.Name = "tabJob"
         Me.tabJob.SelectedIndex = 0
-        Me.tabJob.Size = New System.Drawing.Size(655, 323)
+        Me.tabJob.Size = New System.Drawing.Size(703, 358)
         Me.tabJob.TabIndex = 0
         '
         'pageGeneral
         '
-        Me.pageGeneral.Controls.Add(Me.cmdAddProcess)
-        Me.pageGeneral.Controls.Add(Me.cmdTerminateJob)
-        Me.pageGeneral.Controls.Add(Me.GroupBox1)
+        Me.pageGeneral.Controls.Add(Me.SplitContainer)
         Me.pageGeneral.Location = New System.Drawing.Point(4, 22)
         Me.pageGeneral.Name = "pageGeneral"
         Me.pageGeneral.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageGeneral.Size = New System.Drawing.Size(647, 297)
+        Me.pageGeneral.Size = New System.Drawing.Size(695, 332)
         Me.pageGeneral.TabIndex = 0
         Me.pageGeneral.Text = "General"
         Me.pageGeneral.UseVisualStyleBackColor = True
+        '
+        'SplitContainer
+        '
+        Me.SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer.Location = New System.Drawing.Point(3, 3)
+        Me.SplitContainer.Name = "SplitContainer"
+        Me.SplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer.Panel1
+        '
+        Me.SplitContainer.Panel1.Controls.Add(Me.cmdAddProcess)
+        Me.SplitContainer.Panel1.Controls.Add(Me.cmdTerminateJob)
+        '
+        'SplitContainer.Panel2
+        '
+        Me.SplitContainer.Panel2.Controls.Add(Me.GroupBox1)
+        Me.SplitContainer.Size = New System.Drawing.Size(689, 326)
+        Me.SplitContainer.SplitterDistance = 25
+        Me.SplitContainer.TabIndex = 19
         '
         'cmdAddProcess
         '
         Me.cmdAddProcess.Image = Global.YAPM.My.Resources.Resources.plus_circle
         Me.cmdAddProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdAddProcess.Location = New System.Drawing.Point(8, 6)
+        Me.cmdAddProcess.Location = New System.Drawing.Point(5, 3)
         Me.cmdAddProcess.Name = "cmdAddProcess"
         Me.cmdAddProcess.Size = New System.Drawing.Size(131, 23)
-        Me.cmdAddProcess.TabIndex = 18
+        Me.cmdAddProcess.TabIndex = 20
         Me.cmdAddProcess.Text = "Add process to job"
         Me.cmdAddProcess.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.cmdAddProcess.UseVisualStyleBackColor = True
@@ -157,10 +179,10 @@ Partial Class frmJobInfo
         '
         Me.cmdTerminateJob.Image = Global.YAPM.My.Resources.Resources.cross
         Me.cmdTerminateJob.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdTerminateJob.Location = New System.Drawing.Point(145, 6)
+        Me.cmdTerminateJob.Location = New System.Drawing.Point(142, 3)
         Me.cmdTerminateJob.Name = "cmdTerminateJob"
         Me.cmdTerminateJob.Size = New System.Drawing.Size(105, 23)
-        Me.cmdTerminateJob.TabIndex = 17
+        Me.cmdTerminateJob.TabIndex = 19
         Me.cmdTerminateJob.Text = "Terminate job"
         Me.cmdTerminateJob.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.cmdTerminateJob.UseVisualStyleBackColor = True
@@ -168,12 +190,94 @@ Partial Class frmJobInfo
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.lvProcess)
-        Me.GroupBox1.Location = New System.Drawing.Point(8, 35)
+        Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.GroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(631, 253)
-        Me.GroupBox1.TabIndex = 16
+        Me.GroupBox1.Size = New System.Drawing.Size(689, 297)
+        Me.GroupBox1.TabIndex = 17
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Processes in job"
+        '
+        'lvProcess
+        '
+        Me.lvProcess.AllowColumnReorder = True
+        Me.lvProcess.CatchErrors = False
+        Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
+        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcess.ConnectionObj = CConnection1
+        Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvProcess.FullRowSelect = True
+        ListViewGroup1.Header = "Processes"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        Me.lvProcess.HideSelection = False
+        Me.lvProcess.Job = Nothing
+        Me.lvProcess.Location = New System.Drawing.Point(3, 18)
+        Me.lvProcess.Name = "lvProcess"
+        Me.lvProcess.OverriddenDoubleBuffered = True
+        Me.lvProcess.ReorganizeColumns = True
+        Me.lvProcess.Size = New System.Drawing.Size(683, 276)
+        Me.lvProcess.TabIndex = 4
+        Me.lvProcess.UseCompatibleStateImageBehavior = False
+        Me.lvProcess.View = System.Windows.Forms.View.Details
+        '
+        'c1
+        '
+        Me.c1.Text = "Name"
+        Me.c1.Width = 100
+        '
+        'c2
+        '
+        Me.c2.Text = "PID"
+        Me.c2.Width = 40
+        '
+        'c3
+        '
+        Me.c3.Text = "UserName"
+        Me.c3.Width = 100
+        '
+        'c4
+        '
+        Me.c4.DisplayIndex = 5
+        Me.c4.Text = "TotalCpuTime"
+        Me.c4.Width = 80
+        '
+        'c5
+        '
+        Me.c5.DisplayIndex = 6
+        Me.c5.Text = "WorkingSet"
+        Me.c5.Width = 80
+        '
+        'c7
+        '
+        Me.c7.DisplayIndex = 7
+        Me.c7.Text = "Priority"
+        Me.c7.Width = 70
+        '
+        'c8
+        '
+        Me.c8.DisplayIndex = 8
+        Me.c8.Text = "Path"
+        Me.c8.Width = 350
+        '
+        'c9
+        '
+        Me.c9.DisplayIndex = 9
+        Me.c9.Text = "StartTime"
+        Me.c9.Width = 250
+        '
+        'c10
+        '
+        Me.c10.DisplayIndex = 3
+        Me.c10.Text = "CpuUsage"
+        '
+        'ColumnHeader20
+        '
+        Me.ColumnHeader20.DisplayIndex = 4
+        Me.ColumnHeader20.Text = "AverageCpuUsage"
         '
         'pageStats
         '
@@ -183,7 +287,7 @@ Partial Class frmJobInfo
         Me.pageStats.Location = New System.Drawing.Point(4, 22)
         Me.pageStats.Name = "pageStats"
         Me.pageStats.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageStats.Size = New System.Drawing.Size(647, 297)
+        Me.pageStats.Size = New System.Drawing.Size(695, 332)
         Me.pageStats.TabIndex = 8
         Me.pageStats.Text = "Statistics"
         Me.pageStats.UseVisualStyleBackColor = True
@@ -786,7 +890,7 @@ Partial Class frmJobInfo
         Me.pageLimitations.Location = New System.Drawing.Point(4, 22)
         Me.pageLimitations.Name = "pageLimitations"
         Me.pageLimitations.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageLimitations.Size = New System.Drawing.Size(647, 297)
+        Me.pageLimitations.Size = New System.Drawing.Size(695, 332)
         Me.pageLimitations.TabIndex = 5
         Me.pageLimitations.Text = "Limitations"
         Me.pageLimitations.UseVisualStyleBackColor = True
@@ -800,92 +904,11 @@ Partial Class frmJobInfo
         '
         Me.VistaMenu.ContainerControl = Me
         '
-        'lvProcess
-        '
-        Me.lvProcess.AllowColumnReorder = True
-        Me.lvProcess.CatchErrors = False
-        Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
-        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcess.ConnectionObj = CConnection1
-        Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvProcess.FullRowSelect = True
-        ListViewGroup1.Header = "Processes"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
-        Me.lvProcess.HideSelection = False
-        Me.lvProcess.Job = Nothing
-        Me.lvProcess.Location = New System.Drawing.Point(3, 18)
-        Me.lvProcess.Name = "lvProcess"
-        Me.lvProcess.OverriddenDoubleBuffered = True
-        Me.lvProcess.ReorganizeColumns = True
-        Me.lvProcess.Size = New System.Drawing.Size(625, 232)
-        Me.lvProcess.TabIndex = 4
-        Me.lvProcess.UseCompatibleStateImageBehavior = False
-        Me.lvProcess.View = System.Windows.Forms.View.Details
-        '
-        'c1
-        '
-        Me.c1.Text = "Name"
-        Me.c1.Width = 100
-        '
-        'c2
-        '
-        Me.c2.Text = "PID"
-        Me.c2.Width = 40
-        '
-        'c3
-        '
-        Me.c3.Text = "UserName"
-        Me.c3.Width = 100
-        '
-        'c4
-        '
-        Me.c4.DisplayIndex = 5
-        Me.c4.Text = "TotalCpuTime"
-        Me.c4.Width = 80
-        '
-        'c5
-        '
-        Me.c5.DisplayIndex = 6
-        Me.c5.Text = "WorkingSet"
-        Me.c5.Width = 80
-        '
-        'c7
-        '
-        Me.c7.DisplayIndex = 7
-        Me.c7.Text = "Priority"
-        Me.c7.Width = 70
-        '
-        'c8
-        '
-        Me.c8.DisplayIndex = 8
-        Me.c8.Text = "Path"
-        Me.c8.Width = 350
-        '
-        'c9
-        '
-        Me.c9.DisplayIndex = 9
-        Me.c9.Text = "StartTime"
-        Me.c9.Width = 250
-        '
-        'c10
-        '
-        Me.c10.DisplayIndex = 3
-        Me.c10.Text = "CpuUsage"
-        '
-        'ColumnHeader20
-        '
-        Me.ColumnHeader20.DisplayIndex = 4
-        Me.ColumnHeader20.Text = "AverageCpuUsage"
-        '
         'frmJobInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(655, 323)
+        Me.ClientSize = New System.Drawing.Size(703, 358)
         Me.Controls.Add(Me.tabJob)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(660, 359)
@@ -893,6 +916,9 @@ Partial Class frmJobInfo
         Me.Text = "Job informations"
         Me.tabJob.ResumeLayout(False)
         Me.pageGeneral.ResumeLayout(False)
+        Me.SplitContainer.Panel1.ResumeLayout(False)
+        Me.SplitContainer.Panel2.ResumeLayout(False)
+        Me.SplitContainer.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.pageStats.ResumeLayout(False)
         Me.GroupBox5.ResumeLayout(False)
@@ -968,9 +994,10 @@ Partial Class frmJobInfo
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents lblPageFaultCount As System.Windows.Forms.Label
     Friend WithEvents Label21 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents SplitContainer As System.Windows.Forms.SplitContainer
     Friend WithEvents cmdAddProcess As System.Windows.Forms.Button
     Friend WithEvents cmdTerminateJob As System.Windows.Forms.Button
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents lvProcess As YAPM.processesInJobList
     Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c2 As System.Windows.Forms.ColumnHeader

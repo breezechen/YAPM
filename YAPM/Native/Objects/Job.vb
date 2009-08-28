@@ -189,7 +189,13 @@ Namespace Native.Objects
             If hJob.IsNotNull Then
                 ' Then terminate job !
                 ret = NativeFunctions.TerminateJobObject(hJob, exitCode)
-                Native.Objects.General.CloseHandle(hJob)
+
+                If ret Then
+                    ' Successfully terminated job
+                    ' Now close the handle YAPM has opened to the job
+                    Objects.General.CloseHandle(hJob)
+                End If
+
             End If
 
             ' End using the valid handle

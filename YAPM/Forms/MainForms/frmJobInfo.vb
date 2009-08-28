@@ -209,4 +209,8 @@ Public Class frmJobInfo
         End If
         curJob.TerminateJob()
     End Sub
+
+    Private Sub cmdAddProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAddProcess.Click
+        '
+    End Sub
 End Class
