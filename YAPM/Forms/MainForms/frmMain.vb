@@ -2437,7 +2437,8 @@ Public Class frmMain
             If Me.lvProcess.SelectedItems.Count <> 1 Then
                 Me.MenuItemJobMng.Enabled = True
             Else
-                Me.MenuItemJobMng.Enabled = Me.lvJob.Items.Count > 0 AndAlso (cJob.GetProcessJobById(Me.lvProcess.GetSelectedItem.Infos.Pid) IsNot Nothing)
+                Me.MenuItemJobMng.Enabled = (cJob.GetProcessJobById(Me.lvProcess.GetSelectedItem.Infos.Pid) IsNot Nothing)
+                Me.MenuItemProcAddToJob.Enabled = Not (Me.MenuItemJobMng.Enabled)
             End If
 
             Me.mnuProcess.Show(Me.lvProcess, e.Location)
@@ -5244,13 +5245,7 @@ Public Class frmMain
 
     Private Sub MenuItemJobMng_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemJobMng.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            Dim theJob As cJob = Nothing
-            For Each jj As cJob In Me.lvJob.GetAllItems
-                If jj.PidList.Contains(cp.Infos.Pid) Then
-                    theJob = jj
-                    Exit For
-                End If
-            Next
+            Dim theJob As cJob = cJob.GetProcessJobById(cp.Infos.Pid)
             If theJob IsNot Nothing Then
                 Dim frm As New frmJobInfo
                 frm.SetJob(theJob)

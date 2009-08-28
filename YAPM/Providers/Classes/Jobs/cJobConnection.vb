@@ -121,11 +121,11 @@ Public Class cJobConnection
     End Function
 
     ' Enumerate processes in a job
-    Public Function EnumerateProcessesInJob(ByVal hJob As IntPtr, Optional ByVal forInstanceId As Integer = -1) As Integer
+    Public Function EnumerateProcessesInJob(ByVal jobName As String, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
                 _procInJobEnum.Process), New  _
-                asyncCallbackProcessesInJobEnumerate.poolObj(hJob, forInstanceId))
+                asyncCallbackProcessesInJobEnumerate.poolObj(jobName, forInstanceId))
     End Function
 
 #End Region

@@ -130,7 +130,7 @@ Public Class processesInJobList
         If _jobConnection.IsConnected Then
 
             ' Now enumerate items
-            _jobConnection.EnumerateProcessesInJob(_job.Infos.HandleQuery)
+            _jobConnection.EnumerateProcessesInJob(_job.Infos.Name)
 
         End If
 

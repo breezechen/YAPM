@@ -42,10 +42,10 @@ Public Class asyncCallbackProcessesInJobEnumerate
 
     Public Structure poolObj
         Public forInstanceId As Integer
-        Public hJob As IntPtr
-        Public Sub New(ByVal _hJob As IntPtr, ByVal ii As Integer)
+        Public jobName As String
+        Public Sub New(ByVal _name As String, ByVal ii As Integer)
             forInstanceId = ii
-            hJob = _hJob
+            jobName = _name
         End Sub
     End Structure
 
@@ -91,7 +91,7 @@ Public Class asyncCallbackProcessesInJobEnumerate
                 ' Local
 
                 Dim _dico As List(Of Integer) = _
-                        Native.Objects.Job.GetProcessesInJobByHandle(pObj.hJob)
+                        Native.Objects.Job.GetProcessesInJobByName(pObj.jobName)
 
                 If deg IsNot Nothing Then
                     Try

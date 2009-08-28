@@ -212,32 +212,12 @@ Public Class cJob
         ' NOT GOOD WAY
         ' NEED TO BE GENERIC AND ASYNC
 
-        ' If we own a valid handle to the job (basically when the handle has not been
-        ' duplicated), we demand a refreshment by handle.
-        ' Otherwise, we just notify we need to refresh !
-        If Infos.IsHandleOwned Then
-            ' Refresh infos (the handle is valid as it is never closed
-            ' because YAPM natively owns it)
-            RefreshWithValidHandle()
-        Else
-            ' Notify we need to refresh infos !
-            ' It will be done next time we enumerate jobs, just before
-            ' the handle will be closed
-            Native.Objects.Job.DemandJobRefreshment(Me)
-        End If
+        _procIds = Native.Objects.Job.GetProcessesInJobByName(_jobInfos.Name)
+        basicAcIoInfo = Native.Objects.Job.GeJobBasicAndIoAccountingInformationByName(_jobInfos.Name)
+        basicLimitInfo = Native.Objects.Job.GeJobBasicLimitInformationByName(_jobInfos.Name)
 
     End Sub
 
-    ' We assume the handle is valid (cause not yet closed) and query the stats
-    ' This is called before the duplicated handle is closed
-    Friend Sub RefreshWithValidHandle()
-        Dim hJob As IntPtr = Infos.HandleQuery
-        If hJob.IsNotNull Then
-            _procIds = Native.Objects.Job.GetProcessesInJobByHandle(hJob)
-            basicAcIoInfo = Native.Objects.Job.GeJobBasicAndIoAccountingInformationByHandle(hJob)
-            basicLimitInfo = Native.Objects.Job.GeJobBasicLimitInformationByHandle(hJob)
-        End If
-    End Sub
 
 #Region "Get information overriden methods"
 

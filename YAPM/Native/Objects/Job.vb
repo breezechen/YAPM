@@ -40,9 +40,10 @@ Namespace Native.Objects
         ' Private attributes
         ' ========================================
 
-        ' List of jobs to refresh & sem to protect
-        Private Shared jobToRefresh As New List(Of cJob)
-        Private Shared semJobToRefresh As New System.Threading.Semaphore(1, 1)
+        ' List of valid handles (name <-> handle) + sem to protect access
+        Private Shared _dupHandles As New Dictionary(Of String, IntPtr)
+        Private Shared _ownHandles As New Dictionary(Of String, IntPtr)
+        Private Shared semDupHandles As New System.Threading.Semaphore(1, 1)
 
         ' Sem for enumeration
         Private Shared semEnum As New System.Threading.Semaphore(1, 1)
@@ -76,6 +77,34 @@ Namespace Native.Objects
         ' Public functions
         ' ========================================
 
+        ' Call this function to start executin a code which uses a valid handle to a named job
+        Public Shared Function BeginUsingValidJobHandle(ByVal name As String) As IntPtr
+
+            ' Wait sem
+            semDupHandles.WaitOne()
+
+            If _dupHandles.ContainsKey(name) Then
+                ' Then it's a duplicated handle
+                Return _dupHandles(name)
+            ElseIf _ownHandles.ContainsKey(name) Then
+                ' Then it's an owned handle
+                Return _ownHandles(name)
+            Else
+                Return IntPtr.Zero
+            End If
+
+        End Function
+
+        ' Same to finish
+        Public Shared Sub EndUsingValidJobHandle()
+
+            ' Simply release semaphore, so the enumeration func will close the handle
+            ' next time
+            semDupHandles.Release()
+
+        End Sub
+
+
         ' Add a process to a job
         Public Shared Function CreateJobByName(ByVal jobName As String) As cJob
             ' Create a job
@@ -88,6 +117,10 @@ Namespace Native.Objects
             End With
 
             hJob = NativeFunctions.CreateJobObject(sa, jobName)
+
+            Dim l As NativeStructs.JobObjectExtendedLimitInformation
+            l.BasicLimitInformation.LimitFlags = NativeEnums.JobObjectLimitFlags.KillOnJobClose
+            SetJobInformationByHandle(hJob, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation, l)
 
             If hJob.IsNotNull Then
                 ' Add process to job
@@ -110,6 +143,8 @@ Namespace Native.Objects
         ' Add a process to a job
         Public Shared Function AddProcessToJobById(ByVal processId As Integer, _
                                                    ByVal jobName As String) As Boolean
+            Dim ret As Boolean
+
             ' Create (or open existing) job
             Dim hJob As IntPtr
             Dim sa As New NativeStructs.SecurityAttributes
@@ -135,20 +170,12 @@ Namespace Native.Objects
                                             Security.ProcessAccess.SetQuota Or _
                                             Security.ProcessAccess.Terminate)
                 If hProc.IsNotNull Then
-                    Dim ret As Boolean = _
-                        NativeFunctions.AssignProcessToJobObject(hJob, hProc)
+                    ret = NativeFunctions.AssignProcessToJobObject(hJob, hProc)
                     Objects.General.CloseHandle(hProc)
-                    If ret Then
-                        ' Then a new process has been added to the job
-
-                    End If
-                    Return ret
-                Else
-                    Return False
                 End If
-            Else
-                Return False
             End If
+
+            Return ret
         End Function
 
         ' Terminate a job
@@ -159,17 +186,21 @@ Namespace Native.Objects
             Dim ret As Boolean
 
             ' Open job by its name
-            hJob = NativeFunctions.OpenJobObject(Security.JobAccess.Terminate, False, jobName)
+            ' Query a valid handle
+            hJob = BeginUsingValidJobHandle(jobName)
 
+            ' hJob = NativeFunctions.OpenJobObject(Security.JobAccess.Terminate, False, jobName)
 
             If hJob.IsNotNull Then
                 ' Then terminate job !
                 ret = NativeFunctions.TerminateJobObject(hJob, exitCode)
                 Native.Objects.General.CloseHandle(hJob)
-                Return ret
-            Else
-                Return False
             End If
+
+            ' End using the valid handle
+            EndUsingValidJobHandle()
+
+            Return ret
 
         End Function
 
@@ -189,13 +220,25 @@ Namespace Native.Objects
 
         ' Enumerate created jobs
         Public Shared Function EnumerateCreatedJobs(Optional ByVal refreshNow As Boolean = False) As Dictionary(Of String, cJob)
-            Return GetJobList(refreshNow)
+            Dim ret As Dictionary(Of String, cJob) = GetJobList()
+
+            ' Refresh all infos on job
+            If refreshNow Then
+                For Each j As cJob In ret.Values
+                    j.Refresh()
+                Next
+            End If
+
+            Return ret
         End Function
 
         ' Enumerate Processes in a job
-        Public Shared Function GetProcessesInJobByHandle(ByVal hJob As IntPtr) As List(Of Integer)
+        Public Shared Function GetProcessesInJobByName(ByVal jobName As String) As List(Of Integer)
             Dim pids As New List(Of Integer)
             Dim ret As Integer
+
+            ' Query valid handle
+            Dim hJob As IntPtr = BeginUsingValidJobHandle(jobName)
 
             If hJob.IsNotNull Then
 
@@ -218,47 +261,50 @@ Namespace Native.Objects
 
             End If
 
+            ' End using valid handle
+            EndUsingValidJobHandle()
+
             Return pids
         End Function
 
         ' Query some informations
         ' These 5 functions use QueryJobInformationByHandle
-        Public Shared Function GeJobBasicAndIoAccountingInformationByHandle(ByVal hJob As IntPtr) As NativeStructs.JobObjectBasicAndIoAccountingInformation
-            Return QueryJobInformationByHandle(Of NativeStructs.JobObjectBasicAndIoAccountingInformation)(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicAndIoAccountingInformation)
+        Public Shared Function GeJobBasicAndIoAccountingInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicAndIoAccountingInformation
+            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicAndIoAccountingInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicAndIoAccountingInformation)
         End Function
 
-        Public Shared Function GeJobBasicAccountingInformationByHandle(ByVal hJob As IntPtr) As NativeStructs.JobObjectBasicAccountingInformation
-            Return QueryJobInformationByHandle(Of NativeStructs.JobObjectBasicAccountingInformation)(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicAccountingInformation)
+        Public Shared Function GeJobBasicAccountingInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicAccountingInformation
+            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicAccountingInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicAccountingInformation)
         End Function
 
-        Public Shared Function GeJobBasicUiRestrictionsHandle(ByVal hJob As IntPtr) As NativeStructs.JobObjectBasicUiRestrictions
-            Return QueryJobInformationByHandle(Of NativeStructs.JobObjectBasicUiRestrictions)(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions)
+        Public Shared Function GeJobBasicUiRestrictionsName(ByVal jobName As String) As NativeStructs.JobObjectBasicUiRestrictions
+            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicUiRestrictions)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions)
         End Function
 
-        Public Shared Function GeJobBasicLimitInformationByHandle(ByVal hJob As IntPtr) As NativeStructs.JobObjectBasicLimitInformation
-            Return QueryJobInformationByHandle(Of NativeStructs.JobObjectBasicLimitInformation)(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation)
+        Public Shared Function GeJobBasicLimitInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicLimitInformation
+            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicLimitInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation)
         End Function
 
-        Public Shared Function GeJobExtendedLimitInformationsByHandle(ByVal hJob As IntPtr) As NativeStructs.JobObjectExtendedLimitInformation
-            Return QueryJobInformationByHandle(Of NativeStructs.JobObjectExtendedLimitInformation)(hJob, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation)
+        Public Shared Function GeJobExtendedLimitInformationsByName(ByVal jobName As String) As NativeStructs.JobObjectExtendedLimitInformation
+            Return QueryJobInformationByName(Of NativeStructs.JobObjectExtendedLimitInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation)
         End Function
 
         ' Set some informations
         ' These 5 functions use QueryJobInformationByHandle
-        Public Shared Function SeJobBasicLimitInformationByHandle(ByVal hJob As IntPtr, ByVal limit As NativeStructs.JobObjectBasicLimitInformation) As Boolean
-            Return SetJobInformationByHandle(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation, limit)
+        Public Shared Function SeJobBasicLimitInformationByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectBasicLimitInformation) As Boolean
+            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation, limit)
         End Function
 
-        Public Shared Function SeJobBasicUiRestrictionsHandle(ByVal hJob As IntPtr, ByVal limit As NativeStructs.JobObjectBasicUiRestrictions) As Boolean
-            Return SetJobInformationByHandle(hJob, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions, limit)
+        Public Shared Function SeJobBasicUiRestrictionsName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectBasicUiRestrictions) As Boolean
+            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions, limit)
         End Function
 
-        Public Shared Function SeJobExtendedLimitInformationsByHandle(ByVal hJob As IntPtr, ByVal limit As NativeStructs.JobObjectExtendedLimitInformation) As Boolean
-            Return SetJobInformationByHandle(hJob, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation, limit)
+        Public Shared Function SeJobExtendedLimitInformationsByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectExtendedLimitInformation) As Boolean
+            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation, limit)
         End Function
 
-        Public Shared Function SeJobEndOfTimeInformationByHandle(ByVal hJob As IntPtr, ByVal limit As NativeStructs.JobObjectEndOfJobTimeInformation) As Boolean
-            Return SetJobInformationByHandle(hJob, NativeEnums.JobObjectInformationClass.JobObjectEndOfJobTimeInformation, limit)
+        Public Shared Function SeJobEndOfTimeInformationByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectEndOfJobTimeInformation) As Boolean
+            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectEndOfJobTimeInformation, limit)
         End Function
 
 
@@ -267,13 +313,6 @@ Namespace Native.Objects
             Return NativeFunctions.OpenJobObject(access, True, name)
         End Function
 
-        ' Demand stats refreshment for a cJob
-        Public Shared Sub DemandJobRefreshment(ByRef job As cJob)
-            semJobToRefresh.WaitOne()
-            jobToRefresh.Add(job)
-            semJobToRefresh.Release()
-        End Sub
-
 
 
         ' ========================================
@@ -281,7 +320,7 @@ Namespace Native.Objects
         ' ========================================
 
         ' Return list of jobs
-        Private Shared Function GetJobList(Optional ByVal refreshNow As Boolean = False) As Dictionary(Of String, cJob)
+        Private Shared Function GetJobList() As Dictionary(Of String, cJob)
             Dim Length As Integer
             Dim x As Integer
             Dim mCount As Integer
@@ -291,9 +330,7 @@ Namespace Native.Objects
             Dim buf As New Dictionary(Of String, cJob)
             Dim hProcess As IntPtr
 
-            semEnum.WaitOne()
-
-            Static _dupHandles As New Dictionary(Of String, IntPtr)
+            semDupHandles.WaitOne()
 
             ' HACK HACK HACK HACK
             ' Here is how we retrieve the job list :
@@ -310,11 +347,6 @@ Namespace Native.Objects
 
             ' Closed previously duplicated handles
             ' We refresh the informations (stats) if demanded
-            semJobToRefresh.WaitOne()
-            For Each Job As cJob In jobToRefresh
-                Job.RefreshWithValidHandle()
-            Next
-            semJobToRefresh.Release()
             For Each ptr As IntPtr In _dupHandles.Values
                 If ptr.IsNotNull Then
                     Native.Objects.General.CloseHandle(ptr)
@@ -376,11 +408,14 @@ Namespace Native.Objects
                             ' The key is the name
                             If Not (String.IsNullOrEmpty(theName)) AndAlso buf.ContainsKey(theName) = False Then
                                 Dim jj As cJob = New cJob(New jobInfos(theName, targetHandle, True))
-                                If refreshNow Then
-                                    jj.RefreshWithValidHandle()
-                                End If
                                 buf.Add(theName, jj)
                             End If
+
+                            ' Add handle to list
+                            If _ownHandles.ContainsKey(theName) = False Then
+                                _ownHandles.Add(theName, targetHandle)
+                            End If
+
                         End If
                     Else
 
@@ -391,8 +426,8 @@ Namespace Native.Objects
                         ' Duplicate the handle in our process with same access
                         NativeFunctions.DuplicateHandle(hProcess, New IntPtr(Handle.Handle), _
                                                         New IntPtr(NativeFunctions.GetCurrentProcess), _
-                                                        targetHandle, 0, False, _
-                                                        NativeEnums.DuplicateOptions.SameAccess)
+                                                        targetHandle, Security.JobAccess.All, False, _
+                                                        0)
                         If targetHandle.IsNotNull Then
 
                             NativeFunctions.ZeroMemory(BufferObjNameJob, New IntPtr(512))
@@ -400,22 +435,23 @@ Namespace Native.Objects
                                             NativeEnums.ObjectInformationClass.ObjectNameInformation, _
                                             BufferObjNameJob.Pointer, 512, ret)
                             ObjName = BufferObjNameJob.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
-                            theName = Marshal.PtrToStringUni(New IntPtr(BufferObjNameJob.Pointer.ToInt32 + 8))
+                            theName = Marshal.PtrToStringUni(BufferObjNameJob.Pointer.Increment(8))
 
                             ' Add to dico only NAMED jobs
                             ' The key is theName
-                            If Not (String.IsNullOrEmpty(theName)) AndAlso buf.ContainsKey(theName) = False Then
-                                Dim jj As cJob = New cJob(New jobInfos(theName, targetHandle, False))
-                                If refreshNow Then
-                                    jj.RefreshWithValidHandle()
+                            If String.IsNullOrEmpty(theName) = False Then
+                                If buf.ContainsKey(theName) = False Then
+                                    Dim jj As cJob = New cJob(New jobInfos(theName, targetHandle, False))
+                                    buf.Add(theName, jj)
                                 End If
-                                buf.Add(theName, jj)
 
                                 ' Add the handle to the list of duplicated handles
                                 ' So we will close it just before next enumeration
                                 ' to avoid to multiple per 2 each enumeration the number
                                 ' of handles... And to avoid JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit issue
-                                _dupHandles.Add(theName, targetHandle)
+                                If _dupHandles.ContainsKey(theName) = False Then
+                                    _dupHandles.Add(theName, targetHandle)
+                                End If
                             Else
                                 ' Close handle immediately as we can't access it (unnamed)
                                 Native.Objects.General.CloseHandle(targetHandle)
@@ -427,16 +463,20 @@ Namespace Native.Objects
 
             Next
 
-            semEnum.Release()
+            semDupHandles.Release()
 
             Return buf
 
         End Function
 
         ' Query a job information struct
-        Private Shared Function QueryJobInformationByHandle(Of T)(ByVal handle As IntPtr, _
+        Private Shared Function QueryJobInformationByName(Of T)(ByVal name As String, _
                                 ByVal info As NativeEnums.JobObjectInformationClass) As T
             Dim ret As Integer
+            Dim retStruct As T = Nothing
+
+            ' Query valid handle
+            Dim handle As IntPtr = BeginUsingValidJobHandle(name)
 
             If handle.IsNotNull Then
 
@@ -454,31 +494,56 @@ Namespace Native.Objects
                 Dim struct As T = memAlloc.ReadStruct(Of T)()
                 memAlloc.Free()
 
-                Return struct
-            Else
-                Return Nothing
+                retStruct = struct
             End If
+
+            ' End using handle
+            EndUsingValidJobHandle()
+
+            Return retStruct
 
         End Function
 
         ' Set a job information struct
-        Private Shared Function SetJobInformationByHandle(Of T)(ByVal handle As IntPtr, _
+        Private Shared Function SetJobInformationByName(Of T)(ByVal name As String, _
                                 ByVal info As NativeEnums.JobObjectInformationClass, _
                                 ByVal limit As T) As Boolean
 
             Dim ret As Boolean
+
+            ' Query valid handle
+            Dim handle As IntPtr = BeginUsingValidJobHandle(name)
+
             If handle.IsNotNull Then
                 Dim memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
                 memAlloc.WriteStruct(Of T)(limit)
                 ret = NativeFunctions.SetInformationJobObject(handle, info, memAlloc.Pointer, _
                                                         memAlloc.Size)
-
                 memAlloc.Free()
-
-                Return ret
-            Else
-                Return False
             End If
+
+            ' End using handle
+            EndUsingValidJobHandle()
+
+            Return ret
+
+        End Function
+        ' By handle (USE WITH CREATED JOBS ONLY !)
+        Private Shared Function SetJobInformationByHandle(Of T)(ByVal handle As IntPtr, _
+                        ByVal info As NativeEnums.JobObjectInformationClass, _
+                        ByVal limit As T) As Boolean
+
+            Dim ret As Boolean
+
+            If Handle.IsNotNull Then
+                Dim memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
+                memAlloc.WriteStruct(Of T)(limit)
+                ret = NativeFunctions.SetInformationJobObject(Handle, info, memAlloc.Pointer, _
+                                                        memAlloc.Size)
+                memAlloc.Free()
+            End If
+
+            Return ret
 
         End Function
 
