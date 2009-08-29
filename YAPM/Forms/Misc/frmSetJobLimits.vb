@@ -83,28 +83,28 @@ Public Class frmSetJobLimits
                     QueryJobInformationByName(Of NativeStructs.JobObjectBasicUiRestrictions)(_jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions)
         Dim flag1 As NativeEnums.JobObjectBasicUiRestrictions = struct1.UIRestrictionsClass
 
-        If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.Desktop) = NativeEnums.JobObjectBasicUiRestrictions.Desktop Then
+        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.Desktop) = NativeEnums.JobObjectBasicUiRestrictions.Desktop Then
             Me.chkUIdesktop.Checked = True
         End If
-        If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.DisplaySettings) = NativeEnums.JobObjectBasicUiRestrictions.DisplaySettings Then
+        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.DisplaySettings) = NativeEnums.JobObjectBasicUiRestrictions.DisplaySettings Then
             Me.chkUIDisplaySettings.Checked = True
         End If
-        If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.ExitWindows) = NativeEnums.JobObjectBasicUiRestrictions.ExitWindows Then
+        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.ExitWindows) = NativeEnums.JobObjectBasicUiRestrictions.ExitWindows Then
             Me.chkUIExitW.Checked = True
         End If
-        If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.GlobalAtoms) = NativeEnums.JobObjectBasicUiRestrictions.GlobalAtoms Then
+        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.GlobalAtoms) = NativeEnums.JobObjectBasicUiRestrictions.GlobalAtoms Then
             Me.chkUIglobalAtoms.Checked = True
         End If
-        If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.Handles) = NativeEnums.JobObjectBasicUiRestrictions.Handles Then
+        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.Handles) = NativeEnums.JobObjectBasicUiRestrictions.Handles Then
             Me.chkUIhandles.Checked = True
         End If
-        If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.ReadClipboard) = NativeEnums.JobObjectBasicUiRestrictions.ReadClipboard Then
+        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.ReadClipboard) = NativeEnums.JobObjectBasicUiRestrictions.ReadClipboard Then
             Me.chkUIreadCB.Checked = True
         End If
-        If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.SystemParameters) = NativeEnums.JobObjectBasicUiRestrictions.SystemParameters Then
+        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.SystemParameters) = NativeEnums.JobObjectBasicUiRestrictions.SystemParameters Then
             Me.chkUIsystemParam.Checked = True
         End If
-        If (flag1 Or NativeEnums.JobObjectBasicUiRestrictions.WriteClipboard) = NativeEnums.JobObjectBasicUiRestrictions.WriteClipboard Then
+        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.WriteClipboard) = NativeEnums.JobObjectBasicUiRestrictions.WriteClipboard Then
             Me.chkUIwriteCB.Checked = True
         End If
 
@@ -169,6 +169,7 @@ Public Class frmSetJobLimits
     End Sub
 
     Private Sub cmdCreate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetLimits.Click
+        Call setLimits()
         Me.DialogResult = Windows.Forms.DialogResult.OK
         Me.Close()
     End Sub
@@ -196,8 +197,41 @@ Public Class frmSetJobLimits
         If Me.chkPreserveJobTime.Enabled = False Then
             Me.chkPreserveJobTime.Checked = False
         End If
+        Me.valUsertimeJ.Enabled = Me.chkUserModePerJ.Checked
     End Sub
 
+    Private Sub chkAffinity_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAffinity.CheckedChanged
+        Me.valAffinity.Enabled = Me.chkAffinity.Checked
+    End Sub
+
+    Private Sub chkActiveProcesses_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkActiveProcesses.CheckedChanged
+        Me.valActiveProcesses.Enabled = Me.chkActiveProcesses.Checked
+    End Sub
+
+    Private Sub chkSchedulingC_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSchedulingC.CheckedChanged
+        Me.valScheduling.Enabled = Me.chkSchedulingC.Checked
+    End Sub
+
+    Private Sub chkPriority_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkPriority.CheckedChanged
+        Me.cbPriority.Enabled = Me.chkPriority.Checked
+    End Sub
+
+    Private Sub chkCommittedMemPerJ_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCommittedMemPerJ.CheckedChanged
+        Me.valMemJ.Enabled = Me.chkCommittedMemPerJ.Checked
+    End Sub
+
+    Private Sub chkCommittedMemPerP_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkCommittedMemPerP.CheckedChanged
+        Me.valMemP.Enabled = Me.chkCommittedMemPerP.Checked
+    End Sub
+
+    Private Sub chkUserModePerP_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUserModePerP.CheckedChanged
+        Me.valUsertimeP.Enabled = Me.chkUserModePerP.Checked
+    End Sub
+
+    Private Sub chkMinMaxWS_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkMinMaxWS.CheckedChanged
+        Me.valMinWS.Enabled = Me.chkMinMaxWS.Checked
+        Me.valMaxWS.Enabled = Me.chkMinMaxWS.Checked
+    End Sub
 #End Region
 
     Private Sub linkMSDN_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs)
@@ -206,6 +240,105 @@ Public Class frmSetJobLimits
 
     Private Sub lnkMSDN2_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs)
         cFile.ShellOpenFile("http://msdn.microsoft.com/en-us/library/ms684152(VS.85).aspx", Me.Handle)
+    End Sub
+
+    Private Sub setLimits()
+        ' Set limits to the job
+        Dim struct1 As New NativeStructs.JobObjectBasicUiRestrictions
+        Dim flag1 As NativeEnums.JobObjectBasicUiRestrictions
+
+        If Me.chkUIdesktop.Checked = True Then
+            flag1 = flag1 Or NativeEnums.JobObjectBasicUiRestrictions.Desktop
+        End If
+        If Me.chkUIDisplaySettings.Checked = True Then
+            flag1 = flag1 Or NativeEnums.JobObjectBasicUiRestrictions.DisplaySettings
+        End If
+        If Me.chkUIExitW.Checked = True Then
+            flag1 = flag1 Or NativeEnums.JobObjectBasicUiRestrictions.ExitWindows
+        End If
+        If Me.chkUIglobalAtoms.Checked = True Then
+            flag1 = flag1 Or NativeEnums.JobObjectBasicUiRestrictions.GlobalAtoms
+        End If
+        If Me.chkUIhandles.Checked = True Then
+            flag1 = flag1 Or NativeEnums.JobObjectBasicUiRestrictions.Handles
+        End If
+        If Me.chkUIreadCB.Checked = True Then
+            flag1 = flag1 Or NativeEnums.JobObjectBasicUiRestrictions.ReadClipboard
+        End If
+        If Me.chkUIsystemParam.Checked = True Then
+            flag1 = flag1 Or NativeEnums.JobObjectBasicUiRestrictions.SystemParameters
+        End If
+        If Me.chkUIwriteCB.Checked = True Then
+            flag1 = flag1 Or NativeEnums.JobObjectBasicUiRestrictions.WriteClipboard
+        End If
+        struct1.UIRestrictionsClass = flag1
+
+        ' Set limit
+        SetJobBasicUiRestrictionsName(_jobName, struct1)
+
+
+
+        ' Other limitations
+        Dim struct2 As New NativeStructs.JobObjectExtendedLimitInformation
+        Dim flag2 As NativeEnums.JobObjectLimitFlags
+
+        If Me.chkActiveProcesses.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.ActiveProcess
+            struct2.BasicLimitInformation.ActiveProcessLimit = CInt(Me.valActiveProcesses.Value)
+        End If
+        If Me.chkAffinity.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.Affinity
+            struct2.BasicLimitInformation.Affinity = New IntPtr(CInt(Me.valAffinity.Value))
+        End If
+        If Me.chkBreakawayOK.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.BreakawayOk
+        End If
+        If Me.chkDieOnUnhandledEx.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.DieOnUnhandledException
+        End If
+        If Me.chkCommittedMemPerJ.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.JobMemory
+            struct2.JobMemoryLimit = CInt(1024 * Me.valMemJ.Value)
+        End If
+        If Me.chkSilentBAOK.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.SilentBreakawayOk
+        End If
+        If Me.chkUserModePerJ.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.JobTime
+            struct2.BasicLimitInformation.PerJobUserTimeLimit = CInt(10 * Me.valUsertimeJ.Value)
+        End If
+        If Me.chkKillOnJobClose.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.KillOnJobClose
+        End If
+        If Me.chkPreserveJobTime.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.PreserveJobTime
+        End If
+        If Me.chkPriority.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.PriorityClass
+            struct2.BasicLimitInformation.PriorityClass = Common.Misc.GetPriorityFromString(Me.cbPriority.Text)
+        End If
+        If Me.chkCommittedMemPerP.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.ProcessMemory
+            struct2.ProcessMemoryLimit = CInt(1024 * Me.valMemP.Value)
+        End If
+        If Me.chkUserModePerJ.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.ProcessTime
+            struct2.BasicLimitInformation.PerProcessUserTimeLimit = CInt(1024 * Me.valUsertimeP.Value)
+        End If
+        If Me.chkSchedulingC.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.SchedulingClass
+            struct2.BasicLimitInformation.SchedulingClass = CInt(Me.valScheduling.Value)
+        End If
+        If Me.chkMinMaxWS.Checked = True Then
+            flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.WorkingSet
+            struct2.BasicLimitInformation.MinimumWorkingSetSize = CInt(1024 * Me.valMinWS.Value)
+            struct2.BasicLimitInformation.MaximumWorkingSetSize = CInt(1024 * Me.valMaxWS.Value)
+        End If
+
+        ' Set limit
+        struct2.BasicLimitInformation.LimitFlags = flag2
+        SetJobExtendedLimitInformationsByName(_jobName, struct2)
+
     End Sub
 
 End Class

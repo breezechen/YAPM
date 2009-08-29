@@ -932,6 +932,24 @@ Namespace Common
             _semProtectDicoLogDrives.Release()
         End Sub
 
+        ' Return a priority as an int from a string (System.Diagnostics.ProcessPriorityClass)
+        Public Shared Function GetPriorityFromString(ByVal p As String) As System.Diagnostics.ProcessPriorityClass
+            Select Case p
+                Case "AboveNormal"
+                    Return ProcessPriorityClass.AboveNormal
+                Case "BelowNormal"
+                    Return ProcessPriorityClass.BelowNormal
+                Case "High"
+                    Return ProcessPriorityClass.High
+                Case "Idle"
+                    Return ProcessPriorityClass.Idle
+                Case "RealTime"
+                    Return ProcessPriorityClass.RealTime
+                Case "Normal"
+                    Return ProcessPriorityClass.Normal
+            End Select
+        End Function
+
 
 
         ' ========================================

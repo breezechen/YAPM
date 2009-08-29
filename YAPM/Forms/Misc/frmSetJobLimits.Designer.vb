@@ -86,7 +86,7 @@ Partial Class frmSetJobLimits
         Me.cmdSetLimits.Location = New System.Drawing.Point(185, 392)
         Me.cmdSetLimits.Name = "cmdSetLimits"
         Me.cmdSetLimits.Size = New System.Drawing.Size(148, 23)
-        Me.cmdSetLimits.TabIndex = 5
+        Me.cmdSetLimits.TabIndex = 32
         Me.cmdSetLimits.Text = "Set limits"
         Me.cmdSetLimits.UseVisualStyleBackColor = True
         '
@@ -96,7 +96,7 @@ Partial Class frmSetJobLimits
         Me.cmdExit.Location = New System.Drawing.Point(396, 392)
         Me.cmdExit.Name = "cmdExit"
         Me.cmdExit.Size = New System.Drawing.Size(75, 23)
-        Me.cmdExit.TabIndex = 6
+        Me.cmdExit.TabIndex = 33
         Me.cmdExit.Text = "Exit"
         Me.cmdExit.UseVisualStyleBackColor = True
         '
@@ -123,7 +123,7 @@ Partial Class frmSetJobLimits
         Me.chkUIwriteCB.Location = New System.Drawing.Point(6, 182)
         Me.chkUIwriteCB.Name = "chkUIwriteCB"
         Me.chkUIwriteCB.Size = New System.Drawing.Size(105, 17)
-        Me.chkUIwriteCB.TabIndex = 38
+        Me.chkUIwriteCB.TabIndex = 7
         Me.chkUIwriteCB.Text = "WriteClipboard"
         Me.chkUIwriteCB.UseVisualStyleBackColor = True
         '
@@ -133,7 +133,7 @@ Partial Class frmSetJobLimits
         Me.chkUIsystemParam.Location = New System.Drawing.Point(6, 159)
         Me.chkUIsystemParam.Name = "chkUIsystemParam"
         Me.chkUIsystemParam.Size = New System.Drawing.Size(117, 17)
-        Me.chkUIsystemParam.TabIndex = 37
+        Me.chkUIsystemParam.TabIndex = 6
         Me.chkUIsystemParam.Text = "SystemParameters"
         Me.chkUIsystemParam.UseVisualStyleBackColor = True
         '
@@ -143,7 +143,7 @@ Partial Class frmSetJobLimits
         Me.chkUIreadCB.Location = New System.Drawing.Point(6, 136)
         Me.chkUIreadCB.Name = "chkUIreadCB"
         Me.chkUIreadCB.Size = New System.Drawing.Size(103, 17)
-        Me.chkUIreadCB.TabIndex = 36
+        Me.chkUIreadCB.TabIndex = 5
         Me.chkUIreadCB.Text = "ReadClipboard"
         Me.chkUIreadCB.UseVisualStyleBackColor = True
         '
@@ -153,7 +153,7 @@ Partial Class frmSetJobLimits
         Me.chkUIhandles.Location = New System.Drawing.Point(6, 113)
         Me.chkUIhandles.Name = "chkUIhandles"
         Me.chkUIhandles.Size = New System.Drawing.Size(68, 17)
-        Me.chkUIhandles.TabIndex = 35
+        Me.chkUIhandles.TabIndex = 4
         Me.chkUIhandles.Text = "Handles"
         Me.chkUIhandles.UseVisualStyleBackColor = True
         '
@@ -163,7 +163,7 @@ Partial Class frmSetJobLimits
         Me.chkUIglobalAtoms.Location = New System.Drawing.Point(6, 90)
         Me.chkUIglobalAtoms.Name = "chkUIglobalAtoms"
         Me.chkUIglobalAtoms.Size = New System.Drawing.Size(92, 17)
-        Me.chkUIglobalAtoms.TabIndex = 34
+        Me.chkUIglobalAtoms.TabIndex = 3
         Me.chkUIglobalAtoms.Text = "GlobalAtoms"
         Me.chkUIglobalAtoms.UseVisualStyleBackColor = True
         '
@@ -173,7 +173,7 @@ Partial Class frmSetJobLimits
         Me.chkUIExitW.Location = New System.Drawing.Point(6, 67)
         Me.chkUIExitW.Name = "chkUIExitW"
         Me.chkUIExitW.Size = New System.Drawing.Size(93, 17)
-        Me.chkUIExitW.TabIndex = 33
+        Me.chkUIExitW.TabIndex = 2
         Me.chkUIExitW.Text = "ExitWindows"
         Me.chkUIExitW.UseVisualStyleBackColor = True
         '
@@ -183,7 +183,7 @@ Partial Class frmSetJobLimits
         Me.chkUIDisplaySettings.Location = New System.Drawing.Point(6, 44)
         Me.chkUIDisplaySettings.Name = "chkUIDisplaySettings"
         Me.chkUIDisplaySettings.Size = New System.Drawing.Size(105, 17)
-        Me.chkUIDisplaySettings.TabIndex = 32
+        Me.chkUIDisplaySettings.TabIndex = 1
         Me.chkUIDisplaySettings.Text = "DisplaySettings"
         Me.chkUIDisplaySettings.UseVisualStyleBackColor = True
         '
@@ -193,7 +193,7 @@ Partial Class frmSetJobLimits
         Me.chkUIdesktop.Location = New System.Drawing.Point(6, 21)
         Me.chkUIdesktop.Name = "chkUIdesktop"
         Me.chkUIdesktop.Size = New System.Drawing.Size(69, 17)
-        Me.chkUIdesktop.TabIndex = 31
+        Me.chkUIdesktop.TabIndex = 0
         Me.chkUIdesktop.Text = "Desktop"
         Me.chkUIdesktop.UseVisualStyleBackColor = True
         '
@@ -238,11 +238,12 @@ Partial Class frmSetJobLimits
         '
         'valAffinity
         '
+        Me.valAffinity.Enabled = False
         Me.valAffinity.Location = New System.Drawing.Point(169, 134)
         Me.valAffinity.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
         Me.valAffinity.Name = "valAffinity"
         Me.valAffinity.Size = New System.Drawing.Size(105, 22)
-        Me.valAffinity.TabIndex = 61
+        Me.valAffinity.TabIndex = 14
         '
         'Label6
         '
@@ -300,51 +301,57 @@ Partial Class frmSetJobLimits
         '
         'valMaxWS
         '
+        Me.valMaxWS.Enabled = False
         Me.valMaxWS.Location = New System.Drawing.Point(169, 342)
         Me.valMaxWS.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
         Me.valMaxWS.Name = "valMaxWS"
         Me.valMaxWS.Size = New System.Drawing.Size(76, 22)
-        Me.valMaxWS.TabIndex = 54
+        Me.valMaxWS.TabIndex = 31
         '
         'valMinWS
         '
+        Me.valMinWS.Enabled = False
         Me.valMinWS.Location = New System.Drawing.Point(169, 319)
         Me.valMinWS.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
         Me.valMinWS.Name = "valMinWS"
         Me.valMinWS.Size = New System.Drawing.Size(76, 22)
-        Me.valMinWS.TabIndex = 53
+        Me.valMinWS.TabIndex = 30
         '
         'valUsertimeP
         '
+        Me.valUsertimeP.Enabled = False
         Me.valUsertimeP.Location = New System.Drawing.Point(169, 296)
         Me.valUsertimeP.Maximum = New Decimal(New Integer() {1410065408, 2, 0, 0})
         Me.valUsertimeP.Name = "valUsertimeP"
         Me.valUsertimeP.Size = New System.Drawing.Size(76, 22)
-        Me.valUsertimeP.TabIndex = 52
+        Me.valUsertimeP.TabIndex = 28
         '
         'valMemP
         '
+        Me.valMemP.Enabled = False
         Me.valMemP.Location = New System.Drawing.Point(169, 274)
         Me.valMemP.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
         Me.valMemP.Name = "valMemP"
         Me.valMemP.Size = New System.Drawing.Size(76, 22)
-        Me.valMemP.TabIndex = 51
+        Me.valMemP.TabIndex = 26
         '
         'valUsertimeJ
         '
+        Me.valUsertimeJ.Enabled = False
         Me.valUsertimeJ.Location = New System.Drawing.Point(169, 251)
         Me.valUsertimeJ.Maximum = New Decimal(New Integer() {1410065408, 2, 0, 0})
         Me.valUsertimeJ.Name = "valUsertimeJ"
         Me.valUsertimeJ.Size = New System.Drawing.Size(76, 22)
-        Me.valUsertimeJ.TabIndex = 41
+        Me.valUsertimeJ.TabIndex = 24
         '
         'valMemJ
         '
+        Me.valMemJ.Enabled = False
         Me.valMemJ.Location = New System.Drawing.Point(169, 226)
         Me.valMemJ.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
         Me.valMemJ.Name = "valMemJ"
         Me.valMemJ.Size = New System.Drawing.Size(76, 22)
-        Me.valMemJ.TabIndex = 50
+        Me.valMemJ.TabIndex = 22
         '
         'chkMinMaxWS
         '
@@ -352,7 +359,7 @@ Partial Class frmSetJobLimits
         Me.chkMinMaxWS.Location = New System.Drawing.Point(6, 319)
         Me.chkMinMaxWS.Name = "chkMinMaxWS"
         Me.chkMinMaxWS.Size = New System.Drawing.Size(112, 30)
-        Me.chkMinMaxWS.TabIndex = 49
+        Me.chkMinMaxWS.TabIndex = 29
         Me.chkMinMaxWS.Text = "Min and max WS" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "size / process"
         Me.chkMinMaxWS.UseVisualStyleBackColor = True
         '
@@ -362,7 +369,7 @@ Partial Class frmSetJobLimits
         Me.chkCommittedMemPerP.Location = New System.Drawing.Point(6, 274)
         Me.chkCommittedMemPerP.Name = "chkCommittedMemPerP"
         Me.chkCommittedMemPerP.Size = New System.Drawing.Size(158, 17)
-        Me.chkCommittedMemPerP.TabIndex = 47
+        Me.chkCommittedMemPerP.TabIndex = 25
         Me.chkCommittedMemPerP.Text = "Committed mem / process"
         Me.chkCommittedMemPerP.UseVisualStyleBackColor = True
         '
@@ -372,7 +379,7 @@ Partial Class frmSetJobLimits
         Me.chkUserModePerP.Location = New System.Drawing.Point(6, 297)
         Me.chkUserModePerP.Name = "chkUserModePerP"
         Me.chkUserModePerP.Size = New System.Drawing.Size(152, 17)
-        Me.chkUserModePerP.TabIndex = 46
+        Me.chkUserModePerP.TabIndex = 27
         Me.chkUserModePerP.Text = "Usermode time / process"
         Me.chkUserModePerP.UseVisualStyleBackColor = True
         '
@@ -382,7 +389,7 @@ Partial Class frmSetJobLimits
         Me.chkCommittedMemPerJ.Location = New System.Drawing.Point(6, 228)
         Me.chkCommittedMemPerJ.Name = "chkCommittedMemPerJ"
         Me.chkCommittedMemPerJ.Size = New System.Drawing.Size(147, 17)
-        Me.chkCommittedMemPerJ.TabIndex = 45
+        Me.chkCommittedMemPerJ.TabIndex = 21
         Me.chkCommittedMemPerJ.Text = "Committed mem for job"
         Me.chkCommittedMemPerJ.UseVisualStyleBackColor = True
         '
@@ -392,19 +399,20 @@ Partial Class frmSetJobLimits
         Me.chkUserModePerJ.Location = New System.Drawing.Point(6, 251)
         Me.chkUserModePerJ.Name = "chkUserModePerJ"
         Me.chkUserModePerJ.Size = New System.Drawing.Size(141, 17)
-        Me.chkUserModePerJ.TabIndex = 44
+        Me.chkUserModePerJ.TabIndex = 23
         Me.chkUserModePerJ.Text = "Usermode time for job"
         Me.chkUserModePerJ.UseVisualStyleBackColor = True
         '
         'cbPriority
         '
         Me.cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbPriority.Enabled = False
         Me.cbPriority.FormattingEnabled = True
         Me.cbPriority.Items.AddRange(New Object() {"Idle", "BelowNormal", "Normal", "AboveNormal", "High", "RealTime"})
         Me.cbPriority.Location = New System.Drawing.Point(169, 204)
         Me.cbPriority.Name = "cbPriority"
         Me.cbPriority.Size = New System.Drawing.Size(105, 21)
-        Me.cbPriority.TabIndex = 43
+        Me.cbPriority.TabIndex = 20
         '
         'chkPriority
         '
@@ -412,25 +420,27 @@ Partial Class frmSetJobLimits
         Me.chkPriority.Location = New System.Drawing.Point(6, 205)
         Me.chkPriority.Name = "chkPriority"
         Me.chkPriority.Size = New System.Drawing.Size(88, 17)
-        Me.chkPriority.TabIndex = 42
+        Me.chkPriority.TabIndex = 19
         Me.chkPriority.Text = "PriorityClass"
         Me.chkPriority.UseVisualStyleBackColor = True
         '
         'valScheduling
         '
+        Me.valScheduling.Enabled = False
         Me.valScheduling.Location = New System.Drawing.Point(169, 181)
         Me.valScheduling.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
         Me.valScheduling.Name = "valScheduling"
         Me.valScheduling.Size = New System.Drawing.Size(105, 22)
-        Me.valScheduling.TabIndex = 41
+        Me.valScheduling.TabIndex = 18
         '
         'valActiveProcesses
         '
+        Me.valActiveProcesses.Enabled = False
         Me.valActiveProcesses.Location = New System.Drawing.Point(169, 157)
         Me.valActiveProcesses.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
         Me.valActiveProcesses.Name = "valActiveProcesses"
         Me.valActiveProcesses.Size = New System.Drawing.Size(105, 22)
-        Me.valActiveProcesses.TabIndex = 40
+        Me.valActiveProcesses.TabIndex = 16
         '
         'chkSchedulingC
         '
@@ -438,7 +448,7 @@ Partial Class frmSetJobLimits
         Me.chkSchedulingC.Location = New System.Drawing.Point(6, 182)
         Me.chkSchedulingC.Name = "chkSchedulingC"
         Me.chkSchedulingC.Size = New System.Drawing.Size(110, 17)
-        Me.chkSchedulingC.TabIndex = 38
+        Me.chkSchedulingC.TabIndex = 17
         Me.chkSchedulingC.Text = "SchedulingClass"
         Me.chkSchedulingC.UseVisualStyleBackColor = True
         '
@@ -448,7 +458,7 @@ Partial Class frmSetJobLimits
         Me.chkActiveProcesses.Location = New System.Drawing.Point(6, 159)
         Me.chkActiveProcesses.Name = "chkActiveProcesses"
         Me.chkActiveProcesses.Size = New System.Drawing.Size(109, 17)
-        Me.chkActiveProcesses.TabIndex = 37
+        Me.chkActiveProcesses.TabIndex = 15
         Me.chkActiveProcesses.Text = "Active processes"
         Me.chkActiveProcesses.UseVisualStyleBackColor = True
         '
@@ -458,7 +468,7 @@ Partial Class frmSetJobLimits
         Me.chkAffinity.Location = New System.Drawing.Point(6, 136)
         Me.chkAffinity.Name = "chkAffinity"
         Me.chkAffinity.Size = New System.Drawing.Size(63, 17)
-        Me.chkAffinity.TabIndex = 36
+        Me.chkAffinity.TabIndex = 13
         Me.chkAffinity.Text = "Affinity"
         Me.chkAffinity.UseVisualStyleBackColor = True
         '
@@ -468,7 +478,7 @@ Partial Class frmSetJobLimits
         Me.chkSilentBAOK.Location = New System.Drawing.Point(6, 113)
         Me.chkSilentBAOK.Name = "chkSilentBAOK"
         Me.chkSilentBAOK.Size = New System.Drawing.Size(125, 17)
-        Me.chkSilentBAOK.TabIndex = 35
+        Me.chkSilentBAOK.TabIndex = 12
         Me.chkSilentBAOK.Text = "SilentBreakawayOk"
         Me.chkSilentBAOK.UseVisualStyleBackColor = True
         '
@@ -478,7 +488,7 @@ Partial Class frmSetJobLimits
         Me.chkPreserveJobTime.Location = New System.Drawing.Point(6, 90)
         Me.chkPreserveJobTime.Name = "chkPreserveJobTime"
         Me.chkPreserveJobTime.Size = New System.Drawing.Size(109, 17)
-        Me.chkPreserveJobTime.TabIndex = 34
+        Me.chkPreserveJobTime.TabIndex = 11
         Me.chkPreserveJobTime.Text = "PreserveJobTime"
         Me.chkPreserveJobTime.UseVisualStyleBackColor = True
         '
@@ -488,7 +498,7 @@ Partial Class frmSetJobLimits
         Me.chkKillOnJobClose.Location = New System.Drawing.Point(6, 67)
         Me.chkKillOnJobClose.Name = "chkKillOnJobClose"
         Me.chkKillOnJobClose.Size = New System.Drawing.Size(103, 17)
-        Me.chkKillOnJobClose.TabIndex = 33
+        Me.chkKillOnJobClose.TabIndex = 10
         Me.chkKillOnJobClose.Text = "KillOnJobClose"
         Me.chkKillOnJobClose.UseVisualStyleBackColor = True
         '
@@ -498,7 +508,7 @@ Partial Class frmSetJobLimits
         Me.chkDieOnUnhandledEx.Location = New System.Drawing.Point(6, 44)
         Me.chkDieOnUnhandledEx.Name = "chkDieOnUnhandledEx"
         Me.chkDieOnUnhandledEx.Size = New System.Drawing.Size(167, 17)
-        Me.chkDieOnUnhandledEx.TabIndex = 32
+        Me.chkDieOnUnhandledEx.TabIndex = 9
         Me.chkDieOnUnhandledEx.Text = "DieOnUnhandledException"
         Me.chkDieOnUnhandledEx.UseVisualStyleBackColor = True
         '
@@ -508,7 +518,7 @@ Partial Class frmSetJobLimits
         Me.chkBreakawayOK.Location = New System.Drawing.Point(6, 21)
         Me.chkBreakawayOK.Name = "chkBreakawayOK"
         Me.chkBreakawayOK.Size = New System.Drawing.Size(96, 17)
-        Me.chkBreakawayOK.TabIndex = 31
+        Me.chkBreakawayOK.TabIndex = 8
         Me.chkBreakawayOK.Text = "BreakawayOK"
         Me.chkBreakawayOK.UseVisualStyleBackColor = True
         '

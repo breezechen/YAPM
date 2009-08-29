@@ -168,5 +168,5 @@ Temp Change log :
 - numeric updowns pour les intervalles dans frmPreferences
 - corrections bug WMI
 - optimisation récupération des threads par WMI
-- added job management
+- added full job management
 - added "Terminate by method" feature (with 5 methods)
