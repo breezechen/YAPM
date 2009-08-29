@@ -116,7 +116,7 @@ Namespace Native.Objects
         Public Shared ReadOnly Property IsProcessInJob(ByVal handle As IntPtr) As Boolean
             Get
                 Dim res As Boolean
-                Native.Api.NativeFunctions.IsProcessInJob(handle, IntPtr.Zero, res)
+                NativeFunctions.IsProcessInJob(handle, IntPtr.Zero, res)
                 Return res
             End Get
         End Property
@@ -125,7 +125,7 @@ Namespace Native.Objects
         Public Shared ReadOnly Property IsDebuggerPresent(ByVal handle As IntPtr) As Boolean
             Get
                 Dim res As Boolean
-                Native.Api.NativeFunctions.CheckRemoteDebuggerPresent(handle, res)
+                NativeFunctions.CheckRemoteDebuggerPresent(handle, res)
                 Return res
             End Get
         End Property
@@ -150,7 +150,7 @@ Namespace Native.Objects
         ' Set affinity to a process
         Public Shared Function SetProcessAffinityByHandle(ByVal hProc As IntPtr, _
                                            ByVal affinity As Integer) As Boolean
-            If hProc .IsNotNull Then
+            If hProc.IsNotNull Then
                 Return NativeFunctions.SetProcessAffinityMask(hProc, New IntPtr(affinity))
             Else
                 Return False
@@ -176,7 +176,7 @@ Namespace Native.Objects
             Dim r As Boolean
             hProc = Native.Objects.Process.GetProcessHandleById(pid, Security.ProcessAccess.SetInformation)
 
-            If hProc .IsNotNull Then
+            If hProc.IsNotNull Then
                 r = NativeFunctions.SetPriorityClass(hProc, priority)
                 NativeFunctions.CloseHandle(hProc)
                 Return r
@@ -192,7 +192,7 @@ Namespace Native.Objects
             Dim r As UInteger
             hProc = Native.Objects.Process.GetProcessHandleById(pid, _
                                                         Security.ProcessAccess.SuspendResume)
-            If hProc .IsNotNull Then
+            If hProc.IsNotNull Then
                 r = NativeFunctions.NtResumeProcess(hProc)
                 NativeFunctions.CloseHandle(hProc)
                 Return (r <> 0)
@@ -207,7 +207,7 @@ Namespace Native.Objects
             Dim r As UInteger
             hProc = Native.Objects.Process.GetProcessHandleById(pid, _
                                                         Security.ProcessAccess.SuspendResume)
-            If hProc .IsNotNull Then
+            If hProc.IsNotNull Then
                 r = NativeFunctions.NtSuspendProcess(hProc)
                 NativeFunctions.CloseHandle(hProc)
                 Return (r <> 0)
@@ -223,7 +223,7 @@ Namespace Native.Objects
             Dim ret As UInteger
             hProc = Native.Objects.Process.GetProcessHandleById(pid, _
                                                         Security.ProcessAccess.Terminate)
-            If hProc .IsNotNull Then
+            If hProc.IsNotNull Then
                 ret = NativeFunctions.NtTerminateProcess(hProc, exitcode)
                 NativeFunctions.CloseHandle(hProc)
                 Return ret = 0
@@ -272,7 +272,7 @@ Namespace Native.Objects
             Dim ret As Integer = -1
             hProc = Native.Objects.Process.GetProcessHandleById(pid, _
                                             Security.ProcessAccess.QueryInformation Or Security.ProcessAccess.VmRead)
-            If hProc .IsNotNull Then
+            If hProc.IsNotNull Then
                 ' Create dump file
                 Dim fs As New System.IO.FileStream(file, System.IO.FileMode.Create)
                 ' Write dump file
@@ -309,7 +309,7 @@ Namespace Native.Objects
         Public Shared Function EmptyProcessWorkingSetById(ByVal pid As Integer) As Boolean
             Dim hProc As IntPtr = Native.Objects.Process.GetProcessHandleById(pid, _
                                             Security.ProcessAccess.SetQuota)
-            If hProc .IsNotNull Then
+            If hProc.IsNotNull Then
                 Dim ret As Boolean = NativeFunctions.SetProcessWorkingSetSize(hProc, _
                                                     New IntPtr(-1), New IntPtr(-1))
                 NativeFunctions.CloseHandle(hProc)
@@ -348,7 +348,7 @@ Namespace Native.Objects
                 hProc = Native.Objects.Process.GetProcessHandleById(pid, _
                                                     Process.ProcessQueryMinRights)
 
-                If hProc .IsNotNull Then
+                If hProc.IsNotNull Then
                     ' Get size
                     Dim _size As Integer
                     NativeFunctions.NtQueryInformationProcess(hProc, _
@@ -388,7 +388,7 @@ Namespace Native.Objects
 
             ' 2) QueryFullProcessImageName on Vista and above
             If cEnvironment.IsWindowsVistaOrAbove Then
-                If hProc .IsNotNull Then
+                If hProc.IsNotNull Then
                     Dim length As Integer = &H400
                     Dim sb As New System.Text.StringBuilder(length)
                     NativeFunctions.QueryFullProcessImageName(hProc, False, sb, length)
@@ -518,14 +518,14 @@ Namespace Native.Objects
                 End If
 
                 ' Retrieve process parameters block address
-                Dim __procParamAd As IntPtr = memReader.ReadIntPtr(__pebAd.Increment(Native.Api.NativeStructs.Peb_ProcessParametersOffset))
+                Dim __procParamAd As IntPtr = memReader.ReadIntPtr(__pebAd.Increment(NativeStructs.Peb_ProcessParametersOffset))
 
 
                 ' Get unicode string adress
                 Dim cmdLine As NativeStructs.UnicodeString
 
                 ' Read length of the unicode string
-                Dim cmdLineOffset As IntPtr = __procParamAd.Increment(Native.Api.NativeStructs.ProcParamBlock_CommandLineOffset)
+                Dim cmdLineOffset As IntPtr = __procParamAd.Increment(NativeStructs.ProcParamBlock_CommandLineOffset)
                 cmdLine.Length = CUShort(memReader.ReadInt32(cmdLineOffset))
                 cmdLine.MaximumLength = CUShort(cmdLine.Length + 2) ' Not used, but...
 
@@ -604,12 +604,12 @@ Namespace Native.Objects
             Common.Misc.RefreshLogicalDrives()
 
             Dim ret As Integer
-            Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
+            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
                             memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
             If memAllocForVProcesses.Size < ret Then
                 memAllocForVProcesses.Resize(ret)
             End If
-            Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
+            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
                             memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
 
             ' Extract structures from unmanaged memory
@@ -618,8 +618,8 @@ Namespace Native.Objects
             Dim _dico As New Dictionary(Of String, processInfos)
             Do While True
 
-                Dim obj As Native.Api.NativeStructs.SystemProcessInformation = _
-                        memAllocForVProcesses.ReadStructOffset(Of Native.Api.NativeStructs.SystemProcessInformation)(offset)
+                Dim obj As NativeStructs.SystemProcessInformation = _
+                        memAllocForVProcesses.ReadStructOffset(Of NativeStructs.SystemProcessInformation)(offset)
                 Dim _procInfos As New processInfos(obj)
 
 
@@ -632,7 +632,7 @@ Namespace Native.Objects
                     GetProcessUserDomainNameById(obj.ProcessId, _user, _domain)
                     Dim _command As String = NO_INFO_RETRIEVED
                     Dim _peb As IntPtr = GetProcessPebAddressById(obj.ProcessId)
-                    If _peb .IsNotNull Then
+                    If _peb.IsNotNull Then
                         _command = GetProcessCommandLineById(obj.ProcessId, _peb.ToInt64)
                     End If
                     Dim _finfo As FileVersionInfo = Nothing
@@ -721,16 +721,16 @@ Namespace Native.Objects
             Next
 
             ' Now we get all handles from all processes
-            Dim _handles As Native.Api.NativeStructs.SystemHandleInformation() = EnumerateProcessHandles()
+            Dim _handles As NativeStructs.SystemHandleInformation() = EnumerateProcessHandles()
 
             ' For handles which belongs to a csrss.exe process
-            For Each h As Native.Api.NativeStructs.SystemHandleInformation In _handles
+            For Each h As NativeStructs.SystemHandleInformation In _handles
                 If _csrss.ContainsKey(h.ProcessId) Then
                     Dim _dup As IntPtr
                     ' ISNEEDED ?
-                    If Native.Api.NativeFunctions.DuplicateHandle(_csrss(h.ProcessId), CType(h.Handle, IntPtr), Native.Api.NativeConstants.InvalidHandleValue, _dup, 0, False, Native.Api.NativeEnums.DuplicateOptions.SameAccess) Then
-                        Dim pid As Integer = Native.Api.NativeFunctions.GetProcessId(_dup)
-                        Dim obj As New Native.Api.NativeStructs.SystemProcessInformation
+                    If NativeFunctions.DuplicateHandle(_csrss(h.ProcessId), CType(h.Handle, IntPtr), NativeConstants.InvalidHandleValue, _dup, 0, False, NativeEnums.DuplicateOptions.SameAccess) Then
+                        Dim pid As Integer = NativeFunctions.GetProcessId(_dup)
+                        Dim obj As New NativeStructs.SystemProcessInformation
                         With obj
                             .ProcessId = pid
                         End With
@@ -741,14 +741,14 @@ Namespace Native.Objects
                             _dico.Add(pid.ToString, _procInfos)
                         End If
                     End If
-                    Native.Api.NativeFunctions.CloseHandle(_dup)
+                    NativeFunctions.CloseHandle(_dup)
                 End If
             Next
 
             ' Add the two instances of csrss.exe to result
             ' & close previously opened handles
             For Each h As Integer In _csrss.Keys
-                Dim obj As New Native.Api.NativeStructs.SystemProcessInformation
+                Dim obj As New NativeStructs.SystemProcessInformation
                 With obj
                     .ProcessId = h
                 End With
@@ -759,7 +759,7 @@ Namespace Native.Objects
                     _dico.Add(h.ToString, _procInfos)
                 End If
 
-                Native.Api.NativeFunctions.CloseHandle(_csrss(h))
+                NativeFunctions.CloseHandle(_csrss(h))
             Next
 
 
@@ -797,11 +797,11 @@ Namespace Native.Objects
             For pid As Integer = &H8 To &HFFFF Step 4
                 Dim handle As IntPtr = Native.Objects.Process.GetProcessHandleById(pid, _
                                             Process.ProcessQueryMinRights)
-                If handle .IsNotNull Then
+                If handle.IsNotNull Then
                     Dim exitcode As Integer
-                    Dim res As Boolean = Native.Api.NativeFunctions.GetExitCodeProcess(handle, exitcode)
-                    If exitcode = Native.Api.NativeConstants.STILL_ACTIVE Then  ' Process still exists
-                        Dim obj As New Native.Api.NativeStructs.SystemProcessInformation
+                    Dim res As Boolean = NativeFunctions.GetExitCodeProcess(handle, exitcode)
+                    If exitcode = NativeConstants.STILL_ACTIVE Then  ' Process still exists
+                        Dim obj As New NativeStructs.SystemProcessInformation
                         With obj
                             .ProcessId = pid
                         End With
@@ -813,7 +813,7 @@ Namespace Native.Objects
                             _dico.Add(sKey, _procInfos)
                         End If
                     End If
-                    Native.Api.NativeFunctions.CloseHandle(handle)
+                    NativeFunctions.CloseHandle(handle)
                 End If
             Next
 
@@ -854,7 +854,7 @@ Namespace Native.Objects
 
         ' Return a handle for a process
         Public Shared Function GetProcessHandleById(ByVal pid As Integer, ByVal access As Security.ProcessAccess) As IntPtr
-            Return Native.Api.NativeFunctions.OpenProcess(access, False, pid)
+            Return NativeFunctions.OpenProcess(access, False, pid)
         End Function
 
         ' Kill a process by method
@@ -994,7 +994,7 @@ Namespace Native.Objects
                 ' Try to find a handle using NtGetNextProcess
                 Dim i As Integer = 0        ' Watchdog
                 Do While True
-                    Native.Api.NativeFunctions.NtGetNextProcess(curHandle, access, 0, 0, curHandle)
+                    NativeFunctions.NtGetNextProcess(curHandle, access, 0, 0, curHandle)
                     ' Get process Id of this handle
                     If curHandle.IsNotNull Then
                         Dim thePid As Integer = NativeFunctions.GetProcessId(curHandle)
@@ -1031,7 +1031,7 @@ Namespace Native.Objects
                 Dim curHandle As IntPtr
                 Dim i As Integer = 0        ' Watchdog
                 Do While True
-                    Native.Api.NativeFunctions.NtGetNextThread(hProc, curHandle, Security.ThreadAccess.Terminate, 0, 0, curHandle)
+                    NativeFunctions.NtGetNextThread(hProc, curHandle, Security.ThreadAccess.Terminate, 0, 0, curHandle)
                     ' Get process Id of this handle
                     If curHandle.IsNotNull Then
                         Objects.Thread.KillThreadByHandle(curHandle)
@@ -1062,32 +1062,32 @@ Namespace Native.Objects
         ' Suspend and then kill all threads
         Private Shared Sub KillByMethod_NtTerminateThread(ByVal pid As Integer)
 
-            Dim deltaOff As Integer = Marshal.SizeOf(GetType(Native.Api.NativeStructs.SystemProcessInformation))
+            Dim deltaOff As Integer = Marshal.SizeOf(GetType(NativeStructs.SystemProcessInformation))
 
             Dim ret As Integer
-            Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
+            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
                             memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
             If memAllocForThreadEnum.Size < ret Then
                 memAllocForThreadEnum.Resize(ret)
             End If
-            Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
+            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
                             memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
 
             ' Extract structures from unmanaged memory
             Dim x As Integer = 0
             Dim offset As Integer = 0
-            Dim listOfThread As New List(Of Native.Api.NativeStructs.SystemThreadInformation)
+            Dim listOfThread As New List(Of NativeStructs.SystemThreadInformation)
             Do While True
 
-                Dim obj As Native.Api.NativeStructs.SystemProcessInformation = _
-                        memAllocForThreadEnum.ReadStructOffset(Of Native.Api.NativeStructs.SystemProcessInformation)(offset)
+                Dim obj As NativeStructs.SystemProcessInformation = _
+                        memAllocForThreadEnum.ReadStructOffset(Of NativeStructs.SystemProcessInformation)(offset)
 
                 If pid = obj.ProcessId Then
 
                     For j As Integer = 0 To obj.NumberOfThreads - 1
 
-                        Dim thread As Native.Api.NativeStructs.SystemThreadInformation = _
-                            memAllocForThreadEnum.ReadStruct(Of Native.Api.NativeStructs.SystemThreadInformation)(offset + deltaOff, j)
+                        Dim thread As NativeStructs.SystemThreadInformation = _
+                            memAllocForThreadEnum.ReadStruct(Of NativeStructs.SystemThreadInformation)(offset + deltaOff, j)
                         listOfThread.Add(thread)
                     Next
                     Exit Do
