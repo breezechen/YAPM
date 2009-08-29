@@ -112,36 +112,16 @@ Public Class frmDepViewerMain
         End If
     End Sub
 
-    Private Sub AlwaysVisble_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuAlwaysVisible.Click
-        Me.mnuAlwaysVisible.Checked = Not (Me.mnuAlwaysVisible.Checked)
-        Me.TopMost = Me.mnuAlwaysVisible.Checked
-    End Sub
-
     Private Sub frmDepViewerMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Native.Functions.Misc.SetTheme(Me.lvAllDeps.Handle)
         Native.Functions.Misc.SetTheme(Me.lvExports.Handle)
         Native.Functions.Misc.SetTheme(Me.lvImports.Handle)
+        closeWithEchapKey(Me)
     End Sub
 
     Public Sub HideOpenMenu()
-        Me.OpenToolStripMenuItem.Visible = False
-        Me.ToolStripMenuItem3.Visible = False
-    End Sub
-
-    Private Sub QuitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles QuitToolStripMenuItem.Click
-        Me.Close()
-    End Sub
-
-    Private Sub OpenToolStripMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles OpenToolStripMenuItem.Click
-        CDO.AddExtension = True
-        CDO.CheckFileExists = True
-        CDO.CheckPathExists = True
-        CDO.DereferenceLinks = True
-        CDO.Filter = "Assemblies (exe,dll)|*.exe;*.dll|All|*.*"
-        CDO.RestoreDirectory = True
-        If CDO.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
-            Call OpenReferences(CDO.FileName)
-        End If
+        Me.MenuItemOpen.Visible = False
+        Me.MenuItemSeparatorAfterOpen.Visible = False
     End Sub
 
     Private Sub MenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem1.Click
@@ -282,5 +262,28 @@ Public Class frmDepViewerMain
         Catch ex As Exception
             '
         End Try
+    End Sub
+
+    Private Sub MenuItemOpen_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemOpen.Click
+        If MenuItemOpen.Visible Then
+            CDO.AddExtension = True
+            CDO.CheckFileExists = True
+            CDO.CheckPathExists = True
+            CDO.DereferenceLinks = True
+            CDO.Filter = "Assemblies (exe,dll)|*.exe;*.dll|All|*.*"
+            CDO.RestoreDirectory = True
+            If CDO.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+                Call OpenReferences(CDO.FileName)
+            End If
+        End If
+    End Sub
+
+    Private Sub MenuItemQuit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemQuit.Click
+        Me.Close()
+    End Sub
+
+    Private Sub MenuItemAlwaysVisible_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemAlwaysVisible.Click
+        Me.MenuItemAlwaysVisible.Checked = Not (Me.MenuItemAlwaysVisible.Checked)
+        Me.TopMost = Me.MenuItemAlwaysVisible.Checked
     End Sub
 End Class

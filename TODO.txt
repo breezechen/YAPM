@@ -103,7 +103,6 @@ BUGS NON CRITIQUES
 - affinity process/thread (socket)
 - refresh services trop rapide -> impossible de récupérer des infos par socket après (checker semaphore)
 - TODO, TOCHANGE, TODO_, TOCHECK, ISNEEDED, TOREMOVE
-- virer toolstripmenu dans dependency viewer
 - sélectionner premier item tv dep viewer automatiquement
 - virer PtrToStructure et n'utiliser que MemoryAlloc
 - replace taskmgr sous 7 ?
@@ -167,3 +166,4 @@ Temp Change log :
 - optimisation récupération des threads par WMI
 - added full job management
 - added "Terminate by method" feature (with 5 methods)
+- improved dependency viewer UI
