@@ -30,6 +30,7 @@ rem
 rem    
 rem     MODIFICATIONS OF THIS SCRIPT
 rem     18/08/09 - Initial version (violent_ken)
+rem	29/08/09 - Now it creates the setup
 
 
 rem     Remove YAPM.exe
@@ -46,3 +47,6 @@ rem     Create zip file
 
 rem     Create 7z file
 ..\..\..\Tools\7za\7za.exe a -t7z -y ..\..\..\RELEASE\YAPM-vx.x.x-binaries.7z -r .\Bin\* -x!.svn
+
+rem     Build setup
+"C:\Program Files\Inno Setup 5\Compil32.exe" /cc ..\..\..\Setup\ISS\main.iss

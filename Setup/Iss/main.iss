@@ -32,6 +32,7 @@ SolidCompression=yes
 VersionInfoCompany=v_k softwares
 VersionInfoCopyright=Licensed under the GNU GPL, v3.0.
 VersionInfoProductName=YAPM
+OutPutDir=..\..\RELEASE\
 
 [Languages]
 Name: english; MessagesFile: compiler:Default.isl
