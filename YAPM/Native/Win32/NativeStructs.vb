@@ -1301,8 +1301,7 @@ Namespace Native.Api
             Public NonPagedPoolUsage As Integer
         End Structure
 
-        ' Pack = 1 ??????
-        <StructLayout(LayoutKind.Sequential, Pack:=1)> _
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure SystemHandleInformation
             Public ProcessId As Integer
             Public ObjectTypeNumber As Byte

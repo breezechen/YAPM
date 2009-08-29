@@ -57,8 +57,8 @@ Public Class frmInput
             Me.Width = lblMessage.Width + 2 * lblMessage.Left
             Me.txtRes.Width = Me.Width - 2 * Me.txtRes.Left
             Me.Height += lblMessage.Height - 13
-            Me.Left = CInt((Screen.PrimaryScreen.WorkingArea.Width - Me.Width) / 2)
-            Me.Top = CInt((Screen.PrimaryScreen.WorkingArea.Height - Me.Height) / 2)
+            Me.Left = (Screen.PrimaryScreen.WorkingArea.Width - Me.Width) \ 2
+            Me.Top = (Screen.PrimaryScreen.WorkingArea.Height - Me.Height) \ 2
         End If
     End Sub
 

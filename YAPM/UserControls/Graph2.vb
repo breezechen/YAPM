@@ -172,7 +172,7 @@ Public Class Graph2
     Protected Overrides Sub OnResize(ByVal e As System.EventArgs)
         MyBase.OnResize(e)
         _xMin = Math.Max(_xMax - Me.Width, 0)
-        numberOfValuesDisplayed = CInt(Me.Width / 2)
+        numberOfValuesDisplayed = Me.Width \ 2
         numberOfValuesHidden = CInt(nCount - numberOfValuesDisplayed)
     End Sub
 
@@ -373,7 +373,7 @@ Public Class Graph2
 
 
         ' Calculate new xMin and xMax
-        numberOfValuesDisplayed = CInt(Me.Width / 2)
+        numberOfValuesDisplayed = Me.Width \ 2
         numberOfValuesHidden = CInt(nCount - numberOfValuesDisplayed)
 
         _xMax = nCount - 1      ' Last item by default
@@ -394,7 +394,7 @@ Public Class Graph2
         _values2(nCount - 1) = value2
 
         ' Calculate new xMin and xMax
-        numberOfValuesDisplayed = CInt(Me.Width / 2)
+        numberOfValuesDisplayed = Me.Width \ 2
         numberOfValuesHidden = CInt(nCount - numberOfValuesDisplayed)
 
         _xMax = nCount - 1      ' Last item by default

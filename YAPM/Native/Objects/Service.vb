@@ -454,13 +454,13 @@ Namespace Native.Objects
                             Try
                                 ' Parse short array to retrieve an unicode string
                                 y = x * 2
-                                Dim __size As Integer = CInt((y - xOld) / 2)
+                                Dim __size As Integer = (y - xOld) \ 2
 
                                 ' Allocate unmanaged memory
                                 Dim ptr As IntPtr = Marshal.AllocHGlobal(y - xOld)
 
                                 ' Copy from short array to unmanaged memory
-                                Marshal.Copy(res, CInt(xOld / 2), ptr, __size)
+                                Marshal.Copy(res, xOld \ 2, ptr, __size)
 
                                 ' Convert to string (and copy to __var variable)
                                 __var = Marshal.PtrToStringUni(ptr, __size)

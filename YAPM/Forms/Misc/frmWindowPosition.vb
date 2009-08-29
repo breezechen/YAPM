@@ -76,8 +76,8 @@ Public Class frmWindowPosition
     Private Sub cmdCenter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCenter.Click
         Dim w As Integer = CInt(Val(Me.txtWidth.Text))
         Dim h As Integer = CInt(Val(Me.txtHeight.Text))
-        Dim l As Integer = CInt((Screen.PrimaryScreen.Bounds.Width - w) / 2)
-        Dim t As Integer = CInt((Screen.PrimaryScreen.Bounds.Height - h) / 2)
+        Dim l As Integer = (Screen.PrimaryScreen.Bounds.Width - w) \ 2
+        Dim t As Integer = (Screen.PrimaryScreen.Bounds.Height - h) \ 2
         Me.txtLeft.Text = l.ToString
         Me.txtTop.Text = t.ToString
     End Sub

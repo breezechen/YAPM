@@ -137,7 +137,7 @@ Public Class ProcessMemReader
         Dim buf() As Byte = ReadByteArray(str.Buffer, str.Length)
         Dim dataH As GCHandle = GCHandle.Alloc(buf, GCHandleType.Pinned)
         Try
-            Return Marshal.PtrToStringUni(dataH.AddrOfPinnedObject, CInt(str.Length / 2))
+            Return Marshal.PtrToStringUni(dataH.AddrOfPinnedObject, str.Length \ 2)
         Finally
             dataH.Free()
         End Try

@@ -115,7 +115,7 @@ Namespace Native.Memory
             Me.ReadBytes(0, buffer, startIndex, length)
         End Sub
         Public Sub ReadBytes(ByVal offset As Integer, ByVal buffer As Byte(), ByVal startIndex As Integer, ByVal length As Integer)
-            Marshal.Copy(New IntPtr(_ptr.ToInt32 + offset), buffer, startIndex, length)
+            Marshal.Copy(_ptr.Increment(offset), buffer, startIndex, length)
         End Sub
 
         Public Function ReadByte(ByVal offset As Integer) As Integer
@@ -153,10 +153,10 @@ Namespace Native.Memory
             Return Me.ReadStruct(Of T)(0, index)
         End Function
         Public Function ReadStruct(Of T)(ByVal offset As Integer, ByVal index As Integer) As T
-            Return DirectCast(Marshal.PtrToStructure(New IntPtr(_ptr.ToInt32 + offset + Marshal.SizeOf(GetType(T)) * index), GetType(T)), T)
+            Return DirectCast(Marshal.PtrToStructure(_ptr.Increment(offset + Marshal.SizeOf(GetType(T)) * index), GetType(T)), T)
         End Function
         Public Function ReadStructOffset(Of T)(ByVal offset As Integer) As T
-            Return DirectCast(Marshal.PtrToStructure(New IntPtr(_ptr.ToInt32 + offset), GetType(T)), T)
+            Return DirectCast(Marshal.PtrToStructure(_ptr.Increment(offset), GetType(T)), T)
         End Function
 
         ' Resize memory allocation
@@ -175,7 +175,7 @@ Namespace Native.Memory
             Marshal.WriteByte(Me, offset, b)
         End Sub
         Public Sub WriteBytes(ByVal offset As Integer, ByVal b As Byte())
-            Marshal.Copy(b, 0, New IntPtr(_ptr.ToInt32 + offset), b.Length)
+            Marshal.Copy(b, 0, _ptr.Increment(offset), b.Length)
         End Sub
 
         Public Sub WriteInt16(ByVal offset As Integer, ByVal i As Short)
@@ -195,7 +195,7 @@ Namespace Native.Memory
             Me.WriteStruct(Of T)(0, index, s)
         End Sub
         Public Sub WriteStruct(Of T)(ByVal offset As Integer, ByVal index As Integer, ByVal s As T)
-            Marshal.StructureToPtr(s, New IntPtr(_ptr.ToInt32 + offset + Marshal.SizeOf(GetType(T)) * index), False)
+            Marshal.StructureToPtr(s, _ptr.Increment(offset + Marshal.SizeOf(GetType(T)) * index), False)
         End Sub
 
         Public Sub WriteUnicodeString(ByVal offset As Integer, ByVal s As String)
