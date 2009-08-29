@@ -40,6 +40,9 @@ Namespace Native.Objects
         ' Private attributes
         ' ========================================
 
+        ' ObjectTypeNumer for Job
+        Private Shared jobTypeNumber As Integer = 0
+
         ' List of valid handles (name <-> handle) + sem to protect access
         Private Shared _dupHandles As New Dictionary(Of String, IntPtr)
         Private Shared _ownHandles As New Dictionary(Of String, IntPtr)
@@ -434,6 +437,11 @@ Namespace Native.Objects
 
             semDupHandles.WaitOne()
 
+            ' We have to get jobTypeNumber
+            If jobTypeNumber = 0 Then
+                jobTypeNumber = GetObjectTypeNumberByName("Job")
+            End If
+
             ' HACK HACK HACK HACK
             ' Here is how we retrieve the job list :
             ' - we enumerate all handles
@@ -479,7 +487,7 @@ Namespace Native.Objects
                 ' &h4 offset because of HandleCount on 4 first bytes
                 Dim type As Integer = memAllocJobs.ReadByte(objTypeOffsetInStruct + _
                                                                     &H4 + x * structSize)
-                If type = NativeConstants.HandleOjectTypeJob Then
+                If type = jobTypeNumber Then
 
                     ' This is a job !
 
@@ -504,7 +512,7 @@ Namespace Native.Objects
                                             NativeEnums.ObjectInformationClass.ObjectNameInformation, _
                                             BufferObjNameJob.Pointer, 512, ret)
                             ObjName = BufferObjNameJob.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
-                            theName = Marshal.PtrToStringUni(New IntPtr(BufferObjNameJob.Pointer.ToInt32 + 8))
+                            theName = Marshal.PtrToStringUni(BufferObjNameJob.Pointer.Increment(8))
 
                             ' Add to dico
                             ' The key is the name
@@ -696,6 +704,55 @@ Namespace Native.Objects
             End If
 
             Return ret
+
+        End Function
+
+        ' Return ObjectTypeNumber associated to a ObjectType defined by its name
+        Private Shared Function GetObjectTypeNumberByName(ByVal typeName As String) As Integer
+            Dim cbReqLength As Integer
+            Dim cTypeCount As Integer
+            Dim x As Integer
+            Dim TypeInfo As NativeStructs.ObjectTypeInformation
+            Dim strType As String
+            Dim offset As Integer
+
+            ' Request size for types informations
+            Dim memAlloc As New Memory.MemoryAlloc(&H100)
+            NativeFunctions.NtQueryObject(IntPtr.Zero, NativeEnums.ObjectInformationClass.ObjectTypesInformation, memAlloc.Pointer, memAlloc.Size, cbReqLength)
+            memAlloc.Resize(cbReqLength)
+
+            ' Retrive list of types
+            NativeFunctions.NtQueryObject(IntPtr.Zero, _
+                            NativeEnums.ObjectInformationClass.ObjectTypesInformation, _
+                            memAlloc.Pointer, cbReqLength, cbReqLength)
+
+            ' Get number of struct to read (first 4 bytes)
+            cTypeCount = memAlloc.ReadInt32(0)
+
+            ' First 4 bytes are used for number of items to read
+            offset = &H4
+            For x = 0 To cTypeCount - 1
+                ' Retrieve name of type
+                TypeInfo = memAlloc.ReadStruct(Of NativeStructs.ObjectTypeInformation)(offset, x)
+                strType = Common.Misc.ReadUnicodeString(TypeInfo.Name)
+                If typeName = strType Then
+                    Return x + 1
+                End If
+                offset += TypeInfo.Name.MaximumLength
+                ' DWORD alignment
+                offset += offset Mod 4
+            Next
+            memAlloc.Free()
+
+            If typeName = "Driver" Then
+                Return 24
+            ElseIf typeName = "IoCompletion" Then
+                Return 25
+            ElseIf typeName = "File" Then
+                Return 26
+            Else
+                Return -1
+            End If
 
         End Function
 

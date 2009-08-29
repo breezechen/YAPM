@@ -184,7 +184,6 @@ Namespace Native.Api
 #Region "Declarations used for handles"
 
         Public Shared ReadOnly InvalidHandleValue As New IntPtr(-1)
-        Public Const HandleOjectTypeJob As Byte = &H5
 
 #End Region
 
