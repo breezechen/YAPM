@@ -717,7 +717,6 @@ Namespace Native.Objects
             Dim x As Integer
             Dim TypeInfo As NativeStructs.ObjectTypeInformation
             Dim strType As String
-            Dim offset As Integer
 
             ' Request size for types informations
             Dim memAlloc As New Memory.MemoryAlloc(&H100)
@@ -729,11 +728,11 @@ Namespace Native.Objects
                             NativeEnums.ObjectInformationClass.ObjectTypesInformation, _
                             memAlloc.Pointer, cbReqLength, cbReqLength)
 
-            ' Get number of struct to read (first 4 bytes)
-            cTypeCount = memAlloc.ReadInt32(0)
+            ' Get number of struct to read
+            cTypeCount = memAlloc.ReadStruct(Of NativeStructs.ObjectTypesInformation).ObjectTypesCount
 
-            ' First 4 bytes are used for number of items to read
-            offset = &H4
+            Dim offset As Integer = NativeStructs.ObjectTypesInformation.ObjectTypeInformationOffset
+
             For x = 0 To cTypeCount - 1
                 ' Retrieve name of type
                 TypeInfo = memAlloc.ReadStruct(Of NativeStructs.ObjectTypeInformation)(offset, x)

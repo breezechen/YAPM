@@ -370,7 +370,7 @@ Namespace Native.Objects
                                                         Handle, 16, BufferObjName.Pointer, _
                                                         512, ret, IntPtr.Zero)
                 ObjName = BufferObjName.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
-                m_ObjectName = Marshal.PtrToStringUni(ObjName.Name.Buffer)
+                m_ObjectName = Marshal.PtrToStringUni(BufferObjName.Pointer.Increment(8))
             Else
                 ' Not a file, so we query handle name withNtQueryObject
                 NativeFunctions.NtQueryObject(hHandle, _

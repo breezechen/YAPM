@@ -1276,6 +1276,17 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
+        Public Structure ObjectTypesInformation
+            Public ObjectTypesCount As Integer
+            Public Entries As ObjectTypeInformation
+            Public Shared ReadOnly Property ObjectTypeInformationOffset() As Integer
+                Get
+                    Return Marshal.OffsetOf(GetType(ObjectTypesInformation), "Entries").ToInt32
+                End Get
+            End Property
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure ObjectTypeInformation
             Public Name As UnicodeString
             Public TotalNumberOfObjects As Integer
