@@ -530,6 +530,9 @@ Namespace Native.Objects
                                                         New IntPtr(NativeFunctions.GetCurrentProcess), _
                                                         targetHandle, Security.JobAccess.All, False, _
                                                         0)
+                        ' Close process' handle
+                        Objects.General.CloseHandle(hProcess)
+
                         If targetHandle.IsNotNull Then
 
                             NativeFunctions.ZeroMemory(BufferObjNameJob, New IntPtr(512))
@@ -553,6 +556,8 @@ Namespace Native.Objects
                                 ' of handles... And to avoid JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit issue
                                 If _dupHandles.ContainsKey(theName) = False Then
                                     _dupHandles.Add(theName, targetHandle)
+                                Else
+                                    Objects.General.CloseHandle(targetHandle)
                                 End If
                             Else
                                 ' Then the job has no name...
