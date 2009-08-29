@@ -141,6 +141,9 @@ Public Class frmJobInfo
         For Each ss As String In jobLimitInfos.GetAvailableProperties(True)
             Me.MenuItemCopyLimit.MenuItems.Add(ss, AddressOf MenuItemCopyLimit_Click)
         Next
+        For Each ss As String In processInfos.GetAvailableProperties(True, True)
+            Me.MenuItemCopyProcess.MenuItems.Add(ss, AddressOf MenuItemCopyProcess_Click)
+        Next
 
         Select Case My.Settings.JobSelectedTab
             Case "General"
@@ -157,6 +160,19 @@ Public Class frmJobInfo
     End Sub
 
 #Region "Copy to clipboard menus"
+
+    Private Sub MenuItemCopyProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cProcess In Me.lvProcess.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
 
     Private Sub MenuItemCopyLimit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
@@ -253,4 +269,240 @@ Public Class frmJobInfo
         frm.JobName = curJob.Infos.Name
         frm.ShowDialog()
     End Sub
+
+    Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
+        If e.KeyCode = Keys.Delete And Me.lvProcess.SelectedItems.Count > 0 Then
+            If My.Settings.WarnDangerousActions Then
+                If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                    Exit Sub
+                End If
+            End If
+            For Each it As cProcess In Me.lvProcess.GetSelectedItems
+                it.Kill()
+            Next
+        ElseIf e.KeyCode = Keys.Enter And Me.lvProcess.SelectedItems.Count > 0 Then
+            For Each it As cProcess In Me.lvProcess.GetSelectedItems
+                Dim frm As New frmProcessInfo
+                frm.SetProcess(it)
+                frm.TopMost = _frmMain.TopMost
+                frm.Show()
+            Next
+        End If
+    End Sub
+
+    Private Sub lvProcess_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDoubleClick
+        If e.Button = Windows.Forms.MouseButtons.Left Then
+            For Each it As cProcess In Me.lvProcess.GetSelectedItems
+                Dim frm As New frmProcessInfo
+                frm.SetProcess(it)
+                frm.TopMost = _frmMain.TopMost
+                frm.Show()
+            Next
+        End If
+    End Sub
+
+    Private Sub lvProcess_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+
+            Dim p As Integer = -1
+            If Me.lvProcess.SelectedItems Is Nothing Then
+                Me.MenuItemProcPIdle.Checked = False
+                Me.MenuItemProcPN.Checked = False
+                Me.MenuItemProcPAN.Checked = False
+                Me.MenuItemProcPBN.Checked = False
+                Me.MenuItemProcPH.Checked = False
+                Me.MenuItemProcPRT.Checked = False
+                Exit Sub
+            End If
+            If Me.lvProcess.SelectedItems.Count = 1 Then
+                p = Me.lvProcess.GetSelectedItem.Infos.Priority
+            End If
+            Me.MenuItemProcPIdle.Checked = (p = ProcessPriorityClass.Idle)
+            Me.MenuItemProcPN.Checked = (p = ProcessPriorityClass.Normal)
+            Me.MenuItemProcPAN.Checked = (p = ProcessPriorityClass.AboveNormal)
+            Me.MenuItemProcPBN.Checked = (p = ProcessPriorityClass.BelowNormal)
+            Me.MenuItemProcPH.Checked = (p = ProcessPriorityClass.High)
+            Me.MenuItemProcPRT.Checked = (p = ProcessPriorityClass.RealTime)
+
+            Dim selectionIsNotNothing As Boolean = (Me.lvProcess.SelectedItems IsNot Nothing AndAlso Me.lvProcess.SelectedItems.Count > 0)
+            Me.MenuItem35.Enabled = selectionIsNotNothing
+            Me.MenuItemProcKill.Enabled = selectionIsNotNothing
+            Me.MenuItemProcPriority.Enabled = selectionIsNotNothing
+            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcKillT.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcStop.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcSFileDetails.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemProcSFileProp.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemProcSOpenDir.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemProcSSearch.Enabled = selectionIsNotNothing
+            Me.MenuItemProcSDep.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemCopyProcess.Enabled = selectionIsNotNothing
+            Me.MenuItemProcSFileDetails.Enabled = (selectionIsNotNothing AndAlso Me.lvProcess.SelectedItems.Count = 1)
+            Me.MenuItemProcDump.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemProcAff.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcWSS.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcKillByMethod.Enabled = selectionIsNotNothing AndAlso _notWMI
+
+            Me.mnuProcess.Show(Me.lvProcess, e.Location)
+        End If
+    End Sub
+
+    Private Sub MenuItemProcKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcKill.Click
+        If My.Settings.WarnDangerousActions Then
+            If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            cp.Kill()
+        Next
+    End Sub
+
+    Private Sub MenuItemProcKillT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcKillT.Click
+        If My.Settings.WarnDangerousActions Then
+            If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
+        For Each it As cProcess In Me.lvProcess.GetSelectedItems
+            it.KillProcessTree()
+        Next
+    End Sub
+
+    Private Sub MenuItemProcStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcStop.Click
+        If My.Settings.WarnDangerousActions Then
+            If MsgBox("Are you sure you want to suspend these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            cp.SuspendProcess()
+        Next
+    End Sub
+
+    Private Sub MenuItemProcResume_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcResume.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            cp.ResumeProcess()
+        Next
+    End Sub
+
+    Private Sub MenuItemProcPIdle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcPIdle.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            cp.SetPriority(ProcessPriorityClass.Idle)
+        Next
+    End Sub
+
+    Private Sub MenuItemProcPBN_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcPBN.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            cp.SetPriority(ProcessPriorityClass.BelowNormal)
+        Next
+    End Sub
+
+    Private Sub MenuItemProcPN_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcPN.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            cp.SetPriority(ProcessPriorityClass.Normal)
+        Next
+    End Sub
+
+    Private Sub MenuItemProcPAN_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcPAN.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            cp.SetPriority(ProcessPriorityClass.AboveNormal)
+        Next
+    End Sub
+
+    Private Sub MenuItemProcPH_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcPH.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            cp.SetPriority(ProcessPriorityClass.High)
+        Next
+    End Sub
+
+    Private Sub MenuItemProcPRT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcPRT.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            cp.SetPriority(ProcessPriorityClass.RealTime)
+        Next
+    End Sub
+
+    Private Sub MenuItemProcWorkingSS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcWSS.Click
+        For Each _p As cProcess In Me.lvProcess.GetSelectedItems
+            _p.EmptyWorkingSetSize()
+        Next
+    End Sub
+
+    Private Sub MenuItemProcDump_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcDump.Click
+        Dim _frm As New frmDumpFile
+        _frm.TopMost = _frmMain.TopMost
+        If _frm.ShowDialog = Windows.Forms.DialogResult.OK Then
+            For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+                Dim _file As String = _frm.TargetDir & "\" & Date.Now.Ticks.ToString & "_" & cp.Infos.Name & ".dmp"
+                Call cp.CreateDumpFile(_file, _frm.DumpOption)
+            Next
+        End If
+    End Sub
+
+    Private Sub MenuItemProcAff_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcAff.Click
+        If Me.lvProcess.SelectedItems.Count = 0 Then Exit Sub
+
+        Dim c() As cProcess
+        ReDim c(Me.lvProcess.SelectedItems.Count - 1)
+        Dim x As Integer = 0
+        For Each it As cProcess In Me.lvProcess.GetSelectedItems
+            c(x) = it
+            x += 1
+        Next
+
+        Dim frm As New frmProcessAffinity(c)
+        frm.TopMost = _frmMain.TopMost
+        frm.ShowDialog()
+    End Sub
+
+    Private Sub MenuItemProcSFileProp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSFileProp.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            If IO.File.Exists(cp.Infos.Path) Then
+                cFile.ShowFileProperty(cp.Infos.Path, Me.Handle)
+            End If
+        Next
+    End Sub
+
+    Private Sub MenuItemProcSOpenDir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSOpenDir.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            If cp.Infos.Path <> NO_INFO_RETRIEVED Then
+                cFile.OpenDirectory(cp.Infos.Path)
+            End If
+        Next
+    End Sub
+
+    Private Sub MenuItemProcSFileDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSFileDetails.Click
+        If Me.lvProcess.SelectedItems.Count > 0 Then
+            Dim cp As cProcess = Me.lvProcess.GetSelectedItem
+            Dim s As String = cp.Infos.Path
+            If IO.File.Exists(s) Then
+                DisplayDetailsFile(s)
+            End If
+        End If
+    End Sub
+
+    Private Sub MenuItemProcSSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSSearch.Click
+        For Each cp As cProcess In Me.lvProcess.GetSelectedItems
+            Application.DoEvents()
+            Call SearchInternet(cp.Infos.Name, Me.Handle)
+        Next
+    End Sub
+
+    Private Sub MenuItemProcSDep_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSDep.Click
+        For Each it As cProcess In Me.lvProcess.GetSelectedItems
+            If System.IO.File.Exists(it.Infos.Path) Then
+                Dim frm As New frmDepViewerMain
+                frm.HideOpenMenu()
+                frm.OpenReferences(it.Infos.Path)
+                frm.TopMost = _frmMain.TopMost
+                frm.Show()
+            End If
+        Next
+    End Sub
+
+    Private Sub MenuItemProcColumns_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcColumns.Click
+        Me.lvProcess.ChooseColumns()
+    End Sub
+
 End Class

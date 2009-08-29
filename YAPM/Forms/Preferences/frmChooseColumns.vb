@@ -139,6 +139,12 @@ Public Class frmChooseColumns
             ss = privilegeInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is envVariableList Then
             ss = envVariableInfos.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is jobLimitList Then
+            ss = jobLimitInfos.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is jobList Then
+            ss = jobInfos.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is processesInJobList Then
+            ss = processInfos.GetAvailableProperties
         End If
 
         ReDim Preserve ss(ss.Length + 1)

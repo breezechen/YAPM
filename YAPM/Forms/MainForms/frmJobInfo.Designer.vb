@@ -115,8 +115,35 @@ Partial Class frmJobInfo
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
         Me.MenuItemCopyLimit = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcKill = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcStop = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcResume = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcPIdle = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcPBN = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcPN = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcPAN = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcPH = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcPRT = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcSFileProp = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcSOpenDir = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcSFileDetails = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcSSearch = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcSDep = New System.Windows.Forms.MenuItem
+        Me.MenuItemCopyProcess = New System.Windows.Forms.MenuItem
         Me.TimerLimits = New System.Windows.Forms.Timer(Me.components)
         Me.mnuLimit = New System.Windows.Forms.ContextMenu
+        Me.mnuProcess = New System.Windows.Forms.ContextMenu
+        Me.MenuItemProcKillT = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcKillByMethod = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcPriority = New System.Windows.Forms.MenuItem
+        Me.MenuItem44 = New System.Windows.Forms.MenuItem
+        Me.MenuItem35 = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcWSS = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcAff = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcDump = New System.Windows.Forms.MenuItem
+        Me.MenuItem51 = New System.Windows.Forms.MenuItem
+        Me.MenuItem38 = New System.Windows.Forms.MenuItem
+        Me.MenuItemProcColumns = New System.Windows.Forms.MenuItem
         Me.tabJob.SuspendLayout()
         Me.pageGeneral.SuspendLayout()
         Me.SplitContainer.Panel1.SuspendLayout()
@@ -146,7 +173,7 @@ Partial Class frmJobInfo
         Me.tabJob.Multiline = True
         Me.tabJob.Name = "tabJob"
         Me.tabJob.SelectedIndex = 0
-        Me.tabJob.Size = New System.Drawing.Size(703, 358)
+        Me.tabJob.Size = New System.Drawing.Size(703, 337)
         Me.tabJob.TabIndex = 0
         '
         'pageGeneral
@@ -155,7 +182,7 @@ Partial Class frmJobInfo
         Me.pageGeneral.Location = New System.Drawing.Point(4, 22)
         Me.pageGeneral.Name = "pageGeneral"
         Me.pageGeneral.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageGeneral.Size = New System.Drawing.Size(695, 332)
+        Me.pageGeneral.Size = New System.Drawing.Size(695, 311)
         Me.pageGeneral.TabIndex = 0
         Me.pageGeneral.Text = "General"
         Me.pageGeneral.UseVisualStyleBackColor = True
@@ -176,7 +203,7 @@ Partial Class frmJobInfo
         'SplitContainer.Panel2
         '
         Me.SplitContainer.Panel2.Controls.Add(Me.GroupBox1)
-        Me.SplitContainer.Size = New System.Drawing.Size(689, 326)
+        Me.SplitContainer.Size = New System.Drawing.Size(689, 305)
         Me.SplitContainer.SplitterDistance = 25
         Me.SplitContainer.TabIndex = 19
         '
@@ -210,7 +237,7 @@ Partial Class frmJobInfo
         Me.GroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(689, 297)
+        Me.GroupBox1.Size = New System.Drawing.Size(689, 276)
         Me.GroupBox1.TabIndex = 17
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Processes in job"
@@ -236,7 +263,7 @@ Partial Class frmJobInfo
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
         Me.lvProcess.ReorganizeColumns = True
-        Me.lvProcess.Size = New System.Drawing.Size(683, 276)
+        Me.lvProcess.Size = New System.Drawing.Size(683, 255)
         Me.lvProcess.TabIndex = 4
         Me.lvProcess.UseCompatibleStateImageBehavior = False
         Me.lvProcess.View = System.Windows.Forms.View.Details
@@ -304,7 +331,7 @@ Partial Class frmJobInfo
         Me.pageStats.Location = New System.Drawing.Point(4, 22)
         Me.pageStats.Name = "pageStats"
         Me.pageStats.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageStats.Size = New System.Drawing.Size(695, 332)
+        Me.pageStats.Size = New System.Drawing.Size(695, 311)
         Me.pageStats.TabIndex = 8
         Me.pageStats.Text = "Statistics"
         Me.pageStats.UseVisualStyleBackColor = True
@@ -908,7 +935,7 @@ Partial Class frmJobInfo
         Me.pageLimitations.Location = New System.Drawing.Point(4, 22)
         Me.pageLimitations.Name = "pageLimitations"
         Me.pageLimitations.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageLimitations.Size = New System.Drawing.Size(695, 332)
+        Me.pageLimitations.Size = New System.Drawing.Size(695, 311)
         Me.pageLimitations.TabIndex = 5
         Me.pageLimitations.Text = "Limitations"
         Me.pageLimitations.UseVisualStyleBackColor = True
@@ -928,7 +955,7 @@ Partial Class frmJobInfo
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.GroupBox3)
-        Me.SplitContainer1.Size = New System.Drawing.Size(689, 326)
+        Me.SplitContainer1.Size = New System.Drawing.Size(689, 305)
         Me.SplitContainer1.SplitterDistance = 25
         Me.SplitContainer1.TabIndex = 20
         '
@@ -949,7 +976,7 @@ Partial Class frmJobInfo
         Me.GroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox3.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(689, 297)
+        Me.GroupBox3.Size = New System.Drawing.Size(689, 276)
         Me.GroupBox3.TabIndex = 17
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Active limitations"
@@ -975,7 +1002,7 @@ Partial Class frmJobInfo
         Me.lvLimits.Name = "lvLimits"
         Me.lvLimits.OverriddenDoubleBuffered = True
         Me.lvLimits.ReorganizeColumns = True
-        Me.lvLimits.Size = New System.Drawing.Size(683, 276)
+        Me.lvLimits.Size = New System.Drawing.Size(683, 255)
         Me.lvLimits.TabIndex = 4
         Me.lvLimits.UseCompatibleStateImageBehavior = False
         Me.lvLimits.View = System.Windows.Forms.View.Details
@@ -1005,6 +1032,97 @@ Partial Class frmJobInfo
         Me.MenuItemCopyLimit.Index = 0
         Me.MenuItemCopyLimit.Text = "Copy to clipboard"
         '
+        'MenuItemProcKill
+        '
+        Me.MenuItemProcKill.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.MenuItemProcKill, Global.YAPM.My.Resources.Resources.cross)
+        Me.MenuItemProcKill.Index = 0
+        Me.MenuItemProcKill.Text = "Kill"
+        '
+        'MenuItemProcStop
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcStop, Global.YAPM.My.Resources.Resources.control_stop_square)
+        Me.MenuItemProcStop.Index = 3
+        Me.MenuItemProcStop.Text = "Stop"
+        '
+        'MenuItemProcResume
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcResume, Global.YAPM.My.Resources.Resources.control)
+        Me.MenuItemProcResume.Index = 4
+        Me.MenuItemProcResume.Text = "Resume"
+        '
+        'MenuItemProcPIdle
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcPIdle, Global.YAPM.My.Resources.Resources.p0)
+        Me.MenuItemProcPIdle.Index = 0
+        Me.MenuItemProcPIdle.Text = "Idle"
+        '
+        'MenuItemProcPBN
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcPBN, Global.YAPM.My.Resources.Resources.p1)
+        Me.MenuItemProcPBN.Index = 1
+        Me.MenuItemProcPBN.Text = "Below normal"
+        '
+        'MenuItemProcPN
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcPN, Global.YAPM.My.Resources.Resources.p2)
+        Me.MenuItemProcPN.Index = 2
+        Me.MenuItemProcPN.Text = "Normal"
+        '
+        'MenuItemProcPAN
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcPAN, Global.YAPM.My.Resources.Resources.p3)
+        Me.MenuItemProcPAN.Index = 3
+        Me.MenuItemProcPAN.Text = "Above normal"
+        '
+        'MenuItemProcPH
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcPH, Global.YAPM.My.Resources.Resources.p4)
+        Me.MenuItemProcPH.Index = 4
+        Me.MenuItemProcPH.Text = "High"
+        '
+        'MenuItemProcPRT
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcPRT, Global.YAPM.My.Resources.Resources.p6)
+        Me.MenuItemProcPRT.Index = 5
+        Me.MenuItemProcPRT.Text = "Real time"
+        '
+        'MenuItemProcSFileProp
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcSFileProp, Global.YAPM.My.Resources.Resources.document_text)
+        Me.MenuItemProcSFileProp.Index = 9
+        Me.MenuItemProcSFileProp.Text = "File properties"
+        '
+        'MenuItemProcSOpenDir
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcSOpenDir, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.MenuItemProcSOpenDir.Index = 10
+        Me.MenuItemProcSOpenDir.Text = "Open directory"
+        '
+        'MenuItemProcSFileDetails
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcSFileDetails, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.MenuItemProcSFileDetails.Index = 11
+        Me.MenuItemProcSFileDetails.Text = "File details"
+        '
+        'MenuItemProcSSearch
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcSSearch, Global.YAPM.My.Resources.Resources.globe)
+        Me.MenuItemProcSSearch.Index = 12
+        Me.MenuItemProcSSearch.Text = "Internet search"
+        '
+        'MenuItemProcSDep
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemProcSDep, Global.YAPM.My.Resources.Resources.dllIcon)
+        Me.MenuItemProcSDep.Index = 13
+        Me.MenuItemProcSDep.Text = "View dependencies..."
+        '
+        'MenuItemCopyProcess
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyProcess, Global.YAPM.My.Resources.Resources.copy16)
+        Me.MenuItemCopyProcess.Index = 15
+        Me.MenuItemCopyProcess.Text = "Copy to clipboard"
+        '
         'TimerLimits
         '
         Me.TimerLimits.Enabled = True
@@ -1014,11 +1132,72 @@ Partial Class frmJobInfo
         '
         Me.mnuLimit.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyLimit})
         '
+        'mnuProcess
+        '
+        Me.mnuProcess.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemProcKill, Me.MenuItemProcKillT, Me.MenuItemProcKillByMethod, Me.MenuItemProcStop, Me.MenuItemProcResume, Me.MenuItemProcPriority, Me.MenuItem44, Me.MenuItem35, Me.MenuItem51, Me.MenuItemProcSFileProp, Me.MenuItemProcSOpenDir, Me.MenuItemProcSFileDetails, Me.MenuItemProcSSearch, Me.MenuItemProcSDep, Me.MenuItem38, Me.MenuItemCopyProcess, Me.MenuItemProcColumns})
+        '
+        'MenuItemProcKillT
+        '
+        Me.MenuItemProcKillT.Index = 1
+        Me.MenuItemProcKillT.Text = "Kill process tree"
+        '
+        'MenuItemProcKillByMethod
+        '
+        Me.MenuItemProcKillByMethod.Index = 2
+        Me.MenuItemProcKillByMethod.Text = "Kill process by method..."
+        '
+        'MenuItemProcPriority
+        '
+        Me.MenuItemProcPriority.Index = 5
+        Me.MenuItemProcPriority.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemProcPIdle, Me.MenuItemProcPBN, Me.MenuItemProcPN, Me.MenuItemProcPAN, Me.MenuItemProcPH, Me.MenuItemProcPRT})
+        Me.MenuItemProcPriority.Text = "Priority"
+        '
+        'MenuItem44
+        '
+        Me.MenuItem44.Index = 6
+        Me.MenuItem44.Text = "-"
+        '
+        'MenuItem35
+        '
+        Me.MenuItem35.Index = 7
+        Me.MenuItem35.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemProcWSS, Me.MenuItemProcAff, Me.MenuItemProcDump})
+        Me.MenuItem35.Text = "Other"
+        '
+        'MenuItemProcWSS
+        '
+        Me.MenuItemProcWSS.Index = 0
+        Me.MenuItemProcWSS.Text = "Reduce working set size"
+        '
+        'MenuItemProcAff
+        '
+        Me.MenuItemProcAff.Index = 1
+        Me.MenuItemProcAff.Text = "Set affinity..."
+        '
+        'MenuItemProcDump
+        '
+        Me.MenuItemProcDump.Index = 2
+        Me.MenuItemProcDump.Text = "Create dump file..."
+        '
+        'MenuItem51
+        '
+        Me.MenuItem51.Index = 8
+        Me.MenuItem51.Text = "-"
+        '
+        'MenuItem38
+        '
+        Me.MenuItem38.Index = 14
+        Me.MenuItem38.Text = "-"
+        '
+        'MenuItemProcColumns
+        '
+        Me.MenuItemProcColumns.Index = 16
+        Me.MenuItemProcColumns.Text = "Choose columns..."
+        '
         'frmJobInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(703, 358)
+        Me.ClientSize = New System.Drawing.Size(703, 337)
         Me.Controls.Add(Me.tabJob)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(660, 359)
@@ -1133,4 +1312,31 @@ Partial Class frmJobInfo
     Friend WithEvents ColumnHeader13 As System.Windows.Forms.ColumnHeader
     Private WithEvents mnuLimit As System.Windows.Forms.ContextMenu
     Friend WithEvents MenuItemCopyLimit As System.Windows.Forms.MenuItem
+    Private WithEvents mnuProcess As System.Windows.Forms.ContextMenu
+    Friend WithEvents MenuItemProcKill As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcKillT As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcKillByMethod As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcStop As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcResume As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcPriority As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcPIdle As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcPBN As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcPN As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcPAN As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcPH As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcPRT As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem44 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem35 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcWSS As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcAff As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcDump As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem51 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcSFileProp As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcSOpenDir As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcSFileDetails As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcSSearch As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcSDep As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem38 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemCopyProcess As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemProcColumns As System.Windows.Forms.MenuItem
 End Class

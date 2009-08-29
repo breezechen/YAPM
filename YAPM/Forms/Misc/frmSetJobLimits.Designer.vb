@@ -22,7 +22,6 @@ Partial Class frmSetJobLimits
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.ChooseFolder = New System.Windows.Forms.FolderBrowserDialog
         Me.cmdSetLimits = New System.Windows.Forms.Button
         Me.cmdExit = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
@@ -554,7 +553,6 @@ Partial Class frmSetJobLimits
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents ChooseFolder As System.Windows.Forms.FolderBrowserDialog
     Friend WithEvents cmdSetLimits As System.Windows.Forms.Button
     Friend WithEvents cmdExit As System.Windows.Forms.Button
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
