@@ -131,7 +131,6 @@ Public Class frmJobInfo
         ' Some tooltips
         Native.Functions.Misc.SetTheme(Me.lvProcess.Handle)
         Native.Functions.Misc.SetTheme(Me.lvLimits.Handle)
-        SetToolTip(Me.cmdAddProcess, "Add processes to the job")
         SetToolTip(Me.cmdTerminateJob, "Terminate the job")
         SetToolTip(Me.cmdSetLimits, "Add a limit to the job")
 
@@ -241,10 +240,6 @@ Public Class frmJobInfo
             End If
         End If
         curJob.TerminateJob()
-    End Sub
-
-    Private Sub cmdAddProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdAddProcess.Click
-        '
     End Sub
 
     Private Sub TimerLimits_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerLimits.Tick

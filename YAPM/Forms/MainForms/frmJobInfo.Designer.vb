@@ -33,7 +33,6 @@ Partial Class frmJobInfo
         Me.tabJob = New System.Windows.Forms.TabControl
         Me.pageGeneral = New System.Windows.Forms.TabPage
         Me.SplitContainer = New System.Windows.Forms.SplitContainer
-        Me.cmdAddProcess = New System.Windows.Forms.Button
         Me.cmdTerminateJob = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.lvProcess = New YAPM.processesInJobList
@@ -197,7 +196,6 @@ Partial Class frmJobInfo
         '
         'SplitContainer.Panel1
         '
-        Me.SplitContainer.Panel1.Controls.Add(Me.cmdAddProcess)
         Me.SplitContainer.Panel1.Controls.Add(Me.cmdTerminateJob)
         '
         'SplitContainer.Panel2
@@ -207,23 +205,11 @@ Partial Class frmJobInfo
         Me.SplitContainer.SplitterDistance = 25
         Me.SplitContainer.TabIndex = 19
         '
-        'cmdAddProcess
-        '
-        Me.cmdAddProcess.Image = Global.YAPM.My.Resources.Resources.plus_circle
-        Me.cmdAddProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdAddProcess.Location = New System.Drawing.Point(5, 3)
-        Me.cmdAddProcess.Name = "cmdAddProcess"
-        Me.cmdAddProcess.Size = New System.Drawing.Size(131, 23)
-        Me.cmdAddProcess.TabIndex = 20
-        Me.cmdAddProcess.Text = "Add process to job"
-        Me.cmdAddProcess.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.cmdAddProcess.UseVisualStyleBackColor = True
-        '
         'cmdTerminateJob
         '
         Me.cmdTerminateJob.Image = Global.YAPM.My.Resources.Resources.cross
         Me.cmdTerminateJob.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdTerminateJob.Location = New System.Drawing.Point(142, 3)
+        Me.cmdTerminateJob.Location = New System.Drawing.Point(5, 0)
         Me.cmdTerminateJob.Name = "cmdTerminateJob"
         Me.cmdTerminateJob.Size = New System.Drawing.Size(105, 23)
         Me.cmdTerminateJob.TabIndex = 19
@@ -1289,7 +1275,6 @@ Partial Class frmJobInfo
     Friend WithEvents lblPageFaultCount As System.Windows.Forms.Label
     Friend WithEvents Label21 As System.Windows.Forms.Label
     Friend WithEvents SplitContainer As System.Windows.Forms.SplitContainer
-    Friend WithEvents cmdAddProcess As System.Windows.Forms.Button
     Friend WithEvents cmdTerminateJob As System.Windows.Forms.Button
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
     Friend WithEvents lvProcess As YAPM.processesInJobList
