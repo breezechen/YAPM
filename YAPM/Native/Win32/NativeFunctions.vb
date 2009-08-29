@@ -667,7 +667,7 @@ Namespace Native.Api
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function DeviceIoControl(ByVal FileHandle As IntPtr, _
                                 ByVal IoControlCode As Integer, _
-                                ByRef InBuffer As NativeStructs.SystemHandleInformation, _
+                                ByRef InBuffer As NativeStructs.SystemHandleEntry, _
                                 ByVal InBufferLength As Integer, _
                                 ByVal OutBuffer As IntPtr, _
                                 ByVal OutBufferLength As Integer, _

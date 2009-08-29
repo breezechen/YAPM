@@ -721,10 +721,10 @@ Namespace Native.Objects
             Next
 
             ' Now we get all handles from all processes
-            Dim _handles As NativeStructs.SystemHandleInformation() = EnumerateProcessHandles()
+            Dim _handles As NativeStructs.SystemHandleEntry() = EnumerateProcessHandles()
 
             ' For handles which belongs to a csrss.exe process
-            For Each h As NativeStructs.SystemHandleInformation In _handles
+            For Each h As NativeStructs.SystemHandleEntry In _handles
                 If _csrss.ContainsKey(h.ProcessId) Then
                     Dim _dup As IntPtr
                     ' ISNEEDED ?
@@ -914,10 +914,10 @@ Namespace Native.Objects
         ' ========================================
 
         ' Enumerate all handes opened by all processes
-        Private Shared Function EnumerateProcessHandles() As NativeStructs.SystemHandleInformation()
+        Private Shared Function EnumerateProcessHandles() As NativeStructs.SystemHandleEntry()
             Dim handleCount As Integer = 0
             Dim retLen As Integer
-            Dim _handles As NativeStructs.SystemHandleInformation()
+            Dim _handles As NativeStructs.SystemHandleEntry()
 
             ' I did not manage to get the good needed size with the first call to
             ' NtQuerySystemInformation with SystemHandleInformation flag when the buffer
@@ -936,19 +936,13 @@ Namespace Native.Objects
                 memAlloc.Resize(size)
             End While
 
-            ' The handlecount value is the first integer (4 bytes) of the unmanaged memory.
-            handleCount = memAlloc.ReadInt32(0)
-            _handles = New NativeStructs.SystemHandleInformation(handleCount - 1) {}
+            handleCount = memAlloc.ReadStruct(Of NativeStructs.SystemHandleInformation).HandleCount
+            _handles = New NativeStructs.SystemHandleEntry(handleCount - 1) {}
+            Dim handlesOffset As Integer = NativeStructs.SystemHandleInformation.HandlesOffset
 
             For x As Integer = 0 To handleCount - 1
-                'Dim offset As Integer = ptr.ToInt32 + 4 + x * Marshal.SizeOf(GetType(NativeStructs.SystemHandleInformation))
-                'Dim temp As NativeStructs.SystemHandleInformation = _
-                '    CType(Marshal.PtrToStructure(New IntPtr(offset), _
-                '                             GetType(NativeStructs.SystemHandleInformation)),  _
-                '                             NativeStructs.SystemHandleInformation)
-
-                Dim temp As NativeStructs.SystemHandleInformation = _
-                    memAlloc.ReadStruct(Of NativeStructs.SystemHandleInformation)(4, x)
+                Dim temp As NativeStructs.SystemHandleEntry = _
+                    memAlloc.ReadStruct(Of NativeStructs.SystemHandleEntry)(handlesOffset, x)
 
                 _handles(x) = temp
             Next

@@ -430,7 +430,7 @@ Namespace Native.Objects
             Dim mCount As Integer
             Dim ret As Integer
             Dim ObjName As NativeStructs.ObjectNameInformation
-            Dim Handle As NativeStructs.SystemHandleInformation
+            Dim Handle As NativeStructs.SystemHandleEntry
             Dim buf As New Dictionary(Of String, cJob)
             Dim hProcess As IntPtr
             Dim noNameJobIndex As Integer = 0
@@ -473,12 +473,14 @@ Namespace Native.Objects
                 memAllocJobs.Resize(Length)
             Loop
 
-            ' Get the number of handles (first 4 bytes)
-            mCount = memAllocJobs.ReadInt32(0)
+            ' Get the number of handles 
+            mCount = memAllocJobs.ReadStruct(Of NativeStructs.SystemHandleInformation).HandleCount
 
             ' Resize our array
             Dim objTypeOffsetInStruct As Integer = NativeStructs.SystemHandleInformation_ObjectTypeOffset
-            Dim structSize As Integer = Marshal.SizeOf(GetType(NativeStructs.SystemHandleInformation))
+            Dim structSize As Integer = Marshal.SizeOf(GetType(NativeStructs.SystemHandleEntry))
+            Dim handlesOffset As Integer = NativeStructs.SystemHandleInformation.HandlesOffset
+
             For x = 0 To mCount - 1
                 ' We do not retrieve the entire SystemHandleInformation struct
                 ' cause it requires too much CPU time
@@ -486,14 +488,15 @@ Namespace Native.Objects
 
                 ' &h4 offset because of HandleCount on 4 first bytes
                 Dim type As Integer = memAllocJobs.ReadByte(objTypeOffsetInStruct + _
-                                                                    &H4 + x * structSize)
+                                                                    handlesOffset + _
+                                                                    x * structSize)
                 If type = jobTypeNumber Then
 
                     ' This is a job !
 
                     ' Get entire struct
                     ' &h4 offset because of HandleCount on 4 first bytes
-                    Handle = memAllocJobs.ReadStruct(Of NativeStructs.SystemHandleInformation)(&H4, x)
+                    Handle = memAllocJobs.ReadStruct(Of NativeStructs.SystemHandleEntry)(handlesOffset, x)
 
                     ' Retrieve its name
                     Dim theName As String
