@@ -515,7 +515,7 @@ Namespace Native.Objects
                                             NativeEnums.ObjectInformationClass.ObjectNameInformation, _
                                             BufferObjNameJob.Pointer, 512, ret)
                             ObjName = BufferObjNameJob.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
-                            theName = Marshal.PtrToStringUni(BufferObjNameJob.Pointer.Increment(8))
+                            theName = Marshal.PtrToStringUni(ObjName.Name.Buffer)
 
                             ' Add to dico
                             ' The key is the name
