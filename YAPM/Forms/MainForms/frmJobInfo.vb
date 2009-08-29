@@ -247,4 +247,10 @@ Public Class frmJobInfo
     Private Sub MenuItemLimitRemove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         '
     End Sub
+
+    Private Sub cmdSetLimits_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetLimits.Click
+        Dim frm As New frmSetJobLimits
+        frm.JobName = curJob.Infos.Name
+        frm.ShowDialog()
+    End Sub
 End Class

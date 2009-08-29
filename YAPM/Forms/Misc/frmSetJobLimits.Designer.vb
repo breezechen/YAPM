@@ -35,6 +35,28 @@ Partial Class frmSetJobLimits
         Me.chkUIDisplaySettings = New System.Windows.Forms.CheckBox
         Me.chkUIdesktop = New System.Windows.Forms.CheckBox
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.valAffinity = New System.Windows.Forms.NumericUpDown
+        Me.Label6 = New System.Windows.Forms.Label
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.valMaxWS = New System.Windows.Forms.NumericUpDown
+        Me.valMinWS = New System.Windows.Forms.NumericUpDown
+        Me.valUsertimeP = New System.Windows.Forms.NumericUpDown
+        Me.valMemP = New System.Windows.Forms.NumericUpDown
+        Me.valUsertimeJ = New System.Windows.Forms.NumericUpDown
+        Me.valMemJ = New System.Windows.Forms.NumericUpDown
+        Me.chkMinMaxWS = New System.Windows.Forms.CheckBox
+        Me.chkCommittedMemPerP = New System.Windows.Forms.CheckBox
+        Me.chkUserModePerP = New System.Windows.Forms.CheckBox
+        Me.chkCommittedMemPerJ = New System.Windows.Forms.CheckBox
+        Me.chkUserModePerJ = New System.Windows.Forms.CheckBox
+        Me.cbPriority = New System.Windows.Forms.ComboBox
+        Me.chkPriority = New System.Windows.Forms.CheckBox
+        Me.valScheduling = New System.Windows.Forms.NumericUpDown
+        Me.valActiveProcesses = New System.Windows.Forms.NumericUpDown
         Me.chkSchedulingC = New System.Windows.Forms.CheckBox
         Me.chkActiveProcesses = New System.Windows.Forms.CheckBox
         Me.chkAffinity = New System.Windows.Forms.CheckBox
@@ -43,39 +65,17 @@ Partial Class frmSetJobLimits
         Me.chkKillOnJobClose = New System.Windows.Forms.CheckBox
         Me.chkDieOnUnhandledEx = New System.Windows.Forms.CheckBox
         Me.chkBreakawayOK = New System.Windows.Forms.CheckBox
-        Me.cmdAffinity = New System.Windows.Forms.Button
-        Me.valActiveProcesses = New System.Windows.Forms.NumericUpDown
-        Me.valScheduling = New System.Windows.Forms.NumericUpDown
-        Me.chkPriority = New System.Windows.Forms.CheckBox
-        Me.cbPriority = New System.Windows.Forms.ComboBox
-        Me.chkUserModePerJ = New System.Windows.Forms.CheckBox
-        Me.chkCommittedMemPerJ = New System.Windows.Forms.CheckBox
-        Me.chkCommittedMemPerP = New System.Windows.Forms.CheckBox
-        Me.chkUserModePerP = New System.Windows.Forms.CheckBox
-        Me.chkMinWS = New System.Windows.Forms.CheckBox
-        Me.chkMaxWS = New System.Windows.Forms.CheckBox
-        Me.valMemJ = New System.Windows.Forms.NumericUpDown
-        Me.valUsertimeJ = New System.Windows.Forms.NumericUpDown
-        Me.valMemP = New System.Windows.Forms.NumericUpDown
-        Me.valUsertimeP = New System.Windows.Forms.NumericUpDown
-        Me.valMinWS = New System.Windows.Forms.NumericUpDown
-        Me.valMaxWS = New System.Windows.Forms.NumericUpDown
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
-        CType(Me.valActiveProcesses, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.valScheduling, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.valMemJ, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.valUsertimeJ, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.valMemP, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.valUsertimeP, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.valMinWS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.valAffinity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.valMaxWS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.valMinWS, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.valUsertimeP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.valMemP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.valUsertimeJ, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.valMemJ, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.valScheduling, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.valActiveProcesses, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'cmdSetLimits
@@ -199,6 +199,7 @@ Partial Class frmSetJobLimits
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.valAffinity)
         Me.GroupBox2.Controls.Add(Me.Label6)
         Me.GroupBox2.Controls.Add(Me.Label5)
         Me.GroupBox2.Controls.Add(Me.Label4)
@@ -211,8 +212,7 @@ Partial Class frmSetJobLimits
         Me.GroupBox2.Controls.Add(Me.valMemP)
         Me.GroupBox2.Controls.Add(Me.valUsertimeJ)
         Me.GroupBox2.Controls.Add(Me.valMemJ)
-        Me.GroupBox2.Controls.Add(Me.chkMaxWS)
-        Me.GroupBox2.Controls.Add(Me.chkMinWS)
+        Me.GroupBox2.Controls.Add(Me.chkMinMaxWS)
         Me.GroupBox2.Controls.Add(Me.chkCommittedMemPerP)
         Me.GroupBox2.Controls.Add(Me.chkUserModePerP)
         Me.GroupBox2.Controls.Add(Me.chkCommittedMemPerJ)
@@ -221,7 +221,6 @@ Partial Class frmSetJobLimits
         Me.GroupBox2.Controls.Add(Me.chkPriority)
         Me.GroupBox2.Controls.Add(Me.valScheduling)
         Me.GroupBox2.Controls.Add(Me.valActiveProcesses)
-        Me.GroupBox2.Controls.Add(Me.cmdAffinity)
         Me.GroupBox2.Controls.Add(Me.chkSchedulingC)
         Me.GroupBox2.Controls.Add(Me.chkActiveProcesses)
         Me.GroupBox2.Controls.Add(Me.chkAffinity)
@@ -236,6 +235,202 @@ Partial Class frmSetJobLimits
         Me.GroupBox2.TabIndex = 32
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "UI restrictions"
+        '
+        'valAffinity
+        '
+        Me.valAffinity.Location = New System.Drawing.Point(169, 134)
+        Me.valAffinity.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.valAffinity.Name = "valAffinity"
+        Me.valAffinity.Size = New System.Drawing.Size(105, 22)
+        Me.valAffinity.TabIndex = 61
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(251, 298)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(23, 13)
+        Me.Label6.TabIndex = 60
+        Me.Label6.Text = "sec"
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(251, 253)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(23, 13)
+        Me.Label5.TabIndex = 59
+        Me.Label5.Text = "sec"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(251, 276)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(20, 13)
+        Me.Label4.TabIndex = 58
+        Me.Label4.Text = "KB"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(251, 321)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(20, 13)
+        Me.Label3.TabIndex = 57
+        Me.Label3.Text = "KB"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(251, 344)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(20, 13)
+        Me.Label2.TabIndex = 56
+        Me.Label2.Text = "KB"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(251, 232)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(20, 13)
+        Me.Label1.TabIndex = 55
+        Me.Label1.Text = "KB"
+        '
+        'valMaxWS
+        '
+        Me.valMaxWS.Location = New System.Drawing.Point(169, 342)
+        Me.valMaxWS.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
+        Me.valMaxWS.Name = "valMaxWS"
+        Me.valMaxWS.Size = New System.Drawing.Size(76, 22)
+        Me.valMaxWS.TabIndex = 54
+        '
+        'valMinWS
+        '
+        Me.valMinWS.Location = New System.Drawing.Point(169, 319)
+        Me.valMinWS.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
+        Me.valMinWS.Name = "valMinWS"
+        Me.valMinWS.Size = New System.Drawing.Size(76, 22)
+        Me.valMinWS.TabIndex = 53
+        '
+        'valUsertimeP
+        '
+        Me.valUsertimeP.Location = New System.Drawing.Point(169, 296)
+        Me.valUsertimeP.Maximum = New Decimal(New Integer() {1410065408, 2, 0, 0})
+        Me.valUsertimeP.Name = "valUsertimeP"
+        Me.valUsertimeP.Size = New System.Drawing.Size(76, 22)
+        Me.valUsertimeP.TabIndex = 52
+        '
+        'valMemP
+        '
+        Me.valMemP.Location = New System.Drawing.Point(169, 274)
+        Me.valMemP.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
+        Me.valMemP.Name = "valMemP"
+        Me.valMemP.Size = New System.Drawing.Size(76, 22)
+        Me.valMemP.TabIndex = 51
+        '
+        'valUsertimeJ
+        '
+        Me.valUsertimeJ.Location = New System.Drawing.Point(169, 251)
+        Me.valUsertimeJ.Maximum = New Decimal(New Integer() {1410065408, 2, 0, 0})
+        Me.valUsertimeJ.Name = "valUsertimeJ"
+        Me.valUsertimeJ.Size = New System.Drawing.Size(76, 22)
+        Me.valUsertimeJ.TabIndex = 41
+        '
+        'valMemJ
+        '
+        Me.valMemJ.Location = New System.Drawing.Point(169, 226)
+        Me.valMemJ.Maximum = New Decimal(New Integer() {100000000, 0, 0, 0})
+        Me.valMemJ.Name = "valMemJ"
+        Me.valMemJ.Size = New System.Drawing.Size(76, 22)
+        Me.valMemJ.TabIndex = 50
+        '
+        'chkMinMaxWS
+        '
+        Me.chkMinMaxWS.AutoSize = True
+        Me.chkMinMaxWS.Location = New System.Drawing.Point(6, 319)
+        Me.chkMinMaxWS.Name = "chkMinMaxWS"
+        Me.chkMinMaxWS.Size = New System.Drawing.Size(112, 30)
+        Me.chkMinMaxWS.TabIndex = 49
+        Me.chkMinMaxWS.Text = "Min and max WS" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "size / process"
+        Me.chkMinMaxWS.UseVisualStyleBackColor = True
+        '
+        'chkCommittedMemPerP
+        '
+        Me.chkCommittedMemPerP.AutoSize = True
+        Me.chkCommittedMemPerP.Location = New System.Drawing.Point(6, 274)
+        Me.chkCommittedMemPerP.Name = "chkCommittedMemPerP"
+        Me.chkCommittedMemPerP.Size = New System.Drawing.Size(158, 17)
+        Me.chkCommittedMemPerP.TabIndex = 47
+        Me.chkCommittedMemPerP.Text = "Committed mem / process"
+        Me.chkCommittedMemPerP.UseVisualStyleBackColor = True
+        '
+        'chkUserModePerP
+        '
+        Me.chkUserModePerP.AutoSize = True
+        Me.chkUserModePerP.Location = New System.Drawing.Point(6, 297)
+        Me.chkUserModePerP.Name = "chkUserModePerP"
+        Me.chkUserModePerP.Size = New System.Drawing.Size(152, 17)
+        Me.chkUserModePerP.TabIndex = 46
+        Me.chkUserModePerP.Text = "Usermode time / process"
+        Me.chkUserModePerP.UseVisualStyleBackColor = True
+        '
+        'chkCommittedMemPerJ
+        '
+        Me.chkCommittedMemPerJ.AutoSize = True
+        Me.chkCommittedMemPerJ.Location = New System.Drawing.Point(6, 228)
+        Me.chkCommittedMemPerJ.Name = "chkCommittedMemPerJ"
+        Me.chkCommittedMemPerJ.Size = New System.Drawing.Size(147, 17)
+        Me.chkCommittedMemPerJ.TabIndex = 45
+        Me.chkCommittedMemPerJ.Text = "Committed mem for job"
+        Me.chkCommittedMemPerJ.UseVisualStyleBackColor = True
+        '
+        'chkUserModePerJ
+        '
+        Me.chkUserModePerJ.AutoSize = True
+        Me.chkUserModePerJ.Location = New System.Drawing.Point(6, 251)
+        Me.chkUserModePerJ.Name = "chkUserModePerJ"
+        Me.chkUserModePerJ.Size = New System.Drawing.Size(141, 17)
+        Me.chkUserModePerJ.TabIndex = 44
+        Me.chkUserModePerJ.Text = "Usermode time for job"
+        Me.chkUserModePerJ.UseVisualStyleBackColor = True
+        '
+        'cbPriority
+        '
+        Me.cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbPriority.FormattingEnabled = True
+        Me.cbPriority.Items.AddRange(New Object() {"Idle", "BelowNormal", "Normal", "AboveNormal", "High", "RealTime"})
+        Me.cbPriority.Location = New System.Drawing.Point(169, 204)
+        Me.cbPriority.Name = "cbPriority"
+        Me.cbPriority.Size = New System.Drawing.Size(105, 21)
+        Me.cbPriority.TabIndex = 43
+        '
+        'chkPriority
+        '
+        Me.chkPriority.AutoSize = True
+        Me.chkPriority.Location = New System.Drawing.Point(6, 205)
+        Me.chkPriority.Name = "chkPriority"
+        Me.chkPriority.Size = New System.Drawing.Size(88, 17)
+        Me.chkPriority.TabIndex = 42
+        Me.chkPriority.Text = "PriorityClass"
+        Me.chkPriority.UseVisualStyleBackColor = True
+        '
+        'valScheduling
+        '
+        Me.valScheduling.Location = New System.Drawing.Point(169, 181)
+        Me.valScheduling.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.valScheduling.Name = "valScheduling"
+        Me.valScheduling.Size = New System.Drawing.Size(105, 22)
+        Me.valScheduling.TabIndex = 41
+        '
+        'valActiveProcesses
+        '
+        Me.valActiveProcesses.Location = New System.Drawing.Point(169, 157)
+        Me.valActiveProcesses.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.valActiveProcesses.Name = "valActiveProcesses"
+        Me.valActiveProcesses.Size = New System.Drawing.Size(105, 22)
+        Me.valActiveProcesses.TabIndex = 40
         '
         'chkSchedulingC
         '
@@ -317,205 +512,6 @@ Partial Class frmSetJobLimits
         Me.chkBreakawayOK.Text = "BreakawayOK"
         Me.chkBreakawayOK.UseVisualStyleBackColor = True
         '
-        'cmdAffinity
-        '
-        Me.cmdAffinity.Location = New System.Drawing.Point(169, 132)
-        Me.cmdAffinity.Name = "cmdAffinity"
-        Me.cmdAffinity.Size = New System.Drawing.Size(30, 23)
-        Me.cmdAffinity.TabIndex = 39
-        Me.cmdAffinity.Text = "..."
-        Me.cmdAffinity.UseVisualStyleBackColor = True
-        '
-        'valActiveProcesses
-        '
-        Me.valActiveProcesses.Location = New System.Drawing.Point(169, 157)
-        Me.valActiveProcesses.Name = "valActiveProcesses"
-        Me.valActiveProcesses.Size = New System.Drawing.Size(105, 22)
-        Me.valActiveProcesses.TabIndex = 40
-        '
-        'valScheduling
-        '
-        Me.valScheduling.Location = New System.Drawing.Point(169, 181)
-        Me.valScheduling.Name = "valScheduling"
-        Me.valScheduling.Size = New System.Drawing.Size(105, 22)
-        Me.valScheduling.TabIndex = 41
-        '
-        'chkPriority
-        '
-        Me.chkPriority.AutoSize = True
-        Me.chkPriority.Location = New System.Drawing.Point(6, 205)
-        Me.chkPriority.Name = "chkPriority"
-        Me.chkPriority.Size = New System.Drawing.Size(88, 17)
-        Me.chkPriority.TabIndex = 42
-        Me.chkPriority.Text = "PriorityClass"
-        Me.chkPriority.UseVisualStyleBackColor = True
-        '
-        'cbPriority
-        '
-        Me.cbPriority.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cbPriority.FormattingEnabled = True
-        Me.cbPriority.Items.AddRange(New Object() {"Idle", "BelowNormal", "Normal", "AboveNormal", "High", "RealTime"})
-        Me.cbPriority.Location = New System.Drawing.Point(169, 204)
-        Me.cbPriority.Name = "cbPriority"
-        Me.cbPriority.Size = New System.Drawing.Size(105, 21)
-        Me.cbPriority.TabIndex = 43
-        '
-        'chkUserModePerJ
-        '
-        Me.chkUserModePerJ.AutoSize = True
-        Me.chkUserModePerJ.Location = New System.Drawing.Point(6, 251)
-        Me.chkUserModePerJ.Name = "chkUserModePerJ"
-        Me.chkUserModePerJ.Size = New System.Drawing.Size(141, 17)
-        Me.chkUserModePerJ.TabIndex = 44
-        Me.chkUserModePerJ.Text = "Usermode time for job"
-        Me.chkUserModePerJ.UseVisualStyleBackColor = True
-        '
-        'chkCommittedMemPerJ
-        '
-        Me.chkCommittedMemPerJ.AutoSize = True
-        Me.chkCommittedMemPerJ.Location = New System.Drawing.Point(6, 228)
-        Me.chkCommittedMemPerJ.Name = "chkCommittedMemPerJ"
-        Me.chkCommittedMemPerJ.Size = New System.Drawing.Size(147, 17)
-        Me.chkCommittedMemPerJ.TabIndex = 45
-        Me.chkCommittedMemPerJ.Text = "Committed mem for job"
-        Me.chkCommittedMemPerJ.UseVisualStyleBackColor = True
-        '
-        'chkCommittedMemPerP
-        '
-        Me.chkCommittedMemPerP.AutoSize = True
-        Me.chkCommittedMemPerP.Location = New System.Drawing.Point(6, 274)
-        Me.chkCommittedMemPerP.Name = "chkCommittedMemPerP"
-        Me.chkCommittedMemPerP.Size = New System.Drawing.Size(158, 17)
-        Me.chkCommittedMemPerP.TabIndex = 47
-        Me.chkCommittedMemPerP.Text = "Committed mem / process"
-        Me.chkCommittedMemPerP.UseVisualStyleBackColor = True
-        '
-        'chkUserModePerP
-        '
-        Me.chkUserModePerP.AutoSize = True
-        Me.chkUserModePerP.Location = New System.Drawing.Point(6, 297)
-        Me.chkUserModePerP.Name = "chkUserModePerP"
-        Me.chkUserModePerP.Size = New System.Drawing.Size(152, 17)
-        Me.chkUserModePerP.TabIndex = 46
-        Me.chkUserModePerP.Text = "Usermode time / process"
-        Me.chkUserModePerP.UseVisualStyleBackColor = True
-        '
-        'chkMinWS
-        '
-        Me.chkMinWS.AutoSize = True
-        Me.chkMinWS.Location = New System.Drawing.Point(6, 320)
-        Me.chkMinWS.Name = "chkMinWS"
-        Me.chkMinWS.Size = New System.Drawing.Size(137, 17)
-        Me.chkMinWS.TabIndex = 48
-        Me.chkMinWS.Text = "Min WS size / process"
-        Me.chkMinWS.UseVisualStyleBackColor = True
-        '
-        'chkMaxWS
-        '
-        Me.chkMaxWS.AutoSize = True
-        Me.chkMaxWS.Location = New System.Drawing.Point(6, 343)
-        Me.chkMaxWS.Name = "chkMaxWS"
-        Me.chkMaxWS.Size = New System.Drawing.Size(138, 17)
-        Me.chkMaxWS.TabIndex = 49
-        Me.chkMaxWS.Text = "Max WS size / process"
-        Me.chkMaxWS.UseVisualStyleBackColor = True
-        '
-        'valMemJ
-        '
-        Me.valMemJ.Location = New System.Drawing.Point(169, 226)
-        Me.valMemJ.Name = "valMemJ"
-        Me.valMemJ.Size = New System.Drawing.Size(76, 22)
-        Me.valMemJ.TabIndex = 50
-        '
-        'valUsertimeJ
-        '
-        Me.valUsertimeJ.Location = New System.Drawing.Point(169, 251)
-        Me.valUsertimeJ.Name = "valUsertimeJ"
-        Me.valUsertimeJ.Size = New System.Drawing.Size(76, 22)
-        Me.valUsertimeJ.TabIndex = 41
-        '
-        'valMemP
-        '
-        Me.valMemP.Location = New System.Drawing.Point(169, 274)
-        Me.valMemP.Name = "valMemP"
-        Me.valMemP.Size = New System.Drawing.Size(76, 22)
-        Me.valMemP.TabIndex = 51
-        '
-        'valUsertimeP
-        '
-        Me.valUsertimeP.Location = New System.Drawing.Point(169, 296)
-        Me.valUsertimeP.Name = "valUsertimeP"
-        Me.valUsertimeP.Size = New System.Drawing.Size(76, 22)
-        Me.valUsertimeP.TabIndex = 52
-        '
-        'valMinWS
-        '
-        Me.valMinWS.Location = New System.Drawing.Point(169, 319)
-        Me.valMinWS.Name = "valMinWS"
-        Me.valMinWS.Size = New System.Drawing.Size(76, 22)
-        Me.valMinWS.TabIndex = 53
-        '
-        'valMaxWS
-        '
-        Me.valMaxWS.Location = New System.Drawing.Point(169, 342)
-        Me.valMaxWS.Name = "valMaxWS"
-        Me.valMaxWS.Size = New System.Drawing.Size(76, 22)
-        Me.valMaxWS.TabIndex = 54
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(251, 232)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(20, 13)
-        Me.Label1.TabIndex = 55
-        Me.Label1.Text = "KB"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(251, 344)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(20, 13)
-        Me.Label2.TabIndex = 56
-        Me.Label2.Text = "KB"
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(251, 321)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(20, 13)
-        Me.Label3.TabIndex = 57
-        Me.Label3.Text = "KB"
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(251, 276)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(20, 13)
-        Me.Label4.TabIndex = 58
-        Me.Label4.Text = "KB"
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(251, 253)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(23, 13)
-        Me.Label5.TabIndex = 59
-        Me.Label5.Text = "sec"
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(251, 298)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(23, 13)
-        Me.Label6.TabIndex = 60
-        Me.Label6.Text = "sec"
-        '
         'frmSetJobLimits
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -536,14 +532,15 @@ Partial Class frmSetJobLimits
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
-        CType(Me.valActiveProcesses, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.valScheduling, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.valMemJ, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.valUsertimeJ, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.valMemP, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.valUsertimeP, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.valMinWS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.valAffinity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.valMaxWS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.valMinWS, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.valUsertimeP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.valMemP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.valUsertimeJ, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.valMemJ, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.valScheduling, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.valActiveProcesses, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -568,7 +565,6 @@ Partial Class frmSetJobLimits
     Friend WithEvents chkKillOnJobClose As System.Windows.Forms.CheckBox
     Friend WithEvents chkDieOnUnhandledEx As System.Windows.Forms.CheckBox
     Friend WithEvents chkBreakawayOK As System.Windows.Forms.CheckBox
-    Friend WithEvents cmdAffinity As System.Windows.Forms.Button
     Friend WithEvents chkPriority As System.Windows.Forms.CheckBox
     Friend WithEvents valScheduling As System.Windows.Forms.NumericUpDown
     Friend WithEvents valActiveProcesses As System.Windows.Forms.NumericUpDown
@@ -586,9 +582,9 @@ Partial Class frmSetJobLimits
     Friend WithEvents valMemP As System.Windows.Forms.NumericUpDown
     Friend WithEvents valUsertimeJ As System.Windows.Forms.NumericUpDown
     Friend WithEvents valMemJ As System.Windows.Forms.NumericUpDown
-    Friend WithEvents chkMaxWS As System.Windows.Forms.CheckBox
-    Friend WithEvents chkMinWS As System.Windows.Forms.CheckBox
+    Friend WithEvents chkMinMaxWS As System.Windows.Forms.CheckBox
     Friend WithEvents chkCommittedMemPerP As System.Windows.Forms.CheckBox
     Friend WithEvents chkUserModePerP As System.Windows.Forms.CheckBox
     Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents valAffinity As System.Windows.Forms.NumericUpDown
 End Class

@@ -595,7 +595,7 @@ Namespace Native.Objects
         End Function
 
         ' Query a job information struct
-        Private Shared Function QueryJobInformationByName(Of T)(ByVal name As String, _
+        Friend Shared Function QueryJobInformationByName(Of T)(ByVal name As String, _
                                 ByVal info As NativeEnums.JobObjectInformationClass) As T
             Dim ret As Integer
             Dim retStruct As T = Nothing
@@ -628,7 +628,7 @@ Namespace Native.Objects
             Return retStruct
 
         End Function
-        Private Shared Function QueryJobInformationByHandle(Of T)(ByVal handle As IntPtr, _
+        Friend Shared Function QueryJobInformationByHandle(Of T)(ByVal handle As IntPtr, _
                         ByVal info As NativeEnums.JobObjectInformationClass) As T
             Dim ret As Integer
             Dim retStruct As T = Nothing
@@ -657,7 +657,7 @@ Namespace Native.Objects
         End Function
 
         ' Set a job information struct
-        Private Shared Function SetJobInformationByName(Of T)(ByVal name As String, _
+        Friend Shared Function SetJobInformationByName(Of T)(ByVal name As String, _
                                 ByVal info As NativeEnums.JobObjectInformationClass, _
                                 ByVal limit As T) As Boolean
 
@@ -681,7 +681,7 @@ Namespace Native.Objects
 
         End Function
         ' By handle (USE WITH CREATED JOBS ONLY !)
-        Private Shared Function SetJobInformationByHandle(Of T)(ByVal handle As IntPtr, _
+        Friend Shared Function SetJobInformationByHandle(Of T)(ByVal handle As IntPtr, _
                         ByVal info As NativeEnums.JobObjectInformationClass, _
                         ByVal limit As T) As Boolean
 

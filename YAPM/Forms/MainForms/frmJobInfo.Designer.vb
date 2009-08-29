@@ -939,7 +939,7 @@ Partial Class frmJobInfo
         Me.cmdSetLimits.Name = "cmdSetLimits"
         Me.cmdSetLimits.Size = New System.Drawing.Size(72, 23)
         Me.cmdSetLimits.TabIndex = 19
-        Me.cmdSetLimits.Text = "Add limit..."
+        Me.cmdSetLimits.Text = "Set limits..."
         Me.cmdSetLimits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdSetLimits.UseVisualStyleBackColor = True
         '
