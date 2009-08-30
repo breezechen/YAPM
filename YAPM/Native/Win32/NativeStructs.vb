@@ -93,8 +93,8 @@ Namespace Native.Api
             Public PerProcessUserTimeLimit As Long
             Public PerJobUserTimeLimit As Long
             Public LimitFlags As JobObjectLimitFlags
-            Public MinimumWorkingSetSize As Integer
-            Public MaximumWorkingSetSize As Integer
+            Public MinimumWorkingSetSize As IntPtr
+            Public MaximumWorkingSetSize As IntPtr
             Public ActiveProcessLimit As Integer
             Public Affinity As IntPtr
             Public PriorityClass As Integer

@@ -162,8 +162,8 @@ Public Class frmSetJobLimits
         End If
         If (flag2 And NativeEnums.JobObjectLimitFlags.WorkingSet) = NativeEnums.JobObjectLimitFlags.WorkingSet Then
             Me.chkMinMaxWS.Checked = True
-            Me.valMinWS.Value = CInt(struct2.BasicLimitInformation.MinimumWorkingSetSize / 1024)
-            Me.valMaxWS.Value = CInt(struct2.BasicLimitInformation.MaximumWorkingSetSize / 1024)
+            Me.valMinWS.Value = struct2.BasicLimitInformation.MinimumWorkingSetSize.ToInt64 \ 1024
+            Me.valMaxWS.Value = struct2.BasicLimitInformation.MaximumWorkingSetSize.ToInt64 \ 1024
         End If
 
     End Sub
@@ -331,8 +331,8 @@ Public Class frmSetJobLimits
         End If
         If Me.chkMinMaxWS.Checked = True Then
             flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.WorkingSet
-            struct2.BasicLimitInformation.MinimumWorkingSetSize = CInt(1024 * Me.valMinWS.Value)
-            struct2.BasicLimitInformation.MaximumWorkingSetSize = CInt(1024 * Me.valMaxWS.Value)
+            struct2.BasicLimitInformation.MinimumWorkingSetSize = New IntPtr(CInt(1024 * Me.valMinWS.Value))
+            struct2.BasicLimitInformation.MaximumWorkingSetSize = New IntPtr(CInt(1024 * Me.valMaxWS.Value))
         End If
 
         ' Set limit

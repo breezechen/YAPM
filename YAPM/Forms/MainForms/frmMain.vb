@@ -234,7 +234,7 @@ Public Class frmMain
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             If Me.Ribbon.ActiveTab.Text = "Jobs" Then
-                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvJob.Items.Count) & " jobs created"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvJob.Items.Count) & " jobs running"
             End If
         End If
 
@@ -767,7 +767,7 @@ Public Class frmMain
 
         Select Case Ribbon.ActiveTab.Text
             Case "Jobs"
-                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvJob.Items.Count) & " jobs created"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvJob.Items.Count) & " jobs running"
                 _tab.SelectedTab = Me.pageJobs
             Case "Services"
                 Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvServices.Items.Count) & " services running"
@@ -5188,7 +5188,7 @@ Public Class frmMain
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
             If ss = "Jobs" Then
-                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvJob.Items.Count) & " jobs created"
+                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvJob.Items.Count) & " jobs running"
             End If
         End If
     End Sub
