@@ -740,9 +740,25 @@ Namespace Native.Objects
                 If typeName = strType Then
                     Return x + 1
                 End If
-                offset += TypeInfo.Name.MaximumLength
-                ' DWORD alignment
-                offset += offset Mod 4
+
+                ' Find the position of the next element in the structure.
+                ' The format of the structure is:
+                '  -------------------
+                ' | Type1 Information | [sizeof(OBJECT_TYPE_INFORMATION)]
+                ' | Type1 Type Name   | [OBJECT_TYPE_INFORMATION.TypeName.MaximumLength]
+                ' | Alignement        | [0-3 Bytes for 32-bits, 0-7 bytes for 64-bits]
+                ' | Type2 Information | 
+                '
+                ' | TypeN Information |
+                ' | TypeN Type Name   |
+                '  -------------------
+                ' The beginning of each type is aligned on IntPtr.size bytes boudary.
+                '
+                ' Find the offset(aligned) to the next item
+                ' Magic operation :
+                offset += TypeInfo.Name.MaximumLength + _
+                                (IntPtr.Size - 1) And _
+                                Not (IntPtr.Size - 1)
             Next
             memAlloc.Free()
 

@@ -6,6 +6,7 @@ Refactoring bugs
 
 
 BUGS CRITIQUES
+-  theConnection.Connect() dans frmProcessInfos.Connect -> foireux car redemande toutes les infos fixes sur les processus
 
 
 - others highlightings (isTask, wow64...)
