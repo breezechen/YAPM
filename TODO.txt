@@ -140,3 +140,4 @@ BUGS NON CRITIQUES
 
 Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
+- Removed 100KB limit for history buffer
