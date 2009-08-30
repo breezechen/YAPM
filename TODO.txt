@@ -7,7 +7,7 @@ Refactoring bugs
 
 BUGS CRITIQUES
 -  theConnection.Connect() dans frmProcessInfos.Connect -> foireux car redemande toutes les infos fixes sur les processus
-
+- jobName en x64
 
 - others highlightings (isTask, wow64...)
 - extend dico et ajout de TryAdd ?

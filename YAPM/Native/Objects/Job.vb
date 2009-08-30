@@ -495,7 +495,6 @@ Namespace Native.Objects
                     ' This is a job !
 
                     ' Get entire struct
-                    ' &h4 offset because of HandleCount on 4 first bytes
                     Handle = memAllocJobs.ReadStruct(Of NativeStructs.SystemHandleEntry)(handlesOffset, x)
 
                     ' Retrieve its name
@@ -551,7 +550,7 @@ Namespace Native.Objects
                                             NativeEnums.ObjectInformationClass.ObjectNameInformation, _
                                             BufferObjNameJob.Pointer, 512, ret)
                             ObjName = BufferObjNameJob.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
-                            theName = Marshal.PtrToStringUni(BufferObjNameJob.Pointer.Increment(8))
+                            theName = Marshal.PtrToStringUni(ObjName.Name.Buffer)
 
                             ' Add to dico only NAMED jobs
                             ' The key is theName
