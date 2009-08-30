@@ -245,6 +245,13 @@ Namespace Native.Objects
 
         ' Create a buffer containing handles
         Private Sub CreateQueryHandlesBuffer(ByVal PIDs As Integer())
+
+            If PIDs Is Nothing Then
+                ReDim m_Files(-1)
+                m_cHandles = 0
+                Exit Sub
+            End If
+
             Dim Length As Integer
             Dim X As Integer
             Dim ret As Integer

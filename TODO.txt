@@ -163,3 +163,4 @@ Temp Change log :
 - improved dependency viewer UI
 - optimisation démarrage de l'application
 - optimisation affichage des fenêtres de détail des processus/services
+- fixed #2837129 (search in Window tab crash)

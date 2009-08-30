@@ -83,6 +83,9 @@ Namespace Native.Objects
             Dim currWnd As IntPtr
             Dim cpt As Integer
 
+            If processId Is Nothing Then
+                Exit Sub
+            End If
 
             currWnd = NativeFunctions.GetWindow(NativeFunctions.GetDesktopWindow(), _
                                                 NativeEnums.GetWindowCmd.GW_CHILD)

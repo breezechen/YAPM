@@ -181,6 +181,10 @@ Namespace Native.Objects
         ' Enumerate threads
         Public Shared Sub EnumerateThreadsByProcessId(ByRef _dico As Dictionary(Of String, threadInfos), ByVal pid() As Integer)
 
+            If pid Is Nothing Then
+                Exit Sub
+            End If
+
             Dim deltaOff As Integer = Marshal.SizeOf(GetType(Native.Api.NativeStructs.SystemProcessInformation))
 
             Dim ret As Integer

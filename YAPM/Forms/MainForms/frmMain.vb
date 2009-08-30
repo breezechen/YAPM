@@ -479,41 +479,46 @@ Public Class frmMain
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
 
-        ' If we do not use Ribbon mode, we hide Ribbon. Else, we add tabs
-        If My.Settings.UseRibbonStyle Then
-            ' The only way to hide tabs is to change region of tabcontrol
-            ' But we also have to set Dock to None to avoid displaying a blank area
-            ' We change manually height/width, that's why this piece of code is located
-            ' in Resize()
-            With _tab
-                _tab.Dock = DockStyle.None
-                _tab.Top = -24
-                _tab.Left = -2
-                _tab.Width = Me.Width - 12
-                _tab.Height = Me.Height - Me.Ribbon.Height - Me.StatusBar.Height - 15
-                _tab.Region = New Region(New RectangleF(_tab.Left, _tab.SelectedTab.Top, _tab.SelectedTab.Width + 5, _tab.SelectedTab.Height))
-                _tab.Refresh()
-            End With
-        Else
-            Me._main.Panel1Collapsed = True
-        End If
+        Try
+            ' If we do not use Ribbon mode, we hide Ribbon. Else, we add tabs
+            If My.Settings.UseRibbonStyle Then
+                ' The only way to hide tabs is to change region of tabcontrol
+                ' But we also have to set Dock to None to avoid displaying a blank area
+                ' We change manually height/width, that's why this piece of code is located
+                ' in Resize()
+                With _tab
+                    _tab.Dock = DockStyle.None
+                    _tab.Top = -24
+                    _tab.Left = -2
+                    _tab.Width = Me.Width - 12
+                    _tab.Height = Me.Height - Me.Ribbon.Height - Me.StatusBar.Height - 15
+                    _tab.Region = New Region(New RectangleF(_tab.Left, _tab.SelectedTab.Top, _tab.SelectedTab.Width + 5, _tab.SelectedTab.Height))
+                    _tab.Refresh()
+                End With
+            Else
+                Me._main.Panel1Collapsed = True
+            End If
 
-        If My.Settings.HideWhenMinimized AndAlso Me.WindowState = FormWindowState.Minimized Then
-            Me.Hide()
-        End If
+            If My.Settings.HideWhenMinimized AndAlso Me.WindowState = FormWindowState.Minimized Then
+                Me.Hide()
+            End If
 
-        For Each t As TabPage In _tab.TabPages
-            t.Hide()
-        Next
+            For Each t As TabPage In _tab.TabPages
+                t.Hide()
+            Next
 
-        'Dim i As Integer = CInt((Me.Height - 250) / 2)
-        'Dim MepanelInfosHeight As Integer = CInt(IIf(i < 340, i, 340))
-        'Dim MepanelInfonWidth As Integer = Me.panelMain.Width
+            'Dim i As Integer = CInt((Me.Height - 250) / 2)
+            'Dim MepanelInfosHeight As Integer = CInt(IIf(i < 340, i, 340))
+            'Dim MepanelInfonWidth As Integer = Me.panelMain.Width
 
-        ' File resizement
-        Me.txtFile.Width = Me.Width - 260
+            ' File resizement
+            Me.txtFile.Width = Me.Width - 260
 
-        _tab.SelectedTab.Show()
+            _tab.SelectedTab.Show()
+
+        Catch ex As Exception
+            '
+        End Try
     End Sub
 
     Private Sub timerServices_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerServices.Tick
@@ -3006,7 +3011,8 @@ Public Class frmMain
     Private Sub txtSearchWindow_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchWindow.TextChanged
         Dim it As ListViewItem
         For Each it In Me.lvWindows.Items
-            If InStr(LCase(CType(it.Tag, cWindow).Caption), LCase(Me.txtSearchWindow.Text)) = 0 Then
+            Dim cW As cWindow = Me.lvWindows.GetItemByKey(it.Name)
+            If InStr(LCase(cW.Infos.Caption), LCase(Me.txtSearchWindow.Text)) = 0 Then
                 it.Group = lvWindows.Groups(0)
             Else
                 it.Group = lvWindows.Groups(1)

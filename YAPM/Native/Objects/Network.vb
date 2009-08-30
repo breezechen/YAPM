@@ -59,6 +59,10 @@ Namespace Native.Objects
 
             Dim length As Integer = 0
 
+            If processIds Is Nothing Then
+                Exit Sub
+            End If
+
             ' --------- TCP
             ' Get needed size of memory to allocate
             NativeFunctions.GetExtendedTcpTable(IntPtr.Zero, length, False, 2, Enums.TcpTableClass.OwnerPidAll, 0)
