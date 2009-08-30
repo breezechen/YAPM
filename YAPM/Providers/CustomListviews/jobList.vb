@@ -312,16 +312,21 @@ Public Class jobList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _first = True
-        _jobConnection.ConnectionObj = _connectionObject
-        _jobConnection.Connect()
-        cJob.Connection = _jobConnection
-    End Sub
+    Protected Overrides Function Connect() As Boolean
+        If MyBase.Connect Then
+            Me.IsConnected = True
+            _first = True
+            _jobConnection.ConnectionObj = _connectionObject
+            _jobConnection.Connect()
+            cJob.Connection = _jobConnection
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _jobConnection.Disconnect()
-    End Sub
+    Protected Overrides Function Disconnect() As Boolean
+        If MyBase.Disconnect Then
+            _jobConnection.Disconnect()
+        End If
+    End Function
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error
@@ -346,4 +351,5 @@ Public Class jobList
             Next
         End If
     End Sub
+
 End Class

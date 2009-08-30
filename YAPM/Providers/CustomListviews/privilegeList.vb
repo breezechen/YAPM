@@ -335,16 +335,21 @@ Public Class privilegeList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _first = True
-        _privilegeConnection.ConnectionObj = _connectionObject
-        _privilegeConnection.Connect()
-        cPrivilege.Connection = _privilegeConnection
-    End Sub
+    Protected Overrides Function Connect() As Boolean
+        If MyBase.Connect Then
+            Me.IsConnected = True
+            _first = True
+            _privilegeConnection.ConnectionObj = _connectionObject
+            _privilegeConnection.Connect()
+            cPrivilege.Connection = _privilegeConnection
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _privilegeConnection.Disconnect()
-    End Sub
+    Protected Overrides Function Disconnect() As Boolean
+        If MyBase.Disconnect Then
+            _privilegeConnection.Disconnect()
+        End If
+    End Function
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error

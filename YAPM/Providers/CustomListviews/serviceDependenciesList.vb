@@ -37,6 +37,7 @@ Public Class serviceDependenciesList
     ' ========================================
     ' Private
     ' ========================================
+    Private _isConnected As Boolean = False
     Private _dico As New Dictionary(Of String, serviceInfos)
     Private WithEvents _connectionObject As New cConnection
     Private WithEvents _servDepConnection As New cServDepConnection(Me, _connectionObject, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
@@ -70,6 +71,14 @@ Public Class serviceDependenciesList
         End Get
         Set(ByVal value As cServDepConnection.DependenciesToget)
             _infoToGet = value
+        End Set
+    End Property
+    Public Property IsConnected() As Boolean
+        Get
+            Return _isConnected
+        End Get
+        Set(ByVal value As Boolean)
+            _isConnected = value
         End Set
     End Property
 
@@ -223,15 +232,21 @@ Public Class serviceDependenciesList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _servDepConnection.ConnectionObj = _connectionObject
-        _servDepConnection.Connect()
-        'cGeneralObject.Connection = _servDepConnection
-    End Sub
+    Protected Function Connect() As Boolean
+        If Me.isconnected = False Then
+            Me.IsConnected = True
+            _servDepConnection.ConnectionObj = _connectionObject
+            _servDepConnection.Connect()
+            'cGeneralObject.Connection = _servDepConnection
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _servDepConnection.Disconnect()
-    End Sub
+    Protected Function Disconnect() As Boolean
+        If Me.IsConnected Then
+            Me.IsConnected = False
+            _servDepConnection.Disconnect()
+        End if
+    End Function
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error

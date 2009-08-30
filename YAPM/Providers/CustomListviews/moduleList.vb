@@ -373,16 +373,21 @@ Public Class moduleList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _first = True
-        _moduleConnection.ConnectionObj = _connectionObject
-        _moduleConnection.Connect()
-        cModule.Connection = _moduleConnection
-    End Sub
+    Protected Overrides Function Connect() As Boolean
+        If MyBase.Connect Then
+            Me.IsConnected = True
+            _first = True
+            _moduleConnection.ConnectionObj = _connectionObject
+            _moduleConnection.Connect()
+            cModule.Connection = _moduleConnection
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _moduleConnection.Disconnect()
-    End Sub
+    Protected Overrides Function Disconnect() As Boolean
+        If MyBase.Disconnect Then
+            _moduleConnection.Disconnect()
+        End If
+    End Function
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error

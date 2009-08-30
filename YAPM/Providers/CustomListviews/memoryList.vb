@@ -316,16 +316,21 @@ Public Class memoryList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _first = True
-        _memregionConnection.ConnectionObj = _connectionObject
-        _memregionConnection.Connect()
-        cMemRegion.Connection = _memregionConnection
-    End Sub
+    Protected Overrides Function Connect() As Boolean
+        If MyBase.Connect Then
+            Me.IsConnected = True
+            _first = True
+            _memregionConnection.ConnectionObj = _connectionObject
+            _memregionConnection.Connect()
+            cMemRegion.Connection = _memregionConnection
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _memregionConnection.Disconnect()
-    End Sub
+    Protected Overrides Function Disconnect() As Boolean
+        If MyBase.Disconnect Then
+            _memregionConnection.Disconnect()
+        End If
+    End Function
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error

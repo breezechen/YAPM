@@ -7,13 +7,11 @@ Refactoring bugs
 
 BUGS CRITIQUES
 -  theConnection.Connect() dans frmProcessInfos.Connect -> foireux car redemande toutes les infos fixes sur les processus
-- jobName en x64
 
+- close local process handle -> utiliser DuplicateHandle plutôt que remote thread
 - others highlightings (isTask, wow64...)
 - extend dico et ajout de TryAdd ?
 - refermer les handles quand les processes meurent !
-- éventuellement ajouter 'kill by method' option (et mettre virer terminateprocess, kick de tous les threads (très efficace !!), virer tous les handles, kill avec remoteThread, try to crash (WriteMem foireux)...)
-- exclusive use of core (dispo que quand multi proco) => enleve pour tous les process l'affinité sur les cores sélectionnés (puis form avec liste des process pour lesquels çà a echoué), pas de messages d'erreur
 - begin debugged marche pas
 - problème icones menu principal cachées (Vista seulement)
 - reports à faire (vérifier l'utilisation de GetAvailbleProperties)
@@ -29,16 +27,12 @@ BUGS CRITIQUES
 	main -> à faire
 
 BUGS NON CRITIQUES
-- lancer ngen de YAPM lors du premier lancement... (WaitForSingle du process ngen)
 - ajouter nouvelles infos pour les handles (cf struct récupérée)
 - is remote debugger present marche pas (cf _WIN32_WINNT)
-- merger toutes les dll dans un seul executable
-- increment sur le IntPtr
 - says thx to p/inv declarations from wj32
 - say thanks to developerfusion.com && pinvoke.net
 - l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
 - highlightings en remote
-- shift + right click -> menu windows
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
 - recup username foireux
 - pending task pour remote (le _deg n'est pas appelé en remote)
@@ -169,3 +163,5 @@ Temp Change log :
 - added full job management
 - added "Terminate by method" feature (with 5 methods)
 - improved dependency viewer UI
+- optimisation démarrage de l'application
+- optimisation affichage des fenêtres de détail des processus/services

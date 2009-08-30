@@ -409,28 +409,34 @@ Public Class processList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _first = True
-        _firstRefresh = True
-        _processConnection.ConnectionObj = _connectionObject
-        Native.Objects.Process.ClearNewProcessesDico()
-        _processConnection.Connect()
-        cProcess.Connection = _processConnection
-    End Sub
+    Protected Overrides Function Connect() As Boolean
+        If MyBase.Connect Then
+            Me.IsConnected = True
+            _first = True
+            _firstRefresh = True
+            _processConnection.ConnectionObj = _connectionObject
+            Native.Objects.Process.ClearNewProcessesDico()
+            _processConnection.Connect()
+            cProcess.Connection = _processConnection
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _processConnection.Disconnect()
-        Native.Objects.Process.ClearNewProcessesDico()
-    End Sub
+    Protected Overrides Function Disconnect() As Boolean
+        If MyBase.Disconnect Then
+            Me.IsConnected = False
+            _processConnection.Disconnect()
+            Native.Objects.Process.ClearNewProcessesDico()
+        End If
+    End Function
 
-    Private Sub HasDisconnected(ByVal Success As Boolean)
+    Protected Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error
         '_processConnection.Disconnect()
         '     _processConnection.Con()
     End Sub
 
-    Private Sub HasConnected(ByVal Success As Boolean)
-        '
+    Protected Sub HasConnected(ByVal Success As Boolean)
+        ' MyBase.HasConnected2(Success)
     End Sub
 
 #End Region

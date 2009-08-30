@@ -343,16 +343,21 @@ Public Class networkList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _first = True
-        _networkConnection.ConnectionObj = _connectionObject
-        _networkConnection.Connect()
-        cNetwork.Connection = _networkConnection
-    End Sub
+    Protected Overrides Function Connect() As Boolean
+        If MyBase.Connect Then
+            Me.IsConnected = True
+            _first = True
+            _networkConnection.ConnectionObj = _connectionObject
+            _networkConnection.Connect()
+            cNetwork.Connection = _networkConnection
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _networkConnection.Disconnect()
-    End Sub
+    Protected Overrides Function Disconnect() As Boolean
+        If MyBase.Disconnect Then
+            _networkConnection.Disconnect()
+        End If
+    End Function
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error

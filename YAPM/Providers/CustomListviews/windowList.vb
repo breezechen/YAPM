@@ -363,16 +363,21 @@ Public Class windowList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _first = True
-        _windowConnection.ConnectionObj = _connectionObject
-        _windowConnection.Connect()
-        cWindow.Connection = _windowConnection
-    End Sub
+    Protected Overrides Function Connect() As Boolean
+        If MyBase.Connect Then
+            Me.IsConnected = True
+            _first = True
+            _windowConnection.ConnectionObj = _connectionObject
+            _windowConnection.Connect()
+            cWindow.Connection = _windowConnection
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _windowConnection.Disconnect()
-    End Sub
+    Protected Overrides Function Disconnect() As Boolean
+        If MyBase.Disconnect Then
+            _windowConnection.Disconnect()
+        End If
+    End Function
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error

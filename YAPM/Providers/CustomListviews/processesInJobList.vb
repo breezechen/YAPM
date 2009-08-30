@@ -385,18 +385,23 @@ Public Class processesInJobList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _first = True
-        _firstRefresh = True
-        _jobConnection.ConnectionObj = _connectionObject
-        Native.Objects.Process.ClearNewProcessesDico()
-        _jobConnection.Connect()
-    End Sub
+    Protected Overrides Function Connect() As Boolean
+        If MyBase.Connect Then
+            Me.IsConnected = True
+            _first = True
+            _firstRefresh = True
+            _jobConnection.ConnectionObj = _connectionObject
+            Native.Objects.Process.ClearNewProcessesDico()
+            _jobConnection.Connect()
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _jobConnection.Disconnect()
-        Native.Objects.Process.ClearNewProcessesDico()
-    End Sub
+    Protected Overrides Function Disconnect() As Boolean
+        If MyBase.Disconnect Then
+            _jobConnection.Disconnect()
+            Native.Objects.Process.ClearNewProcessesDico()
+        End If
+    End Function
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error

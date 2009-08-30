@@ -52,6 +52,8 @@ Public MustInherit Class customLV
     Protected _catchErrors As Boolean = False
     Protected _reorgCol As Boolean = True
 
+    Private _Isconnected As Boolean
+
 
     ' ========================================
     ' Public
@@ -80,6 +82,16 @@ Public MustInherit Class customLV
         End Get
         Set(ByVal value As Boolean)
             _reorgCol = value
+        End Set
+    End Property
+
+    ' Is control connected ?
+    Public Property IsConnected() As Boolean
+        Get
+            Return _Isconnected
+        End Get
+        Set(ByVal value As Boolean)
+            _Isconnected = value
         End Set
     End Property
 
@@ -141,6 +153,13 @@ Public MustInherit Class customLV
     ' called in a safe context
     Public MustOverride Sub ForceRefreshingOfAllItems()
 
+    ' Connection stuffs
+    Protected Overridable Function Connect() As Boolean
+        Return Not (_Isconnected)
+    End Function
+    Protected Overridable Function Disconnect() As Boolean
+        Return _Isconnected
+    End Function
 
 
     ' ========================================

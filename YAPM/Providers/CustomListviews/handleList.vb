@@ -369,16 +369,21 @@ Public Class handleList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _first = True
-        _handleConnection.ConnectionObj = _connectionObject
-        _handleConnection.Connect()
-        cHandle.Connection = _handleConnection
-    End Sub
+    Protected Overrides Function Connect() As Boolean
+        If MyBase.Connect Then
+            Me.IsConnected = True
+            _first = True
+            _handleConnection.ConnectionObj = _connectionObject
+            _handleConnection.Connect()
+            cHandle.Connection = _handleConnection
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _handleConnection.Disconnect()
-    End Sub
+    Protected Overrides Function Disconnect() As Boolean
+        If MyBase.Disconnect Then
+            _handleConnection.Disconnect()
+        End If
+    End Function
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error

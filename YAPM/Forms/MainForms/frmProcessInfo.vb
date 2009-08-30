@@ -620,7 +620,7 @@ Public Class frmProcessInfo
             Case "Memory"
                 Me.Text &= " - " & Me.lvProcMem.Items.Count.ToString & " memory regions"
             Case "Network"
-                Me.Text &= " - " & Me.lvProcNetwork.Items.Count.ToString & " connexions"
+                Me.Text &= " - " & Me.lvProcNetwork.Items.Count.ToString & " connections"
             Case "Services"
                 Me.Text &= " - " & Me.lvProcServices.Items.Count.ToString & " services"
             Case "Strings"

@@ -333,16 +333,21 @@ Public Class taskList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _first = True
-        _taskConnection.ConnectionObj = _connectionObject
-        _taskConnection.Connect()
-        cTask.Connection = _taskConnection
-    End Sub
+    Protected Overrides Function Connect() As Boolean
+        If MyBase.Connect Then
+            Me.IsConnected = True
+            _first = True
+            _taskConnection.ConnectionObj = _connectionObject
+            _taskConnection.Connect()
+            cTask.Connection = _taskConnection
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _taskConnection.Disconnect()
-    End Sub
+    Protected Overrides Function Disconnect() As Boolean
+        If MyBase.Disconnect Then
+            _taskConnection.Disconnect()
+        End If
+    End Function
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error

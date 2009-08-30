@@ -366,16 +366,21 @@ Public Class logList
         Call Disconnect()
     End Sub
 
-    Private Sub Connect()
-        _first = True
-        _logConnection.ConnectionObj = _connectionObject
-        _logConnection.Connect()
-        cLogItem.Connection = _logConnection
-    End Sub
+    Protected Overrides Function Connect() As Boolean
+        If MyBase.Connect Then
+            Me.IsConnected = True
+            _first = True
+            _logConnection.ConnectionObj = _connectionObject
+            _logConnection.Connect()
+            cLogItem.Connection = _logConnection
+        End If
+    End Function
 
-    Private Sub Disconnect()
-        _logConnection.Disconnect()
-    End Sub
+    Protected Overrides Function Disconnect() As Boolean
+        If MyBase.Disconnect Then
+            _logConnection.Disconnect()
+        End If
+    End Function
 
     Private Sub HasDisconnected(ByVal Success As Boolean)
         ' We HAVE TO disconnect, because this event is raised when we got an error
