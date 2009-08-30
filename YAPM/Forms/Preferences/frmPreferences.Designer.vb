@@ -73,6 +73,8 @@ Partial Class frmPreferences
         Me.cbPriority = New System.Windows.Forms.ComboBox
         Me.Label5 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.txtJobInterval = New System.Windows.Forms.NumericUpDown
+        Me.Label12 = New System.Windows.Forms.Label
         Me.txtSysInfoInterval = New System.Windows.Forms.NumericUpDown
         Me.txtTrayInterval = New System.Windows.Forms.NumericUpDown
         Me.txtNetworkInterval = New System.Windows.Forms.NumericUpDown
@@ -94,8 +96,6 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.txtJobInterval = New System.Windows.Forms.NumericUpDown
-        Me.Label12 = New System.Windows.Forms.Label
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -107,6 +107,7 @@ Partial Class frmPreferences
         Me.TabPage4.SuspendLayout()
         CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
+        CType(Me.txtJobInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSysInfoInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTrayInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtNetworkInterval, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -114,7 +115,6 @@ Partial Class frmPreferences
         CType(Me.txtServiceIntervall, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtProcessIntervall, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
-        CType(Me.txtJobInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl
@@ -503,6 +503,7 @@ Partial Class frmPreferences
         'bufferSize
         '
         Me.bufferSize.Location = New System.Drawing.Point(120, 224)
+        Me.bufferSize.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.bufferSize.Name = "bufferSize"
         Me.bufferSize.Size = New System.Drawing.Size(75, 22)
         Me.bufferSize.TabIndex = 8
@@ -557,6 +558,25 @@ Partial Class frmPreferences
         Me.GroupBox2.TabIndex = 2
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Update intervals"
+        '
+        'txtJobInterval
+        '
+        Me.txtJobInterval.Location = New System.Drawing.Point(282, 21)
+        Me.txtJobInterval.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
+        Me.txtJobInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
+        Me.txtJobInterval.Name = "txtJobInterval"
+        Me.txtJobInterval.Size = New System.Drawing.Size(80, 22)
+        Me.txtJobInterval.TabIndex = 20
+        Me.txtJobInterval.Value = New Decimal(New Integer() {50, 0, 0, 0})
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(205, 23)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(71, 13)
+        Me.Label12.TabIndex = 19
+        Me.Label12.Text = "Jobs interval"
         '
         'txtSysInfoInterval
         '
@@ -758,25 +778,6 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
-        'txtJobInterval
-        '
-        Me.txtJobInterval.Location = New System.Drawing.Point(282, 21)
-        Me.txtJobInterval.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
-        Me.txtJobInterval.Minimum = New Decimal(New Integer() {50, 0, 0, 0})
-        Me.txtJobInterval.Name = "txtJobInterval"
-        Me.txtJobInterval.Size = New System.Drawing.Size(80, 22)
-        Me.txtJobInterval.TabIndex = 20
-        Me.txtJobInterval.Value = New Decimal(New Integer() {50, 0, 0, 0})
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(205, 23)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(71, 13)
-        Me.Label12.TabIndex = 19
-        Me.Label12.Text = "Jobs interval"
-        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -813,6 +814,7 @@ Partial Class frmPreferences
         CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        CType(Me.txtJobInterval, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSysInfoInterval, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTrayInterval, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtNetworkInterval, System.ComponentModel.ISupportInitialize).EndInit()
@@ -821,7 +823,6 @@ Partial Class frmPreferences
         CType(Me.txtProcessIntervall, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
-        CType(Me.txtJobInterval, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
