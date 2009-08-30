@@ -21,17 +21,18 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <DIV>
         <H2>&nbsp;</H2>
         <H2>List of main features</H2>
-        <p>The main purpose of YAPM is to display all informations availables about processes/services of a local/remote system&nbsp;and all related objects (threads, modules...), and to update all these informations&nbsp;in real time. The application has three&nbsp;principal forms :</p>
+        <p>The main purpose of YAPM is to display all informations availables about processes running on&nbsp;a local or remote system, and to update all these informations&nbsp;in real time. The application has four&nbsp;principal windows&nbsp;:</p>
         <ul>
-            <LI>the main form : displays the list of tasks/processes/services/TCP-UDP connections in real time. The other lists (modules, handles, threads...) can display objects of multiple processes, but are&nbsp;not automatically refreshed</LI>
-            <LI>the process detail form : displays in real time all informations about a specific process. Double-click on a process to open this form</LI>
-            <LI>the service&nbsp;detail form : displays in real time all informations about a specific service. Double-click on a service&nbsp;to open this form</LI>
+            <LI>the main window&nbsp;: displays the list of opened&nbsp;tasks/processes/jobs/services/TCP-UDP-connections in real time. The other tabs&nbsp;(modules, handles, threads...) can display objects owned&nbsp;by multiple processes, but are&nbsp;not automatically refreshed</LI>
+            <LI>the process detail window&nbsp;: displays in real time all informations about a specific process. Double-click on a process to open this window</LI>
+            <LI>the service&nbsp;detail window&nbsp;: displays in real time all informations about a specific service. Double-click on a service&nbsp;to open this window</LI>
+            <LI>the job&nbsp;detail window&nbsp;: displays in real time all informations about a specific job. Double-click on a job&nbsp;to open this window</LI>
         </ul>
         <p>For all lists, it is possible to choose the columns to display.</p>
         <p>Lots of informations and functions&nbsp;are available, here are the main :</p>
         <h3>Processes</h3>
-        <p>YAPM is able to kill (simple or kill process tree), stop, resume, set priority, set affinity of processes (multiple selection). You can also choose the informations&nbsp;you want to display (~45 available).</p>
-        <p align="center"><img src="Images/processes.png" width="881" height="693" border="0" alt="List of processes"></p>
+        <p>YAPM is able to kill (simple kill,&nbsp;kill process tree, kill by 5 different methods), stop, resume, set priority, set affinity of processes (multiple selection), add processes to job, create dump file, reduce WS size...etc.&nbsp;. You can also choose the informations&nbsp;you want to display (~50 available). The processes are highlighted depending of their type (system processes, processes in job...). Colors are of course configurable.</p>
+        <p align="center"><img src="Images/processes.png" width="881" height="697" border="0" alt="List of processes"></p>
         <h3>Statistics &amp; performance graphs</h3>
         <p>YAPM can display a lot of statistics about your processes. YAPM save a complete history of all statistics.</p>
         <p align="center"><img src="Images/statistics.png" width="671" height="720" border="0" alt="Some of the available statistics"></p>
@@ -39,42 +40,34 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <p>YAPM is able to manage process privileges (you can enable/disable/remove them).</p>
         <p align="center"><img src="Images/privileges.png" width="811" height="327" border="0" alt="Privileges"></p>
         <h3>Memory</h3>
-        <p>YAPM can display the memory regions in the virtual memory space of a process. You also can view it in&nbsp;a build-in hexadecimal editor.</p>
+        <p>YAPM can display/release/change protection/decommit&nbsp;the memory regions in the virtual memory space of a process. You also can view it in&nbsp;a build-in hexadecimal editor.</p>
         <p align="center"><img src="Images/memory.png" width="647" height="890" border="0" alt="Memory management"></p>
-        <h3>Modules</h3>
-        <p>YAPM can unload modules and show complete informations about them. You can of course save a detailed report.</p>
-        <p align="center"><img src="Images/modules.png" width="879" height="632" border="0" alt="Module list"></p>
-        <h3>Threads</h3>
-        <p>YAPM can kill, stop, resume and set affinity of threads.</p>
-        <p align="center"><img src="Images/threads.png" width="859" height="639" border="0" alt="Thread list"></p>
-        <h3>Handles</h3>
-        <p>YAPM is able to list all&nbsp;opened handles (even of system process if your have administrator rights) and show useful informations.</p>
-        <p align="center"><img src="Images/handles.png" width="881" height="631" border="0" alt="Handle list"></p>
-        <h3>Windows</h3>
-        <p>YAPM can close, set position, show, hide, flash, change caption/opacity, set as active/foreground window...etc. each of opened Windows. You are also able to find the owner process of a specific window by dragging your mouse over the screen.</p>
-        <p align="center"><img src="Images/windows.png" width="883" height="629" border="0" alt="Windows list"></p>
         <h3>Services</h3>
         <p>YAPM can shutdown, stop, resume, pause and change start type of all services.</p>
-        <p align="center"><img src="Images/services.png" width="880" height="631" border="0" alt="List of services"></p>
+        <p align="center"><img src="Images/services.png" width="881" height="600" border="0" alt="List of services"></p>
         <h3>Monitoring</h3>
         <p>YAPM allows to see&nbsp;all available Windows perfmon' counters and the&nbsp;evolution of theirs values in a timescale graph. The &quot;log mode&quot; is also a useful feature to know what is done by a process in real time.</p>
-        <p align="center"><img src="Images/monitoring.png" width="857" height="638" border="0" alt="Monitoring"></p>
+        <p align="center"><img src="Images/monitoring.png" width="884" height="599" border="0" alt="Monitoring"></p>
         <h3>Files</h3>
-        <p>YAPM can also manage your files. You can change dates/attributes, find string in file, encrypt, move/copy, delete and even shredd files.</p>
-        <p align="center"><img src="Images/files.png" width="858" height="637" border="0" alt="File management"></p>
+        <p>YAPM can also manage your files. You can change dates/attributes, find string in file, encrypt, move/copy, delete...etc.</p>
+        <p align="center"><img src="Images/files.png" width="880" height="600" border="0" alt="File management"></p>
         <h3>Search</h3>
-        <p>YAPM allows you to search for a specified string into opened processes, modules, handles and windows.</p>
-        <p align="center"><img src="Images/search.png" width="857" height="638" border="0" alt="Search"></p>
+        <p>YAPM allows you to search for a specified string into opened processes, modules, handles, windows...etc.</p>
+        <p align="center"><img src="Images/search.png" width="881" height="588" border="0" alt="Search"></p>
+        <h3 align="left">Job management</h3>
+        <p align="left">YAPM offers the possibility to add any process to new or existing jobs. YAPM also offers the possibility for the user to configure limits to the processes in jobs</p>
+        <p align="center"><img src="Images/jobs.png" width="716" height="708" border="0"></p>
+        <p align="center"><img src="Images/joblimits.png" width="497" height="462" border="0"></p>
         <h3 align="left">Dependency viewer</h3>
-        <p align="left">YAPM offers the possibility to view dependencies of an executable/dll/...</p>
+        <p align="left">YAPM offers the possibility to view dependencies of an executable/dll/driver...</p>
         <p align="center"><img src="Images/dependency.png" width="728" height="506" border="0" alt="Remote connection"></p>
         <h3>Remote management</h3>
-        <p>YAPM offers the possibility to manage remote processes of machines of your workgroup via WMI (nothing to install in on the remote machine) or via a client-server architecture (all actions and informations are available, just like if it is a local machine). You can also shutdown, reboot, logoff... remote machines.</p>
+        <p>YAPM offers the possibility to manage remote processes of machines in your workgroup via WMI (nothing to install on the remote machine) or via a client-server architecture (with the server, all actions and informations are available, just like if it is a local machine). You can also shutdown, reboot, logoff... remote machines.</p>
         <p align="center"><img src="Images/remote.png" border="0"></p>
         <p>&nbsp;</p>
         <DIV>
             <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-            <P><i>Last update of this page : 2009-06-05&nbsp;19:00</i></P>
+            <P><i>Last update of this page : 2009-30-08&nbsp;19:00</i></P>
         </DIV>
         <P></P>
         <p>

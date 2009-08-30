@@ -5,7 +5,7 @@
 		<META http-equiv=Content-Type content="text/html; charset=windows-1252">
 		<META content="A free, open source and advanced process/service monitor." name=description>
 		<META content="yapm,yet,another,process,monitor,windows,thread,module,handle,search,kernel,window,monitor,monitoring,ribbon,violent_ken,advanced" name=keywords>
-		<META content="2.0.3.0" name=yapm_version>
+		<META content="2.1.0.0" name=yapm_version>
 		<LINK href="styles.css" type="text/css" rel=stylesheet>
 		<META content="Namo WebEditor" name=GENERATOR>
 		<meta name="verify-v1" content="BQkTlLICyzunD0ZvHlzh2t3FQjr+t13t0wuJZQTWWPg=">
@@ -26,7 +26,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
 			
     <H2>&nbsp;</H2>
     <H2>Introduction</H2>
-    <P>Yet Another (remote)&nbsp;Process Monitor (YAPM) is a powerful application that allows to view and manage your running tasks, processes, threads, modules, windows, handles, network connections&nbsp;and your services <b><font color="red">on a local or on&nbsp;a remote machine</font></b>. YAPM offers lots of features to manipulate them, such as privilege management, memory management, a complete history of statistics, a dependency viewer...&nbsp;etc.</P>
+    <P>Yet Another (remote)&nbsp;Process Monitor (YAPM) is a powerful application that allows to view and manage your running tasks, processes, threads, modules...etc.&nbsp;and your services <b><font color="red">on a local or on&nbsp;a remote machine</font></b>. YAPM offers lots of features to manipulate them, such as privilege management, memory management, a complete history of statistics, a dependency viewer...&nbsp;etc.</P>
     <P><font color="red"><b>It is </b></font><b><font color="red">the first and only&nbsp;open source </font></b><font color="red"><b>software&nbsp;to offer all these features.</b></font></P>
     <P><b><font color="red">It's totally free and open source (GNU GPL 3.0).</font></b></P>
 			<P>You are also able to monitor all Windows perfmon counters (local or remote machine)&nbsp;with an advanced time scale. YAPM also can&nbsp;save advanced reports of your system (HTML or TXT files).
@@ -37,15 +37,16 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <UL>
         <LI><b><font color="red">Local</font></b><font color="red"> and <b>remote</b> monitoring</font></LI>
         <LI><b>Module </b> and <b>thread</b> management</LI>
-        <LI><b>Handle </b> management (keys, files...)</LI>
-        <LI>View of <b>TCP/UDP connections</b> opened by the processes</LI>
+        <LI><b>Job</b> management : allows to add&nbsp;some processes to a job and set limits to the job. ; this&nbsp;affects all the processes in the job. For example, user can set an unique priority for all processes, a maximum memory usage for each process in the job...etc.</LI>
+        <LI><b>Handle </b> management (keys, files, semaphores...etc. opened by a process)</LI>
+        <LI>View of <b>TCP/UDP connections</b> opened</LI>
         <LI><b>Windows </b> management (opacity, position, show, hide...)</LI>
         <LI>Window' find' process feature : allows to find the process associated to a window via a <b>drag &amp; drop over the screen</b></LI>
         <LI><b>Emergency Hotkeys feature </b> : allows to associate a custom shortcut to a custom action (for example : Ctrl+Shift+Suppr to close&nbsp;the window which is on foreground)</LI>
         <LI><b>Privilege </b> management : allows to view and modify the privileges of processes</LI>
         <LI><b>Build-in hex editor </b> to view memory of processes</LI>
         <LI>&quot;<b>Log mode</b>&quot; to monitor all actions made by a specific process</LI>
-        <LI><b>Hidden Processes feature</b> to detect basic rootkits</LI>
+        <LI><b>Find Hidden Processes feature</b> to detect basic hidden rootkits</LI>
         <LI>Local and <b>remote shutdown</b></LI>
         <LI><b>Dependency viewer</b></LI>
         <LI>... And lots &amp; lots&nbsp;of other features !</LI>
@@ -53,16 +54,16 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <P>			</P>
 			<H2>Requirements</H2>			
 			<UL>
-				<LI><A href="http://www.microsoft.com/Downloads/details.aspx?familyid=79BC3B77-E02C-4AD3-AACF-A7633F706BA5&displaylang=en">.NET Framework 2.0 SP1.</a></LI>
-				<LI>Operating system : Microsoft Windows XP, Windows Vista or Windows Seven (<b>32 bits only, 64 bits support will come soon</b>).</LI>
+				<LI><A href="http://www.microsoft.com/downloads/details.aspx?FamilyId=333325FD-AE52-4E35-B531-508D977D32A6">.NET Framework 3.5</a></LI>
+				<LI>Operating system : Microsoft Windows XP, Windows Vista or Windows Seven. For now, YAPM works on 32 bits, and<b> 64 bits support is only experimental</b> (YAPM starts, but some features won't work properly).</LI>
         <LI>Administrator rights, if you want to access to system processes and some other informations.</LI>
-        <LI>For remote monitoring, WMI (Windows Management Instrumentation)&nbsp;must&nbsp;be installed and available&nbsp;on both machines if you use WMI method, or the YAPM Server application must be started&nbsp;on the remote machine if you use&nbsp;the client-server method.</LI>
+        <LI>For remote monitoring, WMI (Windows Management Instrumentation)&nbsp;must&nbsp;be installed and available&nbsp;on both machines if you use WMI method, or the YAPM Server must be started&nbsp;on the remote machine if you use&nbsp;the client-server method.</LI>
 			</UL>
     <h2>News</h2>
-    <p><b><font size="4" color="red">YAPM v2.1.0 (includes 64-bit support) will be available soon.</font></b></p>
+    <p><b><font size="4" color="red">YAPM v2.1.0 has just&nbsp;been released !</font></b></p>
 			
     <H2>Downloads</H2>
-    <P>The latest available version of Yet Another Process Monitor is the&nbsp;<STRONG>version&nbsp;2.0.3</STRONG> (build date : 2009-09-08).</P>
+    <P>The latest available version of Yet Another (remote)&nbsp;Process Monitor is the&nbsp;<STRONG>version&nbsp;2.1.0</STRONG> (build date : 2009-30-08).</P>
     <UL>
         <LI><A href="http://surfnet.dl.sourceforge.net/sourceforge/yaprocmon/YAPM-v2.0.3-binaries.zip">Binaries</a> 
 				<LI><A href="http://surfnet.dl.sourceforge.net/sourceforge/yaprocmon/YAPM-v2.0.3-source.zip">Source code</a></LI>
@@ -70,7 +71,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     </UL>
     <p>&nbsp;</p>
     <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-    <P><i>Last update of this page : 2009-22-08&nbsp;12:00</i></P>
+    <P><i>Last update of this page : 2009-30-08&nbsp;12:00</i></P>
 </DIV>
 		<P></P>
 		

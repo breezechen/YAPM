@@ -536,7 +536,7 @@ Partial Class frmSetJobLimits
         Me.Name = "frmSetJobLimits"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Change memory protection type"
+        Me.Text = "Set job limits"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)

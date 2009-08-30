@@ -140,27 +140,3 @@ BUGS NON CRITIQUES
 
 Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
-- NEED .Net 3.5 *************************
-- code refactoring
-- affinity for threads OK
-- YAPM does not hung anymore when some processes are running
-- support de Windows x64 basique (NOT COMPLETED YET)
-- highlighting des process systèmes OK sur toutes les cultures
-- fixed 'key already added' (cEnvVariable) when searching an item
-- 'center on screen' pour les windows
-- optmisation récupération des handles
-- nouvelles informations pour les handles
-- désactivation temporaire de 'Release file'
-- shutdown forcé par défaut
-- ajout notifications nouveaux processus/services
-- hilighting relocated modules
-- copy to clipboard items triés alphabétiquement
-- numeric updowns pour les intervalles dans frmPreferences
-- corrections bug WMI
-- optimisation récupération des threads par WMI
-- added full job management
-- added "Terminate by method" feature (with 5 methods)
-- improved dependency viewer UI
-- optimisation démarrage de l'application
-- optimisation affichage des fenêtres de détail des processus/services
-- fixed #2837129 (search in Window tab crash)
