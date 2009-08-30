@@ -328,6 +328,7 @@ Public Class memoryList
 
     Protected Overrides Function Disconnect() As Boolean
         If MyBase.Disconnect Then
+            Me.IsConnected = False
             _memregionConnection.Disconnect()
         End If
     End Function

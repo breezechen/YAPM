@@ -398,6 +398,7 @@ Public Class processesInJobList
 
     Protected Overrides Function Disconnect() As Boolean
         If MyBase.Disconnect Then
+            Me.IsConnected = False
             _jobConnection.Disconnect()
             Native.Objects.Process.ClearNewProcessesDico()
         End If

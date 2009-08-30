@@ -345,6 +345,7 @@ Public Class taskList
 
     Protected Overrides Function Disconnect() As Boolean
         If MyBase.Disconnect Then
+            Me.IsConnected = False
             _taskConnection.Disconnect()
         End If
     End Function

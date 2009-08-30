@@ -337,6 +337,7 @@ Public Class envVariableList
 
     Protected Overrides Function Disconnect() As Boolean
         If MyBase.Disconnect Then
+            Me.IsConnected = False
             _envvariableConnection.Disconnect()
         End If
     End Function

@@ -355,6 +355,7 @@ Public Class networkList
 
     Protected Overrides Function Disconnect() As Boolean
         If MyBase.Disconnect Then
+            Me.IsConnected = False
             _networkConnection.Disconnect()
         End If
     End Function

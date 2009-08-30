@@ -2433,7 +2433,7 @@ Public Class frmMain
             Me.MenuItemProcKillByMethod.Enabled = selectionIsNotNothing AndAlso _notWMI
 
             ' Job menuitems
-            Me.MenuItemJobs.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemProcJob.Enabled = selectionIsNotNothing AndAlso _local
             If Me.lvProcess.SelectedItems.Count <> 1 Then
                 Me.MenuItemJobMng.Enabled = True
             Else
@@ -3396,11 +3396,14 @@ Public Class frmMain
         Me.RBWindowCapture.Enabled = Me._notWMI
         Me.RBWindowRefresh.Enabled = Me._notWMI
         Me.RBWindowReport.Enabled = Me._notWMI
+        Me.RBJobActions.Enabled = _local
+        Me.RBJobDisplay.Enabled = _local
         Me.pageHandles.Enabled = _notWMI
         Me.pageNetwork.Enabled = _notWMI
         Me.pageTasks.Enabled = _notWMI
         Me.pageWindows.Enabled = _notWMI
         Me.pageSearch.Enabled = _notWMI
+        Me.pageJobs.Enabled = _local
         Me.RBNetworkRefresh.Enabled = _notWMI
         Me.RBSearchMain.Enabled = _notWMI
         Me.RBTaskActions.Enabled = _notWMI
@@ -3454,7 +3457,7 @@ Public Class frmMain
 
         For x As Integer = Application.OpenForms.Count - 1 To 0 Step -1
             Dim frm As Form = Application.OpenForms(x)
-            If TypeOf frm Is frmProcessInfo Then
+            If TypeOf frm Is frmProcessInfo OrElse TypeOf frm Is frmServiceInfo OrElse TypeOf frm Is frmJobInfo Then
                 Try
                     frm.Close()
                 Catch ex As Exception

@@ -380,6 +380,7 @@ Public Class serviceList
 
     Protected Overrides Function Disconnect() As Boolean
         If MyBase.Disconnect Then
+            Me.IsConnected = False
             _serviceConnection.Disconnect()
             asyncCallbackServiceEnumerate.ClearDico()
         End If

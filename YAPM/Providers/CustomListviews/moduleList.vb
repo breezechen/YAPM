@@ -385,6 +385,7 @@ Public Class moduleList
 
     Protected Overrides Function Disconnect() As Boolean
         If MyBase.Disconnect Then
+            Me.IsConnected = False
             _moduleConnection.Disconnect()
         End If
     End Function

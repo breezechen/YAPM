@@ -302,6 +302,7 @@ Public Class searchList
 
     Protected Overrides Function Disconnect() As Boolean
         If MyBase.Disconnect Then
+            Me.IsConnected = False
             _searchConnection.Disconnect()
         End If
     End Function

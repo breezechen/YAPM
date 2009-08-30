@@ -381,6 +381,7 @@ Public Class handleList
 
     Protected Overrides Function Disconnect() As Boolean
         If MyBase.Disconnect Then
+            Me.IsConnected = False
             _handleConnection.Disconnect()
         End If
     End Function

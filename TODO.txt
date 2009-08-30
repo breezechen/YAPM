@@ -2,12 +2,10 @@ TODO LIST
 
 Refactoring bugs
 - 64TODO
-- YAPM should run without the driver on x64 (for now) and user should be able to disable it (command line & option)
+
 
 
 BUGS CRITIQUES
--  theConnection.Connect() dans frmProcessInfos.Connect -> foireux car redemande toutes les infos fixes sur les processus
-
 - close local process handle -> utiliser DuplicateHandle plutôt que remote thread
 - others highlightings (isTask, wow64...)
 - extend dico et ajout de TryAdd ?

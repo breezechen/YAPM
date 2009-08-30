@@ -347,6 +347,7 @@ Public Class privilegeList
 
     Protected Overrides Function Disconnect() As Boolean
         If MyBase.Disconnect Then
+            Me.IsConnected = False
             _privilegeConnection.Disconnect()
         End If
     End Function

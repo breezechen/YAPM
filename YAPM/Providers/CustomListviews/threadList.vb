@@ -342,6 +342,7 @@ Public Class threadList
 
     Protected Overrides Function Disconnect() As Boolean
         If MyBase.Disconnect Then
+            Me.IsConnected = False
             _threadConnection.Disconnect()
         End If
     End Function

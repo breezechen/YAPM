@@ -3648,7 +3648,7 @@ Partial Class frmMain
         '_main.Panel2
         '
         Me._main.Panel2.Controls.Add(Me.containerSystemMenu)
-        Me._main.Size = New System.Drawing.Size(866, 553)
+        Me._main.Size = New System.Drawing.Size(866, 533)
         Me._main.SplitterDistance = 138
         Me._main.TabIndex = 57
         '
@@ -3665,7 +3665,7 @@ Partial Class frmMain
         'containerSystemMenu.Panel2
         '
         Me.containerSystemMenu.Panel2.Controls.Add(Me._tab)
-        Me.containerSystemMenu.Size = New System.Drawing.Size(866, 411)
+        Me.containerSystemMenu.Size = New System.Drawing.Size(866, 391)
         Me.containerSystemMenu.SplitterDistance = 25
         Me.containerSystemMenu.TabIndex = 0
         '
@@ -3688,7 +3688,7 @@ Partial Class frmMain
         Me._tab.Location = New System.Drawing.Point(0, 0)
         Me._tab.Name = "_tab"
         Me._tab.SelectedIndex = 0
-        Me._tab.Size = New System.Drawing.Size(866, 411)
+        Me._tab.Size = New System.Drawing.Size(866, 391)
         Me._tab.TabIndex = 3
         '
         'pageTasks
@@ -3698,7 +3698,7 @@ Partial Class frmMain
         Me.pageTasks.Location = New System.Drawing.Point(4, 22)
         Me.pageTasks.Name = "pageTasks"
         Me.pageTasks.Padding = New System.Windows.Forms.Padding(3)
-        Me.pageTasks.Size = New System.Drawing.Size(858, 385)
+        Me.pageTasks.Size = New System.Drawing.Size(858, 365)
         Me.pageTasks.TabIndex = 11
         Me.pageTasks.Text = "Tasks"
         Me.pageTasks.UseVisualStyleBackColor = True
@@ -3709,7 +3709,7 @@ Partial Class frmMain
         Me.panelMain13.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMain13.Location = New System.Drawing.Point(3, 3)
         Me.panelMain13.Name = "panelMain13"
-        Me.panelMain13.Size = New System.Drawing.Size(852, 379)
+        Me.panelMain13.Size = New System.Drawing.Size(852, 359)
         Me.panelMain13.TabIndex = 56
         '
         'SplitContainerTask
@@ -3730,7 +3730,7 @@ Partial Class frmMain
         'SplitContainerTask.Panel2
         '
         Me.SplitContainerTask.Panel2.Controls.Add(Me.lvTask)
-        Me.SplitContainerTask.Size = New System.Drawing.Size(852, 379)
+        Me.SplitContainerTask.Size = New System.Drawing.Size(852, 359)
         Me.SplitContainerTask.SplitterDistance = 25
         Me.SplitContainerTask.TabIndex = 0
         '
@@ -3775,11 +3775,12 @@ Partial Class frmMain
         ListViewGroup2.Name = "gpSearch"
         Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvTask.HideSelection = False
+        Me.lvTask.IsConnected = False
         Me.lvTask.Location = New System.Drawing.Point(0, 0)
         Me.lvTask.Name = "lvTask"
         Me.lvTask.OverriddenDoubleBuffered = True
         Me.lvTask.ReorganizeColumns = True
-        Me.lvTask.Size = New System.Drawing.Size(852, 350)
+        Me.lvTask.Size = New System.Drawing.Size(852, 330)
         Me.lvTask.TabIndex = 3
         Me.lvTask.UseCompatibleStateImageBehavior = False
         Me.lvTask.View = System.Windows.Forms.View.Details
@@ -3948,6 +3949,7 @@ Partial Class frmMain
         ListViewGroup4.Name = "gpSearch"
         Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvProcess.HideSelection = False
+        Me.lvProcess.IsConnected = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
@@ -4049,6 +4051,7 @@ Partial Class frmMain
         ListViewGroup6.Name = "gpSearch"
         Me.lvJob.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvJob.HideSelection = False
+        Me.lvJob.IsConnected = False
         Me.lvJob.Location = New System.Drawing.Point(0, 0)
         Me.lvJob.Name = "lvJob"
         Me.lvJob.OverriddenDoubleBuffered = True
@@ -4104,7 +4107,7 @@ Partial Class frmMain
         '
         Me.splitModule.Panel2.Controls.Add(Me.rtb6)
         Me.splitModule.Size = New System.Drawing.Size(852, 379)
-        Me.splitModule.SplitterDistance = 221
+        Me.splitModule.SplitterDistance = 220
         Me.splitModule.TabIndex = 0
         '
         'SplitContainerModules
@@ -4125,7 +4128,7 @@ Partial Class frmMain
         'SplitContainerModules.Panel2
         '
         Me.SplitContainerModules.Panel2.Controls.Add(Me.lvModules)
-        Me.SplitContainerModules.Size = New System.Drawing.Size(852, 221)
+        Me.SplitContainerModules.Size = New System.Drawing.Size(852, 220)
         Me.SplitContainerModules.SplitterDistance = 25
         Me.SplitContainerModules.TabIndex = 0
         '
@@ -4170,12 +4173,13 @@ Partial Class frmMain
         ListViewGroup8.Name = "gpSearchResults"
         Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvModules.HideSelection = False
+        Me.lvModules.IsConnected = False
         Me.lvModules.Location = New System.Drawing.Point(0, 0)
         Me.lvModules.Name = "lvModules"
         Me.lvModules.OverriddenDoubleBuffered = True
         Me.lvModules.ProcessId = Nothing
         Me.lvModules.ReorganizeColumns = True
-        Me.lvModules.Size = New System.Drawing.Size(852, 192)
+        Me.lvModules.Size = New System.Drawing.Size(852, 191)
         Me.lvModules.TabIndex = 6
         Me.lvModules.UseCompatibleStateImageBehavior = False
         Me.lvModules.View = System.Windows.Forms.View.Details
@@ -4220,7 +4224,7 @@ Partial Class frmMain
         Me.rtb6.Location = New System.Drawing.Point(0, 0)
         Me.rtb6.Name = "rtb6"
         Me.rtb6.ReadOnly = True
-        Me.rtb6.Size = New System.Drawing.Size(852, 154)
+        Me.rtb6.Size = New System.Drawing.Size(852, 155)
         Me.rtb6.TabIndex = 8
         Me.rtb6.Text = "Click on an item to get additionnal informations"
         '
@@ -4260,7 +4264,7 @@ Partial Class frmMain
         '
         Me.splitThreads.Panel2.Controls.Add(Me.rtb4)
         Me.splitThreads.Size = New System.Drawing.Size(852, 379)
-        Me.splitThreads.SplitterDistance = 241
+        Me.splitThreads.SplitterDistance = 240
         Me.splitThreads.TabIndex = 0
         '
         'SplitContainerThreads
@@ -4281,7 +4285,7 @@ Partial Class frmMain
         'SplitContainerThreads.Panel2
         '
         Me.SplitContainerThreads.Panel2.Controls.Add(Me.lvThreads)
-        Me.SplitContainerThreads.Size = New System.Drawing.Size(852, 241)
+        Me.SplitContainerThreads.Size = New System.Drawing.Size(852, 240)
         Me.SplitContainerThreads.SplitterDistance = 25
         Me.SplitContainerThreads.TabIndex = 0
         '
@@ -4326,12 +4330,13 @@ Partial Class frmMain
         ListViewGroup10.Name = "gpSearchResults"
         Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
         Me.lvThreads.HideSelection = False
+        Me.lvThreads.IsConnected = False
         Me.lvThreads.Location = New System.Drawing.Point(0, 0)
         Me.lvThreads.Name = "lvThreads"
         Me.lvThreads.OverriddenDoubleBuffered = True
         Me.lvThreads.ProcessId = Nothing
         Me.lvThreads.ReorganizeColumns = True
-        Me.lvThreads.Size = New System.Drawing.Size(852, 212)
+        Me.lvThreads.Size = New System.Drawing.Size(852, 211)
         Me.lvThreads.TabIndex = 5
         Me.lvThreads.UseCompatibleStateImageBehavior = False
         Me.lvThreads.View = System.Windows.Forms.View.Details
@@ -4390,7 +4395,7 @@ Partial Class frmMain
         Me.rtb4.Location = New System.Drawing.Point(0, 0)
         Me.rtb4.Name = "rtb4"
         Me.rtb4.ReadOnly = True
-        Me.rtb4.Size = New System.Drawing.Size(852, 134)
+        Me.rtb4.Size = New System.Drawing.Size(852, 135)
         Me.rtb4.TabIndex = 7
         Me.rtb4.Text = "Click on a thread to get additionnal informations"
         '
@@ -4478,6 +4483,7 @@ Partial Class frmMain
         ListViewGroup12.Name = "gpSearch"
         Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
         Me.lvHandles.HideSelection = False
+        Me.lvHandles.IsConnected = False
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
         Me.lvHandles.OverriddenDoubleBuffered = True
@@ -4560,7 +4566,7 @@ Partial Class frmMain
         '
         Me.splitContainerWindows.Panel2.Controls.Add(Me.rtb5)
         Me.splitContainerWindows.Size = New System.Drawing.Size(852, 379)
-        Me.splitContainerWindows.SplitterDistance = 221
+        Me.splitContainerWindows.SplitterDistance = 220
         Me.splitContainerWindows.TabIndex = 0
         '
         'SplitContainerWindows2
@@ -4582,7 +4588,7 @@ Partial Class frmMain
         'SplitContainerWindows2.Panel2
         '
         Me.SplitContainerWindows2.Panel2.Controls.Add(Me.lvWindows)
-        Me.SplitContainerWindows2.Size = New System.Drawing.Size(852, 221)
+        Me.SplitContainerWindows2.Size = New System.Drawing.Size(852, 220)
         Me.SplitContainerWindows2.SplitterDistance = 25
         Me.SplitContainerWindows2.TabIndex = 0
         '
@@ -4639,6 +4645,7 @@ Partial Class frmMain
         ListViewGroup14.Name = "gpSearchResults"
         Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
         Me.lvWindows.HideSelection = False
+        Me.lvWindows.IsConnected = False
         Me.lvWindows.Location = New System.Drawing.Point(0, 0)
         Me.lvWindows.Name = "lvWindows"
         Me.lvWindows.OverriddenDoubleBuffered = True
@@ -4646,7 +4653,7 @@ Partial Class frmMain
         Me.lvWindows.ReorganizeColumns = True
         Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowUnNamed = False
-        Me.lvWindows.Size = New System.Drawing.Size(852, 192)
+        Me.lvWindows.Size = New System.Drawing.Size(852, 191)
         Me.lvWindows.TabIndex = 5
         Me.lvWindows.UseCompatibleStateImageBehavior = False
         Me.lvWindows.View = System.Windows.Forms.View.Details
@@ -4688,7 +4695,7 @@ Partial Class frmMain
         Me.rtb5.Location = New System.Drawing.Point(0, 0)
         Me.rtb5.Name = "rtb5"
         Me.rtb5.ReadOnly = True
-        Me.rtb5.Size = New System.Drawing.Size(852, 154)
+        Me.rtb5.Size = New System.Drawing.Size(852, 155)
         Me.rtb5.TabIndex = 8
         Me.rtb5.Text = "Click on an item to get additionnal informations"
         '
@@ -4764,7 +4771,7 @@ Partial Class frmMain
         '
         Me.splitMonitor2.Panel2.Controls.Add(Me.splitMonitor3)
         Me.splitMonitor2.Size = New System.Drawing.Size(567, 379)
-        Me.splitMonitor2.SplitterDistance = 145
+        Me.splitMonitor2.SplitterDistance = 144
         Me.splitMonitor2.TabIndex = 0
         '
         'txtMonitoringLog
@@ -4777,7 +4784,7 @@ Partial Class frmMain
         Me.txtMonitoringLog.Name = "txtMonitoringLog"
         Me.txtMonitoringLog.ReadOnly = True
         Me.txtMonitoringLog.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.txtMonitoringLog.Size = New System.Drawing.Size(567, 145)
+        Me.txtMonitoringLog.Size = New System.Drawing.Size(567, 144)
         Me.txtMonitoringLog.TabIndex = 0
         Me.txtMonitoringLog.Text = "No process monitored." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Click on 'Add' button to monitor a process."
         '
@@ -4789,7 +4796,7 @@ Partial Class frmMain
         Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
         Me.lvMonitorReport.Name = "lvMonitorReport"
         Me.lvMonitorReport.OverriddenDoubleBuffered = False
-        Me.lvMonitorReport.Size = New System.Drawing.Size(567, 145)
+        Me.lvMonitorReport.Size = New System.Drawing.Size(567, 144)
         Me.lvMonitorReport.TabIndex = 1
         Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
         Me.lvMonitorReport.View = System.Windows.Forms.View.Details
@@ -4843,8 +4850,8 @@ Partial Class frmMain
         Me.splitMonitor3.Panel2.Controls.Add(Me.chkMonitorLeftAuto)
         Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorR)
         Me.splitMonitor3.Panel2.Controls.Add(Me.dtMonitorL)
-        Me.splitMonitor3.Size = New System.Drawing.Size(567, 230)
-        Me.splitMonitor3.SplitterDistance = 201
+        Me.splitMonitor3.Size = New System.Drawing.Size(567, 231)
+        Me.splitMonitor3.SplitterDistance = 202
         Me.splitMonitor3.TabIndex = 0
         '
         'splitMonitor4
@@ -4860,7 +4867,7 @@ Partial Class frmMain
         'splitMonitor4.Panel2
         '
         Me.splitMonitor4.Panel2.Controls.Add(Me.graphMonitor)
-        Me.splitMonitor4.Size = New System.Drawing.Size(567, 201)
+        Me.splitMonitor4.Size = New System.Drawing.Size(567, 202)
         Me.splitMonitor4.SplitterDistance = 25
         Me.splitMonitor4.TabIndex = 4
         '
@@ -4874,7 +4881,7 @@ Partial Class frmMain
         Me.graphMonitor.EnableGraph = False
         Me.graphMonitor.Location = New System.Drawing.Point(0, 0)
         Me.graphMonitor.Name = "graphMonitor"
-        Me.graphMonitor.Size = New System.Drawing.Size(567, 201)
+        Me.graphMonitor.Size = New System.Drawing.Size(567, 202)
         Me.graphMonitor.TabIndex = 3
         Me.graphMonitor.TabStop = False
         Me.graphMonitor.ViewMax = 0
@@ -5053,6 +5060,7 @@ Partial Class frmMain
         ListViewGroup16.Name = "gpSearch"
         Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
         Me.lvServices.HideSelection = False
+        Me.lvServices.IsConnected = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
         Me.lvServices.OverriddenDoubleBuffered = True
@@ -5203,7 +5211,7 @@ Partial Class frmMain
         '
         Me.splitServices4.Panel2.Controls.Add(Me.tv)
         Me.splitServices4.Size = New System.Drawing.Size(219, 97)
-        Me.splitServices4.SplitterDistance = 37
+        Me.splitServices4.SplitterDistance = 35
         Me.splitServices4.TabIndex = 0
         '
         'tv2
@@ -5215,11 +5223,12 @@ Partial Class frmMain
         Me.tv2.ImageIndex = 0
         Me.tv2.ImageList = Me.imgServices
         Me.tv2.InfosToGet = YAPM.cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+        Me.tv2.IsConnected = False
         Me.tv2.Location = New System.Drawing.Point(0, 0)
         Me.tv2.Name = "tv2"
         Me.tv2.RootService = Nothing
         Me.tv2.SelectedImageIndex = 2
-        Me.tv2.Size = New System.Drawing.Size(219, 37)
+        Me.tv2.Size = New System.Drawing.Size(219, 35)
         Me.tv2.TabIndex = 15
         '
         'tv
@@ -5231,11 +5240,12 @@ Partial Class frmMain
         Me.tv.ImageIndex = 0
         Me.tv.ImageList = Me.imgServices
         Me.tv.InfosToGet = YAPM.cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+        Me.tv.IsConnected = False
         Me.tv.Location = New System.Drawing.Point(0, 0)
         Me.tv.Name = "tv"
         Me.tv.RootService = Nothing
         Me.tv.SelectedImageIndex = 0
-        Me.tv.Size = New System.Drawing.Size(219, 56)
+        Me.tv.Size = New System.Drawing.Size(219, 58)
         Me.tv.TabIndex = 14
         '
         'pageNetwork
@@ -5270,6 +5280,7 @@ Partial Class frmMain
         Me.lvNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvNetwork.FullRowSelect = True
         Me.lvNetwork.HideSelection = False
+        Me.lvNetwork.IsConnected = False
         Me.lvNetwork.Location = New System.Drawing.Point(0, 0)
         Me.lvNetwork.Name = "lvNetwork"
         Me.lvNetwork.OverriddenDoubleBuffered = True
@@ -5825,6 +5836,7 @@ Partial Class frmMain
         Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup17, ListViewGroup18})
         Me.lvSearchResults.HideSelection = False
         Me.lvSearchResults.Includes = YAPM.searchInfos.SearchInclude.SearchProcesses
+        Me.lvSearchResults.IsConnected = False
         Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
         Me.lvSearchResults.Name = "lvSearchResults"
         Me.lvSearchResults.OverriddenDoubleBuffered = True
@@ -7518,7 +7530,7 @@ Partial Class frmMain
         'StatusBar
         '
         Me.StatusBar.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.StatusBar.Location = New System.Drawing.Point(0, 553)
+        Me.StatusBar.Location = New System.Drawing.Point(0, 533)
         Me.StatusBar.Name = "StatusBar"
         Me.StatusBar.Panels.AddRange(New System.Windows.Forms.StatusBarPanel() {Me.sbPanelConnection, Me.sbPanelProcesses, Me.sbPanelServices, Me.sbPanelCpu, Me.sbPanelMemory})
         Me.StatusBar.ShowPanels = True
@@ -7589,7 +7601,7 @@ Partial Class frmMain
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(866, 573)
+        Me.ClientSize = New System.Drawing.Size(866, 553)
         Me.Controls.Add(Me._main)
         Me.Controls.Add(Me.StatusBar)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
