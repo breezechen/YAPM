@@ -1,4 +1,4 @@
-Yet Another (remote) Process Monitor (YAPM) v2.0.3 beta
+Yet Another (remote) Process Monitor (YAPM) v2.1.0 beta
 
 
 SUMMARY
@@ -66,11 +66,9 @@ YAPM supports :
 
 REQUIREMENTS
 
-YAPM runs on Windows XP, Windows Vista or even Windows Seven systems (32 bits only).
+YAPM runs on Windows XP, Windows Vista or even Windows Seven systems. 64 bits support is only experimental for now !
 
-YAPM needs to be elevated (run as Admin) on Windows Vista if you want to access to all processes/services.
-
-YAPM take ~60 MB of memory, and less than 0.3 % of cpu usage when minimized (depending of the CPU you have ;-) and depending of the interval of refreshment you specify).
+YAPM needs to be elevated (run as Admin) on Windows Vista/Seven if you want to access to all processes/services.
 
 
 
@@ -79,16 +77,13 @@ DESCRIPTION OF FILES
 Here is a description of the files which are distributed with YAPM :
 
 - hotkeys.xml : contains description of custom actions for Emergency Hotkeys features. Not required, and not present if no custom action is specified.
-- System.Windows.Forms.Ribbon.dll : ribbon control. Required to launch YAPM.
-- VistaMenu.dll : used to display nice menus. Required.
-- Taskdialog.dll : used to display custom dialog messages on Vista.
 - YAPM.exe : main executable file (of course required ^^).
 - KernelMemory.sys : driver needed to retrieve handle informations for system processes. Required.
 - README.txt : the file you are reading :-)
 - license.rtf : license file.
 - launch server.bat : launch YAPM as a server.
 - tcp.txt / udp.txt : data base for correspondance between a port number and its description
-- SecurePasswordTextBox.dll : protect from "displaying" password as plain text in memory
+
 
 
 BUGS
@@ -105,12 +100,7 @@ YAPM is under the GNU GPL 3.0 license. But it uses third parties pieces which ar
 - Ribbon Control which is under The Microsoft Public License (Ms-PL)
 - VistaMenu which is under the BSD license
 
-Some pieces of code are inspired by work under GNU GPL 3.0. It includes :
-cSystemInfo.vb file : some structures defined come from Process Hacker by wj32
-cProcess files : some pieces of code are inspired by wj32 work (from Process Hacker) :
-- GetAccountName function (conversion from SID to username as a string)
-- GetImageFile function, especially DeviceDriveNameToDosDriveName and
-	RefreshLogicalDrives which are inspired by functions from Process Hacker
+Some other pieces of code are based on work under GNU GPL 3.0. See code for details.
 
 Some other pieces of code come from the public domain :
 - KernelMemory driver by ShareVB

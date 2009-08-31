@@ -1,5 +1,35 @@
 YAPM 2.0.3 BETA
 
+CHANGES FROM 2.0.3
+
+* NEW / Improvements
+- Now YAPM needs .Net 3.5 to work.
+- Added "basic and experimental" x64 support (full support in a few weeks)
+- General stability improvements
+- Added full job management (on local machine only for now)
+- Added "Terminate by method" feature (with 5 different methods)
+- Added tray notifications for new/deleted processes/services
+- Optimization for handles enumeration
+- Optimization for application startup
+- Optimization when opening 'process/service detailed window'
+- Optimization for threads enumeration via WMI
+- Added "Center window on screen" feature
+- Added "relocated modules" hilighting
+- Added new informations about handles
+- "Copy to clipboard" informations are now sorted in context-menu
+- Improved UI appearance
+ 
+* Bug fixed
+- YAPM does not hung anymore when some processes are also hung
+- Now affinity changes for threads work
+- Fixed 'key already added' bug
+- Fixed some bugs with WMI connection
+- Fixed #2837129 (search in Window tab crash)
+- Fixed lots of other bugs...
+- Now 'system processes' highlighting works for all cultures
+- No more crash when resizing main window
+- 'Shutdown' functions (using context menu of tray icon) now force shutdown by default
+
 CHANGES FROM 2.0.2
 
 * General changes & internal
