@@ -38,33 +38,13 @@ Public Class frmAboutG
 
         closeWithEchapKey(Me)
 
-        Native.Functions.Misc.SetTheme(Me.lv.Handle)
-
         SetToolTip(Me.cmdLicense, "Display license of YAPM")
         SetToolTip(Me.btnOK, "Close this window")
         SetToolTip(Me.lnklblSF, "Visit YAPM webpage on sourceforge.net")
         SetToolTip(Me.lnkWebsite,"Visit YAPM website")
 
-        Try
-            Me.lblVersion.Text = My.Application.Info.Version.ToString
-            Dim it As New ListViewItem("YAPM.exe")
-            it.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(Application.ExecutablePath).FileVersion)
-            Dim it2 As New ListViewItem("System.Windows.Forms.Ribbon.dll")
-            it2.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\System.Windows.Forms.Ribbon.dll").FileVersion)
-            Dim it6 As New ListViewItem("TaskDialog.dll")
-            it6.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\TaskDialog.dll").FileVersion)
-            Dim it8 As New ListViewItem("VistaMenu.dll")
-            it8.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\VistaMenu.dll").FileVersion)
-            Dim it7 As New ListViewItem("SecurePasswordTextBox.dll")
-            it7.SubItems.Add(System.Diagnostics.FileVersionInfo.GetVersionInfo(My.Application.Info.DirectoryPath & "\SecurePasswordTextBox.dll").FileVersion)
-            Me.lv.Items.Add(it)
-            Me.lv.Items.Add(it2)
-            Me.lv.Items.Add(it6)
-            Me.lv.Items.Add(it8)
-            Me.lv.Items.Add(it7)
-        Catch ex As Exception
-            '
-        End Try
+        Me.lblVersion.Text = My.Application.Info.Version.ToString
+
     End Sub
 
     Private Sub lblMe_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lblMe.LinkClicked

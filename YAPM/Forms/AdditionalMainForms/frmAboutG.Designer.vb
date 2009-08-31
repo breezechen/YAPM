@@ -32,11 +32,6 @@ Partial Class frmAboutG
         Me.Label4 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.Label5 = New System.Windows.Forms.Label
-        Me.lv = New System.Windows.Forms.ListView
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
         Me.lblRibbon = New System.Windows.Forms.LinkLabel
         Me.lblFugueIcons = New System.Windows.Forms.LinkLabel
         Me.lblShareVB = New System.Windows.Forms.LinkLabel
@@ -45,13 +40,16 @@ Partial Class frmAboutG
         Me.lblTaskDialog = New System.Windows.Forms.LinkLabel
         Me.lblVistaMenu = New System.Windows.Forms.LinkLabel
         Me.lnkWebsite = New System.Windows.Forms.LinkLabel
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
         CType(Me.pctIcon, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'lnklblSF
         '
+        Me.lnklblSF.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lnklblSF.AutoSize = True
-        Me.lnklblSF.Location = New System.Drawing.Point(16, 296)
+        Me.lnklblSF.Location = New System.Drawing.Point(13, 265)
         Me.lnklblSF.Name = "lnklblSF"
         Me.lnklblSF.Size = New System.Drawing.Size(138, 13)
         Me.lnklblSF.TabIndex = 2
@@ -60,8 +58,9 @@ Partial Class frmAboutG
         '
         'btnOK
         '
+        Me.btnOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.btnOK.Location = New System.Drawing.Point(383, 296)
+        Me.btnOK.Location = New System.Drawing.Point(346, 269)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(73, 25)
         Me.btnOK.TabIndex = 1
@@ -81,7 +80,7 @@ Partial Class frmAboutG
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Tahoma", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(94, 12)
+        Me.Label1.Location = New System.Drawing.Point(86, 12)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(325, 23)
         Me.Label1.TabIndex = 5
@@ -130,7 +129,7 @@ Partial Class frmAboutG
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(16, 95)
+        Me.Label3.Location = New System.Drawing.Point(16, 118)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(348, 13)
         Me.Label3.TabIndex = 10
@@ -139,57 +138,16 @@ Partial Class frmAboutG
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(285, 63)
+        Me.Label5.Location = New System.Drawing.Point(95, 82)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(189, 13)
         Me.Label5.TabIndex = 11
         Me.Label5.Text = "Copyright 2008-2009 (c) violent_ken"
         '
-        'lv
-        '
-        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
-        Me.lv.FullRowSelect = True
-        Me.lv.GridLines = True
-        Me.lv.Location = New System.Drawing.Point(12, 137)
-        Me.lv.MultiSelect = False
-        Me.lv.Name = "lv"
-        Me.lv.Size = New System.Drawing.Size(242, 145)
-        Me.lv.TabIndex = 12
-        Me.lv.UseCompatibleStateImageBehavior = False
-        Me.lv.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "File"
-        Me.ColumnHeader1.Width = 152
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.Text = "Version"
-        Me.ColumnHeader2.Width = 67
-        '
-        'Label6
-        '
-        Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(16, 121)
-        Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(70, 13)
-        Me.Label6.TabIndex = 13
-        Me.Label6.Text = "File versions"
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(260, 158)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(89, 13)
-        Me.Label7.TabIndex = 14
-        Me.Label7.Text = "Thanks a lot to :"
-        '
         'lblRibbon
         '
         Me.lblRibbon.AutoSize = True
-        Me.lblRibbon.Location = New System.Drawing.Point(271, 174)
+        Me.lblRibbon.Location = New System.Drawing.Point(6, 18)
         Me.lblRibbon.Name = "lblRibbon"
         Me.lblRibbon.Size = New System.Drawing.Size(198, 13)
         Me.lblRibbon.TabIndex = 15
@@ -199,7 +157,7 @@ Partial Class frmAboutG
         'lblFugueIcons
         '
         Me.lblFugueIcons.AutoSize = True
-        Me.lblFugueIcons.Location = New System.Drawing.Point(271, 190)
+        Me.lblFugueIcons.Location = New System.Drawing.Point(6, 31)
         Me.lblFugueIcons.Name = "lblFugueIcons"
         Me.lblFugueIcons.Size = New System.Drawing.Size(181, 13)
         Me.lblFugueIcons.TabIndex = 16
@@ -209,7 +167,7 @@ Partial Class frmAboutG
         'lblShareVB
         '
         Me.lblShareVB.AutoSize = True
-        Me.lblShareVB.Location = New System.Drawing.Point(271, 206)
+        Me.lblShareVB.Location = New System.Drawing.Point(6, 44)
         Me.lblShareVB.Name = "lblShareVB"
         Me.lblShareVB.Size = New System.Drawing.Size(184, 26)
         Me.lblShareVB.TabIndex = 17
@@ -218,8 +176,9 @@ Partial Class frmAboutG
         '
         'lblMe
         '
+        Me.lblMe.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblMe.AutoSize = True
-        Me.lblMe.Location = New System.Drawing.Point(16, 312)
+        Me.lblMe.Location = New System.Drawing.Point(13, 281)
         Me.lblMe.Name = "lblMe"
         Me.lblMe.Size = New System.Drawing.Size(83, 13)
         Me.lblMe.TabIndex = 18
@@ -228,7 +187,8 @@ Partial Class frmAboutG
         '
         'cmdLicense
         '
-        Me.cmdLicense.Location = New System.Drawing.Point(296, 296)
+        Me.cmdLicense.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.cmdLicense.Location = New System.Drawing.Point(259, 269)
         Me.cmdLicense.Name = "cmdLicense"
         Me.cmdLicense.Size = New System.Drawing.Size(73, 25)
         Me.cmdLicense.TabIndex = 19
@@ -238,7 +198,7 @@ Partial Class frmAboutG
         'lblTaskDialog
         '
         Me.lblTaskDialog.AutoSize = True
-        Me.lblTaskDialog.Location = New System.Drawing.Point(271, 235)
+        Me.lblTaskDialog.Location = New System.Drawing.Point(6, 70)
         Me.lblTaskDialog.Name = "lblTaskDialog"
         Me.lblTaskDialog.Size = New System.Drawing.Size(162, 13)
         Me.lblTaskDialog.TabIndex = 20
@@ -248,7 +208,7 @@ Partial Class frmAboutG
         'lblVistaMenu
         '
         Me.lblVistaMenu.AutoSize = True
-        Me.lblVistaMenu.Location = New System.Drawing.Point(271, 251)
+        Me.lblVistaMenu.Location = New System.Drawing.Point(6, 83)
         Me.lblVistaMenu.Name = "lblVistaMenu"
         Me.lblVistaMenu.Size = New System.Drawing.Size(109, 13)
         Me.lblVistaMenu.TabIndex = 21
@@ -257,13 +217,28 @@ Partial Class frmAboutG
         '
         'lnkWebsite
         '
+        Me.lnkWebsite.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lnkWebsite.AutoSize = True
-        Me.lnkWebsite.Location = New System.Drawing.Point(160, 296)
+        Me.lnkWebsite.Location = New System.Drawing.Point(157, 265)
         Me.lnkWebsite.Name = "lnkWebsite"
         Me.lnkWebsite.Size = New System.Drawing.Size(49, 13)
         Me.lnkWebsite.TabIndex = 22
         Me.lnkWebsite.TabStop = True
         Me.lnkWebsite.Text = "Website"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.lblVistaMenu)
+        Me.GroupBox1.Controls.Add(Me.lblTaskDialog)
+        Me.GroupBox1.Controls.Add(Me.lblRibbon)
+        Me.GroupBox1.Controls.Add(Me.lblFugueIcons)
+        Me.GroupBox1.Controls.Add(Me.lblShareVB)
+        Me.GroupBox1.Location = New System.Drawing.Point(17, 147)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(240, 107)
+        Me.GroupBox1.TabIndex = 23
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Thanks a lot to :"
         '
         'frmAboutG
         '
@@ -271,19 +246,11 @@ Partial Class frmAboutG
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnOK
-        Me.ClientSize = New System.Drawing.Size(486, 333)
+        Me.ClientSize = New System.Drawing.Size(428, 308)
         Me.ControlBox = False
         Me.Controls.Add(Me.lnkWebsite)
-        Me.Controls.Add(Me.lblVistaMenu)
-        Me.Controls.Add(Me.lblTaskDialog)
         Me.Controls.Add(Me.cmdLicense)
         Me.Controls.Add(Me.lblMe)
-        Me.Controls.Add(Me.lblShareVB)
-        Me.Controls.Add(Me.lblFugueIcons)
-        Me.Controls.Add(Me.lblRibbon)
-        Me.Controls.Add(Me.Label7)
-        Me.Controls.Add(Me.Label6)
-        Me.Controls.Add(Me.lv)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.lblDate)
@@ -294,6 +261,7 @@ Partial Class frmAboutG
         Me.Controls.Add(Me.pctIcon)
         Me.Controls.Add(Me.btnOK)
         Me.Controls.Add(Me.lnklblSF)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Name = "frmAboutG"
@@ -302,6 +270,8 @@ Partial Class frmAboutG
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "About YAPM"
         CType(Me.pctIcon, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -316,11 +286,6 @@ Partial Class frmAboutG
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents lv As System.Windows.Forms.ListView
-    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
-    Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents lblRibbon As System.Windows.Forms.LinkLabel
     Friend WithEvents lblFugueIcons As System.Windows.Forms.LinkLabel
     Friend WithEvents lblShareVB As System.Windows.Forms.LinkLabel
@@ -329,4 +294,5 @@ Partial Class frmAboutG
     Friend WithEvents lblTaskDialog As System.Windows.Forms.LinkLabel
     Friend WithEvents lblVistaMenu As System.Windows.Forms.LinkLabel
     Friend WithEvents lnkWebsite As System.Windows.Forms.LinkLabel
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
 End Class
