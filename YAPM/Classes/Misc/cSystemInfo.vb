@@ -151,7 +151,15 @@ Public Class cSystemInfo
         Get
             Static oldDate As Date = Date.Now
             Dim newDate As Date = Date.Now
-            Dim diff As Date = New Date(newDate.Ticks - oldDate.Ticks)
+            Dim diff As Date
+            Dim ticks As Long = newDate.Ticks - oldDate.Ticks
+
+            If ticks >= DateTime.MinValue.Ticks AndAlso ticks <= DateTime.MaxValue.Ticks Then
+                diff = New Date(ticks)
+            Else
+                diff = New Date(Now.Ticks)
+            End If
+
             oldDate = newDate
 
             Dim zres0 As Long = 0
