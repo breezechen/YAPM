@@ -31,6 +31,7 @@ rem
 rem     MODIFICATIONS OF THIS SCRIPT
 rem     18/08/09 - Initial version (violent_ken)
 rem	29/08/09 - Now it creates the setup
+rem	31/08/09 - Now it create a source package
 
 
 rem     Remove YAPM.exe
@@ -50,3 +51,6 @@ rem     Create 7z file
 
 rem     Build setup
 "C:\Program Files\Inno Setup 5\Compil32.exe" /cc ..\..\..\Setup\ISS\main.iss
+
+rem	Build source package
+"..\..\..\Source Packager\Packager\bin\Release\Packager.exe" -auto ..\..\..\..\RELEASE\YAPM-vx.x.x-source.zip

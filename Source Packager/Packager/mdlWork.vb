@@ -124,6 +124,7 @@ Public Module mdlWork
 
     Private Sub zipDir(ByVal dir As String, ByVal res As String)
         Dim emptyzip() As Byte = New Byte() {80, 75, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+        res = IO.Directory.GetParent(res).FullName & "\" & GetFile(res)
         Try
             Dim fs As FileStream = File.Create(res)
             fs.Write(emptyzip, 0, emptyzip.Length)
@@ -245,7 +246,16 @@ Public Module mdlWork
     Public Function GetParentDir(ByVal filePath As String) As String
         Dim i As Integer = InStrRev(filePath, "\", , CompareMethod.Binary)
         If i > 0 Then
-            Return filePath.Substring(0, i)
+            Return filePath.Substring(0, i).Replace("\\", "\")
+        Else
+            Return filePath.Replace("\\", "\")
+        End If
+    End Function
+
+    Public Function GetFile(ByVal filePath As String) As String
+        Dim i As Integer = InStrRev(filePath, "\", , CompareMethod.Binary)
+        If i > 0 Then
+            Return filePath.Substring(i, filePath.Length - i)
         Else
             Return filePath
         End If

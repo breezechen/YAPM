@@ -47,6 +47,8 @@ Public Module mdlMain
 
         End If
 
+        ChDir(GetParentDir(Application.ExecutablePath))
+
         Application.Run(_frmMain)
 
 
