@@ -63,6 +63,7 @@ Public Class frmPreferences
         My.Settings.TrayInterval = CInt(Val(Me.txtTrayInterval.Text))
         My.Settings.SystemInterval = CInt(Val(Me.txtSysInfoInterval.Text))
         My.Settings.AutomaticInternetInfos = Me.chkAutoOnline.Checked
+        My.Settings.AutomaticWintrust = Me.chkWintrust.Checked
         My.Settings.ShowUserGroupDomain = Me.chkUserGroup.Checked
         My.Settings.ShowStatusBar = Me.chkStatusBar.Checked
         If Me.chkUnlimitedBuf.Checked Then
@@ -161,6 +162,7 @@ Public Class frmPreferences
         SetToolTip(Me.pctNewitems, "Color of new items.")
         SetToolTip(Me.chkTrayIcon, "Show tray icon.")
         SetToolTip(Me.cbPriority, "Priority of YAPM.")
+        SetToolTip(Me.chkWintrust, "Verify the signature of processes when opening process' detailed window.")
         SetToolTip(Me.txtTaskInterval, "Set interval (milliseconds) between two refreshments of task list.")
         SetToolTip(Me.txtNetworkInterval, "Set interval (milliseconds) between two refreshments of network connections list.")
         SetToolTip(Me.txtJobInterval, "Set interval (milliseconds) between two refreshments of job list.")
@@ -204,6 +206,7 @@ Public Class frmPreferences
         Me.chkHideMinimized.Checked = My.Settings.HideWhenMinimized
         Me.txtTrayInterval.Text = My.Settings.TrayInterval.ToString
         Me.txtSysInfoInterval.Text = My.Settings.SystemInterval.ToString
+        Me.chkWintrust.Checked = My.Settings.AutomaticWintrust
         Me.chkHideClosed.Checked = My.Settings.HideWhenClosed
         Me.chkAutoOnline.Checked = My.Settings.AutomaticInternetInfos
         Me.chkUserGroup.Checked = My.Settings.ShowUserGroupDomain

@@ -1049,6 +1049,18 @@ Namespace My
                 Me("JobSelectedTab") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property AutomaticWintrust() As Boolean
+            Get
+                Return CType(Me("AutomaticWintrust"),Boolean)
+            End Get
+            Set
+                Me("AutomaticWintrust") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

@@ -539,7 +539,7 @@ Public Class frmProcessInfo
         Me.timerProcPerf.Enabled = _local
 
         ' Verify file
-        If _local Then
+        If My.Settings.AutomaticWintrust AndAlso _local Then
             Try
                 Dim bVer As Boolean = Security.WinTrust.WinTrust.VerifyEmbeddedSignature(curProc.Infos.Path)
                 If bVer Then
