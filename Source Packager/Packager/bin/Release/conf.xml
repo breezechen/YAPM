@@ -29,7 +29,6 @@
 		<dir all="true">bin</dir>
 		<dir all="true">obj</dir>
 		<dir all="true">.svn</dir>
-		<dir all="false">\YAPM\Help</dir>
 	</excluded_dir>
 	<excluded_project>
 		<proj>aPoubelle</proj>
