@@ -380,7 +380,9 @@ Namespace Common
                     x += 1
                     If Not (x = lv.SelectedItems.Count) Then s &= vbNewLine
                 Next
-                If Not (s = vbNullString) Then My.Computer.Clipboard.SetText(s, TextDataFormat.UnicodeText)
+                If String.IsNullOrEmpty(s) = False Then
+                    My.Computer.Clipboard.SetText(s, TextDataFormat.Text)
+                End If
             End If
         End Sub
 

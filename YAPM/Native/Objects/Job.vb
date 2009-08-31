@@ -518,14 +518,16 @@ Namespace Native.Objects
 
                             ' Add to dico
                             ' The key is the name
-                            If Not (String.IsNullOrEmpty(theName)) AndAlso buf.ContainsKey(theName) = False Then
-                                Dim jj As cJob = New cJob(New jobInfos(theName))
-                                buf.Add(theName, jj)
-                            End If
+                            If Not (String.IsNullOrEmpty(theName)) Then
+                                If buf.ContainsKey(theName) = False Then
+                                    Dim jj As cJob = New cJob(New jobInfos(theName))
+                                    buf.Add(theName, jj)
+                                End If
 
-                            ' Add handle to list
-                            If _ownHandles.ContainsKey(theName) = False Then
-                                _ownHandles.Add(theName, targetHandle)
+                                ' Add handle to list
+                                If _ownHandles.ContainsKey(theName) = False Then
+                                    _ownHandles.Add(theName, targetHandle)
+                                End If
                             End If
 
                         End If
