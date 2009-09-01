@@ -161,15 +161,21 @@ Public Class cEnvironment
         End Get
     End Property
 
+    ' Has YAPM SeDebugPrivilege ?
+    Public Shared Function HasYAPMDebugPrivilege() As Boolean
+        Dim res As Native.Api.NativeEnums.SePrivilegeAttributes
+        Native.Objects.Token.GetPrivilegeStatusByProcessId(Process.GetCurrentProcess.Id, "SeDebugPrivilege", res)
+        Return (res = Native.Api.NativeEnums.SePrivilegeAttributes.Enabled)
+    End Function
 
     ' Request a privilege
     Public Shared Sub RequestPrivilege(ByVal privilege As PrivilegeToRequest)
         'TOCHANGE : should be more generic
         Select Case privilege
             Case PrivilegeToRequest.DebugPrivilege
-                Native.Objects.Token.SetPrivilegeStatus(System.Diagnostics.Process.GetCurrentProcess.Id, "SeDebugPrivilege", Native.Api.NativeEnums.SePrivilegeAttributes.Enabled)
+                Native.Objects.Token.SetPrivilegeStatusByProcessId(System.Diagnostics.Process.GetCurrentProcess.Id, "SeDebugPrivilege", Native.Api.NativeEnums.SePrivilegeAttributes.Enabled)
             Case PrivilegeToRequest.ShutdownPrivilege
-                Native.Objects.Token.SetPrivilegeStatus(System.Diagnostics.Process.GetCurrentProcess.Id, "SeShutdownPrivilege", Native.Api.NativeEnums.SePrivilegeAttributes.Enabled)
+                Native.Objects.Token.SetPrivilegeStatusByProcessId(System.Diagnostics.Process.GetCurrentProcess.Id, "SeShutdownPrivilege", Native.Api.NativeEnums.SePrivilegeAttributes.Enabled)
         End Select
     End Sub
 

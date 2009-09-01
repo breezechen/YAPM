@@ -202,7 +202,78 @@ Namespace Native.Objects
 
 
         ' Set privilege status
-        Public Shared Function SetPrivilegeStatus(ByVal processId As Integer, _
+        Public Shared Function GetPrivilegeStatusByProcessId(ByVal processId As Integer, _
+                                            ByVal seName As String, _
+                                            ByRef seStatus As NativeEnums.SePrivilegeAttributes) As Boolean
+
+            Dim hProcess As IntPtr
+            Dim fRet As Boolean
+            Dim lngToken As IntPtr
+            Dim typTokenPriv As New NativeStructs.TokenPrivileges
+            Dim retLen As Integer
+
+            ' Open handle to process
+            hProcess = Native.Objects.Process.GetProcessHandleById(processId, _
+                                            Security.ProcessAccess.QueryInformation)
+
+            If hProcess.IsNotNull Then
+                ' Get token handle
+                NativeFunctions.OpenProcessToken(hProcess, Security.TokenAccess.Query Or Security.TokenAccess.AdjustPrivileges, lngToken)
+
+                If lngToken.IsNotNull Then
+
+
+                    ' Get tokeninfo length
+                    NativeFunctions.GetTokenInformation(lngToken, _
+                                        NativeEnums.TokenInformationClass.TokenPrivileges, _
+                                        IntPtr.Zero, 0, retLen)
+
+                    'PERFISSUE (do not alloc each time)
+                    Dim memAlloc As New Native.Memory.MemoryAlloc(retLen)
+
+                    ' Get token information
+                    NativeFunctions.GetTokenInformation(lngToken, _
+                                        NativeEnums.TokenInformationClass.TokenPrivileges, _
+                                        memAlloc.Pointer, memAlloc.Size, retLen)
+
+                    ' Get number of privileges
+                    Dim count As Integer = CInt(memAlloc.ReadUInt32(0))
+
+                    ' Retrieve list of privileges
+                    For i As Integer = 0 To count - 1
+                        Dim struct As NativeStructs.LuidAndAttributes = _
+                            memAlloc.ReadStruct(Of NativeStructs.LuidAndAttributes)(4, i)   ' 4 first bytes are used for the size
+
+                        ' Get name of this privilege
+                        Dim sb As New StringBuilder
+                        Dim size As Integer = 0
+
+                        ' Get size required for name
+                        If NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size) = False Then
+                            ' Redim capacity
+                            sb.EnsureCapacity(size)
+                            NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size)
+                        End If
+
+                        If seName = sb.ToString Then
+                            seStatus = struct.Attributes
+                            Exit For
+                        End If
+
+                    Next
+
+                    memAlloc.Free()
+
+                    NativeFunctions.CloseHandle(lngToken)
+                End If
+                NativeFunctions.CloseHandle(hProcess)
+            End If
+
+            Return fRet
+        End Function
+
+        ' Query privilege status
+        Public Shared Function SetPrivilegeStatusByProcessId(ByVal processId As Integer, _
                                             ByVal seName As String, _
                                             ByVal seStatus As NativeEnums.SePrivilegeAttributes) As Boolean
 
@@ -218,11 +289,11 @@ Namespace Native.Objects
             hProcess = Native.Objects.Process.GetProcessHandleById(processId, _
                                             Security.ProcessAccess.QueryInformation)
 
-            If hProcess .IsNotNull Then
+            If hProcess.IsNotNull Then
                 ' Get token handle
                 NativeFunctions.OpenProcessToken(hProcess, Security.TokenAccess.Query Or Security.TokenAccess.AdjustPrivileges, lngToken)
 
-                If lngToken .IsNotNull Then
+                If lngToken.IsNotNull Then
 
                     ' Retrieve Luid from PrivilegeName
                     If NativeFunctions.LookupPrivilegeValue(Nothing, seName, typLUID) Then

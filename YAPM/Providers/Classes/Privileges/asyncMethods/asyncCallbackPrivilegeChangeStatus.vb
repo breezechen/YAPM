@@ -72,7 +72,7 @@ Public Class asyncCallbackPrivilegeChangeStatus
 
             Case Else
                 ' Local
-                Dim ret As Boolean = Native.Objects.Token.SetPrivilegeStatus(pObj.pid, _
+                Dim ret As Boolean = Native.Objects.Token.SetPrivilegeStatusByProcessId(pObj.pid, _
                                                                        pObj.name, _
                                                                        pObj.status)
                 _deg.Invoke(ret, pObj.pid, pObj.name, Native.Api.Win32.GetLastError, _

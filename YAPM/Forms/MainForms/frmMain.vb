@@ -3402,14 +3402,14 @@ Public Class frmMain
         Me.RBWindowCapture.Enabled = Me._notWMI
         Me.RBWindowRefresh.Enabled = Me._notWMI
         Me.RBWindowReport.Enabled = Me._notWMI
-        Me.RBJobActions.Enabled = _local AndAlso (cEnvironment.GetElevationType = Native.Api.Enums.ElevationType.Full)
-        Me.RBJobDisplay.Enabled = _local AndAlso (cEnvironment.GetElevationType = Native.Api.Enums.ElevationType.Full)
+        Me.pageJobs.Enabled = _local AndAlso (cEnvironment.HasYAPMDebugPrivilege)
+        Me.RBJobActions.Enabled = Me.pageJobs.Enabled
+        Me.RBJobDisplay.Enabled = Me.pageJobs.Enabled
         Me.pageHandles.Enabled = _notWMI
         Me.pageNetwork.Enabled = _notWMI
         Me.pageTasks.Enabled = _notWMI
         Me.pageWindows.Enabled = _notWMI
         Me.pageSearch.Enabled = _notWMI
-        Me.pageJobs.Enabled = _local AndAlso (cEnvironment.GetElevationType = Native.Api.Enums.ElevationType.Full)
         Me.RBNetworkRefresh.Enabled = _notWMI
         Me.RBSearchMain.Enabled = _notWMI
         Me.RBTaskActions.Enabled = _notWMI
