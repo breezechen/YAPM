@@ -59,7 +59,7 @@ Namespace Native.Objects
 
             Dim length As Integer = 0
 
-            If processIds Is Nothing Then
+            If processIds Is Nothing AndAlso allProcesses = False Then
                 Exit Sub
             End If
 
