@@ -75,10 +75,14 @@ Namespace Native.Objects
             Dim iD As UInteger
             Dim file As String
             file = s.Substring(0, s.Length - 3)
-            iD = UInteger.Parse(s.Substring(i + 6, s.Length - i - 6))
+            Try
+                iD = UInteger.Parse(s.Substring(i + 6, s.Length - i - 6))
+                ' Get resource
+                Return Common.Misc.FormatPathWithDoubleSlashs(GetResourceStringFromFile(file, iD))
+            Catch ex As Exception
+                Return ""
+            End Try
 
-            ' Get resource
-            Return Common.Misc.FormatPathWithDoubleSlashs(GetResourceStringFromFile(file, iD))
 
         End Function
 
