@@ -57,6 +57,10 @@ Public Class DoubleBufferedLV
     Protected Overrides Sub OnColumnClick(ByVal e As System.Windows.Forms.ColumnClickEventArgs)
         MyBase.OnColumnClick(e)
 
+        If Me.VirtualMode Then
+            Exit Sub
+        End If
+
         ' Get the new sorting column.
         Dim new_sorting_column As ColumnHeader = _
             Me.Columns(e.Column)
