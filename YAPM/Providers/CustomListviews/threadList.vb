@@ -315,7 +315,7 @@ Public Class threadList
         item.ForeColor = _foreColor
         item.ImageKey = "thread"
         item.Tag = key
-        item.Group = Me.Groups(0)
+        'item.Group = Me.Groups(0)
         Return item
 
     End Function

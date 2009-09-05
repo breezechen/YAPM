@@ -151,6 +151,7 @@ Temp Change log :
 - Removed 100KB limit for history buffer
 - Improved search speed alot & display a message when searching
 - Added 'Restart elevated' button in job tab if user has no privileges
+- Improved quick search in main tab (tasks, processes, services, search)
 
 * Bug fixes
 - Fixed Copy to clipboard error
@@ -159,3 +160,4 @@ Temp Change log :
 - Fixed 'Release file'feature
 - Now Close/Terminate feature for search results works just fine
 - Fixed 'job tab is disabled' bug
+- Fixed 'go to search' for task tab

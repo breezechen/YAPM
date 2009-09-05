@@ -328,7 +328,7 @@ Public Class handleList
         Dim item As ListViewItem = Me.Items.Add(key)
         item.Name = key
         item.ForeColor = _foreColor
-        item.Group = Me.Groups(0)
+        'item.Group = Me.Groups(0)
 
         ' Icon
         Select Case _dico.Item(key).Infos.Type

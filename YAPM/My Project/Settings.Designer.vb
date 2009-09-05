@@ -1061,6 +1061,30 @@ Namespace My
                 Me("AutomaticWintrust") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property ShowFindWindowDetailedForm() As Boolean
+            Get
+                Return CType(Me("ShowFindWindowDetailedForm"),Boolean)
+            End Get
+            Set
+                Me("ShowFindWindowDetailedForm") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property FirstTimeShowFindWindowWasClosed() As Boolean
+            Get
+                Return CType(Me("FirstTimeShowFindWindowWasClosed"),Boolean)
+            End Get
+            Set
+                Me("FirstTimeShowFindWindowWasClosed") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

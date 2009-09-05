@@ -319,7 +319,7 @@ Public Class moduleList
 
         Dim item As ListViewItem = Me.Items.Add(key)
         item.Name = key
-        item.Group = Me.Groups(0)
+        'item.Group = Me.Groups(0)
 
         ' Forecolor
         item.ForeColor = _foreColor

@@ -302,7 +302,7 @@ Public Class taskList
 
         Dim item As ListViewItem = Me.Items.Add(key)
         item.Name = key
-        item.Group = Me.Groups(0)
+        'item.Group = Me.Groups(0)
 
         ' Add icon
         Try

@@ -1588,15 +1588,25 @@ Public Class frmMain
 
     Private Sub txtServiceSearch_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtServiceSearch.TextChanged
         Dim it As ListViewItem
-        For Each it In lvServices.Items
-            If InStr(LCase(it.Text), LCase(txtServiceSearch.Text)) = 0 And _
-                    InStr(LCase(it.SubItems.Item(1).Text), LCase(txtServiceSearch.Text)) = 0 Then
+        Dim comp As String = Me.txtServiceSearch.Text.ToLowerInvariant
+        For Each it In Me.lvServices.Items
+            Dim add As Boolean = False
+            For Each subit As ListViewItem.ListViewSubItem In it.SubItems
+                Dim ss As String = subit.Text
+                If subit IsNot Nothing Then
+                    If InStr(ss.ToLowerInvariant, comp, CompareMethod.Binary) > 0 Then
+                        add = True
+                        Exit For
+                    End If
+                End If
+            Next
+            If add = False Then
                 it.Group = lvServices.Groups(0)
             Else
                 it.Group = lvServices.Groups(1)
             End If
         Next
-        Me.lblResCount2.Text = CStr(lvServices.Groups(1).Items.Count) & " results(s)"
+        Me.lblResCount2.Text = CStr(lvServices.Groups(1).Items.Count) & " result(s)"
     End Sub
 
     Private Sub txtSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearch.Click
@@ -1605,8 +1615,19 @@ Public Class frmMain
 
     Private Sub txtSearch_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearch.TextChanged
         Dim it As ListViewItem
-        For Each it In lvProcess.Items
-            If InStr(LCase(it.Text), LCase(txtSearch.Text)) = 0 Then
+        Dim comp As String = Me.txtSearch.Text.ToLowerInvariant
+        For Each it In Me.lvProcess.Items
+            Dim add As Boolean = False
+            For Each subit As ListViewItem.ListViewSubItem In it.SubItems
+                Dim ss As String = subit.Text
+                If subit IsNot Nothing Then
+                    If InStr(ss.ToLowerInvariant, comp, CompareMethod.Binary) > 0 Then
+                        add = True
+                        Exit For
+                    End If
+                End If
+            Next
+            If add = False Then
                 it.Group = lvProcess.Groups(0)
             Else
                 it.Group = lvProcess.Groups(1)
@@ -2014,14 +2035,25 @@ Public Class frmMain
 
     Private Sub txtSearchTask_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchTask.TextChanged
         Dim it As ListViewItem
+        Dim comp As String = Me.txtSearchTask.Text.ToLowerInvariant
         For Each it In Me.lvTask.Items
-            If InStr(LCase(it.Text), LCase(Me.txtSearchTask.Text)) = 0 Then
+            Dim add As Boolean = False
+            For Each subit As ListViewItem.ListViewSubItem In it.SubItems
+                Dim ss As String = subit.Text
+                If subit IsNot Nothing Then
+                    If InStr(ss.ToLowerInvariant, comp, CompareMethod.Binary) > 0 Then
+                        add = True
+                        Exit For
+                    End If
+                End If
+            Next
+            If add = False Then
                 it.Group = lvTask.Groups(0)
             Else
                 it.Group = lvTask.Groups(1)
             End If
         Next
-        Me.lblTaskCountResult.Text = CStr(Me.lvTask.Groups(1).Items.Count) & " result(s)"
+        Me.lblTaskCountResult.Text = CStr(lvTask.Groups(1).Items.Count) & " result(s)"
     End Sub
 
     Private Sub lblResCount2_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblResCount2.Click
@@ -2257,8 +2289,19 @@ Public Class frmMain
 
     Private Sub txtSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles txtSearchResults.MouseDown
         Dim it As ListViewItem
+        Dim comp As String = Me.lvSearchResults.Text.ToLowerInvariant
         For Each it In Me.lvSearchResults.Items
-            If InStr(LCase(it.SubItems(1).Text), LCase(Me.txtSearchResults.Text)) = 0 Then
+            Dim add As Boolean = False
+            For Each subit As ListViewItem.ListViewSubItem In it.SubItems
+                Dim ss As String = subit.Text
+                If subit IsNot Nothing Then
+                    If InStr(ss.ToLowerInvariant, comp, CompareMethod.Binary) > 0 Then
+                        add = True
+                        Exit For
+                    End If
+                End If
+            Next
+            If add = False Then
                 it.Group = lvSearchResults.Groups(0)
             Else
                 it.Group = lvSearchResults.Groups(1)
@@ -3973,5 +4016,14 @@ Public Class frmMain
     Private Sub butJobElevate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butJobElevate.Click
         ' Restart elevated
         Call cEnvironment.RestartElevated()
+    End Sub
+
+    Private Sub lblTaskCountResult_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblTaskCountResult.Click
+        If Me.lvTask.Groups(1).Items.Count > 0 Then
+            Me.lvTask.Focus()
+            Me.lvTask.EnsureVisible(Me.lvTask.Groups(1).Items(0).Index)
+            Me.lvTask.SelectedItems.Clear()
+            Me.lvTask.Groups(1).Items(0).Selected = True
+        End If
     End Sub
 End Class

@@ -46,6 +46,8 @@ Public Class frmProcessInfo
     Private _local As Boolean = True
     Private _notWMI As Boolean
 
+    ' The listview in which we will search using 'search panel'
+    Private listViewForSearch As ListView
 
     ' Here we finished to download informations from internet
     Private _asyncInfoRes As cAsyncProcInfoDownload.InternetProcessInfo
@@ -339,6 +341,13 @@ Public Class frmProcessInfo
 
     Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
+        ' Hide panel 'Find window' if necessary
+        If My.Settings.ShowFindWindowDetailedForm Then
+            Call showFindPanel()
+        Else
+            Call hideFindPanel()
+        End If
+
         closeWithEchapKey(Me)
 
         ' Cool theme
@@ -556,6 +565,11 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub timerProcPerf_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerProcPerf.Tick
+
+        If Me.chkFreeze.Checked Then
+            Exit Sub
+        End If
+
         Static updatedRisk As Boolean = False
 
         Dim z As Double = curProc.CpuUsage
@@ -808,6 +822,7 @@ Public Class frmProcessInfo
     Private Sub tabProcess_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles tabProcess.SelectedIndexChanged
         Call Me.refreshProcessTab()
         Call ChangeCaption()
+        Call updateFindPanel()
         My.Settings.ProcSelectedTab = Me.tabProcess.SelectedTab.Text
     End Sub
 
@@ -1061,6 +1076,11 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub timerLog_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerLog.Tick
+
+        If Me.chkFreeze.Checked Then
+            Exit Sub
+        End If
+
         Dim _i As Integer = Native.Api.Win32.GetElapsedTime
 
         Me.lvLog.BeginUpdate()
@@ -1368,19 +1388,6 @@ Public Class frmProcessInfo
 
             Me.mnuService.Show(Me.lvProcServices, e.Location)
         End If
-    End Sub
-
-    Private Sub lvThreads_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvThreads.KeyDown
-        'Pref.LoadListViewColumns(Me.lvPrivileges, "COLprocdetail_privilege")
-        'Pref.LoadListViewColumns(Me.lvProcMem, "COLprocdetail_memory")
-        'Pref.LoadListViewColumns(Me.lvProcServices, "COLprocdetail_service")
-        'Pref.LoadListViewColumns(Me.lvProcNetwork, "COLprocdetail_network")
-        'Pref.LoadListViewColumns(Me.lvHandles, "COLprocdetail_handle")
-        'Pref.LoadListViewColumns(Me.lvWindows, "COLprocdetail_window")
-        'Pref.LoadListViewColumns(Me.lvThreads, "COLprocdetail_thread")
-        'Pref.LoadListViewColumns(Me.lvModules, "COLprocdetail_module")
-        'Pref.LoadListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
-        'Pref.LoadListViewColumns(Me.lvLog, "COLprocdetail_log")
     End Sub
 
     Private Sub cmdInspectExe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdInspectExe.Click
@@ -2439,4 +2446,217 @@ Public Class frmProcessInfo
             it.Caption = sres
         Next
     End Sub
+
+#Region "Find panel"
+
+    Private Sub cmdHideFindPanel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdHideFindPanel.Click
+        My.Settings.ShowFindWindowDetailedForm = False
+        If My.Settings.FirstTimeShowFindWindowWasClosed Then
+            My.Settings.FirstTimeShowFindWindowWasClosed = False
+            MsgBox("You have closed the search panel. Press Ctrl+F on a listview to open it again.", MsgBoxStyle.Information, "Search panel")
+            My.Settings.Save()
+        End If
+        Call hideFindPanel()
+    End Sub
+
+    Private Sub lvProcMem_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcMem.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        End If
+    End Sub
+
+    Private Sub lvProcServices_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcServices.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        End If
+    End Sub
+
+    Private Sub lvProcNetwork_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcNetwork.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        End If
+    End Sub
+
+    Private Sub lvProcEnv_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcEnv.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        End If
+    End Sub
+
+    Private Sub lvLog_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvLog.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        End If
+    End Sub
+
+    Private Sub lvWindows_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvWindows.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        End If
+    End Sub
+
+    Private Sub lvPrivileges_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvPrivileges.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        End If
+    End Sub
+
+    Private Sub lvModules_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvModules.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        End If
+    End Sub
+
+    Private Sub lvThreads_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvThreads.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        End If
+    End Sub
+
+    Private Sub lvHandles_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvHandles.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        End If
+    End Sub
+
+    ' Update 'Find panel' depending on the selected tab
+    Private Sub updateFindPanel()
+        Select Case Me.tabProcess.SelectedTab.Text
+            Case "Token"
+                Me.SplitContainer.Panel2.Enabled = True
+                listViewForSearch = Me.lvPrivileges
+            Case "Modules"
+                Me.SplitContainer.Panel2.Enabled = True
+                listViewForSearch = Me.lvModules
+            Case "Threads"
+                Me.SplitContainer.Panel2.Enabled = True
+                listViewForSearch = Me.lvThreads
+            Case "Windows"
+                Me.SplitContainer.Panel2.Enabled = True
+                listViewForSearch = Me.lvWindows
+            Case "Handles"
+                Me.SplitContainer.Panel2.Enabled = True
+                listViewForSearch = Me.lvHandles
+            Case "Memory"
+                Me.SplitContainer.Panel2.Enabled = True
+                listViewForSearch = Me.lvProcMem
+            Case "Environment"
+                Me.SplitContainer.Panel2.Enabled = True
+                listViewForSearch = Me.lvProcEnv
+            Case "Network"
+                Me.SplitContainer.Panel2.Enabled = True
+                listViewForSearch = Me.lvProcNetwork
+            Case "Services"
+                Me.SplitContainer.Panel2.Enabled = True
+                listViewForSearch = Me.lvProcServices
+            Case "Log"
+                Me.SplitContainer.Panel2.Enabled = True
+                listViewForSearch = Me.lvLog
+            Case Else
+                Me.SplitContainer.Panel2.Enabled = False
+        End Select
+    End Sub
+    Private Sub txtSearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearch.TextChanged
+        Dim it As ListViewItem
+        Dim comp As String = Me.txtSearch.Text.ToLowerInvariant
+        For Each it In Me.listViewForSearch.Items
+            Dim add As Boolean = False
+            For Each subit As ListViewItem.ListViewSubItem In it.SubItems
+                Dim ss As String = subit.Text
+                If subit IsNot Nothing Then
+                    If InStr(ss.ToLowerInvariant, comp, CompareMethod.Binary) > 0 Then
+                        add = True
+                        Exit For
+                    End If
+                End If
+            Next
+            If add = False Then
+                it.Group = listViewForSearch.Groups(0)
+            Else
+                it.Group = listViewForSearch.Groups(1)
+            End If
+        Next
+        Me.lblResCount.Text = CStr(listViewForSearch.Groups(1).Items.Count) & " result(s)"
+    End Sub
+    Private Sub lblResCount_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblResCount.Click
+        If Me.listViewForSearch.Groups(1).Items.Count > 0 Then
+            Me.listViewForSearch.Focus()
+            Me.listViewForSearch.EnsureVisible(Me.listViewForSearch.Groups(1).Items(0).Index)
+            Me.listViewForSearch.SelectedItems.Clear()
+            Me.listViewForSearch.Groups(1).Items(0).Selected = True
+        End If
+    End Sub
+    Private Sub showFindPanel()
+        Me.SplitContainer.Panel2Collapsed = False
+        Me.txtSearch.Focus()
+
+        ' Add groups to listviews
+        Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
+                        {New ListViewGroup("0", "Items"), _
+                         New ListViewGroup("1", "Search results")})
+        Me.lvProcServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
+                   {New ListViewGroup("0", "Items"), _
+                    New ListViewGroup("1", "Search results")})
+        Me.lvPrivileges.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
+                   {New ListViewGroup("0", "Items"), _
+                    New ListViewGroup("1", "Search results")})
+        Me.lvLog.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
+                   {New ListViewGroup("0", "Items"), _
+                    New ListViewGroup("1", "Search results")})
+        Me.lvProcEnv.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
+                   {New ListViewGroup("0", "Items"), _
+                    New ListViewGroup("1", "Search results")})
+        Me.lvProcMem.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
+                   {New ListViewGroup("0", "Items"), _
+                    New ListViewGroup("1", "Search results")})
+        Me.lvWindows.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
+                   {New ListViewGroup("0", "Items"), _
+                    New ListViewGroup("1", "Search results")})
+        Me.lvHandles.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
+                   {New ListViewGroup("0", "Items"), _
+                    New ListViewGroup("1", "Search results")})
+        Me.lvModules.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
+                   {New ListViewGroup("0", "Items"), _
+                    New ListViewGroup("1", "Search results")})
+        Me.lvProcNetwork.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
+                   {New ListViewGroup("0", "Items"), _
+                    New ListViewGroup("1", "Search results")})
+    End Sub
+    Private Sub hideFindPanel()
+        Me.SplitContainer.Panel2Collapsed = True
+        ' Remove all groups
+        Me.lvPrivileges.Groups.Clear()
+        Me.lvProcServices.Groups.Clear()
+        Me.lvProcNetwork.Groups.Clear()
+        Me.lvModules.Groups.Clear()
+        Me.lvThreads.Groups.Clear()
+        Me.lvLog.Groups.Clear()
+        Me.lvProcMem.Groups.Clear()
+        Me.lvWindows.Groups.Clear()
+        Me.lvHandles.Groups.Clear()
+        Me.lvProcEnv.Groups.Clear()
+    End Sub
+
+#End Region
+
 End Class
