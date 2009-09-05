@@ -108,6 +108,7 @@ Option Strict On
         [RequestHandleList]
         [RequestTaskList]
         [RequestNetworkConnectionList]
+        [RequestJobConnectionList]
         [RequestPrivilegesList]
         [RequestMemoryRegionList]
         [RequestEnvironmentVariableList]

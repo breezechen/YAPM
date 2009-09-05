@@ -156,7 +156,7 @@ Public Class cJobConnection
         End If
 
         If data.Type = cSocketData.DataType.RequestedList AndAlso _
-            data.Order = cSocketData.OrderType.RequestNetworkConnectionList Then
+            data.Order = cSocketData.OrderType.RequestJobConnectionList Then
             If _instanceId = data.InstanceId Then
                 ' OK it is for me
                 _jobEnum.GotListFromSocket(data.GetList, data.GetKeys)
