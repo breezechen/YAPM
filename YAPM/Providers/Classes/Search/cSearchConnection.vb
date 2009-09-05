@@ -103,7 +103,7 @@ Public Class cSearchConnection
 #Region "Enumerate services"
 
     ' Enumerate services
-    Public Function Enumerate(ByRef str As String, ByVal caseS As Boolean, ByVal include As searchInfos.SearchInclude, Optional ByVal forInstanceId As Integer = -1) As Integer
+    Public Function Enumerate(ByRef str As String, ByVal caseS As Boolean, ByVal include As Native.Api.Enums.GeneralObjectType, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
                 _searchEnum.Process), New  _

@@ -45,6 +45,7 @@ Public Class cEnvVariable
     Public Sub New(ByRef infos As envVariableInfos)
         _envInfos = infos
         _connection = Connection
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.EnvironmentVariable
     End Sub
 
 #End Region
@@ -146,7 +147,7 @@ Public Class cEnvVariable
 
         For x As Integer = 0 To var.Length - 1
             If _dico.ContainsKey(var(x)) = False Then
-                _dico.Add(var(x), New cEnvVariable(New envVariableInfos(var(x), val(x), process.Infos.Pid)))
+                _dico.Add(var(x), New cEnvVariable(New envVariableInfos(var(x), val(x), process.Infos.ProcessId)))
             End If
         Next
 

@@ -296,7 +296,7 @@ Public Class frmFindWindow
         _frmMain.lvProcess.SelectedItems.Clear()
         For Each it As ListViewItem In _frmMain.lvProcess.Items
             Dim cp As cProcess = _frmMain.lvProcess.GetItemByKey(it.Name)
-            If cp IsNot Nothing AndAlso cp.Infos.Pid = pid Then
+            If cp IsNot Nothing AndAlso cp.Infos.ProcessId = pid Then
                 it.Selected = True
                 it.EnsureVisible()
                 Exit For

@@ -51,6 +51,7 @@ Public Class cThread
     Public Sub New(ByRef infos As threadInfos, Optional ByVal getPriorityInfo As Boolean = False)
         _threadInfos = infos
         _connection = Connection
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.Thread
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
             _handleQueryInfo = Native.Objects.Thread.GetThreadHandle(infos.Id,Native.Security.ThreadAccess.QueryInformation)

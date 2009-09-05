@@ -26,6 +26,7 @@ Imports System.Text
 Imports System.Windows.Forms
 Imports System.Management
 Imports System.Net
+Imports YAPM.Native.Api.Enums
 
 Public Class asyncCallbackSearchEnumerate
 
@@ -43,9 +44,9 @@ Public Class asyncCallbackSearchEnumerate
     Public Structure poolObj
         Public strSearch As String
         Public caseSen As Boolean
-        Public includ As searchInfos.SearchInclude
+        Public includ As GeneralObjectType
         Public forInstanceId As Integer
-        Public Sub New(ByRef strToSearch As String, ByVal [case] As Boolean, ByVal include As searchInfos.SearchInclude, ByVal ii As Integer)
+        Public Sub New(ByRef strToSearch As String, ByVal [case] As Boolean, ByVal include As GeneralObjectType, ByVal ii As Integer)
             strSearch = strToSearch
             caseSen = [case]
             includ = include
@@ -103,7 +104,7 @@ Public Class asyncCallbackSearchEnumerate
                 End If
 
                 ' ---- PROCESSES
-                If (pObj.includ And searchInfos.SearchInclude.SearchProcesses) = searchInfos.SearchInclude.SearchProcesses Then
+                If (pObj.includ And GeneralObjectType.Process) = GeneralObjectType.Process Then
                     Native.Objects.Process.SemCurrentProcesses.WaitOne()
                     If Native.Objects.Process.CurrentProcesses IsNot Nothing Then
                         Dim _tmpDico As New Dictionary(Of String, cProcess)
@@ -117,7 +118,7 @@ Public Class asyncCallbackSearchEnumerate
                                     End If
                                     If InStr(scomp, sToSearch, CompareMethod.Binary) > 0 Then
                                         ' Found an item
-                                        Dim newItFound As New searchInfos(cp.Infos.Pid, field, searchInfos.ResultType.Process, scomp)
+                                        Dim newItFound As New searchInfos(cp, field, scomp)
                                         key += 1
                                         _dico.Add(key.ToString, newItFound)
                                     End If
@@ -125,8 +126,8 @@ Public Class asyncCallbackSearchEnumerate
                             Next
 
                             ' ---- MODULES
-                            If (pObj.includ And searchInfos.SearchInclude.SearchModules) = searchInfos.SearchInclude.SearchModules Then
-                                Dim _tmpDico2 As Dictionary(Of String, cModule) = cModule.CurrentLocalModules(cp.Infos.Pid)
+                            If (pObj.includ And GeneralObjectType.Module) = GeneralObjectType.Module Then
+                                Dim _tmpDico2 As Dictionary(Of String, cModule) = cModule.CurrentLocalModules(cp.Infos.ProcessId)
                                 For Each cm As cModule In _tmpDico2.Values
                                     For Each field2 As String In processInfos.GetAvailableProperties
                                         Dim scomp2 As String = cm.GetInformation(field2)
@@ -136,7 +137,7 @@ Public Class asyncCallbackSearchEnumerate
                                             End If
                                             If InStr(scomp2, sToSearch, CompareMethod.Binary) > 0 Then
                                                 ' Found an item
-                                                Dim newItFound As New searchInfos(cp.Infos.Pid, field2, searchInfos.ResultType.Module, scomp2, "", IntPtr.Zero, cm.Infos.BaseAddress, cm.Infos.Name)
+                                                Dim newItFound As New searchInfos(cm, field2, scomp2)
                                                 key += 1
                                                 _dico.Add(key.ToString, newItFound)
                                             End If
@@ -146,7 +147,7 @@ Public Class asyncCallbackSearchEnumerate
                             End If
 
                             ' ---- ENVVARIABLES
-                            If (pObj.includ And searchInfos.SearchInclude.SearchEnvVar) = searchInfos.SearchInclude.SearchEnvVar Then
+                            If (pObj.includ And GeneralObjectType.EnvironmentVariable) = GeneralObjectType.EnvironmentVariable Then
                                 Dim _tmpDico2 As Dictionary(Of String, cEnvVariable) = cEnvVariable.CurrentEnvVariables(cp)
                                 For Each cm As cEnvVariable In _tmpDico2.Values
                                     For Each field2 As String In envVariableInfos.GetAvailableProperties
@@ -157,7 +158,7 @@ Public Class asyncCallbackSearchEnumerate
                                             End If
                                             If InStr(scomp2, sToSearch, CompareMethod.Binary) > 0 Then
                                                 ' Found an item
-                                                Dim newItFound As New searchInfos(cp.Infos.Pid, field2, searchInfos.ResultType.EnvironmentVariable, scomp2)
+                                                Dim newItFound As New searchInfos(cm, field2, scomp2)
                                                 key += 1
                                                 _dico.Add(key.ToString, newItFound)
                                             End If
@@ -172,7 +173,7 @@ Public Class asyncCallbackSearchEnumerate
                 End If
 
                 ' ---- SERVICES
-                If (pObj.includ And searchInfos.SearchInclude.SearchServices) = searchInfos.SearchInclude.SearchServices Then
+                If (pObj.includ And GeneralObjectType.Service) = GeneralObjectType.Service Then
                     Native.Objects.Service.SemCurrentServices.WaitOne()
                     If Native.Objects.Service.CurrentServices IsNot Nothing Then
                         Dim _tmpDico As New Dictionary(Of String, cService)
@@ -186,7 +187,7 @@ Public Class asyncCallbackSearchEnumerate
                                     End If
                                     If InStr(scomp, sToSearch, CompareMethod.Binary) > 0 Then
                                         ' Found an item
-                                        Dim newItFound As New searchInfos(cp.Infos.ProcessId, field, searchInfos.ResultType.Service, scomp, cp.Infos.Name, IntPtr.Zero, IntPtr.Zero)
+                                        Dim newItFound As New searchInfos(cp, field, scomp)
                                         key += 1
                                         _dico.Add(key.ToString, newItFound)
                                     End If
@@ -199,7 +200,7 @@ Public Class asyncCallbackSearchEnumerate
 
 
                 ' ---- HANDLES
-                If (pObj.includ And searchInfos.SearchInclude.SearchHandles) = searchInfos.SearchInclude.SearchHandles Then
+                If (pObj.includ And GeneralObjectType.Handle) = GeneralObjectType.Handle Then
                     Dim _tmpDico As New Dictionary(Of String, cHandle)
                     _tmpDico = Native.Objects.Handle.EnumerateCurrentLocalHandles
                     For Each cp As cHandle In _tmpDico.Values
@@ -211,7 +212,7 @@ Public Class asyncCallbackSearchEnumerate
                                 End If
                                 If InStr(scomp, sToSearch, CompareMethod.Binary) > 0 Then
                                     ' Found an item
-                                    Dim newItFound As New searchInfos(cp.Infos.ProcessID, field, searchInfos.ResultType.Handle, scomp, "", cp.Infos.Handle, IntPtr.Zero)
+                                    Dim newItFound As New searchInfos(cp, field, scomp)
                                     key += 1
                                     _dico.Add(key.ToString, newItFound)
                                 End If
@@ -222,7 +223,7 @@ Public Class asyncCallbackSearchEnumerate
 
 
                 ' ---- WINDOWS
-                If (pObj.includ And searchInfos.SearchInclude.SearchWindows) = searchInfos.SearchInclude.SearchWindows Then
+                If (pObj.includ And GeneralObjectType.Window) = GeneralObjectType.Window Then
                     Dim _tmpDico As New Dictionary(Of String, cWindow)
                     _tmpDico = Native.Objects.Window.EnumerateAllWindows
                     For Each cp As cWindow In _tmpDico.Values
@@ -234,7 +235,7 @@ Public Class asyncCallbackSearchEnumerate
                                 End If
                                 If InStr(scomp, sToSearch, CompareMethod.Binary) > 0 Then
                                     ' Found an item
-                                    Dim newItFound As New searchInfos(cp.Infos.ProcessId, field, searchInfos.ResultType.Window, scomp)
+                                    Dim newItFound As New searchInfos(cp, field, scomp)
                                     key += 1
                                     _dico.Add(key.ToString, newItFound)
                                 End If

@@ -466,6 +466,30 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
+#Region "Other"
+
+        <Flags()> _
+        Public Enum GeneralObjectType
+            [Window] = &H1
+            [Process] = &H2
+            [Service] = &H4
+            [Handle] = &H8
+            [EnvironmentVariable] = &H10
+            [Module] = &H20
+            [JobLimit] = &H40
+            [Job] = &H80
+            [Log] = &H100
+            [MemoryRegion] = &H200
+            [NetworkConnection] = &H400
+            [Privilege] = &H800
+            [SearchItem] = &H1000
+            [Task] = &H2000
+            [Thread] = &H4000
+        End Enum
+
+#End Region
+
     End Class
 
 End Namespace

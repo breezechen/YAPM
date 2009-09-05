@@ -47,6 +47,7 @@ Public Class cMemRegion
     Public Sub New(ByRef infos As memRegionInfos)
         _memInfos = infos
         _connection = Connection
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.MemoryRegion
 
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
             If infos.Type = Native.Api.NativeEnums.MemoryType.Image Then

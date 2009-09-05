@@ -46,6 +46,7 @@ Public Class cLogItem
     Public Sub New(ByRef infos As logItemInfos)
         _logInfos = infos
         _connection = Connection
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.Log
     End Sub
 
 #End Region

@@ -147,8 +147,8 @@ Public Class frmProcessInfo
 
             Case "General"
                 Me.txtProcessPath.Text = curProc.Infos.Path
-                Me.txtProcessId.Text = curProc.Infos.Pid.ToString
-                Me.txtParentProcess.Text = curProc.Infos.ParentProcessId.ToString & " -- " & cProcess.GetProcessName(curProc.Infos.Pid)
+                Me.txtProcessId.Text = curProc.Infos.ProcessId.ToString
+                Me.txtParentProcess.Text = curProc.Infos.ParentProcessId.ToString & " -- " & cProcess.GetProcessName(curProc.Infos.ProcessId)
                 Me.txtProcessStarted.Text = New Date(curProc.Infos.StartTime).ToLongDateString & " -- " & New Date(curProc.Infos.StartTime).ToLongTimeString
                 Me.txtProcessUser.Text = curProc.Infos.UserName
                 Me.txtCommandLine.Text = curProc.Infos.CommandLine
@@ -276,7 +276,7 @@ Public Class frmProcessInfo
             End If
             s = s & "\par"
             s = s & "  \b Process description\b0\par"
-            s = s & "\tab PID :\tab\tab\tab\tab " & CStr(curProc.Infos.Pid) & "\par"
+            s = s & "\tab PID :\tab\tab\tab\tab " & CStr(curProc.Infos.ProcessId) & "\par"
             s = s & "\tab Start time :\tab\tab\tab " & New Date(curProc.Infos.StartTime).ToLongDateString & " -- " & New Date(curProc.Infos.StartTime).ToLongTimeString & "\par"
             s = s & "\tab Priority :\tab\tab\tab\tab " & curProc.Infos.Priority.ToString & "\par"
             s = s & "\tab User :\tab\tab\tab\tab " & curProc.Infos.UserName & "\par"
@@ -507,7 +507,7 @@ Public Class frmProcessInfo
         curProc = process
         asyncAllNonFixedInfos = New asyncCallbackProcGetAllNonFixedInfos(cProcess.Connection, curProc)
 
-        Me.Text = curProc.Infos.Name & " (" & CStr(curProc.Infos.Pid) & ")"
+        Me.Text = curProc.Infos.Name & " (" & CStr(curProc.Infos.ProcessId) & ")"
         Me.cbPriority.Text = curProc.Infos.Priority.ToString
 
         _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
@@ -607,7 +607,7 @@ Public Class frmProcessInfo
 
     ' Change caption
     Private Sub ChangeCaption()
-        Me.Text = curProc.Infos.Name & " (" & curProc.Infos.Pid.ToString & ")"
+        Me.Text = curProc.Infos.Name & " (" & curProc.Infos.ProcessId.ToString & ")"
         Select Case Me.tabProcess.SelectedTab.Text
             Case "Modules"
                 Me.Text &= " - " & Me.lvModules.Items.Count.ToString & " modules"
@@ -646,7 +646,7 @@ Public Class frmProcessInfo
             Call DisplayFileStringsImage(curProc)
         Else
             ' Memory
-            cRW = New ProcessRW(curProc.Infos.Pid)
+            cRW = New ProcessRW(curProc.Infos.ProcessId)
             Dim lRes() As IntPtr
             ReDim lRes(0)
             Dim sRes() As String
@@ -955,7 +955,7 @@ Public Class frmProcessInfo
 
         ' Update list
         Me.lvProcServices.ShowAll = False
-        Me.lvProcServices.ProcessId = curProc.Infos.Pid
+        Me.lvProcServices.ProcessId = curProc.Infos.ProcessId
         Me.lvProcServices.UpdateTheItems()
 
     End Sub
@@ -965,7 +965,7 @@ Public Class frmProcessInfo
 
         Dim pid() As Integer
         ReDim pid(0)
-        pid(0) = curProc.Infos.Pid
+        pid(0) = curProc.Infos.ProcessId
         lvModules.ProcessId = pid
         lvModules.UpdateTheItems()
 
@@ -974,7 +974,7 @@ Public Class frmProcessInfo
     ' Show env variables
     Public Sub ShowEnvVariables()
 
-        lvProcEnv.ProcessId = curProc.Infos.Pid
+        lvProcEnv.ProcessId = curProc.Infos.ProcessId
         lvProcEnv.Peb = curProc.Infos.PebAddress
         lvProcEnv.UpdateTheItems()
 
@@ -983,7 +983,7 @@ Public Class frmProcessInfo
     ' Show privileges
     Public Sub ShowPrivileges()
 
-        lvPrivileges.ProcessId = curProc.Infos.Pid
+        lvPrivileges.ProcessId = curProc.Infos.ProcessId
         lvPrivileges.UpdateTheItems()
 
     End Sub
@@ -993,7 +993,7 @@ Public Class frmProcessInfo
 
         Dim pid() As Integer
         ReDim pid(0)
-        pid(0) = curProc.Infos.Pid
+        pid(0) = curProc.Infos.ProcessId
         Me.lvThreads.ProcessId = pid
         Me.lvThreads.UpdateTheItems()
 
@@ -1003,7 +1003,7 @@ Public Class frmProcessInfo
     Public Sub ShowNetwork()
 
         Dim pid(0) As Integer
-        pid(0) = curProc.Infos.Pid
+        pid(0) = curProc.Infos.ProcessId
         Me.lvProcNetwork.ShowAllPid = False
         Me.lvProcNetwork.ProcessId = pid
         Me.lvProcNetwork.UpdateTheItems()
@@ -1013,7 +1013,7 @@ Public Class frmProcessInfo
     ' Show memory regions
     Public Sub ShowRegions()
 
-        Me.lvProcMem.ProcessId = curProc.Infos.Pid
+        Me.lvProcMem.ProcessId = curProc.Infos.ProcessId
         Me.lvProcMem.UpdateTheItems()
 
     End Sub
@@ -1022,7 +1022,7 @@ Public Class frmProcessInfo
     Public Sub ShowWindows()
 
         Dim pid(0) As Integer
-        pid(0) = curProc.Infos.Pid
+        pid(0) = curProc.Infos.ProcessId
         Me.lvWindows.ProcessId = pid
         Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowUnNamed = Me.MenuItemWShowUn.Checked
@@ -1035,7 +1035,7 @@ Public Class frmProcessInfo
 
         Me.lvHandles.ShowUnnamed = Me.MenuItemShowUnnamedHandles.Checked
         Dim pids(0) As Integer
-        pids(0) = curProc.Infos.Pid
+        pids(0) = curProc.Infos.ProcessId
         Me.lvHandles.ProcessId = pids
         Me.lvHandles.UpdateTheItems()
 
@@ -1044,7 +1044,7 @@ Public Class frmProcessInfo
     ' Update log items
     Private Sub ShowLogItems()
 
-        Me.lvLog.ProcessId = curProc.Infos.Pid
+        Me.lvLog.ProcessId = curProc.Infos.ProcessId
         Me.lvLog.CaptureItems = Me.LogCaptureMask
         Me.lvLog.DisplayItems = Me.LogDisplayMask
 
@@ -1429,7 +1429,7 @@ Public Class frmProcessInfo
             If reg.Infos.BaseAddress.IsLowerOrEqualThan(add) AndAlso add.IsLowerOrEqualThan(reg.Infos.BaseAddress.Increment(reg.Infos.RegionSize)) Then
                 Dim frm As New frmHexEditor
                 Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
-                frm.SetPidAndRegion(curProc.Infos.Pid, regio)
+                frm.SetPidAndRegion(curProc.Infos.ProcessId, regio)
                 frm._hex.NavigateToOffset(CLng((add.ToInt64 - regio.BeginningAddress.ToInt64) / 16))
                 frm.TopMost = _frmMain.TopMost
                 frm.Show()
@@ -1626,7 +1626,7 @@ Public Class frmProcessInfo
             If reg.Infos.BaseAddress.IsLowerOrEqualThan(peb) AndAlso peb.IsLowerOrEqualThan(reg.Infos.BaseAddress.Increment(reg.Infos.RegionSize)) Then
                 Dim frm As New frmHexEditor
                 Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
-                frm.SetPidAndRegion(curProc.Infos.Pid, regio)
+                frm.SetPidAndRegion(curProc.Infos.ProcessId, regio)
                 frm._hex.NavigateToOffset(peb.ToInt64)
                 frm.TopMost = _frmMain.TopMost
                 frm.Show()
@@ -1721,7 +1721,7 @@ Public Class frmProcessInfo
                 If reg.Infos.BaseAddress.IsLowerOrEqualThan(add) AndAlso add.IsLowerThan(reg.Infos.BaseAddress.Increment(reg.Infos.RegionSize)) Then
                     Dim frm As New frmHexEditor
                     Dim regio As New MemoryHexEditor.MemoryRegion(reg.Infos.BaseAddress, reg.Infos.RegionSize)
-                    frm.SetPidAndRegion(curProc.Infos.Pid, regio)
+                    frm.SetPidAndRegion(curProc.Infos.ProcessId, regio)
                     frm._hex.NavigateToOffset(CLng((add.ToInt64 - regio.BeginningAddress.ToInt64) / 16) - 1)
                     frm.TopMost = _frmMain.TopMost
                     frm.Show()

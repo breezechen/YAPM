@@ -49,6 +49,7 @@ Public Class cWindow
     Public Sub New(ByRef infos As windowInfos)
         _windowInfos = New windowInfos(infos)
         _connection = Connection
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.Window
     End Sub
 
     ' This constructor should NOT be used to get informations of a window, has

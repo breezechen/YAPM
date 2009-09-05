@@ -762,6 +762,7 @@
     <Compile Include="Native\Memory\MemoryAlloc.vb" />
     <Compile Include="Providers\Classes\Processes\processInfos.vb" />
     <Compile Include="Providers\Classes\Search\asyncMethods\asyncCallbackSearchEnumerate.vb" />
+    <Compile Include="Providers\Classes\Search\cSearchItem.vb" />
     <Compile Include="Providers\Classes\Search\cSearchConnection.vb" />
     <Compile Include="Providers\Classes\Search\searchInfos.vb" />
     <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServDepEnumerate.vb" />

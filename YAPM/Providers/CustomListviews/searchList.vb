@@ -22,24 +22,25 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports YAPM.Native.Api.Enums
 
 Public Class searchList
     Inherits customLV
 
-    Public Event ItemAdded(ByRef item As cGeneralObject)
-    Public Event ItemDeleted(ByRef item As cGeneralObject)
+    Public Event ItemAdded(ByRef item As cSearchItem)
+    Public Event ItemDeleted(ByRef item As cSearchItem)
     Public Event HasRefreshed()
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
 
     ' ========================================
     ' Private
     ' ========================================
-    Private _dico As New Dictionary(Of String, searchInfos)
+    Private _dico As New Dictionary(Of String, cSearchItem)
     Private WithEvents _connectionObject As New cConnection
     Private WithEvents _searchConnection As New cSearchConnection(Me, _connectionObject, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
     Private _searchString As String
     Private _caseSensitive As Boolean
-    Private _include As searchInfos.SearchInclude = searchInfos.SearchInclude.SearchProcesses
+    Private _include As GeneralObjectType = GeneralObjectType.Process
 
 #Region "Properties"
 
@@ -70,11 +71,11 @@ Public Class searchList
             _caseSensitive = value
         End Set
     End Property
-    Public Property Includes() As searchInfos.SearchInclude
+    Public Property Includes() As GeneralObjectType
         Get
             Return _include
         End Get
-        Set(ByVal value As searchInfos.SearchInclude)
+        Set(ByVal value As GeneralObjectType)
             _include = value
         End Set
     End Property
@@ -132,6 +133,13 @@ Public Class searchList
 
         If _searchConnection.IsConnected Then
 
+            ' Clear items
+            Me.BeginUpdate()
+            Me.ClearItems()
+            Me.Items.Add("Currently searching...")
+            Me.Enabled = False
+            Me.EndUpdate()
+
             ' Now enumerate items
             _searchConnection.Enumerate(_searchString, _caseSensitive, _include)
 
@@ -140,12 +148,12 @@ Public Class searchList
     End Sub
 
     ' Get all items (associated to listviewitems)
-    Public Function GetAllItems() As Dictionary(Of String, searchInfos).ValueCollection
+    Public Function GetAllItems() As Dictionary(Of String, cSearchItem).ValueCollection
         Return _dico.Values
     End Function
 
     ' Get the selected item
-    Public Function GetSelectedItem() As searchInfos
+    Public Function GetSelectedItem() As cSearchItem
         If Me.SelectedItems.Count > 0 Then
             Return _dico.Item(Me.SelectedItems.Item(0).Name)
         Else
@@ -154,7 +162,7 @@ Public Class searchList
     End Function
 
     ' Get a specified item
-    Public Function GetItemByKey(ByVal key As String) As searchInfos
+    Public Function GetItemByKey(ByVal key As String) As cSearchItem
         If _dico.ContainsKey(key) Then
             Return _dico.Item(key)
         Else
@@ -163,8 +171,8 @@ Public Class searchList
     End Function
 
     ' Get selected items
-    Public Shadows Function GetSelectedItems() As Dictionary(Of String, searchInfos).ValueCollection
-        Dim res As New Dictionary(Of String, searchInfos)
+    Public Shadows Function GetSelectedItems() As Dictionary(Of String, cSearchItem).ValueCollection
+        Dim res As New Dictionary(Of String, cSearchItem)
 
         generalLvSemaphore.WaitOne()
         For Each it As ListViewItem In Me.SelectedItems
@@ -184,6 +192,7 @@ Public Class searchList
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, searchInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         generalLvSemaphore.WaitOne()
+        Me.ClearItems()
 
         If Success = False Then
             Trace.WriteLine("Cannot enumerate, an error was raised...")
@@ -192,10 +201,16 @@ Public Class searchList
             Exit Sub
         End If
 
-        _dico = Dico
+
+        ' Create cSearchItem instances
+        For Each pair As System.Collections.Generic.KeyValuePair(Of String, searchInfos) In Dico
+            _dico.Add(pair.Key, New cSearchItem(pair.Value))
+        Next
 
         ' Now add all items to listview
         Me.BeginUpdate()
+        Me.Enabled = True
+
         For Each z As String In _dico.Keys
             ' Add to listview
             Dim _subItems() As String
@@ -203,7 +218,7 @@ Public Class searchList
             For x As Integer = 1 To _subItems.Length - 1
                 _subItems(x) = ""
             Next
-            Dim _tmp As searchInfos = _dico.Item(z)
+            Dim _tmp As cSearchItem = _dico.Item(z)
             AddItemWithStyle(z, _tmp).SubItems.AddRange(_subItems)
         Next
 
@@ -214,7 +229,7 @@ Public Class searchList
         For Each it In Me.Items
             Dim x As Integer = 0
             If _dico.ContainsKey(it.Name) Then
-                Dim _item As searchInfos = _dico.Item(it.Name)
+                Dim _item As cSearchItem = _dico.Item(it.Name)
                 For Each isub In it.SubItems
                     isub.Text = _item.GetInformation(_columnsName(x))
                     x += 1
@@ -245,7 +260,7 @@ Public Class searchList
         For Each it In Me.Items
             Dim x As Integer = 0
             If _dico.ContainsKey(it.Name) Then
-                Dim _item As searchInfos = _dico.Item(it.Name)
+                Dim _item As cSearchItem = _dico.Item(it.Name)
                 For Each isub In it.SubItems
                     isub.Text = _item.GetInformation(_columnsName(x))
                     x += 1
@@ -255,23 +270,23 @@ Public Class searchList
     End Sub
 
     ' Add an item (specific to type of list)
-    Private Shadows Function AddItemWithStyle(ByVal key As String, ByRef net As searchInfos) As ListViewItem
+    Private Shadows Function AddItemWithStyle(ByVal key As String, ByRef it As cSearchItem) As ListViewItem
 
         Dim item As ListViewItem = Me.Items.Add(key)
         item.Name = key
         item.ForeColor = _foreColor
         item.Tag = key
 
-        Select Case net.Type
-            Case searchInfos.ResultType.EnvironmentVariable
+        Select Case it.Infos.Type
+            Case GeneralObjectType.EnvironmentVariable
                 item.ImageKey = "envvar"
-            Case searchInfos.ResultType.Handle
+            Case GeneralObjectType.Handle
                 item.ImageKey = "handle"
-            Case searchInfos.ResultType.Module
+            Case GeneralObjectType.Module
                 item.ImageKey = "dllIcon"
-            Case searchInfos.ResultType.Process
+            Case GeneralObjectType.Process
                 item.ImageKey = "exeFile"
-            Case searchInfos.ResultType.Service
+            Case GeneralObjectType.Service
                 item.ImageKey = "service"
             Case Else
                 item.ImageKey = "window"

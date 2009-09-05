@@ -198,7 +198,7 @@ Public Class processesInJobList
         ' Now add all items with isKilled = true to _dicoDel dictionnary
         For Each z As cProcess In _dico.Values
             If z.IsKilledItem Then
-                _dicoDel.Add(z.Infos.Pid.ToString, Nothing)
+                _dicoDel.Add(z.Infos.ProcessId.ToString, Nothing)
             End If
         Next
 
@@ -344,7 +344,7 @@ Public Class processesInJobList
         cProcess.AssociatePidAndName(key, _dico.Item(key).Infos.Name)
 
         If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If proc.Infos.Pid > 4 Then
+            If proc.Infos.ProcessId > 4 Then
 
                 ' Add icon
                 Try

@@ -125,7 +125,7 @@ Public Class processList
         ReDim pid(Me.GetSelectedItems.Count - 1)
         Dim x As Integer = 0
         For Each cp As cProcess In Me.GetSelectedItems
-            pid(x) = cp.Infos.Pid
+            pid(x) = cp.Infos.ProcessId
             x += 1
         Next
         generalLvSemaphore.WaitOne()
@@ -212,7 +212,7 @@ Public Class processList
         ' Now add all items with isKilled = true to _dicoDel dictionnary
         For Each z As cProcess In _dico.Values
             If z.IsKilledItem Then
-                _dicoDel.Add(z.Infos.Pid.ToString, Nothing)
+                _dicoDel.Add(z.Infos.ProcessId.ToString, Nothing)
             End If
         Next
 
@@ -368,7 +368,7 @@ Public Class processList
         cProcess.AssociatePidAndName(key, _dico.Item(key).Infos.Name)
 
         If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If proc.Infos.Pid > 4 Then
+            If proc.Infos.ProcessId > 4 Then
 
                 ' Add icon
                 Try

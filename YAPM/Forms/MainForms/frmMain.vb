@@ -267,11 +267,7 @@ Public Class frmMain
             Native.Functions.Misc.SetTheme(Me.lvMonitorReport.Handle)
             Native.Functions.Misc.SetTheme(Me.lvNetwork.Handle)
             Native.Functions.Misc.SetTheme(Me.lvTask.Handle)
-            Native.Functions.Misc.SetTheme(Me.lvHandles.Handle)
-            Native.Functions.Misc.SetTheme(Me.lvWindows.Handle)
             Native.Functions.Misc.SetTheme(Me.lvSearchResults.Handle)
-            Native.Functions.Misc.SetTheme(Me.lvModules.Handle)
-            Native.Functions.Misc.SetTheme(Me.lvThreads.Handle)
             Native.Functions.Misc.SetTheme(Me.lvServices.Handle)
             Native.Functions.Misc.SetTheme(Me.tv.Handle)
             Native.Functions.Misc.SetTheme(Me.tv2.Handle)
@@ -356,15 +352,6 @@ Public Class frmMain
         SetToolTip(Me.lblTaskCountResult, "Number of results. Click on the number to view results")
         SetToolTip(Me.txtSearchTask, "Enter text here to search a task")
         SetToolTip(Me.txtSearch, "Enter text here to search a process")
-        SetToolTip(Me.lblModulesCount, "Number of results. Click on the number to view results")
-        SetToolTip(Me.txtSearchModule, "Enter text here to search a module")
-        SetToolTip(Me.lblThreadResults, "Number of results. Click on the number to view results")
-        SetToolTip(Me.txtSearchThread, "Enter text here to search a thread")
-        SetToolTip(Me.lblHandlesCount, "Number of results. Click on the number to view results")
-        SetToolTip(Me.txtSearchHandle, "Enter text here to search a handle")
-        SetToolTip(Me.lblWindowsCount, "Number of results. Click on the number to view results")
-        SetToolTip(Me.txtSearchWindow, "Enter text here to search a window")
-        SetToolTip(Me.chkAllWindows, "Display all windows (including windows without caption)")
         SetToolTip(Me.txtSearchResults, "Enter text here to search into the results")
         SetToolTip(Me.lblResultsCount, "Number of results. Click on the number to view results")
         SetToolTip(Me.tvMonitor, "Monitoring items")
@@ -403,10 +390,6 @@ Public Class frmMain
         ' Init columns
         Pref.LoadListViewColumns(Me.lvProcess, "COLmain_process")
         Pref.LoadListViewColumns(Me.lvTask, "COLmain_task")
-        Pref.LoadListViewColumns(Me.lvModules, "COLmain_module")
-        Pref.LoadListViewColumns(Me.lvThreads, "COLmain_thread")
-        Pref.LoadListViewColumns(Me.lvHandles, "COLmain_handle")
-        Pref.LoadListViewColumns(Me.lvWindows, "COLmain_window")
         Pref.LoadListViewColumns(Me.lvServices, "COLmain_service")
         Pref.LoadListViewColumns(Me.lvNetwork, "COLmain_network")
 
@@ -438,12 +421,6 @@ Public Class frmMain
 
 
         ' Add some submenus (Copy to clipboard)
-        For Each ss As String In handleInfos.GetAvailableProperties(True, True)
-            Me.MenuItemCopyHandle.MenuItems.Add(ss, AddressOf MenuItemCopyHandle_Click)
-        Next
-        For Each ss As String In moduleInfos.GetAvailableProperties(True, True)
-            Me.MenuItemCopyModule.MenuItems.Add(ss, AddressOf MenuItemCopyModule_Click)
-        Next
         For Each ss As String In jobInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyJob.MenuItems.Add(ss, AddressOf MenuItemCopyJob_Click)
         Next
@@ -455,12 +432,6 @@ Public Class frmMain
         Next
         For Each ss As String In serviceInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyService.MenuItems.Add(ss, AddressOf MenuItemCopyService_Click)
-        Next
-        For Each ss As String In threadInfos.GetAvailableProperties(True, True)
-            Me.MenuItemCopyThread.MenuItems.Add(ss, AddressOf MenuItemCopyThread_Click)
-        Next
-        For Each ss As String In windowInfos.GetAvailableProperties(True, True)
-            Me.MenuItemCopyWindow.MenuItems.Add(ss, AddressOf MenuItemCopyWindow_Click)
         Next
         For Each ss As String In taskInfos.GetAvailableProperties(True, True)
             Me.MenuItemCopyTask.MenuItems.Add(ss, AddressOf MenuItemCopyTask_Click)
@@ -556,14 +527,6 @@ Public Class frmMain
                 Me.Ribbon.ActiveTab = Me.TaskTab
             Case "Processes"
                 Me.Ribbon.ActiveTab = Me.ProcessTab
-            Case "Modules"
-                Me.Ribbon.ActiveTab = Me.ModulesTab
-            Case "Threads"
-                Me.Ribbon.ActiveTab = Me.ThreadTab
-            Case "Handles"
-                Me.Ribbon.ActiveTab = Me.HandlesTab
-            Case "Windows"
-                Me.Ribbon.ActiveTab = Me.WindowTab
             Case "Monitor"
                 Me.Ribbon.ActiveTab = Me.MonitorTab
             Case "Services"
@@ -801,21 +764,9 @@ Public Class frmMain
             Case "Search"
                 Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
                 _tab.SelectedTab = Me.pageSearch
-            Case "Handles"
-                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
-                _tab.SelectedTab = Me.pageHandles
             Case "Monitor"
                 Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                 _tab.SelectedTab = Me.pageMonitor
-            Case "Threads"
-                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
-                _tab.SelectedTab = Me.pageThreads
-            Case "Windows"
-                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
-                _tab.SelectedTab = Me.pageWindows
-            Case "Modules"
-                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
-                _tab.SelectedTab = Me.pageModules
             Case "Tasks"
                 Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvTask.Items.Count) & " tasks running"
                 _tab.SelectedTab = Me.pageTasks
@@ -892,35 +843,6 @@ Public Class frmMain
             .TopMost = _frmMain.TopMost
             .ShowDialog()
         End With
-    End Sub
-
-    Private Sub ShowHandles(Optional ByVal showTab As Boolean = True)
-
-        Me.lvHandles.ShowUnnamed = Me.MenuItemShowUnnamedHandles.Checked
-        Me.lvHandles.ProcessId = Me.handlesToRefresh
-        Me.lvHandles.UpdateTheItems()
-
-        If showTab Then
-            Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvHandles.Items.Count) & " handles"
-            Application.DoEvents()
-            Me.Ribbon.ActiveTab = Me.HandlesTab
-            Call Me.Ribbon_MouseMove(Nothing, Nothing)
-        End If
-    End Sub
-
-    Private Sub butHandleRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandleRefresh.Click
-        Call ShowHandles()
-    End Sub
-
-    Private Sub butHandleClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandleClose.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
-        End If
-        For Each ch As cHandle In Me.lvHandles.GetSelectedItems
-            ch.CloseHandle()
-        Next
     End Sub
 
     Private Sub butFileProperties_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileProperties.Click
@@ -1329,274 +1251,6 @@ Public Class frmMain
         Return Math.Max(0, max - lMax)
     End Function
 
-    ' Show threads of selected processes (threadsToRefresh)
-    Private Sub ShowThreads(Optional ByVal showTab As Boolean = True)
-
-        Me.lvThreads.ProcessId = Me.threadsToRefresh
-        Me.lvThreads.UpdateTheItems()
-
-        If showTab Then _
-            Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvThreads.Items.Count) & " threads"
-
-    End Sub
-
-    Private Sub butThreadRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadRefresh.Click
-        If threadsToRefresh IsNot Nothing Then Call ShowThreads()
-    End Sub
-
-    Private Sub butThreadKill_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadKill.Click
-        Call Me.MenuItemThTerm_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butThreadResume_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadResume.Click
-        Call Me.MenuItemThResu_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butThreadStop_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadStop.Click
-        Call Me.MenuItemThSelProc_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butThreadPabove_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPabove.Click
-        Call Me.MenuItemThANorm_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butThreadPbelow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPbelow.Click
-        Call Me.MenuItemThBNormal_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butThreadPcritical_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPcritical.Click
-        Call Me.MenuItemThTimeCr_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butThreadPhighest_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPhighest.Click
-        Call Me.MenuItemThHighest_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butThreadPidle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPidle.Click
-        Call Me.MenuItemThIdle_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butThreadPlowest_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPlowest.Click
-        Call Me.MenuItemThLowest_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub butThreadPnormal_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadPnormal.Click
-        Call Me.MenuItemThNorm_Click(Nothing, Nothing)
-    End Sub
-
-    ' Show windows of selected processes (windowsToRefresh)
-    Public Sub ShowWindows(Optional ByVal showTab As Boolean = True)
-
-        Me.lvWindows.ProcessId = Me.windowsToRefresh
-        Me.lvWindows.ShowAllPid = False
-        Me.lvWindows.ShowUnNamed = Me.chkAllWindows.Checked
-        Me.lvWindows.UpdateTheItems()
-
-        If showTab Then _
-            Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvWindows.Items.Count) & " windows"
-
-    End Sub
-
-    Private Sub butWindowRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowRefresh.Click
-        If windowsToRefresh IsNot Nothing Then Call ShowWindows()
-    End Sub
-
-    Private Sub butProcessThreads_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessThreads.Click
-        If Me.lvProcess.SelectedItems.Count > 0 Then
-
-            Dim x As Integer = 0
-            ReDim threadsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
-
-            For Each it As cProcess In Me.lvProcess.GetSelectedItems
-                threadsToRefresh(x) = it.Infos.Pid
-                x += 1
-            Next
-
-            Call ShowThreads()
-            Me.Ribbon.ActiveTab = Me.ThreadTab
-            Call Me.Ribbon_MouseMove(Nothing, Nothing)
-        End If
-    End Sub
-
-    Private Sub butProcessWindows_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessWindows.Click
-        If Me.lvProcess.SelectedItems.Count > 0 Then
-
-            Dim x As Integer = 0
-            ReDim windowsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
-
-            For Each it As cProcess In Me.lvProcess.GetSelectedItems
-                windowsToRefresh(x) = it.Infos.Pid
-                x += 1
-            Next
-
-            Call ShowWindows()
-            Me.Ribbon.ActiveTab = Me.WindowTab
-            Call Me.Ribbon_MouseMove(Nothing, Nothing)
-        End If
-    End Sub
-
-    Private Sub butShowProcHandles_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butShowProcHandles.Click
-        Dim x As Integer = 0
-        ReDim handlesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
-        For Each it As cProcess In Me.lvProcess.GetSelectedItems
-            handlesToRefresh(x) = it.Infos.Pid
-            x += 1
-        Next
-        Call ShowHandles()
-    End Sub
-
-    Private Sub butProcessShow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessShow.Click
-        'Call butProcessThreads_Click(Nothing, Nothing)
-        'Call butProcessWindows_Click(Nothing, Nothing)
-        'Call butShowProcHandles_Click(Nothing, Nothing)
-        'Me.Ribbon.ActiveTab = Me.ProcessTab
-        'Call Me.Ribbon_MouseMove(Nothing, Nothing)
-    End Sub
-
-    Private Sub butWindowBringToFront_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowBringToFront.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.BringToFront(True)
-        Next
-    End Sub
-
-    Private Sub butWindowCaption_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowCaption.Click
-        Dim z As String = ""
-
-        If Me.lvWindows.SelectedItems.Count > 0 Then
-            z = Me.lvWindows.GetSelectedItem.Caption
-        End If
-
-        Dim sres As String = CInputBox("Set a new caption.", "New caption", z)
-
-        If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
-
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Caption = sres
-        Next
-    End Sub
-
-    Private Sub butWindowClose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowClose.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Close()
-        Next
-    End Sub
-
-    Private Sub butWindowFlash_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowFlash.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Flash()
-        Next
-    End Sub
-
-    Private Sub butWindowHide_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowHide.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Hide()
-        Next
-    End Sub
-
-    Private Sub butWindowMaximize_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowMaximize.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Maximize()
-        Next
-    End Sub
-
-    Private Sub butWindowMinimize_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowMinimize.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Minimize()
-        Next
-    End Sub
-
-    Private Sub butWindowOpacity_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowOpacity.Click
-        Dim i As Byte
-        Dim z As Integer = 0
-
-        If Me.lvWindows.SelectedItems.Count > 0 Then
-            z = Me.lvWindows.GetSelectedItem.Infos.Opacity
-        End If
-
-        Dim sres As String = CInputBox("Set a new opacity [0 to 255, 255 = minimum transparency]", "New opacity", CStr(z))
-
-        If sres Is Nothing OrElse sres.Equals(String.Empty) Then Exit Sub
-
-        i = CByte(Val(sres))
-        If i < 0 Or i > 255 Then Exit Sub
-
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Opacity = i
-        Next
-    End Sub
-
-    Private Sub butWindowSetAsActive_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowSetAsActive.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.SetAsActiveWindow()
-        Next
-    End Sub
-
-    Private Sub butWindowSetAsForeground_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowSetAsForeground.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.SetAsForegroundWindow()
-        Next
-    End Sub
-
-    Private Sub butWindowShow_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowShow.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Show()
-        Next
-    End Sub
-
-    Private Sub butWindowDoNotBringToFront_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowDoNotBringToFront.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.BringToFront(False)
-        Next
-    End Sub
-
-    Private Sub butWindowPositionSize_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowPositionSize.Click
-        Dim r As Native.Api.NativeStructs.Rect
-
-        If Me.lvWindows.SelectedItems.Count > 0 Then
-
-            Dim frm As New frmWindowPosition
-            With frm
-                .SetCurrentPositions(Me.lvWindows.GetSelectedItem.Infos.Positions)
-                .TopMost = _frmMain.TopMost
-
-                If .ShowDialog() = Windows.Forms.DialogResult.OK Then
-                    r = .NewRect
-                    For Each it As cWindow In Me.lvWindows.GetSelectedItems
-                        it.SetPositions(r)
-                    Next
-                End If
-            End With
-        End If
-    End Sub
-
-    Private Sub butWindowEnable_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowEnable.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Enabled = True
-        Next
-    End Sub
-
-    Private Sub butWindowDisable_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowDisable.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.Enabled = False
-        Next
-    End Sub
-
-    Private Sub butWindowStopFlashing_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowStopFlashing.Click
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            it.StopFlashing()
-        Next
-    End Sub
-
-    Private Sub butHandlesSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butHandlesSaveReport.Click
-        Dim frm As New frmSaveReport
-        With frm
-            .ReportType = "handles"
-            Call Application.DoEvents()
-            .TopMost = _frmMain.TopMost
-            .ShowDialog()
-        End With
-    End Sub
-
     Private Sub butDeleteFile_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDeleteFile.Click
         cSelFile.WindowsKill()
     End Sub
@@ -1632,76 +1286,6 @@ Public Class frmMain
         Call Me.refreshFileInfos(cSelFile.Path)
     End Sub
 
-    Private Sub butProcessShowModules_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessShowModules.Click
-        If Me.lvProcess.SelectedItems.Count > 0 Then
-
-            Dim x As Integer = 0
-            ReDim modulesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
-
-            For Each it As cProcess In Me.lvProcess.GetSelectedItems
-                modulesToRefresh(x) = it.Infos.Pid
-                x += 1
-            Next
-
-            Call ShowModules()
-            Me.Ribbon.ActiveTab = Me.ModulesTab
-            Call Me.Ribbon_MouseMove(Nothing, Nothing)
-        End If
-    End Sub
-
-    ' Show modules of selected processes (modulesToRefresh)
-    Private Sub ShowModules(Optional ByVal showTab As Boolean = True)
-
-        Me.lvModules.ProcessId = Me.modulesToRefresh
-        Me.lvModules.UpdateTheItems()
-
-        If showTab Then _
-            Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
-
-    End Sub
-
-    Private Sub butModuleRefresh_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleRefresh.Click
-        If modulesToRefresh IsNot Nothing Then Call ShowModules()
-    End Sub
-
-    Private Sub butModulesSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModulesSaveReport.Click
-        Dim frm As New frmSaveReport
-        With frm
-            .ReportType = "modules"
-            Call Application.DoEvents()
-            .TopMost = _frmMain.TopMost
-            .ShowDialog()
-        End With
-    End Sub
-
-    Private Sub butModuleUnload_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleUnload.Click
-        For Each it As cModule In Me.lvModules.GetSelectedItems
-            it.UnloadModule()
-            'it.Remove()
-        Next
-        Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
-    End Sub
-
-    Private Sub butThreadSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butThreadSaveReport.Click
-        Dim frm As New frmSaveReport
-        With frm
-            .ReportType = "threads"
-            Call Application.DoEvents()
-            .TopMost = _frmMain.TopMost
-            .ShowDialog()
-        End With
-    End Sub
-
-    Private Sub butWindowSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowSaveReport.Click
-        Dim frm As New frmSaveReport
-        With frm
-            .ReportType = "windows"
-            Call Application.DoEvents()
-            .TopMost = _frmMain.TopMost
-            .ShowDialog()
-        End With
-    End Sub
-
     Private Sub butServiceReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceReport.Click
         Dim frm As New frmSaveReport
         With frm
@@ -1710,41 +1294,6 @@ Public Class frmMain
             .TopMost = _frmMain.TopMost
             .ShowDialog()
         End With
-    End Sub
-
-    Private Sub butProcessShowAll_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessShowAll.Click
-
-        ' We refresh all informations for the selected processes
-        If Me.lvProcess.SelectedItems.Count > 0 Then
-
-            Dim x As Integer = 0
-            ReDim modulesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
-            ReDim windowsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
-            ReDim handlesToRefresh(Me.lvProcess.SelectedItems.Count - 1)
-            ReDim threadsToRefresh(Me.lvProcess.SelectedItems.Count - 1)
-
-            For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-                modulesToRefresh(x) = cp.Infos.Pid
-                windowsToRefresh(x) = cp.Infos.Pid
-                handlesToRefresh(x) = cp.Infos.Pid
-                threadsToRefresh(x) = cp.Infos.Pid
-                x += 1
-            Next
-
-            Call ShowModules(False)
-            Call ShowThreads(False)
-            Call ShowWindows(False)
-            Call ShowHandles(False)
-        End If
-
-    End Sub
-
-    Private Sub butModuleGoogle_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleGoogle.Click
-        Dim it As ListViewItem
-        For Each it In Me.lvModules.SelectedItems
-            Application.DoEvents()
-            Call SearchInternet(it.Text, Me.Handle)
-        Next
     End Sub
 
     Private Sub butAlwaysDisplay_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butAlwaysDisplay.Click
@@ -1879,11 +1428,6 @@ Public Class frmMain
             ' Close task
             it.Close()
         Next
-    End Sub
-
-    Private Sub butWindowFind_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butWindowFind.Click
-        frmFindWindow.TopMost = _frmMain.TopMost
-        frmFindWindow.Show()
     End Sub
 
     Private Sub refreshNetworkList()
@@ -2314,12 +1858,12 @@ Public Class frmMain
 
     Private Sub lvProcess_ItemAdded(ByRef item As cProcess) Handles lvProcess.ItemAdded
         If item IsNot Nothing Then
-            Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
+            Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
             If Me.MenuItemTaskSelProc.Enabled = False Then
                 MenuItemTaskSelProc.Enabled = True
             End If
             If My.Settings.NotifyNewProcesses AndAlso Me.lvProcess.FirstRefreshDone Then
-                Dim text As String = "Name : " & item.Infos.Name & " (" & item.Infos.Pid.ToString & ")"
+                Dim text As String = "Name : " & item.Infos.Name & " (" & item.Infos.ProcessId.ToString & ")"
                 If item.Infos.ParentProcessId > 0 Then
                     text &= vbNewLine & "Parent : " & _
                         cProcess.GetProcessName(item.Infos.ParentProcessId) & " (" & _
@@ -2341,9 +1885,9 @@ Public Class frmMain
 
     Private Sub lvProcess_ItemDeleted(ByRef item As cProcess) Handles lvProcess.ItemDeleted
         If item IsNot Nothing Then
-            Program.Log.AppendLine("Process deleted : " & item.Infos.Name & " (" & item.Infos.Pid & ")")
+            Program.Log.AppendLine("Process deleted : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
             If My.Settings.NotifyTerminatedProcesses Then
-                Dim text As String = "Name : " & item.Infos.Name & " (" & item.Infos.Pid.ToString & ")"
+                Dim text As String = "Name : " & item.Infos.Name & " (" & item.Infos.ProcessId.ToString & ")"
                 If item.Infos.ParentProcessId > 0 Then
                     text &= vbNewLine & "Parent : " & _
                         cProcess.GetProcessName(item.Infos.ParentProcessId) & " (" & _
@@ -2412,7 +1956,6 @@ Public Class frmMain
             Me.MenuItemProcPRT.Checked = (p = ProcessPriorityClass.RealTime)
 
             Dim selectionIsNotNothing As Boolean = (Me.lvProcess.SelectedItems IsNot Nothing AndAlso Me.lvProcess.SelectedItems.Count > 0)
-            Me.MenuItem27.Enabled = selectionIsNotNothing
             Me.MenuItem35.Enabled = selectionIsNotNothing
             Me.MenuItemProcKill.Enabled = selectionIsNotNothing
             Me.MenuItemProcPriority.Enabled = selectionIsNotNothing
@@ -2430,10 +1973,6 @@ Public Class frmMain
             Me.MenuItemProcSFileDetails.Enabled = (selectionIsNotNothing AndAlso Me.lvProcess.SelectedItems.Count = 1)
             Me.MenuItemProcDump.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcAff.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcSAll.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcSHandles.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcSServices.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcSWindows.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcWSS.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcKillByMethod.Enabled = selectionIsNotNothing AndAlso _notWMI
 
@@ -2442,95 +1981,11 @@ Public Class frmMain
             If Me.lvProcess.SelectedItems.Count <> 1 Then
                 Me.MenuItemJobMng.Enabled = True
             Else
-                Me.MenuItemJobMng.Enabled = (cJob.GetProcessJobById(Me.lvProcess.GetSelectedItem.Infos.Pid) IsNot Nothing)
+                Me.MenuItemJobMng.Enabled = (cJob.GetProcessJobById(Me.lvProcess.GetSelectedItem.Infos.ProcessId) IsNot Nothing)
                 Me.MenuItemProcAddToJob.Enabled = Not (Me.MenuItemJobMng.Enabled)
             End If
 
             Me.mnuProcess.Show(Me.lvProcess, e.Location)
-        End If
-    End Sub
-
-    Private Sub lvModules_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseDown
-        Common.Misc.CopyLvToClip(e, Me.lvModules)
-    End Sub
-
-    Private Sub lvModules_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvModules.MouseUp
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-            Dim selectionIsNotNothing As Boolean = (Me.lvModules.SelectedItems IsNot Nothing _
-                                        AndAlso Me.lvModules.SelectedItems.Count > 0)
-            Me.MenuItemModuleDependencies.Enabled = selectionIsNotNothing AndAlso _local
-            Me.MenuItemModuleFileDetails.Enabled = selectionIsNotNothing AndAlso _local AndAlso Me.lvModules.SelectedItems.Count = 1
-            Me.MenuItemModuleFileProp.Enabled = selectionIsNotNothing AndAlso _local
-            Me.MenuItemModuleOpenDir.Enabled = selectionIsNotNothing AndAlso _local
-            Me.MenuItemModuleSearch.Enabled = selectionIsNotNothing
-            Me.MenuItemModuleSelProc.Enabled = selectionIsNotNothing
-            Me.MenuItemUnloadModule.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemCopyModule.Enabled = selectionIsNotNothing
-            Me.mnuModule.Show(Me.lvModules, e.Location)
-        End If
-    End Sub
-
-    Private Sub lvModules_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvModules.SelectedIndexChanged
-        If lvModules.SelectedItems.Count = 1 Then
-            Try
-
-                Dim cP As cModule = lvModules.GetSelectedItem
-
-                ' Description
-                Dim s As String = ""
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Module properties\b0\par"
-                s = s & "\tab Module name :\tab\tab\tab " & cFile.GetFileName(cP.Infos.Path) & "\par"
-                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.Infos.ProcessId) & " -- " & cProcess.GetProcessName(cP.Infos.ProcessId) & "\par"
-                s = s & "\tab Path :\tab\tab\tab\tab " & Replace(cP.Infos.Path, "\", "\\") & "\par"
-                If cP.Infos.FileInfo IsNot Nothing Then
-                    s = s & "\tab Version :\tab\tab\tab " & cP.Infos.FileInfo.FileVersion & "\par"
-                    s = s & "\tab Comments :\tab\tab\tab " & cP.Infos.FileInfo.Comments & "\par"
-                    s = s & "\tab CompanyName :\tab\tab\tab " & cP.Infos.FileInfo.CompanyName & "\par"
-                    s = s & "\tab LegalCopyright :\tab\tab\tab " & cP.Infos.FileInfo.LegalCopyright & "\par"
-                    s = s & "\tab ProductName :\tab\tab\tab " & cP.Infos.FileInfo.ProductName & "\par"
-                    s = s & "\tab Language :\tab\tab\tab " & cP.Infos.FileInfo.Language & "\par"
-                    s = s & "\tab InternalName :\tab\tab\tab " & cP.Infos.FileInfo.InternalName & "\par"
-                    s = s & "\tab LegalTrademarks :\tab\tab " & cP.Infos.FileInfo.LegalTrademarks & "\par"
-                    s = s & "\tab OriginalFilename :\tab\tab\tab " & cP.Infos.FileInfo.OriginalFilename & "\par"
-                    s = s & "\tab FileBuildPart :\tab\tab\tab " & CStr(cP.Infos.FileInfo.FileBuildPart) & "\par"
-                    s = s & "\tab FileDescription :\tab\tab\tab " & CStr(cP.Infos.FileInfo.FileDescription) & "\par"
-                    s = s & "\tab FileMajorPart :\tab\tab\tab " & CStr(cP.Infos.FileInfo.FileMajorPart) & "\par"
-                    s = s & "\tab FileMinorPart :\tab\tab\tab " & CStr(cP.Infos.FileInfo.FileMinorPart) & "\par"
-                    s = s & "\tab FilePrivatePart :\tab\tab\tab " & CStr(cP.Infos.FileInfo.FilePrivatePart) & "\par"
-                    s = s & "\tab IsDebug :\tab\tab\tab " & CStr(cP.Infos.FileInfo.IsDebug) & "\par"
-                    s = s & "\tab IsPatched :\tab\tab\tab " & CStr(cP.Infos.FileInfo.IsPatched) & "\par"
-                    s = s & "\tab IsPreRelease :\tab\tab\tab " & CStr(cP.Infos.FileInfo.IsPreRelease) & "\par"
-                    s = s & "\tab IsPrivateBuild :\tab\tab\tab " & CStr(cP.Infos.FileInfo.IsPrivateBuild) & "\par"
-                    s = s & "\tab IsSpecialBuild :\tab\tab\tab " & CStr(cP.Infos.FileInfo.IsSpecialBuild) & "\par"
-                    s = s & "\tab PrivateBuild :\tab\tab\tab " & CStr(cP.Infos.FileInfo.PrivateBuild) & "\par"
-                    s = s & "\tab ProductBuildPart :\tab\tab " & CStr(cP.Infos.FileInfo.ProductBuildPart) & "\par"
-                    s = s & "\tab ProductMajorPart :\tab\tab " & CStr(cP.Infos.FileInfo.ProductMajorPart) & "\par"
-                    s = s & "\tab ProductMinorPart :\tab\tab " & CStr(cP.Infos.FileInfo.ProductMinorPart) & "\par"
-                    s = s & "\tab ProductPrivatePart :\tab\tab " & CStr(cP.Infos.FileInfo.ProductPrivatePart) & "\par"
-                    s = s & "\tab ProductVersion :\tab\tab\tab " & CStr(cP.Infos.FileInfo.ProductVersion) & "\par"
-                    s = s & "\tab SpecialBuild :\tab\tab\tab " & CStr(cP.Infos.FileInfo.SpecialBuild) & "\par"
-                End If
-
-                s = s & "}"
-
-                rtb6.Rtf = s
-
-            Catch ex As Exception
-                Dim s As String = ""
-                Dim er As Exception = ex
-
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                s = s & "\tab Message :\tab " & er.Message & "\par"
-                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                s = s & "}"
-
-                rtb6.Rtf = s
-
-            End Try
-
         End If
     End Sub
 
@@ -2587,158 +2042,6 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub lvWindows_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseDown
-        Common.Misc.CopyLvToClip(e, Me.lvWindows)
-    End Sub
-
-    Private Sub lvWindows_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvWindows.MouseUp
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-
-            Dim selectionIsNotNothing As Boolean = (Me.lvWindows.SelectedItems IsNot Nothing _
-                    AndAlso Me.lvWindows.SelectedItems.Count > 0)
-            Me.MenuItemWindowSelProc.Enabled = selectionIsNotNothing
-            Me.MenuItemCopyWindow.Enabled = selectionIsNotNothing
-
-            Me.MenuItemWClose.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemWDisab.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemWEnable.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemWHide.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemWShow.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemWVisibility.Enabled = selectionIsNotNothing AndAlso _notWMI
-
-            Me.mnuWindow.Show(Me.lvWindows, e.Location)
-        End If
-    End Sub
-
-    Private Sub lvWindows_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvWindows.SelectedIndexChanged
-        ' New window selected
-        If lvWindows.SelectedItems.Count = 1 Then
-
-            Try
-                Dim cP As cWindow = Me.lvWindows.GetSelectedItem
-
-                ' Description
-                Dim s As String = ""
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Window properties\b0\par"
-                s = s & "\tab Window ID :\tab\tab\tab " & CStr(cP.Infos.Handle) & "\par"
-                s = s & "\tab Process owner :\tab\tab\tab " & CStr(cP.Infos.ProcessId) & " -- " & cP.Infos.ProcessName & " -- thread : " & CStr(cP.Infos.ThreadId) & "\par"
-                s = s & "\tab Caption :\tab\tab\tab " & cP.Caption & "\par"
-                s = s & "\tab Enabled :\tab\tab\tab " & CStr(cP.Infos.Enabled) & "\par"
-                s = s & "\tab Visible :\tab\tab\tab\tab " & CStr(cP.Infos.Visible) & "\par"
-                s = s & "\tab IsTask :\tab\tab\tab\tab " & CStr(cP.Infos.IsTask) & "\par"
-                s = s & "\tab Opacity :\tab\tab\tab " & CStr(cP.Infos.Opacity) & "\par"
-                s = s & "\tab Height :\tab\tab\tab\tab " & CStr(cP.Infos.Height) & "\par"
-                s = s & "\tab Left :\tab\tab\tab\tab " & CStr(cP.Infos.Left) & "\par"
-                s = s & "\tab Top :\tab\tab\tab\tab " & CStr(cP.Infos.Top) & "\par"
-                s = s & "\tab Width :\tab\tab\tab\tab " & CStr(cP.Infos.Width) & "\par"
-
-                s = s & "}"
-
-                rtb5.Rtf = s
-
-            Catch ex As Exception
-                Dim s As String = ""
-                Dim er As Exception = ex
-
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                s = s & "\tab Message :\tab " & er.Message & "\par"
-                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                s = s & "}"
-
-                rtb5.Rtf = s
-
-            End Try
-
-        End If
-    End Sub
-
-    Private Sub lvThreads_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseDown
-        Common.Misc.CopyLvToClip(e, Me.lvThreads)
-    End Sub
-
-    Private Sub lvThreads_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvThreads.MouseUp
-
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-
-            Dim p As System.Diagnostics.ThreadPriorityLevel
-
-            If Me.lvThreads.SelectedItems.Count > 0 Then
-                p = Me.lvThreads.GetSelectedItem.PriorityMod
-            End If
-            Me.MenuItemThIdle.Checked = (p = ThreadPriorityLevel.Idle)
-            Me.MenuItemThLowest.Checked = (p = ThreadPriorityLevel.Lowest)
-            Me.MenuItemThBNormal.Checked = (p = ThreadPriorityLevel.BelowNormal)
-            Me.MenuItemThBNormal.Checked = (p = ThreadPriorityLevel.Normal)
-            Me.MenuItemThANorm.Checked = (p = ThreadPriorityLevel.AboveNormal)
-            Me.MenuItemThHighest.Checked = (p = ThreadPriorityLevel.Highest)
-            Me.MenuItemThTimeCr.Checked = (p = ThreadPriorityLevel.TimeCritical)
-
-            Dim selectionIsNotNothing As Boolean = (Me.lvThreads.SelectedItems IsNot Nothing _
-                            AndAlso Me.lvThreads.SelectedItems.Count > 0)
-
-            Me.MenuItemThAffinity.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemThSelProc.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemThSuspend.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemThTerm.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemThResu.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemThPriority.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemCopyThread.Enabled = selectionIsNotNothing
-
-            Me.mnuThread.Show(Me.lvThreads, e.Location)
-        End If
-
-    End Sub
-
-    Private Sub lvThreads_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvThreads.SelectedIndexChanged
-        ' New thread selected
-        If lvThreads.SelectedItems.Count = 1 Then
-            Dim cp As cThread = Me.lvThreads.GetSelectedItem
-
-            Try
-
-                ' Description
-                Dim s As String = ""
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b Thread properties\b0\par"
-                s = s & "\tab Thread ID :\tab\tab\tab " & cp.Infos.Id.ToString & "\par"
-                s = s & "\tab Process owner :\tab\tab\tab " & cp.Infos.ProcessId.ToString & "\par" '& " -- " & cp.ProcessName & "\par"
-
-                s = s & "\tab Priority :\tab\tab\tab\tab " & cp.Infos.Priority.ToString & "\par"
-                s = s & "\tab Base priority :\tab\tab\tab " & CStr(cp.Infos.BasePriority) & "\par"
-                s = s & "\tab State :\tab\tab\tab\tab " & cp.Infos.State.ToString & "\par"
-                s = s & "\tab Wait reason :\tab\tab\tab " & cp.Infos.WaitReason.ToString & "\par"
-                s = s & "\tab Start address :\tab\tab\tab " & "0x" & cp.Infos.StartAddress.ToString("x") & "\par"
-                s = s & "\tab Start time :\tab\tab\tab " & cp.GetInformation("CreateTime") & "\par"
-                s = s & "\tab TotalProcessorTime :\tab\tab " & cp.GetInformation("TotalTime") & "\par"
-                s = s & "\tab KernelTime :\tab\tab\tab " & cp.GetInformation("KernelTime") & "\par"
-                s = s & "\tab UserTime :\tab\tab\tab " & cp.GetInformation("UserTime") & "\par"
-                s = s & "\tab ProcessorAffinity :\tab\tab " & CStr(cp.Infos.AffinityMask) & "\par"
-
-                s = s & "}"
-
-                rtb4.Rtf = s
-
-            Catch ex As Exception
-                Dim s As String = ""
-                Dim er As Exception = ex
-
-                s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
-                s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b An error occured\b0\par"
-                s = s & "\tab Message :\tab " & er.Message & "\par"
-                s = s & "\tab Source :\tab\tab " & er.Source & "\par"
-                If Len(er.HelpLink) > 0 Then s = s & "\tab Help link :\tab " & er.HelpLink & "\par"
-                s = s & "}"
-
-                rtb4.Rtf = s
-
-            End Try
-
-        End If
-    End Sub
-
     Private Sub graphMonitor_OnZoom(ByVal leftVal As Integer, ByVal rightVal As Integer) Handles graphMonitor.OnZoom
         ' Change dates and set view as fixed (left and right)
         Try
@@ -2752,11 +2055,6 @@ Public Class frmMain
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
-    End Sub
-
-    Private Sub chkAllWindows_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkAllWindows.CheckedChanged
-        Me.MenuItemWSUnnamed.Checked = Me.chkAllWindows.Checked
-        If windowsToRefresh IsNot Nothing Then Call ShowWindows()
     End Sub
 
     Private Sub chkFileArchive_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkFileArchive.CheckedChanged
@@ -2936,98 +2234,25 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub txtSearchThread_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchThread.TextChanged
-        Dim it As ListViewItem
-        For Each it In Me.lvThreads.Items
-            If InStr(LCase(it.Text), LCase(Me.txtSearchThread.Text)) = 0 Then
-                it.Group = lvThreads.Groups(0)
-            Else
-                it.Group = lvThreads.Groups(1)
-            End If
-        Next
-        Me.lblThreadResults.Text = CStr(lvThreads.Groups(1).Items.Count) & " result(s)"
+    Private Sub txtSearchThread_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+        'Dim it As ListViewItem
+        'For Each it In Me.lvThreads.Items
+        '    If InStr(LCase(it.Text), LCase(Me.txtSearchThread.Text)) = 0 Then
+        '        it.Group = lvThreads.Groups(0)
+        '    Else
+        '        it.Group = lvThreads.Groups(1)
+        '    End If
+        'Next
+        'Me.lblThreadResults.Text = CStr(lvThreads.Groups(1).Items.Count) & " result(s)"
     End Sub
 
-    Private Sub lblThreadResults_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblThreadResults.Click
-        If Me.lvThreads.Groups(1).Items.Count > 0 Then
-            Me.lvThreads.Focus()
-            Me.lvThreads.EnsureVisible(Me.lvThreads.Groups(1).Items(0).Index)
-            Me.lvThreads.SelectedItems.Clear()
-            Me.lvThreads.Groups(1).Items(0).Selected = True
-        End If
-    End Sub
-
-    Private Sub txtSearchHandle_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchHandle.TextChanged
-        Dim it As ListViewItem
-        For Each it In Me.lvHandles.Items
-            If InStr(LCase(it.SubItems(1).Text), LCase(Me.txtSearchHandle.Text)) = 0 Then
-                it.Group = lvHandles.Groups(0)
-            Else
-                it.Group = lvHandles.Groups(1)
-            End If
-        Next
-        Me.lblHandlesCount.Text = CStr(Me.lvHandles.Groups(1).Items.Count) & " result(s)"
-    End Sub
-
-    Private Sub lblHandlesCount_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblHandlesCount.Click
-        If Me.lvHandles.Groups(1).Items.Count > 0 Then
-            Me.lvHandles.Focus()
-            Me.lvHandles.EnsureVisible(Me.lvHandles.Groups(1).Items(0).Index)
-            Me.lvHandles.SelectedItems.Clear()
-            Me.lvHandles.Groups(1).Items(0).Selected = True
-        End If
-    End Sub
-
-    Private Sub txtSearchModule_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchModule.TextChanged
-        For Each it As ListViewItem In Me.lvModules.Items
-            Dim cM As cModule = Me.lvModules.GetItemByKey(it.Name)
-            If cM IsNot Nothing Then
-                If cM.Infos.FileInfo IsNot Nothing AndAlso InStr(LCase(cM.Infos.FileInfo.FileName), LCase(Me.txtSearchModule.Text)) = 0 And _
-                        InStr(LCase(cM.Infos.FileInfo.FileVersion), LCase(Me.txtSearchModule.Text)) = 0 And _
-                        InStr(LCase(cM.Infos.FileInfo.FileDescription), LCase(Me.txtSearchModule.Text)) = 0 And _
-                        InStr(LCase(cM.Infos.FileInfo.CompanyName), LCase(Me.txtSearchModule.Text)) = 0 Then
-                    it.Group = lvModules.Groups(0)
-                Else
-                    it.Group = lvModules.Groups(1)
-                End If
-            End If
-        Next
-        Me.lblModulesCount.Text = CStr(lvModules.Groups(1).Items.Count) & " result(s)"
-    End Sub
-
-    Private Sub lblModulesCount_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblModulesCount.Click
-        If Me.lvModules.Groups(1).Items.Count > 0 Then
-            Me.lvModules.Focus()
-            Me.lvModules.EnsureVisible(Me.lvModules.Groups(1).Items(0).Index)
-            Me.lvModules.SelectedItems.Clear()
-            Me.lvModules.Groups(1).Items(0).Selected = True
-        End If
-    End Sub
-
-    Private Sub lvHandles_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDown
-        Common.Misc.CopyLvToClip(e, Me.lvHandles)
-    End Sub
-
-    Private Sub txtSearchWindow_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtSearchWindow.TextChanged
-        Dim it As ListViewItem
-        For Each it In Me.lvWindows.Items
-            Dim cW As cWindow = Me.lvWindows.GetItemByKey(it.Name)
-            If InStr(LCase(cW.Infos.Caption), LCase(Me.txtSearchWindow.Text)) = 0 Then
-                it.Group = lvWindows.Groups(0)
-            Else
-                it.Group = lvWindows.Groups(1)
-            End If
-        Next
-        Me.lblWindowsCount.Text = CStr(lvWindows.Groups(1).Items.Count) & " result(s)"
-    End Sub
-
-    Private Sub lblWindowsCount_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lblWindowsCount.Click
-        If Me.lvWindows.Groups(1).Items.Count > 0 Then
-            Me.lvWindows.Focus()
-            Me.lvWindows.EnsureVisible(Me.lvWindows.Groups(1).Items(0).Index)
-            Me.lvWindows.SelectedItems.Clear()
-            Me.lvWindows.Groups(1).Items(0).Selected = True
-        End If
+    Private Sub lblThreadResults_Click(ByVal sender As Object, ByVal e As System.EventArgs)
+        'If Me.lvThreads.Groups(1).Items.Count > 0 Then
+        '    Me.lvThreads.Focus()
+        '    Me.lvThreads.EnsureVisible(Me.lvThreads.Groups(1).Items(0).Index)
+        '    Me.lvThreads.SelectedItems.Clear()
+        '    Me.lvThreads.Groups(1).Items(0).Selected = True
+        'End If
     End Sub
 
     Private Sub txtSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles txtSearchResults.MouseDown
@@ -3082,75 +2307,43 @@ Public Class frmMain
 
         ' Change current tab of ribbon
         Dim theTab As RibbonTab = Me.HelpTab
-        Select Case _tab.SelectedIndex
-            Case 0
-                My.Settings.SelectedTab = "Tasks"
+        My.Settings.SelectedTab = _tab.TabPages(_tab.SelectedIndex).Text
+        Select Case My.Settings.SelectedTab
+            Case "Tasks"
                 theTab = Me.TaskTab
-            Case 1
-                My.Settings.SelectedTab = "Processes"
+            Case "Processes"
                 theTab = Me.ProcessTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemProcesses.Visible = True
                 End If
-            Case 2
-                My.Settings.SelectedTab = "Jobs"
+            Case "Jobs"
                 theTab = Me.JobTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemJobs.Visible = True
                 End If
-            Case 3
-                My.Settings.SelectedTab = "Modules"
-                theTab = Me.ModulesTab
-                If My.Settings.UseRibbonStyle = False Then
-                    Me.MenuItemModules.Visible = True
-                End If
-            Case 4
-                My.Settings.SelectedTab = "Threads"
-                theTab = Me.ThreadTab
-                If My.Settings.UseRibbonStyle = False Then
-                    Me.MenuItemThreads.Visible = True
-                End If
-            Case 5
-                My.Settings.SelectedTab = "Handles"
-                theTab = Me.HandlesTab
-                If My.Settings.UseRibbonStyle = False Then
-                    Me.MenuItemHandles.Visible = True
-                End If
-            Case 6
-                My.Settings.SelectedTab = "Windows"
-                theTab = Me.WindowTab
-                If My.Settings.UseRibbonStyle = False Then
-                    Me.MenuItemWindows.Visible = True
-                End If
-            Case 7
-                My.Settings.SelectedTab = "Monitor"
+            Case "Monitor"
                 theTab = Me.MonitorTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemMonitor.Visible = True
                 End If
-            Case 8
-                My.Settings.SelectedTab = "Services"
+            Case "Services"
                 theTab = Me.ServiceTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemServices.Visible = True
                 End If
-            Case 9
-                My.Settings.SelectedTab = "Network"
+            Case "Network"
                 theTab = Me.NetworkTab
-            Case 10
-                My.Settings.SelectedTab = "File"
+            Case "File"
                 theTab = Me.FileTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemFiles.Visible = True
                 End If
-            Case 11
-                My.Settings.SelectedTab = "Search"
+            Case "Search"
                 theTab = Me.SearchTab
                 If My.Settings.UseRibbonStyle = False Then
                     Me.MenuItemSearch.Visible = True
                 End If
-            Case 12
-                My.Settings.SelectedTab = "Help"
+            Case "Help"
                 theTab = Me.HelpTab
                 Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                 If Not (bHelpShown) Then
@@ -3173,27 +2366,26 @@ Public Class frmMain
             With Me.lvSearchResults
                 .CaseSensitive = Me.chkSearchCase.Checked
                 .SearchString = ssearch
-                Dim t As searchInfos.SearchInclude
+                Dim t As Native.Api.Enums.GeneralObjectType
                 If Me.chkSearchEnvVar.Checked And Me.chkSearchEnvVar.Enabled Then
-                    t = t Or searchInfos.SearchInclude.SearchEnvVar
+                    t = t Or Native.Api.Enums.GeneralObjectType.EnvironmentVariable
                 End If
                 If Me.chkSearchHandles.Checked Then
-                    t = t Or searchInfos.SearchInclude.SearchHandles
+                    t = t Or Native.Api.Enums.GeneralObjectType.Handle
                 End If
                 If Me.chkSearchModules.Checked And Me.chkSearchModules.Enabled Then
-                    t = t Or searchInfos.SearchInclude.SearchModules
+                    t = t Or Native.Api.Enums.GeneralObjectType.Module
                 End If
                 If Me.chkSearchProcess.Checked Then
-                    t = t Or searchInfos.SearchInclude.SearchProcesses
+                    t = t Or Native.Api.Enums.GeneralObjectType.Process
                 End If
                 If Me.chkSearchServices.Checked Then
-                    t = t Or searchInfos.SearchInclude.SearchServices
+                    t = t Or Native.Api.Enums.GeneralObjectType.Service
                 End If
                 If Me.chkSearchWindows.Checked Then
-                    t = t Or searchInfos.SearchInclude.SearchWindows
+                    t = t Or Native.Api.Enums.GeneralObjectType.Window
                 End If
                 .Includes = t
-                .ClearItems()
                 Me.butSearchGo.Enabled = False
                 Me.MenuItemSearchNew.Enabled = False
                 .UpdateItems()
@@ -3347,26 +2539,17 @@ Public Class frmMain
 
         ' Clear all lvItems
         Me.lvProcess.ClearItems()
-        Me.lvModules.ClearItems()
-        Me.lvThreads.ClearItems()
         Me.lvSearchResults.ClearItems()
-        Me.lvHandles.ClearItems()
-        Me.lvWindows.ClearItems()
         Me.tv.ClearItems()
         Me.tv2.ClearItems()
         Me.lvTask.ClearItems()
         Me.lvServices.ClearItems()
         Me.lvNetwork.ClearItems()
         Me.lvJob.ClearItems()
-        Me.rtb6.Text = ""
 
         ' Connect all lvItems
         Me.lvProcess.ConnectionObj = Program.Connection
-        Me.lvThreads.ConnectionObj = Program.Connection
-        Me.lvModules.ConnectionObj = Program.Connection
-        Me.lvHandles.ConnectionObj = Program.Connection
         Me.lvServices.ConnectionObj = Program.Connection
-        Me.lvWindows.ConnectionObj = Program.Connection
         Me.lvNetwork.ConnectionObj = Program.Connection
         Me.lvTask.ConnectionObj = Program.Connection
         Me.tv.ConnectionObj = Program.Connection
@@ -3384,31 +2567,19 @@ Public Class frmMain
 
         Me.butServiceFileDetails.Enabled = _local
         Me.butServiceFileProp.Enabled = _local
-        Me.butModuleViewModuleDep.Enabled = _local
         Me.butServiceOpenDir.Enabled = _local
         Me.butResumeProcess.Enabled = Me._notWMI
         Me.butStopProcess.Enabled = Me._notWMI
         Me.butProcessAffinity.Enabled = Me._notWMI
-        Me.butProcessShowAll.Enabled = Me._notWMI
-        Me.butProcessWindows.Enabled = Me._notWMI
         Me.butProcessAffinity.Enabled = Me._notWMI
-        Me.butShowProcHandles.Enabled = Me._notWMI
         Me.butStopProcess.Enabled = Me._notWMI
         Me.butResumeProcess.Enabled = Me._notWMI
-        Me.butModuleUnload.Enabled = Me._notWMI
-        Me.RBHandlesActions.Enabled = Me._notWMI
-        Me.RBHandlesReport.Enabled = Me._notWMI
-        Me.RBWindowActions.Enabled = Me._notWMI
-        Me.RBWindowCapture.Enabled = Me._notWMI
-        Me.RBWindowRefresh.Enabled = Me._notWMI
-        Me.RBWindowReport.Enabled = Me._notWMI
         Me.pageJobs.Enabled = _local AndAlso (cEnvironment.HasYAPMDebugPrivilege)
         Me.RBJobActions.Enabled = Me.pageJobs.Enabled
         Me.RBJobDisplay.Enabled = Me.pageJobs.Enabled
-        Me.pageHandles.Enabled = _notWMI
+        Me.RBJobPrivileges.Enabled = Not (Me.pageJobs.Enabled)
         Me.pageNetwork.Enabled = _notWMI
         Me.pageTasks.Enabled = _notWMI
-        Me.pageWindows.Enabled = _notWMI
         Me.pageSearch.Enabled = _notWMI
         Me.RBNetworkRefresh.Enabled = _notWMI
         Me.RBSearchMain.Enabled = _notWMI
@@ -3418,9 +2589,6 @@ Public Class frmMain
         Me.butProcessOtherActions.Enabled = _notWMI
 
         Me.lvProcess.CatchErrors = Not (_local)
-        Me.lvModules.CatchErrors = Not (_local)
-        Me.lvThreads.CatchErrors = Not (_local)
-        Me.lvHandles.CatchErrors = Not (_local)
         Me.lvServices.CatchErrors = Not (_local)
         Me.lvSearchResults.CatchErrors = Not (_local)
         Me.lvTask.CatchErrors = Not (_local)
@@ -3450,16 +2618,11 @@ Public Class frmMain
 
         ' Clear all lvItems
         Me.lvProcess.ClearItems()
-        Me.lvModules.ClearItems()
         Me.lvSearchResults.ClearItems()
-        Me.lvThreads.ClearItems()
-        Me.lvHandles.ClearItems()
-        Me.lvWindows.ClearItems()
         Me.lvTask.ClearItems()
         Me.lvServices.ClearItems()
         Me.lvNetwork.ClearItems()
         Me.lvJob.ClearItems()
-        Me.rtb6.Text = ""
 
         For x As Integer = Application.OpenForms.Count - 1 To 0 Step -1
             Dim frm As Form = Application.OpenForms(x)
@@ -3539,71 +2702,6 @@ Public Class frmMain
         _depFrm.Show()
     End Sub
 
-    Private Sub butViewModuleDep_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butModuleViewModuleDep.Click
-        For Each it As cModule In Me.lvModules.GetSelectedItems
-            If System.IO.File.Exists(it.Infos.Path) Then
-                Dim _depForm As New frmDepViewerMain
-                With _depForm
-                    .OpenReferences(it.Infos.Path)
-                    .HideOpenMenu()
-                    .TopMost = _frmMain.TopMost
-                    .Show()
-                End With
-            End If
-        Next
-    End Sub
-
-    Private Sub MenuItemHSelectAssociatedProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemHSelectAssociatedProcess.Click
-        ' Select processes associated to selected handles results
-        If Me.lvHandles.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
-        For Each it As cHandle In Me.lvHandles.GetSelectedItems
-            Dim pid As Integer = it.Infos.ProcessID
-            Dim it2 As ListViewItem
-            For Each it2 In Me.lvProcess.Items
-                Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp IsNot Nothing AndAlso cp.Infos.Pid = pid Then
-                    it2.Selected = True
-                    it2.EnsureVisible()
-                End If
-            Next
-        Next
-        Me.Ribbon.ActiveTab = Me.ProcessTab
-        Call Me.Ribbon_MouseMove(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemCloseHandle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCloseHandle.Click
-        Call Me.butHandleClose_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemShowUnnamedHandles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemShowUnnamedHandles.Click
-        MenuItemShowUnnamedHandles.Checked = Not (MenuItemShowUnnamedHandles.Checked)
-    End Sub
-
-    Private Sub MenuItemChooseColumnsHandle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemChooseColumnsHandle.Click
-        Me.lvHandles.ChooseColumns()
-    End Sub
-
-    Private Sub lvHandles_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseUp
-        If e.Button = Windows.Forms.MouseButtons.Right Then
-
-            Dim selectionIsNotNothing As Boolean = (Me.lvHandles.SelectedItems IsNot Nothing _
-                AndAlso Me.lvHandles.SelectedItems.Count > 0)
-
-            Me.MenuItemNavigateHandle.Enabled = (selectionIsNotNothing AndAlso _
-                                                 Me.lvHandles.SelectedItems.Count = 1 AndAlso _
-                                                 (Me.lvHandles.GetSelectedItem.Infos.Type = "Key" Or Me.lvHandles.GetSelectedItem.Infos.Type = "File"))
-            Me.MenuItemCloseHandle.Enabled = selectionIsNotNothing
-            Me.MenuItemHSelectAssociatedProcess.Enabled = selectionIsNotNothing
-            Me.MenuItemCopyHandle.Enabled = selectionIsNotNothing
-
-            Me.MenuItemNavigateHandle.Enabled = (Me.lvHandles.SelectedItems.Count = 1 _
-                                         AndAlso _local AndAlso (Me.lvHandles.GetSelectedItem.Infos.Type = "Key" _
-                                                 Or Me.lvHandles.GetSelectedItem.Infos.Type = "File"))
-
-            Me.mnuHandle.Show(Me.lvHandles, e.Location)
-        End If
-    End Sub
-
     Private Sub MenuItemTaskShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemTaskShow.Click
         Call butTaskShow_Click(Nothing, Nothing)
     End Sub
@@ -3632,7 +2730,7 @@ Public Class frmMain
             Dim it2 As ListViewItem
             For Each it2 In Me.lvProcess.Items
                 Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp IsNot Nothing AndAlso cp.Infos.Pid = pid Then
+                If cp IsNot Nothing AndAlso cp.Infos.ProcessId = pid Then
                     it2.Selected = True
                     it2.EnsureVisible()
                 End If
@@ -3644,36 +2742,37 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemTaskSelWin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemTaskSelWin.Click
-        If Me.lvTask.SelectedItems.Count > 0 Then
-            'Dim it As ListViewItem
-            'Dim it2 As ListViewItem
+        'If Me.lvTask.SelectedItems.Count > 0 Then
+        '    'Dim it As ListViewItem
+        '    'Dim it2 As ListViewItem
 
-            Dim x As Integer = 0
-            ReDim windowsToRefresh(Me.lvTask.SelectedItems.Count - 1)
+        '    Dim x As Integer = 0
+        '    ReDim windowsToRefresh(Me.lvTask.SelectedItems.Count - 1)
 
-            For Each cw As cTask In Me.lvTask.GetSelectedItems
-                ' May be some doublons in list, but don't care about that
-                windowsToRefresh(x) = cw.Infos.ProcessId
-                x += 1
-            Next
+        '    For Each cw As cTask In Me.lvTask.GetSelectedItems
+        '        ' May be some doublons in list, but don't care about that
+        '        windowsToRefresh(x) = cw.Infos.ProcessId
+        '        x += 1
+        '    Next
 
-            Call ShowWindows()
+        '    Call ShowWindows()
 
-            ' Select windows
-            ' TODO_
-            'For Each it In Me.lvTask.SelectedItems
-            '    Dim _h As IntPtr = Me.lvTask.GetItemByKey(it.Name).Handle
-            '    For Each it2 In Me.lvWindows.Items
-            '        If Me.lvWindows.GetItemByKey(it2.Name).Handle = _h Then
-            '            it2.Selected = True
-            '            it2.EnsureVisible()
-            '        End If
-            '    Next
-            'Next
+        '    ' Select windows
+        '    ' TODO_
+        '    'For Each it In Me.lvTask.SelectedItems
+        '    '    Dim _h As IntPtr = Me.lvTask.GetItemByKey(it.Name).Handle
+        '    '    For Each it2 In Me.lvWindows.Items
+        '    '        If Me.lvWindows.GetItemByKey(it2.Name).Handle = _h Then
+        '    '            it2.Selected = True
+        '    '            it2.EnsureVisible()
+        '    '        End If
+        '    '    Next
+        '    'Next
 
-            Me.Ribbon.ActiveTab = Me.WindowTab
-            Call Me.Ribbon_MouseMove(Nothing, Nothing)
-        End If
+        '    Me.Ribbon.ActiveTab = Me.WindowTab
+        '    Call Me.Ribbon_MouseMove(Nothing, Nothing)
+        'End If
+        'TODO
     End Sub
 
     Private Sub MenuItemTaskColumns_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemTaskColumns.Click
@@ -3860,7 +2959,7 @@ Public Class frmMain
                 Dim it2 As ListViewItem
                 For Each it2 In Me.lvProcess.Items
                     Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                    If cp IsNot Nothing AndAlso cp.Infos.Pid = pid And pid > 0 Then
+                    If cp IsNot Nothing AndAlso cp.Infos.ProcessId = pid And pid > 0 Then
                         it2.Selected = True
                         bOne = True
                         it2.EnsureVisible()
@@ -4034,7 +3133,7 @@ Public Class frmMain
                 Dim it2 As ListViewItem
                 For Each it2 In Me.lvProcess.Items
                     Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                    If cp IsNot Nothing AndAlso cp.Infos.Pid = pid Then
+                    If cp IsNot Nothing AndAlso cp.Infos.ProcessId = pid Then
                         it2.Selected = True
                         it2.EnsureVisible()
                     End If
@@ -4080,225 +3179,6 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub MenuItemThSelProc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThSelProc.Click
-        ' Select processes associated to selected threads results
-        Dim it As ListViewItem
-        Dim bOne As Boolean = False
-        If Me.lvThreads.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
-        For Each it In Me.lvThreads.SelectedItems
-            Dim tmp As cThread = Me.lvThreads.GetItemByKey(it.Name)
-            If tmp IsNot Nothing Then
-                Dim pid As Integer = tmp.Infos.ProcessId
-                Dim it2 As ListViewItem
-                For Each it2 In Me.lvProcess.Items
-                    Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                    If cp IsNot Nothing AndAlso cp.Infos.Pid = pid And pid > 0 Then
-                        it2.Selected = True
-                        it2.EnsureVisible()
-                        bOne = True
-                    End If
-                Next
-            End If
-        Next
-
-        If bOne Then
-            Me.Ribbon.ActiveTab = Me.ProcessTab
-            Call Me.Ribbon_MouseMove(Nothing, Nothing)
-        End If
-    End Sub
-
-    Private Sub MenuItemThTerm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThTerm.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.ThreadTerminate()
-        Next
-    End Sub
-
-    Private Sub MenuItemThSuspend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThSuspend.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.ThreadSuspend()
-        Next
-    End Sub
-
-    Private Sub MenuItemThResu_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThResu.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.ThreadResume()
-        Next
-    End Sub
-
-    Private Sub MenuItemThIdle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThIdle.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.Idle)
-        Next
-    End Sub
-
-    Private Sub MenuItemThLowest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThLowest.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.Lowest)
-        Next
-    End Sub
-
-    Private Sub MenuItemThBNormal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThBNormal.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.BelowNormal)
-        Next
-    End Sub
-
-    Private Sub MenuItemThNorm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThNorm.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.Normal)
-        Next
-    End Sub
-
-    Private Sub MenuItemThANorm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThANorm.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.AboveNormal)
-        Next
-    End Sub
-
-    Private Sub MenuItemThHighest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThHighest.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.Highest)
-        Next
-    End Sub
-
-    Private Sub MenuItemThTimeCr_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThTimeCr.Click
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            it.SetPriority(ThreadPriorityLevel.TimeCritical)
-        Next
-    End Sub
-
-    Private Sub MenuItemThAffinity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThAffinity.Click
-        If Me.lvThreads.SelectedItems.Count = 0 Then Exit Sub
-
-        Dim c() As cThread
-        ReDim c(Me.lvThreads.SelectedItems.Count - 1)
-        Dim x As Integer = 0
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            c(x) = it
-            x += 1
-        Next
-
-        Dim frm As New frmThreadAffinity
-        frm.Thread = c
-        frm.TopMost = _frmMain.TopMost
-        frm.ShowDialog()
-    End Sub
-
-    Private Sub MenuItemThColumns_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThColumns.Click
-        Me.lvThreads.ChooseColumns()
-    End Sub
-
-    Private Sub MenuItemModuleSelProc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleSelProc.Click
-        ' Select processes associated to selected modules
-        Dim it As ListViewItem
-        Dim bOne As Boolean = False
-        If Me.lvModules.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
-        For Each it In Me.lvModules.SelectedItems
-            Dim tmp As cModule = Me.lvModules.GetItemByKey(it.Name)
-            If tmp IsNot Nothing Then
-                Dim pid As Integer = tmp.Infos.ProcessId
-                Dim it2 As ListViewItem
-                For Each it2 In Me.lvProcess.Items
-                    Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                    If cp IsNot Nothing AndAlso cp.Infos.Pid = pid And pid > 0 Then
-                        it2.Selected = True
-                        bOne = True
-                        it2.EnsureVisible()
-                    End If
-                Next
-            End If
-        Next
-
-        If bOne Then
-            Me.Ribbon.ActiveTab = Me.ProcessTab
-            Call Me.Ribbon_MouseMove(Nothing, Nothing)
-        End If
-    End Sub
-
-    Private Sub MenuItemModuleFileProp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleFileProp.Click
-        If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
-            If IO.File.Exists(s) Then
-                cFile.ShowFileProperty(s, Me.Handle)
-            End If
-        End If
-    End Sub
-
-    Private Sub MenuItemModuleOpenDir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleOpenDir.Click
-        If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
-            If IO.File.Exists(s) Then
-                cFile.OpenDirectory(s)
-            End If
-        End If
-    End Sub
-
-    Private Sub MenuItemModuleFileDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleFileDetails.Click
-        If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
-            If IO.File.Exists(s) Then
-                DisplayDetailsFile(s)
-            End If
-        End If
-    End Sub
-
-    Private Sub MenuItemModuleSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleSearch.Click
-        Call butModuleGoogle_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemModuleDependencies_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemModuleDependencies.Click
-        If Me.lvModules.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvModules.GetSelectedItem.Infos.Path
-            If System.IO.File.Exists(s) Then
-                Dim _depForm As New frmDepViewerMain
-                With _depForm
-                    .OpenReferences(s)
-                    .HideOpenMenu()
-                    .TopMost = _frmMain.TopMost
-                    .Show()
-                End With
-            End If
-        End If
-    End Sub
-
-    Private Sub MenuItemUnloadModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemUnloadModule.Click
-        For Each it As cModule In Me.lvModules.GetSelectedItems
-            it.UnloadModule()
-        Next
-        Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvModules.Items.Count) & " modules"
-    End Sub
-
-    Private Sub MenuItemColumnsModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemColumnsModule.Click
-        Me.lvModules.ChooseColumns()
-    End Sub
-
-    Private Sub MenuItemWindowSelProc_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWindowSelProc.Click
-        ' Select processes associated to selected windows
-        Dim bOne As Boolean = False
-        If Me.lvWindows.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            Dim pid As Integer = it.Infos.ProcessId
-            Dim it2 As ListViewItem
-            For Each it2 In Me.lvProcess.Items
-                Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                If cp IsNot Nothing AndAlso cp.Infos.Pid = pid Then
-                    it2.Selected = True
-                    bOne = True
-                    it2.EnsureVisible()
-                End If
-            Next
-        Next
-
-        If bOne Then
-            Me.Ribbon.ActiveTab = Me.ProcessTab
-            Call Me.Ribbon_MouseMove(Nothing, Nothing)
-        End If
-    End Sub
-
-    Private Sub MenuItemWindowColumns_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWindowColumns.Click
-        Me.lvWindows.ChooseColumns()
-    End Sub
-
     Private Sub MenuItemSearchNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSearchNew.Click
         Dim r As String = CInputBox("Enter the string you want to search", "String search")
         If r IsNot Nothing AndAlso Not (r.Equals(String.Empty)) Then
@@ -4309,11 +3189,11 @@ Public Class frmMain
     Private Sub MenuItemSearchSel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSearchSel.Click
         ' Select processes associated to selected search results
         If Me.lvSearchResults.SelectedItems.Count > 0 Then Me.lvProcess.SelectedItems.Clear()
-        For Each it As searchInfos In Me.lvSearchResults.GetSelectedItems
+        For Each it As cSearchItem In Me.lvSearchResults.GetSelectedItems
             Try
-                If it.Type = searchInfos.ResultType.Service Then
+                If it.Infos.Type = Native.Api.Enums.GeneralObjectType.Service Then
                     ' Select service
-                    Dim sp As String = it.Service
+                    Dim sp As String = it.Infos.Owner
                     Dim it2 As ListViewItem
                     For Each it2 In Me.lvServices.Items
                         Dim cp As cService = Me.lvServices.GetItemByKey(it2.Name)
@@ -4325,12 +3205,12 @@ Public Class frmMain
                     Me.Ribbon.ActiveTab = Me.ServiceTab
                 Else
                     ' Select process
-                    Dim i As Integer = it.ProcessId
+                    Dim i As Integer = it.Infos.OwnedProcessId
                     If i > 0 Then
                         Dim it2 As ListViewItem
                         For Each it2 In Me.lvProcess.Items
                             Dim cp As cProcess = Me.lvProcess.GetItemByKey(it2.Name)
-                            If cp IsNot Nothing AndAlso cp.Infos.Pid = i Then
+                            If cp IsNot Nothing AndAlso cp.Infos.ProcessId = i Then
                                 it2.Selected = True
                                 it2.EnsureVisible()
                             End If
@@ -4366,24 +3246,8 @@ Public Class frmMain
                 End If
             End If
         End If
-        For Each it As searchInfos In Me.lvSearchResults.GetSelectedItems
-
-            If it.Type = searchInfos.ResultType.Process Then
-                cProcess.SharedLRKill(it.ProcessId)
-
-            ElseIf it.Type = searchInfos.ResultType.Service Then
-                Native.Objects.Service.GetServiceByName(it.Service).StopService()
-
-            ElseIf it.Type = searchInfos.ResultType.Window Then
-                'TODO_
-
-            ElseIf it.Type = searchInfos.ResultType.Module Then
-                cModule.SharedLRUnloadModule(it.ProcessId, it.ModuleName, it.PebAddress) 'OK
-
-            ElseIf it.Type = searchInfos.ResultType.Handle Then
-                cHandle.SharedLRCloseHandle(it.ProcessId, it.Handle)
-            End If
-
+        For Each it As cSearchItem In Me.lvSearchResults.GetSelectedItems
+            it.CloseTerminate()
         Next
     End Sub
 
@@ -4496,23 +3360,7 @@ Public Class frmMain
         Me.lvProcess.ReAnalizeProcesses()
     End Sub
 
-    Private Sub MenuItemProcSModules_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSModules.Click
-        Call butProcessShowModules_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemProcSThrea_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSThreads.Click
-        Call Me.butProcessThreads_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemProcSHandles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSHandles.Click
-        Call Me.butShowProcHandles_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemProcSWindows_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSWindows.Click
-        Call butProcessWindows_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemProcSServices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSServices.Click
+    Private Sub MenuItemProcSServices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
         ' Refresh service list if necessary
         If Me.lvServices.Items.Count = 0 Then Call Me.refreshServiceList()
@@ -4524,7 +3372,7 @@ Public Class frmMain
         For Each lvi As cProcess In Me.lvProcess.GetSelectedItems
             x += 1
             ReDim Preserve pid(x)
-            pid(x) = lvi.Infos.Pid
+            pid(x) = lvi.Infos.ProcessId
         Next
 
         ' Get services names of all associated services
@@ -4565,10 +3413,6 @@ Public Class frmMain
             Me.Ribbon.ActiveTab = Me.ServiceTab
             Call Me.Ribbon_MouseMove(Nothing, Nothing)
         End If
-    End Sub
-
-    Private Sub MenuItemProcSAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSAll.Click
-        Call butProcessShowAll_Click(Nothing, Nothing)
     End Sub
 
     Private Sub MenuItemProcSFileProp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcSFileProp.Click
@@ -4618,25 +3462,19 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemSystemRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemRefresh.Click
-        Select Case _tab.SelectedIndex
-            Case 0
+        Select Case _tab.TabPages(_tab.SelectedIndex).Text
+            Case "Tasks"
                 Call Me.butTaskRefresh_Click(Nothing, Nothing)
-            Case 1
+            Case "Processes"
                 Call Me.butProcessRerfresh_Click(Nothing, Nothing)
-            Case 2
-                Call Me.butModuleRefresh_Click(Nothing, Nothing)
-            Case 3
-                Call Me.butThreadRefresh_Click(Nothing, Nothing)
-            Case 4
-                Call Me.butHandleRefresh_Click(Nothing, Nothing)
-            Case 5
-                Call Me.butWindowRefresh_Click(Nothing, Nothing)
-            Case 7
+            Case "Services"
                 Call Me.butServiceRefresh_Click(Nothing, Nothing)
-            Case 8
+            Case "Network"
                 Call Me.butNetworkRefresh_Click(Nothing, Nothing)
-            Case 9
+            Case "File"
                 Call Me.butFileRefresh_Click(Nothing, Nothing)
+            Case "Jobs"
+                Call Me.butJobRefresh_Click(Nothing, Nothing)
         End Select
     End Sub
 
@@ -4780,70 +3618,12 @@ Public Class frmMain
         frm.ShowDialog()
     End Sub
 
-    Private Sub MenuItemNavigateHandle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemNavigateHandle.Click
-        If Me.lvHandles.SelectedItems.Count > 0 Then
-            Dim _tmp As cHandle = Me.lvHandles.GetSelectedItem
-            If _tmp.Infos.Type = "File" Then
-                Dim _sPath As String = _tmp.Infos.Name
-                If IO.Directory.Exists(_sPath) Then
-                    Shell("explorer.exe " & _sPath, AppWinStyle.NormalFocus)
-                Else
-                    _sPath = cFile.GetParentDir(_sPath)
-                    If IO.Directory.Exists(_sPath) Then
-                        Shell("explorer.exe " & _sPath, AppWinStyle.NormalFocus)
-                    End If
-                End If
-            ElseIf _tmp.Infos.Type = "Key" Then
-                Common.Misc.NavigateToRegedit(_tmp.Infos.Name)
-            End If
-        End If
-    End Sub
-
 #Region "Copy to clipboard menus"
-
-    Private Sub MenuItemCopyHandle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
-        Dim toCopy As String = ""
-        For Each it As cHandle In Me.lvHandles.GetSelectedItems
-            toCopy &= it.GetInformation(info) & vbNewLine
-        Next
-        If toCopy.Length > 2 Then
-            ' Remove last vbNewline
-            toCopy = toCopy.Substring(0, toCopy.Length - 2)
-        End If
-        My.Computer.Clipboard.SetText(toCopy)
-    End Sub
 
     Private Sub MenuItemCopyService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
         Dim toCopy As String = ""
         For Each it As cService In Me.lvServices.GetSelectedItems
-            toCopy &= it.GetInformation(info) & vbNewLine
-        Next
-        If toCopy.Length > 2 Then
-            ' Remove last vbNewline
-            toCopy = toCopy.Substring(0, toCopy.Length - 2)
-        End If
-        My.Computer.Clipboard.SetText(toCopy)
-    End Sub
-
-    Private Sub MenuItemCopyThread_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
-        Dim toCopy As String = ""
-        For Each it As cThread In Me.lvThreads.GetSelectedItems
-            toCopy &= it.GetInformation(info) & vbNewLine
-        Next
-        If toCopy.Length > 2 Then
-            ' Remove last vbNewline
-            toCopy = toCopy.Substring(0, toCopy.Length - 2)
-        End If
-        My.Computer.Clipboard.SetText(toCopy)
-    End Sub
-
-    Private Sub MenuItemCopyModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
-        Dim toCopy As String = ""
-        For Each it As cModule In Me.lvModules.GetSelectedItems
             toCopy &= it.GetInformation(info) & vbNewLine
         Next
         If toCopy.Length > 2 Then
@@ -4879,19 +3659,6 @@ Public Class frmMain
         My.Computer.Clipboard.SetText(toCopy)
     End Sub
 
-    Private Sub MenuItemCopyWindow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
-        Dim toCopy As String = ""
-        For Each it As cWindow In Me.lvWindows.GetSelectedItems
-            toCopy &= it.GetInformation(info) & vbNewLine
-        Next
-        If toCopy.Length > 2 Then
-            ' Remove last vbNewline
-            toCopy = toCopy.Substring(0, toCopy.Length - 2)
-        End If
-        My.Computer.Clipboard.SetText(toCopy)
-    End Sub
-
     Private Sub MenuItemCopyNetwork_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
         Dim toCopy As String = ""
@@ -4908,7 +3675,7 @@ Public Class frmMain
     Private Sub MenuItemCopySearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
         Dim toCopy As String = ""
-        For Each it As searchInfos In Me.lvSearchResults.GetSelectedItems
+        For Each it As cSearchItem In Me.lvSearchResults.GetSelectedItems
             toCopy &= it.GetInformation(info) & vbNewLine
         Next
         If toCopy.Length > 2 Then
@@ -4986,24 +3753,8 @@ Public Class frmMain
         Call Me.butSaveProcessReport_Click(Nothing, Nothing)
     End Sub
 
-    Private Sub MenuItemReportModules_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportModules.Click
-        Call Me.butModulesSaveReport_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemReportThreads_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportThreads.Click
-        Call Me.butThreadSaveReport_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemReportHandles_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportHandles.Click
-        Call Me.butHandlesSaveReport_Click(Nothing, Nothing)
-    End Sub
-
     Private Sub MenuItemReportMonitor_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportMonitor.Click
         Call Me.butMonitorSaveReport_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemReportWindows_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportWindows.Click
-        Call Me.butWindowSaveReport_Click(Nothing, Nothing)
     End Sub
 
     Private Sub MenuItemReportServices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemReportServices.Click
@@ -5064,74 +3815,6 @@ Public Class frmMain
 
     Private Sub butMonitorSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorSaveReport.Click
         'TODO
-    End Sub
-
-    Private Sub MenuItemWShow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWShow.Click
-        Call Me.butWindowShow_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWUnnamed_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWSUnnamed.Click
-        Me.chkAllWindows.Checked = Not (Me.chkAllWindows.Checked)
-    End Sub
-
-    Private Sub MenuItemWHide_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWHide.Click
-        Call Me.butWindowHide_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWClose.Click
-        Call Me.butWindowClose_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWEnalbe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWEnable.Click
-        Call Me.butWindowEnable_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWDisable_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWDisab.Click
-        Call Me.butWindowDisable_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWFront_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWFront.Click
-        Call Me.butWindowBringToFront_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWNotFront_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWNotFront.Click
-        Call Me.butWindowDoNotBringToFront_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWActive_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWActive.Click
-        Call Me.butWindowSetAsActive_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWForeground_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWForeground.Click
-        Call Me.butWindowSetAsForeground_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWMin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWMin.Click
-        Call Me.butWindowMinimize_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWMax_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWMax.Click
-        Call Me.butWindowMaximize_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWPos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWPos.Click
-        Call Me.butWindowPositionSize_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWFlash_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWFlash.Click
-        Call Me.butWindowFlash_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWStopFlash_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWStopFlash.Click
-        Call Me.butWindowStopFlashing_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWOpacity_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWOpacity.Click
-        Call Me.butWindowOpacity_Click(Nothing, Nothing)
-    End Sub
-
-    Private Sub MenuItemWCaption_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWCaption.Click
-        Call Me.butWindowCaption_Click(Nothing, Nothing)
     End Sub
 
     Private Sub butProcessReduceWS_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessReduceWS.Click
@@ -5254,7 +3937,7 @@ Public Class frmMain
 
     Private Sub MenuItemJobMng_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemJobMng.Click
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            Dim theJob As cJob = cJob.GetProcessJobById(cp.Infos.Pid)
+            Dim theJob As cJob = cJob.GetProcessJobById(cp.Infos.ProcessId)
             If theJob IsNot Nothing Then
                 Dim frm As New frmJobInfo
                 frm.SetJob(theJob)
@@ -5270,7 +3953,7 @@ Public Class frmMain
         ' Get list of PIDs
         Dim pid As New List(Of Integer)
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
-            pid.Add(cp.Infos.Pid)
+            pid.Add(cp.Infos.ProcessId)
         Next
 
         Dim frm As New frmAddToJob(pid)
@@ -5285,5 +3968,10 @@ Public Class frmMain
             frm.TopMost = _frmMain.TopMost
             frm.Show()
         Next
+    End Sub
+
+    Private Sub butJobElevate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butJobElevate.Click
+        ' Restart elevated
+        Call cEnvironment.RestartElevated()
     End Sub
 End Class

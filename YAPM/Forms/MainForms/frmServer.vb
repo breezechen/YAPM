@@ -466,7 +466,7 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestSearchList
                         Dim st As String = CStr(cData.Param1)
-                        Dim include As searchInfos.SearchInclude = CType(cData.Param2, searchInfos.SearchInclude)
+                        Dim include As Native.Api.Enums.GeneralObjectType = CType(cData.Param2, Native.Api.Enums.GeneralObjectType)
                         Dim _case As Boolean = CBool(cData.Param3)
                         Call _searchCon.Enumerate(st, _case, include, _forInstanceId)
                         Exit Sub

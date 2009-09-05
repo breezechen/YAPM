@@ -45,6 +45,7 @@ Public Class cPrivilege
     Public Sub New(ByRef infos As privilegeInfos)
         _privilegeInfos = infos
         _connection = Connection
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.Privilege
     End Sub
 
 #End Region

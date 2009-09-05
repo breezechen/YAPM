@@ -17,49 +17,39 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
-'
-'
-' Some pieces of code are inspired by wj32 work (from Process Hacker) :
-' - Declaration of some structures used by NtQuerySystemInformation
+
 
 Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports System.Net
+Imports YAPM.Native.Api.Enums
 
 <Serializable()> Public Class searchInfos
     Inherits generalInfos
 
-#Region "Private attributes"
-
-    Private _pid As Integer
-    Private _handle As IntPtr
-    Private _service As String
+    Private _typeOfItem As GeneralObjectType
+    Private _item As cGeneralObject
     Private _field As String
-    Private _type As ResultType
-    Private _result As String
-    Private _modName As String
-    Private _peb As IntPtr
-    'Private _key As String
-    'Private Shared _keyI As Integer = 0
+    Private _res As String
+
+#Region "Constructors & destructor"
+
+    Public Sub New(ByVal Item As cGeneralObject, ByVal field As String, _
+                ByVal result As String)
+        _item = Item
+        _res = result
+        _field = field
+        _typeOfItem = Item.TypeOfObject
+    End Sub
 
 #End Region
 
 #Region "Read only properties"
 
-    Public ReadOnly Property ProcessId() As Integer
+    Public ReadOnly Property [Object]() As cGeneralObject
         Get
-            Return _pid
-        End Get
-    End Property
-    Public ReadOnly Property Handle() As IntPtr
-        Get
-            Return _handle
-        End Get
-    End Property
-    Public ReadOnly Property PebAddress() As IntPtr
-        Get
-            Return _peb
+            Return _item
         End Get
     End Property
     Public ReadOnly Property Field() As String
@@ -67,84 +57,71 @@ Imports System.Net
             Return _field
         End Get
     End Property
-    Public ReadOnly Property ModuleName() As String
-        Get
-            Return _modName
-        End Get
-    End Property
-    Public ReadOnly Property Type() As ResultType
-        Get
-            Return _type
-        End Get
-    End Property
     Public ReadOnly Property Result() As String
         Get
-            Return _result
+            Return _res
         End Get
     End Property
-    Public ReadOnly Property Service() As String
+    Public ReadOnly Property Type() As GeneralObjectType
         Get
-            Return _service
+            Return _typeOfItem
+        End Get
+    End Property
+    Public ReadOnly Property Owner() As String
+        Get
+            ' Just say a big thanks to polymorphism...
+            Try
+                Dim res As String = ""
+                Dim _pid As Integer = OwnedProcessId
+
+                If _typeOfItem <> GeneralObjectType.Service Then
+                    ' Try to get the owner process
+                    Native.Objects.Process.SemCurrentProcesses.WaitOne()
+                    If Native.Objects.Process.CurrentProcesses.ContainsKey(_pid.ToString) Then
+                        Dim nn As String = Native.Objects.Process.CurrentProcesses.Item(_pid.ToString).Infos.Name
+                        If String.IsNullOrEmpty(nn) = False Then
+                            res = "Process " & nn & " (" & _pid.ToString & ")"
+                        Else
+                            res = "Process " & _pid.ToString
+                        End If
+                    Else
+                        res = "Process " & _pid.ToString
+                    End If
+                    Native.Objects.Process.SemCurrentProcesses.Release()
+                Else
+                    res = DirectCast(_item, cService).Infos.Name
+                End If
+
+                Return res
+            Catch ex As Exception
+                Return "Unknown"
+            End Try
+        End Get
+    End Property
+    Public ReadOnly Property OwnedProcessId() As Integer
+        Get
+            Static _pid As Integer = -1
+            If _pid = -1 Then
+                Select Case _typeOfItem
+                    Case GeneralObjectType.EnvironmentVariable
+                        _pid = DirectCast(_item, cEnvVariable).Infos.ProcessId
+                    Case GeneralObjectType.Handle
+                        _pid = DirectCast(_item, cHandle).Infos.ProcessID
+                    Case GeneralObjectType.Module
+                        _pid = DirectCast(_item, cModule).Infos.ProcessId
+                    Case GeneralObjectType.Process
+                        _pid = DirectCast(_item, cProcess).Infos.ProcessId
+                    Case GeneralObjectType.Service
+                        _pid = DirectCast(_item, cService).Infos.ProcessId
+                    Case GeneralObjectType.Window
+                        _pid = DirectCast(_item, cWindow).Infos.ProcessId
+                End Select
+            End If
+            Return _pid
         End Get
     End Property
 
 #End Region
-
-
-    ' ========================================
-    ' Public
-    ' ========================================
-
-    Public Enum SearchInclude As Integer
-        SearchWindows = 1
-        SearchProcesses = 2
-        SearchServices = 4
-        SearchHandles = 8
-        SearchEnvVar = 16
-        SearchModules = 32
-    End Enum
-    Public Enum ResultType
-        [Window] = 1
-        [Process] = 2
-        [Service] = 4
-        [Handle] = 8
-        [EnvironmentVariable] = 16
-        [Module] = 32
-    End Enum
-
-    ' Reinitialize key counter
-    'Public Sub ClearKeyGenerator()
-    '    _keyI = 0
-    'End Sub
-
-    ' Constructor of this class
-    Public Sub New(ByVal pid As Integer, ByVal field As String, ByVal type As ResultType, _
-                    ByVal res As String)
-        _handle = Handle
-        _service = Service
-        _pid = pid
-        _type = type
-        _field = field
-        _result = res
-    End Sub
-    Public Sub New(ByVal pid As Integer, ByVal field As String, ByVal type As ResultType, _
-                        ByVal res As String, ByVal service As String, _
-                        ByVal handle As IntPtr, ByVal peb As IntPtr, _
-                        Optional ByVal modName As String = Nothing)
-
-        '_keyI += 1
-        '_key = _keyI.ToString
-
-        _handle = handle
-        _service = service
-        _pid = pid
-        _type = type
-        _field = field
-        _peb = peb
-        _modName = modName
-        _result = res
-
-    End Sub
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
@@ -153,47 +130,13 @@ Imports System.Net
         s(0) = "Type"
         s(1) = "Result"
         s(2) = "Field"
-        s(3) = "Process"
+        s(3) = "Owner"
 
         If sorted Then
             Array.Sort(s)
         End If
 
         Return s
-    End Function
-
-    ' Get information as a string
-    Public Function GetInformation(ByVal info As String) As String
-
-        Dim res As String = NO_INFO_RETRIEVED
-        Select Case info
-            Case "Type"
-                res = _type.ToString
-            Case "Result"
-                res = _result
-            Case "Field"
-                res = _field
-            Case "Process"
-                If _type = ResultType.Service Then
-                    res = _service
-                Else
-                    Native.Objects.Process.SemCurrentProcesses.WaitOne()
-                    If Native.Objects.Process.CurrentProcesses.ContainsKey(_pid.ToString) Then
-                        Dim nn As String = ""
-                        nn = Native.Objects.Process.CurrentProcesses.Item(_pid.ToString).Infos.Name
-                        If nn.Length > 0 Then
-                            res = nn & " (" & _pid.ToString & ")"
-                        Else
-                            res = _pid.ToString
-                        End If
-                    Else
-                        res = _pid.ToString
-                    End If
-                    Native.Objects.Process.SemCurrentProcesses.Release()
-                End If
-        End Select
-
-        Return res
     End Function
 
 End Class

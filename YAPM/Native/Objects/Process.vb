@@ -392,7 +392,11 @@ Namespace Native.Objects
                     Dim length As Integer = &H400
                     Dim sb As New System.Text.StringBuilder(length)
                     NativeFunctions.QueryFullProcessImageName(hProc, False, sb, length)
-                    resFile = sb.ToString(0, length)
+                    Try
+                        resFile = sb.ToString(0, length)
+                    Catch ex As Exception
+                        ex = ex
+                    End Try
                 End If
             End If
 
@@ -690,8 +694,8 @@ Namespace Native.Objects
                 CurrentProcesses = New Dictionary(Of String, cProcess)
             End If
             For Each pc As processInfos In _dico.Values
-                If CurrentProcesses.ContainsKey(pc.Pid.ToString) = False Then
-                    CurrentProcesses.Add(pc.Pid.ToString, New cProcess(pc))
+                If CurrentProcesses.ContainsKey(pc.ProcessId.ToString) = False Then
+                    CurrentProcesses.Add(pc.ProcessId.ToString, New cProcess(pc))
                 End If
             Next
             SemCurrentProcesses.Release()
@@ -714,9 +718,9 @@ Namespace Native.Objects
             Dim _csrss As New Dictionary(Of Integer, IntPtr)
             For Each proc As processInfos In EnumerateVisibleProcessesSimplified.Values
                 If proc.Name.ToLowerInvariant = "csrss.exe" Then
-                    Dim _theHandle As IntPtr = Native.Objects.Process.GetProcessHandleById(proc.Pid, _
+                    Dim _theHandle As IntPtr = Native.Objects.Process.GetProcessHandleById(proc.ProcessId, _
                                             Security.ProcessAccess.DupHandle)
-                    _csrss.Add(proc.Pid, _theHandle)
+                    _csrss.Add(proc.ProcessId, _theHandle)
                 End If
             Next
 
@@ -768,14 +772,14 @@ Namespace Native.Objects
 
             ' Merge results
             For Each pp As processInfos In _visible.Values
-                If _dico.ContainsKey(pp.Pid.ToString) = False Then
-                    _dico.Add(pp.Pid.ToString, pp)
+                If _dico.ContainsKey(pp.ProcessId.ToString) = False Then
+                    _dico.Add(pp.ProcessId.ToString, pp)
                 End If
             Next
 
             ' Mark processes that are not present in _visible as hidden
             For Each pp As processInfos In _dico.Values
-                If _visible.ContainsKey(pp.Pid.ToString) = False Then
+                If _visible.ContainsKey(pp.ProcessId.ToString) = False Then
                     pp.IsHidden = True
                 End If
             Next
@@ -822,14 +826,14 @@ Namespace Native.Objects
 
             ' Merge results
             For Each pp As processInfos In _visible.Values
-                If _dico.ContainsKey(pp.Pid.ToString) = False Then
-                    _dico.Add(pp.Pid.ToString, pp)
+                If _dico.ContainsKey(pp.ProcessId.ToString) = False Then
+                    _dico.Add(pp.ProcessId.ToString, pp)
                 End If
             Next
 
             ' Mark processes that are not present in _visible as hidden
             For Each pp As processInfos In _dico.Values
-                If _visible.ContainsKey(pp.Pid.ToString) = False Then
+                If _visible.ContainsKey(pp.ProcessId.ToString) = False Then
                     pp.IsHidden = True
                 End If
             Next

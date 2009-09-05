@@ -53,6 +53,7 @@ Public Class cNetwork
     Public Sub New(ByRef infos As networkInfos)
         _networkInfos = infos
         _connection = Connection
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.NetworkConnection
 
         ' Solve DNS
         Try

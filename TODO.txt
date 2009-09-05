@@ -105,6 +105,7 @@ BUGS NON CRITIQUES
 - tcp/udp missing -> msg plutôt que crash
 - setLIMITEDinfo dans les access comme pour QueryLIMITEDinfo (thread & process)
 
+- possibilité de choisir le tab affiché par défaut
 - ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
 - probablement des bugs de 'collection modifiée' vis à vis du log
 - transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
@@ -142,6 +143,19 @@ BUGS NON CRITIQUES
 
 Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
+
+*NEW / Improvements
+- Now Handles/Threads/Modules/Windows main tabs have been removed so that the UI is less confusing and simplified
+- Added 'Freeze list' & 'Search item' features in process' detailed view
+- Now file signature verification can be disabled
 - Removed 100KB limit for history buffer
+- Improved search speed alot & display a message when searching
+- Added 'Restart elevated' button in job tab if user has no privileges
+
+* Bug fixes
 - Fixed Copy to clipboard error
-- Ajout de la possibilité de désactiver la vérification automatique wintrust
+- Fixed bug #2849184 (incorrect string format)
+- Fixed bug #2849961 (cannot sort a virtual listview)
+- Fixed 'Release file'feature
+- Now Close/Terminate feature for search results works just fine
+- Fixed 'job tab is disabled' bug

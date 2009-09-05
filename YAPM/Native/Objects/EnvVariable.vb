@@ -45,7 +45,7 @@ Namespace Native.Objects
                         ByRef variables() As String, _
                         ByRef values() As String) As Integer
             Return GetEnvironmentVariables(process.Infos.PebAddress, _
-                                           process.Infos.Pid, variables, values)
+                                           process.Infos.ProcessId, variables, values)
         End Function
 
         ' Return environment variables

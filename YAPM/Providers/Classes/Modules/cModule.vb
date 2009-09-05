@@ -47,6 +47,7 @@ Public Class cModule
     Public Sub New(ByRef infos As moduleInfos)
         _moduleInfos = infos
         _connection = Connection
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.Module
     End Sub
 
 #End Region

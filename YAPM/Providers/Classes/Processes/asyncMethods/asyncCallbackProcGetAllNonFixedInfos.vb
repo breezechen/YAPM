@@ -49,7 +49,7 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
                 Dim msg As String = ""
                 Dim _newInfos As New Native.Api.NativeStructs.SystemProcessInformation
                 Dim ret As Boolean = _
-                    Wmi.Objects.Process.RefreshProcessInformationsById(_process.Infos.Pid, _
+                    Wmi.Objects.Process.RefreshProcessInformationsById(_process.Infos.ProcessId, _
                                                                 _connection.wmiSearcher, msg, _newInfos)
 
                 RaiseEvent HasGotAllNonFixedInfos(ret, _newInfos, msg)

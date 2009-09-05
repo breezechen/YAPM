@@ -126,9 +126,10 @@ Public Class cProcess
         _processInfos = infos
         _connection = Connection
         _processors = cProcessConnection.ProcessorCount
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.Process
         ' Get a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            _handleQueryInfo = Native.Objects.Process.GetProcessHandleById(infos.Pid, Native.Objects.Process.ProcessQueryMinRights)
+            _handleQueryInfo = Native.Objects.Process.GetProcessHandleById(infos.ProcessId, Native.Objects.Process.ProcessQueryMinRights)
             _tokenHandle = Native.Objects.Token.GetProcessTokenHandleByProcessHandle(_handleQueryInfo, Native.Security.TokenAccess.Query)
         End If
     End Sub
@@ -136,7 +137,7 @@ Public Class cProcess
     Protected Overrides Sub Finalize()
         ' Close a handle if local
         If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If _handleQueryInfo .IsNotNull Then
+            If _handleQueryInfo.IsNotNull Then
                 Native.Objects.General.CloseHandle(_handleQueryInfo)
             End If
         End If
@@ -224,7 +225,7 @@ Public Class cProcess
 
     Public ReadOnly Property HaveFullControl() As Boolean
         Get
-            Return _handleQueryInfo .IsNotNull AndAlso Len(_processInfos.Path) > 0
+            Return _handleQueryInfo.IsNotNull AndAlso Len(_processInfos.Path) > 0
         End Get
     End Property
 
@@ -247,7 +248,7 @@ Public Class cProcess
     Public Sub Merge(ByRef Proc As processInfos)
 
         ' Here we do some refreshment
-        If _handleQueryInfo .IsNotNull Then
+        If _handleQueryInfo.IsNotNull Then
             Call Native.Objects.Token.GetProcessElevationTypeByTokenHandle(_tokenHandle, _elevation)   ' Elevation type
             _isInJob = Native.Objects.Process.IsProcessInJob(_handleQueryInfo)
             _isBeingDebugged = Native.Objects.Process.IsDebuggerPresent(_handleQueryInfo)
@@ -311,7 +312,7 @@ Public Class cProcess
             Case Else
                 ' Local
                 If asyncNonFixed Is Nothing Then
-                    asyncNonFixed = New asyncCallbackProcGetNonFixedInfos(Me.Infos.Pid, _connection, _handleQueryInfo)
+                    asyncNonFixed = New asyncCallbackProcGetNonFixedInfos(Me.Infos.ProcessId, _connection, _handleQueryInfo)
                 End If
                 asyncNonFixed.Process()
         End Select
@@ -339,15 +340,15 @@ Public Class cProcess
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackProcMinidump.poolObj(Me.Infos.Pid, file, opt, newAction))
+            asyncCallbackProcMinidump.poolObj(Me.Infos.ProcessId, file, opt, newAction))
 
     End Sub
     Private Sub createdMinidump(ByVal Success As Boolean, ByVal pid As Integer, ByVal file As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not create mini dump file " & file & " for process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
+                   "Could not create mini dump file " & file & " for process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
         Else
-            MsgBox("Mini dump file " & file & " for process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ") created successfully !", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, _
+            MsgBox("Mini dump file " & file & " for process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ") created successfully !", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, _
                    "Mini dump file created")
         End If
         RemovePendingTask(actionNumber)
@@ -367,13 +368,13 @@ Public Class cProcess
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackProcSetPriority.poolObj(Me.Infos.Pid, level, newAction))
+            asyncCallbackProcSetPriority.poolObj(Me.Infos.ProcessId, level, newAction))
 
     End Function
     Private Sub setPriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
+                   "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -391,13 +392,13 @@ Public Class cProcess
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackProcKill.poolObj(Me.Infos.Pid, newAction))
+            asyncCallbackProcKill.poolObj(Me.Infos.ProcessId, newAction))
 
     End Function
     Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
+                   "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -415,12 +416,12 @@ Public Class cProcess
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackProcKillByMethod.poolObj(Me.Infos.Pid, method, newAction))
+            asyncCallbackProcKillByMethod.poolObj(Me.Infos.ProcessId, method, newAction))
 
     End Function
     Private Sub killDoneM(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Could not kill process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+            MsgBox("Could not kill process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                     "Kill process by method")
         Else
             MsgBox("Process successfully terminated !", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Kill process by method")
@@ -441,13 +442,13 @@ Public Class cProcess
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackProcDecreasePriority.poolObj(Me.Infos.Pid, Me.Infos.Priority, newAction))
+            asyncCallbackProcDecreasePriority.poolObj(Me.Infos.ProcessId, Me.Infos.Priority, newAction))
 
     End Function
     Private Sub decreasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
+                   "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -465,13 +466,13 @@ Public Class cProcess
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackProcIncreasePriority.poolObj(Me.Infos.Pid, Me.Infos.Priority, newAction))
+            asyncCallbackProcIncreasePriority.poolObj(Me.Infos.ProcessId, Me.Infos.Priority, newAction))
 
     End Function
     Private Sub increasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
+                   "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -489,13 +490,13 @@ Public Class cProcess
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackProcSuspend.poolObj(Me.Infos.Pid, newAction))
+            asyncCallbackProcSuspend.poolObj(Me.Infos.ProcessId, newAction))
 
     End Function
     Private Sub suspendDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not suspend process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
+                   "Could not suspend process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -513,14 +514,14 @@ Public Class cProcess
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackProcResume.poolObj(Me.Infos.Pid, newAction))
+            asyncCallbackProcResume.poolObj(Me.Infos.ProcessId, newAction))
 
     End Function
     Private Sub resumeDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not resume process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
+                   "Could not resume process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -538,14 +539,14 @@ Public Class cProcess
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackProcKillTree.poolObj(Me.Infos.Pid, newAction))
+            asyncCallbackProcKillTree.poolObj(Me.Infos.ProcessId, newAction))
 
     End Function
     Private Sub recursiveKillDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
+                   "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -563,14 +564,14 @@ Public Class cProcess
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackProcEmptyWorkingSet.poolObj(Me.Infos.Pid, newAction))
+            asyncCallbackProcEmptyWorkingSet.poolObj(Me.Infos.ProcessId, newAction))
 
     End Function
     Private Sub emptyWorkingSetSizeDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
                    ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not empty working set" & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
+                   "Could not empty working set" & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -588,13 +589,13 @@ Public Class cProcess
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackProcSetAffinity.poolObj(Me.Infos.Pid, affinity, newAction))
+            asyncCallbackProcSetAffinity.poolObj(Me.Infos.ProcessId, affinity, newAction))
 
     End Function
     Private Sub setAffinityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set affinity " & Me.Infos.Name & " (" & Me.Infos.Pid.ToString & ")")
+                   "Could not set affinity " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -633,7 +634,7 @@ Public Class cProcess
                 End If
                 res = _parentName
             Case "PID"
-                res = Me.Infos.Pid.ToString
+                res = Me.Infos.ProcessId.ToString
             Case "UserName"
                 If My.Settings.ShowUserGroupDomain AndAlso Len(Me.Infos.DomainName) > 0 Then
                     res = Me.Infos.DomainName & "\" & Me.Infos.UserName
@@ -870,7 +871,7 @@ Public Class cProcess
                     _old_ParentName = res
                 End If
             Case "PID"
-                res = Me.Infos.Pid.ToString
+                res = Me.Infos.ProcessId.ToString
                 If res = _old_PID Then
                     hasChanged = False
                 Else

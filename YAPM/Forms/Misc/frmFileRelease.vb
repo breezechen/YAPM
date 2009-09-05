@@ -29,82 +29,37 @@ Public Class frmFileRelease
     Public file As String
 
     Private Sub cmdCheck_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheck.Click
-        ' Check if the file is locked (search file as handle/process/module)
+        ' Check if the file is locked (search file as handle/process/module/service)
         Call checkFile(file)
     End Sub
 
     Private Sub checkFile(ByVal sToSearch As String)
         ' Launch search
-        If (sToSearch Is Nothing) OrElse sToSearch.Length < 1 Then Exit Sub
+        If (sToSearch Is Nothing) OrElse sToSearch.Length < 1 Then
+            Exit Sub
+        End If
         sToSearch = sToSearch.ToLower
 
-        Me.lv.Items.Clear()
+        Me.lv.ClearItems()
+        Me.lv.ConnectionObj = Program.Connection
+        Try
+            Program.Connection.Connect()
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
+            Exit Sub
+        End Try
 
-        ' Refresh services and processes lists (easy way to have up to date informations)
-        Call _frmMain.refreshProcessList()
-        Call _frmMain.refreshServiceList()
+        With Me.lv
+            .CaseSensitive = False
+            .SearchString = sToSearch
+            .Includes = Native.Api.Enums.GeneralObjectType.Handle Or _
+                    Native.Api.Enums.GeneralObjectType.Module Or _
+                    Native.Api.Enums.GeneralObjectType.Process Or _
+                    Native.Api.Enums.GeneralObjectType.Service
+            .CheckBoxes = False
+            .UpdateItems()
+        End With
 
-        ' Lock timers so we won't refresh
-        _frmMain.timerProcess.Enabled = False
-        _frmMain.timerServices.Enabled = False
-
-        'Dim sComp As String
-        Dim i As Integer = 0
-
-        Native.Objects.Process.SemCurrentProcesses.WaitOne()
-        For Each cProc As cProcess In Native.Objects.Process.CurrentProcesses.Values
-            Try
-                ' TODO_
-                '' Check for modules
-                'Dim p As ProcessModuleCollection = cProc.Modules
-                'Dim m As ProcessModule
-                'For Each m In p
-                '    sComp = m.FileVersionInfo.FileName.ToLower
-                '    If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-                '        ' So we've found a result
-                '        Dim newIt As New ListViewItem
-                '        Dim n2 As New ListViewItem.ListViewSubItem
-                '        n2.Text = "Module"
-                '        newIt.Text = CStr(cProc.Pid) & " -- " & cProc.Name
-                '        newIt.SubItems.Add(n2)
-                '        newIt.ImageKey = "module"
-                '        Dim _tag As New cModule.MODULEENTRY32
-                '        _tag.th32ProcessID = cProc.Pid
-                '        _tag.modBaseAddr = m.BaseAddress.ToInt32
-                '        newIt.Tag = _tag
-                '        Me.lv.Items.Add(newIt)
-                '    End If
-                'Next
-            Catch ex As Exception
-                '
-            End Try
-        Next
-        Native.Objects.Process.SemCurrentProcesses.Release()
-
-        ' TODO
-        'cHandle.GetOpenedHandlesClass.Refresh()
-        'For i = 0 To cHandle.GetOpenedHandlesClass.Count - 1
-        '    With cHandle.GetOpenedHandlesClass
-        '        If (Len(.GetObjectName(i)) > 0) Then
-        '            sComp = .GetObjectName(i).ToLower
-        '            If InStr(sComp, sToSearch, CompareMethod.Binary) > 0 Then
-        '                ' So we've found a result
-        '                Dim newIt As New ListViewItem
-        '                Dim n2 As New ListViewItem.ListViewSubItem
-        '                newIt.Text = .GetProcessID(i) & " -- " & cProcess.GetProcessName(.GetProcessID(i))
-        '                n2.Text = .GetNameInformation(i) & " -- " & .GetObjectName(i)
-        '                newIt.SubItems.Add(n2)
-        '                newIt.ImageKey = "handle"
-        '                newIt.Tag = .GetHandle(i)
-        '                Me.lv.Items.Add(newIt)
-        '            End If
-        '        End If
-        '    End With
-        'Next
-
-
-        _frmMain.timerServices.Enabled = True
-        _frmMain.timerProcess.Enabled = True
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdFix.Click
@@ -113,25 +68,10 @@ Public Class frmFileRelease
         Dim r As MsgBoxResult = MsgBox("Do you really want to unload selected modules/handles ?" & vbNewLine & "This can make your system unstable.", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Release file")
         If r = MsgBoxResult.Yes Then
             ' Ok proceed
-            Dim it As ListViewItem
-            For Each it In Me.lv.CheckedItems
-                Dim sp As String = it.Text
-                Dim i As Integer = InStr(sp, " ", CompareMethod.Binary)
-                If i > 0 Then
-                    Dim pid As Integer = CInt(Val(sp.Substring(0, i - 1)))
-                    If pid > 4 Then
-                        Select Case it.SubItems(1).Text
-                            Case "Module"
-                                ' Module
-                                'TODO_
-                                'Call cProcess.UnLoadModuleFromProcess(CType(it.Tag, cModule.MODULEENTRY32))
-                            Case Else
-                                ' Handle
-                                Dim Handle As IntPtr = CType(it.Tag, IntPtr)
-                                'TOCHANGE
-                                Call Native.Objects.Handle.CloseProcessLocalHandle(pid, Handle)
-                        End Select
-                    End If
+            For Each it As ListViewItem In Me.lv.CheckedItems
+                Dim cIt As cSearchItem = Me.lv.GetItemByKey(it.Name)
+                If cIt IsNot Nothing Then
+                    cIt.CloseTerminate()
                 End If
             Next
         End If
@@ -144,6 +84,10 @@ Public Class frmFileRelease
         SetToolTip(Me.cmdFix, "Close the selected handles")
 
         Native.Functions.Misc.SetTheme(Me.lv.Handle)
+    End Sub
+
+    Private Sub lv_HasRefreshed() Handles lv.HasRefreshed
+        Me.lv.CheckBoxes = True
     End Sub
 
     Private Sub lv_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseDown

@@ -39,6 +39,7 @@ Public Class cTask
         MyBase.New(infos)
         _pid = infos.ProcessId
         _taskinfos = New taskInfos(infos)
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.Task
 
         ' Get process from process list
         If _procList IsNot Nothing Then

@@ -54,7 +54,7 @@ Public Class frmKillProcessByMethod
         Me.lstMethods.Items.Add("Assign process to a job and terminate job").Tag = Native.Api.Enums.KillMethod.TerminateJob
         Me.lstMethods.Items.Add("All methods").Tag = Native.Api.Enums.KillMethod.All
 
-        Me.Text = Me.Text.Replace("[PID]", _proc.Infos.Pid.ToString).Replace("[NAME]", _proc.Infos.Name)
+        Me.Text = Me.Text.Replace("[PID]", _proc.Infos.ProcessId.ToString).Replace("[NAME]", _proc.Infos.Name)
     End Sub
 
     Private Sub cmdKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKill.Click

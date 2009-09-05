@@ -46,6 +46,10 @@ Public MustInherit Class cGeneralObject
     ' Semaphore to protect dico of pendingTasks
     Public Shared globalSemPendingtask As New System.Threading.Semaphore(1, 1)
 
+    ' Type of item
+    ' This kind of stuff break the inheritance... but who cares ??
+    Friend _TypeOfObject As Native.Api.Enums.GeneralObjectType
+
 
     Public Sub New()
         _objectCreationDate = Date.Now
@@ -155,6 +159,13 @@ Public MustInherit Class cGeneralObject
         Set(ByVal value As Boolean)
             _newItem = value
         End Set
+    End Property
+
+    ' Type of item
+    Public ReadOnly Property TypeOfObject() As Native.Api.Enums.GeneralObjectType
+        Get
+            Return _TypeOfObject
+        End Get
     End Property
 
 

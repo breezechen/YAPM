@@ -44,6 +44,7 @@ Public Class cHandle
     Public Sub New(ByRef infos As handleInfos)
         _handleInfos = infos
         _connection = Connection
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.Handle
     End Sub
 
 #End Region

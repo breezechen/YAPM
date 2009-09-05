@@ -51,6 +51,7 @@ Public Class cService
     Public Sub New(ByRef infos As serviceInfos)
         _serviceInfos = infos
         _connection = Connection
+        _TypeOfObject = Native.Api.Enums.GeneralObjectType.Service
     End Sub
 
 #End Region

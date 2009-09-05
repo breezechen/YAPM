@@ -272,6 +272,12 @@ Public Module Program
 
 
 
+        ' ======= Enable some privileges
+        cEnvironment.RequestPrivilege(cEnvironment.PrivilegeToRequest.DebugPrivilege)
+        cEnvironment.RequestPrivilege(cEnvironment.PrivilegeToRequest.ShutdownPrivilege)
+
+
+
         ' ======= Instanciate all classes
 
         ' Common classes
@@ -329,12 +335,6 @@ Public Module Program
 
 
 
-        ' ======= Enable some privileges
-        cEnvironment.RequestPrivilege(cEnvironment.PrivilegeToRequest.DebugPrivilege)
-        cEnvironment.RequestPrivilege(cEnvironment.PrivilegeToRequest.ShutdownPrivilege)
-
-
-
         ' ======= Read hotkeys & state based actions from XML files
         If _progParameters.ModeServer = False Then
             Call frmHotkeys.readHotkeysFromXML()
@@ -382,10 +382,6 @@ Public Module Program
         Pref.SaveListViewColumns(_frmMain.lvTask, "COLmain_task")
         Pref.SaveListViewColumns(_frmMain.lvServices, "COLmain_service")
         Pref.SaveListViewColumns(_frmMain.lvProcess, "COLmain_process")
-        Pref.SaveListViewColumns(_frmMain.lvModules, "COLmain_module")
-        Pref.SaveListViewColumns(_frmMain.lvWindows, "COLmain_window")
-        Pref.SaveListViewColumns(_frmMain.lvThreads, "COLmain_thread")
-        Pref.SaveListViewColumns(_frmMain.lvHandles, "COLmain_handle")
         Pref.SaveListViewColumns(_frmMain.lvNetwork, "COLmain_network")
 
         My.Settings.Save()

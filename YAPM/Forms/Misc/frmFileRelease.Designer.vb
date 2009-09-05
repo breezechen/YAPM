@@ -23,10 +23,10 @@ Partial Class frmFileRelease
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
+        Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmFileRelease))
         Me.cmdCheck = New System.Windows.Forms.Button
-        Me.lv = New YAPM.DoubleBufferedLV
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.lv = New YAPM.searchList
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.IMG = New System.Windows.Forms.ImageList(Me.components)
         Me.cmdFix = New System.Windows.Forms.Button
@@ -43,28 +43,32 @@ Partial Class frmFileRelease
         '
         'lv
         '
+        Me.lv.CaseSensitive = False
+        Me.lv.CatchErrors = False
         Me.lv.CheckBoxes = True
-        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
+        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2})
+        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        Me.lv.ConnectionObj = CConnection1
+        Me.lv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lv.FullRowSelect = True
         Me.lv.GridLines = True
+        Me.lv.Includes = YAPM.Native.Api.Enums.GeneralObjectType.Process
+        Me.lv.IsConnected = False
         Me.lv.Location = New System.Drawing.Point(12, 40)
         Me.lv.Name = "lv"
         Me.lv.OverriddenDoubleBuffered = False
+        Me.lv.ReorganizeColumns = True
+        Me.lv.SearchString = Nothing
         Me.lv.Size = New System.Drawing.Size(260, 143)
         Me.lv.SmallImageList = Me.IMG
         Me.lv.TabIndex = 1
         Me.lv.UseCompatibleStateImageBehavior = False
         Me.lv.View = System.Windows.Forms.View.Details
         '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Process"
-        Me.ColumnHeader1.Width = 128
-        '
         'ColumnHeader2
         '
-        Me.ColumnHeader2.Text = "Field"
-        Me.ColumnHeader2.Width = 128
+        Me.ColumnHeader2.Text = "Result"
+        Me.ColumnHeader2.Width = 220
         '
         'IMG
         '
@@ -101,9 +105,8 @@ Partial Class frmFileRelease
 
     End Sub
     Friend WithEvents cmdCheck As System.Windows.Forms.Button
-    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents cmdFix As System.Windows.Forms.Button
     Friend WithEvents IMG As System.Windows.Forms.ImageList
-    Friend WithEvents lv As YAPM.DoubleBufferedLV
+    Friend WithEvents lv As YAPM.searchList
 End Class

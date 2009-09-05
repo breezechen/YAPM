@@ -17,10 +17,6 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
-'
-'
-' Some pieces of code are inspired by wj32 work (from Process Hacker) :
-' - Declaration of some structures used by NtQuerySystemInformation
 
 Option Strict On
 
