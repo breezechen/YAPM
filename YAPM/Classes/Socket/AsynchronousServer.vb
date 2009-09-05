@@ -158,7 +158,7 @@ Public Class AsynchronousSocketListener
             Try
                 bytesRead = handler.EndReceive(ar)
             Catch ex As Exception
-                MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while receinving data")
+                MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while receiving data")
                 RaiseEvent Disconnected()
                 Exit Sub
             End Try
