@@ -3,14 +3,13 @@ TODO LIST
 Refactoring bugs
 - 64TODO
 
-
+- virer PtrToStructure et n'utiliser que MemoryAlloc
 
 BUGS CRITIQUES
 - close local process handle -> utiliser DuplicateHandle plutôt que remote thread
 - others highlightings (isTask, wow64...)
 - extend dico et ajout de TryAdd ?
 - refermer les handles quand les processes meurent !
-- begin debugged marche pas
 - problème icones menu principal cachées (Vista seulement)
 - reports à faire (vérifier l'utilisation de GetAvailbleProperties)
 	process -> save services
@@ -23,43 +22,34 @@ BUGS CRITIQUES
 	network -> à implémenter (menu + icone ribbon)
 	search -> OK
 	main -> à faire
-
+	!!! reports des modules/threads/handles/windows (depuis que les maintab sont plus là) ?
+	
 BUGS NON CRITIQUES
 - refaire "update YAPM"
 - timer dans jobInfos doit avoir le même temps que dans frmMain
 - ajouter nouvelles infos pour les handles (cf struct récupérée)
 - is remote debugger present marche pas (cf _WIN32_WINNT)
-- says thx to p/inv declarations from wj32
 - say thanks to developerfusion.com && pinvoke.net
 - l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
 - highlightings en remote
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
 - recup username foireux
 - pending task pour remote (le _deg n'est pas appelé en remote)
-- goto item dans le log
+- goto item dans le log bon oopas ?
 - résolutions d'adresses -> stocker correspondance IP:port <-> nom resolu dans un dico ?
-- utilisation de TryGetValue pour accéder aux dicos
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
-- bien différencier local et remote, ex. hidden processes (afficher dans le caption des forms ?)
-- gestion startup items ou pas ? (+ coloration pour les process/services qui démarrent au boot)
 - ajouter description des colonnes (dans le chooseColumns)
 - si local connection -> spawn tâche en waitForSingleObject qui attend la fin d'un process pour le exitcode dans formDetail.
 - option Kill with specific exitcode
 - find window -> select thread possible
 - creatime time foireux pour les threads
 - virer la form qui gère le drag & drop pour la sélection d'un process
-- checker replace taskmgr sous 7 (need de la RAM !!)
-- menu select all dans tous les lv
-- notifications processus & services deleted
 - inspect structures (PEB...) + possibilité afficher valeurs structs depuis hex editor
 - optmisation NetWorklist -> bytes swap uniquement pour les news items (inutile de faire çà a chaque fois dans l'enum)
 - Click sur 'monitor counters' -> BeginUpdate/EndUpdate du TV et du LV de frmMain
-- monitoring de pleins des items -> thread spécifique nécessaire pour éviter les bloquages
+- monitoring de pleins d'items -> thread spécifique nécessaire pour éviter les bloquages
 - systemInfo pour les pc remote
-- reprendre tout le code unmanaged (cProcessRW foiré, Marshal.Copy useless (utiliser GCHandle.Alloc...))
-- colorations listviewitems pour les modules (cf. flags)
 - SystemInfos -> afficher graphes en permanence (et pas que quand la form est affichée)
-- optimisation récupération zones mémoire
 - lvFileStrings doit être Virtual
 - dependencies pour les services KO (on a le path avec \SystemRoot\ dans le .Imagepath (récupérer plutôt .Getinformation(path) + enlever ligne de commande après fichier)
 - si network connexions obtenues AVANT process, alors le processname n'est pas trouvé (refaire un check après)
@@ -71,16 +61,13 @@ BUGS NON CRITIQUES
 - désactiver msgbox pour le server
 - en mode server, tous les captions sont en gris (lvProcess)
 - ajouter "démarrer en tant que" (runas, cf lien opera)
-- option display icons in listviews
 - perf counter pour PC distant (+ ajouter gestion remote pour la recherche)
 - path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
 - auto check update option (+ ajouter tooltip sur tray icon)
-- fin d'un process -> afficher exitcode dans frmDetail
 - log marche pas toujours (0% d'UC ??)
 - fin d'un process/service dans frmDetail -> afficher 'terminé le xxx' en titre quand le process/service n'existe plus
 - tooltip partout (manque frmPreferences ? et manque frmLogOptions + forms qui viennent des autres projets)
 - images PNG uniquement + virer img inutiles
-- Check if file is locked... -> avertir quand recherche terminée (REFAIRE CETTE FEATURE)
 - certaines icones moches (yes/no dans lvPrivileges, refresh, find window, )
 - get online infos pour les services (changer de provider !!)
 - 'select in Window tab' dans task toujours non satisfaisant (au minimum, on peut déjà demander le refresh de lvWindows...)
@@ -89,23 +76,19 @@ BUGS NON CRITIQUES
 - find hidden processes utilisable pour les PCs distants ? + ajouter Terminate dans le menu popup + éventuellement 'go to process' pour aller dans lvProcess
 - déconnexion WMI après longue inactivité -> calculer temps dernière requete et lancer une requete pour éviter la déconnexion si t>MAX ?
 - double récupération des strings en mémoire/image dans frmDetail ???
-- blocage de l'application quand certains processus bouffe du CPU (cf compilo wingreta) -> est-ce un appel bloquant (genre sendmessage) lors du refresh des process/tasks...?
 - dependencies -> PE.filename doit changer SystemRoot en X:\Wind....
-- refactoring (objet, virer int et mettre intptr, declarations pinvoke, gestion privileges meilleure...etc....)
-- ajouter msgbox "action dangereuse, you sure ?"
+- ajouter msgbox "action dangereuse, you sure ?" partout (+ suppr dans lvThread kill le thread)
 - refresh double des services en WMI ??
-- view memory (module) -> que si lvProcMem.count = 0...
+
 - affinity process/thread (socket)
 - refresh services trop rapide -> impossible de récupérer des infos par socket après (checker semaphore)
-- TODO, TOCHANGE, TODO_, TOCHECK, ISNEEDED, TOREMOVE
+- TODO, TOCHANGE, TODO_, TOCHECK, ISNEEDED, TOREMOVE, PERFISSUE
 - sélectionner premier item tv dep viewer automatiquement
-- virer PtrToStructure et n'utiliser que MemoryAlloc
 - replace taskmgr sous 7 ?
-- pending task : caption -> object.tostring (surchargé chaque cXXXX)
-- tcp/udp missing -> msg plutôt que crash
+- pending task : caption -> object.tostring (surcharger chaque cXXXX)
 - setLIMITEDinfo dans les access comme pour QueryLIMITEDinfo (thread & process)
-
 - possibilité de choisir le tab affiché par défaut
+
 - ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
 - probablement des bugs de 'collection modifiée' vis à vis du log
 - transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
@@ -117,19 +100,15 @@ BUGS NON CRITIQUES
 - rapport monitoring
 - one graph per CPU -> conserver historique
 - performances (_currentServices et _currentProcesses remplis 2 fois au démarrage -> customLV qui créé des cObject, et asyncEnum aussi)
-- smss.exe reste dans les modules (en rouge) si on change les processus sélectionnés ???
-- recherche avant récupération des process -> foreach de CurrentProcesses foireux (bug disparu mais recherche non effectuée)
 - upload virus total
 
 
 2) Plus tard
-- enum module via read memory et LdrDataTableEntry (permet d'avoir plus d'infos)
 - SBA a réimplémenter
 - SBA -> sendmessage configurable
 - cycles pour vista, I/O priority, WS shared
 - "monitor" sur les processus (sélection du PID, sélection de la catégorie Process/Processus et sélection des bonnes instances)
 - infos système dans le general report
-- changement privileges processus système
 - "other actions" pour les processus (limitation CPU usage...)
 - tooltip sur graphes
 
@@ -137,8 +116,6 @@ BUGS NON CRITIQUES
 - autres token
 - monitoring de plusieurs instances en même temps (multiselection)
 - vue treeview
-- isPacked, isDotnet...
-- fonctionnement avec privilèges réduits
 
 
 Temp Change log :

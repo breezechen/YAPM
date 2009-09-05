@@ -788,13 +788,20 @@ Namespace Common
                                            ByRef dicoTcp As Dictionary(Of Integer, String), _
                                            ByRef dicoUdp As Dictionary(Of Integer, String)) As Boolean
 
-            Dim sTcp() As String = _
-                System.IO.File.ReadAllLines(tcpFile)
-            Dim sUdp() As String = _
-                System.IO.File.ReadAllLines(udpFile)
-
-            ' TCP
             Try
+
+                If System.IO.File.Exists(tcpFile) = False OrElse _
+                    System.IO.File.Exists(udpFile) Then
+                    MsgBox("tcp.txt or udp.txt is missing in application directory !", MsgBoxStyle.Critical, "Initialisation")
+                    Return False
+                End If
+
+                Dim sTcp() As String = _
+                    System.IO.File.ReadAllLines(tcpFile)
+                Dim sUdp() As String = _
+                    System.IO.File.ReadAllLines(udpFile)
+
+                ' TCP
                 For Each s As String In sTcp
 
                     Dim p As Integer = s.IndexOf(vbTab)
@@ -859,7 +866,6 @@ Namespace Common
             Catch ex As Exception
                 Return False
             End Try
-
 
         End Function
 
