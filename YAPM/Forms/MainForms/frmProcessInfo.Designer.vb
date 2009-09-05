@@ -3338,6 +3338,7 @@ Partial Class frmProcessInfo
         'lblSearchItemCaption
         '
         Me.lblSearchItemCaption.AutoSize = True
+        Me.lblSearchItemCaption.Enabled = False
         Me.lblSearchItemCaption.Location = New System.Drawing.Point(6, 6)
         Me.lblSearchItemCaption.Name = "lblSearchItemCaption"
         Me.lblSearchItemCaption.Size = New System.Drawing.Size(66, 13)
@@ -3347,6 +3348,7 @@ Partial Class frmProcessInfo
         'lblResCount
         '
         Me.lblResCount.AutoSize = True
+        Me.lblResCount.Enabled = False
         Me.lblResCount.Location = New System.Drawing.Point(396, 6)
         Me.lblResCount.Name = "lblResCount"
         Me.lblResCount.Size = New System.Drawing.Size(56, 13)
@@ -3355,6 +3357,7 @@ Partial Class frmProcessInfo
         '
         'txtSearch
         '
+        Me.txtSearch.Enabled = False
         Me.txtSearch.Location = New System.Drawing.Point(75, 1)
         Me.txtSearch.Name = "txtSearch"
         Me.txtSearch.Size = New System.Drawing.Size(312, 22)
