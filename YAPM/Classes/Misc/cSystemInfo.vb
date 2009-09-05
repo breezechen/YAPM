@@ -17,9 +17,6 @@
 '
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
-'
-'
-' Some structures defined below come from Process Hacker by wj32
 
 
 Option Strict On
