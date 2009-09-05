@@ -2639,12 +2639,12 @@ Public Class frmMain
         Me.lvJob.CatchErrors = Not (_local)
 
         ' Enable all refreshments
-        Me.timerProcess.Enabled = _local
-        Me.timerServices.Enabled = _local
-        Me.timerMonitoring.Enabled = _local
-        Me.timerNetwork.Enabled = _local
-        Me.timerTask.Enabled = _local
-        Me.timerJobs.Enabled = _local
+        Me.timerProcess.Enabled = True ' _local
+        Me.timerServices.Enabled = True ' _local
+        Me.timerMonitoring.Enabled = True ' _local
+        Me.timerNetwork.Enabled = True ' _local
+        Me.timerTask.Enabled = True ' _local
+        Me.timerJobs.Enabled = True ' _local
     End Sub
 
     Public Sub DisconnectFromMachine()

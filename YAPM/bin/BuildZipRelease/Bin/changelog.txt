@@ -21,6 +21,7 @@ CHANGES FROM 2.1.0
 - Fixed 'job tab is disabled' bug
 - Fixed 'go to search' for task tab
 - YAPM won't crash if tcp.txt or udp.txt is missing, but a message will warn the user
+- Fixed bug when trying to refresh job list using remote server
 
 
 CHANGES FROM 2.0.3

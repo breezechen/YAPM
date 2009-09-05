@@ -50,10 +50,10 @@ Public Class asyncCallbackJobEnumerate
     ' When socket got a list  !
     Private _poolObj As poolObj
     Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
-        Dim dico As New Dictionary(Of String, networkInfos)
+        Dim dico As New Dictionary(Of String, jobInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
-                dico.Add(keys(x), DirectCast(lst(x), networkInfos))
+                dico.Add(keys(x), DirectCast(lst(x), jobInfos))
             Next
         End If
         If deg IsNot Nothing AndAlso ctrl.Created Then _
