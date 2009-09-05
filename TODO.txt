@@ -78,7 +78,7 @@ BUGS NON CRITIQUES
 - déconnexion WMI après longue inactivité -> calculer temps dernière requete et lancer une requete pour éviter la déconnexion si t>MAX ?
 - double récupération des strings en mémoire/image dans frmDetail ???
 - dependencies -> PE.filename doit changer SystemRoot en X:\Wind....
-- ajouter msgbox "action dangereuse, you sure ?" partout (+ suppr dans lvThread kill le thread)
+- ajouter msgbox "action dangereuse, you sure ?" partout
 - refresh double des services en WMI ??
 
 - affinity process/thread (socket)

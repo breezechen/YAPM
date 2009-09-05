@@ -2451,6 +2451,24 @@ Public Class frmProcessInfo
         Next
     End Sub
 
+    Private Sub lvThreads_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvThreads.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        ElseIf e.KeyCode = Keys.Delete Then
+            If My.Settings.WarnDangerousActions Then
+                If MsgBox("Are you sure you want to terminate these threads ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                    Exit Sub
+                End If
+            End If
+            For Each it As cThread In Me.lvThreads.GetSelectedItems
+                it.ThreadTerminate()
+            Next
+        End If
+    End Sub
+
+
 #Region "Find panel"
 
     Private Sub cmdHideFindPanel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdHideFindPanel.Click
@@ -2522,14 +2540,6 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub lvModules_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvModules.KeyDown
-        If e.Control AndAlso e.KeyCode = Keys.F Then
-            If Me.SplitContainer.Panel2Collapsed Then
-                Call showFindPanel()
-            End If
-        End If
-    End Sub
-
-    Private Sub lvThreads_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvThreads.KeyDown
         If e.Control AndAlso e.KeyCode = Keys.F Then
             If Me.SplitContainer.Panel2Collapsed Then
                 Call showFindPanel()
