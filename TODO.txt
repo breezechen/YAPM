@@ -4,6 +4,7 @@ Refactoring bugs
 - 64TODO
 
 - virer PtrToStructure et n'utiliser que MemoryAlloc
+- close frmConnection when connection established
 
 BUGS CRITIQUES
 - close local process handle -> utiliser DuplicateHandle plutôt que remote thread

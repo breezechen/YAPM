@@ -791,7 +791,7 @@ Namespace Common
             Try
 
                 If System.IO.File.Exists(tcpFile) = False OrElse _
-                    System.IO.File.Exists(udpFile) Then
+                    System.IO.File.Exists(udpFile) = False Then
                     MsgBox("tcp.txt or udp.txt is missing in application directory !", MsgBoxStyle.Critical, "Initialisation")
                     Return False
                 End If
