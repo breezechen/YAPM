@@ -1185,15 +1185,20 @@ Namespace Native.Api
 #End Region
 
         ' OK
-#Region "Declarations used for keyboard management"
+#Region "Declarations used for hooks"
 
         'Public Delegate Function HookProc(ByVal code As Integer, ByVal wParam As IntPtr, ByVal lParam As IntPtr) As Integer
-        Public Delegate Function HookProc(ByVal code As Integer, ByVal wParam As IntPtr, ByRef lParam As KBDLLHOOKSTRUCT) As Integer
+        Public Delegate Function HookProcKbd(ByVal code As Integer, ByVal wParam As IntPtr, ByRef lParam As KBDLLHOOKSTRUCT) As Integer
+        Public Delegate Function HookProcMouse(ByVal code As Integer, ByVal wParam As IntPtr, ByRef lParam As MOUSEHOOKSTRUCT) As Integer
         Public Delegate Function LowLevelKeyboardProc(ByVal nCode As Integer, ByVal wParam As NativeEnums.WindowMessage, <[In]()> ByVal lParam As KBDLLHOOKSTRUCT) As Integer
         Public Delegate Function LowLevelMouseProc(ByVal code As Integer, ByVal wParam As NativeEnums.WindowMessage, <[In]()> ByVal lParam As MSLLHookStruct) As IntPtr
 
         <DllImport("user32.dll", SetLastError:=True)> _
-        Public Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback As HookProc, ByVal hMod As IntPtr, ByVal dwThreadId As UInteger) As IntPtr
+        Public Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback As HookProcKbd, ByVal hMod As IntPtr, ByVal dwThreadId As UInteger) As IntPtr
+        End Function
+
+        <DllImport("user32.dll", SetLastError:=True)> _
+        Public Shared Function SetWindowsHookEx(ByVal hook As HookType, ByVal callback As HookProcMouse, ByVal hMod As IntPtr, ByVal dwThreadId As UInteger) As IntPtr
         End Function
 
         <DllImport("user32.dll", SetLastError:=True)> _
@@ -1212,6 +1217,12 @@ Namespace Native.Api
         Public Shared Function CallNextHookEx(ByVal hhk As IntPtr, ByVal nCode As Integer, _
                                         ByVal wParam As IntPtr, _
                                         <[In]()> ByVal lParam As KBDLLHOOKSTRUCT) As Integer
+        End Function
+
+        <DllImport("user32.dll")> _
+        Public Shared Function CallNextHookEx(ByVal hhk As IntPtr, ByVal nCode As Integer, _
+                                        ByVal wParam As IntPtr, _
+                                        <[In]()> ByVal lParam As MOUSEHOOKSTRUCT) As Integer
         End Function
 
         <DllImport("user32.dll")> _

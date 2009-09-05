@@ -1241,7 +1241,7 @@ Namespace Native.Api
 #End Region
 
         ' OK
-#Region "Declarations used for keyboard management"
+#Region "Declarations used for hooks"
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure KBDLLHOOKSTRUCT
@@ -1249,6 +1249,14 @@ Namespace Native.Api
             Public scanCode As Integer
             Public flags As KBDLLHOOKSTRUCTFlags
             Public time As Integer
+            Public dwExtraInfo As IntPtr
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MOUSEHOOKSTRUCT
+            Public pt As Point
+            Public hwnd As IntPtr
+            Public wHitTestCode As UInteger
             Public dwExtraInfo As IntPtr
         End Structure
 

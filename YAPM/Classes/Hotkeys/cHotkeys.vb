@@ -45,7 +45,7 @@ Public Class cHotkeys
     Private _col As New Collection
 
     ' Delegate function (function which replace the 'normal' one)
-    Private myCallbackDelegate As Native.Api.NativeFunctions.HookProc = Nothing
+    Private myCallbackDelegate As Native.Api.NativeFunctions.HookProcKbd = Nothing
 
 
     ' ========================================
@@ -119,7 +119,7 @@ Public Class cHotkeys
         If hKeyHook.IsNull Then
 
             ' Initialize our delegate
-            Me.myCallbackDelegate = New Native.Api.NativeFunctions.HookProc(AddressOf Me.KeyboardFilter)
+            Me.myCallbackDelegate = New Native.Api.NativeFunctions.HookProcKbd(AddressOf Me.KeyboardFilter)
 
             hKeyHook = Native.Api.NativeFunctions.SetWindowsHookEx(Native.Api.NativeEnums.HookType.WH_KEYBOARD_LL, _
                         Me.myCallbackDelegate, IntPtr.Zero, 0) ' 0 -> all threads
