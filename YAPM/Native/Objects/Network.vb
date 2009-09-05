@@ -38,10 +38,14 @@ Namespace Native.Objects
         ' Private attributes
         ' ========================================
 
+        ' Protection for enumeration
+        Private Shared semEnum As New System.Threading.Semaphore(1, 1)
+
 
         ' ========================================
         ' Public properties
         ' ========================================
+
 
         ' ========================================
         ' Other public
@@ -63,23 +67,25 @@ Namespace Native.Objects
                 Exit Sub
             End If
 
+            semEnum.WaitOne()
+
             ' --------- TCP
             ' Get needed size of memory to allocate
-            NativeFunctions.GetExtendedTcpTable(IntPtr.Zero, length, False, 2, Enums.TcpTableClass.OwnerPidAll, 0)
+            NativeFunctions.GetExtendedTcpTable(IntPtr.Zero, length, False, NativeEnums.IpVersion.AfInet, _
+                                                Enums.TcpTableClass.OwnerPidAll, 0)
             ' Allocate memory
-            Dim pt As IntPtr = Marshal.AllocHGlobal(length)
+            Dim memTcp As New Memory.MemoryAlloc(length)
             ' Get table
-            If NativeFunctions.GetExtendedTcpTable(pt, length, False, 2, Enums.TcpTableClass.OwnerPidAll, 0) = 0 Then
+            If NativeFunctions.GetExtendedTcpTable(memTcp.Pointer, length, False, NativeEnums.IpVersion.AfInet, Enums.TcpTableClass.OwnerPidAll, 0) = 0 Then
 
-                Dim count As Integer = Marshal.ReadInt32(pt, 0)
+                Dim count As Integer = memTcp.ReadInt32(0)
 
                 For i As Integer = 0 To count - 1
                     Dim tcp_item As NativeStructs.MibTcpRowOwnerPid
 
                     ' Read struct with an offset of 4 bytes (these bytes contains item count)
                     ' 4 first bytes for Count
-                    tcp_item = CType(Marshal.PtrToStructure(pt.Increment(4 + i * Marshal.SizeOf(tcp_item)), _
-                                                            GetType(NativeStructs.MibTcpRowOwnerPid)), NativeStructs.MibTcpRowOwnerPid)
+                    tcp_item = memTcp.ReadStruct(Of NativeStructs.MibTcpRowOwnerPid)(&H4, i)
 
                     ' Test if belongs to PID list
                     Dim bOkToAdd As Boolean = allProcesses
@@ -121,28 +127,29 @@ Namespace Native.Objects
                     End If
                 Next
 
-                Marshal.FreeHGlobal(pt)
+                memTcp.Free()
 
             End If
 
 
             ' --------- UDP
             ' Get needed size of memory to allocate
-            NativeFunctions.GetExtendedUdpTable(IntPtr.Zero, length, False, 2, Enums.UdpTableClass.OwnerPid, 0)
+            NativeFunctions.GetExtendedUdpTable(IntPtr.Zero, length, False, NativeEnums.IpVersion.AfInet, Enums.UdpTableClass.OwnerPid, 0)
             ' Allocate memory
-            pt = Marshal.AllocHGlobal(length)
+            Dim memUdp As New Memory.MemoryAlloc(length)
             ' Get table
-            If NativeFunctions.GetExtendedUdpTable(pt, length, False, 2, Enums.UdpTableClass.OwnerPid, 0) = 0 Then
+            If NativeFunctions.GetExtendedUdpTable(memUdp.Pointer, length, False, NativeEnums.IpVersion.AfInet, Enums.UdpTableClass.OwnerPid, 0) = 0 Then
 
-                Dim count2 As Integer = Marshal.ReadInt32(pt, 0)
+                Dim count2 As Integer = memUdp.ReadInt32(0)
 
                 For i As Integer = 0 To count2 - 1
                     Dim udp_item As NativeStructs.MibUdpRowOwnerId
 
                     ' Read struct with an offset of 4 bytes (these bytes contains item count)
                     ' 4 first bytes for Count
-                    udp_item = CType(Marshal.PtrToStructure(pt.Increment(4 + i * Marshal.SizeOf(udp_item)), _
-                                                            GetType(NativeStructs.MibUdpRowOwnerId)), NativeStructs.MibUdpRowOwnerId)
+                    ' Read struct with an offset of 4 bytes (these bytes contains item count)
+                    ' 4 first bytes for Count
+                    udp_item = memUdp.ReadStruct(Of NativeStructs.MibUdpRowOwnerId)(&H4, i)
 
                     ' Test if belongs to PID list
                     Dim bOkToAdd As Boolean = allProcesses
@@ -179,8 +186,10 @@ Namespace Native.Objects
                     End If
                 Next
 
-                Marshal.FreeHGlobal(pt)
+                memUdp.Free()
             End If
+
+            semEnum.Release()
         End Sub
 
         ' Close a TCP connection

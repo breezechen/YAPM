@@ -1333,6 +1333,16 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
+#Region "Declarations used for network connections"
+
+        Public Enum IpVersion As UInteger
+            AfInet = &H2
+            AfInt6 = &HA
+        End Enum
+
+#End Region
+
     End Class
 
 End Namespace

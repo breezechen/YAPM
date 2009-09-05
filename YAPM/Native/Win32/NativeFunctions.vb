@@ -539,7 +539,7 @@ Namespace Native.Api
         Public Shared Function GetExtendedTcpTable(ByVal Table As IntPtr, _
                                                 ByRef Size As Integer, _
                                                 ByVal Order As Boolean, _
-                                                ByVal IpVersion As Integer, _
+                                                ByVal IpVersion As IpVersion, _
                                                 ByVal TableClass As Enums.TcpTableClass, _
                                                 ByVal Reserved As Integer) As Integer
         End Function
@@ -548,7 +548,7 @@ Namespace Native.Api
         Public Shared Function GetExtendedUdpTable(ByVal Table As IntPtr, _
                                                 ByRef Size As Integer, _
                                                 ByVal Order As Boolean, _
-                                                ByVal IpVersion As Integer, _
+                                                ByVal IpVersion As IpVersion, _
                                                 ByVal TableClass As Enums.UdpTableClass, _
                                                 ByVal Reserved As Integer) As Integer
         End Function
