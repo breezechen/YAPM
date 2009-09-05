@@ -143,21 +143,3 @@ BUGS NON CRITIQUES
 
 Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
-
-*NEW / Improvements
-- Now Handles/Threads/Modules/Windows main tabs have been removed so that the UI is less confusing and simplified
-- Added 'Freeze list' & 'Search item' features in process' detailed view
-- Now file signature verification can be disabled
-- Removed 100KB limit for history buffer
-- Improved search speed alot & display a message when searching
-- Added 'Restart elevated' button in job tab if user has no privileges
-- Improved quick search in main tab (tasks, processes, services, search)
-
-* Bug fixes
-- Fixed Copy to clipboard error
-- Fixed bug #2849184 (incorrect string format)
-- Fixed bug #2849961 (cannot sort a virtual listview)
-- Fixed 'Release file'feature
-- Now Close/Terminate feature for search results works just fine
-- Fixed 'job tab is disabled' bug
-- Fixed 'go to search' for task tab

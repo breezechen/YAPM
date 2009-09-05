@@ -378,7 +378,7 @@ Partial Class frmProcessInfo
         Me.SplitContainer = New System.Windows.Forms.SplitContainer
         Me.cmdHideFindPanel = New System.Windows.Forms.Button
         Me.chkFreeze = New System.Windows.Forms.CheckBox
-        Me.Label19 = New System.Windows.Forms.Label
+        Me.lblSearchItemCaption = New System.Windows.Forms.Label
         Me.lblResCount = New System.Windows.Forms.Label
         Me.txtSearch = New System.Windows.Forms.TextBox
         Me.RadioButton1 = New System.Windows.Forms.RadioButton
@@ -3294,6 +3294,7 @@ Partial Class frmProcessInfo
         Me.SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
         Me.SplitContainer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SplitContainer.IsSplitterFixed = True
         Me.SplitContainer.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer.Name = "SplitContainer"
         Me.SplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -3306,7 +3307,7 @@ Partial Class frmProcessInfo
         '
         Me.SplitContainer.Panel2.Controls.Add(Me.cmdHideFindPanel)
         Me.SplitContainer.Panel2.Controls.Add(Me.chkFreeze)
-        Me.SplitContainer.Panel2.Controls.Add(Me.Label19)
+        Me.SplitContainer.Panel2.Controls.Add(Me.lblSearchItemCaption)
         Me.SplitContainer.Panel2.Controls.Add(Me.lblResCount)
         Me.SplitContainer.Panel2.Controls.Add(Me.txtSearch)
         Me.SplitContainer.Size = New System.Drawing.Size(655, 356)
@@ -3334,14 +3335,14 @@ Partial Class frmProcessInfo
         Me.chkFreeze.Text = "Suspend refreshment"
         Me.chkFreeze.UseVisualStyleBackColor = True
         '
-        'Label19
+        'lblSearchItemCaption
         '
-        Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(6, 6)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(66, 13)
-        Me.Label19.TabIndex = 16
-        Me.Label19.Text = "Search item"
+        Me.lblSearchItemCaption.AutoSize = True
+        Me.lblSearchItemCaption.Location = New System.Drawing.Point(6, 6)
+        Me.lblSearchItemCaption.Name = "lblSearchItemCaption"
+        Me.lblSearchItemCaption.Size = New System.Drawing.Size(66, 13)
+        Me.lblSearchItemCaption.TabIndex = 16
+        Me.lblSearchItemCaption.Text = "Search item"
         '
         'lblResCount
         '
@@ -3373,7 +3374,7 @@ Partial Class frmProcessInfo
         Me.ClientSize = New System.Drawing.Size(655, 356)
         Me.Controls.Add(Me.SplitContainer)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MinimumSize = New System.Drawing.Size(660, 359)
+        Me.MinimumSize = New System.Drawing.Size(660, 392)
         Me.Name = "frmProcessInfo"
         Me.Text = "Process informations"
         Me.tabProcess.ResumeLayout(False)
@@ -3786,7 +3787,7 @@ Partial Class frmProcessInfo
     Friend WithEvents MenuItemWCaption As System.Windows.Forms.MenuItem
     Friend WithEvents SplitContainer As System.Windows.Forms.SplitContainer
     Friend WithEvents RadioButton1 As System.Windows.Forms.RadioButton
-    Friend WithEvents Label19 As System.Windows.Forms.Label
+    Friend WithEvents lblSearchItemCaption As System.Windows.Forms.Label
     Friend WithEvents lblResCount As System.Windows.Forms.Label
     Friend WithEvents txtSearch As System.Windows.Forms.TextBox
     Friend WithEvents chkFreeze As System.Windows.Forms.CheckBox

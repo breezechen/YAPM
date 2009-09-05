@@ -396,6 +396,10 @@ Public Class frmProcessInfo
         SetToolTip(Me.cmdAffinity, "Set affinity")
         SetToolTip(Me.cmdSet, "Set priority")
         SetToolTip(Me.cbPriority, "Priority of the process")
+        SetToolTip(Me.chkFreeze, "Suspend refreshment of informations to let you search into the view")
+        SetToolTip(Me.lblResCount, "Number of results. Click on the number to view results")
+        SetToolTip(Me.txtSearch, "Enter text here to search an item")
+        SetToolTip(Me.cmdHideFindPanel, "Hide 'find panel'")
 
         ' Init columns
         Pref.LoadListViewColumns(Me.lvPrivileges, "COLprocdetail_privilege")
@@ -2453,7 +2457,9 @@ Public Class frmProcessInfo
         My.Settings.ShowFindWindowDetailedForm = False
         If My.Settings.FirstTimeShowFindWindowWasClosed Then
             My.Settings.FirstTimeShowFindWindowWasClosed = False
-            MsgBox("You have closed the search panel. Press Ctrl+F on a listview to open it again.", MsgBoxStyle.Information, "Search panel")
+            MsgBox("You have closed the search panel." & vbNewLine & _
+                           "Press Ctrl+F on a listview to open it again.", _
+                           MsgBoxStyle.Information, "Search panel")
             My.Settings.Save()
         End If
         Call hideFindPanel()
@@ -2543,37 +2549,59 @@ Public Class frmProcessInfo
     Private Sub updateFindPanel()
         Select Case Me.tabProcess.SelectedTab.Text
             Case "Token"
-                Me.SplitContainer.Panel2.Enabled = True
+                Me.txtSearch.Enabled = True
+                Me.lblResCount.Enabled = True
+                Me.lblSearchItemCaption.Enabled = True
                 listViewForSearch = Me.lvPrivileges
             Case "Modules"
-                Me.SplitContainer.Panel2.Enabled = True
+                Me.txtSearch.Enabled = True
+                Me.lblSearchItemCaption.Enabled = True
+                Me.lblResCount.Enabled = True
                 listViewForSearch = Me.lvModules
             Case "Threads"
-                Me.SplitContainer.Panel2.Enabled = True
+                Me.txtSearch.Enabled = True
+                Me.lblSearchItemCaption.Enabled = True
+                Me.lblResCount.Enabled = True
                 listViewForSearch = Me.lvThreads
             Case "Windows"
-                Me.SplitContainer.Panel2.Enabled = True
+                Me.txtSearch.Enabled = True
+                Me.lblSearchItemCaption.Enabled = True
+                Me.lblResCount.Enabled = True
                 listViewForSearch = Me.lvWindows
             Case "Handles"
-                Me.SplitContainer.Panel2.Enabled = True
+                Me.txtSearch.Enabled = True
+                Me.lblSearchItemCaption.Enabled = True
+                Me.lblResCount.Enabled = True
                 listViewForSearch = Me.lvHandles
             Case "Memory"
-                Me.SplitContainer.Panel2.Enabled = True
+                Me.lblSearchItemCaption.Enabled = True
+                Me.txtSearch.Enabled = True
+                Me.lblResCount.Enabled = True
                 listViewForSearch = Me.lvProcMem
             Case "Environment"
-                Me.SplitContainer.Panel2.Enabled = True
+                Me.txtSearch.Enabled = True
+                Me.lblSearchItemCaption.Enabled = True
+                Me.lblResCount.Enabled = True
                 listViewForSearch = Me.lvProcEnv
             Case "Network"
-                Me.SplitContainer.Panel2.Enabled = True
+                Me.txtSearch.Enabled = True
+                Me.lblSearchItemCaption.Enabled = True
+                Me.lblResCount.Enabled = True
                 listViewForSearch = Me.lvProcNetwork
             Case "Services"
-                Me.SplitContainer.Panel2.Enabled = True
+                Me.txtSearch.Enabled = True
+                Me.lblSearchItemCaption.Enabled = True
+                Me.lblResCount.Enabled = True
                 listViewForSearch = Me.lvProcServices
             Case "Log"
-                Me.SplitContainer.Panel2.Enabled = True
+                Me.lblSearchItemCaption.Enabled = True
+                Me.txtSearch.Enabled = True
+                Me.lblResCount.Enabled = True
                 listViewForSearch = Me.lvLog
             Case Else
-                Me.SplitContainer.Panel2.Enabled = False
+                Me.lblSearchItemCaption.Enabled = False
+                Me.txtSearch.Enabled = False
+                Me.lblResCount.Enabled = False
         End Select
     End Sub
     Private Sub txtSearch_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSearch.TextChanged
