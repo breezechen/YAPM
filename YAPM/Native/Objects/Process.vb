@@ -393,7 +393,7 @@ Namespace Native.Objects
                     Dim sb As New System.Text.StringBuilder(length)
                     NativeFunctions.QueryFullProcessImageName(hProc, False, sb, length)
                     Try
-                        resFile = sb.ToString(0, length)
+                        resFile = sb.ToString(0, sb.Length)
                     Catch ex As Exception
                         ex = ex
                     End Try
