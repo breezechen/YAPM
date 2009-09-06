@@ -2646,6 +2646,8 @@ Public Class frmProcessInfo
     End Sub
     Private Sub showFindPanel()
         Me.SplitContainer.Panel2Collapsed = False
+        My.Settings.ShowFindWindowDetailedForm = True
+        My.Settings.Save()
         Me.txtSearch.Focus()
 
         ' Add groups to listviews
