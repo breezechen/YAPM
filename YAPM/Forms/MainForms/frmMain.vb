@@ -2337,10 +2337,6 @@ Public Class frmMain
         ' Hide specific menus
         If My.Settings.UseRibbonStyle = False Then
             Me.MenuItemProcesses.Visible = False
-            Me.MenuItemThreads.Visible = False
-            Me.MenuItemModules.Visible = False
-            Me.MenuItemHandles.Visible = False
-            Me.MenuItemWindows.Visible = False
             Me.MenuItemMonitor.Visible = False
             Me.MenuItemServices.Visible = False
             Me.MenuItemFiles.Visible = False
