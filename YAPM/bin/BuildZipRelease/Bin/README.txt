@@ -82,7 +82,6 @@ Here is a description of the files which are distributed with YAPM :
 - README.txt : the file you are reading :-)
 - license.rtf : license file.
 - launch server.bat : launch YAPM as a server.
-- tcp.txt / udp.txt : data base for correspondance between a port number and its description
 
 
 

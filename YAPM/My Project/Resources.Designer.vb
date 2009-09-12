@@ -494,6 +494,31 @@ Namespace My.Resources
             End Get
         End Property
         
+        '''<summary>
+        '''  Recherche une chaîne localisée semblable à 0	Reserved
+        '''1	TCP Port Service Multiplexer
+        '''2	Management Utility
+        '''3	Compression Process
+        '''5	Remote Job Entry
+        '''7	Echo
+        '''9	Discard
+        '''11	Active Users
+        '''13	DAYTIME - (RFC 867)
+        '''17	Quote of the Day
+        '''18	Message Send Protocol
+        '''19	Character Generator
+        '''20	FTP - data
+        '''21	FTP-control (command)
+        '''22	Secure Shell (SSH)-used for secure logins, file transfers (scp, sftp) and port forwarding
+        '''23	Telnet protocol-unencrypted text communications
+        '''25	Simple Mail Transfer Protocol (SMTP)-used for e-mail routing between mail servers        ''' [le reste de la chaîne a été tronqué]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property tcp() As String
+            Get
+                Return ResourceManager.GetString("tcp", resourceCulture)
+            End Get
+        End Property
+        
         Friend ReadOnly Property thread() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("thread", resourceCulture)
@@ -505,6 +530,31 @@ Namespace My.Resources
             Get
                 Dim obj As Object = ResourceManager.GetObject("tv2", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Recherche une chaîne localisée semblable à 0	Reserved
+        '''1	TCP Port Service Multiplexer
+        '''2	Management Utility
+        '''3	Compression Process
+        '''5	Remote Job Entry
+        '''7	Echo
+        '''9	Discard
+        '''11	Active Users
+        '''13	DAYTIME - (RFC 867)
+        '''17	Quote of the Day
+        '''18	Message Send Protocol
+        '''19	Character Generator
+        '''22	Secure Shell (SSH)-used for secure logins, file transfers (scp, sftp) and port forwarding
+        '''35	Any private printer server protocol
+        '''35	QMS Magicolor 2 printer server protocol
+        '''37	TIME protocol
+        '''39	Resource Location Protocol (RLP)-used for determining the location of hig [le reste de la chaîne a été tronqué]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property udp() As String
+            Get
+                Return ResourceManager.GetString("udp", resourceCulture)
             End Get
         End Property
         

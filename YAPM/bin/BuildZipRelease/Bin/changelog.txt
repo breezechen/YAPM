@@ -11,6 +11,7 @@ CHANGES FROM 2.1.0
 - Added 'Restart elevated' button in job tab if user has no privileges
 - Improved quick search in main tab (tasks, processes, services, search)
 - 'Delete' keydown on thread list will terminate threads
+- Now tcp.txt and udp.txt are embedded resources
 
 * Bug fixes
 - Fixed Copy to clipboard error

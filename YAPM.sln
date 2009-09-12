@@ -7,8 +7,6 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "YAPM", "YAPM\YAPM.vbproj", 
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8} = {5BF15AF5-DEB8-46A8-99C7-21993617D0C8}
 	EndProjectSection
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "aPoubelle", "aPoubelle\aPoubelle.vbproj", "{1742DD66-0EA5-47A4-B6DF-59423CE7682F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskDialog", "TaskDialog\TaskDialog.csproj", "{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VistaMenu", "VistaMenu\Control\VistaMenu.csproj", "{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}"
@@ -37,14 +35,6 @@ Global
 		{A82E9888-6B2A-44A7-B79A-27C93079ACDD}.Release_server|Any CPU.Build.0 = Release - server|Any CPU
 		{A82E9888-6B2A-44A7-B79A-27C93079ACDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A82E9888-6B2A-44A7-B79A-27C93079ACDD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.BuildZipRelease|Any CPU.ActiveCfg = Release|Any CPU
-		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.Debug_replace_taskmgr|Any CPU.ActiveCfg = Debug|Any CPU
-		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.DebugServer|Any CPU.ActiveCfg = Debug|Any CPU
-		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.Release_server|Any CPU.ActiveCfg = Release|Any CPU
-		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1742DD66-0EA5-47A4-B6DF-59423CE7682F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.BuildZipRelease|Any CPU.ActiveCfg = BuildZipRelease|Any CPU
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.BuildZipRelease|Any CPU.Build.0 = BuildZipRelease|Any CPU
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.Debug_replace_taskmgr|Any CPU.ActiveCfg = Debug - replace taskmgr|Any CPU
