@@ -71,6 +71,12 @@ Public Class frmChooseClientIp
         Me.Close()
     End Sub
 
+    Private Sub lvNIC_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvNIC.MouseDoubleClick
+        If Me.lvNIC.SelectedItems.Count = 1 Then
+            Call cmdOk_Click(Nothing, Nothing)
+        End If
+    End Sub
+
     Private Sub lvNIC_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvNIC.SelectedIndexChanged
         Me.cmdOk.Enabled = (Me.lvNIC.SelectedItems.Count = 1)
     End Sub
