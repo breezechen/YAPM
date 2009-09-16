@@ -71,15 +71,6 @@ Namespace Native.Api
 #End Region
 
         ' OK
-#Region "Declarations used for network"
-
-        Public Const CONNECT_COMMANDLINE As Integer = &H800
-        Public Const CONNECT_UPDATE_PROFILE As Integer = &H1
-        Public Const CONNECT_TEMPORARY As Integer = 4
-
-#End Region
-
-        ' OK
 #Region "Declarations used for windows (not Windows :-p)"
 
         Public Const NULL_BRUSH As Integer = 5 ' Stock Object

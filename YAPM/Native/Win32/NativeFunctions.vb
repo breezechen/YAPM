@@ -539,7 +539,7 @@ Namespace Native.Api
         Public Shared Function WNetAddConnection2(ByRef netResource As NetResource, _
                                                   ByVal password As String, _
                                                   ByVal username As String, _
-                                                  ByVal flags As Integer) As Integer
+                                                  ByVal flags As AddConnectionFlag) As Integer
         End Function
 
         <DllImport("mpr.dll")> _

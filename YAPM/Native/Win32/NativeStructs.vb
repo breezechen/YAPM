@@ -590,7 +590,6 @@ Namespace Native.Api
             Public lpProvider As String
         End Structure
 
-
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure MibTcpRowOwnerPid
             Public dwState As Integer

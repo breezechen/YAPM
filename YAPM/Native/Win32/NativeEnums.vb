@@ -1341,6 +1341,21 @@ Namespace Native.Api
             AfInt6 = &HA
         End Enum
 
+        <Flags()> _
+        Public Enum AddConnectionFlag As Integer
+            ConnectUpdateProfile = &H1
+            ConnectUpdateRecent = &H2
+            ConnectTemporary = &H4
+            ConnectInteractive = &H8
+            ConnectPrompt = &H10
+            ConnectRedirect = &H80
+            ConnectCurrentMedia = &H200
+            ConnectCommandLine = &H800
+            ConnectCmdSaveCred = &H1000
+            ConnectCredReset = &H2000
+        End Enum
+
+
         ''' <summary>
         ''' Scope of the enumeration.
         ''' </summary>
