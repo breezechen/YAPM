@@ -545,6 +545,52 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for network"
 
+        Public Structure NetResource
+            ''' <summary>
+            ''' Scope of the enumeration.
+            ''' </summary>
+            Public dwScope As NetResourceScope
+
+            ''' <summary>
+            ''' Set of bit flags identifying the type of resource.
+            ''' </summary>
+            Public dwType As NetResourceType
+
+            ''' <summary>
+            ''' Display options for the network object in a network browsing user interface.
+            ''' </summary>
+            Public dwDisplayType As NetResourceDisplayType
+
+            ''' <summary>
+            ''' Set of bit flags describing how the resource can be used. 
+            ''' Note that this member can be specified only if the dwScope member is equal to RESOURCE_GLOBALNET.
+            ''' </summary>
+            Public dwUsage As NetResourceUsage
+
+            ''' <summary>
+            ''' If the dwScope member is equal to RESOURCE_CONNECTED or RESOURCE_REMEMBERED, this member is a pointer to a null-terminated character string that specifies the name of a local device. This member is NULL if the connection does not use a device.
+            ''' </summary>
+            Public lpLocalName As String
+
+            ''' <summary>
+            ''' If the entry is a network resource, this member is a pointer to a null-terminated character string that specifies the remote network name. 
+            ''' If the entry is a current or persistent connection, lpRemoteName points to the network name associated with the name pointed to by the lpLocalName member.
+            ''' The string can be MAX_PATH characters in length, and it must follow the network provider's naming conventions.
+            ''' </summary>
+            Public lpRemoteName As String
+
+            ''' <summary>
+            ''' Pointer to a null-terminated string that contains a comment supplied by the network provider. 
+            ''' </summary>
+            Public lpComment As String
+
+            ''' <summary>
+            ''' Pointer to a null-terminated string that contains the name of the provider that owns the resource. This member can be NULL if the provider name is unknown. To retrieve the provider name, you can call the WNetGetProviderName function. 
+            ''' </summary>
+            Public lpProvider As String
+        End Structure
+
+
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure MibTcpRowOwnerPid
             Public dwState As Integer

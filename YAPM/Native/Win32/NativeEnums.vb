@@ -1341,7 +1341,89 @@ Namespace Native.Api
             AfInt6 = &HA
         End Enum
 
+        ''' <summary>
+        ''' Scope of the enumeration.
+        ''' </summary>
+        Public Enum NetResourceScope As UInteger
+            ''' <summary>
+            ''' Enumerate currently connected resources. The dwUsage member cannot be specified.
+            ''' </summary>
+            RESOURCE_CONNECTED = &H1
+
+            ''' <summary>
+            ''' Enumerate all resources on the network. The dwUsage member is specified.
+            ''' </summary>
+            RESOURCE_GLOBALNET = &H2
+
+            ''' <summary>
+            ''' Enumerate remembered (persistent) connections. The dwUsage member cannot be specified.
+            ''' </summary>
+            RESOURCE_REMEMBERED = &H3
+        End Enum
+
+        ''' <summary>
+        ''' Set of bit flags identifying the type of resource.
+        ''' </summary>
+        Public Enum NetResourceType As UInteger
+            ''' <summary>
+            ''' All resources
+            ''' </summary>
+            RESOURCETYPE_ANY = &H0
+
+            ''' <summary>
+            ''' Disk resources
+            ''' </summary>
+            RESOURCETYPE_DISK = &H1
+
+            ''' <summary>
+            ''' Print resources
+            ''' </summary>
+            RESOURCETYPE_PRINT = &H2
+        End Enum
+
+        ''' <summary>
+        ''' Display options for the network object in a network browsing user interface.
+        ''' </summary>
+        Public Enum NetResourceDisplayType As UInteger
+            ''' <summary>
+            ''' The object should be displayed as a domain.
+            ''' </summary>
+            RESOURCEDISPLAYTYPE_GENERIC = &H0
+
+            ''' <summary>
+            ''' The object should be displayed as a server.
+            ''' </summary>
+            RESOURCEDISPLAYTYPE_DOMAIN = &H1
+
+            ''' <summary>
+            ''' The object should be displayed as a share.
+            ''' </summary>
+            RESOURCEDISPLAYTYPE_SERVER = &H2
+
+            ''' <summary>
+            ''' The method used to display the object does not matter.
+            ''' </summary>
+            RESOURCEDISPLAYTYPE_SHARE = &H3
+        End Enum
+
+        ''' <summary>
+        ''' Set of bit flags describing how the resource can be used. 
+        ''' Note that this member can be specified only if the dwScope member is equal to RESOURCE_GLOBALNET.
+        ''' </summary>
+        Public Enum NetResourceUsage As UInteger
+            ''' <summary>
+            ''' The resource is a connectable resource; the name pointed to by the lpRemoteName member can be passed to the WNetAddConnection function to make a network connection.
+            ''' </summary>
+            RESOURCEUSAGE_CONNECTABLE = &H1
+
+            ''' <summary>
+            ''' The resource is a container resource; the name pointed to by the lpRemoteName member can be passed to the WNetOpenEnum function to enumerate the resources in the container.
+            ''' </summary>
+            RESOURCEUSAGE_CONTAINER = &H2
+        End Enum
+
 #End Region
+
 
     End Class
 

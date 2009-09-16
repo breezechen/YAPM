@@ -535,6 +535,19 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for network"
 
+        <DllImport("mpr.dll")> _
+        Public Shared Function WNetAddConnection2(ByRef netResource As NetResource, _
+                                                  ByVal password As String, _
+                                                  ByVal username As String, _
+                                                  ByVal flags As Integer) As Integer
+        End Function
+
+        <DllImport("mpr.dll")> _
+        Public Shared Function WNetCancelConnection2(ByVal lpName As String, _
+                                                     ByVal dwFlags As Int32, _
+                                                     ByVal bForce As Boolean) As Integer
+        End Function
+
         <DllImport("iphlpapi.dll", SetLastError:=True)> _
         Public Shared Function GetExtendedTcpTable(ByVal Table As IntPtr, _
                                                 ByRef Size As Integer, _
