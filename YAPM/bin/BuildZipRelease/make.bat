@@ -32,13 +32,14 @@ rem     MODIFICATIONS OF THIS SCRIPT
 rem     18/08/09 - Initial version (violent_ken)
 rem	29/08/09 - Now it creates the setup
 rem	31/08/09 - Now it create a source package
+rem	16/09/09 - Added SecureChannel.dll to ILMerge
 
 
 rem     Remove YAPM.exe
 erase .\Bin\YAPM.exe
 
 rem     Make YAPM.exe
-..\..\..\Tools\ILMerge\ILMerge.exe YAPM.exe VistaMenu.dll SecurePasswordTextBox.dll System.Windows.Forms.Ribbon.dll TaskDialog.dll -out:.\Bin\YAPM.exe
+..\..\..\Tools\ILMerge\ILMerge.exe YAPM.exe VistaMenu.dll SecurePasswordTextBox.dll System.Windows.Forms.Ribbon.dll TaskDialog.dll SecureChannel.dll -out:.\Bin\YAPM.exe
 
 rem     Remove YAPM.pdb
 erase .\Bin\YAPM.pdb

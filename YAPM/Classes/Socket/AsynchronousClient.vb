@@ -37,6 +37,7 @@ Imports System.Runtime.Remoting.Channels.Tcp
 Imports System.Runtime.Remoting.Channels.Ipc
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports YAPM.RemotingServerClient
+Imports MsdnMag.Remoting
 
 Public Class AsynchronousClient
 
@@ -107,7 +108,8 @@ Public Class AsynchronousClient
                 ht("bindTo") = pObj.ClientIp
 
                 ' now create and register our custom TcpChannel 
-                Dim serverFormatter As New BinaryServerFormatterSinkProvider()
+                Dim serverFormatter As New BinaryServerFormatterSinkProvider
+                serverFormatter.Next = New SecureServerChannelSinkProvider
                 serverFormatter.TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full
                 channel = New TcpChannel(ht, Nothing, serverFormatter)
                 ChannelServices.RegisterChannel(channel, False)

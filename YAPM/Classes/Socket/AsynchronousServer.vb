@@ -37,12 +37,9 @@ Imports System.Runtime.Remoting.Channels.Tcp
 Imports System.Runtime.Remoting.Channels.Ipc
 Imports System.Runtime.Serialization.Formatters.Binary
 Imports YAPM.RemotingServerClient
-
-' State object for reading client data asynchronously
+Imports MsdnMag.Remoting
 
 Public Class AsynchronousSocketListener
-    ' Thread signal.
-
 
     Public Delegate Sub ReceivedDataEventHandler(ByRef data As cSocketData)
     Public Delegate Sub SentDataEventHandler()
@@ -117,7 +114,8 @@ Public Class AsynchronousSocketListener
     Private Sub RegisterChannel(ByVal port As Integer)
         ' Set the TypeFilterLevel to Full since callbacks require additional security 
         ' requirements
-        Dim serverFormatter As New BinaryServerFormatterSinkProvider()
+        Dim serverFormatter As New BinaryServerFormatterSinkProvider
+        serverFormatter.Next = New SecureServerChannelSinkProvider
         serverFormatter.TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full
 
         ' we have to change the name since we can't have two channels with the same name.

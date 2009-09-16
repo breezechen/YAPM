@@ -58,7 +58,7 @@ Name: {group}\{cm:ProgramOnTheWeb,{#MyAppName}}; Filename: {#MyAppURL}
 Name: {group}\{cm:UninstallProgram,{#MyAppName}}; Filename: {uninstallexe}
 Name: {commondesktop}\{#MyAppName}; Filename: {app}\{#MyAppExeName}; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}; Filename: {app}\{#MyAppExeName}; Tasks: quicklaunchicon
-Name: {group}\{cm:StartServer}; Filename: {app}\launch server.bat
+Name: {group}\{cm:StartServer}; Filename: {app}\launch server.bat; WorkingDir: {app}
 
 [Registry]
 Root: HKLM; Subkey: SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe; Flags: uninsdeletekeyifempty dontcreatekey

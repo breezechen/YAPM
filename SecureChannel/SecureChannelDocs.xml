@@ -1,0 +1,541 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SecureChannel</name>
+    </assembly>
+    <members>
+        <member name="T:MsdnMag.Remoting.SecureRemotingException">
+            <summary>The exception that is thrown when something goes wrong in the secure remoting channel.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor">
+            <summary>Initializes a new instance of the SecureRemotingException class with default properties.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor(System.String)">
+            <summary>Initializes a new instance of the SecureRemotingException class with the given message.</summary>
+            <param name="message">The error message that explains why the exception occurred.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor(System.String,System.Exception)">
+            <summary>Initializes a new instance of the SecureRemotingException class with the specified properties.</summary>
+            <param name="message">The error message that explains why the exception occurred.</param>
+            <param name="innerException">The exception that is the cause of the current exception.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>Initializes the exception with serialized information.</summary>
+            <param name="info">Serialization information.</param>
+            <param name="context">Streaming context.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureRemotingException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>Provides serialization functionality.</summary>
+            <param name="info">Serialization information.</param>
+            <param name="context">Streaming context.</param>
+        </member>
+        <member name="T:MsdnMag.Remoting.SecureServerChannelSink">
+            <summary>
+            Server channel sink that, in conjunction with SecureClientChannelSink, provides an 
+            asymmetric key exchange and shared key encryption across a remoting channel.
+            </summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSink._algorithm">
+            <summary>The name of the symmetric algorithm to use.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSink._oaep">
+            <summary>Whether OAEP padding should be used.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSink._connectionAgeLimit">
+            <summary>The minimum amount of time (s) information about a client connection should be retained.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSink._sweepFrequency">
+            <summary>How often (s) the connection sweeper should run.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSink._requireSecurity">
+            <summary>Whether the server requires the client to use the secure client sink.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSink._securityExemptionList">
+            <summary>List of IPAddresses that are excepted from the _requireSecurity restriction.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSink._connections">
+            <summary>Table of all connections to this server.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSink._next">
+            <summary>The next sink in the sink chain.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSink._sweepTimer">
+            <summary>Timer used to signal the cleanup of connections.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSink.#ctor(System.Runtime.Remoting.Channels.IServerChannelSink,System.String,System.Boolean,System.Double,System.Double,System.Boolean,System.Net.IPAddress[])">
+            <summary>Initialize the secure channel sink.</summary>
+            <param name="nextSink">The next sink in the chain.</param>
+            <param name="algorithm">The name of the symmetric algorithm to use for encryption.</param>
+            <param name="oaep">Whether OAEP padding should be used for asymmetric encryption.</param>
+            <param name="connectionAgeLimit">The minimum amount of time (s) information about a client connection should be retained.</param>
+            <param name="sweeperFrequency">How often (s) the connection sweeper should run.</param>
+            <param name="requireSecurity">Whether the server requires the client to use the secure client sink.</param>
+            <param name="securityExemptionList">The list of IPAddresses that are exempt from the requireSecurity restriction.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSink.MakeSharedKey(System.Guid,System.Runtime.Remoting.Channels.ITransportHeaders,System.Runtime.Remoting.Messaging.IMessage@,System.Runtime.Remoting.Channels.ITransportHeaders@,System.IO.Stream@)">
+            <summary>Generates the output parameters necessary to send a new shared key to the client.</summary>
+            <param name="transactID">The transaction ID for the client to whom we're communicating.</param>
+            <param name="requestHeaders">Headers retrieved from the client.</param>
+            <param name="responseMsg">Upon return, contains an empty message to be sent to the client.</param>
+            <param name="responseHeaders">Upon return, contains the transport headers to be sent to the client.</param>
+            <param name="responseStream">Upon return, contains an empty stream to be sent to the client.</param>
+            <returns>Status of the server message processing (always returns Complete).</returns>
+            <remarks>Caches the generated client information for later use.</remarks>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSink.ProcessEncryptedMessage(System.Guid,System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream,System.Runtime.Remoting.Messaging.IMessage@,System.Runtime.Remoting.Channels.ITransportHeaders@,System.IO.Stream@)">
+            <summary>Decrypts the incoming message from the client and sends it to the next sink.</summary>
+            <param name="transactID">The transaction ID for the client to whom we're communicating.</param>
+            <param name="sinkStack">A stack of channel sinks.</param>
+            <param name="requestMsg">The message that contains the request.</param>
+            <param name="requestHeaders">Headers sent by the client.</param>
+            <param name="requestStream">The stream that needs to be to processed.</param>
+            <param name="responseMsg">Response message.</param>
+            <param name="responseHeaders">Response headers</param>
+            <param name="responseStream">Response stream.</param>
+            <returns>Status of the server message processing.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSink.PreviousTransactionWithClient(System.Guid)">
+            <summary>Checks the connection table for previous communications with this client.</summary>
+            <param name="transactID">Transaction ID of the client to check.</param>
+            <returns>true if previous connection; otherwise, false.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSink.SendEmptyToClient(MsdnMag.Remoting.SecureTransaction,System.Runtime.Remoting.Messaging.IMessage@,System.Runtime.Remoting.Channels.ITransportHeaders@,System.IO.Stream@)">
+            <summary>
+            Creates all necessary objects to send an empty message back to the client.  
+            Can be used to send back to the client an "Unknown Identifier" transaction type message.
+            Note that this is a recoverable error and as such does not throw an exception.
+            </summary>
+            <param name="transactType">The transaction type to send to the client.</param>
+            <param name="responseMsg">The output response message.</param>
+            <param name="responseHeaders">The output response headers.</param>
+            <param name="responseStream">The output response stream.</param>
+            <returns>Status of the server message processing (Complete).</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSink.ProcessMessage(System.Runtime.Remoting.Channels.IServerChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream,System.Runtime.Remoting.Messaging.IMessage@,System.Runtime.Remoting.Channels.ITransportHeaders@,System.IO.Stream@)">
+            <summary>Requests message processing from the current sink.</summary>
+            <param name="sinkStack">A stack of channel sinks</param>
+            <param name="requestMsg">Request message.</param>
+            <param name="requestHeaders">Headers sent by client.</param>
+            <param name="requestStream">Stream to be processed..</param>
+            <param name="responseMsg">Response message.</param>
+            <param name="responseHeaders">Response headers.</param>
+            <param name="responseStream">Response stream.</param>
+            <returns>Status of the server message processing.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSink.RequireSecurity(System.Net.IPAddress)">
+            <summary>Determine whether we'll require encryption when communicating with the given endpoint.</summary>
+            <param name="clientAddress">The address to check for security restrictions.</param>
+            <returns>Whether communications with this client must be encrypted.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSink.GetResponseStream(System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack,System.Object,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders)">
+            <summary>Returns the Stream onto which the provided response message is to be serialized.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSink.AsyncProcessResponse(System.Runtime.Remoting.Channels.IServerResponseChannelSinkStack,System.Object,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream)">
+            <summary>Requests processing from the current sink of the response from a method call sent asynchronously.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSink.StartConnectionSweeper">
+            <summary>Starts the connection sweeper.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSink.SweepConnections(System.Object,System.Timers.ElapsedEventArgs)">
+            <summary>Removes from the connection table any outdated connection information.</summary>
+            <remarks>
+            When the table is sweeped, the table is locked to prevent it from being modified during the
+            sweep which could cause exceptions to be thrown.  The downside to this is that while the
+            table is locked, incoming requests will be blocked!  As such, either this should be rewritten
+            or the frequency of the sleep should be limited.  Idle checks could also be implemented to
+            ensure that the process runs only when a long idle period has been observed.
+            </remarks>
+        </member>
+        <member name="P:MsdnMag.Remoting.SecureServerChannelSink.NextChannelSink">
+            <summary>Gets the next server channel sink in the server sink chain.</summary>
+        </member>
+        <member name="T:MsdnMag.Remoting.SecureClientChannelSink">
+            <summary>
+            Client channel sink that, in conjunction with SecureServerChannelSink, provides an
+            asymmetric key exchange and shared key encryption across a remoting channel.
+            </summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink._defaultExceptionText">
+            <summary>Text for generic secure remoting exception.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink._algorithm">
+            <summary>The name of the symmetric algorithm to use.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink._oaep">
+            <summary>Whether OAEP padding should be used.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink._maxAttempts">
+            <summary>The maximum number of times we should attempt to process the message.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink._next">
+            <summary>Reference to the next sink in the sink chain.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink._transactID">
+            <summary>The transaction ID to identify this client to the server.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink._provider">
+            <summary>
+            The symmetric algorithm provider to be used for all transactions from this client.
+            Note that all connections to objects from this client will use the same provider.
+            The server, on the other hand, will use a different provider (a different key) for
+            each connected client (though it, too, will use the same provider for all messages
+            from the same client, regardless of destination object).
+            </summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink._rsaProvider">
+            <summary>RSA provider used for encryption and decryption of shared key information.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink._transactionLock">
+            <summary>Used to take out a lock on transaction id and provider.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.#ctor(System.Runtime.Remoting.Channels.IClientChannelSink,System.String,System.Boolean,System.Int32)">
+            <summary>Initialize the secure channel sink.</summary>
+            <param name="nextSink">The next sink in the chain.</param>
+            <param name="algorithm">The name of the symmetric algorithm to use for encryption.</param>
+            <param name="oaep">Whether OAEP padding should be used for asymmetric encryption.</param>
+            <param name="maxAttempts">The maximum number of times we should attempt to process the message.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.CreateSharedKeyRequest(System.Runtime.Remoting.Channels.ITransportHeaders)">
+            <summary>Adds the headers for a shared-key request.</summary>
+            <param name="requestHeaders">Output headers for the request.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.DecryptResponse(System.IO.Stream,System.Runtime.Remoting.Channels.ITransportHeaders)">
+            <summary>Decrypts the incoming response given the response stream and headers.</summary>
+            <param name="responseStream">The response stream containing the response information.</param>
+            <param name="responseHeaders">The response headers containing the response header information.</param>
+            <returns>The decrypted stream if possible; null, otherwise.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.ProcessSharedKeyResponse(System.Runtime.Remoting.Channels.ITransportHeaders)">
+            <summary>Processes response transport headers for a shared-key request.</summary>
+            <param name="responseHeaders">The headers from a shared-key request.</param>
+            <returns>A SymmetricAlgorithm with the key information sent from the server.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.ObtainSharedKey(System.Runtime.Remoting.Messaging.IMessage)">
+            <summary>
+            Creates an RSA key pair.  Sends a message to the server secure sink which includes
+            the public key from the pair along with a newly created GUID to identify this client
+            to the server.  The server responds with an encrypted shared key which can be used for
+            further communications between this client and server.
+            </summary>
+            <param name="msg">The original message passed to the sink.</param>
+            <returns>Byte array containing shared key</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.ClearSharedKey">
+            <summary>Clears out the shared key and connection information.</summary>
+            <remarks>Should always be called inside a lock on _transactionLock.</remarks>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.SetupEncryptedMessage(System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream)">
+            <summary>Sets up the stream and headers for the encrypted message</summary>
+            <param name="requestHeaders">The headers to be sent to the server containing connection information.</param>
+            <param name="requestStream">The stream to be encrypted.</param>
+            <returns>The encrypted stream to be sent to the server.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.ProcessEncryptedMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream,System.Runtime.Remoting.Channels.ITransportHeaders@,System.IO.Stream@)">
+            <summary>
+            Given a request stream, encrypts the stream with the shared key and sends
+            the encrypted message to the server.  The server responds with an encrypted response
+            stream which is decrypted.  This response stream is handed back to the caller.
+            </summary>
+            <param name="msg">The original message passed to the sink.</param>
+            <param name="requestHeaders">The original request headers passed to the sink.</param>
+            <param name="requestStream">The original request stream passed to the sink.</param>
+            <param name="responseHeaders">Output response headers.</param>
+            <param name="responseStream">Output response stream.</param>
+            <returns>true if success; false, otherwise.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.EnsureIDAndProvider(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders)">
+            <summary>Ensures that we've obtained shared-key information and a transaction ID.</summary>
+            <param name="msg">The message to process.</param>
+            <param name="requestHeaders">The headers to send to the server.</param>
+            <returns>The transaction ID.</returns>
+            <remarks>
+            May require a synchronous roundtrip to the server.
+            Should always be called inside a lock on _transactionLock.
+            </remarks>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.ProcessMessage(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream,System.Runtime.Remoting.Channels.ITransportHeaders@,System.IO.Stream@)">
+            <summary>Requests message processing from the current sink.</summary>
+            <param name="msg">The message to process.</param>
+            <param name="requestHeaders">The headers to send to the server.</param>
+            <param name="requestStream">The stream to process and send to the server.</param>
+            <param name="responseHeaders">Response headers from the server.</param>
+            <param name="responseStream">Response stream from the server.</param>
+            <exception cref="T:MsdnMag.Remoting.SecureRemotingException">Thrown if a connection cannot be maintained with the server.</exception>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.GetRequestStream(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders)">
+            <summary>Returns the Stream onto which the provided message is to be serialized.</summary>
+            <param name="msg">The message being sent.</param>
+            <param name="headers">The headers being sent to the server.</param>
+            <returns>The stream onto which the provided message is to be serialized.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessRequest(System.Runtime.Remoting.Channels.IClientChannelSinkStack,System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream)">
+            <summary>Requests asynchronous processing of a method call on the current sink.</summary>
+            <param name="sinkStack">A stack of channel sinks.</param>
+            <param name="msg">The message to process.</param>
+            <param name="headers">The headers to send to the server.</param>
+            <param name="stream">The stream headed to the transport sink.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessResponse(System.Runtime.Remoting.Channels.IClientResponseChannelSinkStack,System.Object,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream)">
+            <summary>Requests asynchronous processing of a response to a method call on the current sink.</summary>
+            <param name="sinkStack">A stack of sinks that called this sink.</param>
+            <param name="state">Information generated on the request side that is associated with this sink.</param>
+            <param name="headers">The headers retrieved from the server response stream.</param>
+            <param name="stream">The stream coming back from the transport sink.</param>
+        </member>
+        <member name="P:MsdnMag.Remoting.SecureClientChannelSink.NextChannelSink">
+            <summary>Returns the next channel sink in the sink chain.</summary>
+        </member>
+        <member name="T:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessingState">
+            <summary>Stores information on the current request; used in case an async request fails.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessingState._stream">
+            <summary>The input stream.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessingState._headers">
+            <summary>The transport headers.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessingState._msg">
+            <summary>The remoted message.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessingState._id">
+            <summary>Transaction ID when processing started.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessingState.#ctor(System.Runtime.Remoting.Messaging.IMessage,System.Runtime.Remoting.Channels.ITransportHeaders,System.IO.Stream@,System.Guid)">
+            <summary>Initialize the state.</summary>
+            <param name="msg">The message to be stored.</param>
+            <param name="headers">The transport headers to be stored.</param>
+            <param name="stream">The stream to be stored (copies the stream).</param>
+            <param name="id">Transaction ID when processing started.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessingState.DuplicateStream(System.IO.Stream@)">
+            <summary>Duplicates the stream.</summary>
+            <param name="stream">The stream to be duplicated.</param>
+            <returns>A copy of the stream.</returns>
+            <remarks>
+            Since we can't guarantee that Position will work on the input stream, we need
+            to create a new stream and set the old reference to a copy of the new one.
+            </remarks>
+        </member>
+        <member name="P:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessingState.Stream">
+            <summary>Gets the input stream.</summary>
+        </member>
+        <member name="P:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessingState.Headers">
+            <summary>Gets the transport headers.</summary>
+        </member>
+        <member name="P:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessingState.Message">
+            <summary>Gets the remoted message.</summary>
+        </member>
+        <member name="P:MsdnMag.Remoting.SecureClientChannelSink.AsyncProcessingState.ID">
+            <summary>Gets the transaction id from when the transaction started.</summary>
+        </member>
+        <member name="T:MsdnMag.Remoting.CryptoHelper">
+            <summary>Helper functions for working with encryption and streams.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.CryptoHelper._bufferSize">
+            <summary>Size to use for byte buffers when performing IO.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.CryptoHelper.#ctor">
+            <summary>Prevent external instantiation.  Class only has static helpers.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.CryptoHelper.GetNewSymmetricProvider(System.String)">
+            <summary>Factory for symmetric algorithm providers.  Creates a new provider by name.</summary>
+            <param name="algorithm">The name of the algorithm to use (e.g. "DES")</param>
+            <returns>A SymmetricAlgorithm provider to be used for communication
+            between client and server.</returns>
+            <remarks>Currently supports "DES", "3DES", "RIJNDAEL", and "RC2".</remarks>
+        </member>
+        <member name="M:MsdnMag.Remoting.CryptoHelper.GetEncryptedStream(System.IO.Stream,System.Security.Cryptography.SymmetricAlgorithm)">
+            <summary>
+            Encrypts a stream with the specified symmetric provider.  The returned stream
+            is at position zero and ready to be read.
+            </summary>
+            <param name="inStream">The stream to encrypt.</param>
+            <param name="provider">The cryptographic provider to use for encryption.</param>
+            <returns>Encrypted stream ready to be read.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.CryptoHelper.GetDecryptedStream(System.IO.Stream,System.Security.Cryptography.SymmetricAlgorithm)">
+            <summary>
+            Decrypts a stream with the specified symmetric provider.
+            </summary>
+            <param name="inStream">The stream to decrypt.</param>
+            <param name="provider">The cryptographic provider to use for encrypting.</param>
+            <returns>Plaintext stream ready to be read.</returns>
+        </member>
+        <member name="T:MsdnMag.Remoting.SecureServerChannelSinkProvider">
+            <summary>Used to create a secure server channel sink.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._next">
+            <summary>The next sink provider in the sink provider chain.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._algorithm">
+            <summary>The name of the symmetric algorithm to use.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._oaep">
+            <summary>Whether OAEP padding should be used.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._requireSecurity">
+            <summary>Whether the server requires the client to use the secure client sink.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._connectionAgeLimit">
+            <summary>The minimum amount of time (s) information about a client connection should be retained.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._sweepFrequency">
+            <summary>How often (s) the connection sweeper should run.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._securityExemptionList">
+            <summary>List of client IP's that should have the opposite security requirement.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.#ctor">
+            <summary>Initializes the sink provider.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.#ctor(System.Collections.IDictionary,System.Collections.ICollection)">
+            <summary>Initializes the sink provider.</summary>
+            <param name="properties">Parameters specified in the config file.</param>
+            <param name="providerData">Sink provider data.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.CreateSink(System.Runtime.Remoting.Channels.IChannelReceiver)">
+            <summary>Creates the channel sink.</summary>
+            <param name="channel">The channel for which to create the channel sink chain.</param>
+            <returns>The new channel sink.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.GetChannelData(System.Runtime.Remoting.Channels.IChannelDataStore)">
+            <summary>Returns the channel data for the channel that the current sink is associated with.</summary>
+            <param name="channelData">An IChannelDataStore object in which the channel data is to be returned.</param>
+        </member>
+        <member name="P:MsdnMag.Remoting.SecureServerChannelSinkProvider.Next">
+            <summary>Gets or sets the next sink provider in the channel sink provider chain.</summary>
+        </member>
+        <member name="T:MsdnMag.Remoting.SecureClientChannelSinkProvider">
+            <summary>Used to create a secure client channel sink.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._next">
+            <summary>Reference to the next sink provider in the provider chain.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._algorithm">
+            <summary>The name of the symmetric algorithm to use.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._oaep">
+            <summary>Whether OAEP padding should be used.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._maxAttempts">
+            <summary>The maximum number of times we should attempt to process a message.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSinkProvider.#ctor">
+            <summary>Initialize the sink provider.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSinkProvider.#ctor(System.Collections.IDictionary,System.Collections.ICollection)">
+            <summary>Initialize the sink provider.</summary>
+            <param name="properties">Parameters specified in the config file.</param>
+            <param name="providerData">Sink provider data.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSinkProvider.CreateSink(System.Runtime.Remoting.Channels.IChannelSender,System.String,System.Object)">
+            <summary>Creates a sink chain.</summary>
+            <param name="channel">Channel for which the current sink chain is being constructed.</param>
+            <param name="url">The URL of the object to connect to.</param>
+            <param name="remoteChannelData">A channel data object describing a channel on the remote server.</param>
+            <returns>A reference to the new sink, or null if it could not be created.</returns>
+        </member>
+        <member name="P:MsdnMag.Remoting.SecureClientChannelSinkProvider.Next">
+            <summary>Gets or sets the next sink provider in the channel sink provider chain.</summary>
+        </member>
+        <member name="T:MsdnMag.Remoting.CommonHeaders">
+            <summary>Names of transport headers used by client and server.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.CommonHeaders.ID">
+            <summary>Header to hold the id of the client.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.CommonHeaders.Transaction">
+            <summary>Header to hold the SecureTransaction state.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.CommonHeaders.PublicKey">
+            <summary>Header to hold the RSA public key.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.CommonHeaders.SharedKey">
+            <summary>Header to hold the encrypted shared key.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.CommonHeaders.SharedIV">
+            <summary>Header to hold the encrypted IV.</summary>
+        </member>
+        <member name="T:MsdnMag.Remoting.SecureTransaction">
+            <summary>Enumeration of handshake and secure transaction message types.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureTransaction.Uninitialized">
+            <summary>
+            An uninitialized transaction; no information is being sent.
+            </summary>
+            <remarks>
+            This is explicitly set to 0 (even though in its current position it
+            will automatically have the value of 0) to prevent future mistakes should
+            the order of the items in the enumeration be rearranged.
+            The system counts on Uninitialized being 0 because Convert.ToInt32() returns
+            0 for a null string.  We can then be sure that if Convert.ToInt32() on the
+            respective header returns Uninitialized, either it was explicitly set
+            to 0 or no header was set at all.  Regardless, it cuts down on headaches.
+            </remarks>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureTransaction.SendingPublicKey">
+            <summary>The client is sending a public key to the server.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureTransaction.SendingSharedKey">
+            <summary>The server is sending an encrypted shared key to the client.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureTransaction.SendingEncryptedMessage">
+            <summary>The client is sending an encrypted request to the server.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureTransaction.SendingEncryptedResult">
+            <summary>The server is sending an encrypted response to the client.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureTransaction.UnknownIdentifier">
+            <summary>The server does not recognize the client's identification.</summary>
+        </member>
+        <member name="T:MsdnMag.Remoting.ClientConnectionInfo">
+            <summary>Contains connection information for a specific client sink in contact with the server.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.ClientConnectionInfo._transactID">
+            <summary>Transaction ID for indentifying the client.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.ClientConnectionInfo._provider">
+            <summary>Provider to use to encrypt communication with client.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.ClientConnectionInfo._lastUsed">
+            <summary>The time of the last communication with this client.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.ClientConnectionInfo._disposed">
+            <summary>Determines whether the object has been disposed.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.ClientConnectionInfo.#ctor(System.Guid,System.Security.Cryptography.SymmetricAlgorithm)">
+            <summary>Initialize the ClientConnectionInfo object.</summary>
+            <param name="transactID">The client's identification.</param>
+            <param name="provider">The provider used to encrypt communication with this client.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.ClientConnectionInfo.Finalize">
+            <summary>Disposes of the connection information.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.ClientConnectionInfo.UpdateLastUsed">
+            <summary>Changes the last used time to reflect the current time.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.ClientConnectionInfo.System#IDisposable#Dispose">
+            <summary>Dispose of the connection information.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.ClientConnectionInfo.Dispose(System.Boolean)">
+            <summary>Dispose of the connection information.</summary>
+            <param name="disposing">Whether finalization should be suppressed.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.ClientConnectionInfo.CheckDisposed">
+            <summary>Throws an exception if the connection has already been disposed.</summary>
+        </member>
+        <member name="P:MsdnMag.Remoting.ClientConnectionInfo.TransactID">
+            <summary>Gets the transaction id for this client.</summary>
+        </member>
+        <member name="P:MsdnMag.Remoting.ClientConnectionInfo.Provider">
+            <summary>Gets the provider to use with this client.</summary>
+            <remarks>
+            Use this provider only for transformations based on its existing key and iv.
+            Do not call GenerateKey or GenerateIV on it.
+            </remarks>
+        </member>
+        <member name="P:MsdnMag.Remoting.ClientConnectionInfo.LastUsed">
+            <summary>Gets the timestamp for the last communication with this client.</summary>
+        </member>
+    </members>
+</doc>

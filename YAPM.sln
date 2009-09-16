@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VistaMenu", "VistaMenu\Cont
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurePasswordTextBox", "SecurePasswordTextBox\SecurePasswordTextBox.csproj", "{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureChannel", "SecureChannel\SecureChannel.csproj", "{602F813A-2157-4050-8ADA-10217636F33E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BuildZipRelease|Any CPU = BuildZipRelease|Any CPU
@@ -71,6 +73,18 @@ Global
 		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Release_server|Any CPU.Build.0 = Release|Any CPU
 		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.BuildZipRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.BuildZipRelease|Any CPU.Build.0 = Release|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.Debug_replace_taskmgr|Any CPU.ActiveCfg = Debug|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.Debug_replace_taskmgr|Any CPU.Build.0 = Debug|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.DebugServer|Any CPU.ActiveCfg = Debug|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.DebugServer|Any CPU.Build.0 = Debug|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.Release_server|Any CPU.ActiveCfg = Release|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.Release_server|Any CPU.Build.0 = Release|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

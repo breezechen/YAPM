@@ -1147,6 +1147,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SecureChannel\SecureChannel.csproj">
+      <Project>{602F813A-2157-4050-8ADA-10217636F33E}</Project>
+      <Name>SecureChannel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SecurePasswordTextBox\SecurePasswordTextBox.csproj">
       <Project>{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}</Project>
       <Name>SecurePasswordTextBox</Name>

@@ -4,6 +4,7 @@
 		<dir>TaskDialog</dir>
 		<dir>VistaMenu</dir>
 		<dir>SecurePasswordTextBox</dir>
+		<dir>SecureChannel</dir>
 	</roots>
 	<included_file>
 		<file>changelog_sf.txt</file>
