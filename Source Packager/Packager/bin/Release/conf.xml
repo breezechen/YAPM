@@ -5,6 +5,7 @@
 		<dir>VistaMenu</dir>
 		<dir>SecurePasswordTextBox</dir>
 		<dir>SecureChannel</dir>
+		<dir>InteractiveProcessFromService</dir>
 	</roots>
 	<included_file>
 		<file>changelog_sf.txt</file>

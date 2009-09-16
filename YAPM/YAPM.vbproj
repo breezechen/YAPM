@@ -1164,6 +1164,7 @@
     <None Include="Misc\locked.gif" />
     <Content Include="process32.ico" />
     <Content Include="process_custom.ico" />
+    <None Include="Resources\YAPMLauncherService.exe" />
     <None Include="Resources\tcp.txt" />
     <None Include="Resources\udp.txt" />
   </ItemGroup>
