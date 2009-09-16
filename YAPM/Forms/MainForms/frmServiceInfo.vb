@@ -240,7 +240,7 @@ Public Class frmServiceInfo
         Me.txtServicePath.Text = GetPathFromCommand(curServ.GetInformation("ImagePath"))
         Me.cbStart.Text = curServ.Infos.StartType.ToString
 
-        Me.Timer.Enabled = _local
+        Me.Timer.Enabled = True ' _local
 
         If _local Then
             Try

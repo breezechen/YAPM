@@ -52,7 +52,7 @@ Public Class frmConnection
         'Me.txtServerMachine.Text = My.Computer.Name
 
         SetToolTip(Me.txtDesc, "Description of the type of connection")
-        SetToolTip(Me.txtServerIP, "IP of the remote machine")
+        SetToolTip(Me.txtServerIP, "Name (or IP) of the server machine")
         SetToolTip(Me.txtServerMachine, "Name of the remote machine")
         SetToolTip(Me.txtServerPassword, "Specify a password of an account of the remote machine")
         SetToolTip(Me.txtServerUser, "Specify the user name of an account of the remote machine")
@@ -151,6 +151,8 @@ Public Class frmConnection
     ' Here we (dis)connect !
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdConnect.Click
 
+        Dim clientIp As String = ""
+
         Dim _connType As cConnection.TypeOfConnection
         If optLocal.Checked Then
             _connType = cConnection.TypeOfConnection.LocalConnection
@@ -167,7 +169,27 @@ Public Class frmConnection
             With Program.Connection
                 .ConnectionType = _connType
                 If _connType = cConnection.TypeOfConnection.RemoteConnectionViaSocket Then
-                    .SocketParameters = New cConnection.SocketConnectionParameters(System.Net.IPAddress.Parse(Me.txtServerIP.Text), REMOTE_PORT)
+
+                    ' First we have to get the available NICs
+                    Dim nics As List(Of Native.Api.Structs.NicDescription) = Common.Misc.GetNics
+                    If nics.Count = 0 Then
+                        ' No network card !
+                        MsgBox("You cannot connect to the server as no network card is installed on your machine.", MsgBoxStyle.Critical, "Can't connect to the server")
+                        Exit Sub
+                    ElseIf nics.Count = 1 Then
+                        ' Only one card, OK !
+                        clientIp = nics(0).Ip
+                    Else
+                        ' User have to choose the card to use
+                        Dim frm As New frmChooseClientIp(nics)
+                        frm.ShowDialog()
+                        If frm.DialogResult <> Windows.Forms.DialogResult.OK Then
+                            Exit Sub
+                        End If
+                        clientIp = frm.ChosenIp
+                    End If
+
+                    .SocketParameters = New cConnection.SocketConnectionParameters(Me.txtServerIP.Text, REMOTE_PORT, clientIp)
                 ElseIf _connType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
                     .WmiParameters = New cConnection.WMIConnectionParameters(Me.txtServerMachine.Text, Me.txtServerUser.Text, Me.txtServerPassword.SecureText)
                 End If

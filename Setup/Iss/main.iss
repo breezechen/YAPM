@@ -49,8 +49,6 @@ Source: ..\..\YAPM\bin\BuildZipRelease\Bin\KernelMemory.sys; DestDir: {app}; Fla
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\launch server.bat; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\license.rtf; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\README.txt; DestDir: {app}; Flags: ignoreversion
-Source: ..\..\YAPM\bin\BuildZipRelease\Bin\tcp.txt; DestDir: {app}; Flags: ignoreversion
-Source: ..\..\YAPM\bin\BuildZipRelease\Bin\udp.txt; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\{#MyAppExeName}; DestDir: {app}; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
@@ -60,6 +58,7 @@ Name: {group}\{cm:ProgramOnTheWeb,{#MyAppName}}; Filename: {#MyAppURL}
 Name: {group}\{cm:UninstallProgram,{#MyAppName}}; Filename: {uninstallexe}
 Name: {commondesktop}\{#MyAppName}; Filename: {app}\{#MyAppExeName}; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}; Filename: {app}\{#MyAppExeName}; Tasks: quicklaunchicon
+Name: {group}\{cm:StartServer}; Filename: {app}\launch server.bat
 
 [Registry]
 Root: HKLM; Subkey: SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe; Flags: uninsdeletekeyifempty dontcreatekey
@@ -125,3 +124,4 @@ RestoreTaskmgr =Restore Windows task manager
 ReplaceTaskmgr =Replace Windows task manager
 Optimization =Optimizing Yet Another (remote) Process Monitor...
 
+StartServer=Start YAPM server

@@ -549,7 +549,6 @@ Public Class frmProcessInfo
         Me.TabPageString.Enabled = _local
 
         Me.timerLog.Enabled = Me.timerLog.Enabled And _notWMI
-        Me.timerProcPerf.Enabled = _local
 
         ' Verify file
         If My.Settings.AutomaticWintrust AndAlso _local Then

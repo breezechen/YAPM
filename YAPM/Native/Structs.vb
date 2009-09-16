@@ -39,6 +39,17 @@ Namespace Native.Api
             Dim dwType As NetworkProtocol
         End Structure
 
+        Public Structure NicDescription
+            Public Name As String
+            Public Description As String
+            Public Ip As String
+            Public Sub New(ByVal aName As String, ByVal aDesc As String, ByVal aIp As String)
+                Name = aName
+                Description = aDesc
+                Ip = aIp
+            End Sub
+        End Structure
+
 #End Region
 
         ' OK

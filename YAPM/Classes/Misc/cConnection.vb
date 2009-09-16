@@ -40,10 +40,12 @@ Public Class cConnection
     ' Parameters for a socket connection
     Public Structure SocketConnectionParameters
         Public port As Integer
-        Public address As IPAddress
-        Public Sub New(ByVal theAddress As IPAddress, ByVal thePort As Integer)
+        Public ServerName As String
+        Public ClientIp As String
+        Public Sub New(ByVal server As String, ByVal thePort As Integer, ByVal aClientIp As String)
             port = thePort
-            address = theAddress
+            ServerName = server
+            ClientIp = aClientIp
         End Sub
     End Structure
 
@@ -113,7 +115,7 @@ Public Class cConnection
             Case TypeOfConnection.LocalConnection
                 Return "Localhost"
             Case TypeOfConnection.RemoteConnectionViaSocket
-                Return _conSocket.address.ToString & ":" & _conSocket.port & " (server)"
+                Return _conSocket.ServerName.ToString & ":" & _conSocket.port & " (server)"
             Case TypeOfConnection.RemoteConnectionViaWMI
                 Return _conWMI.serverName & " (WMI)"
             Case Else
@@ -144,7 +146,7 @@ Public Class cConnection
         If Me.ConnectionType = TypeOfConnection.RemoteConnectionViaSocket Then
             If _sock Is Nothing Then
                 _sock = New AsynchronousClient()
-                _sock.Connect(_conSocket.address, _conSocket.port)
+                _sock.Connect(_conSocket.ServerName, _conSocket.port, _conSocket.ClientIp)
             Else
                 _isConnected = True
                 RaiseEvent Connected()

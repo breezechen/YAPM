@@ -505,6 +505,27 @@ Namespace Common
             Return assemblyGuid.ToString
         End Function
 
+        ' Return informations about installed netword card interfaces
+        Public Shared Function GetNics() As List(Of Native.Api.Structs.NicDescription)
+            Dim ret As New List(Of Native.Api.Structs.NicDescription)
+            For Each nic As System.Net.NetworkInformation.NetworkInterface In System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()
+                If cEnvironment.IsWindowsVistaOrAbove Then
+                    If nic.GetIPProperties.UnicastAddresses.Count > 1 Then
+                        If nic.GetIPProperties.UnicastAddresses(1).Address.ToString <> "127.0.0.1" Then
+                            ret.Add(New Native.Api.Structs.NicDescription(nic.Name, nic.Description, nic.GetIPProperties.UnicastAddresses(1).Address.ToString))
+                        End If
+                    End If
+                Else
+                    If nic.GetIPProperties.UnicastAddresses.Count > 0 Then
+                        If nic.GetIPProperties.UnicastAddresses(0).Address.ToString <> "127.0.0.1" Then
+                            ret.Add(New Native.Api.Structs.NicDescription(nic.Name, nic.Description, nic.GetIPProperties.UnicastAddresses(0).Address.ToString))
+                        End If
+                    End If
+                End If
+            Next
+            Return ret
+        End Function
+
         ' Navigate to regedit
         Public Shared Sub NavigateToRegedit(ByVal key As String)
             ' Write the path of the key into the registry, so regedit

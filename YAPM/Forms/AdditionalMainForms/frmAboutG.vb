@@ -80,4 +80,8 @@ Public Class frmAboutG
     Private Sub lnkWebsite_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkWebsite.LinkClicked
         cFile.ShellOpenFile("http://sourceforge.net/projects/yaprocmon/", Me.Handle)
     End Sub
+
+    Private Sub lnkMarcel_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lnkMarcel.LinkClicked
+        cFile.ShellOpenFile("http://www.codeproject.com/Members/marcel-heeremans", Me.Handle)
+    End Sub
 End Class

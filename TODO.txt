@@ -7,6 +7,8 @@ Refactoring bugs
 - close frmConnection when connection established
 
 BUGS CRITIQUES
+- searchInfos contains cService/cModule (NOT Serializable -> can not search via server)
+- déconnection du client -> le server doit réinitialiser les dico newProcesses/Services
 - close local process handle -> utiliser DuplicateHandle plutôt que remote thread
 - others highlightings (isTask, wow64...)
 - extend dico et ajout de TryAdd ?

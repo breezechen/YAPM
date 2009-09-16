@@ -1085,6 +1085,18 @@ Namespace My
                 Me("FirstTimeShowFindWindowWasClosed") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property ClientIP() As String
+            Get
+                Return CType(Me("ClientIP"),String)
+            End Get
+            Set
+                Me("ClientIP") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

@@ -1,32 +1,44 @@
-﻿Option Strict On
+﻿' =======================================================
+' Yet Another (remote) Process Monitor (YAPM)
+' Copyright (c) 2008-2009 Alain Descotes (violent_ken)
+' https://sourceforge.net/projects/yaprocmon/
+' =======================================================
+
+
+' YAPM is free software; you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation; either version 3 of the License, or
+' (at your option) any later version.
+'
+' YAPM is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with YAPM; if not, see http://www.gnu.org/licenses/.
+
+' This code is based on a work from marcel heeremans : 
+' http://www.codeproject.com/KB/IP/TwoWayRemoting.aspx?msg=3199726#xx3199726xx
+' which is under the Code Project Open License (CPOL) 1.02
+' Please refer to license.rtf for details about this license.
+
+Option Strict On
 
 Imports System
 Imports System.Net
 Imports System.Net.Sockets
 Imports System.Threading
 Imports System.Text
-
-
-
-' State object for receiving data from remote device.
-
-Public Class StateObject
-    ' Client socket.
-    Public workSocket As Socket = Nothing
-    ' Size of receive buffer.
-    Public Const BUFFER_SIZE As Integer = 1024
-    ' Receive buffer.
-    Public buffer(BUFFER_SIZE) As Byte
-    ' Received data buffer & size
-    Public receivedSize As Integer
-    Public receivedBuff() As Byte
-End Class 'StateObject
-
-
-
+Imports System.Runtime.Remoting
+Imports System.Runtime.Remoting.Channels
+Imports System.Runtime.Remoting.Channels.Http
+Imports System.Runtime.Remoting.Channels.Tcp
+Imports System.Runtime.Remoting.Channels.Ipc
+Imports System.Runtime.Serialization.Formatters.Binary
+Imports YAPM.RemotingServerClient
 
 Public Class AsynchronousClient
-
 
     Public Delegate Sub ReceivedDataEventHandler(ByRef data As cSocketData)
     Public Delegate Sub SentDataEventHandler()
@@ -40,266 +52,97 @@ Public Class AsynchronousClient
     Public Event Connected As ConnectedEventHandler
     Public Event SocketError As SocketErrorHandler
 
-
-    Private client As Socket
     Private _uniqueClientKey As String = "cDat._id"
     Private Shared semQueue As New Semaphore(1, 1)
 
-    Public Sub Connect(ByVal ip As IPAddress, ByVal port As Integer)
-        ' Establish the remote endpoint for the socket.
-        Dim remoteEP As New IPEndPoint(ip, port)
 
-        ' Create a TCP/IP socket.
-        Try
-            client = New Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while connecting")
-            RaiseEvent Disconnected()
-            Exit Sub
-        End Try
-        ' Connect to the remote endpoint.
-        Trace.WriteLine("Connecting to server...")
-        Try
-            client.BeginConnect(remoteEP, New AsyncCallback(AddressOf ConnectCallback), client)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while connecting")
-            RaiseEvent Disconnected()
-            Exit Sub
-        End Try
-    End Sub 'Main
-    Public Sub Connect(ByVal ipString As String, ByVal port As Integer)
-        ' Establish the remote endpoint for the socket.
-        Dim ipAddress As IPAddress = ipAddress.Parse(ipString)
-        Dim remoteEP As New IPEndPoint(ipAddress, port)
+    Private _ServerTalk As ServerTalk = Nothing
+    ' this object lives on the server
+    Private _CallbackSink As CallbackSink = Nothing
+    ' this object lives here on the client
 
-        ' Create a TCP/IP socket.
-        Try
-            client = New Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while connecting")
-            RaiseEvent Disconnected()
-            Exit Sub
-        End Try
+    Private Structure poolObjConnect
+        Public ServerName As String
+        Public ClientIp As String
+        Public Port As Integer
+        Public Sub New(ByVal aServer As String, ByVal aPort As Integer, ByVal aClient As String)
+            ServerName = aServer
+            Port = aPort
+            ClientIp = aClient
+        End Sub
+    End Structure
 
-        ' Connect to the remote endpoint.
-        Trace.WriteLine("Connecting to server...")
-        Try
-            client.BeginConnect(remoteEP, New AsyncCallback(AddressOf ConnectCallback), client)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while connecting")
-            RaiseEvent Disconnected()
-            Exit Sub
-        End Try
-    End Sub 'Main
+    Public Sub Connect(ByVal serverName As String, ByVal port As Integer, ByVal clientIp As String)
+        ThreadPool.QueueUserWorkItem(AddressOf pvtConnect, New poolObjConnect(serverName, port, clientIp))
+    End Sub
 
     Public Sub Disconnect()
-        ' Do not accept anymore send/receive
-        Trace.WriteLine("Client Shudown connection...")
-        Try
-            client.Shutdown(SocketShutdown.Both)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while disconnecting")
-            RaiseEvent Disconnected()
-            Exit Sub
-        End Try
-        ' Disconnect
-        Trace.WriteLine("Client BeginDisconnect...")
-        Try
-            client.Close()
-            If client.Connected Then
-                'client.BeginDisconnect(True, New AsyncCallback(AddressOf disconnectCallback), client)
-            Else
-                RaiseEvent Disconnected()
-            End If
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while disconnecting")
-            RaiseEvent Disconnected()
-            Exit Sub
-        End Try
-    End Sub
-
-    ' Callback for disconnect
-    Private Sub disconnectCallback(ByVal asyncResult As IAsyncResult)
-        ' OK we are now disconnected
-        Trace.WriteLine("Client EndDisconnect...")
-        Try
-            Call client.EndDisconnect(asyncResult)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while disconnecting")
-            RaiseEvent Disconnected()
-            Exit Sub
-        End Try
-        Trace.WriteLine("Client disconnected...")
         RaiseEvent Disconnected()
-    End Sub
-
-    Private Sub ConnectCallback(ByVal ar As IAsyncResult)
-        ' Retrieve the socket from the state object.
-        Dim client As Socket = CType(ar.AsyncState, Socket)
-
-        ' Complete the connection.
-        Try
-            client.EndConnect(ar)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while connecting")
-            RaiseEvent Disconnected()
-            Exit Sub
-        End Try
-        Trace.WriteLine("CLIENT CONNECTED")
-        RaiseEvent Connected()
-
-        ' Create the state object.
-        Dim state As New StateObject
-        state.workSocket = client
-
-        ' Begin receiving the data from the remote device.
-        Trace.WriteLine("Client waiting for data...")
-        Try
-            client.BeginReceive(state.buffer, 0, StateObject.BUFFER_SIZE, 0, New AsyncCallback(AddressOf ReceiveCallback), state)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while connecting")
-            RaiseEvent Disconnected()
-            Exit Sub
-        End Try
-
-    End Sub 'ConnectCallback
-
-
-    Private Sub ReceiveCallback(ByVal ar As IAsyncResult)
-
-        ' Retrieve the state object and the client socket 
-        ' from the asynchronous state object.
-        Dim state As StateObject = CType(ar.AsyncState, StateObject)
-        Dim client As Socket = state.workSocket
-
-        If client.Connected = False Then
-            Exit Sub
-        End If
-
-        ' Read data from the remote device.
-        Dim bytesRead As Integer
-        Try
-            bytesRead = client.EndReceive(ar)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while receiving data")
-            RaiseEvent Disconnected()
-            Exit Sub
-        End Try
-        Trace.WriteLine("CLIENT RECEIVED DATA")
-
-        If bytesRead > 0 Then
-            ' There might be more data, so store the data received so far.
-
-            If state.receivedBuff Is Nothing Then
-                ' Then this is the first part we get
-                ReDim state.receivedBuff(bytesRead)
-            Else
-                ' Redim memory allocated
-                ReDim Preserve state.receivedBuff(bytesRead + state.receivedSize)
-            End If
-
-            ' Copy buffer to global buffer
-            Buffer.BlockCopy(state.buffer, 0, state.receivedBuff, state.receivedSize, bytesRead)
-            state.receivedSize += bytesRead
-
-            ' Get the rest of the data.
-            Try
-                client.BeginReceive(state.buffer, 0, StateObject.BUFFER_SIZE, 0, New AsyncCallback(AddressOf ReceiveCallback), state)
-            Catch ex As Exception
-                MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while receiving data")
-                RaiseEvent Disconnected()
-                Exit Sub
-            End Try
-        Else
-            ' All the data has arrived; put it in response.
-
-            Dim cDat As cSocketData = cSerialization.DeserializeObject(state.receivedBuff)
-            If cDat IsNot Nothing Then
-                'If cDat.Type = cSocketData.DataType.Identification Then
-                ' This is the identification key we receive
-                _uniqueClientKey = cDat._id
-                'Else
-                If cDat.Ack Then
-                    Try
-                        semQueue.Release(1)
-                    Catch ex As Exception
-                        '
-                    End Try
-                End If
-                RaiseEvent ReceivedData(cDat)
-                Trace.WriteLine("DATA HAS A SIZE OF " & state.receivedSize.ToString)
-                ReDim state.receivedBuff(0)
-                state.receivedSize = 0
-                'End If
-            End If
-        End If
-
-        If bytesRead < StateObject.BUFFER_SIZE Then
-            ' Try to get a socketData from buffer, because it is the last part of
-            ' the datas
-            Dim cDat As cSocketData = cSerialization.DeserializeObject(state.receivedBuff)
-            If cDat IsNot Nothing Then
-                'If cDat.Type = cSocketData.DataType.Identification Then
-                ' This is the identification key we receive
-                _uniqueClientKey = cDat._id
-                'Else
-                If cDat.Ack Then
-                    Try
-                        semQueue.Release(1)
-                    Catch ex As Exception
-                        '
-                    End Try
-                End If
-                RaiseEvent ReceivedData(cDat)
-                Trace.WriteLine("DATA HAS A SIZE OF " & state.receivedSize.ToString)
-                ReDim state.receivedBuff(0)
-                state.receivedSize = 0
-                'End If
-            End If
-        End If
-
-    End Sub 'ReceiveCallback
-
-    ' When we receive an acknowledge, next "send" will be authorized
-    Public Sub AckReceived()
-        semQueue.Release(1)
     End Sub
 
     Public Sub Send(ByVal dat As cSocketData)
         ' Add the object to send into the list (queue)
-        semQueue.WaitOne()
+        'semQueue.WaitOne()
         dat._id = _uniqueClientKey
-        pvtSend(dat)
+        ThreadPool.QueueUserWorkItem(AddressOf pvtSend, CObj(dat))
     End Sub
-    Private Sub pvtSend(ByRef dat As cSocketData)
+
+
+    Private Sub pvtConnect(ByVal context As Object)
+        Try
+            Dim pObj As poolObjConnect = CType(context, poolObjConnect)
+            ' creates a client object that 'lives' here on the client.
+            _CallbackSink = New CallbackSink()
+            ' hook into the event exposed on the Sink object so we can transfer a server 
+            ' message through to this class.
+            AddHandler _CallbackSink.OnHostToClient, AddressOf CallbackSink_OnHostToClient
+            ' Register a client channel so the server can communicate back - it needs a channel
+            ' opened for the callback to the CallbackSink object that is anchored on the client!
+            Dim channel As TcpChannel = Nothing
+            Try
+                ' Now we'll create a channel for each network card interface
+                Dim ht As New Hashtable()
+                ht("name") = "ClientChannel"
+                ht("port") = pObj.Port + 3
+                ht("bindTo") = pObj.ClientIp
+
+                ' now create and register our custom TcpChannel 
+                Dim serverFormatter As New BinaryServerFormatterSinkProvider()
+                serverFormatter.TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full
+                channel = New TcpChannel(ht, Nothing, serverFormatter)
+                ChannelServices.RegisterChannel(channel, False)
+
+            Catch ex As Exception
+                ' Already exists (reconnection)
+                ex = ex
+            End Try
+            ' now create a transparent proxy to the server component
+            Dim obj As Object = Activator.GetObject(GetType(ServerTalk), "tcp://" & pObj.ServerName & ":" & pObj.Port.ToString & "/TalkIsGood")
+            ' cast returned object
+            _ServerTalk = DirectCast(obj, ServerTalk)
+            ' Register ourselves to the server with a callback to the client sink.
+            _ServerTalk.RegisterHostToClient("client", New delCommsInfo(AddressOf _CallbackSink.HandleToClient))
+            RaiseEvent Connected()
+        Catch ex As Exception
+            RaiseEvent Disconnected()
+        End Try
+    End Sub
+
+    Private Sub pvtSend(ByVal dat As Object)
         ' Convert the string data to byte data using ASCII encoding.
-        Dim byteData As Byte() = cSerialization.GetSerializedObject(dat)
+        Dim byteData As Byte() = cSerialization.GetSerializedObject(CType(dat, cSocketData))
 
-        ' Begin sending the data to the remote device.
-        Trace.WriteLine("Client sending...")
         Try
-            client.BeginSend(byteData, 0, byteData.Length, 0, New AsyncCallback(AddressOf SendCallback), client)
+            _ServerTalk.SendMessageToServer(New CommsInfo(byteData))
+            RaiseEvent SentData()
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while sending data")
             RaiseEvent Disconnected()
-            Exit Sub
         End Try
-    End Sub 'Send
+    End Sub
 
-    Private Sub SendCallback(ByVal ar As IAsyncResult)
-        ' Retrieve the socket from the state object.
-        Dim client As Socket = CType(ar.AsyncState, Socket)
-
-        ' Complete sending the data to the remote device.
-        Try
-            Dim bytesSent As Integer = client.EndSend(ar)
-        Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error while sending data")
-            RaiseEvent Disconnected()
-            Exit Sub
-        End Try
-        Trace.WriteLine("CLIENT HAS SENT")
-        RaiseEvent SentData()
-
-    End Sub 'SendCallback
-End Class 'AsynchronousClient
+    Private Sub CallbackSink_OnHostToClient(ByVal info As CommsInfo)
+        ' Received a message
+        Dim cDat As cSocketData = cSerialization.DeserializeObject(info.Data)
+        RaiseEvent ReceivedData(cDat)
+    End Sub
+End Class

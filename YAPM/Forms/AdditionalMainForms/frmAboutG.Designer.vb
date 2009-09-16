@@ -41,6 +41,7 @@ Partial Class frmAboutG
         Me.lblVistaMenu = New System.Windows.Forms.LinkLabel
         Me.lnkWebsite = New System.Windows.Forms.LinkLabel
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.lnkMarcel = New System.Windows.Forms.LinkLabel
         CType(Me.pctIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -49,7 +50,7 @@ Partial Class frmAboutG
         '
         Me.lnklblSF.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lnklblSF.AutoSize = True
-        Me.lnklblSF.Location = New System.Drawing.Point(13, 265)
+        Me.lnklblSF.Location = New System.Drawing.Point(13, 279)
         Me.lnklblSF.Name = "lnklblSF"
         Me.lnklblSF.Size = New System.Drawing.Size(138, 13)
         Me.lnklblSF.TabIndex = 2
@@ -60,7 +61,7 @@ Partial Class frmAboutG
         '
         Me.btnOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.btnOK.Location = New System.Drawing.Point(346, 269)
+        Me.btnOK.Location = New System.Drawing.Point(346, 283)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(73, 25)
         Me.btnOK.TabIndex = 1
@@ -178,7 +179,7 @@ Partial Class frmAboutG
         '
         Me.lblMe.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblMe.AutoSize = True
-        Me.lblMe.Location = New System.Drawing.Point(13, 281)
+        Me.lblMe.Location = New System.Drawing.Point(13, 295)
         Me.lblMe.Name = "lblMe"
         Me.lblMe.Size = New System.Drawing.Size(83, 13)
         Me.lblMe.TabIndex = 18
@@ -188,7 +189,7 @@ Partial Class frmAboutG
         'cmdLicense
         '
         Me.cmdLicense.Anchor = System.Windows.Forms.AnchorStyles.Bottom
-        Me.cmdLicense.Location = New System.Drawing.Point(259, 269)
+        Me.cmdLicense.Location = New System.Drawing.Point(259, 283)
         Me.cmdLicense.Name = "cmdLicense"
         Me.cmdLicense.Size = New System.Drawing.Size(73, 25)
         Me.cmdLicense.TabIndex = 19
@@ -219,7 +220,7 @@ Partial Class frmAboutG
         '
         Me.lnkWebsite.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lnkWebsite.AutoSize = True
-        Me.lnkWebsite.Location = New System.Drawing.Point(157, 265)
+        Me.lnkWebsite.Location = New System.Drawing.Point(157, 279)
         Me.lnkWebsite.Name = "lnkWebsite"
         Me.lnkWebsite.Size = New System.Drawing.Size(49, 13)
         Me.lnkWebsite.TabIndex = 22
@@ -228,6 +229,7 @@ Partial Class frmAboutG
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.lnkMarcel)
         Me.GroupBox1.Controls.Add(Me.lblVistaMenu)
         Me.GroupBox1.Controls.Add(Me.lblTaskDialog)
         Me.GroupBox1.Controls.Add(Me.lblRibbon)
@@ -235,10 +237,20 @@ Partial Class frmAboutG
         Me.GroupBox1.Controls.Add(Me.lblShareVB)
         Me.GroupBox1.Location = New System.Drawing.Point(17, 147)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(240, 107)
+        Me.GroupBox1.Size = New System.Drawing.Size(240, 120)
         Me.GroupBox1.TabIndex = 23
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Thanks a lot to :"
+        '
+        'lnkMarcel
+        '
+        Me.lnkMarcel.AutoSize = True
+        Me.lnkMarcel.Location = New System.Drawing.Point(6, 97)
+        Me.lnkMarcel.Name = "lnkMarcel"
+        Me.lnkMarcel.Size = New System.Drawing.Size(226, 13)
+        Me.lnkMarcel.TabIndex = 22
+        Me.lnkMarcel.TabStop = True
+        Me.lnkMarcel.Text = "marcel heeremans (article about Remoting)"
         '
         'frmAboutG
         '
@@ -246,7 +258,7 @@ Partial Class frmAboutG
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.btnOK
-        Me.ClientSize = New System.Drawing.Size(428, 308)
+        Me.ClientSize = New System.Drawing.Size(428, 322)
         Me.ControlBox = False
         Me.Controls.Add(Me.lnkWebsite)
         Me.Controls.Add(Me.cmdLicense)
@@ -295,4 +307,5 @@ Partial Class frmAboutG
     Friend WithEvents lblVistaMenu As System.Windows.Forms.LinkLabel
     Friend WithEvents lnkWebsite As System.Windows.Forms.LinkLabel
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents lnkMarcel As System.Windows.Forms.LinkLabel
 End Class

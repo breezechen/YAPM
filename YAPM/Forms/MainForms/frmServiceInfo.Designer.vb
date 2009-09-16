@@ -991,6 +991,7 @@ Partial Class frmServiceInfo
         Me.tv2.ImageIndex = 0
         Me.tv2.ImageList = Me.imgServices
         Me.tv2.InfosToGet = YAPM.cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+        Me.tv2.IsConnected = False
         Me.tv2.Location = New System.Drawing.Point(0, 0)
         Me.tv2.Name = "tv2"
         Me.tv2.RootService = Nothing
@@ -1077,6 +1078,7 @@ Partial Class frmServiceInfo
         Me.tv.ImageIndex = 0
         Me.tv.ImageList = Me.imgServices
         Me.tv.InfosToGet = YAPM.cServDepConnection.DependenciesToget.DependenciesOfMe
+        Me.tv.IsConnected = False
         Me.tv.Location = New System.Drawing.Point(0, 0)
         Me.tv.Name = "tv"
         Me.tv.RootService = Nothing

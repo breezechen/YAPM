@@ -378,17 +378,17 @@ Public Class frmServer
     Private Delegate Sub ChangeConnectState(ByVal state As SOCK_STATE)
     Private Sub handlerChangeConnectState(ByVal state As SOCK_STATE)
 #If RELEASE_MODE Then
-        Select Case state
-            Case SOCK_STATE.Connected
-                Me.cmdConnection.Text = "Disconnect !"
-                Me.Text = "YAPM remote process (connected)"
-            Case SOCK_STATE.Disconnected
-                Me.cmdConnection.Text = "Connect !"
-                Me.Text = "YAPM remote process (disconnected)"
-            Case SOCK_STATE.WaitingConnection
-                Me.cmdConnection.Text = "Disconnect !"
-                Me.Text = "YAPM remote process (waiting for client to connect...)"
-        End Select
+        'Select Case state
+        '    Case SOCK_STATE.Connected
+        '        Me.cmdConnection.Text = "Disconnect !"
+        '        Me.Text = "YAPM remote process (connected)"
+        '    Case SOCK_STATE.Disconnected
+        '        Me.cmdConnection.Text = "Connect !"
+        '        Me.Text = "YAPM remote process (disconnected)"
+        '    Case SOCK_STATE.WaitingConnection
+        '        Me.cmdConnection.Text = "Disconnect !"
+        '        Me.Text = "YAPM remote process (waiting for client to connect...)"
+        'End Select
 #End If
     End Sub
     Private Sub sock_ConnexionAccepted() Handles sock.Connected
@@ -901,7 +901,6 @@ Public Class frmServer
 
         Native.Functions.Misc.SetTheme(Me.lvServer.Handle)
 
-        SetToolTip(Me.cmdConnection, "Connect the server")
         SetToolTip(Me.txtIp, "Available IP of this machine")
 
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
@@ -937,7 +936,7 @@ Public Class frmServer
         Me.lvServer.Items.Add(it)
     End Sub
 
-    Private Sub cmdConnection_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdConnection.Click
+    Private Sub cmdConnection_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         ' Connect or disconnect the socket (server)
         Dim t As New System.Threading.WaitCallback(AddressOf conDegCallBack)
         Call Threading.ThreadPool.QueueUserWorkItem(t, Nothing)

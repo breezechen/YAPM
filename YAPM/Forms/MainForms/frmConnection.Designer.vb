@@ -149,20 +149,19 @@ Partial Class frmConnection
         '
         'txtServerIP
         '
-        Me.txtServerIP.Location = New System.Drawing.Point(29, 17)
+        Me.txtServerIP.Location = New System.Drawing.Point(64, 17)
         Me.txtServerIP.Name = "txtServerIP"
         Me.txtServerIP.Size = New System.Drawing.Size(87, 22)
         Me.txtServerIP.TabIndex = 11
-        Me.txtServerIP.Text = "192.168.0.4"
         '
         'Label17
         '
         Me.Label17.AutoSize = True
         Me.Label17.Location = New System.Drawing.Point(7, 20)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(16, 13)
+        Me.Label17.Size = New System.Drawing.Size(51, 13)
         Me.Label17.TabIndex = 10
-        Me.Label17.Text = "IP"
+        Me.Label17.Text = "Machine"
         '
         'gpWMI
         '

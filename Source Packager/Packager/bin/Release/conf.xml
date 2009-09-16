@@ -13,9 +13,6 @@
 		<file>\YAPM\bin\release\Dll\TaskDialog.dll</file>
 		<file>\YAPM\bin\release\Dll\VistaMenu.dll</file>
 		<file>\YAPM\bin\release\license.rtf</file>
-		<file>\YAPM\bin\release\README.txt</file>
-		<file>\YAPM\bin\release\tcp.txt</file>
-		<file>\YAPM\bin\release\udp.txt</file>
 		<file>\YAPM\bin\release\launch server.bat</file>
 		<file>YAPM_without_C#_needed.sln</file>
 		<file>TODO.txt</file>

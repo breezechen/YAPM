@@ -25,9 +25,8 @@ Partial Class frmServer
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServer))
         Me.SplitContainer = New System.Windows.Forms.SplitContainer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.txtIp = New System.Windows.Forms.TextBox
-        Me.cmdConnection = New System.Windows.Forms.Button
         Me.Label1 = New System.Windows.Forms.Label
+        Me.txtIp = New System.Windows.Forms.TextBox
         Me.lvServer = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
@@ -70,7 +69,6 @@ Partial Class frmServer
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.cmdConnection)
         Me.SplitContainer1.Panel1.Controls.Add(Me.Label1)
         '
         'SplitContainer1.Panel2
@@ -79,6 +77,16 @@ Partial Class frmServer
         Me.SplitContainer1.Size = New System.Drawing.Size(538, 116)
         Me.SplitContainer1.SplitterDistance = 47
         Me.SplitContainer1.TabIndex = 10
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(12, 9)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(350, 26)
+        Me.Label1.TabIndex = 10
+        Me.Label1.Text = "This process is the 'server' of Yet Another (remote) Process Monitor." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If you clo" & _
+            "se this form, the connection will be interrupted."
         '
         'txtIp
         '
@@ -90,27 +98,6 @@ Partial Class frmServer
         Me.txtIp.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.txtIp.Size = New System.Drawing.Size(538, 65)
         Me.txtIp.TabIndex = 11
-        '
-        'cmdConnection
-        '
-        Me.cmdConnection.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdConnection.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdConnection.Location = New System.Drawing.Point(404, 12)
-        Me.cmdConnection.Name = "cmdConnection"
-        Me.cmdConnection.Size = New System.Drawing.Size(122, 23)
-        Me.cmdConnection.TabIndex = 11
-        Me.cmdConnection.Text = "Connect !"
-        Me.cmdConnection.UseVisualStyleBackColor = True
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(350, 26)
-        Me.Label1.TabIndex = 10
-        Me.Label1.Text = "This process is the 'server' of Yet Another (remote) Process Monitor." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "If you clo" & _
-            "se this form, the connection will be interrupted."
         '
         'lvServer
         '
@@ -161,7 +148,6 @@ Partial Class frmServer
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents cmdConnection As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents txtIp As System.Windows.Forms.TextBox
 

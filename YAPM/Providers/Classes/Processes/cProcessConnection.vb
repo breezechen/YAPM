@@ -195,7 +195,7 @@ Public Class cProcessConnection
                 Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessorCount)
                 _conObj.Socket.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                'MsgBox(ex.Message)
             End Try
 
             If data.Type = cSocketData.DataType.Order AndAlso _
