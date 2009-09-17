@@ -1985,13 +1985,12 @@ Public Class frmMain
             Me.MenuItemProcKillT.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcStop.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcSFileDetails.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcSFileProp.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcSOpenDir.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcSSearch.Enabled = selectionIsNotNothing
             Me.MenuItemProcSDep.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemCopyProcess.Enabled = selectionIsNotNothing
-            Me.MenuItemProcSFileDetails.Enabled = (selectionIsNotNothing AndAlso Me.lvProcess.SelectedItems.Count = 1)
+            Me.MenuItemProcSFileDetails.Enabled = (selectionIsNotNothing AndAlso _local AndAlso Me.lvProcess.SelectedItems.Count = 1)
             Me.MenuItemProcDump.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcAff.Enabled = selectionIsNotNothing AndAlso _notWMI
             Me.MenuItemProcWSS.Enabled = selectionIsNotNothing AndAlso _notWMI
