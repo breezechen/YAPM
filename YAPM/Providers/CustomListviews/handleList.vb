@@ -200,7 +200,7 @@ Public Class handleList
         ' Now add all items with isKilled = true to _dicoDel dictionnary
         For Each z As cHandle In _dico.Values
             If z.IsKilledItem Then
-                Dim _keyy As String = z.Infos.ProcessID.ToString & "-" & z.Infos.Handle.ToString
+                Dim _keyy As String = z.Infos.ProcessId.ToString & "-" & z.Infos.Handle.ToString
                 _dicoDel.Add(_keyy, Nothing)
             End If
         Next

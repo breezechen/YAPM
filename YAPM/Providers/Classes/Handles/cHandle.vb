@@ -79,7 +79,7 @@ Public Class cHandle
 
         AddPendingTask(newAction, t)
         Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-            asyncCallbackHandleUnload.poolObj(Me.Infos.ProcessID, Me.Infos.Handle, newAction))
+            asyncCallbackHandleUnload.poolObj(Me.Infos.ProcessId, Me.Infos.Handle, newAction))
 
     End Function
     Private Sub unloadHandleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
@@ -118,7 +118,7 @@ Public Class cHandle
             Case "Handle"
                 res = Me.Infos.Handle.ToString
             Case "Process"
-                res = Me.Infos.ProcessID.ToString
+                res = Me.Infos.ProcessId.ToString
         End Select
 
         Return res
@@ -207,7 +207,7 @@ Public Class cHandle
                     _old_Handle = res
                 End If
             Case "Process"
-                res = Me.Infos.ProcessID.ToString
+                res = Me.Infos.ProcessId.ToString
                 If res = _old_Process Then
                     hasChanged = False
                 Else

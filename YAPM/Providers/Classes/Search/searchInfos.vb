@@ -29,29 +29,26 @@ Imports YAPM.Native.Api.Enums
     Inherits generalInfos
 
     Private _typeOfItem As GeneralObjectType
-    Private _item As cGeneralObject
     Private _field As String
     Private _res As String
+    Private _owner As String
+    Private _pid As Integer
 
 #Region "Constructors & destructor"
 
     Public Sub New(ByVal Item As cGeneralObject, ByVal field As String, _
                 ByVal result As String)
-        _item = Item
         _res = result
         _field = field
         _typeOfItem = Item.TypeOfObject
+        _pid = GetProcessId(Item)
+        _owner = GetOwner(Item, _pid)
     End Sub
 
 #End Region
 
 #Region "Read only properties"
 
-    Public ReadOnly Property [Object]() As cGeneralObject
-        Get
-            Return _item
-        End Get
-    End Property
     Public ReadOnly Property Field() As String
         Get
             Return _field
@@ -69,54 +66,11 @@ Imports YAPM.Native.Api.Enums
     End Property
     Public ReadOnly Property Owner() As String
         Get
-            ' Just say a big thanks to polymorphism...
-            Try
-                Dim res As String = ""
-                Dim _pid As Integer = OwnedProcessId
-
-                If _typeOfItem <> GeneralObjectType.Service Then
-                    ' Try to get the owner process
-                    Native.Objects.Process.SemCurrentProcesses.WaitOne()
-                    If Native.Objects.Process.CurrentProcesses.ContainsKey(_pid.ToString) Then
-                        Dim nn As String = Native.Objects.Process.CurrentProcesses.Item(_pid.ToString).Infos.Name
-                        If String.IsNullOrEmpty(nn) = False Then
-                            res = "Process " & nn & " (" & _pid.ToString & ")"
-                        Else
-                            res = "Process " & _pid.ToString
-                        End If
-                    Else
-                        res = "Process " & _pid.ToString
-                    End If
-                    Native.Objects.Process.SemCurrentProcesses.Release()
-                Else
-                    res = DirectCast(_item, cService).Infos.Name
-                End If
-
-                Return res
-            Catch ex As Exception
-                Return "Unknown"
-            End Try
+            Return _owner
         End Get
     End Property
     Public ReadOnly Property OwnedProcessId() As Integer
         Get
-            Static _pid As Integer = -1
-            If _pid = -1 Then
-                Select Case _typeOfItem
-                    Case GeneralObjectType.EnvironmentVariable
-                        _pid = DirectCast(_item, cEnvVariable).Infos.ProcessId
-                    Case GeneralObjectType.Handle
-                        _pid = DirectCast(_item, cHandle).Infos.ProcessID
-                    Case GeneralObjectType.Module
-                        _pid = DirectCast(_item, cModule).Infos.ProcessId
-                    Case GeneralObjectType.Process
-                        _pid = DirectCast(_item, cProcess).Infos.ProcessId
-                    Case GeneralObjectType.Service
-                        _pid = DirectCast(_item, cService).Infos.ProcessId
-                    Case GeneralObjectType.Window
-                        _pid = DirectCast(_item, cWindow).Infos.ProcessId
-                End Select
-            End If
             Return _pid
         End Get
     End Property
@@ -137,6 +91,56 @@ Imports YAPM.Native.Api.Enums
         End If
 
         Return s
+    End Function
+
+
+    ' Return owner of item
+    Private Shared Function GetOwner(ByVal obj As cGeneralObject, ByVal pid As Integer) As String
+        ' Just say a big thanks to polymorphism...
+        Try
+            Dim res As String = ""
+            Dim _pid As Integer = pid
+
+            If obj.TypeOfObject <> GeneralObjectType.Service Then
+                ' Try to get the owner process
+                Native.Objects.Process.SemCurrentProcesses.WaitOne()
+                If Native.Objects.Process.CurrentProcesses.ContainsKey(_pid.ToString) Then
+                    Dim nn As String = Native.Objects.Process.CurrentProcesses.Item(_pid.ToString).Infos.Name
+                    If String.IsNullOrEmpty(nn) = False Then
+                        res = "Process " & nn & " (" & _pid.ToString & ")"
+                    Else
+                        res = "Process " & _pid.ToString
+                    End If
+                Else
+                    res = "Process " & _pid.ToString
+                End If
+                Native.Objects.Process.SemCurrentProcesses.Release()
+            Else
+                res = DirectCast(obj, cService).Infos.Name
+            End If
+
+            Return res
+        Catch ex As Exception
+            Return "Unknown"
+        End Try
+    End Function
+
+    ' Return associated process ID
+    Private Shared Function GetProcessId(ByVal obj As cGeneralObject) As Integer
+        Select Case obj.TypeOfObject
+            Case GeneralObjectType.EnvironmentVariable
+                Return DirectCast(obj, cEnvVariable).Infos.ProcessId
+            Case GeneralObjectType.Handle
+                Return DirectCast(obj, cHandle).Infos.ProcessId
+            Case GeneralObjectType.Module
+                Return DirectCast(obj, cModule).Infos.ProcessId
+            Case GeneralObjectType.Process
+                Return DirectCast(obj, cProcess).Infos.ProcessId
+            Case GeneralObjectType.Service
+                Return (DirectCast(obj, cService).Infos.ProcessId)
+            Case GeneralObjectType.Window
+                Return DirectCast(obj, cWindow).Infos.ProcessId
+        End Select
     End Function
 
 End Class

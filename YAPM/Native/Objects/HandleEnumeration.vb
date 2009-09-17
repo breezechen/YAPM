@@ -115,10 +115,10 @@ Namespace Native.Objects
             Return m_Files(dwIndex).Type
         End Function
         Public Function GetProcessName(ByVal dwIndex As Integer) As String  ' Proprietary process name
-            Return GetProcessNameFromPID(m_Files(dwIndex).ProcessID)
+            Return GetProcessNameFromPID(m_Files(dwIndex).ProcessId)
         End Function
         Public Function GetProcessID(ByVal dwIndex As Integer) As Integer   ' Proprietary process ID
-            Return m_Files(dwIndex).ProcessID
+            Return m_Files(dwIndex).ProcessId
         End Function
         Public Function GetHandle(ByVal dwIndex As Integer) As IntPtr  ' Handle itself
             Return m_Files(dwIndex).Handle

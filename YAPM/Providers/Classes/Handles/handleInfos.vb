@@ -68,7 +68,7 @@ Imports YAPM.Native.Api
         End Get
     End Property
 
-    Public ReadOnly Property ProcessID() As Integer
+    Public ReadOnly Property ProcessId() As Integer
         Get
             Return _ProcessID
         End Get
@@ -149,7 +149,7 @@ Imports YAPM.Native.Api
             _ObjectName = .Name
             _ObjectCount = .ObjectCount
             _PointerCount = .PointerCount
-            _ProcessID = .ProcessID
+            _ProcessID = .ProcessId
             _NameInformation = .Type
         End With
     End Sub

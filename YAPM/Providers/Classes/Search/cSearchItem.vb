@@ -82,9 +82,9 @@ Public Class cSearchItem
                 Dim newAction As Integer = cGeneralObject.GetActionCount
 
                 AddPendingTask(newAction, t)
-                Dim handle As cHandle = DirectCast(Me.Infos.Object, cHandle)
-                Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-                    asyncCallbackHandleUnload.poolObj(handle.Infos.ProcessID, handle.Infos.Handle, newAction))
+                'Dim handle As cHandle = DirectCast(Me.Infos.Object, cHandle)
+                'Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+                '    asyncCallbackHandleUnload.poolObj(handle.Infos.ProcessId, handle.Infos.Handle, newAction))
 
             Case GeneralObjectType.Module
                 ' Unload a module
@@ -96,9 +96,9 @@ Public Class cSearchItem
                 Dim newAction As Integer = cGeneralObject.GetActionCount
 
                 AddPendingTask(newAction, t)
-                Dim modul As cModule = DirectCast(Me.Infos.Object, cModule)
-                Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-                    asyncCallbackModuleUnload.poolObj(modul.Infos.ProcessId, modul.Infos.Name, modul.Infos.BaseAddress, newAction))
+                'Dim modul As cModule = DirectCast(Me.Infos.Object, cModule)
+                'Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+                '    asyncCallbackModuleUnload.poolObj(modul.Infos.ProcessId, modul.Infos.Name, modul.Infos.BaseAddress, newAction))
 
             Case GeneralObjectType.Process
                 ' Kill a process
@@ -110,9 +110,9 @@ Public Class cSearchItem
                 Dim newAction As Integer = cGeneralObject.GetActionCount
 
                 AddPendingTask(newAction, t)
-                Dim process As cProcess = DirectCast(Me.Infos.Object, cProcess)
-                Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-                    asyncCallbackProcKill.poolObj(process.Infos.ProcessId, newAction))
+                'Dim process As cProcess = DirectCast(Me.Infos.Object, cProcess)
+                'Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+                '    asyncCallbackProcKill.poolObj(process.Infos.ProcessId, newAction))
 
             Case GeneralObjectType.Service
                 ' Stop service
@@ -124,9 +124,9 @@ Public Class cSearchItem
                 Dim newAction As Integer = cGeneralObject.GetActionCount
 
                 AddPendingTask(newAction, t)
-                Dim service As cService = DirectCast(Me.Infos.Object, cService)
-                Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-                    asyncCallbackServiceStop.poolObj(service.Infos.Name, newAction))
+                'Dim service As cService = DirectCast(Me.Infos.Object, cService)
+                'Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+                '    asyncCallbackServiceStop.poolObj(service.Infos.Name, newAction))
 
             Case GeneralObjectType.Window
                 ' Close window
@@ -137,9 +137,9 @@ Public Class cSearchItem
                 Dim newAction As Integer = cGeneralObject.GetActionCount
 
                 AddPendingTask(newAction, t)
-                Dim window As cWindow = DirectCast(Me.Infos.Object, cWindow)
-                Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
-                    asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.Close, window.Infos.Handle, 0, 0, 0, newAction))
+                'Dim window As cWindow = DirectCast(Me.Infos.Object, cWindow)
+                'Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+                '    asyncCallbackWindowAction.poolObj(Native.Api.Enums.AsyncWindowAction.Close, window.Infos.Handle, 0, 0, 0, newAction))
 
         End Select
 
