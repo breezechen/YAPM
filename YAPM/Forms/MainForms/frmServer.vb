@@ -53,6 +53,7 @@ Public Class frmServer
     Private _logCon As New cLogConnection(Me, theConnection, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedLog))
     Private _jobCon As New cJobConnection(Me, theConnection, New cJobConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedJobs))
     Private _procInJobCon As New cJobConnection(Me, theConnection, New cJobConnection.HasEnumeratedProcInJobEventHandler(AddressOf HasEnumeratedProcessInJob))
+    Private _jobLimitsCon As New cJobLimitConnection(Me, theConnection, New cJobLimitConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedJobLimits))
 
 
     ' Connect to local machine
@@ -125,6 +126,24 @@ Public Class frmServer
                 cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat._id = _TheIdToSend
                 cDat.SetEnvVarList(Dico)
+                sock.Send(cDat)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
+    Private Sub HasEnumeratedJobLimits(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, jobLimitInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestJobLimits)
+                cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat._id = _TheIdToSend
+                cDat.SetJobLimitsList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
@@ -482,6 +501,10 @@ Public Class frmServer
                     Case cSocketData.OrderType.RequestProcessesInJobList
                         Dim name As String = CStr(cData.Param1)
                         Call _procInJobCon.EnumerateProcessesInJob(name, _forInstanceId)
+                        Exit Sub
+                    Case cSocketData.OrderType.RequestJobLimits
+                        Dim name As String = CStr(cData.Param1)
+                        Call _jobLimitsCon.Enumerate(name, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestServiceList
                         Dim pid As Integer = CType(cData.Param1, Integer)

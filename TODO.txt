@@ -6,6 +6,7 @@ Refactoring bugs
 - virer PtrToStructure et n'utiliser que MemoryAlloc
 
 BUGS CRITIQUES
+- add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
 - job par remote (et en wmi, désactiver également Restart with priv)
 - searchInfos contains cService/cModule (NOT Serializable -> can not search via server)
 - déconnection du client -> le server doit réinitialiser les dico newProcesses/Services

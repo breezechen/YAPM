@@ -115,6 +115,7 @@ Option Strict On
         [RequestLogList]
         [RequestJobList]
         [RequestProcessesInJobList]
+        [RequestJobLimits]
 
         ' General commands
         [GeneralCommandSearch]
@@ -328,6 +329,24 @@ Option Strict On
 
         Dim x As Integer = 0
         For Each pp As System.Collections.Generic.KeyValuePair(Of String, processInfos) In dico
+            _list(x) = pp.Value
+            _keys(x) = pp.Key
+            x += 1
+        Next
+
+    End Sub
+
+    Public Sub SetJobLimitsList(ByVal dico As Dictionary(Of String, jobLimitInfos))
+        If dico Is Nothing Then
+            Exit Sub
+        End If
+
+        ' Transform a dico into two lists
+        ReDim _list(dico.Count - 1)
+        ReDim _keys(dico.Count - 1)
+
+        Dim x As Integer = 0
+        For Each pp As System.Collections.Generic.KeyValuePair(Of String, jobLimitInfos) In dico
             _list(x) = pp.Value
             _keys(x) = pp.Key
             x += 1
