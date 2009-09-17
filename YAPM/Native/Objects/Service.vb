@@ -84,6 +84,43 @@ Namespace Native.Objects
         ' Public functions
         ' ========================================
 
+        ' Create a service
+        Public Shared Function CreateService(ByVal params As Native.Api.Structs.ServiceCreationParams, _
+                            Optional ByVal machine As String = Nothing) As Boolean
+            Dim ret As Boolean = False
+            Dim hServ As IntPtr = CreateService(params, ret)
+            If hServ.IsNotNull Then
+                Native.Objects.General.CloseHandle(hServ)
+            End If
+            Return ret
+        End Function
+        Public Shared Function CreateService(ByVal params As Native.Api.Structs.ServiceCreationParams, _
+                            ByRef res As Boolean, _
+                            Optional ByVal machine As String = Nothing) As IntPtr
+
+            res = False
+            Dim hSCM As IntPtr = _
+                    GetSCManagerHandle(Security.ServiceManagerAccess.CreateService, _
+                                                    machine)
+
+            If hSCM.IsNotNull Then
+                Dim hServ As IntPtr = _
+                        Native.Api.NativeFunctions.CreateService(hSCM, params.ServiceName, _
+                                        params.DisplayName, Security.ServiceAccess.All, _
+                                        params.Type, params.StartType, params.ErrorControl, _
+                                        params.FilePath & " " & params.Arguments, _
+                                        Nothing, IntPtr.Zero, IntPtr.Zero, _
+                                        Nothing, Nothing)
+                CloseSCManagerHandle(hSCM)
+                res = (hServ <> IntPtr.Zero)
+                Return hSCM
+            Else
+                Return IntPtr.Zero
+            End If
+
+        End Function
+
+
         ' Clear list of new services
         Public Shared Sub ClearNewServicesList()
             _dicoNewServices.Clear()
@@ -102,7 +139,7 @@ Namespace Native.Objects
             Dim tServiceStatus() As NativeStructs.EnumServiceStatusProcess
             ReDim tServiceStatus(0)
 
-            If hSCM .IsNotNull Then
+            If hSCM.IsNotNull Then
                 '2nd arg : Api.SC_ENUM_PROCESS_INFO, _
                 If Not (NativeFunctions.EnumServicesStatusEx(hSCM, _
                                             IntPtr.Zero, _
@@ -197,8 +234,8 @@ Namespace Native.Objects
             Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, _
                                                     Security.ServiceAccess.QueryConfig)
 
-            If hSCManager .IsNotNull Then
-                If lServ .IsNotNull Then
+            If hSCManager.IsNotNull Then
+                If lServ.IsNotNull Then
 
                     ' Get all available informations
                     Dim tt As New NativeStructs.QueryServiceConfig
@@ -303,8 +340,8 @@ Namespace Native.Objects
         Public Shared Function PauseServiceByName(ByVal name As String, ByVal hSCManager As IntPtr) As Boolean
             Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, Native.Security.ServiceAccess.PauseContinue)
             Dim res As Boolean = False
-            If hSCManager .IsNotNull Then
-                If lServ .IsNotNull Then
+            If hSCManager.IsNotNull Then
+                If lServ.IsNotNull Then
                     Dim lpss As NativeStructs.ServiceStatusProcess
                     res = NativeFunctions.ControlService(lServ, NativeEnums.ServiceControl.Pause, lpss)
                     NativeFunctions.CloseServiceHandle(lServ)
@@ -318,8 +355,8 @@ Namespace Native.Objects
         Public Shared Function ResumeServiceByName(ByVal name As String, ByVal hSCManager As IntPtr) As Boolean
             Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, Native.Security.ServiceAccess.PauseContinue)
             Dim res As Boolean = False
-            If hSCManager .IsNotNull Then
-                If lServ .IsNotNull Then
+            If hSCManager.IsNotNull Then
+                If lServ.IsNotNull Then
                     Dim lpss As NativeStructs.ServiceStatusProcess
                     res = NativeFunctions.ControlService(lServ, NativeEnums.ServiceControl.Continue, lpss)
                     NativeFunctions.CloseServiceHandle(lServ)
@@ -339,8 +376,8 @@ Namespace Native.Objects
 
             hLockSCManager = NativeFunctions.LockServiceDatabase(hSCManager)
 
-            If hSCManager .IsNotNull Then
-                If lServ .IsNotNull Then
+            If hSCManager.IsNotNull Then
+                If lServ.IsNotNull Then
                     ret = NativeFunctions.ChangeServiceConfig(lServ, NativeEnums.ServiceType.NoChange, _
                                     type, _
                                     NativeEnums.ServiceErrorControl.NoChange, _
@@ -359,8 +396,8 @@ Namespace Native.Objects
             Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, _
                                                    Native.Security.ServiceAccess.Start)
             Dim res As Boolean
-            If hSCManager .IsNotNull Then
-                If lServ .IsNotNull Then
+            If hSCManager.IsNotNull Then
+                If lServ.IsNotNull Then
                     res = NativeFunctions.StartService(lServ, 0, Nothing)
                     NativeFunctions.CloseServiceHandle(lServ)
                     Return res
@@ -373,8 +410,8 @@ Namespace Native.Objects
         Public Shared Function StopServiceByName(ByVal name As String, ByVal hSCManager As IntPtr) As Boolean
             Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, Native.Security.ServiceAccess.Stop)
             Dim res As Boolean = False
-            If hSCManager .IsNotNull Then
-                If lServ .IsNotNull Then
+            If hSCManager.IsNotNull Then
+                If lServ.IsNotNull Then
                     Dim lpss As NativeStructs.ServiceStatusProcess
                     res = NativeFunctions.ControlService(lServ, _
                                         NativeEnums.ServiceControl.Stop, _
@@ -389,6 +426,9 @@ Namespace Native.Objects
         ' Get SC manager handle
         Public Shared Function GetSCManagerHandle(ByVal access As Native.Security.ServiceManagerAccess) As IntPtr
             Return NativeFunctions.OpenSCManager(Nothing, Nothing, access)
+        End Function
+        Public Shared Function GetSCManagerHandle(ByVal access As Native.Security.ServiceManagerAccess, ByVal machine As String) As IntPtr
+            Return NativeFunctions.OpenSCManager(machine, Nothing, access)
         End Function
 
         ' Close SC manager handle

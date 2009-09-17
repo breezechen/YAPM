@@ -104,6 +104,24 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
+#Region "Declarations used for services"
+
+        Public Structure ServiceCreationParams
+            Public ServiceName As String
+            Public DisplayName As String
+            Public Type As NativeEnums.ServiceType
+            Public StartType As NativeEnums.ServiceStartType
+            Public ErrorControl As NativeEnums.ServiceErrorControl
+            Public FilePath As String
+            Public Arguments As String
+            Public RegMachine As String
+            Public RegUser As String
+            Public RegPassword As System.Security.SecureString
+        End Structure
+
+#End Region
+
     End Class
 
 End Namespace
