@@ -45,9 +45,9 @@ Public Class frmCreateService
 
         Common.Misc.closeWithEchapKey(Me)
 
-        Me.cbErrControl.SelectedIndex = 0
-        Me.cbServType.SelectedIndex = 0
-        Me.cbStartType.SelectedIndex = 0
+        Me.cbErrControl.SelectedIndex = 1
+        Me.cbServType.SelectedIndex = 4
+        Me.cbStartType.SelectedIndex = 3
 
     End Sub
 

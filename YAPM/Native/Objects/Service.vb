@@ -90,7 +90,7 @@ Namespace Native.Objects
             Dim ret As Boolean = False
             Dim hServ As IntPtr = CreateService(params, ret)
             If hServ.IsNotNull Then
-                Native.Objects.General.CloseHandle(hServ)
+                Native.Api.NativeFunctions.CloseServiceHandle(hServ)
             End If
             Return ret
         End Function
@@ -105,15 +105,23 @@ Namespace Native.Objects
 
             If hSCM.IsNotNull Then
                 Dim hServ As IntPtr = _
-                        Native.Api.NativeFunctions.CreateService(hSCM, params.ServiceName, _
-                                        params.DisplayName, Security.ServiceAccess.All, _
-                                        params.Type, params.StartType, params.ErrorControl, _
+                        Native.Api.NativeFunctions.CreateService(hSCM, _
+                                        params.ServiceName, _
+                                        params.DisplayName, _
+                                        Security.ServiceAccess.All, _
+                                        params.Type, _
+                                        params.StartType, _
+                                        params.ErrorControl, _
                                         params.FilePath & " " & params.Arguments, _
-                                        Nothing, IntPtr.Zero, IntPtr.Zero, _
-                                        Nothing, Nothing)
+                                        Nothing, _
+                                        IntPtr.Zero, _
+                                        IntPtr.Zero, _
+                                        Nothing, _
+                                        Nothing)
+
                 CloseSCManagerHandle(hSCM)
                 res = (hServ <> IntPtr.Zero)
-                Return hSCM
+                Return hServ
             Else
                 Return IntPtr.Zero
             End If
