@@ -95,6 +95,7 @@ Imports YAPM.Native.Api.Enums
 
 
     ' Return owner of item
+    ' !!!! Process.CurrentProcesses MUST be protected by the caller
     Private Shared Function GetOwner(ByVal obj As cGeneralObject, ByVal pid As Integer) As String
         ' Just say a big thanks to polymorphism...
         Try
@@ -103,7 +104,6 @@ Imports YAPM.Native.Api.Enums
 
             If obj.TypeOfObject <> GeneralObjectType.Service Then
                 ' Try to get the owner process
-                Native.Objects.Process.SemCurrentProcesses.WaitOne()
                 If Native.Objects.Process.CurrentProcesses.ContainsKey(_pid.ToString) Then
                     Dim nn As String = Native.Objects.Process.CurrentProcesses.Item(_pid.ToString).Infos.Name
                     If String.IsNullOrEmpty(nn) = False Then
@@ -114,7 +114,6 @@ Imports YAPM.Native.Api.Enums
                 Else
                     res = "Process " & _pid.ToString
                 End If
-                Native.Objects.Process.SemCurrentProcesses.Release()
             Else
                 res = DirectCast(obj, cService).Infos.Name
             End If
