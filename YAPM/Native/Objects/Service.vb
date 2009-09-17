@@ -85,8 +85,7 @@ Namespace Native.Objects
         ' ========================================
 
         ' Create a service
-        Public Shared Function CreateService(ByVal params As Native.Api.Structs.ServiceCreationParams, _
-                            Optional ByVal machine As String = Nothing) As Boolean
+        Public Shared Function CreateService(ByVal params As Native.Api.Structs.ServiceCreationParams) As Boolean
             Dim ret As Boolean = False
             Dim hServ As IntPtr = CreateService(params, ret)
             If hServ.IsNotNull Then
@@ -95,13 +94,44 @@ Namespace Native.Objects
             Return ret
         End Function
         Public Shared Function CreateService(ByVal params As Native.Api.Structs.ServiceCreationParams, _
-                            ByRef res As Boolean, _
-                            Optional ByVal machine As String = Nothing) As IntPtr
+                            ByRef res As Boolean) As IntPtr
 
             res = False
+
+            If String.IsNullOrEmpty(params.RegMachine) = False Then
+                ' Have to connect to the remote machine
+                Dim b As Boolean = _
+                    Native.Objects.Network.ConnectToRemoteMachine(params.RegMachine, _
+                                                                  params.RegUser, _
+                                                                  params.RegPassword)
+                If b = False Then
+                    ' Could not connect to remote machine !
+                    Return IntPtr.Zero
+                Else
+                    ' Then copy file to remote machine...
+                    b = Network.SyncCopyFileToRemoteSystem32(params.RegMachine, _
+                                    params.FilePath, _
+                                    Common.Misc.GetFileName(params.FilePath))
+                    If b = False Then
+                        ' Could not copy file
+                        If String.IsNullOrEmpty(params.RegMachine) = False Then
+                            Network.DisconnectFromRemoteMachine(params.RegMachine)
+                        End If
+                        Return IntPtr.Zero
+                    End If
+
+                    ' Now that the file is copied to the remote machine, we update
+                    ' the executable path
+                    params.FilePath = "\\" & params.RegMachine & _
+                                "\ADMIN$\System32\" & _
+                                Common.Misc.GetFileName(params.FilePath)
+                End If
+
+            End If
+
             Dim hSCM As IntPtr = _
                     GetSCManagerHandle(Security.ServiceManagerAccess.CreateService, _
-                                                    machine)
+                                                    params.RegMachine)
 
             If hSCM.IsNotNull Then
                 Dim hServ As IntPtr = _
@@ -121,8 +151,14 @@ Namespace Native.Objects
 
                 CloseSCManagerHandle(hSCM)
                 res = (hServ <> IntPtr.Zero)
+                If String.IsNullOrEmpty(params.RegMachine) = False Then
+                    Network.DisconnectFromRemoteMachine(params.RegMachine)
+                End If
                 Return hServ
             Else
+                If String.IsNullOrEmpty(params.RegMachine) = False Then
+                    Network.DisconnectFromRemoteMachine(params.RegMachine)
+                End If
                 Return IntPtr.Zero
             End If
 

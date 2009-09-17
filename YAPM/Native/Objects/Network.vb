@@ -212,11 +212,100 @@ Namespace Native.Objects
             Return NativeFunctions.SetTcpEntry(row)
         End Function
 
+        ' Connect to a remote machine
+        Public Shared Function ConnectToRemoteMachine(ByVal machineName As String, _
+                                                    ByVal user As String, _
+                                                    ByVal password As System.Security.SecureString) As Boolean
+
+            ' We should NOT use password as plain text, but that's the only way
+            ' to use it in Win32 functions...
+            Dim pass As String = ""
+            Dim b() As Char = Common.Misc.SecureStringToCharArray(password)
+            For Each ch As Char In b
+                pass &= ch
+            Next
+
+            Dim Net As New Api.NativeStructs.NetResource
+            With Net
+                .dwType = NativeEnums.NetResourceType.RESOURCETYPE_ANY
+                .lpProvider = Nothing
+                .lpLocalName = Nothing
+                .lpRemoteName = "\\" & machineName & "\IPC$"
+            End With
+
+            Dim ret As Integer
+            ret = CancelConnection(machineName, Net, password, user)
+            ret = NativeFunctions.WNetAddConnection2(Net, pass, user, _
+                        NativeEnums.AddConnectionFlag.ConnectTemporary)
+            ret = NativeFunctions.WNetAddConnection2(Net, pass, user, _
+                            NativeEnums.AddConnectionFlag.ConnectCommandLine Or _
+                            NativeEnums.AddConnectionFlag.ConnectTemporary)
+
+            If (ret <> 0) AndAlso (user <> Nothing) Then
+                If ret = 1219 Then
+                    ' Connection already created. Disconnecting...
+                    ret = CancelConnection(machineName, Net, password, user)
+                Else
+                    If ret = 1326 Then
+                        If InStr(user, "\"c) = 0 Then
+                            Dim CurrentUserName As String = "localhost\" & user
+                            ret = NativeFunctions.WNetAddConnection2(Net, pass, _
+                                CurrentUserName, _
+                                NativeEnums.AddConnectionFlag.ConnectTemporary)
+                        End If
+                    End If
+                End If
+                If ret <> 0 Then
+                    ' Error !
+                    Return False
+                End If
+            End If
+
+            Return True
+
+        End Function
+
+        ' Disconnect from remote machine
+        Public Shared Function DisconnectFromRemoteMachine(ByVal machineName As String, _
+                                                           Optional ByVal force As Boolean = True) As Boolean
+            Dim ret As Integer = _
+                NativeFunctions.WNetCancelConnection2(machineName, 0, force)
+            Return (ret = 0)
+        End Function
+
+        ' Copy a file to system32 dir on a remote machine...
+        ' This call is synchronous (blocking)
+        Public Shared Function SyncCopyFileToRemoteSystem32(ByVal remoteMachine As String, _
+                                            ByVal localPath As String, _
+                                            ByVal remoteName As String) As Boolean
+            Dim remote As String = "\\" & remoteMachine & "\ADMIN$\System32"
+            Return NativeFunctions.CopyFile(localPath, remote & "\" & remoteName, False)
+        End Function
+
 
 
         ' ========================================
         ' Private functions
         ' ========================================
+
+        ' Cancel connection
+        Private Shared Function CancelConnection(ByVal host As String, _
+                                        ByVal net As NativeStructs.NetResource, _
+                                        ByVal password As System.Security.SecureString, _
+                                        ByVal user As String) As Integer
+
+            ' We should NOT use password as plain text, but that's the only way
+            ' to use it in Win32 functions...
+            Dim pass As String = ""
+            Dim b() As Char = Common.Misc.SecureStringToCharArray(password)
+            For Each ch As Char In b
+                pass &= ch
+            Next
+
+            DisconnectFromRemoteMachine(host)
+            Return NativeFunctions.WNetAddConnection2(net, pass, user, _
+                                    NativeEnums.AddConnectionFlag.ConnectTemporary)
+        End Function
 
     End Class
 

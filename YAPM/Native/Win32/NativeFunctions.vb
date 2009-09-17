@@ -575,6 +575,12 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for files"
 
+        <DllImport("kernel32.dll", CharSet:=CharSet.Unicode)> _
+        Public Shared Function CopyFile(ByVal lpExistingFileName As String, _
+                            ByVal lpNewFileName As String, _
+                            ByVal bFailIfExists As Boolean) As Boolean
+        End Function
+
         <DllImport("kernel32.dll", SetLastError:=True, CharSet:=CharSet.Auto)> _
         Public Shared Function CreateFileMapping(ByVal hFile As IntPtr, _
                  ByVal lpFileMappingAttributes As IntPtr, _

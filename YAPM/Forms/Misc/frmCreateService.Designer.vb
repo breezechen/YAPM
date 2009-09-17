@@ -22,7 +22,7 @@ Partial Class frmCreateService
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim SecureString5 As System.Security.SecureString = New System.Security.SecureString
+        Dim SecureString1 As System.Security.SecureString = New System.Security.SecureString
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
         Me.OK_Button = New System.Windows.Forms.Button
         Me.Cancel_Button = New System.Windows.Forms.Button
@@ -77,7 +77,7 @@ Partial Class frmCreateService
         Me.OK_Button.Location = New System.Drawing.Point(48, 3)
         Me.OK_Button.Name = "OK_Button"
         Me.OK_Button.Size = New System.Drawing.Size(67, 23)
-        Me.OK_Button.TabIndex = 0
+        Me.OK_Button.TabIndex = 13
         Me.OK_Button.Text = "OK"
         '
         'Cancel_Button
@@ -87,7 +87,7 @@ Partial Class frmCreateService
         Me.Cancel_Button.Location = New System.Drawing.Point(211, 3)
         Me.Cancel_Button.Name = "Cancel_Button"
         Me.Cancel_Button.Size = New System.Drawing.Size(67, 23)
-        Me.Cancel_Button.TabIndex = 1
+        Me.Cancel_Button.TabIndex = 14
         Me.Cancel_Button.Text = "Cancel"
         '
         'label5
@@ -117,7 +117,7 @@ Partial Class frmCreateService
         Me.cbErrControl.Location = New System.Drawing.Point(90, 173)
         Me.cbErrControl.Name = "cbErrControl"
         Me.cbErrControl.Size = New System.Drawing.Size(237, 21)
-        Me.cbErrControl.TabIndex = 35
+        Me.cbErrControl.TabIndex = 7
         '
         'cbStartType
         '
@@ -128,7 +128,7 @@ Partial Class frmCreateService
         Me.cbStartType.Location = New System.Drawing.Point(90, 121)
         Me.cbStartType.Name = "cbStartType"
         Me.cbStartType.Size = New System.Drawing.Size(237, 21)
-        Me.cbStartType.TabIndex = 34
+        Me.cbStartType.TabIndex = 5
         '
         'cbServType
         '
@@ -139,7 +139,7 @@ Partial Class frmCreateService
         Me.cbServType.Location = New System.Drawing.Point(90, 147)
         Me.cbServType.Name = "cbServType"
         Me.cbServType.Size = New System.Drawing.Size(237, 21)
-        Me.cbServType.TabIndex = 33
+        Me.cbServType.TabIndex = 6
         '
         'optLocal
         '
@@ -148,7 +148,7 @@ Partial Class frmCreateService
         Me.optLocal.Location = New System.Drawing.Point(12, 21)
         Me.optLocal.Name = "optLocal"
         Me.optLocal.Size = New System.Drawing.Size(51, 17)
-        Me.optLocal.TabIndex = 44
+        Me.optLocal.TabIndex = 8
         Me.optLocal.TabStop = True
         Me.optLocal.Text = "Local"
         Me.optLocal.UseVisualStyleBackColor = True
@@ -176,9 +176,9 @@ Partial Class frmCreateService
         Me.txtServerPassword.Location = New System.Drawing.Point(122, 98)
         Me.txtServerPassword.Name = "txtServerPassword"
         Me.txtServerPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtServerPassword.SecureText = SecureString5
+        Me.txtServerPassword.SecureText = SecureString1
         Me.txtServerPassword.Size = New System.Drawing.Size(205, 22)
-        Me.txtServerPassword.TabIndex = 51
+        Me.txtServerPassword.TabIndex = 12
         Me.txtServerPassword.UseSystemPasswordChar = True
         '
         'lblPwd
@@ -197,7 +197,7 @@ Partial Class frmCreateService
         Me.txtUser.Location = New System.Drawing.Point(122, 73)
         Me.txtUser.Name = "txtUser"
         Me.txtUser.Size = New System.Drawing.Size(205, 22)
-        Me.txtUser.TabIndex = 49
+        Me.txtUser.TabIndex = 11
         '
         'lblUser
         '
@@ -215,7 +215,7 @@ Partial Class frmCreateService
         Me.txtMachine.Location = New System.Drawing.Point(122, 48)
         Me.txtMachine.Name = "txtMachine"
         Me.txtMachine.Size = New System.Drawing.Size(205, 22)
-        Me.txtMachine.TabIndex = 47
+        Me.txtMachine.TabIndex = 10
         '
         'lblMachine
         '
@@ -233,7 +233,7 @@ Partial Class frmCreateService
         Me.optRemote.Location = New System.Drawing.Point(69, 21)
         Me.optRemote.Name = "optRemote"
         Me.optRemote.Size = New System.Drawing.Size(64, 17)
-        Me.optRemote.TabIndex = 45
+        Me.optRemote.TabIndex = 9
         Me.optRemote.Text = "Remote"
         Me.optRemote.UseVisualStyleBackColor = True
         '
@@ -266,7 +266,7 @@ Partial Class frmCreateService
         Me.cmdBrowse.Location = New System.Drawing.Point(298, 71)
         Me.cmdBrowse.Name = "cmdBrowse"
         Me.cmdBrowse.Size = New System.Drawing.Size(29, 23)
-        Me.cmdBrowse.TabIndex = 43
+        Me.cmdBrowse.TabIndex = 3
         Me.cmdBrowse.Text = "..."
         Me.cmdBrowse.UseVisualStyleBackColor = True
         '
@@ -284,7 +284,7 @@ Partial Class frmCreateService
         Me.txtArgs.Location = New System.Drawing.Point(90, 96)
         Me.txtArgs.Name = "txtArgs"
         Me.txtArgs.Size = New System.Drawing.Size(237, 22)
-        Me.txtArgs.TabIndex = 7
+        Me.txtArgs.TabIndex = 4
         '
         'Label13
         '
@@ -300,7 +300,7 @@ Partial Class frmCreateService
         Me.txtPath.Location = New System.Drawing.Point(90, 71)
         Me.txtPath.Name = "txtPath"
         Me.txtPath.Size = New System.Drawing.Size(202, 22)
-        Me.txtPath.TabIndex = 5
+        Me.txtPath.TabIndex = 2
         '
         'Label12
         '
@@ -316,7 +316,7 @@ Partial Class frmCreateService
         Me.txtDisplayName.Location = New System.Drawing.Point(90, 46)
         Me.txtDisplayName.Name = "txtDisplayName"
         Me.txtDisplayName.Size = New System.Drawing.Size(237, 22)
-        Me.txtDisplayName.TabIndex = 3
+        Me.txtDisplayName.TabIndex = 1
         '
         'Label11
         '
@@ -332,7 +332,7 @@ Partial Class frmCreateService
         Me.txtServiceName.Location = New System.Drawing.Point(90, 20)
         Me.txtServiceName.Name = "txtServiceName"
         Me.txtServiceName.Size = New System.Drawing.Size(237, 22)
-        Me.txtServiceName.TabIndex = 1
+        Me.txtServiceName.TabIndex = 0
         '
         'Label10
         '

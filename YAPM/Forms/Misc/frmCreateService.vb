@@ -27,7 +27,7 @@ Public Class frmCreateService
 
     Private Sub frmAddToJob_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        Common.Misc.SetToolTip(Me.OK_Button, "Add to job")
+        Common.Misc.SetToolTip(Me.OK_Button, "Create service")
         Common.Misc.SetToolTip(Me.Cancel_Button, "Cancel")
         Common.Misc.SetToolTip(Me.txtArgs, "Arguments used in command line")
         Common.Misc.SetToolTip(Me.txtDisplayName, "Service display name")

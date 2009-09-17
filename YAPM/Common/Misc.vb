@@ -960,6 +960,26 @@ Namespace Common
             Return DirectCast([Enum].Parse(GetType(System.Diagnostics.ProcessPriorityClass), p), System.Diagnostics.ProcessPriorityClass)
         End Function
 
+        ' Return byte array from securestring
+        Public Shared Function SecureStringToCharArray(ByRef str As System.Security.SecureString) As Char()
+
+            Dim bytes As Char() = New Char(str.Length - 1) {}
+            Dim ptr As IntPtr = IntPtr.Zero
+
+            Try
+                ptr = Marshal.SecureStringToBSTR(str)
+                bytes = New Char(str.Length - 1) {}
+                Marshal.Copy(ptr, bytes, 0, str.Length)
+            Finally
+                If ptr <> IntPtr.Zero Then
+                    Marshal.ZeroFreeBSTR(ptr)
+                End If
+            End Try
+
+            Return bytes
+
+        End Function
+
 
 
         ' ========================================
