@@ -4021,4 +4021,14 @@ Public Class frmMain
             Me.lvTask.Groups(1).Items(0).Selected = True
         End If
     End Sub
+
+    Private Sub MenuItemCreateService_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCreateService.Click
+        Dim frm As New frmCreateService
+        frm.TopMost = _frmMain.TopMost
+        frm.Show()
+    End Sub
+
+    Private Sub butCreateService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butCreateService.Click
+        Call MenuItemCreateService_Click(Nothing, Nothing)
+    End Sub
 End Class

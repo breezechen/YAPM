@@ -89,15 +89,26 @@ Public Class frmCreateService
     End Sub
 
     Private Sub optLocal_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optLocal.CheckedChanged
-        Me.txtUser.Enabled = optLocal.Checked
-        Me.txtMachine.Enabled = optLocal.Checked
-        Me.txtServerPassword.Enabled = optLocal.Checked
-        Me.lblMachine.Enabled = optLocal.Checked
-        Me.lblPwd.Enabled = optLocal.Checked
-        Me.lblUser.Enabled = optLocal.Checked
+        Me.txtUser.Enabled = optRemote.Checked
+        Me.txtMachine.Enabled = optRemote.Checked
+        Me.txtServerPassword.Enabled = optRemote.Checked
+        Me.lblMachine.Enabled = optRemote.Checked
+        Me.lblPwd.Enabled = optRemote.Checked
+        Me.lblUser.Enabled = optRemote.Checked
     End Sub
 
     Private Sub optRemote_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optRemote.CheckedChanged
         Call optLocal_CheckedChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub cmdBrowse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdBrowse.Click
+        ' Open a file
+        With Me.openDial
+            .Filter = "Executables (*.exe)|*.exe|All files (*.*)|*.*"
+            .Title = "Select service executable"
+            If .ShowDialog = Windows.Forms.DialogResult.OK Then
+                Me.txtPath.Text = .FileName
+            End If
+        End With
     End Sub
 End Class

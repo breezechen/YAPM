@@ -22,7 +22,7 @@ Partial Class frmCreateService
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim SecureString2 As System.Security.SecureString = New System.Security.SecureString
+        Dim SecureString5 As System.Security.SecureString = New System.Security.SecureString
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
         Me.OK_Button = New System.Windows.Forms.Button
         Me.Cancel_Button = New System.Windows.Forms.Button
@@ -51,6 +51,7 @@ Partial Class frmCreateService
         Me.Label11 = New System.Windows.Forms.Label
         Me.txtServiceName = New System.Windows.Forms.TextBox
         Me.Label10 = New System.Windows.Forms.Label
+        Me.openDial = New System.Windows.Forms.OpenFileDialog
         Me.TableLayoutPanel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -175,7 +176,7 @@ Partial Class frmCreateService
         Me.txtServerPassword.Location = New System.Drawing.Point(122, 98)
         Me.txtServerPassword.Name = "txtServerPassword"
         Me.txtServerPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtServerPassword.SecureText = SecureString2
+        Me.txtServerPassword.SecureText = SecureString5
         Me.txtServerPassword.Size = New System.Drawing.Size(205, 22)
         Me.txtServerPassword.TabIndex = 51
         Me.txtServerPassword.UseSystemPasswordChar = True
@@ -342,6 +343,12 @@ Partial Class frmCreateService
         Me.Label10.TabIndex = 0
         Me.Label10.Text = "Name"
         '
+        'openDial
+        '
+        Me.openDial.CheckFileExists = False
+        Me.openDial.CheckPathExists = False
+        Me.openDial.SupportMultiDottedExtensions = True
+        '
         'frmCreateService
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -353,9 +360,7 @@ Partial Class frmCreateService
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.MaximizeBox = False
-        Me.MinimizeBox = False
         Me.Name = "frmCreateService"
-        Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Create service"
         Me.TableLayoutPanel1.ResumeLayout(False)
@@ -394,5 +399,6 @@ Partial Class frmCreateService
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents cmdBrowse As System.Windows.Forms.Button
     Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents openDial As System.Windows.Forms.OpenFileDialog
 
 End Class

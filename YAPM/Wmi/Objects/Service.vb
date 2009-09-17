@@ -76,11 +76,11 @@ Namespace Wmi.Objects
                             If CBool(refService.GetPropertyValue(WMI_INFO_SERVICE.AcceptStop.ToString)) Then
                                 .ControlsAccepted = .ControlsAccepted Or Native.Api.NativeEnums.ServiceAccept.Stop
                             End If
-                            .CurrentState = Native.Functions.Service.GetServiceStateFromString(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.State.ToString)))
+                            .CurrentState = Native.Functions.Service.GetServiceStateFromStringH(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.State.ToString)))
                             .ProcessID = theId
                             '.ServiceFlags
                             .ServiceSpecificExitCode = CInt(refService.GetPropertyValue(WMI_INFO_SERVICE.ServiceSpecificExitCode.ToString))
-                            .ServiceType = Native.Functions.Service.GetServiceTypeFromString(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.ServiceType.ToString)))
+                            .ServiceType = Native.Functions.Service.GetServiceTypeFromStringH(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.ServiceType.ToString)))
                             .WaitHint = CInt(refService.GetPropertyValue(WMI_INFO_SERVICE.WaitHint.ToString))
                             .Win32ExitCode = CInt(refService.GetPropertyValue(WMI_INFO_SERVICE.ExitCode.ToString))
                         End With
@@ -94,10 +94,10 @@ Namespace Wmi.Objects
                         .BinaryPathName = CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.PathName.ToString))
                         '.Dependencies
                         .DisplayName = CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.DisplayName.ToString))
-                        .ErrorControl = Native.Functions.Service.GetServiceErrorControlFromString(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.ErrorControl.ToString)))
+                        .ErrorControl = Native.Functions.Service.GetServiceErrorControlFromStringH(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.ErrorControl.ToString)))
                         '.LoadOrderGroup 
                         .ServiceStartName = CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.StartName.ToString))
-                        .StartType = Native.Functions.Service.GetServiceStartTypeFromString(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.StartMode.ToString)))
+                        .StartType = Native.Functions.Service.GetServiceStartTypeFromStringH(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.StartMode.ToString)))
                         .TagID = CInt(refService.GetPropertyValue(WMI_INFO_SERVICE.TagId.ToString))
                     End With
                     _servInfos.SetConfig(conf)

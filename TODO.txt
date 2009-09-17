@@ -29,6 +29,7 @@ BUGS CRITIQUES
 	!!! reports des modules/threads/handles/windows (depuis que les maintab sont plus là) ?
 	
 BUGS NON CRITIQUES
+- ajouter "delete service" (+ elevation pour create service)
 - déconnexion remote quand recherche non terminée -> lvSearch disabled
 - refaire "update YAPM"
 - timer dans jobInfos doit avoir le même temps que dans frmMain

@@ -31,7 +31,7 @@ Namespace Native.Functions
     Public Class Service
 
         ' Get state/errorcontrol/starttype from a string as a type
-        Public Shared Function GetServiceErrorControlFromString(ByVal s As String) As Native.Api.NativeEnums.ServiceErrorControl
+        Public Shared Function GetServiceErrorControlFromStringH(ByVal s As String) As ServiceErrorControl
             Select Case s
                 Case "Ignore"
                     Return Native.Api.NativeEnums.ServiceErrorControl.Ignore
@@ -46,7 +46,7 @@ Namespace Native.Functions
             End Select
         End Function
 
-        Public Shared Function GetServiceStartTypeFromString(ByVal s As String) As Native.Api.NativeEnums.ServiceStartType
+        Public Shared Function GetServiceStartTypeFromStringH(ByVal s As String) As ServiceStartType
             Select Case s
                 Case "Boot"
                     Return Native.Api.NativeEnums.ServiceStartType.BootStart
@@ -61,7 +61,7 @@ Namespace Native.Functions
             End Select
         End Function
 
-        Public Shared Function GetServiceStateFromString(ByVal s As String) As Native.Api.NativeEnums.ServiceState
+        Public Shared Function GetServiceStateFromStringH(ByVal s As String) As ServiceState
             Select Case s
                 Case "Stopped"
                     Return Native.Api.NativeEnums.ServiceState.Stopped
@@ -82,7 +82,7 @@ Namespace Native.Functions
             End Select
         End Function
 
-        Public Shared Function GetServiceTypeFromString(ByVal s As String) As Native.Api.NativeEnums.ServiceType
+        Public Shared Function GetServiceTypeFromStringH(ByVal s As String) As ServiceType
             Select Case s
                 Case "Kernel Driver"
                     Return Native.Api.NativeEnums.ServiceType.KernelDriver
@@ -99,6 +99,22 @@ Namespace Native.Functions
                 Case "Interactive Process"
                     Return Native.Api.NativeEnums.ServiceType.InteractiveProcess
             End Select
+        End Function
+
+        Public Shared Function GetServiceErrorControlFromString(ByVal s As String) As ServiceErrorControl
+            Return DirectCast([Enum].Parse(GetType(ServiceErrorControl), s), ServiceErrorControl)
+        End Function
+
+        Public Shared Function GetServiceStartTypeFromString(ByVal s As String) As ServiceStartType
+            Return DirectCast([Enum].Parse(GetType(ServiceStartType), s), ServiceStartType)
+        End Function
+
+        Public Shared Function GetServiceStateFromString(ByVal s As String) As ServiceState
+            Return DirectCast([Enum].Parse(GetType(ServiceState), s), ServiceState)
+        End Function
+
+        Public Shared Function GetServiceTypeFromString(ByVal s As String) As ServiceType
+            Return DirectCast([Enum].Parse(GetType(ServiceType), s), ServiceType)
         End Function
 
     End Class
