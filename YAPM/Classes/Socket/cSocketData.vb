@@ -98,6 +98,10 @@ Option Strict On
         [MemoryFree]
         [MemoryChangeProtectionType]
 
+        ' Job functions
+        [JobTerminate]
+        [JobAddProcessToJob]
+
         ' Request lists
         [RequestProcessList]
         [RequestServiceList]

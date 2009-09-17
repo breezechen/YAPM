@@ -55,12 +55,12 @@ Public Class asyncCallbackJobTerminateJob
 
         Select Case con.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                'Try
-                '    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.HandleClose, pObj.pid, pObj.handle)
-                '    con.ConnectionObj.Socket.Send(cDat)
-                'Catch ex As Exception
-                '    MsgBox(ex.Message)
-                'End Try
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.JobTerminate, pObj.jobName)
+                    con.ConnectionObj.Socket.Send(cDat)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 

@@ -108,6 +108,8 @@ Public Class frmServer
             cPrivilege.Connection = _priviCon
             cTask.Connection = _taskCon
             cLogItem.Connection = _logCon
+            cJob.Connection = _jobCon
+            cJobLimit.Connection = _jobLimitsCon
 
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -838,6 +840,13 @@ Public Class frmServer
 
                 ' ===== Other functions
                 Select Case cData.Order
+                    Case cSocketData.OrderType.JobTerminate
+                        Dim name As String = CType(cData.Param1, String)
+                        Try
+                            cJob.SharedLRTerminateJob(name)
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
                     Case cSocketData.OrderType.MemoryFree
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim address As IntPtr = CType(cData.Param2, IntPtr)
@@ -945,13 +954,13 @@ Public Class frmServer
 
 
                 ' Send an ACK for orders executed (except enumerations)
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Ack, , ret)
-                    cDat._id = _idToSend
-                    sock.Send(cDat)
-                Catch ex As Exception
-                    MsgBox(ex.Message)
-                End Try
+                'Try
+                '    Dim cDat As New cSocketData(cSocketData.DataType.Ack, , ret)
+                '    cDat._id = _idToSend
+                '    sock.Send(cDat)
+                'Catch ex As Exception
+                '    MsgBox(ex.Message)
+                'End Try
 
 
             End If

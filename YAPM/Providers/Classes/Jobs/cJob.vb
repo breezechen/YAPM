@@ -146,6 +146,33 @@ Public Class cJob
 
 #End Region
 
+#Region "Shared local functions"
+
+    Private Shared _sharedTermJ As asyncCallbackJobTerminateJob
+    Public Shared Function SharedLRTerminateJob(ByVal name As String) As Integer
+
+        If _sharedTermJ Is Nothing Then
+            _sharedTermJ = New asyncCallbackJobTerminateJob(New asyncCallbackJobTerminateJob.HasTerminatedJob(AddressOf sharedKillJobDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _sharedTermJ.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackJobTerminateJob.poolObj(name, newAction))
+
+        AddSharedPendingTask(newAction, t)
+    End Function
+    Private Shared Sub sharedKillJobDone(ByVal Success As Boolean, ByVal jobName As String, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not kill job " & jobName)
+        End If
+        RemoveSharedPendingTask(actionNumber)
+    End Sub
+
+#End Region
+
 #Region "All actions on job"
 
     ' Add a process to the job
