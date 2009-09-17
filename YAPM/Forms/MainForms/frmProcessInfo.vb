@@ -2551,6 +2551,15 @@ Public Class frmProcessInfo
             If Me.SplitContainer.Panel2Collapsed Then
                 Call showFindPanel()
             End If
+        ElseIf e.KeyCode = Keys.Delete Then
+            If My.Settings.WarnDangerousActions Then
+                If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                    Exit Sub
+                End If
+            End If
+            For Each it As cHandle In Me.lvHandles.GetSelectedItems
+                it.CloseHandle()
+            Next
         End If
     End Sub
 
