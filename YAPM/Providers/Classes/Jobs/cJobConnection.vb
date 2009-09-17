@@ -55,7 +55,7 @@ Public Class cJobConnection
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, jobInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
-    Public Delegate Sub HasEnumeratedProcInJobEventHandler(ByVal Success As Boolean, ByVal List As List(Of Integer), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Public Delegate Sub HasEnumeratedProcInJobEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
@@ -155,11 +155,17 @@ Public Class cJobConnection
             Exit Sub
         End If
 
-        If data.Type = cSocketData.DataType.RequestedList AndAlso _
-            data.Order = cSocketData.OrderType.RequestJobList Then
-            If _instanceId = data.InstanceId Then
-                ' OK it is for me
-                _jobEnum.GotListFromSocket(data.GetList, data.GetKeys)
+        If data.Type = cSocketData.DataType.RequestedList Then
+            If data.Order = cSocketData.OrderType.RequestJobList Then
+                If _instanceId = data.InstanceId Then
+                    ' OK it is for me
+                    _jobEnum.GotListFromSocket(data.GetList, data.GetKeys)
+                End If
+            ElseIf data.Order = cSocketData.OrderType.RequestProcessesInJobList Then
+                If _instanceId = data.InstanceId Then
+                    ' OK it is for me
+                    _procInJobEnum.GotListFromSocket(data.GetList, data.GetKeys)
+                End If
             End If
         End If
     End Sub

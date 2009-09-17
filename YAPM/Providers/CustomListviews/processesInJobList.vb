@@ -178,7 +178,7 @@ Public Class processesInJobList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal List As List(Of Integer), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         generalLvSemaphore.WaitOne()
 
@@ -204,10 +204,10 @@ Public Class processesInJobList
 
 
         ' Now add new items to dictionnary
-        For Each pid As Integer In List
-            If Not (_dico.ContainsKey(pid.ToString)) Then
+        For Each cp As processInfos In Dico.Values
+            If Not (_dico.ContainsKey(cp.ProcessId.ToString)) Then
                 ' Add to dico
-                _dicoNew.Add(pid.ToString, cProcess.GetProcessById(pid))
+                _dicoNew.Add(cp.ProcessId.ToString, cProcess.GetProcessById(cp.ProcessId))
             End If
 
         Next
@@ -215,7 +215,7 @@ Public Class processesInJobList
 
         ' Now remove deleted items from dictionnary
         For Each z As String In _dico.Keys
-            If List.Contains(CInt(Val(z))) = False Then
+            If Dico.ContainsKey(z) = False Then
                 ' Remove from dico
                 _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
             End If

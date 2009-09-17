@@ -214,7 +214,12 @@ Public Class cJob
         ' NOT GOOD WAY
         ' NEED TO BE GENERIC AND ASYNC
 
-        _procIds = Native.Objects.Job.GetProcessesInJobByName(_jobInfos.Name)
+        Dim _dico As Dictionary(Of String, processInfos) = Native.Objects.Job.GetProcessesInJobByName(_jobInfos.Name)
+        Dim tmpProcIds As New List(Of Integer)
+        For Each cp As processInfos In _dico.Values
+            tmpProcIds.Add(cp.ProcessId)
+        Next
+        _procIds = tmpProcIds
         basicAcIoInfo = Native.Objects.Job.GetJobBasicAndIoAccountingInformationByName(_jobInfos.Name)
         basicLimitInfo = Native.Objects.Job.GetJobBasicLimitInformationByName(_jobInfos.Name)
 

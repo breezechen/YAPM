@@ -196,7 +196,7 @@ Public Class frmJobInfo
         _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
         _notWMI = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
 
-        Me.Timer.Enabled = _local
+        Me.Timer.Enabled = True
         Me.cmdSetLimits.Enabled = _notWMI
 
     End Sub

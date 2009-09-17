@@ -114,6 +114,7 @@ Option Strict On
         [RequestSearchList]
         [RequestLogList]
         [RequestJobList]
+        [RequestProcessesInJobList]
 
         ' General commands
         [GeneralCommandSearch]

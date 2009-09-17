@@ -52,10 +52,10 @@ Public Class asyncCallbackProcessesInJobEnumerate
     ' When socket got a list  !
     Private _poolObj As poolObj
     Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
-        Dim dico As New Dictionary(Of String, networkInfos)
+        Dim dico As New Dictionary(Of String, processInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
-                dico.Add(keys(x), DirectCast(lst(x), networkInfos))
+                dico.Add(keys(x), DirectCast(lst(x), processInfos))
             Next
         End If
         If deg IsNot Nothing AndAlso ctrl.Created Then _
@@ -75,14 +75,14 @@ Public Class asyncCallbackProcessesInJobEnumerate
         Select Case con.ConnectionObj.ConnectionType
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                '_poolObj = pObj
-                'Try
-                '    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestNetworkConnectionList, pObj.pid, pObj.all)
-                '    cDat.InstanceId = _instanceId   ' Instance which request the list
-                '    con.ConnectionObj.Socket.Send(cDat)
-                'Catch ex As Exception
-                '    MsgBox(ex.Message)
-                'End Try
+                _poolObj = pObj
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessesInJobList, pObj.jobName)
+                    cDat.InstanceId = _instanceId   ' Instance which request the list
+                    con.ConnectionObj.Socket.Send(cDat)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
@@ -90,7 +90,7 @@ Public Class asyncCallbackProcessesInJobEnumerate
             Case Else
                 ' Local
 
-                Dim _dico As List(Of Integer) = _
+                Dim _dico As Dictionary(Of String, processInfos) = _
                         Native.Objects.Job.GetProcessesInJobByName(pObj.jobName)
 
                 If deg IsNot Nothing Then

@@ -328,8 +328,8 @@ Namespace Native.Objects
         End Function
 
         ' Enumerate Processes in a job
-        Public Shared Function GetProcessesInJobByName(ByVal jobName As String) As List(Of Integer)
-            Dim pids As New List(Of Integer)
+        Public Shared Function GetProcessesInJobByName(ByVal jobName As String) As Dictionary(Of String, processInfos)
+            Dim procs As New Dictionary(Of String, processInfos)
             Dim ret As Integer
 
             ' Query valid handle
@@ -348,7 +348,8 @@ Namespace Native.Objects
                         memAlloc.ReadStruct(Of NativeStructs.JobObjectBasicProcessIdList)()
 
                     For i As Integer = 0 To list.ProcessIdsCount - 1
-                        pids.Add(memAlloc.ReadInt32(&H8, i))     ' &h8 cause of two first Int32
+                        Dim pid As Integer = memAlloc.ReadInt32(&H8, i)
+                        procs.Add(pid.ToString, cProcess.GetProcessById(pid).Infos)     ' &h8 cause of two first Int32
                     Next
                 End If
 
@@ -359,7 +360,7 @@ Namespace Native.Objects
             ' End using valid handle
             EndUsingValidJobHandle()
 
-            Return pids
+            Return procs
         End Function
 
         ' Query some informations
