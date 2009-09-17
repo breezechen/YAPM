@@ -144,7 +144,7 @@ Public Class jobList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, cJob), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, jobInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         generalLvSemaphore.WaitOne()
 
@@ -168,10 +168,10 @@ Public Class jobList
 
 
         ' Now add new items to dictionnary
-        For Each pair As System.Collections.Generic.KeyValuePair(Of String, cJob) In Dico
+        For Each pair As System.Collections.Generic.KeyValuePair(Of String, jobInfos) In Dico
             If Not (_dico.ContainsKey(pair.Key)) Then
                 ' Add to dico
-                _dicoNew.Add(pair.Key, pair.Value)
+                _dicoNew.Add(pair.Key, New cJob(pair.Value))
             End If
         Next
 
@@ -231,7 +231,7 @@ Public Class jobList
             If _dico.ContainsKey(it.Name) Then
                 Dim _item As cJob = _dico.Item(it.Name)
                 If Dico.ContainsKey(it.Name) Then
-                    _item.Merge(Dico.Item(it.Name).Infos)
+                    _item.Merge(Dico.Item(it.Name))
                 End If
                 Dim __info As String = Nothing
                 For Each isub In it.SubItems

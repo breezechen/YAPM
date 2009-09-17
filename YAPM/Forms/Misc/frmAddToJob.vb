@@ -60,15 +60,16 @@ Public Class frmAddToJob
 
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
 
-        If String.IsNullOrEmpty(Me.txtJobName.Text) Then
-            MsgBox("Name must be not null.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Create job")
-            Exit Sub
-        End If
-
         ' Now add the processes to job
         ' Add to job
         Dim name As String = ""
         If tab.SelectedIndex = 0 Then
+
+            If String.IsNullOrEmpty(Me.txtJobName.Text) Then
+                MsgBox("Name must be not null.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Create job")
+                Exit Sub
+            End If
+
             ' New job
             If optAddGlobal.Checked Then
                 name = "Global\" & Me.txtJobName.Text

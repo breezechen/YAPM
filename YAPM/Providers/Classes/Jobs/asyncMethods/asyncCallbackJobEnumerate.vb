@@ -73,14 +73,14 @@ Public Class asyncCallbackJobEnumerate
         Select Case con.ConnectionObj.ConnectionType
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                '_poolObj = pObj
-                'Try
-                '    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestNetworkConnectionList, pObj.pid, pObj.all)
-                '    cDat.InstanceId = _instanceId   ' Instance which request the list
-                '    con.ConnectionObj.Socket.Send(cDat)
-                'Catch ex As Exception
-                '    MsgBox(ex.Message)
-                'End Try
+                _poolObj = pObj
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestJobList)
+                    cDat.InstanceId = _instanceId   ' Instance which request the list
+                    con.ConnectionObj.Socket.Send(cDat)
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
@@ -88,7 +88,7 @@ Public Class asyncCallbackJobEnumerate
             Case Else
                 ' Local
 
-                Dim _dico As Dictionary(Of String, cJob) = _
+                Dim _dico As Dictionary(Of String, jobInfos) = _
                         Native.Objects.Job.EnumerateJobs
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _

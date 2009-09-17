@@ -323,17 +323,8 @@ Namespace Native.Objects
         End Function
 
         ' Enumerate created jobs
-        Public Shared Function EnumerateJobs(Optional ByVal refreshNow As Boolean = False) As Dictionary(Of String, cJob)
-            Dim ret As Dictionary(Of String, cJob) = GetJobList()
-
-            ' Refresh all infos on job
-            If refreshNow Then
-                For Each j As cJob In ret.Values
-                    j.Refresh()
-                Next
-            End If
-
-            Return ret
+        Public Shared Function EnumerateJobs() As Dictionary(Of String, jobInfos)
+            Return GetJobList()
         End Function
 
         ' Enumerate Processes in a job
@@ -424,14 +415,14 @@ Namespace Native.Objects
         ' ========================================
 
         ' Return list of jobs
-        Private Shared Function GetJobList() As Dictionary(Of String, cJob)
+        Private Shared Function GetJobList() As Dictionary(Of String, jobInfos)
             Dim Length As Integer
             Dim x As Integer
             Dim mCount As Integer
             Dim ret As Integer
             Dim ObjName As NativeStructs.ObjectNameInformation
             Dim Handle As NativeStructs.SystemHandleEntry
-            Dim buf As New Dictionary(Of String, cJob)
+            Dim buf As New Dictionary(Of String, jobInfos)
             Dim hProcess As IntPtr
             Dim noNameJobIndex As Integer = 0
 
@@ -520,8 +511,7 @@ Namespace Native.Objects
                             ' The key is the name
                             If Not (String.IsNullOrEmpty(theName)) Then
                                 If buf.ContainsKey(theName) = False Then
-                                    Dim jj As cJob = New cJob(New jobInfos(theName))
-                                    buf.Add(theName, jj)
+                                    buf.Add(theName, New jobInfos(theName))
                                 End If
 
                                 ' Add handle to list
@@ -558,8 +548,7 @@ Namespace Native.Objects
                             ' The key is theName
                             If String.IsNullOrEmpty(theName) = False Then
                                 If buf.ContainsKey(theName) = False Then
-                                    Dim jj As cJob = New cJob(New jobInfos(theName))
-                                    buf.Add(theName, jj)
+                                    buf.Add(theName, New jobInfos(theName))
                                 End If
 
                                 ' Add the handle to the list of duplicated handles
@@ -580,8 +569,7 @@ Namespace Native.Objects
                                 theName = "(no name)[" & noNameJobIndex.ToString & "]"
 
                                 If buf.ContainsKey(theName) = False Then
-                                    Dim jj As cJob = New cJob(New jobInfos(theName))
-                                    buf.Add(theName, jj)
+                                    buf.Add(theName, New jobInfos(theName))
                                 End If
 
                                 ' Add the handle to the list of duplicated handles

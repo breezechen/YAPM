@@ -2613,10 +2613,10 @@ Public Class frmMain
         Me.butProcessAffinity.Enabled = Me._notWMI
         Me.butStopProcess.Enabled = Me._notWMI
         Me.butResumeProcess.Enabled = Me._notWMI
-        Me.pageJobs.Enabled = _local AndAlso (cEnvironment.HasYAPMDebugPrivilege)
+        Me.pageJobs.Enabled = (_local And (cEnvironment.HasYAPMDebugPrivilege)) OrElse Not (_local)
         Me.RBJobActions.Enabled = Me.pageJobs.Enabled
         Me.RBJobDisplay.Enabled = Me.pageJobs.Enabled
-        Me.RBJobPrivileges.Enabled = Not (Me.pageJobs.Enabled)
+        Me.RBJobPrivileges.Enabled = _local AndAlso Not (cEnvironment.HasYAPMDebugPrivilege)
         Me.pageNetwork.Enabled = _notWMI
         Me.pageTasks.Enabled = _notWMI
         Me.pageSearch.Enabled = _notWMI

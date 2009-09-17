@@ -51,6 +51,8 @@ Public Class frmServer
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
     Private _logCon As New cLogConnection(Me, theConnection, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedLog))
+    Private _jobCon As New cJobConnection(Me, theConnection, New cJobConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedJobs))
+
 
     ' Connect to local machine
     Private Sub connectLocal()
@@ -122,6 +124,24 @@ Public Class frmServer
                 cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat._id = _TheIdToSend
                 cDat.SetEnvVarList(Dico)
+                sock.Send(cDat)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        Else
+            ' Send an error
+        End If
+
+    End Sub
+
+    Private Sub HasEnumeratedJobs(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, jobInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestJobList)
+                cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat._id = _TheIdToSend
+                cDat.SetJobList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
                 MsgBox(ex.Message)
@@ -436,6 +456,9 @@ Public Class frmServer
                         Dim pid() As Integer = CType(cData.Param1, Integer())
                         Dim all As Boolean = CBool(cData.Param2)
                         Call _networkCon.Enumerate(True, pid, all, _forInstanceId)
+                        Exit Sub
+                    Case cSocketData.OrderType.RequestJobList
+                        Call _jobCon.Enumerate(True, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestServiceList
                         Dim pid As Integer = CType(cData.Param1, Integer)

@@ -124,20 +124,21 @@ Public Class cJob
 
     ' Get a job by its name
     Public Shared Function GetJobByName(ByVal jobName As String) As cJob
-        For Each cJ As cJob In Native.Objects.Job.EnumerateJobs.Values
-            If cJ.Infos.Name = jobName Then
-                Return cJ
+        For Each cJ As jobInfos In Native.Objects.Job.EnumerateJobs.Values
+            If cJ.Name = jobName Then
+                Return New cJob(cJ)
             End If
         Next
         Return Nothing
     End Function
 
     ' Return job a process (if any)
-    ' BUGGY -> Handle of this cJob retrieved is not up-to-date (closed)
     Public Shared Function GetProcessJobById(ByVal pid As Integer) As cJob
-        For Each cJ As cJob In Native.Objects.Job.EnumerateJobs(True).Values
-            If cJ.PidList.Contains(pid) Then
-                Return cJ
+        For Each cJ As jobInfos In Native.Objects.Job.EnumerateJobs.Values
+            Dim cJJ As New cJob(cJ)
+            cJJ.Refresh()
+            If cJJ.PidList.Contains(pid) Then
+                Return cJJ
             End If
         Next
         Return Nothing

@@ -54,7 +54,7 @@ Public Class cJobConnection
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, cJob), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, jobInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
     Public Delegate Sub HasEnumeratedProcInJobEventHandler(ByVal Success As Boolean, ByVal List As List(Of Integer), ByVal errorMessage As String, ByVal instanceId As Integer)
 
     Public Connected As ConnectedEventHandler
@@ -156,7 +156,7 @@ Public Class cJobConnection
         End If
 
         If data.Type = cSocketData.DataType.RequestedList AndAlso _
-            data.Order = cSocketData.OrderType.RequestJobConnectionList Then
+            data.Order = cSocketData.OrderType.RequestJobList Then
             If _instanceId = data.InstanceId Then
                 ' OK it is for me
                 _jobEnum.GotListFromSocket(data.GetList, data.GetKeys)
