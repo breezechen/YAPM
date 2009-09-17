@@ -164,6 +164,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Forms.Ribbon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>bin\Release\System.Windows.Forms.Ribbon.dll</HintPath>
@@ -530,6 +531,12 @@
     </Compile>
     <Compile Include="Forms\Misc\frmAddToJob.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main\YAPMService.Designer.vb">
+      <DependentUpon>YAPMService.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Main\YAPMService.vb">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>

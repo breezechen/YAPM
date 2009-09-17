@@ -50,9 +50,15 @@ Public Module Program
         Private replaceTaskMgrValue As Boolean = False
         Private oneInstance As Boolean = True
         Private useDriver As Boolean = True
+        Private serviceMode As Boolean = False
         Public ReadOnly Property ModeServer() As Boolean
             Get
                 Return isServerMode
+            End Get
+        End Property
+        Public ReadOnly Property ModeServerService() As Boolean
+            Get
+                Return serviceMode
             End Get
         End Property
         Public ReadOnly Property AutoConnect() As Boolean
@@ -114,6 +120,8 @@ Public Module Program
                     oneInstance = False
                 ElseIf parameters(i).ToUpperInvariant = "-NODRIVER" Then
                     useDriver = False
+                ElseIf parameters(i).ToUpperInvariant = "-SERVERSERVICE" Then
+                    serviceMode = True
                 End If
             Next
         End Sub
@@ -248,106 +256,126 @@ Public Module Program
 
 
         ' ======= Close application if there is a previous instance of YAPM running
-        If _progParameters.OnlyOneInstance And cEnvironment.IsAlreadyRunning Then
-            Exit Sub
-        End If
+        If _progParameters.ModeServerService = False Then
+
+            If _progParameters.OnlyOneInstance And cEnvironment.IsAlreadyRunning Then
+                Exit Sub
+            End If
 
 
 
-        ' ======= Some basic initialisations
-        Application.EnableVisualStyles()
-        Application.SetCompatibleTextRenderingDefault(False)    ' Use GDI, not GDI+
+            ' ======= Some basic initialisations
+            Application.EnableVisualStyles()
+            Application.SetCompatibleTextRenderingDefault(False)    ' Use GDI, not GDI+
 
 
 
-        ' ======= Set handler for exceptions
-        AddHandler Application.ThreadException, AddressOf MYThreadHandler
-        AddHandler AppDomain.CurrentDomain.UnhandledException, AddressOf MYExnHandler
-        Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException)
+            ' ======= Set handler for exceptions
+            AddHandler Application.ThreadException, AddressOf MYThreadHandler
+            AddHandler AppDomain.CurrentDomain.UnhandledException, AddressOf MYExnHandler
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException)
 
 
 
-        ' ======= Parse port files
-        Call cNetwork.ParsePortTextFile()
+            ' ======= Parse port files
+            Call cNetwork.ParsePortTextFile()
 
 
 
-        ' ======= Enable some privileges
-        cEnvironment.RequestPrivilege(cEnvironment.PrivilegeToRequest.DebugPrivilege)
-        cEnvironment.RequestPrivilege(cEnvironment.PrivilegeToRequest.ShutdownPrivilege)
+            ' ======= Enable some privileges
+            cEnvironment.RequestPrivilege(cEnvironment.PrivilegeToRequest.DebugPrivilege)
+            cEnvironment.RequestPrivilege(cEnvironment.PrivilegeToRequest.ShutdownPrivilege)
 
 
 
-        ' ======= Instanciate all classes
+            ' ======= Instanciate all classes
 
-        ' Common classes
-        theConnection = New cConnection     ' The cConnection instance of the connection
-        _systemInfo = New cSystemInfo       ' System informations
-        _ConnectionForm = New frmConnection(theConnection)
-
-
-        ' FOR NOW, we use kernel only on 32 bits systems...
-        Native.Objects.Handle.HandleEnumerationClass = _
-                    New Native.Objects.HandleEnumeration(_progParameters.UseKernelDriver And _
-                                                         cEnvironment.Is32Bits)
+            ' Common classes
+            theConnection = New cConnection     ' The cConnection instance of the connection
+            _systemInfo = New cSystemInfo       ' System informations
+            _ConnectionForm = New frmConnection(theConnection)
 
 
-        ' Classes for client only
-        If _progParameters.ModeServer = False Then
-            _pref = New Pref                    ' Preferences
-            _hotkeys = New cHotkeys             ' Hotkeys
-            _log = New cLog                     ' Log instance
-            _trayIcon = New cTrayIcon(2)        ' Tray icons
-            _frmMain = New frmMain              ' Main form
+            ' FOR NOW, we use kernel only on 32 bits systems...
+            Native.Objects.Handle.HandleEnumerationClass = _
+                        New Native.Objects.HandleEnumeration(_progParameters.UseKernelDriver And _
+                                                             cEnvironment.Is32Bits)
+
+
+            ' Classes for client only
+            If _progParameters.ModeServer = False Then
+                _pref = New Pref                    ' Preferences
+                _hotkeys = New cHotkeys             ' Hotkeys
+                _log = New cLog                     ' Log instance
+                _trayIcon = New cTrayIcon(2)        ' Tray icons
+                _frmMain = New frmMain              ' Main form
+            Else
+                _frmMain = New frmMain              ' Main form
+                _frmServer = New frmServer          ' Server form (server mode)
+            End If
+
+
+
+            ' ======= Load preferences
+            If My.Settings.ShouldUpgrade Then
+                Try
+                    ' Try to update settings from a previous version of YAPM
+                    My.Settings.Upgrade()
+                Catch ex As Exception
+                    '
+                End Try
+                My.Settings.ShouldUpgrade = False
+                My.Settings.Save()
+            End If
+            If _progParameters.ModeServer = False Then
+                Try
+                    If My.Settings.FirstTime Then
+                        MsgBox(Pref.MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
+                        My.Settings.FirstTime = False
+                        Program.Preferences.Save()
+                    End If
+                    Program.Preferences.Apply()
+                    cProcess.BuffSize = My.Settings.HistorySize
+                Catch ex As Exception
+                    ' Preference file corrupted/missing
+                    MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
+                    Program.Preferences.SetDefault()
+                End Try
+            End If
+
+
+
+            ' ======= Read hotkeys & state based actions from XML files
+            If _progParameters.ModeServer = False Then
+                Call frmHotkeys.readHotkeysFromXML()
+                'Call frmBasedStateAction.readStateBasedActionFromXML()
+            End If
+
+
+
+            ' ======= Show main form & start application
+            If _progParameters.ModeServer Then
+                Application.Run(_frmServer)
+            Else
+                Application.Run(_frmMain)
+            End If
+
         Else
-            _frmMain = New frmMain              ' Main form
-            _frmServer = New frmServer          ' Server form (server mode)
-        End If
+            ' Then YAPM is a service !
 
+            ' ======= Instanciate all classes
 
+            ' Common classes
+            theConnection = New cConnection     ' The cConnection instance of the connection
+            _systemInfo = New cSystemInfo       ' System informations
+            _ConnectionForm = New frmConnection(theConnection)
 
-        ' ======= Load preferences
-        If My.Settings.ShouldUpgrade Then
-            Try
-                ' Try to update settings from a previous version of YAPM
-                My.Settings.Upgrade()
-            Catch ex As Exception
-                '
-            End Try
-            My.Settings.ShouldUpgrade = False
-            My.Settings.Save()
-        End If
-        If _progParameters.ModeServer = False Then
-            Try
-                If My.Settings.FirstTime Then
-                    MsgBox(Pref.MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
-                    My.Settings.FirstTime = False
-                    Program.Preferences.Save()
-                End If
-                Program.Preferences.Apply()
-                cProcess.BuffSize = My.Settings.HistorySize
-            Catch ex As Exception
-                ' Preference file corrupted/missing
-                MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
-                Program.Preferences.SetDefault()
-            End Try
-        End If
+            ' FOR NOW, we use kernel only on 32 bits systems...
+            Native.Objects.Handle.HandleEnumerationClass = _
+                        New Native.Objects.HandleEnumeration(False)
 
-
-
-        ' ======= Read hotkeys & state based actions from XML files
-        If _progParameters.ModeServer = False Then
-            Call frmHotkeys.readHotkeysFromXML()
-            'Call frmBasedStateAction.readStateBasedActionFromXML()
-        End If
-
-
-
-        ' ======= Show main form & start application
-        If _progParameters.ModeServer Then
-            Application.Run(_frmServer)
-        Else
-            Application.Run(_frmMain)
+            Dim service As New YAPMLauncherService.InteractiveProcess
+            ServiceProcess.ServiceBase.Run(service)
         End If
 
     End Sub
