@@ -350,7 +350,7 @@ Public Class serviceList
             .ImageKey = "service"
             .ForeColor = _foreColor
             .Tag = key
-            .Group = Me.Groups(0)
+            '.Group = Me.Groups(0)
         End With
 
         Return item
