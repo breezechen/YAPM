@@ -1766,7 +1766,9 @@ Public Class cProcess
 
     ' Return forecolor
     Public Overrides Function GetForeColor() As System.Drawing.Color
-        If Me.HaveFullControl Then
+        If Me.HaveFullControl OrElse _
+                    cProcess.Connection.ConnectionObj.ConnectionType <> _
+                    cConnection.TypeOfConnection.LocalConnection Then
             Return NON_BLACK_COLOR
         Else
             Return Drawing.Color.Gray
