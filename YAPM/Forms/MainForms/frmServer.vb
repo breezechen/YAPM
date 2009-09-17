@@ -845,7 +845,15 @@ Public Class frmServer
                         Try
                             cJob.SharedLRTerminateJob(name)
                         Catch ex As Exception
-                            ' Process does not exist
+                            ' 
+                        End Try
+                    Case cSocketData.OrderType.JobAddProcessToJob
+                        Dim name As String = CType(cData.Param1, String)
+                        Dim pid() As Integer = CType(cData.Param2, Integer())
+                        Try
+                            cJob.SharedLRAddProcess(name, pid)
+                        Catch ex As Exception
+                            ' 
                         End Try
                     Case cSocketData.OrderType.MemoryFree
                         Dim pid As Integer = CType(cData.Param1, Integer)

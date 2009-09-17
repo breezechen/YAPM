@@ -148,6 +148,7 @@ Public Class cJob
 
 #Region "Shared local functions"
 
+    ' Terminate job
     Private Shared _sharedTermJ As asyncCallbackJobTerminateJob
     Public Shared Function SharedLRTerminateJob(ByVal name As String) As Integer
 
@@ -167,6 +168,30 @@ Public Class cJob
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not kill job " & jobName)
+        End If
+        RemoveSharedPendingTask(actionNumber)
+    End Sub
+
+    ' Add a process to the job
+    Private Shared _addedShared As asyncCallbackJobAddProcess
+    Public Shared Function SharedLRAddProcess(ByVal jobName As String, ByVal pids() As Integer) As Integer
+
+        If _addedShared Is Nothing Then
+            _addedShared = New asyncCallbackJobAddProcess(New asyncCallbackJobAddProcess.HasAddedProcessesToJob(AddressOf sharedAddedJobDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _addedShared.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        AddSharedPendingTask(newAction, t)
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackJobAddProcess.poolObj(pids, jobName, newAction))
+
+    End Function
+    Private Shared Sub sharedAddedJobDone(ByVal Success As Boolean, ByVal pid() As Integer, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not add processes to job")
         End If
         RemoveSharedPendingTask(actionNumber)
     End Sub

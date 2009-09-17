@@ -7,6 +7,7 @@ CHANGES FROM 2.1.0
 - Remote monitoring with server is now secured
 - Removed all 'time' limitations concerning remote monitoring (auto refresh is now also active when monitoring remote machine)
 - Now Handles/Threads/Modules/Windows main tabs have been removed so that the UI is less confusing and simplified
+- Added Job management for remote monitoring
 - Added 'Freeze list' & 'Search item' features in process' detailed view
 - Now file signature verification can be disabled
 - Removed 100KB limit for history buffer

@@ -1998,7 +1998,7 @@ Public Class frmMain
             Me.MenuItemProcKillByMethod.Enabled = selectionIsNotNothing AndAlso _notWMI
 
             ' Job menuitems
-            Me.MenuItemProcJob.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemProcJob.Enabled = selectionIsNotNothing AndAlso _notWMI
             If Me.lvProcess.SelectedItems.Count <> 1 Then
                 Me.MenuItemJobMng.Enabled = True
             Else
