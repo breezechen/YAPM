@@ -244,6 +244,7 @@ Partial Class frmJobInfo
         ListViewGroup2.Name = "gpSearch"
         Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvProcess.HideSelection = False
+        Me.lvProcess.IsConnected = False
         Me.lvProcess.Job = Nothing
         Me.lvProcess.Location = New System.Drawing.Point(3, 18)
         Me.lvProcess.Name = "lvProcess"
@@ -948,7 +949,7 @@ Partial Class frmJobInfo
         'cmdSetLimits
         '
         Me.cmdSetLimits.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdSetLimits.Location = New System.Drawing.Point(5, 3)
+        Me.cmdSetLimits.Location = New System.Drawing.Point(5, 1)
         Me.cmdSetLimits.Name = "cmdSetLimits"
         Me.cmdSetLimits.Size = New System.Drawing.Size(72, 23)
         Me.cmdSetLimits.TabIndex = 19
@@ -983,6 +984,7 @@ Partial Class frmJobInfo
         ListViewGroup4.Name = "gpSearch"
         Me.lvLimits.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvLimits.HideSelection = False
+        Me.lvLimits.IsConnected = False
         Me.lvLimits.JobName = Nothing
         Me.lvLimits.Location = New System.Drawing.Point(3, 18)
         Me.lvLimits.Name = "lvLimits"
