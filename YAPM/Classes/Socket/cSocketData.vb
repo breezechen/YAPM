@@ -101,6 +101,7 @@ Option Strict On
         ' Job functions
         [JobTerminate]
         [JobAddProcessToJob]
+        [JobSetLimits]
 
         ' Request lists
         [RequestProcessList]

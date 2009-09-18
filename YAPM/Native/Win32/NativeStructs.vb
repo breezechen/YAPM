@@ -62,7 +62,7 @@ Namespace Native.Api
 #Region "Declarations used for jobs"
 
         ' http://msdn.microsoft.com/en-us/library/ms684155(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential)> _
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
         Public Structure JobObjectEndOfJobTimeInformation
             Public EndOfJobTimeAction As EndOfJobTimeActionFlag
         End Structure
@@ -102,7 +102,7 @@ Namespace Native.Api
         End Structure
 
         ' http://msdn.microsoft.com/en-us/library/ms684150(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential)> _
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
         Public Structure JobObjectBasicProcessIdList
             Public AssignedProcessesCount As Integer
             Public ProcessIdsCount As Integer
@@ -111,13 +111,13 @@ Namespace Native.Api
         End Structure
 
         ' http://msdn.microsoft.com/en-us/library/ms684152(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential)> _
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
         Public Structure JobObjectBasicUiRestrictions
             Public UIRestrictionsClass As NativeEnums.JobObjectBasicUiRestrictions
         End Structure
 
         ' http://msdn.microsoft.com/en-us/library/ms684156(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential)> _
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
         Public Structure JobObjectExtendedLimitInformation
             Public BasicLimitInformation As JobObjectBasicLimitInformation
             Public IoInfo As IoCounters

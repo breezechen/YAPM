@@ -128,7 +128,7 @@ Public Class frmSetJobLimits
             End If
             If pair.Key = "Affinity" Then
                 Me.chkAffinity.Checked = True
-                Me.valAffinity.Value = CInt(pair.Value.Infos.ValueObject)
+                Me.valAffinity.Value = CType(pair.Value.Infos.ValueObject, IntPtr).ToInt32
             End If
             If pair.Key = "BreakawayOk" Then
                 Me.chkBreakawayOK.Checked = True
@@ -258,6 +258,9 @@ Public Class frmSetJobLimits
     Private Sub setLimits()
         ' Set limits to the job
         Dim struct1 As New NativeStructs.JobObjectBasicUiRestrictions
+        Dim struct2 As New NativeStructs.JobObjectExtendedLimitInformation
+
+        ' UI limitations
         Dim flag1 As NativeEnums.JobObjectBasicUiRestrictions
 
         If Me.chkUIdesktop.Checked = True Then
@@ -286,13 +289,8 @@ Public Class frmSetJobLimits
         End If
         struct1.UIRestrictionsClass = flag1
 
-        ' Set limit
-        SetJobBasicUiRestrictionsName(_jobName, struct1)
-
-
 
         ' Other limitations
-        Dim struct2 As New NativeStructs.JobObjectExtendedLimitInformation
         Dim flag2 As NativeEnums.JobObjectLimitFlags
 
         If Me.chkActiveProcesses.Checked = True Then
@@ -347,10 +345,13 @@ Public Class frmSetJobLimits
             struct2.BasicLimitInformation.MinimumWorkingSetSize = New IntPtr(CInt(1024 * Me.valMinWS.Value))
             struct2.BasicLimitInformation.MaximumWorkingSetSize = New IntPtr(CInt(1024 * Me.valMaxWS.Value))
         End If
+        struct2.BasicLimitInformation.LimitFlags = flag2
 
         ' Set limit
-        struct2.BasicLimitInformation.LimitFlags = flag2
-        SetJobExtendedLimitInformationsByName(_jobName, struct2)
+        Dim job As cJob = _frmMain.lvJob.GetItemByKey(_jobName)
+        If job IsNot Nothing Then
+            job.SetLimits(struct1, struct2)
+        End If
 
     End Sub
 

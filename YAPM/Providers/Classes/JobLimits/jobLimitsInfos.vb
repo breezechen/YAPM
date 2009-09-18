@@ -76,7 +76,8 @@ Imports System.Net
     ' Merge an old and a new instance
     Public Sub Merge(ByRef newI As jobLimitInfos)
         With newI
-            _value = .value
+            _value = .Value
+            _valueObj = .ValueObject
         End With
     End Sub
 

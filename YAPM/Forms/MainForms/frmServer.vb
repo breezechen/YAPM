@@ -847,6 +847,15 @@ Public Class frmServer
                         Catch ex As Exception
                             ' 
                         End Try
+                    Case cSocketData.OrderType.JobSetLimits
+                        Dim name As String = CType(cData.Param1, String)
+                        Dim l1 As Native.Api.NativeStructs.JobObjectBasicUiRestrictions = CType(cData.Param2, Native.Api.NativeStructs.JobObjectBasicUiRestrictions)
+                        Dim l2 As Native.Api.NativeStructs.JobObjectExtendedLimitInformation = CType(cData.Param3, Native.Api.NativeStructs.JobObjectExtendedLimitInformation)
+                        Try
+                            cJob.SharedLRSetLimits(name, l1, l2)
+                        Catch ex As Exception
+                            ' 
+                        End Try
                     Case cSocketData.OrderType.JobAddProcessToJob
                         Dim name As String = CType(cData.Param1, String)
                         Dim pid() As Integer = CType(cData.Param2, Integer())

@@ -734,6 +734,7 @@
     <Compile Include="Native\Structs.vb" />
     <Compile Include="Native\Objects\Process.vb" />
     <Compile Include="Providers\Classes\JobLimits\asyncMethods\asyncCallbackJobLimitsEnumerate.vb" />
+    <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobLimitsSetLimits.vb" />
     <Compile Include="Providers\Classes\JobLimits\cJobLimit.vb" />
     <Compile Include="Providers\Classes\JobLimits\cJobLimitConnection.vb" />
     <Compile Include="Providers\Classes\JobLimits\jobLimitsInfos.vb" />

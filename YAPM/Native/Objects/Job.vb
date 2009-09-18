@@ -391,6 +391,15 @@ Namespace Native.Objects
             Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation, limit)
         End Function
 
+        Public Shared Function SetJobCommonLimitsByName(ByVal jobName As String, _
+                ByVal limit1 As NativeStructs.JobObjectBasicUiRestrictions, _
+                ByVal limit2 As NativeStructs.JobObjectExtendedLimitInformation) As Boolean
+            Dim ret As Boolean = True
+            ret = ret And SetJobBasicUiRestrictionsName(jobName, limit1)
+            ret = ret And SetJobExtendedLimitInformationsByName(jobName, limit2)
+            Return ret
+        End Function
+
         Public Shared Function SetJobBasicUiRestrictionsName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectBasicUiRestrictions) As Boolean
             Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions, limit)
         End Function
@@ -693,10 +702,10 @@ Namespace Native.Objects
 
             Dim ret As Boolean
 
-            If Handle.IsNotNull Then
+            If handle.IsNotNull Then
                 Dim memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
                 memAlloc.WriteStruct(Of T)(limit)
-                ret = NativeFunctions.SetInformationJobObject(Handle, info, memAlloc.Pointer, _
+                ret = NativeFunctions.SetInformationJobObject(handle, info, memAlloc.Pointer, _
                                                         memAlloc.Size)
                 memAlloc.Free()
             End If

@@ -89,8 +89,6 @@ Public Class cJob
         End Get
     End Property
 
-
-
 #End Region
 
 #Region "Shared method"
@@ -172,6 +170,32 @@ Public Class cJob
         RemoveSharedPendingTask(actionNumber)
     End Sub
 
+    ' Set limits to the job
+    Private Shared _setLshared As asyncCallbackJobLimitsSetLimits
+    Public Shared Function SharedLRSetLimits(ByVal jobName As String, _
+                ByVal limit1 As NativeStructs.JobObjectBasicUiRestrictions, _
+                ByVal limit2 As NativeStructs.JobObjectExtendedLimitInformation) As Integer
+
+        If _setLshared Is Nothing Then
+            _setLshared = New asyncCallbackJobLimitsSetLimits(New asyncCallbackJobLimitsSetLimits.HasSetLimits(AddressOf sharedHasSetL), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _setLshared.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        AddSharedPendingTask(newAction, t)
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackJobLimitsSetLimits.poolObj(jobName, limit1, limit2, newAction))
+
+    End Function
+    Private Shared Sub sharedHasSetL(ByVal Success As Boolean, ByVal jobName As String, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not set limits to job " & jobName)
+        End If
+        RemoveSharedPendingTask(actionNumber)
+    End Sub
+
 #End Region
 
 #Region "All actions on job"
@@ -223,6 +247,31 @@ Public Class cJob
         If Success = False Then
             MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
                    "Could not terminate job " & jobName)
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
+    ' Set limits to the job
+    Private _setL As asyncCallbackJobLimitsSetLimits
+    Public Function SetLimits(ByVal limit1 As NativeStructs.JobObjectBasicUiRestrictions, _
+                ByVal limit2 As NativeStructs.JobObjectExtendedLimitInformation) As Integer
+
+        If _setL Is Nothing Then
+            _setL = New asyncCallbackJobLimitsSetLimits(New asyncCallbackJobLimitsSetLimits.HasSetLimits(AddressOf hasSetL), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _setL.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        AddPendingTask(newAction, t)
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackJobLimitsSetLimits.poolObj(Me.Infos.Name, limit1, limit2, newAction))
+
+    End Function
+    Private Sub hasSetL(ByVal Success As Boolean, ByVal jobName As String, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not set limits to job " & jobName)
         End If
         RemovePendingTask(actionNumber)
     End Sub
