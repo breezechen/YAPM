@@ -45,7 +45,7 @@ Name: restoreTaskmgr; Description: {cm:RestoreTaskmgr}; GroupDescription: {cm:Ot
 
 [Files]
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\changelog.txt; DestDir: {app}; Flags: ignoreversion
-Source: ..\..\YAPM\bin\BuildZipRelease\Bin\KernelMemory.sys; DestDir: {app}; Flags: ignoreversion; Check: Is64BitInstallMode()
+Source: ..\..\YAPM\bin\BuildZipRelease\Bin\KernelMemory.sys; DestDir: {app}; Flags: ignoreversion; Check: NOT Is64BitInstallMode()
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\launch server.bat; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\license.rtf; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\README.txt; DestDir: {app}; Flags: ignoreversion
