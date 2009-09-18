@@ -268,7 +268,7 @@ Public Class frmJobInfo
     End Sub
 
     Private Sub cmdSetLimits_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetLimits.Click
-        Dim frm As New frmSetJobLimits
+        Dim frm As New frmSetJobLimits(Me)
         frm.JobName = curJob.Infos.Name
         frm.ShowDialog()
     End Sub

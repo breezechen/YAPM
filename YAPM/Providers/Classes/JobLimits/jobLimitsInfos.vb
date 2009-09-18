@@ -29,7 +29,9 @@ Imports System.Net
 #Region "Private attributes"
 
     Private _name As String
+    Private _desc As String
     Private _value As String
+    Private _valueObj As Object
 
 #End Region
 
@@ -45,6 +47,16 @@ Imports System.Net
             Return _value
         End Get
     End Property
+    Public ReadOnly Property ValueObject() As Object
+        Get
+            Return _valueObj
+        End Get
+    End Property
+    Public ReadOnly Property Description() As String
+        Get
+            Return _desc
+        End Get
+    End Property
 
 #End Region
 
@@ -54,9 +66,11 @@ Imports System.Net
     ' ========================================
 
     ' Constructor of this class
-    Public Sub New(ByVal name As String, ByVal value As String)
+    Public Sub New(ByVal name As String, ByVal desc As String, ByVal value As String, ByVal valObj As Object)
         _name = name
+        _desc = desc
         _value = value
+        _valueObj = valObj
     End Sub
 
     ' Merge an old and a new instance
@@ -68,9 +82,10 @@ Imports System.Net
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
-        Dim s(0) As String
+        Dim s(1) As String
 
         s(0) = "Value"
+        s(1) = "Description"
 
         If includeFirstProp Then
             Dim s2(s.Length) As String

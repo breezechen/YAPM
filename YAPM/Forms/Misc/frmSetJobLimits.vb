@@ -29,6 +29,7 @@ Imports YAPM.Native.Objects.Job
 Public Class frmSetJobLimits
 
     Private _jobName As String
+    Private _jobInfoForm As frmJobInfo
 
     Public Property JobName() As String
         Get
@@ -38,6 +39,12 @@ Public Class frmSetJobLimits
             _jobName = value
         End Set
     End Property
+
+    Public Sub New(ByRef frmJInfo As frmJobInfo)
+        InitializeComponent()
+        ' Get the caller form
+        _jobInfoForm = frmJInfo
+    End Sub
 
     Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         closeWithEchapKey(Me)
@@ -78,93 +85,99 @@ Public Class frmSetJobLimits
         SetToolTip(Me.cmdExit, "Exit without modifiying limits")
         SetToolTip(Me.cmdSetLimits, "Set limits to the job")
 
-        ' Get current limits and fill in form controls
-        Dim struct1 As NativeStructs.JobObjectBasicUiRestrictions = _
-                    QueryJobInformationByName(Of NativeStructs.JobObjectBasicUiRestrictions)(_jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions)
-        Dim flag1 As NativeEnums.JobObjectBasicUiRestrictions = struct1.UIRestrictionsClass
 
-        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.Desktop) = NativeEnums.JobObjectBasicUiRestrictions.Desktop Then
-            Me.chkUIdesktop.Checked = True
-        End If
-        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.DisplaySettings) = NativeEnums.JobObjectBasicUiRestrictions.DisplaySettings Then
-            Me.chkUIDisplaySettings.Checked = True
-        End If
-        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.ExitWindows) = NativeEnums.JobObjectBasicUiRestrictions.ExitWindows Then
-            Me.chkUIExitW.Checked = True
-        End If
-        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.GlobalAtoms) = NativeEnums.JobObjectBasicUiRestrictions.GlobalAtoms Then
-            Me.chkUIglobalAtoms.Checked = True
-        End If
-        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.Handles) = NativeEnums.JobObjectBasicUiRestrictions.Handles Then
-            Me.chkUIhandles.Checked = True
-        End If
-        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.ReadClipboard) = NativeEnums.JobObjectBasicUiRestrictions.ReadClipboard Then
-            Me.chkUIreadCB.Checked = True
-        End If
-        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.SystemParameters) = NativeEnums.JobObjectBasicUiRestrictions.SystemParameters Then
-            Me.chkUIsystemParam.Checked = True
-        End If
-        If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.WriteClipboard) = NativeEnums.JobObjectBasicUiRestrictions.WriteClipboard Then
-            Me.chkUIwriteCB.Checked = True
-        End If
+        ' Get all limits from the limit's listview (cause it's well refreshed
+        ' depending of the type of connection)
+        Dim _limits As New Dictionary(Of String, cJobLimit)
+        For Each limit As cJobLimit In _jobInfoForm.lvLimits.GetAllItems()
+            _limits.Add(limit.Infos.Name, limit)
+        Next
 
-        ' Other limitations
-        Dim struct2 As NativeStructs.JobObjectExtendedLimitInformation = _
-            QueryJobInformationByName(Of NativeStructs.JobObjectExtendedLimitInformation)(_jobName, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation)
-        Dim flag2 As NativeEnums.JobObjectLimitFlags = struct2.BasicLimitInformation.LimitFlags
+        For Each pair As System.Collections.Generic.KeyValuePair(Of String, cJobLimit) In _limits
 
-        If (flag2 And NativeEnums.JobObjectLimitFlags.ActiveProcess) = NativeEnums.JobObjectLimitFlags.ActiveProcess Then
-            Me.chkActiveProcesses.Checked = True
-            Me.valActiveProcesses.Value = struct2.BasicLimitInformation.ActiveProcessLimit
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.Affinity) = NativeEnums.JobObjectLimitFlags.Affinity Then
-            Me.chkAffinity.Checked = True
-            Me.valAffinity.Value = struct2.BasicLimitInformation.Affinity.ToInt32
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.BreakawayOk) = NativeEnums.JobObjectLimitFlags.BreakawayOk Then
-            Me.chkBreakawayOK.Checked = True
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.DieOnUnhandledException) = NativeEnums.JobObjectLimitFlags.DieOnUnhandledException Then
-            Me.chkDieOnUnhandledEx.Checked = True
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.JobMemory) = NativeEnums.JobObjectLimitFlags.JobMemory Then
-            Me.chkCommittedMemPerJ.Checked = True
-            Me.valMemJ.Value = CInt(struct2.JobMemoryLimit / 1024)
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.JobTime) = NativeEnums.JobObjectLimitFlags.JobTime Then
-            Me.chkUserModePerJ.Checked = True
-            Me.valUsertimeJ.Value = CInt(struct2.BasicLimitInformation.PerJobUserTimeLimit / 10)
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.KillOnJobClose) = NativeEnums.JobObjectLimitFlags.KillOnJobClose Then
-            Me.chkKillOnJobClose.Checked = True
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.PreserveJobTime) = NativeEnums.JobObjectLimitFlags.PreserveJobTime Then
-            Me.chkPreserveJobTime.Checked = True
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.PriorityClass) = NativeEnums.JobObjectLimitFlags.PriorityClass Then
-            Me.chkPriority.Checked = True
-            Me.cbPriority.Text = CType(struct2.BasicLimitInformation.PriorityClass, System.Diagnostics.ProcessPriorityClass).ToString
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.ProcessMemory) = NativeEnums.JobObjectLimitFlags.ProcessMemory Then
-            Me.chkCommittedMemPerP.Checked = True
-            Me.valMemP.Value = CInt(struct2.ProcessMemoryLimit / 1024)
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.ProcessTime) = NativeEnums.JobObjectLimitFlags.ProcessTime Then
-            Me.chkUserModePerJ.Checked = True
-            Me.valUsertimeP.Value = CInt(struct2.BasicLimitInformation.PerProcessUserTimeLimit / 10)
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.SchedulingClass) = NativeEnums.JobObjectLimitFlags.SchedulingClass Then
-            Me.chkSchedulingC.Checked = True
-            Me.valScheduling.Value = struct2.BasicLimitInformation.SchedulingClass
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.SilentBreakawayOk) = NativeEnums.JobObjectLimitFlags.SilentBreakawayOk Then
-            Me.chkSilentBAOK.Checked = True
-        End If
-        If (flag2 And NativeEnums.JobObjectLimitFlags.WorkingSet) = NativeEnums.JobObjectLimitFlags.WorkingSet Then
-            Me.chkMinMaxWS.Checked = True
-            Me.valMinWS.Value = struct2.BasicLimitInformation.MinimumWorkingSetSize.ToInt64 \ 1024
-            Me.valMaxWS.Value = struct2.BasicLimitInformation.MaximumWorkingSetSize.ToInt64 \ 1024
-        End If
+            ' UI limits
+            If pair.Key = "Desktop" Then
+                Me.chkUIdesktop.Checked = True
+            End If
+            If pair.Key = "DisplaySettings" Then
+                Me.chkUIDisplaySettings.Checked = True
+            End If
+            If pair.Key = "ExitWindows" Then
+                Me.chkUIExitW.Checked = True
+            End If
+            If pair.Key = "GlobalAtoms" Then
+                Me.chkUIglobalAtoms.Checked = True
+            End If
+            If pair.Key = "Handles" Then
+                Me.chkUIhandles.Checked = True
+            End If
+            If pair.Key = "ReadClipboard" Then
+                Me.chkUIreadCB.Checked = True
+            End If
+            If pair.Key = "SystemParameters" Then
+                Me.chkUIsystemParam.Checked = True
+            End If
+            If pair.Key = "WriteClipboard" Then
+                Me.chkUIwriteCB.Checked = True
+            End If
+
+            ' Other limitations
+            If pair.Key = "ActiveProcess" Then
+                Me.chkActiveProcesses.Checked = True
+                Me.valActiveProcesses.Value = CInt(pair.Value.Infos.ValueObject)
+            End If
+            If pair.Key = "Affinity" Then
+                Me.chkAffinity.Checked = True
+                Me.valAffinity.Value = CInt(pair.Value.Infos.ValueObject)
+            End If
+            If pair.Key = "BreakawayOk" Then
+                Me.chkBreakawayOK.Checked = True
+            End If
+            If pair.Key = "DieOnUnhandledException" Then
+                Me.chkDieOnUnhandledEx.Checked = True
+            End If
+            If pair.Key = "JobMemory" Then
+                Me.chkCommittedMemPerJ.Checked = True
+                Me.valMemJ.Value = CInt(CInt(pair.Value.Infos.ValueObject) / 1024)
+            End If
+            If pair.Key = "JobTime" Then
+                Me.chkUserModePerJ.Checked = True
+                Me.valUsertimeJ.Value = CInt(CInt(pair.Value.Infos.ValueObject) / 10)
+            End If
+            If pair.Key = "KillOnJobClose" Then
+                Me.chkKillOnJobClose.Checked = True
+            End If
+            If pair.Key = "PreserveJobTime" Then
+                Me.chkPreserveJobTime.Checked = True
+            End If
+            If pair.Key = "PriorityClass" Then
+                Me.chkPriority.Checked = True
+                Me.cbPriority.Text = CType(pair.Value.Infos.ValueObject, System.Diagnostics.ProcessPriorityClass).ToString
+            End If
+            If pair.Key = "ProcessMemory" Then
+                Me.chkCommittedMemPerP.Checked = True
+                Me.valMemP.Value = CInt(CInt(pair.Value.Infos.ValueObject) / 1024)
+            End If
+            If pair.Key = "ProcessTime" Then
+                Me.chkUserModePerJ.Checked = True
+                Me.valUsertimeP.Value = CInt(CInt(pair.Value.Infos.ValueObject) / 10)
+            End If
+            If pair.Key = "SchedulingClass" Then
+                Me.chkSchedulingC.Checked = True
+                Me.valScheduling.Value = CInt(pair.Value.Infos.ValueObject)
+            End If
+            If pair.Key = "SilentBreakawayOk" Then
+                Me.chkSilentBAOK.Checked = True
+            End If
+            If pair.Key = "WorkingSetMin" Then
+                Me.chkMinMaxWS.Checked = True
+                Me.valMinWS.Value = CInt(CInt(pair.Value.Infos.ValueObject) / 1024)
+            End If
+            If pair.Key = "WorkingSetMax" Then
+                Me.chkMinMaxWS.Checked = True
+                Me.valMaxWS.Value = CInt(CInt(pair.Value.Infos.ValueObject) / 1024)
+            End If
+        Next
 
     End Sub
 

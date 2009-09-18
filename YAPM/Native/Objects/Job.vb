@@ -241,28 +241,28 @@ Namespace Native.Objects
                 Dim flag1 As NativeEnums.JobObjectBasicUiRestrictions = struct1.UIRestrictionsClass
 
                 If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.Desktop) = NativeEnums.JobObjectBasicUiRestrictions.Desktop Then
-                    ret.Add("Desktop", New jobLimitInfos("Desktop", "Limited"))
+                    ret.Add("Desktop", New jobLimitInfos("Desktop", "Desktop", "Limited", Nothing))
                 End If
                 If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.DisplaySettings) = NativeEnums.JobObjectBasicUiRestrictions.DisplaySettings Then
-                    ret.Add("DisplaySettings", New jobLimitInfos("DisplaySettings", "Limited"))
+                    ret.Add("DisplaySettings", New jobLimitInfos("DisplaySettings", "DisplaySettings", "Limited", Nothing))
                 End If
                 If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.ExitWindows) = NativeEnums.JobObjectBasicUiRestrictions.ExitWindows Then
-                    ret.Add("ExitWindows", New jobLimitInfos("ExitWindows", "Limited"))
+                    ret.Add("ExitWindows", New jobLimitInfos("ExitWindows", "ExitWindows", "Limited", Nothing))
                 End If
                 If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.GlobalAtoms) = NativeEnums.JobObjectBasicUiRestrictions.GlobalAtoms Then
-                    ret.Add("GlobalAtoms", New jobLimitInfos("GlobalAtoms", "Limited"))
+                    ret.Add("GlobalAtoms", New jobLimitInfos("GlobalAtoms", "GlobalAtoms", "Limited", Nothing))
                 End If
                 If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.Handles) = NativeEnums.JobObjectBasicUiRestrictions.Handles Then
-                    ret.Add("Handles", New jobLimitInfos("Handles", "Limited"))
+                    ret.Add("Handles", New jobLimitInfos("Handles", "Handles", "Limited", Nothing))
                 End If
                 If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.ReadClipboard) = NativeEnums.JobObjectBasicUiRestrictions.ReadClipboard Then
-                    ret.Add("ReadClipboard", New jobLimitInfos("ReadClipboard", "Limited"))
+                    ret.Add("ReadClipboard", New jobLimitInfos("ReadClipboard", "ReadClipboard", "Limited", Nothing))
                 End If
                 If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.SystemParameters) = NativeEnums.JobObjectBasicUiRestrictions.SystemParameters Then
-                    ret.Add("SystemParameters", New jobLimitInfos("SystemParameters", "Limited"))
+                    ret.Add("SystemParameters", New jobLimitInfos("SystemParameters", "SystemParameters", "Limited", Nothing))
                 End If
                 If (flag1 And NativeEnums.JobObjectBasicUiRestrictions.WriteClipboard) = NativeEnums.JobObjectBasicUiRestrictions.WriteClipboard Then
-                    ret.Add("WriteClipboard", New jobLimitInfos("WriteClipboard", "Limited"))
+                    ret.Add("WriteClipboard", New jobLimitInfos("WriteClipboard", "WriteClipboard", "Limited", Nothing))
                 End If
 
                 ' Other limitations
@@ -271,47 +271,47 @@ Namespace Native.Objects
                 Dim flag2 As NativeEnums.JobObjectLimitFlags = struct2.BasicLimitInformation.LimitFlags
 
                 If (flag2 And NativeEnums.JobObjectLimitFlags.ActiveProcess) = NativeEnums.JobObjectLimitFlags.ActiveProcess Then
-                    ret.Add("Active processes", New jobLimitInfos("Active processes", struct2.BasicLimitInformation.ActiveProcessLimit.ToString))
+                    ret.Add("ActiveProcess", New jobLimitInfos("ActiveProcess", "Active processes", struct2.BasicLimitInformation.ActiveProcessLimit.ToString, struct2.BasicLimitInformation.ActiveProcessLimit))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.Affinity) = NativeEnums.JobObjectLimitFlags.Affinity Then
-                    ret.Add("Affinity", New jobLimitInfos("Affinity", struct2.BasicLimitInformation.Affinity.ToString))
+                    ret.Add("Affinity", New jobLimitInfos("Affinity", "Affinity", struct2.BasicLimitInformation.Affinity.ToString, struct2.BasicLimitInformation.Affinity))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.BreakawayOk) = NativeEnums.JobObjectLimitFlags.BreakawayOk Then
-                    ret.Add("Breakaway OK", New jobLimitInfos("Breakaway OK", "Enabled"))
+                    ret.Add("BreakawayOk", New jobLimitInfos("BreakawayOk", "Breakaway OK", "Enabled", Nothing))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.DieOnUnhandledException) = NativeEnums.JobObjectLimitFlags.DieOnUnhandledException Then
-                    ret.Add("Die on unhandled exception", New jobLimitInfos("Die on unhandled exception", "Enabled"))
+                    ret.Add("DieOnUnhandledException", New jobLimitInfos("DieOnUnhandledException", "Die on unhandled exception", "Enabled", Nothing))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.JobMemory) = NativeEnums.JobObjectLimitFlags.JobMemory Then
-                    ret.Add("Committed memory for job", New jobLimitInfos("Committed memory for job", Common.Misc.GetFormatedSize(struct2.JobMemoryLimit)))
+                    ret.Add("JobMemory", New jobLimitInfos("JobMemory", "Committed memory for job", Common.Misc.GetFormatedSize(struct2.JobMemoryLimit), struct2.JobMemoryLimit))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.JobTime) = NativeEnums.JobObjectLimitFlags.JobTime Then
-                    ret.Add("Usermode time for job", New jobLimitInfos("Usermode time for job", struct2.BasicLimitInformation.PerJobUserTimeLimit.ToString))
+                    ret.Add("JobTime", New jobLimitInfos("JobTime", "Usermode time for job", struct2.BasicLimitInformation.PerJobUserTimeLimit.ToString, struct2.BasicLimitInformation.PerJobUserTimeLimit))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.KillOnJobClose) = NativeEnums.JobObjectLimitFlags.KillOnJobClose Then
-                    ret.Add("Kill on job close", New jobLimitInfos("Kill on job close", "Enabled"))
+                    ret.Add("KillOnJobClose", New jobLimitInfos("KillOnJobClose", "Kill on job close", "Enabled", Nothing))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.PreserveJobTime) = NativeEnums.JobObjectLimitFlags.PreserveJobTime Then
-                    ret.Add("Preserve job time", New jobLimitInfos("Preserve job time", "Enabled"))
+                    ret.Add("PreserveJobTime", New jobLimitInfos("PreserveJobTime", "Preserve job time", "Enabled", Nothing))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.PriorityClass) = NativeEnums.JobObjectLimitFlags.PriorityClass Then
-                    ret.Add("Priority class", New jobLimitInfos("Priority class", CType(struct2.BasicLimitInformation.PriorityClass, System.Diagnostics.ProcessPriorityClass).ToString))
+                    ret.Add("PriorityClass", New jobLimitInfos("PriorityClass", "Priority class", CType(struct2.BasicLimitInformation.PriorityClass, System.Diagnostics.ProcessPriorityClass).ToString, struct2.BasicLimitInformation.PriorityClass))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.ProcessMemory) = NativeEnums.JobObjectLimitFlags.ProcessMemory Then
-                    ret.Add("Committed memory for each process", New jobLimitInfos("Committed memory for each process", Common.Misc.GetFormatedSize(struct2.ProcessMemoryLimit)))
+                    ret.Add("ProcessMemory", New jobLimitInfos("ProcessMemory", "Committed memory for each process", Common.Misc.GetFormatedSize(struct2.ProcessMemoryLimit), struct2.ProcessMemoryLimit))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.ProcessTime) = NativeEnums.JobObjectLimitFlags.ProcessTime Then
-                    ret.Add("Usermode time for each process", New jobLimitInfos("Usermode time for each process", struct2.BasicLimitInformation.PerProcessUserTimeLimit.ToString))
+                    ret.Add("ProcessTime", New jobLimitInfos("ProcessTime", "Usermode time for each process", struct2.BasicLimitInformation.PerProcessUserTimeLimit.ToString, struct2.BasicLimitInformation.PerProcessUserTimeLimit))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.SchedulingClass) = NativeEnums.JobObjectLimitFlags.SchedulingClass Then
-                    ret.Add("Scheduling class", New jobLimitInfos("Scheduling class", struct2.BasicLimitInformation.SchedulingClass.ToString))
+                    ret.Add("SchedulingClass", New jobLimitInfos("SchedulingClass", "Scheduling class", struct2.BasicLimitInformation.SchedulingClass.ToString, struct2.BasicLimitInformation.SchedulingClass))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.SilentBreakawayOk) = NativeEnums.JobObjectLimitFlags.SilentBreakawayOk Then
-                    ret.Add("Slient breakaway OK", New jobLimitInfos("Slient breakaway OK", "Enabled"))
+                    ret.Add("SilentBreakawayOk", New jobLimitInfos("SilentBreakawayOk", "Slient breakaway OK", "Enabled", Nothing))
                 End If
                 If (flag2 And NativeEnums.JobObjectLimitFlags.WorkingSet) = NativeEnums.JobObjectLimitFlags.WorkingSet Then
-                    ret.Add("Minimum working set size per process", New jobLimitInfos("Minimum working set size per process", Common.Misc.GetFormatedSize(struct2.BasicLimitInformation.MinimumWorkingSetSize)))
-                    ret.Add("Maximum working set size per process", New jobLimitInfos("Maximum working set size per process", Common.Misc.GetFormatedSize(struct2.BasicLimitInformation.MaximumWorkingSetSize)))
+                    ret.Add("WorkingSetMin", New jobLimitInfos("WorkingSetMin", "Minimum working set size per process", Common.Misc.GetFormatedSize(struct2.BasicLimitInformation.MinimumWorkingSetSize), struct2.BasicLimitInformation.MinimumWorkingSetSize))
+                    ret.Add("WorkingSetMax", New jobLimitInfos("WorkingSetMax", "Maximum working set size per process", Common.Misc.GetFormatedSize(struct2.BasicLimitInformation.MaximumWorkingSetSize), struct2.BasicLimitInformation.MaximumWorkingSetSize))
                 End If
 
             End If

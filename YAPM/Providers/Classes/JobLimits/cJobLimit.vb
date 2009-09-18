@@ -91,10 +91,6 @@ Public Class cJobLimit
 
 #End Region
 
-#Region "All actions on job"
-
-
-#End Region
 
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Thr As jobLimitInfos)
@@ -120,6 +116,8 @@ Public Class cJobLimit
                 res = Me.Infos.Name
             Case "Value"
                 res = Me.Infos.Value
+            Case "Description"
+                res = Me.Infos.Description
         End Select
 
         Return res
@@ -130,6 +128,7 @@ Public Class cJobLimit
         Static _old_ObjectCreationDate As String = ""
         Static _old_PendingTaskCount As String = ""
         Static _old_Value As String = ""
+        Static _old_Desc As String = ""
         Static _old_Name As String = ""
 
         Dim hasChanged As Boolean = True
@@ -166,6 +165,13 @@ Public Class cJobLimit
                     hasChanged = False
                 Else
                     _old_Value = res
+                End If
+            Case "Description"
+                res = Me.Infos.Description
+                If res = _old_Desc Then
+                    hasChanged = False
+                Else
+                    _old_Desc = res
                 End If
         End Select
 
