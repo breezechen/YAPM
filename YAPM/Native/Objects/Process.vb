@@ -860,8 +860,10 @@ Namespace Native.Objects
 
             Dim tt As cProcess = Nothing
             Native.Objects.Process.SemCurrentProcesses.WaitOne()
-            If _currentProcesses.ContainsKey(id.ToString) Then
-                tt = _currentProcesses.Item(id.ToString)
+            If _currentProcesses IsNot Nothing Then
+                If _currentProcesses.ContainsKey(id.ToString) Then
+                    tt = _currentProcesses.Item(id.ToString)
+                End If
             End If
             Native.Objects.Process.SemCurrentProcesses.Release()
 

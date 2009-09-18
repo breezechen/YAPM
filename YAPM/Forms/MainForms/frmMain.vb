@@ -2001,8 +2001,15 @@ Public Class frmMain
             If Me.lvProcess.SelectedItems.Count <> 1 Then
                 Me.MenuItemJobMng.Enabled = True
             Else
-                Me.MenuItemJobMng.Enabled = (cJob.GetProcessJobById(Me.lvProcess.GetSelectedItem.Infos.ProcessId) IsNot Nothing)
-                Me.MenuItemProcAddToJob.Enabled = Not (Me.MenuItemJobMng.Enabled)
+                ' We currently can not get process job by id synchronously
+                ' if we are using remote monitoring
+                If _local Then
+                    Me.MenuItemJobMng.Enabled = (cJob.GetProcessJobById(Me.lvProcess.GetSelectedItem.Infos.ProcessId) IsNot Nothing)
+                    Me.MenuItemProcAddToJob.Enabled = Not (Me.MenuItemJobMng.Enabled)
+                Else
+                    Me.MenuItemProcAddToJob.Enabled = True
+                    Me.MenuItemJobMng.Enabled = False
+                End If
             End If
 
             Me.mnuProcess.Show(Me.lvProcess, e.Location)

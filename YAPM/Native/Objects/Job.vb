@@ -591,6 +591,11 @@ Namespace Native.Objects
 
             semDupHandles.Release()
 
+            ' Now refresh informations for all jobs
+            For Each j As jobInfos In buf.Values
+                j.Refresh()
+            Next
+
             Return buf
 
         End Function

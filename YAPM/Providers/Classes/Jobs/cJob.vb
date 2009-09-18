@@ -30,14 +30,7 @@ Public Class cJob
     ' Infos
     Private _jobInfos As jobInfos
 
-    ' Contains list of process Id of the job
-    Private _procIds As New List(Of Integer)
-
     Private Shared WithEvents _connection As cJobConnection
-
-    ' Stats structs
-    Private basicAcIoInfo As NativeStructs.JobObjectBasicAndIoAccountingInformation
-    Private basicLimitInfo As NativeStructs.JobObjectBasicLimitInformation
 
 
 #Region "Properties"
@@ -96,22 +89,7 @@ Public Class cJob
         End Get
     End Property
 
-    Public ReadOnly Property PidList() As List(Of Integer)
-        Get
-            Return _procIds
-        End Get
-    End Property
 
-    Public ReadOnly Property BasicAndIoAccountingInformation() As NativeStructs.JobObjectBasicAndIoAccountingInformation
-        Get
-            Return basicAcIoInfo
-        End Get
-    End Property
-    Public ReadOnly Property BasicLimitInformation() As NativeStructs.JobObjectBasicLimitInformation
-        Get
-            Return basicLimitInfo
-        End Get
-    End Property
 
 #End Region
 
@@ -135,10 +113,8 @@ Public Class cJob
     ' Return job a process (if any)
     Public Shared Function GetProcessJobById(ByVal pid As Integer) As cJob
         For Each cJ As jobInfos In Native.Objects.Job.EnumerateJobs.Values
-            Dim cJJ As New cJob(cJ)
-            cJJ.Refresh()
-            If cJJ.PidList.Contains(pid) Then
-                Return cJJ
+            If cJ.PidList.Contains(pid) Then
+                Return New cJob(cJ)
             End If
         Next
         Return Nothing
@@ -256,25 +232,6 @@ Public Class cJob
     ' Merge current infos and new infos
     Public Sub Merge(ByRef Thr As jobInfos)
         _jobInfos.Merge(Thr)
-        ' Refresh infos
-        Call Refresh()
-    End Sub
-
-    ' Refresh infos
-    Public Sub Refresh()
-        ' Refresh statistics
-        ' NOT GOOD WAY
-        ' NEED TO BE GENERIC AND ASYNC
-
-        Dim _dico As Dictionary(Of String, processInfos) = Native.Objects.Job.GetProcessesInJobByName(_jobInfos.Name)
-        Dim tmpProcIds As New List(Of Integer)
-        For Each cp As processInfos In _dico.Values
-            tmpProcIds.Add(cp.ProcessId)
-        Next
-        _procIds = tmpProcIds
-        basicAcIoInfo = Native.Objects.Job.GetJobBasicAndIoAccountingInformationByName(_jobInfos.Name)
-        basicLimitInfo = Native.Objects.Job.GetJobBasicLimitInformationByName(_jobInfos.Name)
-
     End Sub
 
 
@@ -295,7 +252,7 @@ Public Class cJob
             Case "Name"
                 res = Me.Infos.Name
             Case "ProcessesCount"
-                res = _procIds.Count.ToString
+                res = Me.Infos.PidList.Count.ToString
         End Select
 
         Return res
@@ -345,7 +302,7 @@ Public Class cJob
                     _old_JobId = res
                 End If
             Case "ProcessesCount"
-                res = _procIds.Count.ToString
+                res = Me.Infos.PidList.Count.ToString
                 If res = _old_ProcessesCount Then
                     hasChanged = False
                 Else

@@ -38,7 +38,18 @@ Public Class frmJobInfo
 
         Me.Text = "Job informations (" & curJob.Infos.Name & ")"
 
-        If curJob Is Nothing Then Exit Sub
+        ' Here is a special function call :
+        ' we retrieve our cJob from the main form (lvJob), as they
+        ' are refreshed in this listview from the correct source (server
+        ' wmi or local).
+        Dim curJobTemp As cJob = _frmMain.lvJob.GetItemByKey(curJob.Infos.Name)
+        If curJobTemp IsNot Nothing Then
+            curJob = curJobTemp
+        End If
+
+        If curJob Is Nothing Then
+            Exit Sub
+        End If
 
         Select Case Me.tabJob.SelectedTab.Text
 
@@ -49,67 +60,64 @@ Public Class frmJobInfo
 
             Case "Statistics"
 
-                ' Refresh stats
-                curJob.Refresh()
-
                 ' CPU
                 Dim ts As Date
                 Dim s As String
-                Me.lblAffinity.Text = curJob.BasicLimitInformation.Affinity.ToString
-                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.TotalUserTime)
+                Me.lblAffinity.Text = curJob.Infos.BasicLimitInformation.Affinity.ToString
+                ts = New Date(curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.TotalUserTime)
                 s = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
                 Me.lblUserTime.Text = s
-                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalUserTime)
+                ts = New Date(curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalUserTime)
                 s = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
                 Me.lblUserPeriod.Text = s
-                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.TotalKernelTime)
+                ts = New Date(curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.TotalKernelTime)
                 s = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
                 Me.lblKernelTime.Text = s
-                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalKernelTime)
+                ts = New Date(curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalKernelTime)
                 s = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
                 Me.lblPeriodKernel.Text = s
-                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalKernelTime + curJob.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalUserTime)
+                ts = New Date(curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalKernelTime + curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.ThisPeriodTotalUserTime)
                 s = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
                 Me.lblTotalPeriod.Text = s
-                ts = New Date(curJob.BasicAndIoAccountingInformation.BasicInfo.TotalKernelTime + curJob.BasicAndIoAccountingInformation.BasicInfo.TotalUserTime)
+                ts = New Date(curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.TotalKernelTime + curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.TotalUserTime)
                 s = String.Format("{0:00}", ts.Hour) & ":" & _
                     String.Format("{0:00}", ts.Minute) & ":" & _
                     String.Format("{0:00}", ts.Second) & ":" & _
                     String.Format("{000}", ts.Millisecond)
                 Me.lblTotalTime.Text = s
-                Me.lblPriority.Text = curJob.BasicLimitInformation.PriorityClass.ToString
+                Me.lblPriority.Text = curJob.Infos.BasicLimitInformation.PriorityClass.ToString
 
                 ' Others
-                Me.lblTotalProcesses.Text = curJob.BasicAndIoAccountingInformation.BasicInfo.TotalProcesses.ToString
-                Me.lblActiveProcesses.Text = curJob.BasicAndIoAccountingInformation.BasicInfo.ActiveProcesses.ToString
-                Me.lblTotalTerminatedProcesses.Text = curJob.BasicAndIoAccountingInformation.BasicInfo.TotalTerminatedProcesses.ToString
-                Me.lblMaxWSS.Text = GetFormatedSize(curJob.BasicLimitInformation.MaximumWorkingSetSize)
-                Me.lblMinWSS.Text = GetFormatedSize(curJob.BasicLimitInformation.MinimumWorkingSetSize)
-                Me.lblSchedulingClass.Text = curJob.BasicLimitInformation.SchedulingClass.ToString
-                Me.lblPageFaultCount.Text = curJob.BasicAndIoAccountingInformation.BasicInfo.TotalPageFaultCount.ToString
+                Me.lblTotalProcesses.Text = curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.TotalProcesses.ToString
+                Me.lblActiveProcesses.Text = curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.ActiveProcesses.ToString
+                Me.lblTotalTerminatedProcesses.Text = curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.TotalTerminatedProcesses.ToString
+                Me.lblMaxWSS.Text = GetFormatedSize(curJob.Infos.BasicLimitInformation.MaximumWorkingSetSize)
+                Me.lblMinWSS.Text = GetFormatedSize(curJob.Infos.BasicLimitInformation.MinimumWorkingSetSize)
+                Me.lblSchedulingClass.Text = curJob.Infos.BasicLimitInformation.SchedulingClass.ToString
+                Me.lblPageFaultCount.Text = curJob.Infos.BasicAndIoAccountingInformation.BasicInfo.TotalPageFaultCount.ToString
 
                 ' IO
-                Me.lblProcOther.Text = curJob.BasicAndIoAccountingInformation.IoInfo.OtherOperationCount.ToString
-                Me.lblProcOtherBytes.Text = GetFormatedSize(curJob.BasicAndIoAccountingInformation.IoInfo.OtherTransferCount)
-                Me.lblProcReads.Text = curJob.BasicAndIoAccountingInformation.IoInfo.WriteOperationCount.ToString
-                Me.lblProcReadBytes.Text = GetFormatedSize(curJob.BasicAndIoAccountingInformation.IoInfo.ReadTransferCount)
-                Me.lblProcWriteBytes.Text = curJob.BasicAndIoAccountingInformation.IoInfo.ReadOperationCount.ToString
-                Me.lblProcWrites.Text = GetFormatedSize(curJob.BasicAndIoAccountingInformation.IoInfo.WriteTransferCount)
+                Me.lblProcOther.Text = curJob.Infos.BasicAndIoAccountingInformation.IoInfo.OtherOperationCount.ToString
+                Me.lblProcOtherBytes.Text = GetFormatedSize(curJob.Infos.BasicAndIoAccountingInformation.IoInfo.OtherTransferCount)
+                Me.lblProcReads.Text = curJob.Infos.BasicAndIoAccountingInformation.IoInfo.WriteOperationCount.ToString
+                Me.lblProcReadBytes.Text = GetFormatedSize(curJob.Infos.BasicAndIoAccountingInformation.IoInfo.ReadTransferCount)
+                Me.lblProcWriteBytes.Text = curJob.Infos.BasicAndIoAccountingInformation.IoInfo.ReadOperationCount.ToString
+                Me.lblProcWrites.Text = GetFormatedSize(curJob.Infos.BasicAndIoAccountingInformation.IoInfo.WriteTransferCount)
 
 
             Case "Limitations"

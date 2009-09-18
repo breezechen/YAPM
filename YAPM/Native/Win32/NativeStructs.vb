@@ -68,7 +68,7 @@ Namespace Native.Api
         End Structure
 
         ' http://msdn.microsoft.com/en-us/library/ms684143(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential)> _
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
         Public Structure JobObjectBasicAccountingInformation
             Public TotalUserTime As Long
             Public TotalKernelTime As Long
@@ -81,14 +81,14 @@ Namespace Native.Api
         End Structure
 
         ' http://msdn.microsoft.com/en-us/library/ms684144(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential)> _
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
         Public Structure JobObjectBasicAndIoAccountingInformation
             Public BasicInfo As JobObjectBasicAccountingInformation
             Public IoInfo As IoCounters
         End Structure
 
         ' http://msdn.microsoft.com/en-us/library/ms684147(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential)> _
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
         Public Structure JobObjectBasicLimitInformation
             Public PerProcessUserTimeLimit As Long
             Public PerJobUserTimeLimit As Long

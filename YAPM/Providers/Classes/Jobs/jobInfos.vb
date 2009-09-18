@@ -20,6 +20,7 @@
 
 Option Strict On
 
+Imports YAPM.Native.Api
 Imports System.Runtime.InteropServices
 Imports System.Net
 
@@ -30,6 +31,13 @@ Imports System.Net
 
     Private _name As String
 
+    ' Stats structs
+    Private basicAcIoInfo As NativeStructs.JobObjectBasicAndIoAccountingInformation
+    Private basicLimitInfo As NativeStructs.JobObjectBasicLimitInformation
+
+    ' Contains list of process Id of the job
+    Private _procIds As New List(Of Integer)
+
 #End Region
 
 #Region "Read only properties"
@@ -37,6 +45,21 @@ Imports System.Net
     Public ReadOnly Property Name() As String
         Get
             Return _name
+        End Get
+    End Property
+    Public ReadOnly Property BasicAndIoAccountingInformation() As NativeStructs.JobObjectBasicAndIoAccountingInformation
+        Get
+            Return basicAcIoInfo
+        End Get
+    End Property
+    Public ReadOnly Property BasicLimitInformation() As NativeStructs.JobObjectBasicLimitInformation
+        Get
+            Return basicLimitInfo
+        End Get
+    End Property
+    Public ReadOnly Property PidList() As List(Of Integer)
+        Get
+            Return _procIds
         End Get
     End Property
 
@@ -52,9 +75,26 @@ Imports System.Net
         _name = name
     End Sub
 
+    ' Refresh infos
+    Public Sub Refresh()
+        ' Here we refreh all informations about the job
+        Dim _dico As Dictionary(Of String, processInfos) = Native.Objects.Job.GetProcessesInJobByName(Name)
+        Dim tmpProcIds As New List(Of Integer)
+        For Each cp As processInfos In _dico.Values
+            tmpProcIds.Add(cp.ProcessId)
+        Next
+        _procIds = tmpProcIds
+        basicAcIoInfo = Native.Objects.Job.GetJobBasicAndIoAccountingInformationByName(Name)
+        basicLimitInfo = Native.Objects.Job.GetJobBasicLimitInformationByName(Name)
+    End Sub
+
     ' Merge an old and a new instance
     Public Sub Merge(ByRef newI As jobInfos)
-        '
+        With newI
+            _procIds = .PidList
+            basicAcIoInfo = .BasicAndIoAccountingInformation
+            basicLimitInfo = .BasicLimitInformation
+        End With
     End Sub
 
     ' Retrieve all information's names availables
