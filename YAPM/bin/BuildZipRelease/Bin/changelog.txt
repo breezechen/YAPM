@@ -29,6 +29,7 @@ CHANGES FROM 2.1.0
 - YAPM won't crash if tcp.txt or udp.txt is missing, but a message will warn the user
 - Fixed bug when trying to refresh job list using remote server
 - No crash if user tries to use remote monitoring if no NIC is available
+- Fixed search on strings ("search to right" now works fine)
 
 
 CHANGES FROM 2.0.3

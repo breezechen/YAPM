@@ -831,7 +831,7 @@ Public Class frmProcessInfo
 
     Private Sub cmdProcSearchL_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdProcSearchL.Click
         Dim sSearch As String = Me.txtSearchProcString.Text.ToLowerInvariant
-        Dim curIndex As Integer = Me.lvProcString.Items.Count
+        Dim curIndex As Integer = Me.lvProcString.Items.Count - 1
 
         If Me.lvProcString.SelectedIndices IsNot Nothing AndAlso _
             Me.lvProcString.SelectedIndices.Count > 0 Then _
@@ -840,6 +840,7 @@ Public Class frmProcessInfo
         For z As Integer = curIndex - 1 To 0 Step -1
             Dim sComp As String = Me.lvProcString.Items(z).SubItems(1).Text.ToLowerInvariant
             If InStr(sComp, sSearch, CompareMethod.Binary) > 0 Then
+                Me.lvProcString.Items(curIndex).Selected = False
                 Me.lvProcString.Items(z).Selected = True
                 Me.lvProcString.Items(z).EnsureVisible()
                 Me.lvProcString.Focus()
@@ -859,6 +860,7 @@ Public Class frmProcessInfo
         For z As Integer = curIndex + 1 To Me.lvProcString.Items.Count - 1
             Dim sComp As String = Me.lvProcString.Items(z).SubItems(1).Text.ToLowerInvariant
             If InStr(sComp, sSearch, CompareMethod.Binary) > 0 Then
+                Me.lvProcString.Items(curIndex).Selected = False
                 Me.lvProcString.Items(z).Selected = True
                 Me.lvProcString.Items(z).EnsureVisible()
                 Me.lvProcString.Focus()

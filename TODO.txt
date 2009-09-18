@@ -65,7 +65,6 @@ BUGS NON CRITIQUES
 - ajouter infos token (elevation, domain, user name, SID...)
 - choix font
 - désactiver msgbox pour le server
-- en mode server, tous les captions sont en gris (lvProcess)
 - ajouter "démarrer en tant que" (runas, cf lien opera)
 - perf counter pour PC distant (+ ajouter gestion remote pour la recherche)
 - path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
