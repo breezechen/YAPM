@@ -160,6 +160,9 @@ Namespace Native.Api
         ' Nt return status
         Public Const STATUS_INFO_LENGTH_MISMATCH As UInteger = &HC0000004
 
+        Public Const LANG_NEUTRAL As Integer = &H0
+        Public Const SUBLANG_DEFAULT As Integer = &H1
+
 #End Region
 
         ' OK

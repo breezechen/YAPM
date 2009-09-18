@@ -31,6 +31,34 @@ Namespace Native.Api
 
     Public Class Win32
 
+
+        ' ========================================
+        ' Private constants
+        ' ========================================
+
+
+        ' ========================================
+        ' Private attributes
+        ' ========================================
+
+        ' Contains NtStatus <-> Description
+        Private Shared _dicoNtStatus As New Dictionary(Of UInt32, String)
+
+
+        ' ========================================
+        ' Public properties
+        ' ========================================
+
+
+        ' ========================================
+        ' Other public
+        ' ========================================
+
+
+        ' ========================================
+        ' Public functions
+        ' ========================================
+
         ' Return last error as a string
         Public Shared Function GetLastError() As String
 
@@ -62,6 +90,67 @@ Namespace Native.Api
         ' Get elapsed time since Windows started
         Public Shared Function GetElapsedTime() As Integer
             Return Native.Api.NativeFunctions.GetTickCount
+        End Function
+
+
+        ' Return message associated to a NtStatus
+        Public Shared Function GetNtStatusMessageAsString(ByVal status As UInt32) As String
+
+            Dim sRes As String
+            If status = 0 Then
+
+                sRes = "Success"
+
+            Else
+
+                ' If the status has already been retrieved, return result immediately
+                If _dicoNtStatus.ContainsKey(status) Then
+                    Return _dicoNtStatus.Item(status)
+                End If
+
+                Dim lpMessageBuffer As New StringBuilder(&H200)
+                Dim Hand As IntPtr = LoadLibrary("NTDLL.DLL")
+
+                ' Get the buffer
+                FormatMessage(FormatMessageFlags.FORMAT_MESSAGE_ALLOCATE_BUFFER Or _
+                            FormatMessageFlags.FORMAT_MESSAGE_FROM_SYSTEM Or _
+                            FormatMessageFlags.FORMAT_MESSAGE_FROM_HMODULE, _
+                            Hand, _
+                            status, _
+                            MAKELANGID(NativeConstants.LANG_NEUTRAL, _
+                                     NativeConstants.SUBLANG_DEFAULT), _
+                            lpMessageBuffer, _
+                            0, _
+                            Nothing)
+
+                ' Now get the string
+                sRes = lpMessageBuffer.ToString
+                FreeLibrary(Hand)
+
+                ' Add to dico
+                If _dicoNtStatus.ContainsKey(status) = False Then
+                    _dicoNtStatus.Add(status, sRes)
+                End If
+
+            End If
+
+            Return sRes
+        End Function
+
+
+
+        ' ========================================
+        ' Private functions
+        ' ========================================
+
+        Private Shared Function MAKELANGID(ByVal primary As Integer, ByVal [sub] As Integer) As Integer
+            Return (CUShort([sub]) << 10) Or CUShort(primary)
+        End Function
+        Private Shared Function PRIMARYLANGID(ByVal lcid As Integer) As Integer
+            Return CUShort(lcid) And &H3FF
+        End Function
+        Private Shared Function SUBLANGID(ByVal lcid As Integer) As Integer
+            Return CUShort(lcid) >> 10
         End Function
 
     End Class

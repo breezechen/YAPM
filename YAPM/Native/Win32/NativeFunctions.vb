@@ -267,6 +267,11 @@ Namespace Native.Api
             <Out()> ByRef ExitCode As Integer) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function GetExitCodeProcess(<[In]()> ByVal ProcessHandle As IntPtr, _
+            <Out()> ByRef ExitCode As UInteger) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
         ' <from PH>
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function GetProcessDEPPolicy(<[In]()> ByVal ProcessHandle As IntPtr, _
@@ -1265,6 +1270,16 @@ Namespace Native.Api
                                 ByRef Buffer As StringBuilder, _
                                 ByVal Size As Integer, _
                                 ByVal Arguments As IntPtr) As UInteger
+        End Function
+
+        <DllImport("kernel32.dll", CharSet:=CharSet.Unicode, SetLastError:=True)> _
+        Public Shared Function FormatMessage(ByVal Flags As FormatMessageFlags, _
+                        ByVal Source As IntPtr, _
+                        ByVal MessageId As UInteger, _
+                        ByVal LanguageId As Integer, _
+                        ByRef Buffer As StringBuilder, _
+                        ByVal Size As Integer, _
+                        ByVal Arguments As IntPtr) As UInteger
         End Function
 
 #End Region

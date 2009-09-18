@@ -45,7 +45,6 @@ BUGS NON CRITIQUES
 - résolutions d'adresses -> stocker correspondance IP:port <-> nom resolu dans un dico ?
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - ajouter description des colonnes (dans le chooseColumns)
-- si local connection -> spawn tâche en waitForSingleObject qui attend la fin d'un process pour le exitcode dans formDetail.
 - option Kill with specific exitcode
 - find window -> select thread possible
 - creatime time foireux pour les threads

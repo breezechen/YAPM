@@ -46,8 +46,15 @@ Public Class frmProcessInfo
     Private _local As Boolean = True
     Private _notWMI As Boolean
 
+    ' Caption to display when process has terminated
+    ' This also defines (if not null) that process has terminated
+    Private fixedFormCaption As String = Nothing
+
     ' The listview in which we will search using 'search panel'
     Private listViewForSearch As ListView
+
+    ' ProcessHandle for process termination handler
+    Private hProcSync As IntPtr
 
     ' Here we finished to download informations from internet
     Private _asyncInfoRes As cAsyncProcInfoDownload.InternetProcessInfo
@@ -331,6 +338,11 @@ Public Class frmProcessInfo
         Pref.SaveListViewColumns(Me.lvProcNetwork, "COLprocdetail_network")
         Pref.SaveListViewColumns(Me.lvModules, "COLprocdetail_module")
         Pref.SaveListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
+
+        ' Close handles opened
+        If _local AndAlso hProcSync.IsNotNull Then
+            Native.Objects.General.CloseHandle(hProcSync)
+        End If
     End Sub
 
     Private Sub frmProcessInfo_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp
@@ -530,7 +542,7 @@ Public Class frmProcessInfo
         Me.cmdPause.Enabled = _notWMI
         Me.cmdResume.Enabled = _notWMI
         Me.lvModules.CatchErrors = Not (_local)
-        Me.timerProcPerf.Enabled = _notWMI
+        Me.timerProcPerf.Enabled = True
         Me.lvPrivileges.Enabled = _notWMI
         Me.lvHandles.Enabled = _notWMI
         Me.lvLog.Enabled = _notWMI
@@ -564,6 +576,14 @@ Public Class frmProcessInfo
             End Try
         Else
             gpProcGeneralFile.Text = "Image file (no verification was made)"
+        End If
+
+        ' Set handler for process termination
+        If _local Then
+            hProcSync = Native.Objects.Process.GetProcessHandleById(process.Infos.ProcessId, _
+                                            Native.Security.ProcessAccess.Synchronize Or Native.Objects.Process.ProcessQueryMinRights)
+            Dim contObj As New Native.Objects.Process.ProcessTerminationStruct(hProcSync, AddressOf ProcessHasTerminatedHandler)
+            Threading.ThreadPool.QueueUserWorkItem(AddressOf Native.Objects.Process.WaitForProcessToTerminate, contObj)
         End If
     End Sub
 
@@ -624,7 +644,26 @@ Public Class frmProcessInfo
 
     ' Change caption
     Private Sub ChangeCaption()
-        Me.Text = curProc.Infos.Name & " (" & curProc.Infos.ProcessId.ToString & ")"
+
+        ' Display form caption
+        If String.IsNullOrEmpty(fixedFormCaption) = False Then
+            Me.Text = fixedFormCaption
+            ' Refresh a last time
+            If Me.timerProcPerf.Enabled Then
+                If Not (Me.tabProcess.SelectedTab.Text = "Informations" Or _
+                         Me.tabProcess.SelectedTab.Text = "Strings") Then _
+                         Call Me.refreshProcessTab()
+            End If
+            ' Stop auto refreshment
+            Me.timerLog.Enabled = False
+            Me.timerProcPerf.Enabled = False
+            Me.chkLog.Enabled = False
+            Me.chkLog.Checked = False
+            Exit Sub
+        Else
+            Me.Text = curProc.Infos.Name & " (" & curProc.Infos.ProcessId.ToString & ")"
+        End If
+
         Select Case Me.tabProcess.SelectedTab.Text
             Case "Modules"
                 Me.Text &= " - " & Me.lvModules.Items.Count.ToString & " modules"
@@ -1077,7 +1116,13 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub chkLog_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkLog.CheckedChanged
-        Me.timerLog.Enabled = Me.chkLog.Checked
+        If String.IsNullOrEmpty(fixedFormCaption) Then
+            ' Then process has not yet terminated -> allow log
+            Me.timerLog.Enabled = Me.chkLog.Checked
+        Else
+            Me.chkLog.Checked = False
+            Me.chkLog.Enabled = False
+        End If
     End Sub
 
     Private Sub timerLog_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerLog.Tick
@@ -2467,6 +2512,16 @@ Public Class frmProcessInfo
                 it.ThreadTerminate()
             Next
         End If
+    End Sub
+
+    ' Handler for process termination event
+    Public Sub ProcessHasTerminatedHandler(ByVal ntStatus As UInt32)
+
+        ' Defined fixed form caption
+        fixedFormCaption = curProc.Infos.Name & " (" & curProc.Infos.ProcessId.ToString _
+                    & ") exited with status 0x" & ntStatus.ToString("x") & _
+                    " -- " & Native.Api.Win32.GetNtStatusMessageAsString(ntStatus)
+
     End Sub
 
 

@@ -48,6 +48,7 @@ Namespace Native.Security
         SetPort = &H800
         SuspendResume = &H800
         QueryLimitedInformation = &H1000
+        Synchronize = StandardRights.Synchronize
         ' should be 0xffff on Vista, but is 0xfff for backwards compatibility
         All = StandardRights.Required Or StandardRights.Synchronize Or &HFFF
     End Enum

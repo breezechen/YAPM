@@ -62,6 +62,19 @@ Namespace Native.Objects
         ' Protection for 'kill by method'
         Private Shared _semKillByMethod As New System.Threading.Semaphore(1, 1)
 
+        ' Delegate for process termination event handler
+        Public Delegate Sub ProcessHasTerminatedHandler(ByVal ntStatus As UInt32)
+        ' Associated struct
+        Public Structure ProcessTerminationStruct
+            Dim ProcessHandle As IntPtr
+            Dim [Delegate] As ProcessHasTerminatedHandler
+            Public Sub New(ByVal hProc As IntPtr, ByVal deg As ProcessHasTerminatedHandler)
+                ProcessHandle = hProc
+                [Delegate] = deg
+            End Sub
+        End Structure
+
+
 
         ' ========================================
         ' Public properties
@@ -911,6 +924,34 @@ Namespace Native.Objects
         End Function
 
 
+        ' Wait for a process to terminate
+        ' Must be called in another thread
+        ' Context.ProcessHanlde need Synchronize Or QueryMinInformation access
+        Public Shared Sub WaitForProcessToTerminate(ByVal context As Object)
+
+            Dim pObj As ProcessTerminationStruct = CType(context,  _
+                                                            ProcessTerminationStruct)
+
+            ' Wait process to terminate
+            NativeFunctions.WaitForSingleObject(pObj.processHandle, _
+                                                NativeConstants.WAIT_INFINITE)
+
+            ' Get exit code
+            Dim exCode As UInteger
+            NativeFunctions.GetExitCodeProcess(pObj.ProcessHandle, exCode)
+
+            If pObj.[Delegate] IsNot Nothing Then
+                Try
+                    pObj.[Delegate].Invoke(exCode)
+                Catch ex As Exception
+                    '
+                End Try
+            End If
+
+        End Sub
+
+
+
 
 
         ' ========================================
@@ -958,7 +999,7 @@ Namespace Native.Objects
         End Function
 
         ' Open a handle (another method if OpenProcess failed)
-        Public Shared Function GetProcessHandleWById(ByVal pid As Integer, ByVal access As Security.ProcessAccess) As IntPtr
+        Private Shared Function GetProcessHandleWById(ByVal pid As Integer, ByVal access As Security.ProcessAccess) As IntPtr
 
             ' ===== Try standard way
             Dim hProc As IntPtr = GetProcessHandleById(pid, access)
