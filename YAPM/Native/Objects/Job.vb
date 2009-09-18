@@ -186,12 +186,10 @@ Namespace Native.Objects
         Public Shared Function TerminateJobByJobName(ByVal jobName As String, _
             Optional ByVal exitCode As Integer = 0) As Boolean
 
-            Dim hJob As IntPtr
-            Dim ret As Boolean
-
             ' Open job by its name
             ' Query a valid handle (all acces)
-            hJob = BeginUsingValidJobHandle(jobName)
+            Dim hJob As IntPtr = BeginUsingValidJobHandle(jobName)
+            Dim ret As Boolean
 
             If hJob.IsNotNull Then
                 ' Then terminate job !
@@ -228,10 +226,11 @@ Namespace Native.Objects
 
         ' Enumerate created jobs
         Public Shared Function EnumerateJobLimitsByJobName(ByVal jobName As String) As Dictionary(Of String, jobLimitInfos)
-            Dim ret As New Dictionary(Of String, jobLimitInfos)
 
             ' First thing : we get a VALID handle to the job
             Dim hJob As IntPtr = BeginUsingValidJobHandle(jobName)
+
+            Dim ret As New Dictionary(Of String, jobLimitInfos)
 
             If hJob.IsNotNull Then
 
@@ -329,11 +328,12 @@ Namespace Native.Objects
 
         ' Enumerate Processes in a job
         Public Shared Function GetProcessesInJobByName(ByVal jobName As String) As Dictionary(Of String, processInfos)
-            Dim procs As New Dictionary(Of String, processInfos)
-            Dim ret As Integer
 
             ' Query valid handle
             Dim hJob As IntPtr = BeginUsingValidJobHandle(jobName)
+
+            Dim procs As New Dictionary(Of String, processInfos)
+            Dim ret As Integer
 
             If hJob.IsNotNull Then
 
@@ -612,11 +612,12 @@ Namespace Native.Objects
         ' Query a job information struct
         Friend Shared Function QueryJobInformationByName(Of T)(ByVal name As String, _
                                 ByVal info As NativeEnums.JobObjectInformationClass) As T
-            Dim ret As Integer
-            Dim retStruct As T = Nothing
 
             ' Query valid handle
             Dim handle As IntPtr = BeginUsingValidJobHandle(name)
+
+            Dim ret As Integer
+            Dim retStruct As T = Nothing
 
             If handle.IsNotNull Then
 
@@ -676,10 +677,10 @@ Namespace Native.Objects
                                 ByVal info As NativeEnums.JobObjectInformationClass, _
                                 ByVal limit As T) As Boolean
 
-            Dim ret As Boolean
-
             ' Query valid handle
             Dim handle As IntPtr = BeginUsingValidJobHandle(name)
+
+            Dim ret As Boolean
 
             If handle.IsNotNull Then
                 Dim memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
