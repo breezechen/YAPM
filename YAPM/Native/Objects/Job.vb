@@ -346,10 +346,16 @@ Namespace Native.Objects
                 If ret > 0 Then
                     Dim list As NativeStructs.JobObjectBasicProcessIdList = _
                         memAlloc.ReadStruct(Of NativeStructs.JobObjectBasicProcessIdList)()
-
+                    Debug.WriteLine(list.ProcessIdsCount.ToString)
                     For i As Integer = 0 To list.ProcessIdsCount - 1
-                        Dim pid As Integer = memAlloc.ReadInt32(&H8, i)
-                        procs.Add(pid.ToString, cProcess.GetProcessById(pid).Infos)     ' &h8 cause of two first Int32
+                        Dim pid As Integer = memAlloc.ReadInt32(&H8, i)      ' &h8 cause of two first Int32
+                        Dim proc As cProcess = cProcess.GetProcessById(pid)
+                        ' /!\ We HAVE to check that the cProcess we retrieve
+                        ' is NOT null, as it may has just been created and is not
+                        ' yet available in list of cProcesses
+                        If proc IsNot Nothing Then
+                            procs.Add(pid.ToString, proc.Infos)
+                        End If
                     Next
                 End If
 

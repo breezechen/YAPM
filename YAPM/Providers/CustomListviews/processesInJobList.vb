@@ -209,7 +209,6 @@ Public Class processesInJobList
                 ' Add to dico
                 _dicoNew.Add(cp.ProcessId.ToString, cProcess.GetProcessById(cp.ProcessId))
             End If
-
         Next
 
 
