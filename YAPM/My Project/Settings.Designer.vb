@@ -808,7 +808,8 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Local?266?0$Remote?214?1$Protocol?65?2$State?99?3$LocalPortDescription?182?4$")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Local?266?0$Remote?214?1$Protocol?65?2$State?99?3$LocalPortDescription?182?4$Proc"& _ 
+            "ess?100?5")>  _
         Public Property COLmain_network() As String
             Get
                 Return CType(Me("COLmain_network"),String)
