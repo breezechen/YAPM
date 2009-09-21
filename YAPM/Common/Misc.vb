@@ -980,6 +980,22 @@ Namespace Common
 
         End Function
 
+        ' Return True if a byte array is null or filled with empty values
+        Public Shared Function IsByteArrayNullOrEmpty(ByRef bArray() As Byte) As Boolean
+            If bArray Is Nothing Then
+                Return True
+            Else
+                For Each b As Byte In bArray
+                    If b <> 0 Then
+                        Return False
+                    End If
+                Next
+                Return True
+            End If
+        End Function
+
+
+
 
 
         ' ========================================

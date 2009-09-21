@@ -49,22 +49,25 @@ Imports System.Net
     Private _key As String
     Private _State As Native.Api.Enums.MibTcpState
     Private _procName As String
-    Friend _localString As String
-    Friend _remoteString As String
+    Private _localString As String
+    Private _remoteString As String
 
 #End Region
 
-#Region "Read only properties"
+#Region "Properties"
 
     Public ReadOnly Property ProcessId() As Integer
         Get
             Return _pid
         End Get
     End Property
-    Public ReadOnly Property ProcessName() As String
+    Public Property ProcessName() As String
         Get
             Return _procName
         End Get
+        Set(ByVal value As String)
+            _procName = value
+        End Set
     End Property
     Public ReadOnly Property Protocol() As Native.Api.Enums.NetworkProtocol
         Get
@@ -91,15 +94,21 @@ Imports System.Net
             Return _remote
         End Get
     End Property
-    Public ReadOnly Property RemoteString() As String
+    Public Property RemoteString() As String
         Get
             Return _remoteString
         End Get
+        Set(ByVal value As String)
+            _remoteString = value
+        End Set
     End Property
-    Public ReadOnly Property LocalString() As String
+    Public Property LocalString() As String
         Get
             Return _localString
         End Get
+        Set(ByVal value As String)
+            _localString = value
+        End Set
     End Property
 
 #End Region
@@ -130,14 +139,15 @@ Imports System.Net
 
     ' Retrieve all information's names availables
     Public Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
-        Dim s(5) As String
+        Dim s(6) As String
 
         s(0) = "Remote"
         s(1) = "Protocol"
         s(2) = "ProcessId"
-        s(3) = "State"
-        s(4) = "LocalPortDescription"
-        s(5) = "RemotePortDescription"
+        s(3) = "Process"
+        s(4) = "State"
+        s(5) = "LocalPortDescription"
+        s(6) = "RemotePortDescription"
 
         If includeFirstProp Then
             Dim s2(s.Length) As String

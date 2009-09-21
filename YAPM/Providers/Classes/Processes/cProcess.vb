@@ -1319,14 +1319,9 @@ Public Class cProcess
 
 #Region "Shared function"
 
-    ' Return path
-    Public Shared Function GetPath(ByVal pid As Integer) As String
-        Return Native.Objects.Process.GetProcessPathById(pid)
-    End Function
-
     ' Return process from id
-    Public Shared Function GetProcessById(ByVal id As Integer) As cProcess
-        Return Native.Objects.Process.GetProcessById(id)
+    Public Shared Function GetProcessById(ByVal pid As Integer) As cProcess
+        Return Native.Objects.Process.GetProcessById(pid)
     End Function
 
     ' Return Process name
@@ -1340,7 +1335,7 @@ Public Class cProcess
                 If _procs.ContainsKey(pid.ToString) Then
                     Return _procs.Item(pid.ToString)
                 Else
-                    Return cFile.GetFileName(Native.Objects.Process.GetProcessPathById(pid))
+                    Return NO_INFO_RETRIEVED
                 End If
         End Select
     End Function

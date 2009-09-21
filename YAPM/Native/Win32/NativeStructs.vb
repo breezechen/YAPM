@@ -592,19 +592,28 @@ Namespace Native.Api
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure MibTcpRowOwnerPid
-            Public dwState As Integer
-            Public dwLocalAddr As Integer
-            Public dwLocalPort As Integer
-            Public dwRemoteAddr As Integer
-            Public dwRemotePort As Integer
-            Public dwOwningPid As Integer
+            Public State As Integer
+            Public LocalAddr As Integer
+            Public LocalPort As Integer
+            Public RemoteAddr As Integer
+            Public RemotePort As Integer
+            Public OwningPid As Integer
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure MibUdpRowOwnerId
-            Public dwLocalAddr As Integer
-            Public dwLocalPort As Integer
-            Public dwOwningPid As Integer
+            Public LocalAddr As Integer
+            Public LocalPort As Integer
+            Public OwningPid As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibUdp6RowOwnerId
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=16)> _
+            Public LocalAddr As Byte()
+            Public LocalScopeId As Integer
+            Public LocalPort As Integer
+            Public OwningPid As Integer
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -614,6 +623,20 @@ Namespace Native.Api
             Public LocalPort As Integer
             Public RemoteAddress As UInteger
             Public RemotePort As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibTcp6RowOwnerPid
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=16)> _
+            Public LocalAddr As Byte()
+            Public LocalScopeId As UInteger
+            Public LocalPort As Integer
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=16)> _
+            Public RemoteAddr As Byte()
+            Public RemoteScopeId As UInteger
+            Public RemotePort As Integer
+            Public State As Enums.MibTcpState
+            Public OwningPid As Integer
         End Structure
 
 #End Region

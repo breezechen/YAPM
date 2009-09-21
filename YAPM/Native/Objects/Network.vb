@@ -38,9 +38,6 @@ Namespace Native.Objects
         ' Private attributes
         ' ========================================
 
-        ' Protection for enumeration
-        Private Shared semEnum As New System.Threading.Semaphore(1, 1)
-
 
         ' ========================================
         ' Public properties
@@ -56,42 +53,40 @@ Namespace Native.Objects
         ' Public functions
         ' ========================================
 
-        ' Local enumeration of network informations
         Public Shared Sub EnumerateTcpUdpConnections(ByRef _dico As Dictionary(Of String, networkInfos), _
                                 ByVal allProcesses As Boolean, _
                                 Optional ByVal processIds() As Integer = Nothing)
 
-            Dim length As Integer = 0
+            Dim count As Integer
+            Dim length As Integer
 
             If processIds Is Nothing AndAlso allProcesses = False Then
                 Exit Sub
             End If
 
-            semEnum.WaitOne()
-
-            ' --------- TCP
-            ' Get needed size of memory to allocate
-            NativeFunctions.GetExtendedTcpTable(IntPtr.Zero, length, False, NativeEnums.IpVersion.AfInet, _
+            ' ===== TCP (IpV4)
+            length = 0
+            NativeFunctions.GetExtendedTcpTable(IntPtr.Zero, length, False, _
+                                                NativeEnums.IpVersion.AfInet, _
                                                 Enums.TcpTableClass.OwnerPidAll, 0)
-            ' Allocate memory
-            Dim memTcp As New Memory.MemoryAlloc(length)
-            ' Get table
-            If NativeFunctions.GetExtendedTcpTable(memTcp.Pointer, length, False, NativeEnums.IpVersion.AfInet, Enums.TcpTableClass.OwnerPidAll, 0) = 0 Then
 
-                Dim count As Integer = memTcp.ReadInt32(0)
+            Dim memBuf As New Memory.MemoryAlloc(length)
+            If NativeFunctions.GetExtendedTcpTable(memBuf, length, False, _
+                                                   NativeEnums.IpVersion.AfInet, _
+                                                   Enums.TcpTableClass.OwnerPidAll, _
+                                                   0) = 0 Then
 
+                count = memBuf.ReadInt32(0)
                 For i As Integer = 0 To count - 1
-                    Dim tcp_item As NativeStructs.MibTcpRowOwnerPid
+                    Dim tcp_item As NativeStructs.MibTcpRowOwnerPid = _
+                            memBuf.ReadStruct(Of NativeStructs.MibTcpRowOwnerPid)(&H4, i)
 
-                    ' Read struct with an offset of 4 bytes (these bytes contains item count)
-                    ' 4 first bytes for Count
-                    tcp_item = memTcp.ReadStruct(Of NativeStructs.MibTcpRowOwnerPid)(&H4, i)
 
                     ' Test if belongs to PID list
                     Dim bOkToAdd As Boolean = allProcesses
                     If allProcesses = False Then
                         For Each pid As Integer In processIds
-                            If pid = tcp_item.dwOwningPid Then
+                            If pid = tcp_item.OwningPid Then
                                 bOkToAdd = True
                                 Exit For
                             End If
@@ -100,22 +95,22 @@ Namespace Native.Objects
 
                     If bOkToAdd Then
                         Dim n As IPEndPoint = Nothing
-                        If tcp_item.dwLocalAddr > 0 Then
-                            n = New IPEndPoint(tcp_item.dwLocalAddr, PermuteBytes(tcp_item.dwLocalPort))
+                        If tcp_item.LocalAddr > 0 Then
+                            n = New IPEndPoint(tcp_item.LocalAddr, PermuteBytes(tcp_item.LocalPort))
                         Else
-                            n = New IPEndPoint(0, PermuteBytes(tcp_item.dwLocalPort))
+                            n = New IPEndPoint(0, PermuteBytes(tcp_item.LocalPort))
                         End If
                         Dim n2 As IPEndPoint
-                        If tcp_item.dwRemoteAddr > 0 Then
-                            n2 = New IPEndPoint(tcp_item.dwRemoteAddr, PermuteBytes(tcp_item.dwRemotePort))
+                        If tcp_item.RemoteAddr > 0 Then
+                            n2 = New IPEndPoint(tcp_item.RemoteAddr, PermuteBytes(tcp_item.RemotePort))
                         Else
                             n2 = Nothing
                         End If
 
                         Dim res As New Structs.LightConnection
                         With res
-                            .dwOwningPid = tcp_item.dwOwningPid
-                            .dwState = tcp_item.dwState
+                            .dwOwningPid = tcp_item.OwningPid
+                            .dwState = tcp_item.State
                             .local = n
                             .remote = n2
                             .dwType = Enums.NetworkProtocol.Tcp
@@ -125,37 +120,35 @@ Namespace Native.Objects
                             _dico.Add(key, New networkInfos(res))
                         End If
                     End If
+
                 Next
-
-                memTcp.Free()
-
             End If
+            memBuf.Free()
 
 
-            ' --------- UDP
-            ' Get needed size of memory to allocate
-            NativeFunctions.GetExtendedUdpTable(IntPtr.Zero, length, False, NativeEnums.IpVersion.AfInet, Enums.UdpTableClass.OwnerPid, 0)
-            ' Allocate memory
-            Dim memUdp As New Memory.MemoryAlloc(length)
-            ' Get table
-            If NativeFunctions.GetExtendedUdpTable(memUdp.Pointer, length, False, NativeEnums.IpVersion.AfInet, Enums.UdpTableClass.OwnerPid, 0) = 0 Then
+            ' ===== UDP (IPv4)
+            length = 0
+            NativeFunctions.GetExtendedUdpTable(IntPtr.Zero, length, False, _
+                                                NativeEnums.IpVersion.AfInet, _
+                                                Enums.UdpTableClass.OwnerPid, 0)
 
-                Dim count2 As Integer = memUdp.ReadInt32(0)
+            memBuf = New Memory.MemoryAlloc(length)
+            If NativeFunctions.GetExtendedUdpTable(memBuf, length, False, _
+                                                   NativeEnums.IpVersion.AfInet, _
+                                                   Enums.UdpTableClass.OwnerPid, _
+                                                   0) = 0 Then
 
-                For i As Integer = 0 To count2 - 1
-                    Dim udp_item As NativeStructs.MibUdpRowOwnerId
+                count = memBuf.ReadInt32(0)
+                For i As Integer = 0 To count - 1
+                    Dim udp_item As NativeStructs.MibUdpRowOwnerId = _
+                            memBuf.ReadStruct(Of NativeStructs.MibUdpRowOwnerId)(&H4, i)
 
-                    ' Read struct with an offset of 4 bytes (these bytes contains item count)
-                    ' 4 first bytes for Count
-                    ' Read struct with an offset of 4 bytes (these bytes contains item count)
-                    ' 4 first bytes for Count
-                    udp_item = memUdp.ReadStruct(Of NativeStructs.MibUdpRowOwnerId)(&H4, i)
 
                     ' Test if belongs to PID list
                     Dim bOkToAdd As Boolean = allProcesses
                     If allProcesses = False Then
                         For Each pid As Integer In processIds
-                            If pid = udp_item.dwOwningPid Then
+                            If pid = udp_item.OwningPid Then
                                 bOkToAdd = True
                                 Exit For
                             End If
@@ -164,15 +157,15 @@ Namespace Native.Objects
 
                     If bOkToAdd Then
                         Dim n As IPEndPoint = Nothing
-                        If udp_item.dwLocalAddr > 0 Then
-                            n = New IPEndPoint(udp_item.dwLocalAddr, PermuteBytes(udp_item.dwLocalPort))
+                        If udp_item.LocalAddr > 0 Then
+                            n = New IPEndPoint(udp_item.LocalAddr, PermuteBytes(udp_item.LocalPort))
                         Else
-                            n = New IPEndPoint(0, PermuteBytes(udp_item.dwLocalPort))
+                            n = New IPEndPoint(0, PermuteBytes(udp_item.LocalPort))
                         End If
 
                         Dim res As New Structs.LightConnection
                         With res
-                            .dwOwningPid = udp_item.dwOwningPid
+                            .dwOwningPid = udp_item.OwningPid
                             .dwState = 0
                             .local = n
                             .dwType = Enums.NetworkProtocol.Udp
@@ -184,13 +177,131 @@ Namespace Native.Objects
                             _dico.Add(key, New networkInfos(res))
                         End If
                     End If
+
                 Next
-
-                memUdp.Free()
             End If
+            memBuf.Free()
 
-            semEnum.Release()
+
+            ' ===== TCP (IPv6)
+            length = 0
+            NativeFunctions.GetExtendedTcpTable(IntPtr.Zero, length, False, _
+                                                NativeEnums.IpVersion.AfInt6, _
+                                                Enums.TcpTableClass.OwnerPidAll, 0)
+
+            memBuf = New Memory.MemoryAlloc(length)
+            If NativeFunctions.GetExtendedTcpTable(memBuf, length, False, _
+                                                   NativeEnums.IpVersion.AfInt6, _
+                                                   Enums.TcpTableClass.OwnerPidAll, _
+                                                   0) = 0 Then
+                count = memBuf.ReadInt32(0)
+                For i As Integer = 0 To count - 1
+                    Dim tcp_item As NativeStructs.MibTcp6RowOwnerPid = _
+                            memBuf.ReadStruct(Of NativeStructs.MibTcp6RowOwnerPid)(&H4, i)
+
+
+                    ' Test if belongs to PID list
+                    Dim bOkToAdd As Boolean = allProcesses
+                    If allProcesses = False Then
+                        For Each pid As Integer In processIds
+                            If pid = tcp_item.OwningPid Then
+                                bOkToAdd = True
+                                Exit For
+                            End If
+                        Next
+                    End If
+
+                    If bOkToAdd Then
+                        Dim n As IPEndPoint = Nothing
+                        If Common.Misc.IsByteArrayNullOrEmpty(tcp_item.LocalAddr) = False Then
+                            n = New IPEndPoint(New IPAddress(tcp_item.LocalAddr), PermuteBytes(tcp_item.LocalPort))
+                        Else
+                            n = New IPEndPoint(0, PermuteBytes(tcp_item.LocalPort))
+                        End If
+                        Dim n2 As IPEndPoint
+                        If Common.Misc.IsByteArrayNullOrEmpty(tcp_item.RemoteAddr) = False Then
+                            n2 = New IPEndPoint(New IPAddress(tcp_item.RemoteAddr), PermuteBytes(tcp_item.RemotePort))
+                        Else
+                            n2 = Nothing
+                        End If
+
+                        Dim res As New Structs.LightConnection
+                        With res
+                            .dwOwningPid = tcp_item.OwningPid
+                            .dwState = tcp_item.State
+                            .local = n
+                            .remote = n2
+                            .dwType = Enums.NetworkProtocol.Tcp6
+                        End With
+                        Dim key As String = res.dwOwningPid.ToString & "-" & Enums.NetworkProtocol.Tcp6.ToString & "-" & res.local.ToString
+                        If _dico.ContainsKey(key) = False Then
+                            _dico.Add(key, New networkInfos(res))
+                        End If
+                    End If
+
+                Next
+            End If
+            memBuf.Free()
+
+
+
+            ' ===== UDP (IPv6)
+            length = 0
+            NativeFunctions.GetExtendedUdpTable(IntPtr.Zero, length, False, _
+                                                NativeEnums.IpVersion.AfInt6, _
+                                                Enums.UdpTableClass.OwnerPid, 0)
+
+            memBuf = New Memory.MemoryAlloc(length)
+            If NativeFunctions.GetExtendedUdpTable(memBuf, length, False, _
+                                                   NativeEnums.IpVersion.AfInt6, _
+                                                   Enums.UdpTableClass.OwnerPid, _
+                                                   0) = 0 Then
+                count = memBuf.ReadInt32(0)
+                For i As Integer = 0 To count - 1
+                    Dim udp_item As NativeStructs.MibUdp6RowOwnerId = _
+                            memBuf.ReadStruct(Of NativeStructs.MibUdp6RowOwnerId)(&H4, i)
+
+
+                    ' Test if belongs to PID list
+                    Dim bOkToAdd As Boolean = allProcesses
+                    If allProcesses = False Then
+                        For Each pid As Integer In processIds
+                            If pid = udp_item.OwningPid Then
+                                bOkToAdd = True
+                                Exit For
+                            End If
+                        Next
+                    End If
+
+                    If bOkToAdd Then
+                        Dim n As IPEndPoint = Nothing
+                        If Common.Misc.IsByteArrayNullOrEmpty(udp_item.LocalAddr) = False Then
+                            n = New IPEndPoint(New IPAddress(udp_item.LocalAddr), PermuteBytes(udp_item.LocalPort))
+                        Else
+                            n = New IPEndPoint(0, PermuteBytes(udp_item.LocalPort))
+                        End If
+
+                        Dim res As New Structs.LightConnection
+                        With res
+                            .dwOwningPid = udp_item.OwningPid
+                            .dwState = 0
+                            .local = n
+                            .dwType = Enums.NetworkProtocol.Udp6
+                            .remote = Nothing
+                        End With
+
+                        Dim key As String = res.dwOwningPid.ToString & "-" & Enums.NetworkProtocol.Udp6.ToString & "-" & res.local.ToString
+                        If _dico.ContainsKey(key) = False Then
+                            _dico.Add(key, New networkInfos(res))
+                        End If
+                    End If
+
+                Next
+            End If
+            memBuf.Free()
+
         End Sub
+
 
         ' Close a TCP connection
         Public Shared Function CloseTcpConnectionByIPEndPoints(ByVal local As IPEndPoint, _
@@ -211,6 +322,7 @@ Namespace Native.Objects
 
             Return NativeFunctions.SetTcpEntry(row)
         End Function
+
 
         ' Connect to a remote machine
         Public Shared Function ConnectToRemoteMachine(ByVal machineName As String, _

@@ -1338,7 +1338,7 @@ Namespace Native.Api
 
         Public Enum IpVersion As UInteger
             AfInet = &H2
-            AfInt6 = &HA
+            AfInt6 = &H17
         End Enum
 
         <Flags()> _

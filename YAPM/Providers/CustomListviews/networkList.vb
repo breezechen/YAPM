@@ -43,7 +43,9 @@ Public Class networkList
     Private WithEvents _connectionObject As New cConnection
     Private WithEvents _networkConnection As New cNetworkConnection(Me, _connectionObject, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
     Private _all As Boolean = False
+    Private _showGroups As Boolean = False
     Private _pid As Integer()
+
 
 #Region "Properties"
 
@@ -72,6 +74,14 @@ Public Class networkList
         End Get
         Set(ByVal value As Boolean)
             _all = value
+        End Set
+    End Property
+    Public Property ShowConnectionsByProcessesGroup() As Boolean
+        Get
+            Return _showGroups
+        End Get
+        Set(ByVal value As Boolean)
+            _showGroups = value
         End Set
     End Property
 
@@ -316,17 +326,17 @@ Public Class networkList
         item.Tag = key
 
         ' Add a group if necessary
-        If _all Then
-            If Me.Groups(CStr(net.Infos.ProcessId)) Is Nothing Then
+        If ShowConnectionsByProcessesGroup AndAlso _all Then
+            If Me.Groups(net.Infos.ProcessId.ToString) Is Nothing Then
                 Dim sText As String
                 If net.Infos.ProcessId > 0 Then
-                    sText = net.Infos.ProcessName & " (" & CStr(net.Infos.ProcessId) & ")"
+                    sText = net.Infos.ProcessName & " (" & net.Infos.ProcessId.ToString & ")"
                 Else
                     sText = "Unknow process"
                 End If
-                Me.Groups.Add(CStr(net.Infos.ProcessId), sText)
+                Me.Groups.Add(net.Infos.ProcessId.ToString, sText)
             End If
-            item.Group = Me.Groups(CStr(net.Infos.ProcessId))
+            item.Group = Me.Groups(net.Infos.ProcessId.ToString)
         End If
 
         Return item

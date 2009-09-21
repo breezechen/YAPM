@@ -221,8 +221,8 @@ Public Class cNetwork
         Select Case info
             Case "Local"
                 If Me.Infos.Local IsNot Nothing Then
-                    If Len(Me.Infos._localString) > 0 Then
-                        res = Me.Infos.Local.ToString & "  ----  " & Me.Infos._localString
+                    If Len(Me.Infos.LocalString) > 0 Then
+                        res = Me.Infos.Local.ToString & "  ----  " & Me.Infos.LocalString
                     Else
                         res = Me.Infos.Local.ToString
                     End If
@@ -231,8 +231,8 @@ Public Class cNetwork
                 End If
             Case "Remote"
                 If Me.Infos.Remote IsNot Nothing Then
-                    If Len(Me.Infos._remoteString) > 0 Then
-                        res = Me.Infos.Remote.ToString & "  ----  " & Me.Infos._remoteString
+                    If Len(Me.Infos.RemoteString) > 0 Then
+                        res = Me.Infos.Remote.ToString & "  ----  " & Me.Infos.RemoteString
                     Else
                         res = Me.Infos.Remote.ToString
                     End If
@@ -241,6 +241,8 @@ Public Class cNetwork
                 res = Me.Infos.Protocol.ToString.ToUpperInvariant
             Case "ProcessId"
                 res = Me.Infos.ProcessId.ToString
+            Case "Process"
+                res = Me.Infos.ProcessName & " (" & Me.Infos.ProcessId.ToString & ")"
             Case "State"
                 If Me.Infos.Protocol = Native.Api.Enums.NetworkProtocol.Tcp Then
                     res = Me.Infos.State.ToString
@@ -271,6 +273,7 @@ Public Class cNetwork
         Static _old_Remote As String = ""
         Static _old_ProcessId As String = ""
         Static _old_State As String = ""
+        Static _old_Process As String = ""
         Static _old_LocalPortDescription As String = ""
         Static _old_RemotePortDescription As String = ""
         Static oldRemotePort As Integer = getRemotePort()
@@ -301,8 +304,8 @@ Public Class cNetwork
         Select Case info
             Case "Local"
                 If Me.Infos.Local IsNot Nothing Then
-                    If Len(Me.Infos._localString) > 0 Then
-                        res = Me.Infos.Local.ToString & "  ----  " & Me.Infos._localString
+                    If Len(Me.Infos.LocalString) > 0 Then
+                        res = Me.Infos.Local.ToString & "  ----  " & Me.Infos.LocalString
                     Else
                         res = Me.Infos.Local.ToString
                     End If
@@ -316,8 +319,8 @@ Public Class cNetwork
                 End If
             Case "Remote"
                 If Me.Infos.Remote IsNot Nothing Then
-                    If Len(Me.Infos._remoteString) > 0 Then
-                        res = Me.Infos.Remote.ToString & "  ----  " & Me.Infos._remoteString
+                    If Len(Me.Infos.RemoteString) > 0 Then
+                        res = Me.Infos.Remote.ToString & "  ----  " & Me.Infos.RemoteString
                     Else
                         res = Me.Infos.Remote.ToString
                     End If
@@ -333,6 +336,13 @@ Public Class cNetwork
                     hasChanged = False
                 Else
                     _old_Protocol = res
+                End If
+            Case "Process"
+                res = Me.Infos.ProcessName & " (" & Me.Infos.ProcessId.ToString & ")"
+                If res = _old_Process Then
+                    hasChanged = False
+                Else
+                    _old_Process = res
                 End If
             Case "ProcessId"
                 res = Me.Infos.ProcessId.ToString
@@ -389,7 +399,7 @@ Public Class cNetwork
             Catch ex As Exception
                 Exit Sub
             End Try
-            Me.Infos._localString = hostEntry.HostName
+            Me.Infos.LocalString = hostEntry.HostName
             _haveResolvedAnAddress = True
         End If
     End Sub
@@ -402,7 +412,7 @@ Public Class cNetwork
             Catch ex As Exception
                 Exit Sub
             End Try
-            Me.Infos._remoteString = hostEntry.HostName
+            Me.Infos.RemoteString = hostEntry.HostName
             _haveResolvedAnAddress = True
         End If
     End Sub

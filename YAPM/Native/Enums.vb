@@ -91,7 +91,9 @@ Namespace Native.Api
 
         Public Enum NetworkProtocol As Integer
             Tcp
+            Tcp6
             Udp
+            Udp6
         End Enum
 
 #End Region
