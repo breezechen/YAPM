@@ -94,7 +94,7 @@ Public Class asyncCallbackWindowEnumerate
                 ' Local
                 Dim _dico As New Dictionary(Of String, windowInfos)
 
-                Native.Objects.Window.EnumerateWindowsByProcessId(pObj.pid, pObj.all, pObj.unnamed, _dico)
+                Native.Objects.Window.EnumerateWindowsByProcessId(pObj.pid, pObj.all, pObj.unnamed, _dico, Program.Parameters.ModeServer)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)

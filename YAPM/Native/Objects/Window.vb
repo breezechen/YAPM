@@ -79,7 +79,8 @@ Namespace Native.Objects
         Public Shared Sub EnumerateWindowsByProcessId(ByVal processId() As Integer, _
                                       ByVal allProcesses As Boolean, _
                                       ByVal showUnnamed As Boolean, _
-                                      ByRef _dico As Dictionary(Of String, windowInfos))
+                                      ByRef _dico As Dictionary(Of String, windowInfos), _
+                                      ByVal refreshAllInfos As Boolean)
             Dim currWnd As IntPtr
             Dim cpt As Integer
 
@@ -101,7 +102,16 @@ Namespace Native.Objects
                         Dim tid As Integer = GetThreadIdFromWindowHandle(currWnd)
                         Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
                         If _dico.ContainsKey(key) = False Then
-                            _dico.Add(key, New windowInfos(pid, tid, currWnd, sCap))
+                            If refreshAllInfos Then
+                                ' Then we need to retrieve all informations
+                                ' (this is server mode)
+                                Dim wInfo As windowInfos
+                                wInfo = New windowInfos(pid, tid, currWnd, sCap)
+                                wInfo.SetNonFixedInfos(asyncCallbackWindowGetNonFixedInfos.ProcessAndReturnLocal(currWnd))
+                                _dico.Add(key, wInfo)
+                            Else
+                                _dico.Add(key, New windowInfos(pid, tid, currWnd, sCap))
+                            End If
                         End If
                     End If
                 End If

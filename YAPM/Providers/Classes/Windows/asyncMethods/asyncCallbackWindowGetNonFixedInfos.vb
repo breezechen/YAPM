@@ -26,9 +26,6 @@ Imports YAPM.Native.Objects
 
 Public Class asyncCallbackWindowGetNonFixedInfos
 
-    Private _handle As IntPtr
-    Private _connection As cWindowConnection
-
     Public Structure TheseInfos
         Public enabled As Boolean
         Public height As Integer
@@ -55,30 +52,15 @@ Public Class asyncCallbackWindowGetNonFixedInfos
         End Sub
     End Structure
 
-    Public Event GatheredInfos(ByVal infos As TheseInfos)
-
-    Public Sub New(ByVal handle As IntPtr, ByRef procConnection As cWindowConnection)
-        _handle = handle
-        _connection = procConnection
-    End Sub
-
-    Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-
-            Case Else
-                ' Local
-                Dim enabled As Boolean = Window.IsWindowEnabled(_handle)
-                Dim visible As Boolean = Window.IsWindowVisible(_handle)
-                Dim opacity As Byte = Window.GetWindowOpacityByHandle(_handle)
-                Dim isTask As Boolean = Window.IsWindowATask(_handle)
-                Dim r As Native.Api.NativeStructs.Rect = Window.GetWindowPositionAndSizeByHandle(_handle)
-                Dim s As String = Window.GetWindowCaption(_handle)
-
-                RaiseEvent GatheredInfos(New TheseInfos(enabled, isTask, opacity, r, s, visible))
-        End Select
-    End Sub
+    ' Totally sync retrieving of informations
+    Public Shared Function ProcessAndReturnLocal(ByVal handle As IntPtr) As TheseInfos
+        Dim enabled As Boolean = Window.IsWindowEnabled(handle)
+        Dim visible As Boolean = Window.IsWindowVisible(handle)
+        Dim opacity As Byte = Window.GetWindowOpacityByHandle(handle)
+        Dim isTask As Boolean = Window.IsWindowATask(handle)
+        Dim r As Native.Api.NativeStructs.Rect = Window.GetWindowPositionAndSizeByHandle(handle)
+        Dim s As String = Window.GetWindowCaption(handle)
+        Return New TheseInfos(enabled, isTask, opacity, r, s, visible)
+    End Function
 
 End Class

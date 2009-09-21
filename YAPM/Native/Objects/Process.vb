@@ -1217,7 +1217,7 @@ Namespace Native.Objects
 
             ' Enumerate windows
             Dim _dico As New Dictionary(Of String, windowInfos)
-            Objects.Window.EnumerateWindowsByProcessId(pids, False, True, _dico)
+            Objects.Window.EnumerateWindowsByProcessId(pids, False, True, _dico, False)
 
             For Each w As windowInfos In _dico.Values
                 Objects.Window.CloseWindowByHandle(w.Handle)

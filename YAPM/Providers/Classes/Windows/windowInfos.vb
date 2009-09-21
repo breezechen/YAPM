@@ -130,10 +130,22 @@ Imports System.Runtime.InteropServices
     ' Public
     ' ========================================
     Public Sub New(ByRef window As windowInfos)
-        _processId = window.ProcessId
-        _threadId = window.ThreadId
-        _handle = window.Handle
-        _caption = window.Caption
+        With window
+            _processId = .ProcessId
+            _threadId = .ThreadId
+            _handle = .Handle
+            _caption = .Caption
+            _procName = .ProcessName
+            _isTask = .IsTask
+            _positions = .Positions
+            _enabled = .Enabled
+            _visible = .Visible
+            _height = .Height
+            _width = .Width
+            _top = .Top
+            _left = .Left
+            _opacity = .Opacity
+        End With
     End Sub
     Public Sub New(ByVal pid As Integer, ByVal tid As Integer, ByVal handle As IntPtr, ByVal caption As String)
         _processId = pid

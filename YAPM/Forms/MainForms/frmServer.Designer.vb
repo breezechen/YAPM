@@ -106,7 +106,7 @@ Partial Class frmServer
         Me.lvServer.FullRowSelect = True
         Me.lvServer.Location = New System.Drawing.Point(0, 0)
         Me.lvServer.Name = "lvServer"
-        Me.lvServer.OverriddenDoubleBuffered = False
+        Me.lvServer.OverriddenDoubleBuffered = True
         Me.lvServer.Size = New System.Drawing.Size(538, 259)
         Me.lvServer.TabIndex = 9
         Me.lvServer.UseCompatibleStateImageBehavior = False

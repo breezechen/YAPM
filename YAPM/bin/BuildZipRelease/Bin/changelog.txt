@@ -17,6 +17,8 @@ CHANGES FROM 2.1.0
 - Now file signature verification can be disabled
 - Now YAPM automatically detect process termination and displays exit code
 - Now ALL dangerous actions display a warning (if not disabled in options)
+- Now ALL windows functions are working for remote monitoring
+- Now ALL informations about windows are retrieved with remote monitoring
 - Removed 100KB limit for history buffer
 - Improved search speed alot & display a message when searching
 - Added 'Restart elevated' button in job tab if user has no privileges

@@ -47,7 +47,7 @@ Public Class cWindow
 #Region "Constructors & destructor"
 
     Public Sub New(ByRef infos As windowInfos)
-        _windowInfos = New windowInfos(infos)
+        _windowInfos = infos
         _connection = Connection
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Window
     End Sub
@@ -130,26 +130,20 @@ Public Class cWindow
 
 #Region "Special informations (GDI, affinity)"
 
-    ' Refresh some non fixed infos
-    ' For now IT IS NOT ASYNC
-    ' Because create ~50 threads-pools/sec is not really cool
-    Private WithEvents asyncNonFixed As asyncCallbackWindowGetNonFixedInfos
     Private Sub RefreshSpecialInformations()
         Select Case _connection.ConnectionObj.ConnectionType
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                ' Nothing here !!
+                ' We retrieve ALL informations about a window when
+                ' we are enumerating them in Server mode
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                ' Not supported
 
             Case Else
-                ' Local
-                If asyncNonFixed Is Nothing Then
-                    asyncNonFixed = New asyncCallbackWindowGetNonFixedInfos(Me.Infos.Handle, _connection)
-                End If
-                asyncNonFixed.Process()
+                ' Local and sync
+                Me.Infos.SetNonFixedInfos(asyncCallbackWindowGetNonFixedInfos.ProcessAndReturnLocal(Me.Infos.Handle))
         End Select
-    End Sub
-    Private Sub nonFixedInfosGathered(ByVal infos As asyncCallbackWindowGetNonFixedInfos.TheseInfos) Handles asyncNonFixed.GatheredInfos
-        Me.Infos.SetNonFixedInfos(infos)
     End Sub
 
 #End Region

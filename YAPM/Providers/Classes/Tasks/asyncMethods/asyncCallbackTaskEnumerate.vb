@@ -99,9 +99,20 @@ Public Class asyncCallbackTaskEnumerate
                         Dim pid As Integer = Window.GetProcessIdFromWindowHandle(currWnd)
                         Dim tid As Integer = Window.GetThreadIdFromWindowHandle(currWnd)
                         Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
+
                         If _dico.ContainsKey(key) = False Then
-                            _dico.Add(key, New windowInfos(pid, tid, currWnd, Window.GetWindowCaption(currWnd)))
+                            If Program.Parameters.ModeServer Then
+                                ' Then we need to retrieve all informations
+                                ' (this is server mode)
+                                Dim wInfo As windowInfos
+                                wInfo = New windowInfos(pid, tid, currWnd, Window.GetWindowCaption(currWnd))
+                                wInfo.SetNonFixedInfos(asyncCallbackWindowGetNonFixedInfos.ProcessAndReturnLocal(currWnd))
+                                _dico.Add(key, wInfo)
+                            Else
+                                _dico.Add(key, New windowInfos(pid, tid, currWnd, Window.GetWindowCaption(currWnd)))
+                            End If
                         End If
+
                     End If
 
                     currWnd = Window.GetWindow(currWnd, _

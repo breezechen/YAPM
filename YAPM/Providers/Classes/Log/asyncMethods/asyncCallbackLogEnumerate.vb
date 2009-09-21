@@ -424,7 +424,7 @@ Public Class asyncCallbackLogEnumerate
                     ' Get list
                     Dim pid(0) As Integer
                     pid(0) = pObj.pid
-                    Native.Objects.Window.EnumerateWindowsByProcessId(pid, False, True, __dicoWindows)
+                    Native.Objects.Window.EnumerateWindowsByProcessId(pid, False, True, __dicoWindows, False)
 
                     ' Store in static dico if it is first refresh
                     If firstWindows Then
