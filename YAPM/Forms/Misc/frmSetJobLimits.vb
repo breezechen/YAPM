@@ -182,9 +182,10 @@ Public Class frmSetJobLimits
     End Sub
 
     Private Sub cmdCreate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetLimits.Click
-        Call setLimits()
-        Me.DialogResult = Windows.Forms.DialogResult.OK
-        Me.Close()
+        If setLimits() = Windows.Forms.DialogResult.OK Then
+            Me.DialogResult = Windows.Forms.DialogResult.OK
+            Me.Close()
+        End If
     End Sub
 
     Private Sub cmdExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdExit.Click
@@ -255,7 +256,7 @@ Public Class frmSetJobLimits
         cFile.ShellOpenFile("http://msdn.microsoft.com/en-us/library/ms684152(VS.85).aspx", Me.Handle)
     End Sub
 
-    Private Sub setLimits()
+    Private Function setLimits() As DialogResult
         ' Set limits to the job
         Dim struct1 As New NativeStructs.JobObjectBasicUiRestrictions
         Dim struct2 As New NativeStructs.JobObjectExtendedLimitInformation
@@ -349,7 +350,7 @@ Public Class frmSetJobLimits
 
         ' Set limit
         If WarnDangerousAction("Are you sure you want to set the limits you specified ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
-            Exit Sub
+            Return Windows.Forms.DialogResult.Cancel
         End If
 
         Dim job As cJob = _frmMain.lvJob.GetItemByKey(_jobName)
@@ -357,6 +358,8 @@ Public Class frmSetJobLimits
             job.SetLimits(struct1, struct2)
         End If
 
-    End Sub
+        Return Windows.Forms.DialogResult.OK
+
+    End Function
 
 End Class
