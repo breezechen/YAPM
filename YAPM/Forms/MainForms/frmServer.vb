@@ -729,6 +729,13 @@ Public Class frmServer
 
                 ' ===== Service functions
                 Select Case cData.Order
+                    Case cSocketData.OrderType.ServiceDelete
+                        Dim name As String = CStr(cData.Param1)
+                        Try
+                            Native.Objects.Service.GetServiceByName(name).DeleteService()
+                        Catch ex As Exception
+                            ' Process does not exist
+                        End Try
                     Case cSocketData.OrderType.ServicePause
                         Dim name As String = CStr(cData.Param1)
                         Try

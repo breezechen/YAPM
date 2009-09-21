@@ -29,6 +29,7 @@ Partial Class frmServiceInfo
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
+        Me.cmdDelete = New System.Windows.Forms.Button
         Me.cmdResume = New System.Windows.Forms.Button
         Me.Label2 = New System.Windows.Forms.Label
         Me.cbStart = New System.Windows.Forms.ComboBox
@@ -196,6 +197,7 @@ Partial Class frmServiceInfo
         '
         'GroupBox7
         '
+        Me.GroupBox7.Controls.Add(Me.cmdDelete)
         Me.GroupBox7.Controls.Add(Me.cmdResume)
         Me.GroupBox7.Controls.Add(Me.Label2)
         Me.GroupBox7.Controls.Add(Me.cbStart)
@@ -209,6 +211,18 @@ Partial Class frmServiceInfo
         Me.GroupBox7.TabIndex = 18
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Actions"
+        '
+        'cmdDelete
+        '
+        Me.cmdDelete.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.cmdDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdDelete.Location = New System.Drawing.Point(166, 21)
+        Me.cmdDelete.Name = "cmdDelete"
+        Me.cmdDelete.Size = New System.Drawing.Size(66, 23)
+        Me.cmdDelete.TabIndex = 11
+        Me.cmdDelete.Text = "Delete"
+        Me.cmdDelete.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.cmdDelete.UseVisualStyleBackColor = True
         '
         'cmdResume
         '
@@ -1400,4 +1414,5 @@ Partial Class frmServiceInfo
     Private WithEvents mainMenu As System.Windows.Forms.MainMenu
     Friend WithEvents MenuItem3 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem4 As System.Windows.Forms.MenuItem
+    Friend WithEvents cmdDelete As System.Windows.Forms.Button
 End Class

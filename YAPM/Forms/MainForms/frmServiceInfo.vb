@@ -190,6 +190,7 @@ Public Class frmServiceInfo
         SetToolTip(Me.cmdStart, "Start service")
         SetToolTip(Me.cmdStop, "Stop service")
         SetToolTip(Me.cbStart, "Service start type")
+        SetToolTip(Me.cmdDelete, "Delete the service")
 
         Select Case My.Settings.ServSelectedTab
             Case "General - 1"
@@ -557,4 +558,14 @@ Public Class frmServiceInfo
         Call tabProcess_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
+    Private Sub cmdDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDelete.Click
+        If _notWMI Then
+            If My.Settings.WarnDangerousActions Then
+                If MsgBox("Are you sure you want to stop this service ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                    Exit Sub
+                End If
+            End If
+            curServ.DeleteService()
+        End If
+    End Sub
 End Class

@@ -8,7 +8,7 @@ CHANGES FROM 2.1.0
 - Removed all 'time' limitations concerning remote monitoring (auto refresh is now also active when monitoring remote machine)
 - Now Handles/Threads/Modules/Windows main tabs have been removed so that the UI is less confusing and simplified
 - Added Job management for remote monitoring
-- Added 'Create service' feature (local & remote)
+- Added 'Create/Delete service' features (local & remote)
 - Added 'Freeze list' & 'Search item' features in process' detailed view
 - Added IpV6 support
 - Added feature #2851904 (startup tab)
@@ -19,7 +19,7 @@ CHANGES FROM 2.1.0
 - Improved search speed alot & display a message when searching
 - Added 'Restart elevated' button in job tab if user has no privileges
 - Improved quick search in main tab (tasks, processes, services, search)
-- 'Delete' keydown on thread/handle list will terminate/close threads/handles
+- 'Delete' keydown on thread/handle/service list will terminate/close threads/handles/services
 - Now tcp.txt and udp.txt are embedded resources
 
 * Bug fixes

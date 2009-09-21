@@ -382,6 +382,7 @@ Partial Class frmProcessInfo
         Me.lblResCount = New System.Windows.Forms.Label
         Me.txtSearch = New System.Windows.Forms.TextBox
         Me.RadioButton1 = New System.Windows.Forms.RadioButton
+        Me.MenuItemServDelete = New System.Windows.Forms.MenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -1960,6 +1961,7 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.ProcessId = Nothing
         Me.lvProcNetwork.ReorganizeColumns = True
         Me.lvProcNetwork.ShowAllPid = False
+        Me.lvProcNetwork.ShowConnectionsByProcessesGroup = False
         Me.lvProcNetwork.Size = New System.Drawing.Size(641, 276)
         Me.lvProcNetwork.TabIndex = 21
         Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
@@ -2928,7 +2930,7 @@ Partial Class frmProcessInfo
         'MenuItemCopyService
         '
         Me.VistaMenu.SetImage(Me.MenuItemCopyService, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyService.Index = 16
+        Me.MenuItemCopyService.Index = 17
         Me.MenuItemCopyService.Text = "Copy to clipboard"
         '
         'MenuItemCopyLog
@@ -3222,7 +3224,7 @@ Partial Class frmProcessInfo
         '
         'mnuService
         '
-        Me.mnuService.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServDetails, Me.MenuItemServSelService, Me.MenuItem5, Me.MenuItemServFileProp, Me.MenuItemServOpenDir, Me.MenuItemServFileDetails, Me.MenuItemServSearch, Me.MenuItemServDepe, Me.MenuItem20, Me.MenuItemServPause, Me.MenuItemServStop, Me.MenuItemServStart, Me.MenuItem17, Me.MenuItem25, Me.MenuItemServReanalize, Me.MenuItem24, Me.MenuItemCopyService, Me.MenuItemServColumns})
+        Me.mnuService.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServDetails, Me.MenuItemServSelService, Me.MenuItem5, Me.MenuItemServFileProp, Me.MenuItemServOpenDir, Me.MenuItemServFileDetails, Me.MenuItemServSearch, Me.MenuItemServDepe, Me.MenuItem20, Me.MenuItemServPause, Me.MenuItemServStop, Me.MenuItemServStart, Me.MenuItem17, Me.MenuItemServDelete, Me.MenuItem25, Me.MenuItemServReanalize, Me.MenuItem24, Me.MenuItemCopyService, Me.MenuItemServColumns})
         '
         'MenuItemServDetails
         '
@@ -3254,22 +3256,22 @@ Partial Class frmProcessInfo
         '
         'MenuItem25
         '
-        Me.MenuItem25.Index = 13
+        Me.MenuItem25.Index = 14
         Me.MenuItem25.Text = "-"
         '
         'MenuItemServReanalize
         '
-        Me.MenuItemServReanalize.Index = 14
+        Me.MenuItemServReanalize.Index = 15
         Me.MenuItemServReanalize.Text = "Reanalize"
         '
         'MenuItem24
         '
-        Me.MenuItem24.Index = 15
+        Me.MenuItem24.Index = 16
         Me.MenuItem24.Text = "-"
         '
         'MenuItemServColumns
         '
-        Me.MenuItemServColumns.Index = 17
+        Me.MenuItemServColumns.Index = 18
         Me.MenuItemServColumns.Text = "Choose columns..."
         '
         'mnuLog
@@ -3369,6 +3371,12 @@ Partial Class frmProcessInfo
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(104, 24)
         Me.RadioButton1.TabIndex = 0
+        '
+        'MenuItemServDelete
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.YAPM.My.Resources.Resources.cross)
+        Me.MenuItemServDelete.Index = 13
+        Me.MenuItemServDelete.Text = "Delete"
         '
         'frmProcessInfo
         '
@@ -3795,4 +3803,5 @@ Partial Class frmProcessInfo
     Friend WithEvents txtSearch As System.Windows.Forms.TextBox
     Friend WithEvents chkFreeze As System.Windows.Forms.CheckBox
     Friend WithEvents cmdHideFindPanel As System.Windows.Forms.Button
+    Friend WithEvents MenuItemServDelete As System.Windows.Forms.MenuItem
 End Class

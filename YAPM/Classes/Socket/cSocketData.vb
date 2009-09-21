@@ -57,6 +57,7 @@ Option Strict On
         [ServiceResume]
         [ServiceStop]
         [ServiceStart]
+        [ServiceDelete]
         [ServiceChangeServiceStartType]
 
         ' Thread functions

@@ -1435,6 +1435,7 @@ Public Class frmProcessInfo
             Me.MenuItemServReanalize.Enabled = selectionIsNotNothing
             Me.MenuItemCopyService.Enabled = selectionIsNotNothing
             Me.MenuItemServDetails.Enabled = selectionIsNotNothing
+            Me.MenuItemServDelete.Enabled = selectionIsNotNothing AndAlso _notWMI
 
             Me.mnuService.Show(Me.lvProcServices, e.Location)
         End If
@@ -1929,6 +1930,11 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItemServStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServStop.Click
+        If My.Settings.WarnDangerousActions Then
+            If MsgBox("Are you sure you want to stop these services ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
         For Each it As cService In Me.lvProcServices.GetSelectedItems
             it.StopService()
         Next
@@ -2552,6 +2558,10 @@ Public Class frmProcessInfo
             If Me.SplitContainer.Panel2Collapsed Then
                 Call showFindPanel()
             End If
+        ElseIf e.KeyCode = Keys.Delete Then
+            If _notWMI Then
+                Call MenuItemServDelete_Click(Nothing, Nothing)
+            End If
         End If
     End Sub
 
@@ -2764,4 +2774,14 @@ Public Class frmProcessInfo
 
 #End Region
 
+    Private Sub MenuItemServDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDelete.Click
+        If My.Settings.WarnDangerousActions Then
+            If MsgBox("Are you sure you want to delete these services ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
+        For Each it As cService In Me.lvProcServices.GetSelectedItems
+            it.DeleteService()
+        Next
+    End Sub
 End Class

@@ -122,6 +122,31 @@ Public Class cService
     End Sub
 
 
+    ' Delete a service
+    Private _deleteServ As asyncCallbackServiceDelete
+    Public Function DeleteService() As Integer
+
+        If _deleteServ Is Nothing Then
+            _deleteServ = New asyncCallbackServiceDelete(New asyncCallbackServiceDelete.HasDeleted(AddressOf deleteServiceDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _deleteServ.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        AddPendingTask(newAction, t)
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackServiceDelete.poolObj(Me.Infos.Name, newAction))
+
+    End Function
+    Private Sub deleteServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
+                   "Could not delete service " & name)
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
+
     ' Pause a service
     Private _pauseServ As asyncCallbackServicePause
     Public Function PauseService() As Integer

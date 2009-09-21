@@ -46,6 +46,7 @@ BUGS NON CRITIQUES
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - ajouter description des colonnes (dans le chooseColumns)
 - option Kill with specific exitcode
+- déconnexion local puis connexion WMI foireuse puis reconnexion local -> ServiceStartType change et devient foireux
 - find window -> select thread possible
 - creatime time foireux pour les threads
 - virer la form qui gère le drag & drop pour la sélection d'un process

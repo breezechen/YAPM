@@ -655,7 +655,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.StopService()
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -663,7 +662,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.StartService()
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -671,7 +669,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.PauseService()
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -679,7 +676,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.AutoStart)
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -687,7 +683,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.StartDisabled)
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -695,7 +690,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.DemandStart)
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -703,7 +697,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.ResumeService()
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -1692,8 +1685,12 @@ Public Class frmMain
     End Sub
 
     Private Sub lvServices_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvServices.KeyDown
-        If e.KeyCode = Keys.Enter And Me.lvServices.SelectedItems.Count > 0 Then
+        If e.KeyCode = Keys.Enter Then
             Call Me.butServiceDetails_Click(Nothing, Nothing)
+        ElseIf e.KeyCode = Keys.Delete Then
+            If _notWMI Then
+                Call butDeleteService_Click(Nothing, Nothing)
+            End If
         End If
     End Sub
 
@@ -1770,6 +1767,7 @@ Public Class frmMain
             Me.MenuItemServSelService.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemServReanalize.Enabled = selectionIsNotNothing
             Me.MenuItemCopyService.Enabled = selectionIsNotNothing
+            Me.MenuItemServDelete.Enabled = selectionIsNotNothing AndAlso _notWMI
 
             Me.mnuService.Show(Me.lvServices, e.Location)
         End If
@@ -2608,6 +2606,7 @@ Public Class frmMain
         Me.butServiceFileDetails.Enabled = _local
         Me.butServiceFileProp.Enabled = _local
         Me.butServiceOpenDir.Enabled = _local
+        Me.butDeleteService.Enabled = Me._notWMI
         Me.butResumeProcess.Enabled = Me._notWMI
         Me.butStopProcess.Enabled = Me._notWMI
         Me.butProcessAffinity.Enabled = Me._notWMI
@@ -3110,7 +3109,6 @@ Public Class frmMain
             End If
         Next
 
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -3118,7 +3116,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.StopService()
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -3126,7 +3123,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.StartService()
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -3134,7 +3130,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.AutoStart)
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -3142,7 +3137,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.DemandStart)
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -3150,7 +3144,6 @@ Public Class frmMain
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.SetServiceStartType(Native.Api.NativeEnums.ServiceStartType.StartDisabled)
         Next
-        Call Me.refreshServiceList()
         Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
     End Sub
 
@@ -3403,7 +3396,9 @@ Public Class frmMain
     Private Sub MenuItemProcSServices_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
         ' Refresh service list if necessary
-        If Me.lvServices.Items.Count = 0 Then Call Me.refreshServiceList()
+        If Me.lvServices.Items.Count = 0 Then
+            Call Me.refreshServiceList()
+        End If
 
         ' Get selected processes pids
         Dim pid() As Integer
@@ -4032,5 +4027,21 @@ Public Class frmMain
 
     Private Sub butCreateService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butCreateService.Click
         Call MenuItemCreateService_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butDeleteService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDeleteService.Click
+        If My.Settings.WarnDangerousActions Then
+            If MsgBox("Are you sure you want to delete these services ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
+                Exit Sub
+            End If
+        End If
+        For Each it As cService In Me.lvServices.GetSelectedItems
+            it.DeleteService()
+        Next
+        Call Me.lvServices_SelectedIndexChanged(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemServDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDelete.Click
+        Call butDeleteService_Click(Nothing, Nothing)
     End Sub
 End Class

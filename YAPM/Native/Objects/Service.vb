@@ -450,6 +450,21 @@ Namespace Native.Objects
             Return False
         End Function
 
+        ' Delete service
+        Public Shared Function DeleteServiceByName(ByVal name As String, ByVal hSCManager As IntPtr) As Boolean
+            Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, _
+                                                   Native.Security.ServiceAccess.Delete)
+            Dim res As Boolean
+            If hSCManager.IsNotNull Then
+                If lServ.IsNotNull Then
+                    res = NativeFunctions.DeleteService(lServ)
+                    NativeFunctions.CloseServiceHandle(lServ)
+                    Return res
+                End If
+            End If
+            Return False
+        End Function
+
         ' Stop service
         Public Shared Function StopServiceByName(ByVal name As String, ByVal hSCManager As IntPtr) As Boolean
             Dim lServ As IntPtr = NativeFunctions.OpenService(hSCManager, name, Native.Security.ServiceAccess.Stop)
