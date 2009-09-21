@@ -348,6 +348,10 @@ Public Class frmSetJobLimits
         struct2.BasicLimitInformation.LimitFlags = flag2
 
         ' Set limit
+        If WarnDangerousAction("Are you sure you want to set the limits you specified ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
+
         Dim job As cJob = _frmMain.lvJob.GetItemByKey(_jobName)
         If job IsNot Nothing Then
             job.SetLimits(struct1, struct2)

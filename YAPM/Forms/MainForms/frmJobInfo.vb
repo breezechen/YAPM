@@ -242,10 +242,8 @@ Public Class frmJobInfo
     End Sub
 
     Private Sub cmdTerminateJob_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdTerminateJob.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to terminate the job ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to terminate the job ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         curJob.TerminateJob()
     End Sub
@@ -275,10 +273,8 @@ Public Class frmJobInfo
 
     Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
         If e.KeyCode = Keys.Delete And Me.lvProcess.SelectedItems.Count > 0 Then
-            If My.Settings.WarnDangerousActions Then
-                If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                    Exit Sub
-                End If
+            If WarnDangerousAction("Are you sure you want to kill these processes ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+                Exit Sub
             End If
             For Each it As cProcess In Me.lvProcess.GetSelectedItems
                 it.Kill()
@@ -352,10 +348,8 @@ Public Class frmJobInfo
     End Sub
 
     Private Sub MenuItemProcKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcKill.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to kill these processes ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             cp.Kill()
@@ -363,10 +357,8 @@ Public Class frmJobInfo
     End Sub
 
     Private Sub MenuItemProcKillT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcKillT.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to kill these processes ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             it.KillProcessTree()
@@ -374,10 +366,8 @@ Public Class frmJobInfo
     End Sub
 
     Private Sub MenuItemProcStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcStop.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to suspend these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to suspend these processes ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             cp.SuspendProcess()

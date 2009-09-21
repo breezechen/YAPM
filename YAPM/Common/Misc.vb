@@ -456,12 +456,14 @@ Namespace Common
         End Sub
 
         ' Standard Vista message box
-        Public Shared Function ShowVistaMessage(ByVal Owner As IntPtr, Optional ByVal Title As String = "", _
-                                         Optional ByVal HeaderMessage As String = "", _
-                                         Optional ByVal Content As String = "", Optional ByVal Buttons As  _
-                                         TaskDialogCommonButtons = TaskDialogCommonButtons.Ok, Optional _
-                                         ByVal Icon As TaskDialogIcon = TaskDialogIcon.Information) _
-                                         As Integer
+        Public Shared Function ShowVistaMessage(ByVal Owner As IntPtr, _
+                                        Optional ByVal Title As String = "", _
+                                        Optional ByVal HeaderMessage As String = "", _
+                                        Optional ByVal Content As String = "", _
+                                        Optional ByVal Buttons As TaskDialogCommonButtons = TaskDialogCommonButtons.Ok, _
+                                        Optional ByVal Icon As TaskDialogIcon = TaskDialogIcon.Information, _
+                                        Optional ByVal DefButton As Integer = 0) As Integer
+
             If IsWindowsVistaOrAbove() Then
                 Dim dlg As New TaskDialog
                 With dlg
@@ -470,6 +472,7 @@ Namespace Common
                     .MainInstruction = HeaderMessage
                     .MainIcon = Icon
                     .CommonButtons = Buttons
+                    .DefaultButton = DefButton
                 End With
                 Return dlg.Show(Owner)
             Else
@@ -991,6 +994,109 @@ Namespace Common
                     End If
                 Next
                 Return True
+            End If
+        End Function
+
+        ' General ShowMessage function
+        Public Shared Function ShowMsg(ByVal Title As String, _
+                                    ByVal OwnerWindow As IntPtr, _
+                                    Optional ByVal HeaderText As String = "", _
+                                    Optional ByVal Text As String = "", _
+                                    Optional ByVal Buttons As MessageBoxButtons = MessageBoxButtons.OK, _
+                                    Optional ByVal Icon As TaskDialogIcon = TaskDialogIcon.Information, _
+                                    Optional ByVal DefButtonIsNoButton As Boolean = False) As DialogResult
+
+            ' No messageboxes if server mode !
+            If Program.Parameters.ModeServer Then
+                Return DialogResult.None
+            End If
+
+            If cEnvironment.IsWindowsVistaOrAbove Then
+                ' Show special task dialog
+                Dim but As TaskDialogCommonButtons  ' Cancel Close No None Ok Retry Yes
+                Select Case Buttons
+                    Case MessageBoxButtons.AbortRetryIgnore
+                        but = TaskDialogCommonButtons.Close Or TaskDialogCommonButtons.Cancel Or TaskDialogCommonButtons.Retry
+                    Case MessageBoxButtons.OK
+                        but = TaskDialogCommonButtons.Ok
+                    Case MessageBoxButtons.OKCancel
+                        but = TaskDialogCommonButtons.Ok Or TaskDialogCommonButtons.Cancel
+                    Case MessageBoxButtons.RetryCancel
+                        but = TaskDialogCommonButtons.Retry Or TaskDialogCommonButtons.Cancel
+                    Case MessageBoxButtons.YesNo
+                        but = TaskDialogCommonButtons.Yes Or TaskDialogCommonButtons.No
+                    Case MessageBoxButtons.YesNoCancel
+                        but = TaskDialogCommonButtons.Yes Or TaskDialogCommonButtons.No Or TaskDialogCommonButtons.Cancel
+                    Case Else
+                        but = TaskDialogCommonButtons.Ok
+                End Select
+
+                Dim defButton As Integer = 0
+                If DefButtonIsNoButton Then
+                    defButton = DialogResult.No
+                End If
+
+                Return CType(ShowVistaMessage(OwnerWindow, _
+                                              Title, _
+                                              HeaderText, _
+                                              Text, _
+                                              but, _
+                                              Icon, _
+                                              defButton),  _
+                                              DialogResult)
+            Else
+                ' Standard message box
+                Dim ico As MessageBoxIcon
+                Select Case Icon
+                    Case TaskDialogIcon.Error, TaskDialogIcon.ShieldError
+                        ico = MessageBoxIcon.Error
+                    Case TaskDialogIcon.None
+                        ico = MessageBoxIcon.None
+                    Case TaskDialogIcon.Shield, TaskDialogIcon.ShieldGradient, TaskDialogIcon.ShieldGray
+                        ico = MessageBoxIcon.Exclamation
+                    Case TaskDialogIcon.Warning, TaskDialogIcon.ShieldWarning
+                        ico = MessageBoxIcon.Warning
+                    Case Else
+                        ico = MessageBoxIcon.Information
+                End Select
+
+                Dim message As String = ""
+                If HeaderText Is Nothing Then
+                    message = Text
+                Else
+                    message = HeaderText
+                    If Text IsNot Nothing Then
+                        message &= vbNewLine & Text
+                    End If
+                End If
+
+                Dim defButton As MessageBoxDefaultButton = MessageBoxDefaultButton.Button1
+                If DefButtonIsNoButton Then
+                    defButton = MessageBoxDefaultButton.Button2
+                End If
+
+                Return MessageBox.Show(message, _
+                                       Title, _
+                                       Buttons, _
+                                       ico, _
+                                       defButton)
+            End If
+
+        End Function
+
+        ' Dangerous action message
+        Public Shared Function WarnDangerousAction(ByVal text As String, _
+                                                   ByVal Owner As IntPtr) As DialogResult
+            If My.Settings.WarnDangerousActions Then
+                Return ShowMsg("Warning", _
+                               Owner, _
+                               "This is a dangerous action.", _
+                               text, _
+                               MessageBoxButtons.YesNo, _
+                               TaskDialogIcon.Warning, _
+                               True)
+            Else
+                Return DialogResult.Yes
             End If
         End Function
 

@@ -15,6 +15,7 @@ CHANGES FROM 2.1.0
 - Now network connections are not displayed by group anymore
 - Now file signature verification can be disabled
 - Now YAPM automatically detect process termination and displays exit code
+- Now ALL dangerous actions display a warning (if not disabled in options)
 - Removed 100KB limit for history buffer
 - Improved search speed alot & display a message when searching
 - Added 'Restart elevated' button in job tab if user has no privileges

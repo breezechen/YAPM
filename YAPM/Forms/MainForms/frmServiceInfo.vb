@@ -407,11 +407,6 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub cmdPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPause.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to suspend this service ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
-        End If
         curServ.PauseService()
     End Sub
 
@@ -424,19 +419,15 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub cmdStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdStop.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to stop this service ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to stop this service ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         curServ.StopService()
     End Sub
 
     Private Sub cmdSetStartType_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSetStartType.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to change start type ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to change the type of start ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         Select Case cbStart.Text
             Case "BootStart"
@@ -560,10 +551,8 @@ Public Class frmServiceInfo
 
     Private Sub cmdDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDelete.Click
         If _notWMI Then
-            If My.Settings.WarnDangerousActions Then
-                If MsgBox("Are you sure you want to stop this service ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                    Exit Sub
-                End If
+            If WarnDangerousAction("Are you sure you want to delete this service ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+                Exit Sub
             End If
             curServ.DeleteService()
         End If

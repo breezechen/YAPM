@@ -540,11 +540,8 @@ Public Class frmMain
     End Sub
 
     Private Sub butKill_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butKillProcess.Click
-        ' Kill selected processes
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to kill these processes ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             it.Kill()
@@ -587,11 +584,8 @@ Public Class frmMain
     End Sub
 
     Private Sub butStopProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butStopProcess.Click
-        ' Stop selected processes
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to suspend these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to suspend these processes ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             it.SuspendProcess()
@@ -652,6 +646,9 @@ Public Class frmMain
     End Sub
 
     Private Sub butStopService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butStopService.Click
+        If WarnDangerousAction("Are you sure you want to stop these services ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.StopService()
         Next
@@ -1412,8 +1409,11 @@ Public Class frmMain
     End Sub
 
     Private Sub butTaskEndTask_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butTaskEndTask.Click
+        ' Close task
+        If WarnDangerousAction("Are you sure you want to terminate these tasks ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cTask In Me.lvTask.GetSelectedItems
-            ' Close task
             it.Close()
         Next
     End Sub
@@ -1923,10 +1923,8 @@ Public Class frmMain
 
     Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
         If e.KeyCode = Keys.Delete And Me.lvProcess.SelectedItems.Count > 0 Then
-            If My.Settings.WarnDangerousActions Then
-                If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                    Exit Sub
-                End If
+            If WarnDangerousAction("Are you sure you want to kill these processes ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+                Exit Sub
             End If
             For Each it As cProcess In Me.lvProcess.GetSelectedItems
                 it.Kill()
@@ -3113,6 +3111,9 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemServStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServStop.Click
+        If WarnDangerousAction("Are you sure you want to stop these services ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.StopService()
         Next
@@ -3178,6 +3179,9 @@ Public Class frmMain
     End Sub
 
     Private Sub menuCloseTCP_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemNetworkClose.Click
+        If WarnDangerousAction("Are you sure you want to close these connections ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cNetwork In Me.lvNetwork.GetSelectedItems
             If it.Infos.Protocol = Native.Api.Enums.NetworkProtocol.Tcp Then
                 it.CloseTCP()
@@ -3298,10 +3302,8 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemProcKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcKill.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to kill these processes ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             cp.Kill()
@@ -3309,10 +3311,8 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemProcKillT_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcKillT.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to kill these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to kill these processes ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             it.KillProcessTree()
@@ -3320,10 +3320,8 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemProcStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemProcStop.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to suspend these processes ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to suspend these processes ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each cp As cProcess In Me.lvProcess.GetSelectedItems
             cp.SuspendProcess()
@@ -3943,10 +3941,8 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemJobTerminate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuItemJobTerminate.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to terminate these jobs ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to terminate these jobs ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each cJ As cJob In Me.lvJob.GetSelectedItems
             cJ.TerminateJob()
@@ -4030,10 +4026,8 @@ Public Class frmMain
     End Sub
 
     Private Sub butDeleteService_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDeleteService.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to delete these services ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to delete these services ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each it As cService In Me.lvServices.GetSelectedItems
             it.DeleteService()

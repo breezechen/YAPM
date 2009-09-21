@@ -325,7 +325,7 @@ Public Class cProcess
 
 #End Region
 
-#Region "All actions on process (kill, enum...)"
+#Region "All actions on process (kill...)"
 
     ' Create dump file
     Private _createDumpF As asyncCallbackProcMinidump

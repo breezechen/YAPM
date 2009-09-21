@@ -1278,19 +1278,15 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub cmdKill_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKill.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to kill this process ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to kill this process ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         Call curProc.Kill()
     End Sub
 
     Private Sub cmdPause_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdPause.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to suspend this process ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to suspend this process ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         Call curProc.SuspendProcess()
     End Sub
@@ -1505,6 +1501,9 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItem9_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuCloseTCP.Click
+        If WarnDangerousAction("Are you sure you want to close these connections ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cNetwork In Me.lvProcNetwork.GetSelectedItems
             If it.Infos.Protocol = Native.Api.Enums.NetworkProtocol.Tcp Then
                 it.CloseTCP()
@@ -1656,10 +1655,8 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItemCloseHandle_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCloseHandle.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to close these handles ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each ch As cHandle In Me.lvHandles.GetSelectedItems
             ch.CloseHandle()
@@ -1710,6 +1707,9 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItemPriRemove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemPriRemove.Click
+        If WarnDangerousAction("Are you sure you want to remove this privilege ?" & vbNewLine & "This is a permanent action for all process lifetime.", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cPrivilege In Me.lvPrivileges.GetSelectedItems
             it.ChangeStatus(Native.Api.NativeEnums.SePrivilegeAttributes.Removed)
         Next
@@ -1792,6 +1792,9 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItemUnloadModule_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemUnloadModule.Click
+        If WarnDangerousAction("Are you sure you want to unload these modules ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cModule In Me.lvModules.GetSelectedItems
             it.UnloadModule()
         Next
@@ -1930,10 +1933,8 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItemServStop_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServStop.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to stop these services ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to stop these services ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each it As cService In Me.lvProcServices.GetSelectedItems
             it.StopService()
@@ -1975,12 +1976,18 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItemThTerm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThTerm.Click
+        If WarnDangerousAction("Are you sure you want to terminate these threads ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cThread In Me.lvThreads.GetSelectedItems
             it.ThreadTerminate()
         Next
     End Sub
 
     Private Sub MenuItemThSuspend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemThSuspend.Click
+        If WarnDangerousAction("Are you sure you want to suspend these threads ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cThread In Me.lvThreads.GetSelectedItems
             it.ThreadSuspend()
         Next
@@ -2072,6 +2079,9 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItemWClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemWClose.Click
+        If WarnDangerousAction("Are you sure you want to close these windows ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cWindow In Me.lvWindows.GetSelectedItems
             it.Close()
         Next
@@ -2426,12 +2436,18 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItemMemoryRelease_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMemoryRelease.Click
+        If WarnDangerousAction("Are you sure you want to release these memory regions ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
             it.Release()
         Next
     End Sub
 
     Private Sub MenuItemMemoryDecommit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMemoryDecommit.Click
+        If WarnDangerousAction("Are you sure you want to release these memory regions ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
+        End If
         For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
             it.Decommit()
         Next
@@ -2509,10 +2525,8 @@ Public Class frmProcessInfo
                 Call showFindPanel()
             End If
         ElseIf e.KeyCode = Keys.Delete Then
-            If My.Settings.WarnDangerousActions Then
-                If MsgBox("Are you sure you want to terminate these threads ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                    Exit Sub
-                End If
+            If WarnDangerousAction("Are you sure you want to terminate these threads ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+                Exit Sub
             End If
             For Each it As cThread In Me.lvThreads.GetSelectedItems
                 it.ThreadTerminate()
@@ -2619,10 +2633,8 @@ Public Class frmProcessInfo
                 Call showFindPanel()
             End If
         ElseIf e.KeyCode = Keys.Delete Then
-            If My.Settings.WarnDangerousActions Then
-                If MsgBox("Are you sure you want to close these handles ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                    Exit Sub
-                End If
+            If WarnDangerousAction("Are you sure you want to close these handles ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+                Exit Sub
             End If
             For Each it As cHandle In Me.lvHandles.GetSelectedItems
                 it.CloseHandle()
@@ -2775,10 +2787,8 @@ Public Class frmProcessInfo
 #End Region
 
     Private Sub MenuItemServDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDelete.Click
-        If My.Settings.WarnDangerousActions Then
-            If MsgBox("Are you sure you want to delete these services ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Dangerous action") <> MsgBoxResult.Yes Then
-                Exit Sub
-            End If
+        If WarnDangerousAction("Are you sure you want to delete these services ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each it As cService In Me.lvProcServices.GetSelectedItems
             it.DeleteService()

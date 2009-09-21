@@ -65,9 +65,7 @@ Public Class frmKillProcessByMethod
             End If
         Next
 
-        If MsgBox("Are you sure you want to kill this process ?", _
-                  MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Kill process by method") _
-                  <> MsgBoxResult.Yes Then
+        If WarnDangerousAction("Are you sure you want to kill this process ?", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
             Exit Sub
         End If
 
