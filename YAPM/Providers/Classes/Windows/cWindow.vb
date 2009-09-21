@@ -321,6 +321,11 @@ Public Class cWindow
 
 #Region "Get information overriden methods"
 
+    ' Return list of available properties
+    Public Overrides Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
+        Return windowInfos.GetAvailableProperties(includeFirstProp, sorted)
+    End Function
+
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String) As String
         Dim res As String = NO_INFO_RETRIEVED

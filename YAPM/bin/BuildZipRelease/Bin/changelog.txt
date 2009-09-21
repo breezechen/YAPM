@@ -12,6 +12,7 @@ CHANGES FROM 2.1.0
 - Added 'Freeze list' & 'Search item' features in process' detailed view
 - Added IpV6 support
 - Added feature #2851904 (startup tab)
+- Added 'Object informations' feature (double-click on an object (or F7 key) on a listview to show all properties of the object)
 - Now network connections are not displayed by group anymore
 - Now file signature verification can be disabled
 - Now YAPM automatically detect process termination and displays exit code

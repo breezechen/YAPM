@@ -175,6 +175,9 @@ Public MustInherit Class cGeneralObject
     Public MustOverride Function GetInformation(ByVal info As String) As String
     Public MustOverride Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
 
+    ' List of available properties for the cXXX object
+    Public MustOverride Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
+
     ' Return backcolor of the item, when displayed in a listview
     Public Overridable Function GetBackColor() As System.Drawing.Color
         Return Drawing.Color.White

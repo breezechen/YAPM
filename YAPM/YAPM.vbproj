@@ -233,6 +233,10 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmObjDetails.resx">
+      <DependentUpon>frmObjDetails.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmCreateService.resx">
       <DependentUpon>frmCreateService.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -510,6 +514,12 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForms\frmJobInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmObjDetails.Designer.vb">
+      <DependentUpon>frmObjDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmObjDetails.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmCreateService.Designer.vb">

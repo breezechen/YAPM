@@ -103,6 +103,11 @@ Public Class cTask
 
 #Region "Get information overriden methods"
 
+    ' Return list of available properties
+    Public Overrides Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
+        Return taskInfos.GetAvailableProperties(includeFirstProp, sorted)
+    End Function
+
     ' Retrieve informations by its name
     Public Overrides Function GetInformation(ByVal info As String, ByRef res As String) As Boolean
 

@@ -350,6 +350,13 @@ Public Class jobList
                 frm.TopMost = _frmMain.TopMost
                 frm.Show()
             Next
+        ElseIf e.KeyCode = Keys.F7 Then
+            For Each obj As cGeneralObject In Me.GetSelectedItems
+                Dim frm As New frmObjDetails
+                frm.TopMost = _frmMain.TopMost
+                frm.TheObject = obj
+                frm.Show()
+            Next
         End If
     End Sub
 

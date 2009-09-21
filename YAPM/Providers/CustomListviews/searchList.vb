@@ -334,4 +334,15 @@ Public Class searchList
 
 #End Region
 
+    ' Display properties form
+    Protected Overrides Sub OnMouseDoubleClick(ByVal e As System.Windows.Forms.MouseEventArgs)
+        MyBase.OnMouseDoubleClick(e)
+        If Me.SelectedItems.Count > 0 Then
+            Dim frm As New frmObjDetails
+            frm.TopMost = _frmMain.TopMost
+            frm.TheObject = Me.GetSelectedItem
+            frm.Show()
+        End If
+    End Sub
+
 End Class
