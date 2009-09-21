@@ -670,7 +670,8 @@ Public Class frmServer
                 Select Case cData.Order
                     Case cSocketData.OrderType.WindowBringToFront
                         Dim hWnd As IntPtr = CType(cData.Param1, IntPtr)
-                        Call (New cWindow(hWnd)).BringToFront(True)
+                        Dim value As Boolean = CBool(cData.Param2)
+                        Call (New cWindow(hWnd)).BringToFront(value)
                     Case cSocketData.OrderType.WindowClose
                         Dim hWnd As IntPtr = CType(cData.Param1, IntPtr)
                         Call (New cWindow(hWnd)).Close()
@@ -678,9 +679,6 @@ Public Class frmServer
                         Dim hWnd As IntPtr = CType(cData.Param1, IntPtr)
                         Dim w As cWindow = New cWindow(hWnd)
                         w.Enabled = False
-                    Case cSocketData.OrderType.WindowDoNotBringToFront
-                        Dim hWnd As IntPtr = CType(cData.Param1, IntPtr)
-                        Call (New cWindow(hWnd)).BringToFront(False)
                     Case cSocketData.OrderType.WindowEnable
                         Dim hWnd As IntPtr = CType(cData.Param1, IntPtr)
                         Dim w As cWindow = New cWindow(hWnd)

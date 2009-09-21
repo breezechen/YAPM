@@ -105,7 +105,7 @@ Partial Class frmAboutG
         Me.lblVersion.Name = "lblVersion"
         Me.lblVersion.Size = New System.Drawing.Size(43, 13)
         Me.lblVersion.TabIndex = 7
-        Me.lblVersion.Text = "2.0.0.1"
+        Me.lblVersion.Text = "2.2.0.0"
         '
         'lblDate
         '
@@ -114,9 +114,9 @@ Partial Class frmAboutG
         Me.lblDate.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDate.Location = New System.Drawing.Point(155, 63)
         Me.lblDate.Name = "lblDate"
-        Me.lblDate.Size = New System.Drawing.Size(101, 13)
+        Me.lblDate.Size = New System.Drawing.Size(108, 13)
         Me.lblDate.TabIndex = 9
-        Me.lblDate.Text = "Aug 09 2009 18h43"
+        Me.lblDate.Text = "Sept. 21 2009 18h00"
         '
         'Label4
         '

@@ -77,7 +77,6 @@ Option Strict On
         [WindowEnable]
         [WindowDisable]
         [WindowBringToFront]
-        [WindowDoNotBringToFront]
         [WindowSetAsForegroundWindow]
         [WindowSetAsActiveWindow]
         [WindowSetCaption]

@@ -1627,7 +1627,7 @@ Public Class frmMain
     Private Sub txtFile_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtFile.TextChanged
         Dim b As Boolean = IO.File.Exists(Me.txtFile.Text)
         Me.RBFileDelete.Enabled = b
-        Me.RBFileKillProcess.Enabled = b
+        Me.RBFileKillProcess.Enabled = False 'TOCHANGE
         Me.RBFileOnline.Enabled = b
         Me.RBFileOther.Enabled = b
         Me.RBFileOthers.Enabled = b
@@ -3293,7 +3293,7 @@ Public Class frmMain
             Dim selectionIsNotNothing As Boolean = (Me.lvSearchResults.SelectedItems IsNot Nothing _
                     AndAlso Me.lvSearchResults.SelectedItems.Count > 0)
 
-            Me.MenuItemSearchClose.Enabled = selectionIsNotNothing
+            Me.MenuItemSearchClose.Enabled = False ' selectionIsNotNothing
             Me.MenuItemSearchSel.Enabled = selectionIsNotNothing
             Me.MenuItemCopySearch.Enabled = selectionIsNotNothing
 

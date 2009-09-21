@@ -79,49 +79,49 @@ Public Class asyncCallbackWindowAction
                     Select Case pObj.action
                         Case AsyncWindowAction.BringToFront
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowBringToFront, CInt(pObj.handle))
+                             cSocketData.OrderType.WindowBringToFront, pObj.handle, pObj.o1)
                         Case AsyncWindowAction.Close
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowClose, CInt(pObj.handle))
+                             cSocketData.OrderType.WindowClose, pObj.handle)
                         Case AsyncWindowAction.Flash
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowFlash, CInt(pObj.handle))
+                             cSocketData.OrderType.WindowFlash, pObj.handle)
                         Case AsyncWindowAction.Hide
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowHide, CInt(pObj.handle))
+                             cSocketData.OrderType.WindowHide, pObj.handle)
                         Case AsyncWindowAction.Maximize
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowMaximize, CInt(pObj.handle))
+                             cSocketData.OrderType.WindowMaximize, pObj.handle)
                         Case AsyncWindowAction.Minimize
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowMinimize, CInt(pObj.handle))
+                             cSocketData.OrderType.WindowMinimize, pObj.handle)
                         Case AsyncWindowAction.SendMessage
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowShow, CInt(pObj.handle), pObj.o1, pObj.o2, pObj.o3)
+                             cSocketData.OrderType.WindowShow, pObj.handle, pObj.o1, pObj.o2, pObj.o3)
                         Case AsyncWindowAction.SetAsActiveWindow
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowSetAsActiveWindow, CInt(pObj.handle))
+                             cSocketData.OrderType.WindowSetAsActiveWindow, pObj.handle)
                         Case AsyncWindowAction.SetAsForegroundWindow
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowSetAsForegroundWindow, CInt(pObj.handle))
+                             cSocketData.OrderType.WindowSetAsForegroundWindow, pObj.handle)
                         Case AsyncWindowAction.SetEnabled
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowEnable, CInt(pObj.handle), CBool(pObj.o1))
+                             cSocketData.OrderType.WindowEnable, pObj.handle, CBool(pObj.o1))
                         Case AsyncWindowAction.SetOpacity
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowEnable, CInt(pObj.handle), CByte(pObj.o1))
+                             cSocketData.OrderType.WindowEnable, pObj.handle, CByte(pObj.o1))
                         Case AsyncWindowAction.Show
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowShow, CInt(pObj.handle))
+                             cSocketData.OrderType.WindowShow, pObj.handle)
                         Case AsyncWindowAction.StopFlashing
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowStopFlashing, CInt(pObj.handle))
+                             cSocketData.OrderType.WindowStopFlashing, pObj.handle)
                         Case AsyncWindowAction.SetPosition
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowSetPositions, CInt(pObj.handle), pObj.r)
+                             cSocketData.OrderType.WindowSetPositions, pObj.handle, pObj.r)
                         Case AsyncWindowAction.SetCaption
                             cDat = New cSocketData(cSocketData.DataType.Order, _
-                             cSocketData.OrderType.WindowSetCaption, CInt(pObj.handle), pObj.s)
+                             cSocketData.OrderType.WindowSetCaption, pObj.handle, pObj.s)
                     End Select
 
                     con.ConnectionObj.Socket.Send(cDat)
