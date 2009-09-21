@@ -4256,6 +4256,7 @@ Partial Class frmMain
         '
         'WBHelp
         '
+        Me.WBHelp.AllowNavigation = True
         Me.WBHelp.AllowWebBrowserDrop = False
         Me.WBHelp.Dock = System.Windows.Forms.DockStyle.Fill
         Me.WBHelp.IsWebBrowserContextMenuEnabled = False
@@ -4265,6 +4266,7 @@ Partial Class frmMain
         Me.WBHelp.Size = New System.Drawing.Size(852, 359)
         Me.WBHelp.TabIndex = 0
         Me.WBHelp.Url = New System.Uri("", System.UriKind.Relative)
+        Me.WBHelp.WebBrowserShortcutsEnabled = False
         '
         'timerNetwork
         '

@@ -738,7 +738,7 @@ Public Class frmMain
                     'If IO.File.Exists(path) = False Then
                     '    WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
                     'Else
-                    WBHelp.Navigate(path)
+                    Me.WBHelp.Url = New Uri(HELP_PATH)
                     'End If
                 End If
 
@@ -4037,4 +4037,5 @@ Public Class frmMain
     Private Sub MenuItemServDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDelete.Click
         Call butDeleteService_Click(Nothing, Nothing)
     End Sub
+
 End Class
