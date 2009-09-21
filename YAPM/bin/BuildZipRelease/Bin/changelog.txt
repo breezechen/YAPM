@@ -1,10 +1,19 @@
 YAPM 2.2.0 BETA
 
+CHANGES FROM 2.2.0
+
+*NEW / Improvements
+
+
+* Bug fixes
+- 'Select associated process' menu now works again
+- Removed 'Select in window tab' menu
+
+
 CHANGES FROM 2.1.0
 
 *NEW / Improvements
 - Highly improved stability of remote monitoring using the server ! Now connections/reconnections and massive requests at the same time always work !!
-- Remote monitoring with server is now secured
 - Removed all 'time' limitations concerning remote monitoring (auto refresh is now also active when monitoring remote machine)
 - Now Handles/Threads/Modules/Windows main tabs have been removed so that the UI is less confusing and simplified
 - Added Job management for remote monitoring
@@ -31,11 +40,8 @@ CHANGES FROM 2.1.0
 - Fixed bug #2849184 (incorrect string format)
 - Fixed bug #2849961 (cannot sort a virtual listview)
 - Fixed bug #2862603 (crash with GetExtendedUdpTable)
-- Fixed 'Release file' feature
-- Now Close/Terminate feature for search results works just fine
 - Fixed 'job tab is disabled' bug
 - Fixed 'go to search' for task tab
-- YAPM won't crash if tcp.txt or udp.txt is missing, but a message will warn the user
 - Fixed bug when trying to refresh job list using remote server
 - No crash if user tries to use remote monitoring if no NIC is available
 - Fixed search on strings ("search to right" now works fine)

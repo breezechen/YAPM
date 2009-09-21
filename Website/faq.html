@@ -34,20 +34,13 @@ advanced monitoring, jobs creation... etc).</p>
 <h2>I can't make the remote connection work...</h2>
 <ul>
     <LI>Make sure your firewall is configured to let YAPM work properly</LI>
-    <LI>Make sure the remote machine is in the same workgroup than the host machine</LI>
-    <LI>Make sure you have the rights to establish&nbsp;the connection </LI>
+    <LI>Make sure you have the rights to establish&nbsp;the connection  </LI>
     <LI>If you are using&nbsp;WMI, make sure WMI in installed on both machine, <a href="http://www.google.com/search?q=RPC+Server+Unavailable">make sure the RPC server in started</a> and make sure you have entered the good username/password. Normally, you can't connect YAPM to a account which has no password</LI>
-    <LI>If you are using&nbsp;the client-server method, make sure the IP your entered is correct.</LI>
+    <LI>If you are using&nbsp;the client-server method, make sure the IP and the port&nbsp;your entered are&nbsp;correct.</LI>
     <LI>If you can't make it work, just <a href="developer.html#Contact">ask me</a> !</LI>
 </ul>
 <h2>How do I&nbsp;start the server on the remote machine ?</h2>
 <p>Just launch YAPM with &quot;-server&quot; option. You can run &quot;launch server.bat&quot;. The syntax is &quot;YAPM.exe -server [-autoconnect] [-port XXXX]&quot;.</p>
-<h2>What are&nbsp;ObjectCreationDate and PendingTaskCount informations ? How to display it&nbsp;?</h2>
-<p>These are some informations which are available for all different objects&nbsp;(processes, services, handles, ...). You can display it by selecting &quot;Choose columns...&quot; when you right-click on a listview.</p>
-<ul>
-    <LI><b>ObjectCreationDate</b> : the date when&nbsp;an object has been displayed for the first time in YAPM. It's usually the date when&nbsp;the object has been created (for example : when a handle has been opened, when a service has been created...etc.).</LI>
-    <LI><b>PendingTaskCount</b> : as YAPM is fully multi-threaded, each action you select&nbsp;is launched in a separate thread. That's why some actions might&nbsp;be executed&nbsp;a few ms&nbsp;after you selected it, and probably&nbsp;more&nbsp;when you are connected to a remote system. So PendingTaskCount displays the number of actions for an object&nbsp;selected by the user which are not yet completed (&quot;pending&quot; actions). You can view these actions by pressing Ctrl+Shift key on an object in a listview.</LI>
-</ul>
 <h2>How about the&nbsp;64 bits version&nbsp;?</h2>
 <p>YAPM starts on 64 bits systems, but some features won't work (Dependency viewer, job limits for example). A full x64 version will be available in a few weeks.</p>
 <h2>Are you sure YAPM works on Windows Seven ?</h2>
@@ -62,7 +55,7 @@ advanced monitoring, jobs creation... etc).</p>
     </DIV>
     <DIV>
         <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-        <P><i>Last update of this page : 2009-30-08&nbsp;12:00</i></P>
+        <P><i>Last update of this page : 2009-21-09&nbsp;19:00</i></P>
     </DIV>
     <P></P>
     <p>

@@ -23,189 +23,170 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
 			
     <H2>&nbsp;</H2>
     <H2>Introduction</H2>
-    <p><b><font color="red">Note : depending on the version you are using, this&nbsp;help file may contains differences between your version and the version it describes. The present help file is provided for YAPM 2.0.2. </font></b></p>
-    <h2><a name="Menu"></a>Menu features</h2>
-    <p>Here are the features available in the main&nbsp;menu (click on the Orb) and when you click on&nbsp;the small icons of the ribbon, near the Orb :</p>
+    <p><b><font color="red">Note : this help file describes the last version of YAPM :&nbsp;v2.2.0.</font></b></p>
+    <p><a href="#Menu">Main menu</a><br>
+<a href="#Task">Tasks</a><br>
+<a href="#Process">Processes</a><br>
+<a href="#JobManagement">Jobs</a><br>
+<a href="#Monitor">Monitor</a><br>
+<a href="#Service">Services</a><br>
+<a href="#Network">Network connections</a><br>
+<a href="#File">File features</a><br>
+<a href="#Search">Search</a><br>
+<a href="#RemoteManagement">Remote monitoring</a><br>
+<a href="#DetailedViewForProcess">Detailed view for processes</a><br>
+<a href="#DetailedViewForService">Detailed view for services</a><br>
+<a href="#DetailedViewJobs">Detailed view for jobs</a><br>
+<a href="#LogFeature">Log feature</a><br>
+<a href="#DependenciesViewer">Dependency viewer</a><br>
+<a href="#OtherFeatures">Others features &amp; tips</a><br>
+&nbsp;</p>
+    <p>Some of the features of YAPM are not available with remote monitoring. On the help available below, if the name of a&nbsp;command is <b>black</b>, the command is&nbsp;available for all types of connection (local, WMI and server). If it's <font color="#00B050"><b>green</b></font>, it's available for both local and remote via server. If it's <font color="#00B0F0"><b>blue</b></font> it's only available for local machine.</p>
+    <p>&nbsp;</p>
+    <h2><a name="Menu"></a>Main menu</h2>
+    <p>Here are the features available in the main&nbsp;menu (click on the Orb) or&nbsp;when you click on&nbsp;the small icons of the ribbon, near the Orb :</p>
     <UL>
-        <LI>Change connection type (change the type of connection : local, remote via WMI or remote via server. See <a href="#RemoteManagement">Remote management</a>)</LI>
-        <LI>Emergency hotkeys (add custom hotkeys in case of emergency. For example, you can configure YAPM to kill the foreground application with Ctrl+Shift+Suppr shortcut. See <a href="#EmergencyHotkeys">Emergency hotkeys</a>)</LI>
-        <LI>State Based Actions (add custom actions on processes. For example, you can configure YAPM to automatically&nbsp;reduce priority of a process if cpu usage is up to 50%. See <a href="#StateBasedActions">State Based Actions</a>)</LI>
-        <LI>Save report (save a report about the system)</LI>
-        <LI>Log file</LI>
-        <LI>System informations</LI>
-        <LI>Window list (displays the list of the windows opened by YAPM. You can show or close these windows)</LI>
-        <LI>Find Window' Process (See <a href="#FindWindowProcess">Find Window' Process</a>)</LI>
-        <LI>Bug report &amp; feedbacks (open a window with links to send feed back to me)</LI>
-        <LI>Hidden processes feature (show hidden processes, e.g. rootkits. See <a href="#ShowHiddenProcesses">Show hidden processes</a>)</LI>
-        <LI>Dependency viewer (show dependencies of a process/dll/... <a href="#DependenciesViewer">See Dependency Viewer</a>)</LI>
+        <LI><b>Restart with privileges</b> : if YAPM is running on Vista or above and UAC is enabled, this button will cause YAPM to restart with full privileges. This will require an administrator account and will prompt the user to accept the elevation of YAPM. This elevation is required to enable all features of YAPM (job management and control of all processes).</LI>
+        <LI><b>Change connection type</b> : changes the type of connection YAPM is using. You can choose&nbsp;&quot;local&quot;, &quot;remote via WMI&quot; or &quot;remote via server&quot;. &quot;Local&quot; should be used to monitor the system on which YAPM is running. &quot;WMI&quot; should be used to monitor a remote machine on the same workgroup. It's a bit limited but does not require anything to be started on the remote machine. &quot;Server&quot; should be used to have full control on the remote machine, but it requires YAPM to be launched on the remote machine as a server.&nbsp;See <a href="help.html#RemoteManagement">Remote monitoring</a>.</LI>
+        <LI><b>Emergency hotkeys</b> : adds custom hotkeys you will be able to use&nbsp;in case of emergency. For example, you can configure YAPM to kill the foreground application with Ctrl+Shift+Suppr shortcut. See <a href="#EmergencyHotkeys">Emergency hotkeys</a>.</LI>
+        <LI><b>Save report</b> : saves a report about the local&nbsp;system.</LI>
+        <LI><b>Log file</b> : displays the history of new/killed processes.</LI>
+        <LI><b>System informations</b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;"> : displays numerical informations about the local system.</span></LI>
+        <LI><b>Windows list</b> : displays the list of the windows opened by YAPM itself.&nbsp;You can show or close these windows.</LI>
+        <LI><b>Find Window' Process</b> : this allows to determine which process owns a particular window displayed on the screen. See <a href="#FindWindowProcess">Find Window' Process</a>.</LI>
+        <LI><b>Bug report &amp; feedbacks </b>: opens a window with some&nbsp;links to send feedbacks and contact me.</LI>
+        <LI><b>Hidden processes feature</b> : shows hidden processes, e.g. rootkits. See <a href="#ShowHiddenProcesses">Show hidden processes</a></LI>
+        <LI><b>Dependency viewer</b> : shows dependencies of a process/dll/driver... <a href="#DependenciesViewer">See Dependency Viewer</a></LI>
+        <LI><b>Pending tasks</b> : displays the list of pending tasks (e.g. the action launched by the user which are not yet completed)</LI>
+        <LI><b>Create service</b> : allows to create a new service. <a href="#CreateService">See Create Service</a>.</LI>
     </UL>
-    <h2><a name="Process"></a>Process features</h2>
-    <p>The features available for process management are available in the 'Processes' tab of the main form. Use the icons on the ribbon, or right-click on the list. All actions are available for the different processes you select in the list.<br>
-</p>
+    <h2><a name="Task"></a><font color="#00B050">Tasks</font></h2>
+    <p>These features are available in the 'Tasks' tab of the main form. Use the icons on the ribbon, or use the popup menu (right-click on the listview). All actions are available for the different tasks&nbsp;you select in the list.</p>
     <UL>
-        <LI>Kill&nbsp;(it will terminate the process instantly)</LI>
-        <LI>Kill process tree (it will kill the selected process and all of its child processes)</LI>
-        <LI>Stop (pause the process, use &quot;resume&quot; to resume it)</LI>
-        <LI>Resume (resume the process after a &quot;stop&quot;)</LI>
-        <LI>Change priority</LI>
-        <LI>Reduce working set size</LI>
-        <LI>Change affinity (select the processor(s) available for the process)</LI>
-        <LI>Create dump file (create a custom dump file of the process)</LI>
-        <LI>&quot;Reanalize&quot; (it will refresh fixed informations about a process, for example the path. It should be used when these informations are not available&nbsp;when the process has been added to the list. For example, if the path or the user name is not displayed, just reanalize the process to get the informations).</LI>
-        <LI>Show XXXX (it will show XXXX for the selected processes in the XXXX tab if the main form. For example, if you choose 'Show modules', all modules loaded by the selected processes will be displayed in the 'Modules' tab.)</LI>
-        <LI>File properties (open the Windows property dialog box about the executable)</LI>
-        <LI>Open directory (open the directory which contains the executable)</LI>
-        <LI>Show file details (show details of the executable in the 'File' tab)</LI>
-        <LI>Internet search (search for the executable name on the Internet)</LI>
+        <LI><font color="#00B050"><b>Show window</b></font> : shows the main window of the task.</LI>
+        <LI><font color="#00B050"><b>Maximize window </b></font>: maximizes the main window of the task.</LI>
+        <LI><b><font color="#00B050">Minimize window </font></b>: minimizes the main window of the task.</LI>
+        <LI><b><font color="#00B050">End task</font></b> : ends the task. It sends a 'close message' to the process, and tries to end it properly.</LI>
+        <LI><b><font color="#00B050">Select associated process</font></b> : select the owner process in the 'Processes' tab.</LI>
+    </UL>
+    <p>Double click on a task will&nbsp;select the associated process.</p>
+    <h2><a name="Process"></a>Processes</h2>
+    <p>These features are available in the 'Processes' tab of the main form. Use the icons on the ribbon, or use the popup menu (right-click on the listview). All actions are available for all&nbsp;the different processes you select in the list. Depending of the type of connection YAPM uses (local, WMI...), some actions are disabled.</p>
+    <UL>
+        <LI><b>Kill</b>&nbsp;: it will terminate the process instantly using the standard NtTerminateProcess method.</LI>
+        <LI><b><font color="#00B050">Kill process tree</font></b> : it will kill the selected process and all of its child processes.</LI>
+        <LI><b><font color="#00B050">Kill process by method</font></b> : this allows to kill the selected process using non-standard&nbsp;methods, in case of protected processes such as antivirus softwares.</LI>
+        <LI><b><font color="#00B050">Stop</font></b> : pauses the selected process. Use &quot;resume&quot; to resume it.</LI>
+        <LI><b><font color="#00B050">Resume</font></b> : resumes the selected process after a &quot;stop&quot;.</LI>
+        <LI><b>Change priorit </b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;">: change the priority of the selected process.</span></LI>
+        <LI><b>Reanalize</b> : this&nbsp;will refresh the&nbsp;&quot;fixed&quot; informations about a process, for example the path of the executable. It should be used when these informations are not available. For example, if the path or the user name is not displayed, just reanalize the process to get the informations another time.</LI>
+        <LI><b><font color="#00B050">Other -&gt; Reduce working set size</font></b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;"> : this will reduce the working set size used by the selected process.</span></LI>
+        <LI><b><font color="#00B050">Other -&gt; Set&nbsp;affinity </font></b>: you will be able to select the processor(s) that the process will use.</LI>
+        <LI><b>Other -&gt; Create dump file</b> : creates a custom dump file of the process' memory.</LI>
+        <LI><b><font color="#00B050">Job -&gt; Add to job</font></b> : adds the selected processes to a job. <a href="#JobManagement">See Jobs</a>.</LI>
+        <LI><b><font color="#00B050">Job -&gt; Control job</font></b> : opens a window with detailed informations about the job related to the selected process. <a href="help.html#JobManagement">See Jobs</a>. </LI>
+        <LI><b><font color="#00B0F0">File properties</font></b> : opens the Windows property dialog box about the executable.</LI>
+        <LI><b><font color="#00B0F0">Open directory</font></b> : opens the directory which contains the executable file.</LI>
+        <LI><b><font color="#00B0F0">File details</font></b> : shows details of the executable in the 'File' tab.</LI>
+        <LI><b>Internet search</b> : searches for the executable name on the Internet.</LI>
+        <LI><b><font color="#00B0F0">View dependencies</font></b> : opens the <a href="#DependenciesViewer">Dependency viewer</a> to see dependencies of the selected process.</LI>
     </UL>
     <p>Double-click on a process to open a detailed view of the process. See <a href="#DetailedViewForProcess">Detailed view for process</a>.</p>
-    <h2><a name="Task"></a>Task features</h2>
-    <p>The features available for task&nbsp;management are available in the 'Tasks' tab of the main form. Use the icons on the ribbon, or right-click on the list. All actions are available for the different tasks&nbsp;you select in the list.<br>
-</p>
-    <UL>
-        <LI>Show window (show the main window of the task)</LI>
-        <LI>Maximize window (maximize the main window of the task)</LI>
-        <LI>Minimize window (minimize the main window of the task)</LI>
-        <LI>End task (end the task. It sends a 'close message' to the process, and tries to end it properly)</LI>
-        <LI>Select associated process (select the owner process in the 'Processes' tab)</LI>
-        <LI>Select window in window tab (select the owner window&nbsp;in the 'Windows' tab)</LI>
-    </UL>
-    <p>Double click on a task to select associated process.</p>
-    <h2><a name="Module"></a>Module features</h2>
-    <p>The features available for module&nbsp;management are available in the 'Modules' tab of the main form. Use the icons on the ribbon, or right-click on the list. All actions are available for the different modules&nbsp;you select in the list. Note that this list is NOT automatically refreshed. To see the list of modules with auto refresh, you should open the detailed view of a process and select 'Modules' tab.<br>
-</p>
-    <UL>
-        <LI>Select associated process (select the owner process in the 'Processes' tab)</LI>
-        <LI>Unload module (unload the selected modules from the memory of the process. You should NOT do it if you do not have a good reason !)</LI>
-        <LI>View dependency (show the dependencies of the module. See <a href="#DependenciesViewer">Dependency viewer</a>)</LI>
-        <LI>File properties (open the Windows property dialog box about the executable)</LI>
-        <LI>Open directory (open the directory which contains the executable)</LI>
-        <LI>Show file details (show details of the executable in the 'File' tab)</LI>
-        <LI>Internet search (search for the executable name on the Internet)</LI>
-    </UL>
-    <h2><a name="Thread"></a>Thread features</h2>
-    <p>The features available for thread&nbsp;management are available in the 'Threads' tab of the main form. Use the icons on the ribbon, or right-click on the list. All actions are available for the different threads&nbsp;you select in the list. Note that this list is NOT automatically refreshed. To see the list of threads&nbsp;with auto refresh, you should open the detailed view of a process and select 'Threads' tab.<br>
-</p>
-    <UL>
-        <LI>Select associated process (select the owner process in the 'Processes' tab)</LI>
-        <LI>Terminate (terminate instantly the thread)</LI>
-        <LI>Suspend (suspend the execution of a thread)</LI>
-        <LI>Resume (resume the thread after a &quot;Suspend&quot;)</LI>
-        <LI>Change priority (change the priority of the thread)</LI>
-        <LI>Change affinity (change the affinity of the thread. Note that a&nbsp;thread can't use a processor if the owner process cannot use it)</LI>
-    </UL>
-    <h2><a name="Handle"></a>Handle features</h2>
-    <p>The features available for handle&nbsp;management are available in the 'Handles' tab of the main form. Use the icons on the ribbon, or right-click on the list. All actions are available for the different handles&nbsp;you select in the list. Note that this list is NOT automatically refreshed. To see the list of handles&nbsp;with auto refresh, you should open the detailed view of a process and select 'Handles' tab.<br>
-</p>
-    <UL>
-        <LI>Select associated process (select the owner process in the 'Processes' tab)</LI>
-        <LI>Close handle (close the selected handles. You should NOT do it if you do not have a good reason !)</LI>
-        <LI>Display unnamed handles (display or not the handles which do not have name)</LI>
-    </UL>
-    <h2><a name="Window"></a>Window features</h2>
-    <p>The features available for window&nbsp;management are available in the 'Windows' tab of the main form. Use the icons on the ribbon, or right-click on the list. All actions are available for the different windows&nbsp;you select in the list. Note that this list is NOT automatically refreshed. To see the list of windows&nbsp;with auto refresh, you should open the detailed view of a process and select 'Windows' tab.<br>
-</p>
-    <UL>
-        <LI>Select associated process (select the owner process in the 'Processes' tab)</LI>
-        <LI>Find process (see Find process' feature)</LI>
-        <LI>Close (close the selected windows)</LI>
-        <LI>Position &amp; size (change the position and/or the size of the selected windows)</LI>
-        <LI>Visibility -&gt; Show (show selected windows)</LI>
-        <LI>Visibility -&gt; Hide (hide selected windows)</LI>
-        <LI>Visibility -&gt; Enable (enable selected windows)</LI>
-        <LI>Visibility -&gt; Disable (disable selected windows)</LI>
-        <LI>Visibility -&gt; Bring to front (bring the selected window to front)</LI>
-        <LI>Visibility -&gt; Do not bring to front (do not bring the selected window to front)</LI>
-        <LI>Visibility -&gt; Set as foreground window (set the selected window as foreground window) </LI>
-        <LI>Visibility -&gt; Set as active window (set the selected window as active window) </LI>
-        <LI>Visibility -&gt; Minimize (minimize selected windows) </LI>
-        <LI>Visibility -&gt; Maximize (maximize selected windows) </LI>
-        <LI>Visibility -&gt; Flash (flash selected windows : it will show an 'orange flash' in the Windows taskbar, if the window is present in the taskbar) </LI>
-        <LI>Visibility -&gt; Stop flashing (stop the flashing of the selected windows) </LI>
-        <LI>Visibility -&gt; Change caption (change the caption (text of the title bar) of the selected windows)</LI>
-        <LI>Visibility -&gt; Change opacity (change the opacity. 0 is transparent, 255 is opaque). </LI>
-    </UL>
-    <h2><a name="Monitor"></a>Monitor feature</h2>
-    <p>This feature allows to show the perfmon (Performance Counter) counters of Windows available in the system (local system if connection type is local, remote system if connection type is remote via WMI). Here are the actions available :</p>
+    <h2><a name="JobManagement"></a><b><font color="#00B050">Jobs</font></b></h2>
+    <p>These features are available in the 'Jobs' tab of the main form. Use the icons on the ribbon, or use the popup menu (right-click on the listview).&nbsp;All actions are available for the different jobs&nbsp;you select in the list. Note that job management feature is only available if user have the admin rights.</p>
     <ul>
-        <LI>Add : add a counter. You will have to select a category, a counter and an instance (if required). You have to set the interval of refreshment</LI>
-        <LI>Remove selection : remove the counters selected in the tree</LI>
-        <LI>Start/Stop : start or stop the counters selected in the tree</LI>
-        <LI>Save report</LI>
+        <LI><b><font color="#00B050">Terminate</font></b> : this causes all the processes in the selected job to be terminated. The job itself can't be deleted.</LI>
+        <LI><b><font color="#00B0F0">Restart with privileges</font></b> : if YAPM is running on Vista or above and UAC is enabled, this button will cause YAPM to restart with full privileges. This will require an administrator account. This command is only available if the job management feature is not available to the user.</LI>
     </ul>
-    <p>To see a perfmon, select it in the tree. Then the associated graph will be displayed.</p>
+    <p>Double-click on a job&nbsp;to open a detailed view of the job. See <a href="help.html#DetailedViewJobs">Detailed view for job</a>.</p>
+    <h2><a name="Monitor"></a>Monitor</h2>
+    <p>These features are available in the 'Monitor' tab of the main form. Use the icons on the ribbon, or use the popup menu (right-click on the treeview). This feature allows to use&nbsp;the &quot;performance counters&quot; of Windows available on&nbsp;the system (local system if connection type is local, or&nbsp;remote system if connection type is remote via WMI). Here are the available actions :</p>
     <ul>
-        <LI>If you do not&nbsp;check 'Automatic' box, the left side of the graph&nbsp;will represent the date/time you select</LI>
-        <LI>If you check 'Now' box, the right side of the graph will represent the current date/time, else it will represent the date/time you select</LI>
-        <LI>If you check 'Automatic', or do not check 'Now', or check both,&nbsp;the number of values displayed will be determined by the number you specify (Max. values).</LI>
+        <LI><b>Add</b> : adds a counter. You will have to select a category, a counter and an instance (if required). You have to set the interval of refreshment (1000 ms by default).</LI>
+        <LI><b>Remove selection</b> : remove the counters selected in the tree</LI>
+        <LI><b>Start/Stop</b> : start or stop the counters selected in the tree</LI>
+        <LI><b>Save report</b> : save a report</LI>
     </ul>
-    <h2><a name="Service"></a>Service features</h2>
-    <p>The features available for service&nbsp;management are available in the 'Services' tab of the main form. Use the icons on the ribbon, or right-click on the list. All actions are available for the different services&nbsp;you select in the list.<br>
+    <p>To see a &quot;performance counter&quot;, select it in the tree. Then the associated graph will be displayed.</p>
+    <ul>
+        <LI>If you do not&nbsp;check 'Automatic' box, the left side of the graph&nbsp;will represent the date/time you specified</LI>
+        <LI>If you check 'Now' box, the right side of the graph will represent the current date/time, else it will represent the date/time you selected</LI>
+        <LI>If you check 'Automatic', or do not check 'Now', or check both,&nbsp;the number of values displayed will be determined by the number you specified (Max. values).</LI>
+    </ul>
+    <h2><a name="Service"></a><b>Services</b></h2>
+    <p>These features are available in the 'Services' tab of the main form. Use the icons on the ribbon, or use the popup menu (right-click on the listview). All actions are available for the different services&nbsp;you select in the list.<br>
 </p>
     <UL>
-        <LI>Stop (stop the selected services)</LI>
-        <LI>Start (start the selected services)</LI>
-        <LI>Pause (pause the selected services)</LI>
-        <LI>Resume (resume the selected services after a 'Pause')</LI>
-        <LI>Change start type (change the start type of a service. More types are available in detailed view)</LI>
-        <LI>Reanalyze (refresh some informations which are not automatically refreshed, for example the 'Start type')</LI>
-        <LI>File properties (open the Windows property dialog box about the executable)</LI>
-        <LI>Open directory (open the directory which contains the executable)</LI>
-        <LI>Show file details (show details of the executable in the 'File' tab)</LI>
-        <LI>Internet search (search for the executable name on the Internet)</LI>
+        <LI><b><font color="#00B0F0">File properties</font></b> : opens the Windows property dialog box about the executable.</LI>
+        <LI><font color="#00B0F0"><b>Open directory</b></font> : opens the directory which contains the executable file.</LI>
+        <LI><b><font color="#00B0F0">File details</font></b> : shows details of the executable in the 'File' tab.</LI>
+        <LI><b><font color="#00B0F0">Internet search</font></b> : searches for the executable name on the Internet.</LI>
+        <LI><b><font color="#00B0F0">Show dependencies</font></b> : opens the <a href="help.html#DependenciesViewer">Dependency viewer</a> to see dependencies of the selected service.</LI>
+        <LI><b>Pause/Resume</b> : pauses (or resumes)&nbsp;the selected service.</LI>
+        <LI><b>Stop</b> : stops the selected service</LI>
+        <LI><b>Start</b> : starts the selected service</LI>
+        <LI><b>Change start type</b> : changes the start type of a service.</LI>
+        <LI><b><font color="#00B050">Delete</font></b> : deletes the selected service.</LI>
+        <LI><b>Reanalyze</b> : refreshes some informations which are not automatically refreshed, for example the 'Start type'</LI>
     </UL>
-    <h2><a name="File"></a>File features</h2>
-    <p>The features available for file&nbsp;management are available in the 'File' tab of the main form. Use the icons on the ribbon, or right-click on the list. The first thing to do is to open the file with 'Open file' icon. Then, some actions will be available :</p>
+    <h2><a name="Network"></a><font color="#00B050"><b>Network connections</b></font></h2>
+    <p>These features are available in the 'Network' tab of the main form. Use the icons on the ribbon, or use the popup menu (right-click on the listview).&nbsp;All actions are available for the different connections&nbsp;you select in the list. </p>
+    <ul>
+        <LI><b><font color="#00B050">Select associated process</font></b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;"> </span><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;">: selects the processes associated to the selected network connections.</span></LI>
+        <LI><b><font color="#00B050">Close TCP connection</font></b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;"> : closes the TCP connections which are selected.</span></LI>
+    </ul>
+    <h2><a name="File"></a><b>File features</b></h2>
+    <p>These are available in the 'File' tab of the main form. Use the icons on the ribbon, or right-click on the list. The first thing to do before using &quot;file features&quot;&nbsp;is to open the file with 'Open file' icon. Then, some actions will be available. Note that even if the 'File' tab is available for&nbsp;all types of connection, you only can select local files.</p>
     <UL>
-        <LI>Release (use it if your file appears to be 'locked', when you try to delete it for example. The processes which lock the file will be displayed)</LI>
-        <LI>Trash (delete the file, but keep it in the trash)</LI>
-        <LI>Delete (delete the file)</LI>
-        <LI>File properties (open the Windows property dialog box about the file) </LI>
-        <LI>Open directory (open the directory which contains the file)</LI>
-        <LI>Dir properties (open the Windows property dialog box about the directory which contains the file) </LI>
-        <LI>Internet search (search for the file&nbsp;name on the Internet) </LI>
-        <LI>Others -&gt; Rename (rename the file)</LI>
-        <LI>Others -&gt; Copy (copy to another directory)</LI>
-        <LI>Others -&gt; Move (move to another directory)</LI>
-        <LI>Others -&gt; Open (open with the associated application, or launch the executable)</LI>
-        <LI>Others -&gt; Show file string (show the strings which can be read into the file. Note that for large file, it is not recommended to show file strings)</LI>
-        <LI>Others -&gt; Encrypt (encrypt file using Windows encryption service)</LI>
-        <LI>Others -&gt; Decrypt (decrypt file using Windows encryption service)</LI>
+        <LI><b>Release</b> : use this&nbsp;if your file appears to be 'locked', when you try to delete it for example. The processes which lock the file will be displayed and you will be able to close them.</LI>
+        <LI><b>Trash</b> : deletes the file, but keeps it in the trash.</LI>
+        <LI><b>Delete</b> : deletes the file.</LI>
+        <LI><b>File properties</b> : opens the Windows property dialog box about the file.</LI>
+        <LI><b>Open directory</b> : opens the directory which contains the file.</LI>
+        <LI><b>Dir properties</b> : opens the Windows property dialog box about the directory which contains the file.</LI>
+        <LI><b>Internet search</b> : searches for the file&nbsp;name on the Internet.</LI>
+        <LI><b>Others -&gt; Rename</b> : renames the file.</LI>
+        <LI><b>Others -&gt; Copy</b> : copies the file&nbsp;to another directory.</LI>
+        <LI><b>Others -&gt; Move</b> : moves the file to another directory.</LI>
+        <LI><b>Others -&gt; Open</b> : opens the file&nbsp;with the associated application, or launch the executable.</LI>
+        <LI><b>Others -&gt; Show file string</b> : shows the strings which can be read as text into the file. Note that for large files, it is not recommended to show file strings (as it may requires a lot of CPU time/memory usage).</LI>
+        <LI><b>Others -&gt; Encrypt</b> : encrypts the&nbsp;file using Windows encryption service.</LI>
+        <LI><b>Others -&gt; Decrypt </b>: decrypts the&nbsp;file using Windows encryption service.</LI>
     </UL>
-    <p>Double-click on a service&nbsp;to open a detailed view of the service. See <a href="#DetailedViewForService">Detailed view for service</a>.</p>
-    <h2><a name="Search"></a>Search features</h2>
+    <h2><a name="Search"></a><b><font color="#00B050">Search</font></b></h2>
     <p>The search feature is available in the 'Search' tab of the main form.</p>
-    <p>You will have to specify which items you want to search (processes, modules, services, handles...). Then, enter the string you want to search, validate with 'Return' key and click on'Launch'.</p>
+    <p>You will have to specify which types of item you want to search (processes, modules, services, handles...). Then, enter the string you want to search, validate with 'Return' key and click on'Launch'.</p>
     <p>You can close an item (i.e. terminate process for processes, unload module for modules, close handle for handles...) with 'Close item' menu.</p>
     <h2><a name="RemoteManagement"></a>Remote management</h2>
     <h3>Change connection type</h3>
-    <p>The first thing to do if you want to change the system you want to monitor is to change the connection type. There are three connection types :</p>
+    <p>The first thing to do to&nbsp;monitor a remote system&nbsp;is to change the connection type. There are three different connection types :</p>
     <ul>
-        <LI>Local : this is the default connection type. It is used to monitor the local system.</LI>
-        <LI>Remote via WMI : this is a connection type to monitor a remote system via WMI (<a href="http://msdn.microsoft.com/en-us/library/aa394582(VS.85).aspx">Windows Management Instrumentation</a>)</LI>
-        <LI>Remote via YAPM server : this is a connection type to monitor a remote system via a client-server architecture</LI>
+        <LI>Local : this is the default connection type. It is used to monitor the local system only.</LI>
+        <LI>Remote via WMI : this is used&nbsp;to monitor a remote system via WMI (<a href="http://msdn.microsoft.com/en-us/library/aa394582(VS.85).aspx">Windows Management Instrumentation</a>).</LI>
+        <LI>Remote via YAPM server : this is used to monitor a remote system via a client-server architecture.</LI>
     </ul>
     <p>To change the connection type, you have to open the 'Connection window' (Menu -&gt; Change connection type). Then, disconnect from current machine, choose the new connection, configure it&nbsp;and click on&nbsp;'Connect'.</p>
-    <h3>Which connection should I&nbsp;choose ?</h3>
+    <h3>Which connection type&nbsp;should I&nbsp;choose ?</h3>
     <p style="margin-top:0; margin-bottom:0;">If you want to monitor the local machine, use 'local connection'.</p>
     <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
     <p style="margin-top:0; margin-bottom:0;">If you want to monitor a remote machine, there are different points you should consider :</p>
     <ul>
         <LI>If you only want the list of processes/services with basic informations, Start/Stop features, you should use WMI</LI>
-        <LI>If you do not have an account on the remote machine, you have to&nbsp;use WMI</LI>
+        <LI>If you do not have an account on the remote machine, you have to&nbsp;use YAPM server</LI>
         <LI>If you want to use Windows Performance Counters, you have to&nbsp;use WMI</LI>
         <LI>If you want to monitor the remote system and manage handles, memory or use some other advanced features, you have to&nbsp;use the server</LI>
-        <LI>If you want to save report about&nbsp;the remote system, you have to&nbsp;use the server</LI>
+        <LI>If you want to save reports about&nbsp;the remote system, you have to&nbsp;use the server</LI>
         <LI>If you want to search something with Search feature, you have to&nbsp;use the server</LI>
         <LI style="margin-top:0; margin-bottom:0;">In other cases, keep in mind that :</LI>
     </ul>
-    <ol>
-        <LI style="margin-top:0; margin-bottom:0;">WMI might be fastest than the server</LI>
-        <LI>The server should always work (even if WMI is not installed for example), this is not the case of&nbsp;WMI</LI>
-        <LI>WMI might be easiest to use</LI>
-    </ol>
+    <ul>
+        <ol>
+            <LI>The server should always work (even if WMI is not installed for example), this is not the case of&nbsp;WMI</LI>
+            <LI>WMI might be easiest to use</LI>
+        </ol>
+    </ul>
     <h3>WMI method</h3>
-    <p>WMI method is the easiest way to monitor a remote system. You only need an account with a password on the remote machine. WMI must also be available in the remote machine (<a href="http://www.google.com/search?q=RPC+Server+Unavailable">RPC server must be started</a>). Here is the way you should follow to&nbsp;connect YYAPM to the remote machine :</p>
+    <p>WMI method is the easiest way to monitor a remote system. You only need an account with a password on the remote machine. WMI must also be available in the remote machine (<a href="http://www.google.com/search?q=RPC+Server+Unavailable">RPC server must be started</a>). Here are&nbsp;the steps&nbsp;you should follow to&nbsp;connect YAPM to the remote machine :</p>
     <ul>
         <LI>start the remote machine and launch YAPM on the local machine</LI>
         <LI>disconnect YAPM from the local machine</LI>
@@ -214,87 +195,97 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <LI>enter your username and your password (empty password are NOT allowed)</LI>
         <LI>connect to remote machine ('Connect' button)</LI>
     </ul>
-    <p>WMI is a nice way to monitor remote computers, but it is quite limited. Only some informations/features are available :</p>
+    <p>WMI is a nice way to monitor remote computers, but it is really&nbsp;limited. Only some informations/features are available :</p>
     <ul>
-        <LI>List of processes (but some informations are not visible)</LI>
-        <LI>List of services (but some informations are not visible)</LI>
-        <LI>List of modules (but some informations are not visible)</LI>
-        <LI>List of threads (but some informations are not visible)</LI>
+        <LI>List of processes (but some informations are not available)</LI>
+        <LI>List of services (but some informations are not available) </LI>
+        <LI>List of modules (but some informations are not available) </LI>
+        <LI>List of threads (but some informations are not available) </LI>
         <LI>New process / Kill process / Change process priority</LI>
-        <LI>All actions on services</LI>
+        <LI>Some actions&nbsp;on services (start, stop, pause...)</LI>
     </ul>
     <h3>Client-server method</h3>
     <p>Client-server method is more complex than WMI and it requires to run something (the server) on the remote machine. But it allows to monitor&nbsp;the processes/services/modules/... and all related objects just as if you were monitoring a local machine : all features/informations are available (except performance counters).</p>
-    <p>Here is the way you should follow to&nbsp;connect YAPM&nbsp;to the remote machine :</p>
+    <p>Here are the steps&nbsp;you should follow to&nbsp;connect YAPM&nbsp;to the remote machine :</p>
     <ul>
         <LI>start the remote machine and launch YAPM on the local machine</LI>
-        <LI>start YAPM as a server on the remote machine (use launch server.bat, it launches YAPM with -server option)</LI>
+        <LI>start YAPM as a server on the remote machine (you could use launch server.bat, it launches YAPM with <font face="Courier New">-server</font> option).</LI>
         <LI>disconnect YAPM from the local machine</LI>
         <LI>choose 'Client-server connection'</LI>
-        <LI>enter the IP&nbsp;of the remote machine</LI>
+        <LI>enter the IP&nbsp;of the remote machine, and select the port number you used when starting the server (8085 by default)</LI>
         <LI>connect to remote machine ('Connect' button)</LI>
     </ul>
     <h2><a name="EmergencyHotkeys"></a>Emergency hotkeys</h2>
-    <p>This is a feature which allows to assign a shortcut to a specified action. Once you have open the 'Emergency hotkeys' window (Menu -&gt; Emergency hotkeys), right-click on the listview and choose 'Add'. Then select the shortcut you want to use and the action you want to associate with. 'Remove' command delete the action definitevely (use Enable/Disable to temporarily remove a previous added shortcut). The shortcut are saved in 'hotkeys.xml' file in YAPM directory.</p>
-    <p>Note that the actions available depends from the version of YAPM you are using. For now, you can not add your own custom actions.</p>
-    <p>The shortcut will work only when YAPM is running.</p>
-    <h2><a name="StateBasedActions"></a>State Based Actions</h2>
-    <p>Not available for now !</p>
+    <p>This is a feature which allows to assign a shortcut to a specified action. Once you have open the 'Emergency hotkeys' window (Menu -&gt; Emergency hotkeys), right-click on the listview and choose 'Add'. Then select the shortcut you want to use and the action you want to associate with it. 'Remove' command delete the action definitevely (use Enable/Disable to temporarily remove a previous added shortcut). The shortcut are saved in 'hotkeys.xml' file in YAPM directory.</p>
+    <p>Note that the actions available depends from the version of YAPM you are using. For now, you can not add your own custom actions, and only two actions are available : &quot;Kill foreground application&quot; and &quot;Exit YAPM&quot;.</p>
+    <p>The shortcuts will only be active&nbsp;when YAPM is running.<br>
+Note that the shortcuts only affect the local machine.</p>
     <h2><a name="FindWindowProcess"></a>Find Window' Process</h2>
-    <p>This feature allows to find the process associated to a window displayed on the screen. Once you have open the 'Find Window' process' window (Menu -&gt; &quot;target&quot; small icon), click on the form and drag your mouse over the screen. Select the desired window and release the left button of your mouse, it will select the process associated to the window.</p>
+    <p>This feature allows to find the process associated to a window displayed on the screen. Once you have open the 'Find Window' process' window (Menu -&gt; &quot;target icon&quot;), click on the window&nbsp;and drag your mouse over the screen. Select the desired window and release the left button of your mouse, it will select the process associated to the window.</p>
     <h2><a name="ShowHiddenProcesses"></a>Show hidden processes</h2>
-    <p>This feature allows to view hidden processes, such as rootkits. As it uses user mode functions (no kernel functions), it shows <i>only basic</i> rootkits. There are two methods of detection available, you can change the method&nbsp;by clicking on the small &quot;shield&quot;&nbsp;icon on the bottom of the window.</p>
-    <h2><a name="DetailedViewForProcess"></a>Detailed view for process</h2>
-    <p>When you double-click on a process&nbsp;(list of the processes&nbsp;on the main form), it opens a form which shows all available informations about the process. There are 16&nbsp;tabs :</p>
+    <p>This feature allows to view hidden processes, such as rootkits. As it uses user mode functions (no kernel functions), it shows <i>only basic</i> rootkits. There are two methods of detection available, you can change the method&nbsp;by clicking on the small &quot;shield&nbsp;icon&quot; on the bottom of the window.</p>
+    <h2><a name="CreateService"></a>Create a service</h2>
+    <p>YAPM allows to create services. (this feature is available using the main menu). To create a service, you have to specify some informations (name of the service, service type...etc.). If you want to create a service on a remote machine, you will have to specify a machine name, a user name and the associated password. YAPM will then copy the executable you selected to&nbsp;the remote machine and starts the service on the remote machine as a local service.</p>
+    <h2><a name="DetailedViewForProcess"></a>Detailed view for processes</h2>
+    <p>When you double-click on a process&nbsp;(on the list of the processes&nbsp;on the main form), it opens a form which shows all available informations about the process. There are 16&nbsp;different tabs :</p>
     <ul>
-        <LI>General : general informations about the process ('Get online infos' displays online informations about the process, depending on its name)</LI>
-        <LI>Statistics : all numerical informations available about the process</LI>
-        <LI>Performances : three performance graphs (Cpu usage with average cpu usage, physical memory usage, I/O delta)</LI>
-        <LI>Token : display privileges. Enable/Disable/Remove menus allows to enable/disable/remove the selected privileges</LI>
-        <LI>Memory : display all the memory regions of the process. 'View memory' menu opens the hex editor and shows the memory at&nbsp;the region' base address. 'Jump to peb' menu opens the hex editor and shows the memory at the <a href="http://undocumented.ntinternals.net/UserMode/Undocumented%20Functions/NT%20Objects/Process/PEB.html">PEB</a>&nbsp;address.</LI>
-        <LI>Informations : display informations as text (RTF)</LI>
-        <LI>Services : display services of the process</LI>
-        <LI>Network : display TCP/UDP connections opened by the process</LI>
-        <LI>Strings : display string readable in the image (file on the disk) or in memory. It is possible to save the result and to search a sub string.</LI>
-        <LI>Environment : display all the environment variables of the process</LI>
-        <LI>Modules : display loaded modules. 'View memory' menu opens the hex editor and shows the memory at&nbsp;the module' base address. </LI>
-        <LI>Threads : display threads of the process</LI>
-        <LI>Windows : display windows of the process</LI>
-        <LI>Handles : display handles opened by the process</LI>
-        <LI>Log : powerful tool to monitor all changes made by/on a process. See <a href="#LogFeature">Log feature</a>.</LI>
-        <LI>History : display the history of one or more numerical counter(s). Select the desired counters on the left to display the associated graphs on the right. The history of all processes is collected&nbsp;in memory in real time and there is no need to open the detail view of the&nbsp;processes&nbsp;to collect informations, but the size of informations collected&nbsp;is limited. By default, only 100KB of history data are stored by process. You can configure it (or set it as unlimited) in the 'Preferences' window.</LI>
+        <LI><b>General</b> : general informations about the process ('Get online infos' displays online informations about the process, depending on its name)</LI>
+        <LI><b>Statistics</b> : all numerical informations available about the process</LI>
+        <LI><b>Performances</b> : three performance graphs (Cpu usage with average cpu usage, physical memory usage, I/O delta)</LI>
+        <LI><b><font color="#00B050">Token</font></b> : displays privileges. Enable/Disable/Remove menus allows to enable/disable/remove the selected privileges</LI>
+        <LI><b><font color="#00B050">Memory</font></b> : displays all the memory regions of the process. 'View memory' menu opens the hex editor and shows the memory at&nbsp;the region' base address. 'Jump to peb' menu opens the hex editor and shows the memory at the <a href="http://undocumented.ntinternals.net/UserMode/Undocumented%20Functions/NT%20Objects/Process/PEB.html">PEB</a>&nbsp;address. You can also free/decommit memory regions&nbsp;and even change memory protection type.</LI>
+        <LI><b>Informations</b> : displays informations as text (RTF)</LI>
+        <LI><b>Services</b> : displays services owned by&nbsp;the process</LI>
+        <LI><b><font color="#00B050">Network</font></b> : displays TCP/UDP connections opened by the process</LI>
+        <LI><b><font color="#00B0F0">Strings</font></b> : displays strings readable in the image file&nbsp;(on the disk) or in memory. It is possible to save the results and search a sub-string.</LI>
+        <LI><b><font color="#00B050">Environment</font></b> : displays all the environment variables of the process</LI>
+        <LI><b>Modules</b> : displays loaded modules. 'View memory' menu opens the hex editor and shows the memory at&nbsp;the module' base address. </LI>
+        <LI><b>Threads</b> : displays threads of the process</LI>
+        <LI><b><font color="#00B050">Windows</font></b> : displays windows of the process</LI>
+        <LI><b><font color="#00B050">Handles</font></b> : displays handles opened by the process. &quot;File&quot; handles are only shown if YAPM kernel driver is loaded.</LI>
+        <LI><b><font color="#00B050">Log</font></b> : powerful tool to monitor all changes made by/on a process. See <a href="#LogFeature">Log feature</a>.</LI>
+        <LI><b>History</b> : display the history of one or more numerical counter(s). Select the desired counters on the left to display the associated graphs on the right. The history of all processes is collected&nbsp;in memory in real time and there is no need to open the detail view of the&nbsp;processes&nbsp;to collect informations, but the size of informations collected&nbsp;is limited. By default, only 100KB of history data are stored by process. You can configure it (or set it as unlimited) in the 'Preferences' window.</LI>
     </ul>
-    <h2><a name="DetailedViewForService"></a>Detailed view for service</h2>
+    <h2><a name="DetailedViewForService"></a>Detailed view for services</h2>
     <p>When you double-click on a service (list of the services on the main form), it opens a form which shows all available informations about the service. There are 4 tabs :</p>
     <ul>
-        <LI>General - 1 : display general informations ('Get online infos' displays online informations about the service, depending on its name)</LI>
-        <LI>General - 2 : some other informations</LI>
-        <LI>Dependencies : display dependencies of the service</LI>
-        <LI>Informations : display informations as text (RTF)</LI>
+        <LI><b>General - 1</b> : displays general informations ('Get online infos' displays online informations about the service, depending on its name)</LI>
+        <LI><b>General - 2 </b>: some other informations</LI>
+        <LI><b>Dependencies</b> : displays dependencies of the service</LI>
+        <LI><b>Informations</b> : displays informations as text (RTF)</LI>
     </ul>
-    <h2><a name="LogFeature"></a>Log feature</h2>
-    <p>This feature allows to monitor all changes made by/on a process (Process detail view -&gt; Log tab). Check 'Activate log' to enable the feature to collect the changes.</p>
-    <p>Click on 'Options' and choose the desired options :</p>
+    <h2><a name="DetailedViewJobs"></a><font color="#00B050">Detailed view for jobs</font></h2>
+    <p>When you double-click on a job&nbsp;(list of the jobs&nbsp;on the main form), it opens a form which shows all available informations about the job. There are 3 tabs :</p>
+    <ul>
+        <LI><b><font color="#00B050">General</font></b>&nbsp;: displays processes in the job</LI>
+        <LI><b><font color="#00B050">Statistics</font></b> : displays statistics about the job</LI>
+        <LI><b><font color="#00B050">Limitations</font></b> : displays limits applied to the job. It also allows&nbsp;user to specify new limits for the job.</LI>
+    </ul>
+    <h2><a name="LogFeature"></a><font color="#00B050">Log feature</font></h2>
+    <p>This feature allows to monitor all changes made by/on a process (Process detail view -&gt; Log tab). Check 'Activate log' to enable the feature to collect the changes.<br>
+Click on 'Options' and choose the desired options :</p>
     <ul>
         <LI>Capture : the changes to monitor. For example, if you check 'Handles', it will monitor the handles opened/closed by the process. Check 'Created' and/or 'Deleted' to monitor new objects and/or deleted objects (in our example : opened handles and/or closes handles).</LI>
         <LI>Show : the items to show on the list. If you uncheck all boxes, nothing will be displayed, and if you check all boxes, all collected changes will be displayed. This option should be used for two reasons : to see only specific changes (example : you monitor everything and just want to see new threads), and to economize CPU usage (when all options are activated, display all changes may require a lot of CPU time)</LI>
         <LI>Interval : the interval between two 'snapshots of informations'. If you specify a small value, it may will require a lot of CPU time.</LI>
         <LI>Auto scroll : automatically scroll (or not) the view (i.e. ensure that the last item of the listview is available).</LI>
     </ul>
-    <h2><a name="DependenciesViewer"></a>Dependency viewer</h2>
-    <p>This feature allows to view dependencies of an executable/*.dll/*.sys. If the Dependencies viewer is shown with Module-&gt;Show dependencies or Process-&gt;Show dependency, there is no need to select the file, otherwise you will have to use 'Open...' menu.</p>
-    <p>Once your file is opened, you will see the import/export tables and all informations available in a standard Dependency viewer.</p>
-    <h2><a name="OtherFeatures"></a>Other features and tips</h2>
-    <p>Here are some other features and tips you should know :</p>
+    <h2><a name="DependenciesViewer"></a><font color="#00B0F0">Dependency viewer</font></h2>
+    <p>This feature allows to view dependencies of an executable/*.dll/*.sys. If the Dependency viewer is shown with Module-&gt;Show dependencies or Process-&gt;Show dependency, there is no need to select the file, otherwise you will have to use 'Open...' menu.</p>
+    <p>Once your file is opened, you will see the import/export tables and all informations available in a classical&nbsp;Dependency viewer.</p>
+    <h2><a name="OtherFeatures"></a>Other features &amp;&nbsp;tips</h2>
+    <p>Here are some other features and tips you should know when using YAPM&nbsp;:</p>
     <ul>
-        <LI>You should read the tooltips when you move your mouse over a control, there are sometimes some useful informations</LI>
-        <LI>'Escape' key should close opened forms</LI>
-        <LI>Middle-mouse-click on a listview should copy the informations displayed for the selected items into the clipboard</LI>
-        <LI>Ctrl+Shift key on an item of a listview will display the pending tasks concerning the item.</LI>
+        <LI>You should read the tooltips when you move your mouse over a control, there are some useful informations.</LI>
+        <LI>'Escape' key should close opened forms.</LI>
+        <LI>Middle-mouse-click on a listview should copy the informations displayed for the selected items into the clipboard. 'Right-click -&gt; Menu Copy to clipboard' allows to copy some specific informations to the clipboard.</LI>
+        <LI>Ctrl+Shift keys on an item on&nbsp;a listview will display the pending tasks concerning the item.</LI>
+        <LI>Double-click on an item on&nbsp;a listview (or F7 key) will display the list of properties about&nbsp;the item.</LI>
+        <LI>Ctrl+F keys on a listview on the process detailed view will display a useful search panel on the bottom of the window.</LI>
     </ul>
     <p>&nbsp;</p>
     <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-    <P><i>Last update of this page : 2009-30-08&nbsp;12:00</i></P>
+    <P><i>Last update of this page : 2009-21-09&nbsp;23:00</i></P>
 </DIV>
 		<P></P>
 		

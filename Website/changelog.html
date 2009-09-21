@@ -21,6 +21,44 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <DIV>
         <H2>&nbsp;</H2>
         <H2>Changelog</H2>
+        <h3 style="margin-top:0; margin-bottom:0;">CHANGES FROM 2.1.0</h3>
+        <h3 style="margin-top:0; margin-bottom:0;">&nbsp;</h3>
+        <h3 style="margin-top:0; margin-bottom:0;">* NEW / Improvements</h3>
+        <p style="margin-top:0; margin-bottom:0;">- Highly improved stability of remote monitoring using the server ! Now connections/reconnections and massive requests at the same time always work !!</p>
+        <p style="margin-top:0; margin-bottom:0;">- Removed all 'time' limitations concerning remote monitoring (auto refresh is now also active when monitoring remote machine)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now Handles/Threads/Modules/Windows main tabs have been removed so that the UI is less confusing and simplified</p>
+        <p style="margin-top:0; margin-bottom:0;">- Added Job management for remote monitoring</p>
+        <p style="margin-top:0; margin-bottom:0;">- Added 'Create/Delete service' features (local &amp; remote)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Added 'Freeze list' &amp; 'Search item' features in process' detailed view</p>
+        <p style="margin-top:0; margin-bottom:0;">- Added IpV6 support</p>
+        <p style="margin-top:0; margin-bottom:0;">- Added feature #2851904 (startup tab)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Added 'Object informations' feature (double-click on an object (or F7 key) on a listview to show all properties of the object)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now network connections are not displayed by group anymore</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now file signature verification can be disabled</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now YAPM automatically detect process termination and displays exit code</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now ALL dangerous actions display a warning (if not disabled in options)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now ALL windows functions are working for remote monitoring</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now ALL informations about windows are retrieved with remote monitoring</p>
+        <p style="margin-top:0; margin-bottom:0;">- Removed 100KB limit for history buffer</p>
+        <p style="margin-top:0; margin-bottom:0;">- Improved search speed alot &amp; display a message when searching</p>
+        <p style="margin-top:0; margin-bottom:0;">- Added 'Restart elevated' button in job tab if user has no privileges</p>
+        <p style="margin-top:0; margin-bottom:0;">- Improved quick search in main tab (tasks, processes, services, search)</p>
+        <p style="margin-top:0; margin-bottom:0;">- 'Delete' keydown on thread/handle/service list will terminate/close/delete threads/handles/services</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now tcp.txt and udp.txt are embedded resources</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <h3 style="margin-top:0; margin-bottom:0;">* Bug fixed</h3>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed Copy to clipboard error</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed bug #2849184 (incorrect string format)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed bug #2849961 (cannot sort a virtual listview)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed bug #2862603 (crash with GetExtendedUdpTable)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed 'job tab is disabled' bug</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed 'go to search' for task tab</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed bug when trying to refresh job list using remote server</p>
+        <p style="margin-top:0; margin-bottom:0;">- No crash if user tries to use remote monitoring if no NIC is available</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed search on strings (&quot;search to right&quot; now works fine)</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
         <h3 style="margin-top:0; margin-bottom:0;">CHANGES FROM 2.0.3</h3>
         <h3 style="margin-top:0; margin-bottom:0;">&nbsp;</h3>
         <h3 style="margin-top:0; margin-bottom:0;">* NEW / Improvements</h3>
@@ -328,7 +366,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <p>&nbsp;</p>
         <DIV>
             <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-            <P><i>Last update of this page : 2009-30-08&nbsp;20:00</i></P>
+            <P><i>Last update of this page : 2009-21-09&nbsp;20:00</i></P>
         </DIV>
         <P></P>
         <p>

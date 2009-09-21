@@ -421,7 +421,6 @@ Partial Class frmMain
         Me.MenuItemTaskMin = New System.Windows.Forms.MenuItem
         Me.MenuItem4 = New System.Windows.Forms.MenuItem
         Me.MenuItem6 = New System.Windows.Forms.MenuItem
-        Me.MenuItemTaskSelWin = New System.Windows.Forms.MenuItem
         Me.MenuItem9 = New System.Windows.Forms.MenuItem
         Me.MenuItemTaskColumns = New System.Windows.Forms.MenuItem
         Me.mnuMonitor = New System.Windows.Forms.ContextMenu
@@ -4650,7 +4649,7 @@ Partial Class frmMain
         'MenuItemCopyTask
         '
         Me.VistaMenu.SetImage(Me.MenuItemCopyTask, Global.YAPM.My.Resources.Resources.copy16)
-        Me.MenuItemCopyTask.Index = 9
+        Me.MenuItemCopyTask.Index = 8
         Me.MenuItemCopyTask.Text = "Copy to clipboard"
         '
         'MenuItemCopyService
@@ -4679,7 +4678,7 @@ Partial Class frmMain
         '
         'mnuTask
         '
-        Me.mnuTask.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemTaskShow, Me.MenuItemTaskMax, Me.MenuItemTaskMin, Me.MenuItem4, Me.MenuItemTaskEnd, Me.MenuItem6, Me.MenuItemTaskSelProc, Me.MenuItemTaskSelWin, Me.MenuItem9, Me.MenuItemCopyTask, Me.MenuItemTaskColumns})
+        Me.mnuTask.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemTaskShow, Me.MenuItemTaskMax, Me.MenuItemTaskMin, Me.MenuItem4, Me.MenuItemTaskEnd, Me.MenuItem6, Me.MenuItemTaskSelProc, Me.MenuItem9, Me.MenuItemCopyTask, Me.MenuItemTaskColumns})
         '
         'MenuItemTaskMax
         '
@@ -4701,19 +4700,14 @@ Partial Class frmMain
         Me.MenuItem6.Index = 5
         Me.MenuItem6.Text = "-"
         '
-        'MenuItemTaskSelWin
-        '
-        Me.MenuItemTaskSelWin.Index = 7
-        Me.MenuItemTaskSelWin.Text = "Select  in 'Window tab'"
-        '
         'MenuItem9
         '
-        Me.MenuItem9.Index = 8
+        Me.MenuItem9.Index = 7
         Me.MenuItem9.Text = "-"
         '
         'MenuItemTaskColumns
         '
-        Me.MenuItemTaskColumns.Index = 10
+        Me.MenuItemTaskColumns.Index = 9
         Me.MenuItemTaskColumns.Text = "Choose columns..."
         '
         'mnuMonitor
@@ -5920,7 +5914,6 @@ Partial Class frmMain
     Friend WithEvents MenuItemTaskEnd As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem6 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemTaskSelProc As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItemTaskSelWin As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem9 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemTaskColumns As System.Windows.Forms.MenuItem
     Private WithEvents mnuMonitor As System.Windows.Forms.ContextMenu

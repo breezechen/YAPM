@@ -2778,7 +2778,7 @@ Public Class frmMain
         Me.lvProcess.Focus()
     End Sub
 
-    Private Sub MenuItemTaskSelWin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemTaskSelWin.Click
+    Private Sub MenuItemTaskSelWin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'If Me.lvTask.SelectedItems.Count > 0 Then
         '    'Dim it As ListViewItem
         '    'Dim it2 As ListViewItem
@@ -2837,8 +2837,7 @@ Public Class frmMain
             Dim selectionIsNotNothing As Boolean = (Me.lvTask.SelectedItems IsNot Nothing _
                                                     AndAlso Me.lvTask.SelectedItems.Count > 0)
             Me.MenuItemTaskEnd.Enabled = selectionIsNotNothing
-            Me.MenuItemTaskSelProc.Enabled = selectionIsNotNothing AndAlso Me.lvProcess.SelectedItems.Count > 0
-            Me.MenuItemTaskSelWin.Enabled = selectionIsNotNothing AndAlso Me.lvTask.SelectedItems.Count = 1
+            Me.MenuItemTaskSelProc.Enabled = selectionIsNotNothing AndAlso Me.lvProcess.Items.Count > 0
             Me.MenuItemTaskShow.Enabled = selectionIsNotNothing
             Me.MenuItemTaskMax.Enabled = selectionIsNotNothing
             Me.MenuItemTaskMin.Enabled = selectionIsNotNothing
