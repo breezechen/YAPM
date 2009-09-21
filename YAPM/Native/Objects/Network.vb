@@ -76,6 +76,7 @@ Namespace Native.Objects
                                                    Enums.TcpTableClass.OwnerPidAll, _
                                                    0) = 0 Then
 
+                ' Read number of items
                 count = memBuf.ReadInt32(0)
                 For i As Integer = 0 To count - 1
                     Dim tcp_item As NativeStructs.MibTcpRowOwnerPid = _
@@ -137,7 +138,7 @@ Namespace Native.Objects
                                                    NativeEnums.IpVersion.AfInet, _
                                                    Enums.UdpTableClass.OwnerPid, _
                                                    0) = 0 Then
-
+                ' Read number of items
                 count = memBuf.ReadInt32(0)
                 For i As Integer = 0 To count - 1
                     Dim udp_item As NativeStructs.MibUdpRowOwnerId = _
@@ -194,6 +195,7 @@ Namespace Native.Objects
                                                    NativeEnums.IpVersion.AfInt6, _
                                                    Enums.TcpTableClass.OwnerPidAll, _
                                                    0) = 0 Then
+                ' Read number of items
                 count = memBuf.ReadInt32(0)
                 For i As Integer = 0 To count - 1
                     Dim tcp_item As NativeStructs.MibTcp6RowOwnerPid = _
@@ -256,6 +258,7 @@ Namespace Native.Objects
                                                    NativeEnums.IpVersion.AfInt6, _
                                                    Enums.UdpTableClass.OwnerPid, _
                                                    0) = 0 Then
+                ' Read number of items
                 count = memBuf.ReadInt32(0)
                 For i As Integer = 0 To count - 1
                     Dim udp_item As NativeStructs.MibUdp6RowOwnerId = _

@@ -66,6 +66,8 @@ Public Class frmPreferences
         My.Settings.AutomaticWintrust = Me.chkWintrust.Checked
         My.Settings.ShowUserGroupDomain = Me.chkUserGroup.Checked
         My.Settings.ShowStatusBar = Me.chkStatusBar.Checked
+        My.Settings.ShowFixedTab = Me.chkFixedTab.Checked
+        My.Settings.FixedTab = Me.cbShownTab.Text
         If Me.chkUnlimitedBuf.Checked Then
             My.Settings.HistorySize = -1
         Else
@@ -183,6 +185,8 @@ Public Class frmPreferences
         SetToolTip(Me.cmdMoveUpProcess, "Increase priority of selected category.")
         SetToolTip(Me.chkUserGroup, "Show or not user group/domain in process listview.")
         SetToolTip(Me.chkStatusBar, "Show or not status bar on main form.")
+        SetToolTip(Me.chkFixedTab, "Show always the same tab when YAPM starts.")
+        SetToolTip(Me.cbShownTab, "Tab to show when YAPM starts.")
 
         ' Set control's values
         Me.txtServiceIntervall.Text = My.Settings.ServiceInterval.ToString
@@ -212,6 +216,7 @@ Public Class frmPreferences
         Me.chkUserGroup.Checked = My.Settings.ShowUserGroupDomain
         Me.chkStatusBar.Checked = My.Settings.ShowStatusBar
         Me.txtJobInterval.Text = My.Settings.JobInterval.ToString
+        Me.chkFixedTab.Checked = My.Settings.ShowFixedTab
 
         If My.Settings.HistorySize > 0 Then
             Me.bufferSize.Value = CInt(My.Settings.HistorySize / 1024)
@@ -220,6 +225,13 @@ Public Class frmPreferences
             Me.bufferSize.Value = 0
             Me.chkUnlimitedBuf.Checked = True
         End If
+
+        ' Fill in list of main tabs
+        For Each t As TabPage In _frmMain._tab.TabPages
+            Me.cbShownTab.Items.Add(t.Text)
+        Next
+        Me.cbShownTab.Text = My.Settings.FixedTab
+        Me.cbShownTab.Enabled = Me.chkFixedTab.Checked
 
         ' Add items of "Highlighting listviews" in saved order
         Me.lvHighlightingOther.Items.Clear()
@@ -311,6 +323,7 @@ Public Class frmPreferences
         Me.chkAutoOnline.Checked = False
         Me.bufferSize.Value = 100
         Me.chkStatusBar.Checked = True
+        Me.chkFixedTab.Checked = False
 
         ' Now empty highlightings listviews, re-add items in default order and check them all
         Me.lvHighlightingProcess.Items.Clear()
@@ -674,4 +687,7 @@ Public Class frmPreferences
 
     End Function
 
+    Private Sub chkFixedTab_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFixedTab.CheckedChanged
+        Me.cbShownTab.Enabled = Me.chkFixedTab.Checked
+    End Sub
 End Class

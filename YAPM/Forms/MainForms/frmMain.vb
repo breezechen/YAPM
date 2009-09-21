@@ -522,24 +522,19 @@ Public Class frmMain
         '        Me.WindowState = FormWindowState.Normal
         '    End If
         'End If
-        Select Case My.Settings.SelectedTab
-            Case "Tasks"
-                Me.Ribbon.ActiveTab = Me.TaskTab
-            Case "Processes"
-                Me.Ribbon.ActiveTab = Me.ProcessTab
-            Case "Monitor"
-                Me.Ribbon.ActiveTab = Me.MonitorTab
-            Case "Services"
-                Me.Ribbon.ActiveTab = Me.ServiceTab
-            Case "Network"
-                Me.Ribbon.ActiveTab = Me.NetworkTab
-            Case "File"
-                Me.Ribbon.ActiveTab = Me.FileTab
-            Case "Search"
-                Me.Ribbon.ActiveTab = Me.SearchTab
-            Case "Help"
-                Me.Ribbon.ActiveTab = Me.HelpTab
-        End Select
+
+        ' Select tab to activate
+        Dim tabToShow As String = My.Settings.SelectedTab
+        If My.Settings.ShowFixedTab Then
+            tabToShow = My.Settings.FixedTab
+        End If
+        For Each tab As RibbonTab In Me.Ribbon.Tabs
+            If tab.Text = tabToShow Then
+                Me.Ribbon.ActiveTab = tab
+                Exit For
+            End If
+        Next
+
         Call Ribbon_MouseMove(Nothing, Nothing)
         Call Me.frmMain_Resize(Nothing, Nothing)
     End Sub

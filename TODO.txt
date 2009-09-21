@@ -91,7 +91,6 @@ BUGS NON CRITIQUES
 - replace taskmgr sous 7 ?
 - pending task : caption -> object.tostring (surcharger chaque cXXXX)
 - setLIMITEDinfo dans les access comme pour QueryLIMITEDinfo (thread & process)
-- possibilité de choisir le tab affiché par défaut
 
 - ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
 - probablement des bugs de 'collection modifiée' vis à vis du log

@@ -24,17 +24,18 @@ Partial Class frmPreferences
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferences))
-        Dim ListViewItem10 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Suspended thread")
-        Dim ListViewItem11 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Relocated module")
-        Dim ListViewItem12 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process being debugged")
-        Dim ListViewItem13 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Critical process")
-        Dim ListViewItem14 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Elevated process")
-        Dim ListViewItem15 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process in job")
-        Dim ListViewItem16 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Service process")
-        Dim ListViewItem17 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Owned process")
-        Dim ListViewItem18 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("System process")
+        Dim ListViewItem19 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Suspended thread")
+        Dim ListViewItem20 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Relocated module")
+        Dim ListViewItem21 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process being debugged")
+        Dim ListViewItem22 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Critical process")
+        Dim ListViewItem23 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Elevated process")
+        Dim ListViewItem24 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process in job")
+        Dim ListViewItem25 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Service process")
+        Dim ListViewItem26 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Owned process")
+        Dim ListViewItem27 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("System process")
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.chkWintrust = New System.Windows.Forms.CheckBox
         Me.chkAutoOnline = New System.Windows.Forms.CheckBox
         Me.cmdResetAll = New System.Windows.Forms.Button
         Me.chkWarn = New System.Windows.Forms.CheckBox
@@ -96,7 +97,8 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.chkWintrust = New System.Windows.Forms.CheckBox
+        Me.chkFixedTab = New System.Windows.Forms.CheckBox
+        Me.cbShownTab = New System.Windows.Forms.ComboBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -149,6 +151,16 @@ Partial Class frmPreferences
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'chkWintrust
+        '
+        Me.chkWintrust.AutoSize = True
+        Me.chkWintrust.Location = New System.Drawing.Point(14, 218)
+        Me.chkWintrust.Name = "chkWintrust"
+        Me.chkWintrust.Size = New System.Drawing.Size(179, 17)
+        Me.chkWintrust.TabIndex = 10
+        Me.chkWintrust.Text = "Verify signatures of processes"
+        Me.chkWintrust.UseVisualStyleBackColor = True
         '
         'chkAutoOnline
         '
@@ -300,9 +312,9 @@ Partial Class frmPreferences
         Me.lvHighlightingOther.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
         Me.lvHighlightingOther.FullRowSelect = True
         Me.lvHighlightingOther.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem10.StateImageIndex = 0
-        ListViewItem11.StateImageIndex = 0
-        Me.lvHighlightingOther.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem10, ListViewItem11})
+        ListViewItem19.StateImageIndex = 0
+        ListViewItem20.StateImageIndex = 0
+        Me.lvHighlightingOther.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem19, ListViewItem20})
         Me.lvHighlightingOther.Location = New System.Drawing.Point(229, 3)
         Me.lvHighlightingOther.MultiSelect = False
         Me.lvHighlightingOther.Name = "lvHighlightingOther"
@@ -321,14 +333,14 @@ Partial Class frmPreferences
         Me.lvHighlightingProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Header})
         Me.lvHighlightingProcess.FullRowSelect = True
         Me.lvHighlightingProcess.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem12.StateImageIndex = 0
-        ListViewItem13.StateImageIndex = 0
-        ListViewItem14.StateImageIndex = 0
-        ListViewItem15.StateImageIndex = 0
-        ListViewItem16.StateImageIndex = 0
-        ListViewItem17.StateImageIndex = 0
-        ListViewItem18.StateImageIndex = 0
-        Me.lvHighlightingProcess.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem12, ListViewItem13, ListViewItem14, ListViewItem15, ListViewItem16, ListViewItem17, ListViewItem18})
+        ListViewItem21.StateImageIndex = 0
+        ListViewItem22.StateImageIndex = 0
+        ListViewItem23.StateImageIndex = 0
+        ListViewItem24.StateImageIndex = 0
+        ListViewItem25.StateImageIndex = 0
+        ListViewItem26.StateImageIndex = 0
+        ListViewItem27.StateImageIndex = 0
+        Me.lvHighlightingProcess.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem21, ListViewItem22, ListViewItem23, ListViewItem24, ListViewItem25, ListViewItem26, ListViewItem27})
         Me.lvHighlightingProcess.Location = New System.Drawing.Point(3, 3)
         Me.lvHighlightingProcess.MultiSelect = False
         Me.lvHighlightingProcess.Name = "lvHighlightingProcess"
@@ -343,6 +355,8 @@ Partial Class frmPreferences
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.cbShownTab)
+        Me.TabPage3.Controls.Add(Me.chkFixedTab)
         Me.TabPage3.Controls.Add(Me.chkStatusBar)
         Me.TabPage3.Controls.Add(Me.chkUserGroup)
         Me.TabPage3.Controls.Add(Me.chkHideClosed)
@@ -780,15 +794,24 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
-        'chkWintrust
+        'chkFixedTab
         '
-        Me.chkWintrust.AutoSize = True
-        Me.chkWintrust.Location = New System.Drawing.Point(14, 218)
-        Me.chkWintrust.Name = "chkWintrust"
-        Me.chkWintrust.Size = New System.Drawing.Size(179, 17)
-        Me.chkWintrust.TabIndex = 10
-        Me.chkWintrust.Text = "Verify signatures of processes"
-        Me.chkWintrust.UseVisualStyleBackColor = True
+        Me.chkFixedTab.AutoSize = True
+        Me.chkFixedTab.Location = New System.Drawing.Point(182, 146)
+        Me.chkFixedTab.Name = "chkFixedTab"
+        Me.chkFixedTab.Size = New System.Drawing.Size(105, 17)
+        Me.chkFixedTab.TabIndex = 12
+        Me.chkFixedTab.Text = "Tab shown first"
+        Me.chkFixedTab.UseVisualStyleBackColor = True
+        '
+        'cbShownTab
+        '
+        Me.cbShownTab.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbShownTab.FormattingEnabled = True
+        Me.cbShownTab.Location = New System.Drawing.Point(293, 144)
+        Me.cbShownTab.Name = "cbShownTab"
+        Me.cbShownTab.Size = New System.Drawing.Size(150, 21)
+        Me.cbShownTab.TabIndex = 13
         '
         'frmPreferences
         '
@@ -902,4 +925,6 @@ Partial Class frmPreferences
     Friend WithEvents txtJobInterval As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents chkWintrust As System.Windows.Forms.CheckBox
+    Friend WithEvents cbShownTab As System.Windows.Forms.ComboBox
+    Friend WithEvents chkFixedTab As System.Windows.Forms.CheckBox
 End Class

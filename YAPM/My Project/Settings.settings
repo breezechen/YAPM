@@ -260,5 +260,11 @@
     <Setting Name="ClientIP" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="ShowFixedTab" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="FixedTab" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Tasks</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

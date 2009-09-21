@@ -1097,6 +1097,30 @@ Namespace My
                 Me("ClientIP") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property ShowFixedTab() As Boolean
+            Get
+                Return CType(Me("ShowFixedTab"),Boolean)
+            End Get
+            Set
+                Me("ShowFixedTab") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Tasks")>  _
+        Public Property FixedTab() As String
+            Get
+                Return CType(Me("FixedTab"),String)
+            End Get
+            Set
+                Me("FixedTab") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
