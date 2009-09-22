@@ -1,45 +1,20 @@
 <YAPM>
-	<!--update possible types are "stable", "beta", "alpha" -->
+	<!-- update possible types are "stable", "beta", "alpha" -->
 	<update type="stable">
-		<version>2.2.0.0</version>
+		<version>2.2.1.0</version>
 		<caption>Yet Another (remote) Process Monitor 2.2.1</caption>
-		<description>This is a major release with more stability and many bug fixes. Here is the complete changelog :
+		<description>2.2.x is a major release with a lot of improvements (stability of remote monitoring and general performances) and new features.
+2.2.1 is a "bug-fix" release which correct an annoying bug of 2.2.0 release. Here is the complete changelog :
 
-CHANGES FROM 2.1.0
+CHANGES FROM 2.2.0
  
-* NEW / Improvements
-- Highly improved stability of remote monitoring using the server ! Now connections/reconnections and massive requests at the same time always work !!
-- Removed all 'time' limitations concerning remote monitoring (auto refresh is now also active when monitoring remote machine)
-- Now Handles/Threads/Modules/Windows main tabs have been removed so that the UI is less confusing and simplified
-- Added Job management for remote monitoring
-- Added 'Create/Delete service' features (local and remote)
-- Added 'Freeze list' and 'Search item' features in process' detailed view
-- Added IpV6 support
-- Added feature #2851904 (startup tab)
-- Added 'Object informations' feature (double-click on an object (or F7 key) on a listview to show all properties of the object)
-- Now network connections are not displayed by group anymore
-- Now file signature verification can be disabled
-- Now YAPM automatically detect process termination and displays exit code
-- Now ALL dangerous actions display a warning (if not disabled in options)
-- Now ALL windows functions are working for remote monitoring
-- Now ALL informations about windows are retrieved with remote monitoring
-- Removed 100KB limit for history buffer
-- Improved search speed alot and display a message when searching
-- Added 'Restart elevated' button in job tab if user has no privileges
-- Improved quick search in main tab (tasks, processes, services, search)
-- 'Delete' keydown on thread/handle/service list will terminate/close/delete threads/handles/services
-- Now tcp.txt and udp.txt are embedded resources
- 
-* Bug fixed
-- Fixed Copy to clipboard error
-- Fixed bug #2849184 (incorrect string format)
-- Fixed bug #2849961 (cannot sort a virtual listview)
-- Fixed bug #2862603 (crash with GetExtendedUdpTable)
-- Fixed 'job tab is disabled' bug
-- Fixed 'go to search' for task tab
-- Fixed bug when trying to refresh job list using remote server
-- No crash if user tries to use remote monitoring if no NIC is available
-- Fixed search on strings ("search to right" now works fine)
+*NEW / Improvements
+- Now "update feature" is much more efficient
+
+* Bug fixes
+- 'Select associated process' menu now works again
+- Removed 'Select in window tab' menu
+- Fixed bad wait time for process termination
 		</description>
 		<date>21 September 2009</date>
 		<downloadUrl>http://surfnet.dl.sourceforge.net/project/yaprocmon/YAPM-beta/YAPM-2.2.0/YAPM%202.2.0%20Setup.exe</downloadUrl>

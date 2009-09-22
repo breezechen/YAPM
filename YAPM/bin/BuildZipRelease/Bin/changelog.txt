@@ -3,13 +3,12 @@ YAPM 2.2.0 BETA
 CHANGES FROM 2.2.0
 
 *NEW / Improvements
-
+- Now "update feature" is much more efficient
 
 * Bug fixes
 - 'Select associated process' menu now works again
 - Removed 'Select in window tab' menu
 - Fixed bad wait time for process termination
-- Fixed Check-if-up-to-date feature
 
 
 CHANGES FROM 2.1.0

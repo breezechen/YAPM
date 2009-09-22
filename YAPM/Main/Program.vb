@@ -478,6 +478,27 @@ Public Module Program
         End Try
     End Sub
 
+    Private Sub _updater_FailedToCheckVersion(ByVal silent As Boolean, ByVal msg As String) Handles _updater.FailedToCheckVersion
+        ' Failed to check update
+        If silent Then
+            ' Silent mode -> only displays a tooltip
+            If _frmMain IsNot Nothing AndAlso _frmMain.Tray IsNot Nothing Then
+                With _frmMain.Tray
+                    .BalloonTipText = msg
+                    .BalloonTipIcon = ToolTipIcon.Info
+                    .BalloonTipTitle = "Could not check if YAPM us ip to date."
+                    .ShowBalloonTip(3000)
+                End With
+            End If
+        Else
+            Common.Misc.ShowMsg("YAPM update", _
+                                IntPtr.Zero, _
+                                "Could not check if YAPM is up to date.", _
+                                msg, _
+                                MessageBoxButtons.OK, _
+                                TaskDialogIcon.ShieldError)
+        End If
+    End Sub
 
     Private Sub _updater_NewVersionAvailable(ByVal silent As Boolean, ByVal release As cUpdate.NewReleaseInfos) Handles _updater.NewVersionAvailable
         ' A new version of YAPM is available
@@ -492,7 +513,17 @@ Public Module Program
                 End With
             End If
         Else
-            '
+            Dim ret As DialogResult = _
+                Common.Misc.ShowMsg("YAPM update", _
+                                    IntPtr.Zero, _
+                                    "A new version of YAPM is available. Would you like to download it now ?", _
+                                    "Here are the informations about the new version : " & vbNewLine & release.Infos, _
+                                    MessageBoxButtons.YesNo, _
+                                    TaskDialogIcon.Information)
+            If ret = DialogResult.Yes Then
+                ' Download last version
+                cFile.ShellOpenFile(release.Url, IntPtr.Zero)
+            End If
         End If
     End Sub
 
@@ -509,7 +540,12 @@ Public Module Program
                 End With
             End If
         Else
-            '
+            Common.Misc.ShowMsg("YAPM update", _
+                                IntPtr.Zero, _
+                                "YAPM is up to date !", _
+                                "The current version (" & My.Application.Info.Version.ToString & ") is the latest available for download.", _
+                                MessageBoxButtons.OK, _
+                                TaskDialogIcon.ShieldOk)
         End If
     End Sub
 End Module
