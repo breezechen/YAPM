@@ -1125,7 +1125,7 @@ Namespace Native.Api
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
         Public Shared Function WaitForSingleObject(ByVal [Object] As IntPtr, _
-                                                   ByVal Timeout As UInteger) As WaitResult
+                                                   ByVal Timeout As Integer) As WaitResult
         End Function
 
         <DllImport("kernel32.dll", _

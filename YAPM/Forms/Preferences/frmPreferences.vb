@@ -384,7 +384,7 @@ Public Class frmPreferences
         Try
             Dim cVersion As Integer = 0
             With My.Application.Info.Version
-                cVersion = .Major * 10000 + .Build * 1000 + .Minor * 100 + .MinorRevision
+                cVersion = .Major * 10000 + .Minor * 1000 + .Build * 100 + .MinorRevision * 10
             End With
             Dim lVersion As Integer = 0
             Dim sInfo As String = vbNullString
@@ -415,7 +415,7 @@ Public Class frmPreferences
 
             Dim sVers As String = source.Substring(x2 + 8, x - x2 - 11)
             Dim sV As String() = Split(sVers, ".")
-            lVersion = CInt(Val(sV(0)) * 10000 + Val(sV(1)) * 1000 + Val(sV(2)) * 1000 + Val(sV(3)) * 100)
+            lVersion = CInt(Val(sV(0)) * 10000 + Val(sV(1)) * 1000 + Val(sV(2)) * 100 + Val(sV(3)) * 10)
 
             s = "Last version is : " & lVersion & vbNewLine
             s &= "Your version is : " & cVersion & vbNewLine
