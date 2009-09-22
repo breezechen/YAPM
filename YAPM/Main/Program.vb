@@ -131,6 +131,8 @@ Public Module Program
 
     Public _frmMain As frmMain
     Public _frmServer As frmServer
+
+    Private WithEvents _updater As cUpdate
     Private _progParameters As ProgramParameters
     Private WithEvents theConnection As cConnection
     Private _systemInfo As cSystemInfo
@@ -202,6 +204,11 @@ Public Module Program
     Public ReadOnly Property IsElevated() As Boolean
         Get
             Return _isElevated
+        End Get
+    End Property
+    Public ReadOnly Property Updater() As cUpdate
+        Get
+            Return _updater
         End Get
     End Property
 
@@ -309,6 +316,7 @@ Public Module Program
                 _log = New cLog                     ' Log instance
                 _trayIcon = New cTrayIcon(2)        ' Tray icons
                 _frmMain = New frmMain              ' Main form
+                _updater = New cUpdate              ' Updater class
             Else
                 _frmMain = New frmMain              ' Main form
                 _frmServer = New frmServer          ' Server form (server mode)
@@ -468,5 +476,40 @@ Public Module Program
             Call Native.Api.NativeFunctions.ExitProcess(res)
 
         End Try
+    End Sub
+
+
+    Private Sub _updater_NewVersionAvailable(ByVal silent As Boolean, ByVal release As cUpdate.NewReleaseInfos) Handles _updater.NewVersionAvailable
+        ' A new version of YAPM is available
+        If silent Then
+            ' Silent mode -> only displays a tooltip
+            If _frmMain IsNot Nothing AndAlso _frmMain.Tray IsNot Nothing Then
+                With _frmMain.Tray
+                    .BalloonTipText = release.Infos
+                    .BalloonTipIcon = ToolTipIcon.Info
+                    .BalloonTipTitle = "A new version of YAPM is available !"
+                    .ShowBalloonTip(3000)
+                End With
+            End If
+        Else
+            '
+        End If
+    End Sub
+
+    Private Sub _updater_ProgramUpToDate(ByVal silent As Boolean) Handles _updater.ProgramUpToDate
+        ' YAPM is up to date (no new version available)
+        If silent Then
+            ' Silent mode -> only displays a tooltip
+            If _frmMain IsNot Nothing AndAlso _frmMain.Tray IsNot Nothing Then
+                With _frmMain.Tray
+                    .BalloonTipText = "YAPM is up to date !"
+                    .BalloonTipIcon = ToolTipIcon.Info
+                    .BalloonTipTitle = "Now new version of YAPM is available."
+                    .ShowBalloonTip(3000)
+                End With
+            End If
+        Else
+            '
+        End If
     End Sub
 End Module

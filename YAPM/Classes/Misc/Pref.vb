@@ -83,9 +83,19 @@ Public Class Pref
         jobList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
         _frmMain.Tray.Visible = My.Settings.ShowTrayIcon
         _frmMain.StatusBar.Visible = My.Settings.ShowStatusBar
+
+        ' Common tasks on first time
         If first Then
-            Call _frmMain.permuteMenuStyle(My.Settings.UseRibbonStyle)
             first = False
+
+            ' Ribbon style ?
+            Call _frmMain.permuteMenuStyle(My.Settings.UseRibbonStyle)
+
+            ' Update ?
+            If My.Settings.UpdateAuto Then
+                Program.Updater.CheckUpdates(True)
+            End If
+
             _frmMain.TopMost = My.Settings.TopMost
             _frmMain.butAlwaysDisplay.Checked = My.Settings.TopMost
             _frmMain.Visible = Not (My.Settings.StartHidden)

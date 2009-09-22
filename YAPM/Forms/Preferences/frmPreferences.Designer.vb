@@ -24,15 +24,15 @@ Partial Class frmPreferences
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferences))
-        Dim ListViewItem19 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Suspended thread")
-        Dim ListViewItem20 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Relocated module")
-        Dim ListViewItem21 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process being debugged")
-        Dim ListViewItem22 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Critical process")
-        Dim ListViewItem23 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Elevated process")
-        Dim ListViewItem24 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process in job")
-        Dim ListViewItem25 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Service process")
-        Dim ListViewItem26 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Owned process")
-        Dim ListViewItem27 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("System process")
+        Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Suspended thread")
+        Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Relocated module")
+        Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process being debugged")
+        Dim ListViewItem4 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Critical process")
+        Dim ListViewItem5 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Elevated process")
+        Dim ListViewItem6 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process in job")
+        Dim ListViewItem7 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Service process")
+        Dim ListViewItem8 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Owned process")
+        Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("System process")
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.chkWintrust = New System.Windows.Forms.CheckBox
@@ -55,6 +55,8 @@ Partial Class frmPreferences
         Me.lvHighlightingProcess = New System.Windows.Forms.ListView
         Me.Header = New System.Windows.Forms.ColumnHeader
         Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.cbShownTab = New System.Windows.Forms.ComboBox
+        Me.chkFixedTab = New System.Windows.Forms.CheckBox
         Me.chkStatusBar = New System.Windows.Forms.CheckBox
         Me.chkUserGroup = New System.Windows.Forms.CheckBox
         Me.chkHideClosed = New System.Windows.Forms.CheckBox
@@ -89,16 +91,17 @@ Partial Class frmPreferences
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label1 = New System.Windows.Forms.Label
         Me.TabPage2 = New System.Windows.Forms.TabPage
-        Me.cmdDownload = New System.Windows.Forms.Button
-        Me.cmdCheckUpdate = New System.Windows.Forms.Button
-        Me.txtUpdate = New System.Windows.Forms.TextBox
+        Me.cmdUpdateCheckNow = New System.Windows.Forms.Button
+        Me.txtUpdateServer = New System.Windows.Forms.TextBox
+        Me.Label13 = New System.Windows.Forms.Label
+        Me.chkUpdateAuto = New System.Windows.Forms.CheckBox
+        Me.chkUpdateAlpha = New System.Windows.Forms.CheckBox
+        Me.chkUpdateBeta = New System.Windows.Forms.CheckBox
         Me.IMG = New System.Windows.Forms.ImageList(Me.components)
         Me.cmdSave = New System.Windows.Forms.Button
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.chkFixedTab = New System.Windows.Forms.CheckBox
-        Me.cbShownTab = New System.Windows.Forms.ComboBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -312,9 +315,9 @@ Partial Class frmPreferences
         Me.lvHighlightingOther.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
         Me.lvHighlightingOther.FullRowSelect = True
         Me.lvHighlightingOther.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem19.StateImageIndex = 0
-        ListViewItem20.StateImageIndex = 0
-        Me.lvHighlightingOther.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem19, ListViewItem20})
+        ListViewItem1.StateImageIndex = 0
+        ListViewItem2.StateImageIndex = 0
+        Me.lvHighlightingOther.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem1, ListViewItem2})
         Me.lvHighlightingOther.Location = New System.Drawing.Point(229, 3)
         Me.lvHighlightingOther.MultiSelect = False
         Me.lvHighlightingOther.Name = "lvHighlightingOther"
@@ -333,14 +336,14 @@ Partial Class frmPreferences
         Me.lvHighlightingProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.Header})
         Me.lvHighlightingProcess.FullRowSelect = True
         Me.lvHighlightingProcess.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        ListViewItem21.StateImageIndex = 0
-        ListViewItem22.StateImageIndex = 0
-        ListViewItem23.StateImageIndex = 0
-        ListViewItem24.StateImageIndex = 0
-        ListViewItem25.StateImageIndex = 0
-        ListViewItem26.StateImageIndex = 0
-        ListViewItem27.StateImageIndex = 0
-        Me.lvHighlightingProcess.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem21, ListViewItem22, ListViewItem23, ListViewItem24, ListViewItem25, ListViewItem26, ListViewItem27})
+        ListViewItem3.StateImageIndex = 0
+        ListViewItem4.StateImageIndex = 0
+        ListViewItem5.StateImageIndex = 0
+        ListViewItem6.StateImageIndex = 0
+        ListViewItem7.StateImageIndex = 0
+        ListViewItem8.StateImageIndex = 0
+        ListViewItem9.StateImageIndex = 0
+        Me.lvHighlightingProcess.Items.AddRange(New System.Windows.Forms.ListViewItem() {ListViewItem3, ListViewItem4, ListViewItem5, ListViewItem6, ListViewItem7, ListViewItem8, ListViewItem9})
         Me.lvHighlightingProcess.Location = New System.Drawing.Point(3, 3)
         Me.lvHighlightingProcess.MultiSelect = False
         Me.lvHighlightingProcess.Name = "lvHighlightingProcess"
@@ -372,6 +375,25 @@ Partial Class frmPreferences
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Display"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'cbShownTab
+        '
+        Me.cbShownTab.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbShownTab.FormattingEnabled = True
+        Me.cbShownTab.Location = New System.Drawing.Point(293, 144)
+        Me.cbShownTab.Name = "cbShownTab"
+        Me.cbShownTab.Size = New System.Drawing.Size(150, 21)
+        Me.cbShownTab.TabIndex = 13
+        '
+        'chkFixedTab
+        '
+        Me.chkFixedTab.AutoSize = True
+        Me.chkFixedTab.Location = New System.Drawing.Point(182, 146)
+        Me.chkFixedTab.Name = "chkFixedTab"
+        Me.chkFixedTab.Size = New System.Drawing.Size(105, 17)
+        Me.chkFixedTab.TabIndex = 12
+        Me.chkFixedTab.Text = "Tab shown first"
+        Me.chkFixedTab.UseVisualStyleBackColor = True
         '
         'chkStatusBar
         '
@@ -710,9 +732,12 @@ Partial Class frmPreferences
         '
         'TabPage2
         '
-        Me.TabPage2.Controls.Add(Me.cmdDownload)
-        Me.TabPage2.Controls.Add(Me.cmdCheckUpdate)
-        Me.TabPage2.Controls.Add(Me.txtUpdate)
+        Me.TabPage2.Controls.Add(Me.cmdUpdateCheckNow)
+        Me.TabPage2.Controls.Add(Me.txtUpdateServer)
+        Me.TabPage2.Controls.Add(Me.Label13)
+        Me.TabPage2.Controls.Add(Me.chkUpdateAuto)
+        Me.TabPage2.Controls.Add(Me.chkUpdateAlpha)
+        Me.TabPage2.Controls.Add(Me.chkUpdateBeta)
         Me.TabPage2.ImageKey = "(aucun)"
         Me.TabPage2.Location = New System.Drawing.Point(4, 23)
         Me.TabPage2.Name = "TabPage2"
@@ -722,35 +747,60 @@ Partial Class frmPreferences
         Me.TabPage2.Text = "Update"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
-        'cmdDownload
+        'cmdUpdateCheckNow
         '
-        Me.cmdDownload.Location = New System.Drawing.Point(319, 248)
-        Me.cmdDownload.Name = "cmdDownload"
-        Me.cmdDownload.Size = New System.Drawing.Size(136, 25)
-        Me.cmdDownload.TabIndex = 12
-        Me.cmdDownload.Text = "Download last update"
-        Me.cmdDownload.UseVisualStyleBackColor = True
+        Me.cmdUpdateCheckNow.Location = New System.Drawing.Point(11, 131)
+        Me.cmdUpdateCheckNow.Name = "cmdUpdateCheckNow"
+        Me.cmdUpdateCheckNow.Size = New System.Drawing.Size(108, 23)
+        Me.cmdUpdateCheckNow.TabIndex = 18
+        Me.cmdUpdateCheckNow.Text = "Check now"
+        Me.cmdUpdateCheckNow.UseVisualStyleBackColor = True
         '
-        'cmdCheckUpdate
+        'txtUpdateServer
         '
-        Me.cmdCheckUpdate.Location = New System.Drawing.Point(6, 248)
-        Me.cmdCheckUpdate.Name = "cmdCheckUpdate"
-        Me.cmdCheckUpdate.Size = New System.Drawing.Size(158, 25)
-        Me.cmdCheckUpdate.TabIndex = 11
-        Me.cmdCheckUpdate.Text = "Check is YAPM is up to date"
-        Me.cmdCheckUpdate.UseVisualStyleBackColor = True
+        Me.txtUpdateServer.Location = New System.Drawing.Point(56, 90)
+        Me.txtUpdateServer.Name = "txtUpdateServer"
+        Me.txtUpdateServer.Size = New System.Drawing.Size(345, 22)
+        Me.txtUpdateServer.TabIndex = 17
         '
-        'txtUpdate
+        'Label13
         '
-        Me.txtUpdate.BackColor = System.Drawing.Color.White
-        Me.txtUpdate.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.txtUpdate.Location = New System.Drawing.Point(6, 6)
-        Me.txtUpdate.Multiline = True
-        Me.txtUpdate.Name = "txtUpdate"
-        Me.txtUpdate.ReadOnly = True
-        Me.txtUpdate.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtUpdate.Size = New System.Drawing.Size(449, 236)
-        Me.txtUpdate.TabIndex = 10
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(11, 93)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(38, 13)
+        Me.Label13.TabIndex = 16
+        Me.Label13.Text = "Server"
+        '
+        'chkUpdateAuto
+        '
+        Me.chkUpdateAuto.AutoSize = True
+        Me.chkUpdateAuto.Location = New System.Drawing.Point(11, 67)
+        Me.chkUpdateAuto.Name = "chkUpdateAuto"
+        Me.chkUpdateAuto.Size = New System.Drawing.Size(219, 17)
+        Me.chkUpdateAuto.TabIndex = 15
+        Me.chkUpdateAuto.Text = "Check if YAPM is up to date at startup"
+        Me.chkUpdateAuto.UseVisualStyleBackColor = True
+        '
+        'chkUpdateAlpha
+        '
+        Me.chkUpdateAlpha.AutoSize = True
+        Me.chkUpdateAlpha.Location = New System.Drawing.Point(11, 44)
+        Me.chkUpdateAlpha.Name = "chkUpdateAlpha"
+        Me.chkUpdateAlpha.Size = New System.Drawing.Size(151, 17)
+        Me.chkUpdateAlpha.TabIndex = 14
+        Me.chkUpdateAlpha.Text = "Check for alpha releases"
+        Me.chkUpdateAlpha.UseVisualStyleBackColor = True
+        '
+        'chkUpdateBeta
+        '
+        Me.chkUpdateBeta.AutoSize = True
+        Me.chkUpdateBeta.Location = New System.Drawing.Point(11, 21)
+        Me.chkUpdateBeta.Name = "chkUpdateBeta"
+        Me.chkUpdateBeta.Size = New System.Drawing.Size(145, 17)
+        Me.chkUpdateBeta.TabIndex = 13
+        Me.chkUpdateBeta.Text = "Check for beta releases"
+        Me.chkUpdateBeta.UseVisualStyleBackColor = True
         '
         'IMG
         '
@@ -793,25 +843,6 @@ Partial Class frmPreferences
         '
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
-        '
-        'chkFixedTab
-        '
-        Me.chkFixedTab.AutoSize = True
-        Me.chkFixedTab.Location = New System.Drawing.Point(182, 146)
-        Me.chkFixedTab.Name = "chkFixedTab"
-        Me.chkFixedTab.Size = New System.Drawing.Size(105, 17)
-        Me.chkFixedTab.TabIndex = 12
-        Me.chkFixedTab.Text = "Tab shown first"
-        Me.chkFixedTab.UseVisualStyleBackColor = True
-        '
-        'cbShownTab
-        '
-        Me.cbShownTab.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cbShownTab.FormattingEnabled = True
-        Me.cbShownTab.Location = New System.Drawing.Point(293, 144)
-        Me.cbShownTab.Name = "cbShownTab"
-        Me.cbShownTab.Size = New System.Drawing.Size(150, 21)
-        Me.cbShownTab.TabIndex = 13
         '
         'frmPreferences
         '
@@ -872,9 +903,6 @@ Partial Class frmPreferences
     Friend WithEvents chkStart As System.Windows.Forms.CheckBox
     Friend WithEvents chkStartTray As System.Windows.Forms.CheckBox
     Friend WithEvents chkTopMost As System.Windows.Forms.CheckBox
-    Friend WithEvents cmdDownload As System.Windows.Forms.Button
-    Friend WithEvents cmdCheckUpdate As System.Windows.Forms.Button
-    Friend WithEvents txtUpdate As System.Windows.Forms.TextBox
     Friend WithEvents IMG As System.Windows.Forms.ImageList
     Friend WithEvents TabPage3 As System.Windows.Forms.TabPage
     Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
@@ -927,4 +955,10 @@ Partial Class frmPreferences
     Friend WithEvents chkWintrust As System.Windows.Forms.CheckBox
     Friend WithEvents cbShownTab As System.Windows.Forms.ComboBox
     Friend WithEvents chkFixedTab As System.Windows.Forms.CheckBox
+    Friend WithEvents chkUpdateAuto As System.Windows.Forms.CheckBox
+    Friend WithEvents chkUpdateAlpha As System.Windows.Forms.CheckBox
+    Friend WithEvents chkUpdateBeta As System.Windows.Forms.CheckBox
+    Friend WithEvents cmdUpdateCheckNow As System.Windows.Forms.Button
+    Friend WithEvents txtUpdateServer As System.Windows.Forms.TextBox
+    Friend WithEvents Label13 As System.Windows.Forms.Label
 End Class

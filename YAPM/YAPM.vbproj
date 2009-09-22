@@ -506,6 +506,7 @@
     <None Include="Resources\process.png" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Download\cUpdate.vb" />
     <Compile Include="Classes\Download\cAsyncProcInfoDownload.vb" />
     <Compile Include="Classes\Download\cDownload.vb" />
     <Compile Include="Classes\Socket\RemotingServerClient.vb" />

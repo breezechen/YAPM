@@ -68,6 +68,11 @@ Public Class frmPreferences
         My.Settings.ShowStatusBar = Me.chkStatusBar.Checked
         My.Settings.ShowFixedTab = Me.chkFixedTab.Checked
         My.Settings.FixedTab = Me.cbShownTab.Text
+        My.Settings.UpdateAlpha = Me.chkUpdateAlpha.Checked
+        My.Settings.UpdateBeta = Me.chkUpdateBeta.Checked
+        My.Settings.UpdateAuto = Me.chkUpdateAuto.Checked
+        My.Settings.UpdateServer = Me.txtUpdateServer.Text
+
         If Me.chkUnlimitedBuf.Checked Then
             My.Settings.HistorySize = -1
         Else
@@ -148,7 +153,6 @@ Public Class frmPreferences
         Native.Functions.Misc.SetTheme(Me.lvHighlightingProcess.Handle)
         Native.Functions.Misc.SetTheme(Me.lvHighlightingOther.Handle)
 
-        Me.txtUpdate.Text = "Click on 'Check if YAPM is up to date' to check if a new version is available."
         SetToolTip(Me.chkReplaceTaskmgr, "Replace taskmgr (do not forget to uncheck this option before you delete/move YAPM executable !!")
         SetToolTip(Me.chkStart, "Start YAPM on Windows startup.")
         SetToolTip(Me.chkStartTray, "Start YAPM hidden (only in tray system).")
@@ -158,8 +162,6 @@ Public Class frmPreferences
         SetToolTip(Me.cmdQuit, "Quit without saving.")
         SetToolTip(Me.cmdDefaut, "Set default configuration.")
         SetToolTip(Me.chkTopMost, "Start YAPM topmost.")
-        SetToolTip(Me.cmdCheckUpdate, "Check if new updates are availables.")
-        SetToolTip(Me.cmdDownload, "Download last update of YAPM from sourceforge.net.")
         SetToolTip(Me.pctDeletedItems, "Color of deleted items.")
         SetToolTip(Me.pctNewitems, "Color of new items.")
         SetToolTip(Me.chkTrayIcon, "Show tray icon.")
@@ -187,6 +189,12 @@ Public Class frmPreferences
         SetToolTip(Me.chkStatusBar, "Show or not status bar on main form.")
         SetToolTip(Me.chkFixedTab, "Show always the same tab when YAPM starts.")
         SetToolTip(Me.cbShownTab, "Tab to show when YAPM starts.")
+        SetToolTip(Me.chkUpdateAlpha, "Check for alpha releases.")
+        SetToolTip(Me.chkUpdateBeta, "Check for beta releases.")
+        SetToolTip(Me.chkUpdateAuto, "Check for updates at startup.")
+        SetToolTip(Me.cmdUpdateCheckNow, "Check for updates now.")
+        SetToolTip(Me.txtUpdateServer, "Update server.")
+
 
         ' Set control's values
         Me.txtServiceIntervall.Text = My.Settings.ServiceInterval.ToString
@@ -217,6 +225,10 @@ Public Class frmPreferences
         Me.chkStatusBar.Checked = My.Settings.ShowStatusBar
         Me.txtJobInterval.Text = My.Settings.JobInterval.ToString
         Me.chkFixedTab.Checked = My.Settings.ShowFixedTab
+        Me.chkUpdateAlpha.Checked = My.Settings.UpdateAlpha
+        Me.chkUpdateBeta.Checked = My.Settings.UpdateBeta
+        Me.chkUpdateAuto.Checked = My.Settings.UpdateAuto
+        Me.txtUpdateServer.Text = My.Settings.UpdateServer
 
         If My.Settings.HistorySize > 0 Then
             Me.bufferSize.Value = CInt(My.Settings.HistorySize / 1024)
@@ -324,6 +336,10 @@ Public Class frmPreferences
         Me.bufferSize.Value = 100
         Me.chkStatusBar.Checked = True
         Me.chkFixedTab.Checked = False
+        Me.chkUpdateAlpha.Checked = False
+        Me.chkUpdateBeta.Checked = False
+        Me.chkUpdateAuto.Checked = False
+        Me.txtUpdateServer.Text = "http://yaprocmon.sourceforge.net/update.xml"
 
         ' Now empty highlightings listviews, re-add items in default order and check them all
         Me.lvHighlightingProcess.Items.Clear()
@@ -346,196 +362,6 @@ Public Class frmPreferences
 
         ' Set colors of "Highlighting items"
         Call setColorOfHighlightingItems()
-    End Sub
-
-    Private Delegate Sub setUpdateText(ByVal s As String, ByVal b As Boolean, ByVal b2 As Boolean)
-    Private Structure degObj
-        Public deg As setUpdateText
-        Public ctrl As Control
-        Public Sub New(ByVal d As setUpdateText, ByVal ctr As Control)
-            deg = d
-            ctrl = ctr
-        End Sub
-    End Structure
-
-    Private Sub impSetUpdateText(ByVal s As String, ByVal b As Boolean, ByVal b2 As Boolean)
-        If b = False Then
-            Me.txtUpdate.Text &= vbNewLine & s & vbNewLine
-        Else
-            If b2 = False Then
-                If Not (IsWindowsVistaOrAbove()) Then
-                    MsgBox("Cannot connect to Internet or cannot retrieve informations.", MsgBoxStyle.Exclamation, "Error")
-                Else
-                    ShowVistaMessage(Me.Handle, "Error while checking update", "Cannot connect to Internet or cannot retrieve informations.", , TaskDialogCommonButtons.Ok, TaskDialogIcon.Error)
-                End If
-            End If
-        End If
-    End Sub
-
-    Private Function checkUpdate(ByVal useless As Object) As Boolean
-        ' Check if new updates are availables
-        ' 1) Download source code of download page on sourceforge.net
-        ' 2) Parse code to retrieve last version
-        ' 3) Display results
-
-        Dim r As Boolean = True
-        Dim dObj As degObj = DirectCast(useless, degObj)
-
-        Try
-            Dim cVersion As Integer = 0
-            With My.Application.Info.Version
-                cVersion = .Major * 10000 + .Minor * 1000 + .Build * 100 + .MinorRevision * 10
-            End With
-            Dim lVersion As Integer = 0
-            Dim sInfo As String = vbNullString
-
-            Dim s As String
-            s = "Downloading informations on sourceforge.net webpage..."
-            If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
-                dObj.ctrl.Invoke(dObj.deg, s, False, False)
-            ' _inv.Invoke(s, False, False)
-
-            'download code
-            Dim source As String = Common.Misc.DownloadPage("http://yaprocmon.sourceforge.net/")
-            If source.Length = 0 Then Return False
-
-            s = "Retrieve last version number from downloaded informations..."
-            If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
-                dObj.ctrl.Invoke(dObj.deg, s, False, False)
-
-            ' parse code, retrive last update info
-            ' we have to get this line : <META content="2.0.1" name=yapm_version>
-
-            Dim x As Integer = InStr(source, "name=yapm_version>", CompareMethod.Binary)
-            Dim x2 As Integer
-            If x > 30 Then
-                x2 = InStr(x - 30, source, "content=", CompareMethod.Binary)
-            End If
-            If x = 0 Or x2 = 0 Then Return False
-
-            Dim sVers As String = source.Substring(x2 + 8, x - x2 - 11)
-            Dim sV As String() = Split(sVers, ".")
-            lVersion = CInt(Val(sV(0)) * 10000 + Val(sV(1)) * 1000 + Val(sV(2)) * 100 + Val(sV(3)) * 10)
-
-            s = "Last version is : " & lVersion & vbNewLine
-            s &= "Your version is : " & cVersion & vbNewLine
-
-            If lVersion > cVersion Then
-                s &= "Result : A NEW UPDATE IS AVAILABLE" & vbNewLine & vbNewLine
-                s &= "Informations about new version : " & vbNewLine & sInfo
-            Else
-                s &= "Result : YOUR VERSION IS UP TO DATE"
-            End If
-
-            If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
-                dObj.ctrl.Invoke(dObj.deg, s, False, False)
-        Catch ex As Exception
-            r = False
-        End Try
-
-        If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
-            dObj.ctrl.Invoke(dObj.deg, Nothing, True, r)
-
-    End Function
-
-    Private Sub cmdCheckUpdate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCheckUpdate.Click
-        If Not (IsWindowsVistaOrAbove()) Then
-            MsgBox("YAPM will connect to Internet and will check if new updates are availables.", MsgBoxStyle.Information, "Check for an update")
-        Else
-            ShowVistaMessage(Me.Handle, "Check for an update", "YAPM will connect to Internet and will check if new updates are availables.", , TaskDialogCommonButtons.Ok, TaskDialogIcon.ShieldOk)
-        End If
-
-        Dim _inv As New setUpdateText(AddressOf impSetUpdateText)
-        Call Threading.ThreadPool.QueueUserWorkItem(New  _
-               System.Threading.WaitCallback(AddressOf checkUpdate), New degObj(_inv, Me))
-    End Sub
-
-    Private Delegate Sub msgShowMessage()
-    Private Delegate Sub startDownload(ByVal surl As String, ByVal path As String)
-    Private Structure degObj2
-        Public deg As msgShowMessage
-        Public deg2 As startDownload
-        Public ctrl As Control
-        Public path As String
-        Public Sub New(ByVal d As msgShowMessage, ByVal d2 As startDownload, ByVal ctr As Control, ByVal s As String)
-            deg = d
-            deg2 = d2
-            ctrl = ctr
-            path = s
-        End Sub
-    End Structure
-
-    Private Sub impShowMessage()
-        MsgBox("Failed...", MsgBoxStyle.Critical, "Error")
-    End Sub
-
-    Private Sub impStartDownload(ByVal surl As String, ByVal path As String)
-        Dim down As New cDownload(surl, path)
-        Dim frm As New frmDownload
-        With frm
-            .DownloadObject = down
-            .StartDownload(path)
-            .TopMost = True
-            .Show()
-        End With
-    End Sub
-
-    Private Sub fctDownloadUpdate(ByVal tObj As Object)
-
-        Dim dObj As degObj2 = DirectCast(tObj, degObj2)
-
-        ' Download webpage and extract URL
-        Try
-            Dim tofind As String = "<LI><A href=" & Chr(34) & "http://downloads"
-            Dim source As String = Common.Misc.DownloadPage("http://yaprocmon.sourceforge.net/index.html")
-            If source.Length = 0 Then
-                If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
-                    dObj.ctrl.Invoke(dObj.deg)
-                Exit Sub
-            End If
-            Dim x As Integer = InStr(source, tofind, CompareMethod.Binary)
-            Dim x2 As Integer = InStr(x + 30, source, Chr(34), CompareMethod.Binary)
-            If x = 0 Or x2 = 0 Then
-                If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
-                    dObj.ctrl.Invoke(dObj.deg)
-                Exit Sub
-            End If
-
-            Dim sUrl As String = source.Substring(x + 12, x2 - x - 13)
-            Try
-                If Len(sUrl) = 0 Then
-                    If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
-                        dObj.ctrl.Invoke(dObj.deg)
-                    Exit Sub
-                End If
-            Catch ex As Exception
-                If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
-                    dObj.ctrl.Invoke(dObj.deg)
-                Exit Sub
-            End Try
-            If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
-                dObj.ctrl.Invoke(dObj.deg2, sUrl, dObj.path)
-        Catch ex As Exception
-            If dObj.deg IsNot Nothing AndAlso dObj.ctrl.Created Then _
-                dObj.ctrl.Invoke(dObj.deg)
-        End Try
-
-    End Sub
-
-    Private Sub cmdDownload_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdDownload.Click
-
-        _frmMain.saveDial.Filter = "Zip file (*.zip)|*.zip"
-        _frmMain.saveDial.Title = "Save last update package"
-        Dim r As DialogResult = _frmMain.saveDial.ShowDialog()
-        Dim s As String = _frmMain.saveDial.FileName
-
-        If r = Windows.Forms.DialogResult.OK Then
-            Dim _inv As New msgShowMessage(AddressOf impShowMessage)
-            Dim _inv1 As New startDownload(AddressOf impStartDownload)
-            Call Threading.ThreadPool.QueueUserWorkItem(New  _
-                   System.Threading.WaitCallback(AddressOf fctDownloadUpdate), New degObj2(_inv, _inv1, Me, s))
-        End If
-
     End Sub
 
     Private Sub pctNewitems_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles pctNewitems.Click
@@ -689,5 +515,11 @@ Public Class frmPreferences
 
     Private Sub chkFixedTab_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFixedTab.CheckedChanged
         Me.cbShownTab.Enabled = Me.chkFixedTab.Checked
+    End Sub
+
+    Private Sub cmdUpdateCheckNow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdUpdateCheckNow.Click
+        ' Check for updates manually
+        ' No silent mode, so it will cause a messagebox to be displayed
+        Program.Updater.CheckUpdates(False)
     End Sub
 End Class

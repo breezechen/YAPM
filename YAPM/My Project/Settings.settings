@@ -266,5 +266,17 @@
     <Setting Name="FixedTab" Type="System.String" Scope="User">
       <Value Profile="(Default)">Tasks</Value>
     </Setting>
+    <Setting Name="UpdateAlpha" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="UpdateBeta" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="UpdateAuto" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="UpdateServer" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://yaprocmon.sourceforge.net/update.xml</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

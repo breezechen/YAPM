@@ -800,12 +800,9 @@ Public Class frmMain
     End Sub
 
     Private Sub butUpdate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butUpdate.Click
-        Dim frm As New frmPreferences
-        With frm
-            .TabControl.SelectedTab = .TabPage2
-            .TopMost = _frmMain.TopMost
-            .ShowDialog()
-        End With
+        ' Check for updates manually
+        ' No silent mode, so it will cause a messagebox to be displayed
+        Program.Updater.CheckUpdates(False)
     End Sub
 
     Private Sub butSearchGo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSearchGo.Click
