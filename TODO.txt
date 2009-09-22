@@ -3,7 +3,10 @@ TODO LIST
 Refactoring bugs
 - 64TODO
 
+- ajouter 'connection bureau à distance' dans frmConnection (appel à mstsc.exe)
 - virer PtrToStructure et n'utiliser que MemoryAlloc
+
+- refaire complètement la gestion des erreurs (msgbox) -> consigner, remonter en ACK depuis remote, msgbox en local... (+ action on windows erreurs foireuses, notamment window close)
 
 BUGS CRITIQUES
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
