@@ -209,9 +209,9 @@ Namespace Native.Objects
 
         ' Close a window
         Public Shared Function CloseWindowByHandle(ByVal handle As IntPtr) As Boolean
-            Return (NativeFunctions.SendMessage(handle, _
+            Return NativeFunctions.SendMessage(handle, _
                                             NativeEnums.WindowMessage.Close, _
-                                            IntPtr.Zero, IntPtr.Zero).IsNotNull)
+                                            IntPtr.Zero, IntPtr.Zero).IsNull
         End Function
 
         ' Wrapper to GetForegroundWindow Win32 function
