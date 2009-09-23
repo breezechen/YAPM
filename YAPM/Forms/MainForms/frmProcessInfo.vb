@@ -157,7 +157,7 @@ Public Class frmProcessInfo
             Case "General"
                 Me.txtProcessPath.Text = curProc.Infos.Path
                 Me.txtProcessId.Text = curProc.Infos.ProcessId.ToString
-                Me.txtParentProcess.Text = curProc.Infos.ParentProcessId.ToString & " -- " & cProcess.GetProcessName(curProc.Infos.ProcessId)
+                Me.txtParentProcess.Text = curProc.Infos.ParentProcessId.ToString & " -- " & cProcess.GetProcessName(curProc.Infos.ParentProcessId)
                 Me.txtProcessStarted.Text = New Date(curProc.Infos.StartTime).ToLongDateString & " -- " & New Date(curProc.Infos.StartTime).ToLongTimeString
                 Me.txtProcessUser.Text = curProc.Infos.UserName
                 Me.txtCommandLine.Text = curProc.Infos.CommandLine
