@@ -45,7 +45,7 @@ Public Class cModuleConnection
 
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
-        If cEnvironment.IsWindowsVistaOrAbove Then
+        If cEnvironment.SupportsMinRights Then
             _minRights = Native.Security.ThreadAccess.QueryLimitedInformation
         End If
         instanceId += 1

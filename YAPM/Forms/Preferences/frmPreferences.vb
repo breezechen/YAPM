@@ -72,6 +72,7 @@ Public Class frmPreferences
         My.Settings.UpdateBeta = Me.chkUpdateBeta.Checked
         My.Settings.UpdateAuto = Me.chkUpdateAuto.Checked
         My.Settings.UpdateServer = Me.txtUpdateServer.Text
+        My.Settings.ShowClassicMessageBoxes = Me.chkClassicMsgbox.Checked
 
         If Me.chkUnlimitedBuf.Checked Then
             My.Settings.HistorySize = -1
@@ -131,7 +132,7 @@ Public Class frmPreferences
 
         If Not (_oldRibbonStyle = My.Settings.UseRibbonStyle) Then
             Dim ret As Integer
-            If Not (IsWindowsVistaOrAbove()) Then
+            If Not (cEnvironment.SupportsTaskDialog) Then
                 ret = MsgBox("The new menu style will be displayed next time you start YAPM. Do you want to exit YAPM now ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Menu style has changed")
             Else
                 ret = ShowVistaMessage("Menu style has changed", "The new menu style will be displayed next time you start YAPM.", "Do you want to exit YAPM now ?", TaskDialogCommonButtons.Yes Or TaskDialogCommonButtons.No, TaskDialogIcon.Information)
@@ -194,6 +195,7 @@ Public Class frmPreferences
         SetToolTip(Me.chkUpdateAuto, "Check for updates at startup.")
         SetToolTip(Me.cmdUpdateCheckNow, "Check for updates now.")
         SetToolTip(Me.txtUpdateServer, "Update server.")
+        SetToolTip(Me.chkClassicMsgbox, "Display classical messageboxes (Windows XP style)")
 
 
         ' Set control's values
@@ -229,6 +231,8 @@ Public Class frmPreferences
         Me.chkUpdateBeta.Checked = My.Settings.UpdateBeta
         Me.chkUpdateAuto.Checked = My.Settings.UpdateAuto
         Me.txtUpdateServer.Text = My.Settings.UpdateServer
+        Me.chkClassicMsgbox.Checked = My.Settings.ShowClassicMessageBoxes
+        Me.chkClassicMsgbox.Enabled = cEnvironment.SupportsTaskDialog
 
         If My.Settings.HistorySize > 0 Then
             Me.bufferSize.Value = CInt(My.Settings.HistorySize / 1024)
@@ -281,7 +285,7 @@ Public Class frmPreferences
 
         ' If not elevated under Vista or above, we cannot change 'replace taskmgr' state
         ' without elevation -> set cmdChangeTaskmgr as visible
-        If Program.IsWindowsVistaOrAbove AndAlso Program.IsElevated = False Then
+        If cEnvironment.SupportsUac AndAlso Program.IsElevated = False Then
             Me.chkReplaceTaskmgr.Enabled = False
             Call cEnvironment.AddShieldToButton(Me.cmdChangeTaskmgr)
             Call SetToolTip(Me.cmdChangeTaskmgr, "This action requires elevation, and will automatically save settings")
@@ -340,6 +344,9 @@ Public Class frmPreferences
         Me.chkUpdateBeta.Checked = False
         Me.chkUpdateAuto.Checked = False
         Me.txtUpdateServer.Text = "http://yaprocmon.sourceforge.net/update.xml"
+        If Me.chkClassicMsgbox.Enabled Then
+            Me.chkClassicMsgbox.Checked = True
+        End If
 
         ' Now empty highlightings listviews, re-add items in default order and check them all
         Me.lvHighlightingProcess.Items.Clear()

@@ -400,7 +400,7 @@ Namespace Native.Objects
                 ' If it's a process, we retrieve processID from handle
                 Dim i As Integer = NativeFunctions.GetProcessId(hHandle)
                 m_ObjectName = GetProcessNameFromPID(i) & " (" & CStr(i) & ")"
-            ElseIf m_ObjectTypeName = "Thread" AndAlso cEnvironment.IsWindowsVistaOrAbove Then
+            ElseIf m_ObjectTypeName = "Thread" AndAlso cEnvironment.SupportsGetThreadIdFunction Then
                 ' Have to get thread ID, and then, Process ID
                 ' These functions are only present in a VISTA OS
                 Dim i As Integer = NativeFunctions.GetThreadId(hHandle)

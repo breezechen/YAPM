@@ -181,11 +181,6 @@ Public Module Program
             Return _log
         End Get
     End Property
-    Public ReadOnly Property IsWindowsVistaOrAbove() As Boolean
-        Get
-            Return _isVistaOrAbove
-        End Get
-    End Property
     Public ReadOnly Property IsAdministrator() As Boolean
         Get
             Return _isAdmin

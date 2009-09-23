@@ -174,7 +174,7 @@ Public Class frmConnection
                     Dim nics As List(Of Native.Api.Structs.NicDescription) = Common.Misc.GetNics
                     If nics.Count = 0 Then
                         ' No network card !
-                        MsgBox("You cannot connect to the server as no network card is installed on your machine.", MsgBoxStyle.Critical, "Can't connect to the server")
+                        Misc.ShowMsg("Connection to remote machine", "Failed to connect to remote machine.", "You cannot connect to the server as no network card is installed on your machine.", MessageBoxButtons.OK, TaskDialogIcon.Error)
                         Exit Sub
                     ElseIf nics.Count = 1 Then
                         ' Only one card, OK !

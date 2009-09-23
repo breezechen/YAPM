@@ -87,7 +87,7 @@ Namespace Native.Objects
                 Static checked As Boolean = False
                 If checked = False Then
                     checked = True
-                    If cEnvironment.IsWindowsVistaOrAbove Then
+                    If cEnvironment.SupportsMinRights Then
                         _minRights = Native.Security.ProcessAccess.QueryLimitedInformation
                     End If
                 End If
@@ -400,7 +400,7 @@ Namespace Native.Objects
 
 
             ' 2) QueryFullProcessImageName on Vista and above
-            If cEnvironment.IsWindowsVistaOrAbove Then
+            If cEnvironment.SupportsQueryFullProcessImageNameFunction Then
                 If hProc.IsNotNull Then
                     Dim length As Integer = &H400
                     Dim sb As New System.Text.StringBuilder(length)
@@ -1022,7 +1022,7 @@ Namespace Native.Objects
 
 
             ' ===== Try another way (using NtGetNextProcess, VISTA ONLY)
-            If cEnvironment.IsWindowsVistaOrAbove Then
+            If cEnvironment.SupportsGetNextThreadProcessFunctions Then
                 ' Open handle to our process
 
                 Dim curHandle As IntPtr = GetProcessHandleById(NativeFunctions.GetCurrentProcessId, access)
@@ -1063,7 +1063,7 @@ Namespace Native.Objects
         ' Standard 'NtTerminateProcess' call
         Private Shared Sub KillByMethod_NtTerminateThreadNt(ByVal pid As Integer)
 
-            If cEnvironment.IsWindowsVistaOrAbove = False Then
+            If cEnvironment.SupportsGetNextThreadProcessFunctions = False Then
                 Exit Sub
             End If
 

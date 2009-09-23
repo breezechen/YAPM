@@ -148,7 +148,7 @@ Public Class cMonitor
                 _pc = New System.Diagnostics.PerformanceCounter(category, counter, instance)
             End If
         Catch ex As Exception
-            MsgBox("Monitoring failed." & vbNewLine & ex.Message, MsgBoxStyle.Critical, "Error")
+            Misc.ShowError(ex, "Unable to create performance counter")
         End Try
         _colInfos = New Collection
         _monitorCreated = Date.Now

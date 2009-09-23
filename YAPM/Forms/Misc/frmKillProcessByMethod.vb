@@ -45,7 +45,7 @@ Public Class frmKillProcessByMethod
         ' Add all methods to the listview
         Me.lstMethods.Items.Add("Use NtTerminateProcess").Tag = Native.Api.Enums.KillMethod.NtTerminate
         Me.lstMethods.Items.Add("Terminate all threads").Tag = Native.Api.Enums.KillMethod.ThreadTerminate
-        If cEnvironment.IsWindowsVistaOrAbove Then
+        If cEnvironment.SupportsGetNextThreadProcessFunctions Then
             Me.lstMethods.Items.Add("Terminate all threads (other method)").Tag = Native.Api.Enums.KillMethod.ThreadTerminate_GetNextThread
         End If
         'Me.lstMethods.Items.Add("Create remote thread and call ExitProcess").Tag = Native.Api.Enums.KillMethod.CreateRemoteThread

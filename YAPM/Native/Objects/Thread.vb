@@ -49,7 +49,7 @@ Namespace Native.Objects
                 Static checked As Boolean = False
                 If checked = False Then
                     checked = True
-                    If cEnvironment.IsWindowsVistaOrAbove Then
+                    If cEnvironment.SupportsMinRights Then
                         _minRights = Native.Security.ThreadAccess.QueryLimitedInformation
                     End If
                 End If

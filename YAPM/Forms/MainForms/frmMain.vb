@@ -307,12 +307,12 @@ Public Class frmMain
             End If
             Me.Hide()
         End If
-
+        
         ' For now, SBA is removed from menu...
         Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbMenuSBA)
 
         ' Disable 'start as admin' if we are not on Vista or above
-        If cEnvironment.IsWindowsVistaOrAbove = False _
+        If cEnvironment.SupportsUac = False _
                 OrElse cEnvironment.GetElevationType <> Native.Api.Enums.ElevationType.Limited Then
             Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbStartElevated)
             Me.MenuItemSYSTEMFILE.MenuItems.Remove(Me.MenuItemRunAsAdmin)
@@ -3262,7 +3262,7 @@ Public Class frmMain
     Private Sub MenuItemSearchClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSearchClose.Click
         ' Close selected items
         If My.Settings.WarnDangerousActions Then
-            If IsWindowsVistaOrAbove() Then
+            If cEnvironment.SupportsTaskDialog Then
                 If ShowVistaMessage("Dangerous action", _
                                     "Are you sure you want to close these items ?", _
                                     "This will close handles, unload module, stop service, kill process or close window depending on the selected object.", _

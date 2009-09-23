@@ -89,12 +89,6 @@ Public Class cEnvironment
         End Get
     End Property
 
-    Public Shared ReadOnly Property HasOsUAC() As Boolean
-        Get
-            Return IsWindowsVistaOrAbove
-        End Get
-    End Property
-
     Public Shared ReadOnly Property Is32Bits() As Boolean
         Get
             Return System.Runtime.InteropServices.Marshal.SizeOf(IntPtr.Zero) = 4
@@ -112,6 +106,46 @@ Public Class cEnvironment
             Return (Environment.OSVersion.Platform = PlatformID.Win32NT) And (Environment.OSVersion.Version.Major >= 6)
         End Get
     End Property
+
+#Region "SupportsXXX properties"
+
+    Public Shared ReadOnly Property SupportsTaskDialog() As Boolean
+        Get
+            Return IsWindowsVistaOrAbove
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property SupportsUac() As Boolean
+        Get
+            Return IsWindowsVistaOrAbove
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property SupportsGetNextThreadProcessFunctions() As Boolean
+        Get
+            Return IsWindowsVistaOrAbove
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property SupportsGetThreadIdFunction() As Boolean
+        Get
+            Return IsWindowsVistaOrAbove
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property SupportsQueryFullProcessImageNameFunction() As Boolean
+        Get
+            Return IsWindowsVistaOrAbove
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property SupportsMinRights() As Boolean
+        Get
+            Return IsWindowsVistaOrAbove
+        End Get
+    End Property
+
+#End Region
 
     ' Retrieve elevation type
     Public Shared ReadOnly Property GetElevationType() As Native.Api.Enums.ElevationType

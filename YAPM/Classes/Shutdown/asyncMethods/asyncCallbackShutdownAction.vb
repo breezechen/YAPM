@@ -78,7 +78,7 @@ Public Class asyncCallbackShutdownAction
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, order, pObj.force)
                     con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    Misc.ShowError(ex, "Could not launch shutdown command")
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

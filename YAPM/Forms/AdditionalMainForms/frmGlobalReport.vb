@@ -353,7 +353,7 @@ Public Class frmGlobalReport
         _test = Native.Api.Win32.GetElapsedTime - _test
         setCaption("Done in " & _test.ToString & " ms")
 
-        MsgBox("Report saved !", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "General report")
+        Misc.ShowMsg("System report", "Saved report successfully.", Nothing, MessageBoxButtons.OK, TaskDialogIcon.Information)
 
     End Sub
 

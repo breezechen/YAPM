@@ -40,7 +40,7 @@ Public Class asyncCallbackProcEnumerate
         deg = de
         _instanceId = iId
         con = co
-        If cEnvironment.IsWindowsVistaOrAbove Then
+        If cEnvironment.SupportsMinRights Then
             processMinRights = Native.Security.ProcessAccess.QueryLimitedInformation
         End If
     End Sub

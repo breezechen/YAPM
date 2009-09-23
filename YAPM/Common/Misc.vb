@@ -463,7 +463,7 @@ Namespace Common
                                         Optional ByVal Icon As TaskDialogIcon = TaskDialogIcon.Information, _
                                         Optional ByVal DefButton As Integer = 0) As Integer
 
-            If IsWindowsVistaOrAbove() Then
+            If cEnvironment.SupportsTaskDialog() Then
                 Dim dlg As New TaskDialog
                 With dlg
                     .WindowTitle = Title
@@ -1009,7 +1009,7 @@ Namespace Common
                 Return DialogResult.None
             End If
 
-            If cEnvironment.IsWindowsVistaOrAbove Then
+            If cEnvironment.SupportsTaskDialog AndAlso My.Settings.ShowClassicMessageBoxes = False Then
                 ' Show special task dialog
                 Dim but As TaskDialogCommonButtons  ' Cancel Close No None Ok Retry Yes
                 Select Case Buttons
@@ -1096,6 +1096,11 @@ Namespace Common
             End If
         End Function
 
+        ' Show an error message
+        Public Shared Sub ShowError(ByVal ex As Exception, ByVal msg As String)
+            Dim t0 As New cError(msg, ex)
+            t0.ShowMessage()
+        End Sub
 
 
 

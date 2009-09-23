@@ -4,11 +4,13 @@ CHANGES FROM 2.2.0
 
 *NEW / Improvements
 - Now "update feature" is much more efficient
+- Added 'Show classic messagebox' option
 
 * Bug fixes
 - 'Select associated process' menu now works again
 - Removed 'Select in window tab' menu
 - Fixed bad wait time for process termination
+- Fixed incorrect error message when closing a window
 
 
 CHANGES FROM 2.1.0

@@ -278,5 +278,8 @@
     <Setting Name="UpdateServer" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://yaprocmon.sourceforge.net/update.xml</Value>
     </Setting>
+    <Setting Name="ShowClassicMessageBoxes" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -102,6 +102,7 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
+        Me.chkClassicMsgbox = New System.Windows.Forms.CheckBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -358,6 +359,7 @@ Partial Class frmPreferences
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.chkClassicMsgbox)
         Me.TabPage3.Controls.Add(Me.cbShownTab)
         Me.TabPage3.Controls.Add(Me.chkFixedTab)
         Me.TabPage3.Controls.Add(Me.chkStatusBar)
@@ -844,6 +846,16 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
+        'chkClassicMsgbox
+        '
+        Me.chkClassicMsgbox.AutoSize = True
+        Me.chkClassicMsgbox.Location = New System.Drawing.Point(181, 169)
+        Me.chkClassicMsgbox.Name = "chkClassicMsgbox"
+        Me.chkClassicMsgbox.Size = New System.Drawing.Size(167, 17)
+        Me.chkClassicMsgbox.TabIndex = 14
+        Me.chkClassicMsgbox.Text = "Show classic messageboxes"
+        Me.chkClassicMsgbox.UseVisualStyleBackColor = True
+        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -961,4 +973,5 @@ Partial Class frmPreferences
     Friend WithEvents cmdUpdateCheckNow As System.Windows.Forms.Button
     Friend WithEvents txtUpdateServer As System.Windows.Forms.TextBox
     Friend WithEvents Label13 As System.Windows.Forms.Label
+    Friend WithEvents chkClassicMsgbox As System.Windows.Forms.CheckBox
 End Class
