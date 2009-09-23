@@ -7,16 +7,20 @@
 2.2.1 is a "bug-fix" release which correct an annoying bug of 2.2.0 release. Here is the complete changelog :
 
 CHANGES FROM 2.2.0
- 
+
 *NEW / Improvements
 - Now "update feature" is much more efficient
+- Added 'Show classic messagebox' option
+- Highly improved exception management
+- Now all messageboxes use Vista style if possible
 
 * Bug fixes
 - 'Select associated process' menu now works again
 - Removed 'Select in window tab' menu
 - Fixed bad wait time for process termination
+- Fixed incorrect error message when closing a window
 		</description>
-		<date>21 September 2009</date>
+		<date>23 September 2009</date>
 		<downloadUrl>http://surfnet.dl.sourceforge.net/project/yaprocmon/YAPM-beta/YAPM-2.2.0/YAPM%202.2.0%20Setup.exe</downloadUrl>
 		<hash>7044eb36415bf0165188ff7716648ef5c39c614f207f35111b2569f540da9a33696cf7e81a534f5f1f1f2dfbd654d57aca86c0a512b9c40c993b5f87d02f6d11</hash>
 	</update>

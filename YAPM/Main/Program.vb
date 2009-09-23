@@ -219,6 +219,13 @@ Public Module Program
 
     Sub Main()
 
+
+        ' ======= Some basic initialisations
+        Application.EnableVisualStyles()
+        Application.SetCompatibleTextRenderingDefault(False)    ' Use GDI, not GDI+
+
+
+
         ' ======= Save time of start
         _time = Native.Api.Win32.GetElapsedTime
 
@@ -263,12 +270,6 @@ Public Module Program
             If _progParameters.OnlyOneInstance And cEnvironment.IsAlreadyRunning Then
                 Exit Sub
             End If
-
-
-
-            ' ======= Some basic initialisations
-            Application.EnableVisualStyles()
-            Application.SetCompatibleTextRenderingDefault(False)    ' Use GDI, not GDI+
 
 
 
