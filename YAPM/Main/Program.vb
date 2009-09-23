@@ -491,12 +491,7 @@ Public Module Program
                 End With
             End If
         Else
-            Common.Misc.ShowMsg("YAPM update", _
-                                IntPtr.Zero, _
-                                "Could not check if YAPM is up to date.", _
-                                msg, _
-                                MessageBoxButtons.OK, _
-                                TaskDialogIcon.ShieldError)
+            _frmMain.Invoke(New frmMain.FailedToCheckUpDateNotification(AddressOf impFailedToCheckUpDateNotification), msg)
         End If
     End Sub
 
@@ -513,17 +508,7 @@ Public Module Program
                 End With
             End If
         Else
-            Dim ret As DialogResult = _
-                Common.Misc.ShowMsg("YAPM update", _
-                                    IntPtr.Zero, _
-                                    "A new version of YAPM is available. Would you like to download it now ?", _
-                                    "Here are the informations about the new version : " & vbNewLine & release.Infos, _
-                                    MessageBoxButtons.YesNo, _
-                                    TaskDialogIcon.Information)
-            If ret = DialogResult.Yes Then
-                ' Download last version
-                cFile.ShellOpenFile(release.Url, IntPtr.Zero)
-            End If
+            _frmMain.Invoke(New frmMain.NewUpdateAvailableNotification(AddressOf impNewUpdateAvailableNotification), release)
         End If
     End Sub
 
@@ -540,12 +525,41 @@ Public Module Program
                 End With
             End If
         Else
-            Common.Misc.ShowMsg("YAPM update", _
-                                IntPtr.Zero, _
-                                "YAPM is up to date !", _
-                                "The current version (" & My.Application.Info.Version.ToString & ") is the latest available for download.", _
-                                MessageBoxButtons.OK, _
-                                TaskDialogIcon.ShieldOk)
+            _frmMain.Invoke(New frmMain.NoNewUpdateAvailableNotification(AddressOf impNoNewUpdateAvailableNotification))
         End If
+    End Sub
+
+    ' Called when a new update is available
+    ' It's here cause of thread safety
+    Public Sub impNewUpdateAvailableNotification(ByVal release As cUpdate.NewReleaseInfos)
+        Dim ret As DialogResult = _
+                Common.Misc.ShowMsg("YAPM update", _
+                                    "A new version of YAPM is available. Would you like to download it now ?", _
+                                    "Here are the informations about the new version : " & vbNewLine & release.Infos, _
+                                    MessageBoxButtons.YesNo, _
+                                    TaskDialogIcon.Information)
+        If ret = DialogResult.Yes Then
+            ' Download last version
+            cFile.ShellOpenFile(release.Url, IntPtr.Zero)
+        End If
+    End Sub
+
+    ' Called when no new update is available
+    ' It's here cause of thread safety
+    Public Sub impNoNewUpdateAvailableNotification()
+        Common.Misc.ShowMsg("YAPM update", _
+                          "YAPM is up to date !", _
+                          "The current version (" & My.Application.Info.Version.ToString & ") is the latest available for download.", _
+                          MessageBoxButtons.OK, _
+                          TaskDialogIcon.ShieldOk)
+    End Sub
+
+    ' Called when failed to check is YAPM is up to date
+    Public Sub impFailedToCheckUpDateNotification(ByVal msg As String)
+        Common.Misc.ShowMsg("YAPM update", _
+                                "Could not check if YAPM is up to date.", _
+                                msg, _
+                                MessageBoxButtons.OK, _
+                                TaskDialogIcon.ShieldError)
     End Sub
 End Module

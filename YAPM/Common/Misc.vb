@@ -456,8 +456,7 @@ Namespace Common
         End Sub
 
         ' Standard Vista message box
-        Public Shared Function ShowVistaMessage(ByVal Owner As IntPtr, _
-                                        Optional ByVal Title As String = "", _
+        Public Shared Function ShowVistaMessage(Optional ByVal Title As String = "", _
                                         Optional ByVal HeaderMessage As String = "", _
                                         Optional ByVal Content As String = "", _
                                         Optional ByVal Buttons As TaskDialogCommonButtons = TaskDialogCommonButtons.Ok, _
@@ -474,7 +473,7 @@ Namespace Common
                     .CommonButtons = Buttons
                     .DefaultButton = DefButton
                 End With
-                Return dlg.Show(Owner)
+                Return dlg.Show(Form.ActiveForm)
             Else
                 Return -1
             End If
@@ -999,7 +998,6 @@ Namespace Common
 
         ' General ShowMessage function
         Public Shared Function ShowMsg(ByVal Title As String, _
-                                    ByVal OwnerWindow As IntPtr, _
                                     Optional ByVal HeaderText As String = "", _
                                     Optional ByVal Text As String = "", _
                                     Optional ByVal Buttons As MessageBoxButtons = MessageBoxButtons.OK, _
@@ -1036,8 +1034,7 @@ Namespace Common
                     defButton = DialogResult.No
                 End If
 
-                Return CType(ShowVistaMessage(OwnerWindow, _
-                                              Title, _
+                Return CType(ShowVistaMessage(Title, _
                                               HeaderText, _
                                               Text, _
                                               but, _
@@ -1089,7 +1086,6 @@ Namespace Common
                                                    ByVal Owner As IntPtr) As DialogResult
             If My.Settings.WarnDangerousActions Then
                 Return ShowMsg("Warning", _
-                               Owner, _
                                "This is a dangerous action.", _
                                text, _
                                MessageBoxButtons.YesNo, _

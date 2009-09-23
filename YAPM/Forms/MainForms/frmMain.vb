@@ -3263,7 +3263,7 @@ Public Class frmMain
         ' Close selected items
         If My.Settings.WarnDangerousActions Then
             If IsWindowsVistaOrAbove() Then
-                If ShowVistaMessage(Me.Handle, "Dangerous action", _
+                If ShowVistaMessage("Dangerous action", _
                                     "Are you sure you want to close these items ?", _
                                     "This will close handles, unload module, stop service, kill process or close window depending on the selected object.", _
                                     TaskDialogCommonButtons.Yes Or _
@@ -4034,5 +4034,11 @@ Public Class frmMain
     Private Sub MenuItemServDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDelete.Click
         Call butDeleteService_Click(Nothing, Nothing)
     End Sub
+
+    Public Delegate Sub NewUpdateAvailableNotification(ByVal release As cUpdate.NewReleaseInfos)
+    Public Delegate Sub NoNewUpdateAvailableNotification()
+    Public Delegate Sub FailedToCheckUpDateNotification(ByVal msg As String)
+
+
 
 End Class

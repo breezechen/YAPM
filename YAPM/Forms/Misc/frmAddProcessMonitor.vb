@@ -89,7 +89,7 @@ Public Class frmAddProcessMonitor
         Catch ex As Exception
             ' Cannot connect to network or access denied ??
             If IsWindowsVistaOrAbove() Then
-                ShowVistaMessage(Me.Handle, "An error occured", "YAPM can not access to performance counters", ex.Message, TaskDialogCommonButtons.Ok, TaskDialogIcon.ShieldError)
+                ShowVistaMessage("An error occured", "YAPM can not access to performance counters", ex.Message, TaskDialogCommonButtons.Ok, TaskDialogIcon.ShieldError)
             Else
                 MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
             End If
