@@ -132,18 +132,14 @@ Public Class frmPreferences
 
         If Not (_oldRibbonStyle = My.Settings.UseRibbonStyle) Then
             Dim ret As Integer
-            If Not (cEnvironment.SupportsTaskDialog) Then
-                ret = MsgBox("The new menu style will be displayed next time you start YAPM. Do you want to exit YAPM now ?", MsgBoxStyle.Information Or MsgBoxStyle.YesNo, "Menu style has changed")
-            Else
-                ret = ShowVistaMessage("Menu style has changed", "The new menu style will be displayed next time you start YAPM.", "Do you want to exit YAPM now ?", TaskDialogCommonButtons.Yes Or TaskDialogCommonButtons.No, TaskDialogIcon.Information)
-            End If
+            ret = Misc.ShowMsg("Menu style has changed", "The new menu style will be displayed next time you start YAPM.", "Do you want to exit YAPM now ?", MessageBoxButtons.YesNo, TaskDialogIcon.Information, True)
             If ret = DialogResult.Yes Then
                 Program.ExitYAPM()
                 Exit Sub
             End If
         End If
 
-        MsgBox("Save is OK !", MsgBoxStyle.OkOnly, "Preferences")
+        Misc.ShowMsg("Preferences", Nothing, "Saved preferences sucessfully.", MessageBoxButtons.OK, TaskDialogIcon.Information)
 
     End Sub
 
@@ -425,7 +421,7 @@ Public Class frmPreferences
     'End Sub
 
     Private Sub cmdResetAll_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdResetAll.Click
-        If MsgBox("Are you sure ?", MsgBoxStyle.YesNo, "Reset settings") = MsgBoxResult.Yes Then
+        If Misc.ShowMsg("Reset settings", Nothing, "Are you sure ?", MessageBoxButtons.YesNo, TaskDialogIcon.Warning) = Windows.Forms.DialogResult.Yes Then
             My.Settings.Reset()
             Call cmdDefaut_Click(Nothing, Nothing)
             My.Settings.Save()

@@ -80,7 +80,7 @@ Public Class asyncCallbackPrivilegesEnumerate
                     cDat.InstanceId = _instanceId   ' Instance which request the list
                     con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    Misc.ShowError(ex, "Unable to send request to server")
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

@@ -224,7 +224,7 @@ Public Class frmJobInfo
             Me.lvLimits.ConnectionObj = theConnection
             theConnection.Connect()
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
+            Misc.ShowError(ex, "Unable to connect")
         End Try
     End Sub
 

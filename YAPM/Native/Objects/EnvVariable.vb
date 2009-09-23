@@ -129,7 +129,6 @@ Namespace Native.Objects
                         Marshal.FreeHGlobal(ptr)
 
                     Catch ex As Exception
-                        MsgBox(ex.Message)
                         __var = ""
                     End Try
 

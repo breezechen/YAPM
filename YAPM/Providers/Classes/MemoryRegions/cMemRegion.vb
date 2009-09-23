@@ -137,8 +137,7 @@ Public Class cMemRegion
     End Function
     Private Sub freedMemoryDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not free memory region (" & address.ToString("x") & ")")
+            Misc.ShowError("Could not free memory (" & address.ToString("x") & ")" & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -161,8 +160,7 @@ Public Class cMemRegion
     End Function
     Private Sub ChangedProtectionDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not change protection (" & address.ToString("x") & ")")
+            Misc.ShowError("Could not change memory protection (" & address.ToString("x") & ")" & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -188,8 +186,7 @@ Public Class cMemRegion
     End Function
     Private Shared Sub freedSharedDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not free memory region (" & address.ToString("x") & ")")
+            Misc.ShowError("Could not free memory region (" & address.ToString("x") & ")" & " : " & msg)
         End If
         RemoveSharedPendingTask(actionNumber)
     End Sub
@@ -211,8 +208,7 @@ Public Class cMemRegion
     End Function
     Private Shared Sub changedSharedProtectionDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not change protection (" & address.ToString("x") & ")")
+            Misc.ShowError("Could not change memory protection (" & address.ToString("x") & ")" & " : " & msg)
         End If
         RemoveSharedPendingTask(actionNumber)
     End Sub

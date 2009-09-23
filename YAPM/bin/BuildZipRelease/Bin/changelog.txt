@@ -5,6 +5,8 @@ CHANGES FROM 2.2.0
 *NEW / Improvements
 - Now "update feature" is much more efficient
 - Added 'Show classic messagebox' option
+- Highly improved exception management
+- Now all messageboxes use Vista style if possible
 
 * Bug fixes
 - 'Select associated process' menu now works again

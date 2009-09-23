@@ -145,7 +145,7 @@ Public Class frmProcessAffinity
         Next
 
         If m = 0 Then
-            MsgBox("Process must have at least one affinity with a processor.", MsgBoxStyle.Information, "Can't set affinity")
+            Misc.ShowMsg("Set affinity", "Could net set affinity.", "Process must have at least one affinity with a processor.", MessageBoxButtons.OK, TaskDialogIcon.Information)
             Exit Sub
         End If
 

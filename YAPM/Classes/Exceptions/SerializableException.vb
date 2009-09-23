@@ -20,9 +20,8 @@
 
 Option Strict On
 
-
-Public Class cError
-    Inherits Exception
+<Serializable()> _
+Public Class SerializableException
 
 
     ' ========================================
@@ -34,8 +33,12 @@ Public Class cError
     ' Private attributes
     ' ========================================
 
-    ' Custom message
+    ' All error fields
     Private _customMessage As String
+    Private _message As String
+    'Private _helpL As String
+    'Private _source As String
+    'Private _stack As String
 
 
     ' ========================================
@@ -49,6 +52,13 @@ Public Class cError
         End Get
     End Property
 
+    ' Normal message
+    Public ReadOnly Property Message() As String
+        Get
+            Return _message
+        End Get
+    End Property
+
 
     ' ========================================
     ' Other public
@@ -59,26 +69,27 @@ Public Class cError
     ' Public functions
     ' ========================================
 
-    ' Constructor
-    Public Sub New(ByVal message As String, ByVal exception As Exception)
-        MyBase.New(exception.Message, exception)
-        _customMessage = message
+    ' Constructors
+    Public Sub New(ByVal exception As cError)
+        _customMessage = exception.CustomMessage
+        _message = exception.Message
+        '_helpL = exception.HelpLink
+        '_source = exception.Source
+        '_stack = exception.StackTrace
+    End Sub
+    Public Sub New(ByVal exception As Exception)
+        _customMessage = Nothing
+        _message = exception.Message
+        '_helpL = exception.HelpLink
+        '_source = exception.Source
+        '_stack = exception.StackTrace
     End Sub
 
-    ' Show message
-    Public Sub ShowMessage()
-        If Program.Parameters.ModeServer = False Then
-            ' The we have to display our error as a message box
-            Misc.ShowMsg("An handled error occured", _
-                         CustomMessage, _
-                         "Detailed information : " & Message, _
-                         MessageBoxButtons.OK, _
-                         TaskDialogIcon.Error)
-        Else
-            ' Then we have to send the error to the client
-            'TODO
-        End If
-    End Sub
+    ' Return a standard exception
+    Public Function GetException() As Exception
+        Return New Exception(_message & vbNewLine & _customMessage)
+    End Function
+
 
 
     ' ========================================

@@ -73,7 +73,7 @@ Public Class asyncCallbackProcEnumerate
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessReanalize, pObj.pid)
                     pObj.con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    Misc.ShowError(ex, "Unable to send request to server")
                 End Try
 
             Case cConnection.TypeOfConnection.LocalConnection, cConnection.TypeOfConnection.RemoteConnectionViaWMI
@@ -160,7 +160,7 @@ Public Class asyncCallbackProcEnumerate
                     cDat.InstanceId = _instanceId   ' Instance which request the list
                     con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    Misc.ShowError(ex, "Unable to send request to server")
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

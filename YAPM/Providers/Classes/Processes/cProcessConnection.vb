@@ -130,7 +130,7 @@ Public Class cProcessConnection
                     Next
                     _processors = _count
                 Catch ex As Exception
-                    MsgBox("Cannot get informations about system : " & ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "WMI connection")
+                    Misc.ShowError(ex, "Could not get informations about the remote system")
                     _processors = 1
                 End Try
 
@@ -195,7 +195,7 @@ Public Class cProcessConnection
                 Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessorCount)
                 _conObj.Socket.Send(cDat)
             Catch ex As Exception
-                'MsgBox(ex.Message)
+                Misc.ShowError(ex, "Could not send request to server")
             End Try
 
             If data.Type = cSocketData.DataType.Order AndAlso _

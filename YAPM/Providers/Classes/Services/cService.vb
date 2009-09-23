@@ -115,8 +115,7 @@ Public Class cService
     End Function
     Private Sub startServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not start service " & name)
+            Misc.ShowError("Could not start service " & name & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -140,8 +139,7 @@ Public Class cService
     End Function
     Private Sub deleteServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not delete service " & name)
+            Misc.ShowError("Could not delete service " & name & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -165,8 +163,7 @@ Public Class cService
     End Function
     Private Sub pauseServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not pause service " & name)
+            Misc.ShowError("Could not pause service " & name & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -189,8 +186,7 @@ Public Class cService
     End Function
     Private Sub resumeServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not resume service " & name)
+            Misc.ShowError("Could not resume service " & name & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -213,8 +209,7 @@ Public Class cService
     End Function
     Private Sub stopServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not stop service " & name)
+            Misc.ShowError("Could not stop service " & name & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -237,8 +232,7 @@ Public Class cService
     End Sub
     Private Sub setServiceStartTypeDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not change start type of service " & name)
+            Misc.ShowError("Could not change start type of service " & name & " : " & msg)
         Else
             Call Me.Refresh()
         End If

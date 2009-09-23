@@ -345,11 +345,9 @@ Public Class cProcess
     End Sub
     Private Sub createdMinidump(ByVal Success As Boolean, ByVal pid As Integer, ByVal file As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not create mini dump file " & file & " for process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
+            Misc.ShowError("Could not create minidump file for process " & pid.ToString & " : " & msg)
         Else
-            MsgBox("Mini dump file " & file & " for process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ") created successfully !", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, _
-                   "Mini dump file created")
+            Misc.ShowMsg("Mini dump file", Nothing, "The dump file has been created successfully.", MessageBoxButtons.OK, TaskDialogIcon.ShieldOk)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -373,8 +371,7 @@ Public Class cProcess
     End Function
     Private Sub setPriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
+            Misc.ShowError("Could not set priority to process " & Me.Infos.Name & "(" & Me.Infos.ProcessId.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -397,8 +394,7 @@ Public Class cProcess
     End Function
     Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
+            Misc.ShowError("Could not kill process " & Me.Infos.Name & "(" & Me.Infos.ProcessId.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -421,10 +417,7 @@ Public Class cProcess
     End Function
     Private Sub killDoneM(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Could not kill process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                    "Kill process by method")
-        Else
-            MsgBox("Process successfully terminated !", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Kill process by method")
+            Misc.ShowError("Could not kill process by method " & Me.Infos.Name & "(" & Me.Infos.ProcessId.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -447,8 +440,7 @@ Public Class cProcess
     End Function
     Private Sub decreasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
+            Misc.ShowError("Could not set priority to process " & Me.Infos.Name & "(" & Me.Infos.ProcessId.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -471,8 +463,7 @@ Public Class cProcess
     End Function
     Private Sub increasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set priority to process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
+            Misc.ShowError("Could not set priority to process " & Me.Infos.Name & "(" & Me.Infos.ProcessId.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -495,8 +486,7 @@ Public Class cProcess
     End Function
     Private Sub suspendDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not suspend process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
+            Misc.ShowError("Could not suspend process " & Me.Infos.Name & "(" & Me.Infos.ProcessId.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -519,9 +509,7 @@ Public Class cProcess
     End Function
     Private Sub resumeDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
-                   ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not resume process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
+            Misc.ShowError("Could not resume process " & Me.Infos.Name & "(" & Me.Infos.ProcessId.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -544,9 +532,7 @@ Public Class cProcess
     End Function
     Private Sub recursiveKillDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
-                   ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not kill process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
+            Misc.ShowError("Could not kill process " & Me.Infos.Name & "(" & Me.Infos.ProcessId.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -569,9 +555,7 @@ Public Class cProcess
     End Function
     Private Sub emptyWorkingSetSizeDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
-                   ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not empty working set" & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
+            Misc.ShowError("Could not empty working set of process " & Me.Infos.Name & "(" & Me.Infos.ProcessId.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -594,8 +578,7 @@ Public Class cProcess
     End Function
     Private Sub setAffinityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set affinity " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ")")
+            Misc.ShowError("Could not set affinity to process " & Me.Infos.Name & "(" & Me.Infos.ProcessId.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -1363,8 +1346,7 @@ Public Class cProcess
     End Function
     Private Shared Sub killDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not kill process " & pid.ToString)
+            Misc.ShowError("Could not kill process " & pid.ToString & " : " & msg)
         End If
         RemoveSharedPendingTask(actionNumber)
     End Sub
@@ -1387,8 +1369,7 @@ Public Class cProcess
     End Function
     Private Shared Sub newProcessDoneShared(ByVal Success As Boolean, ByVal path As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : cannot start process : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not start new process " & path)
+            Misc.ShowError("Could not start process " & path & " : " & msg)
         End If
         RemoveSharedPendingTask(actionNumber)
     End Sub
@@ -1412,8 +1393,7 @@ Public Class cProcess
     End Function
     Private Shared Sub unloadModuleDoneShared(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not unload the module from process " & pid.ToString)
+            Misc.ShowError("Could not unload module from process " & pid.ToString & " : " & msg)
         End If
         RemoveSharedPendingTask(actionNumber)
     End Sub

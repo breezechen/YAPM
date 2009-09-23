@@ -59,7 +59,7 @@ Public Class asyncCallbackProcNewProcess
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessCreateNew, pObj.path)
                     con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    Misc.ShowError(ex, "Unable to send request to server")
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

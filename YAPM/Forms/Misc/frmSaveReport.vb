@@ -817,7 +817,7 @@ Public Class frmSaveReport
         Me.cmdOpenReport.Enabled = True
         Me.cmdGO.Enabled = False
         Me.cmdGO.Enabled = True
-        MsgBox("Save is ok !", MsgBoxStyle.Information, "Error")
+        Misc.ShowMsg("Report", Nothing, "Saved report sucessfully.", MessageBoxButtons.OK, TaskDialogIcon.ShieldOk)
     End Sub
 
     ' Report saving failed
@@ -829,7 +829,7 @@ Public Class frmSaveReport
         Me.lblProgress.Text = "Saving failed"
         Me.cmdOpenReport.Enabled = False
         Me.cmdGO.Enabled = True
-        MsgBox("Error while saving report : " & ex.Message, MsgBoxStyle.Critical, "Error")
+        Misc.ShowError(ex, "Could not save report")
     End Sub
 
     Private Sub cmdOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOK.Click

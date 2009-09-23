@@ -44,7 +44,7 @@ Public Class frmAddToJob
             Me.lvJob.ConnectionObj = theConnection
             theConnection.Connect()
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
+            Misc.ShowError(ex, "Unable to connect")
         End Try
 
         Common.Misc.SetToolTip(Me.optAddGlobal, "Create global job")
@@ -66,7 +66,7 @@ Public Class frmAddToJob
         If tab.SelectedIndex = 0 Then
 
             If String.IsNullOrEmpty(Me.txtJobName.Text) Then
-                MsgBox("Name must be not null.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Create job")
+                Misc.ShowMsg("Add process to a job", "Could not add process to this job.", "Job name must not be null", MessageBoxButtons.OK, TaskDialogIcon.Error)
                 Exit Sub
             End If
 
@@ -95,7 +95,7 @@ Public Class frmAddToJob
                 job.AddProcess(pid)
             Next
         Else
-            MsgBox(Native.Api.Win32.GetLastError, MsgBoxStyle.Information, "Failed to add to job")
+            Misc.ShowMsg("Add process to job", "Failed to add the process to the job.", "Informations : " & Native.Api.Win32.GetLastError, MessageBoxButtons.OK, TaskDialogIcon.Error)
         End If
 
         Me.DialogResult = System.Windows.Forms.DialogResult.OK

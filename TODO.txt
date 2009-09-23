@@ -6,7 +6,6 @@ Refactoring bugs
 - ajouter 'connection bureau à distance' dans frmConnection (appel à mstsc.exe)
 - virer PtrToStructure et n'utiliser que MemoryAlloc
 
-- refaire complètement la gestion des erreurs (msgbox) -> consigner, remonter en ACK depuis remote, msgbox en local... (+ action on windows erreurs foireuses, notamment window close)
 
 BUGS CRITIQUES
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
@@ -67,7 +66,6 @@ BUGS NON CRITIQUES
 - ajouter bouton Default dans ChooseColumns
 - ajouter infos token (elevation, domain, user name, SID...)
 - choix font
-- désactiver msgbox pour le server
 - ajouter "démarrer en tant que" (runas, cf lien opera)
 - perf counter pour PC distant (+ ajouter gestion remote pour la recherche)
 - path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
@@ -85,7 +83,6 @@ BUGS NON CRITIQUES
 - déconnexion WMI après longue inactivité -> calculer temps dernière requete et lancer une requete pour éviter la déconnexion si t>MAX ?
 - double récupération des strings en mémoire/image dans frmDetail ???
 - dependencies -> PE.filename doit changer SystemRoot en X:\Wind....
-- ajouter msgbox "action dangereuse, you sure ?" partout
 - refresh double des services en WMI ??
 
 - affinity process/thread (socket)
@@ -102,8 +99,6 @@ BUGS NON CRITIQUES
 - getmappedimage... pour socket
 - Exception non gérée à 0x71fb5108 dans YAPM.exe : 0xC0000005: Violation d'accès lors de la lecture de l'emplacement 0x00000004. (lors de création/destruction de process -> tester avec les 20000)
 - messages Vista like partout
-- msgbox encombrant quand pleins d'erreurs connexion !!
-- erreurs fonctions via socket qui échouent sur le client, pas le server
 - rapport monitoring
 - one graph per CPU -> conserver historique
 - performances (_currentServices et _currentProcesses remplis 2 fois au démarrage -> customLV qui créé des cObject, et asyncEnum aussi)

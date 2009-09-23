@@ -36,7 +36,7 @@ Public Class frmDownload
     End Property
 
     Private Sub _download_CompleteCallback(ByVal e As System.ComponentModel.AsyncCompletedEventArgs) Handles _download.CompleteCallback
-        MsgBox("Complete !", MsgBoxStyle.Information, "Download done.")
+        Misc.ShowMsg("Download", Nothing, "Download complete.", MessageBoxButtons.OK, TaskDialogIcon.ShieldOk)
         Me.Cancel_Button.Text = "OK"
         cFile.OpenDirectory(Me._download.Destination)
     End Sub

@@ -146,36 +146,31 @@ Public Class cSearchItem
     End Function
     Private Sub unloadHandleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not unload handle " & handle.ToString)
+            Misc.ShowError("Could not unload handle " & handle.ToString & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
     Private Sub unloadModuleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not unload module " & name)
+            Misc.ShowError("Could not unload module " & name & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
     Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not kill process " & " (" & pid.ToString & ")")
+            Misc.ShowError("Could not kill process (" & pid.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
     Private Sub stopServiceDone(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not stop service " & name)
+            Misc.ShowError("Could not stop service " & name & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
     Private Sub windowActionDone(ByVal Success As Boolean, ByVal action As Native.Api.Enums.AsyncWindowAction, ByVal handle As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not " & action.ToString & " (window = 0x" & handle.ToString("x") & ")")
+            Misc.ShowError("Could not " & action.ToString & " (window = 0x" & handle.ToString("x") & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub

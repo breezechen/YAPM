@@ -61,7 +61,7 @@ Public Class asyncCallbackThreadKill
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ThreadTerminate, pObj.pid, pObj.id)
                     con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    Misc.ShowError(ex, "Unable to send request to server")
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

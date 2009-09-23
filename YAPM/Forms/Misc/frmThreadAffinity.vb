@@ -186,7 +186,7 @@ Public Class frmThreadAffinity
         Next
 
         If m = 0 Then
-            MsgBox("Thread must have at least one affinity with a processor.", MsgBoxStyle.Information, "Can't set affinity")
+            Misc.ShowMsg("Set affinity", "Could not set affinity.", "Thread must have at least one affinity with a processor.", MessageBoxButtons.OK, TaskDialogIcon.Information)
             Exit Sub
         End If
 

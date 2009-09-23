@@ -106,15 +106,21 @@ Public MustInherit Class customLV
             Try
                 Call UpdateItems()
             Catch ex As Exception
+                Dim sMessage As String = Nothing
                 If InStr(ex.Message, "0x800706BA", CompareMethod.Binary) > 0 Then
-                    MsgBox("RPC server is not available. Make sure that WMI is installed, that 'remote procedure call (RPC)' service is started and that no firewall restrict access to RPC service.", MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Cannot retrieve information")
+                    sMessage = "RPC server is not available. Make sure that WMI is installed, that 'remote procedure call (RPC)' service is started and that no firewall restrict access to RPC service."
                 ElseIf InStr(ex.Message, "0x80070005", CompareMethod.Binary) > 0 Then
-                    MsgBox("Access is denied. Make sure that you have the rights to access to the remote computer, and that the passwork and login you entered are correct.", MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Cannot retrieve information")
+                    sMessage = "Access is denied. Make sure that you have the rights to access to the remote computer, and that the passwork and login you entered are correct."
                 ElseIf InStr(ex.Message, "0x80010108", CompareMethod.Binary) > 0 Then
-                    MsgBox("Diconnected. Try to establish connection again.", MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Cannot retrieve information")
-                Else
-                    MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Cannot retrieve information")
+                    sMessage = "Diconnected. Try to establish connection again."
                 End If
+
+                If sMessage IsNot Nothing Then
+                    Misc.ShowError(ex, "Could not retieve informations : " & sMessage)
+                Else
+                    Misc.ShowError(ex, "Could not retieve informations")
+                End If
+
             End Try
         Else
             Call UpdateItems()

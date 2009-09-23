@@ -84,8 +84,7 @@ Public Class cHandle
     End Function
     Private Sub unloadHandleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not unload handle " & handle.ToString)
+            Misc.ShowError("Could not unload handle " & handle.ToString & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -287,8 +286,7 @@ Public Class cHandle
     End Function
     Private Shared Sub unloadsharedHandleDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not unload handle " & handle.ToString)
+            Misc.ShowError("Could not unload handle " & handle.ToString & " : " & msg)
         End If
         RemoveSharedPendingTask(actionNumber)
     End Sub

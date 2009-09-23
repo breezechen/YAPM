@@ -147,8 +147,7 @@ Public Class cThread
     End Function
     Private Sub setPriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set priority to thread " & Me.Infos.Id.ToString)
+            Misc.ShowError("Could not set priority to thread " & Me.Infos.Id.ToString & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -172,8 +171,7 @@ Public Class cThread
     End Function
     Private Sub killDone(ByVal Success As Boolean, ByVal id As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not kill thread " & Me.Infos.Id.ToString)
+            Misc.ShowError("Could not kill thread " & id.ToString & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -196,8 +194,7 @@ Public Class cThread
     End Function
     Private Sub decreasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set priority to thread " & Me.Infos.Id.ToString)
+                        Misc.ShowError("Could not set priority to thread " & Me.Infos.Id.ToString & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -220,8 +217,7 @@ Public Class cThread
     End Function
     Private Sub increasePriorityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set priority to process " & Me.Infos.Id.ToString)
+            Misc.ShowError("Could not set priority to thread " & Me.Infos.Id.ToString & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -244,8 +240,7 @@ Public Class cThread
     End Function
     Private Sub suspendDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not suspend thread " & Me.Infos.Id.ToString)
+            Misc.ShowError("Could not suspend thread " & Me.Infos.Id.ToString & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -268,9 +263,7 @@ Public Class cThread
     End Function
     Private Sub resumeDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg & " (" & Err.LastDllError.ToString & _
-                   ")", MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not resume process " & Me.Infos.Id.ToString)
+            Misc.ShowError("Could not resume thread " & Me.Infos.Id.ToString & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -293,8 +286,7 @@ Public Class cThread
     End Function
     Private Sub setAffinityDone(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set affinity " & Me.Infos.Id.ToString)
+            Misc.ShowError("Could not set affinity to thread " & Me.Infos.Id.ToString & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub

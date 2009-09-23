@@ -563,7 +563,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butDonate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butDonate.Click
-        MsgBox("You will be redirected on my sourceforge.net donation page.", MsgBoxStyle.Information, "Donation procedure")
+        Misc.ShowMsg("Donation procedure", "Thanks for making a donation !", "You will be redirected to my sourceforge.net donation page.", MessageBoxButtons.OK, TaskDialogIcon.ShieldOk)
         cFile.ShellOpenFile("https://sourceforge.net/donate/index.php?user_id=1590933#donate", Me.Handle)
     End Sub
 
@@ -867,18 +867,18 @@ Public Class frmMain
     Private Sub butFileEncrypt_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileEncrypt.Click
         Try
             cSelFile.Encrypt()
-            MsgBox("Done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Encryption ok")
+            Misc.ShowMsg("File encryption", Nothing, "Encryption done.", MessageBoxButtons.OK, TaskDialogIcon.ShieldOk)
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Encryption failed")
+            Misc.ShowError(ex, "Encryption failed")
         End Try
     End Sub
 
     Private Sub butFileDecrypt_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFileDecrypt.Click
         Try
             cSelFile.Decrypt()
-            MsgBox("Done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Decryption ok")
+            Misc.ShowMsg("File decryption", Nothing, "Decryption done.", MessageBoxButtons.OK, TaskDialogIcon.ShieldOk)
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Decryption failed")
+            Misc.ShowError(ex, "Decryption failed")
         End Try
     End Sub
 
@@ -924,8 +924,12 @@ Public Class frmMain
             Try
 
                 If FileLen(file) > 2000000 Then
-                    If MsgBox("File size is greater than 2MB. It is not recommended to open a large file, do you want to continue ?", _
-                        MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Large file") = MsgBoxResult.No Then
+                    If Misc.ShowMsg("Show file strings", _
+                                    "File size is greater than 2MB.", _
+                                    "It is not recommended to open a large file, do you want to continue ?", _
+                                    MessageBoxButtons.YesNo, _
+                                    TaskDialogIcon.Information, _
+                                    True) = Windows.Forms.DialogResult.No Then
                         lvFileString.Items.Add("Click on 'Others->Show file strings' to retrieve file strings")
                         Exit Sub
                     End If
@@ -934,7 +938,7 @@ Public Class frmMain
                 s = IO.File.ReadAllText(file)
 
             Catch ex As Exception
-                MsgBox(ex.Message, MsgBoxStyle.Information, "Error")
+                Misc.ShowError(ex, "Could not read file")
             End Try
 
 
@@ -1863,7 +1867,7 @@ Public Class frmMain
     End Sub
 
     Private Sub lvProcess_GotAnError(ByVal origin As String, ByVal msg As String) Handles lvProcess.GotAnError
-        MsgBox("Error : " & msg & vbNewLine & "Origin : " & origin & vbNewLine & vbNewLine & "YAPM will be disconnected from the machine.", MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Error")
+        Misc.ShowError("Error : " & msg & vbNewLine & "Origin : " & origin & vbNewLine & vbNewLine & "YAPM will be disconnected from the machine.")
         Call Me.DisconnectFromMachine()
     End Sub
 
@@ -2079,7 +2083,7 @@ Public Class frmMain
             Me.chkMonitorLeftAuto.Checked = False
             Me.chkMonitorRightAuto.Checked = False
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error")
+            Misc.ShowError(ex, "Could not zoom on graph")
         End Try
     End Sub
 
@@ -2242,9 +2246,9 @@ Public Class frmMain
             cSelFile.CreationTime = Me.DTcreation.Value
             cSelFile.LastAccessTime = Me.DTlastAccess.Value
             cSelFile.LastWriteTime = Me.DTlastModification.Value
-            MsgBox("Done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Date change ok")
+            Misc.ShowMsg("Set file dates", Nothing, "New dates have been set successfully.", MessageBoxButtons.OK, TaskDialogIcon.ShieldOk)
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Date change failed")
+            Misc.ShowError(ex, "Unable to change dates")
         End Try
     End Sub
 
@@ -2594,7 +2598,7 @@ Public Class frmMain
             Program.Connection.Connect()
             _shutdownConnection.Connect()
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
+            Misc.ShowError(ex, "Unable to connect")
             Exit Sub
         End Try
 
@@ -2671,7 +2675,7 @@ Public Class frmMain
         Try
             Program.Connection.Disconnect()
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not disconnect")
+            Misc.ShowError(ex, "Unable to disconnect")
             Program.Connection.DisconnectForce()
             Exit Sub
         End Try
@@ -3261,23 +3265,8 @@ Public Class frmMain
 
     Private Sub MenuItemSearchClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSearchClose.Click
         ' Close selected items
-        If My.Settings.WarnDangerousActions Then
-            If cEnvironment.SupportsTaskDialog Then
-                If ShowVistaMessage("Dangerous action", _
-                                    "Are you sure you want to close these items ?", _
-                                    "This will close handles, unload module, stop service, kill process or close window depending on the selected object.", _
-                                    TaskDialogCommonButtons.Yes Or _
-                                    TaskDialogCommonButtons.No, _
-                                    TaskDialogIcon.ShieldWarning) <> MsgBoxResult.Yes Then
-                    Exit Sub
-                End If
-            Else
-                If MsgBox("Are you sure you want to close these items ?", _
-                          MsgBoxStyle.Information Or MsgBoxStyle.YesNo, _
-                          "Dangerous action") <> MsgBoxResult.Yes Then
-                    Exit Sub
-                End If
-            End If
+        If WarnDangerousAction("This will close handles, unload module, stop service, kill process or close window depending on the selected object.", Me.Handle) <> Windows.Forms.DialogResult.Yes Then
+            Exit Sub
         End If
         For Each it As cSearchItem In Me.lvSearchResults.GetSelectedItems
             it.CloseTerminate()
@@ -4038,7 +4027,7 @@ Public Class frmMain
     Public Delegate Sub NewUpdateAvailableNotification(ByVal release As cUpdate.NewReleaseInfos)
     Public Delegate Sub NoNewUpdateAvailableNotification()
     Public Delegate Sub FailedToCheckUpDateNotification(ByVal msg As String)
-
+    Public Delegate Sub GotErrorFromServer(ByVal err As Exception)
 
 
 End Class

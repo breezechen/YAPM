@@ -45,7 +45,7 @@ Public Class frmFileRelease
         Try
             Program.Connection.Connect()
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
+            Misc.ShowError(ex, "Unable to connect")
             Exit Sub
         End Try
 
@@ -65,9 +65,8 @@ Public Class frmFileRelease
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdFix.Click
         ' Here we kick checked items
         ' Unload modules & handles
-        Dim r As MsgBoxResult = MsgBox("Do you really want to unload selected modules/handles ?" & vbNewLine & "This can make your system unstable.", MsgBoxStyle.Exclamation Or MsgBoxStyle.YesNo, "Release file")
-        If r = MsgBoxResult.Yes Then
-            ' Ok proceed
+        If WarnDangerousAction("Closing the checked items could make the system unstable.", Me.Handle) = Windows.Forms.DialogResult.Yes Then
+            ' Ok, proceed
             For Each it As ListViewItem In Me.lv.CheckedItems
                 Dim cIt As cSearchItem = Me.lv.GetItemByKey(it.Name)
                 If cIt IsNot Nothing Then

@@ -112,7 +112,7 @@ Public Class frmServer
             cJobLimit.Connection = _jobLimitsCon
 
         Catch ex As Exception
-            MsgBox(ex.Message)
+            Misc.ShowError(ex, "Unable to connect")
         End Try
 
     End Sub
@@ -130,10 +130,11 @@ Public Class frmServer
                 cDat.SetEnvVarList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate environnement variables")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate environnement variables")
         End If
 
     End Sub
@@ -148,10 +149,11 @@ Public Class frmServer
                 cDat.SetJobLimitsList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate job limits")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate job limits")
         End If
 
     End Sub
@@ -166,10 +168,11 @@ Public Class frmServer
                 cDat.SetProcessList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate processes in job")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate processes in job")
         End If
 
     End Sub
@@ -184,10 +187,11 @@ Public Class frmServer
                 cDat.SetJobList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate jobs")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate jobs")
         End If
 
     End Sub
@@ -202,10 +206,11 @@ Public Class frmServer
                 cDat.SetLogList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate log items")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate log items")
         End If
 
     End Sub
@@ -220,10 +225,11 @@ Public Class frmServer
                 cDat.SetServiceList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate service dependencies")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate service dependencies")
         End If
 
     End Sub
@@ -238,10 +244,11 @@ Public Class frmServer
                 cDat.SetMemoryRegList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate memory regions")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate memory regions")
         End If
 
     End Sub
@@ -256,10 +263,11 @@ Public Class frmServer
                 cDat.SetProcessList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate processes")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate processes")
         End If
 
     End Sub
@@ -274,10 +282,11 @@ Public Class frmServer
                 cDat.SetPrivilegeList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate privileges")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate privileges")
         End If
 
     End Sub
@@ -292,10 +301,11 @@ Public Class frmServer
                 cDat.SetServiceList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate services")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate services")
         End If
 
     End Sub
@@ -310,10 +320,11 @@ Public Class frmServer
                 cDat.SetThreadList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate threads")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate threads")
         End If
 
     End Sub
@@ -328,10 +339,11 @@ Public Class frmServer
                 cDat.SetModuleList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate modules")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate modules")
         End If
 
     End Sub
@@ -346,10 +358,11 @@ Public Class frmServer
                 cDat.SetHandleList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate handles")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate handles")
         End If
 
     End Sub
@@ -364,10 +377,11 @@ Public Class frmServer
                 cDat.SetNetworkList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate network connections")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate network connections")
         End If
 
     End Sub
@@ -382,10 +396,11 @@ Public Class frmServer
                 cDat.SetSearchList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to search the string")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to search the string")
         End If
 
     End Sub
@@ -400,10 +415,11 @@ Public Class frmServer
                 cDat.SetWindowsList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate tasks")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate tasks")
         End If
 
     End Sub
@@ -418,10 +434,11 @@ Public Class frmServer
                 cDat.SetWindowsList(Dico)
                 sock.Send(cDat)
             Catch ex As Exception
-                MsgBox(ex.Message)
+                Misc.ShowError(ex, "Unable to enumerate windows")
             End Try
         Else
             ' Send an error
+            Misc.ShowError("Unable to enumerate windows")
         End If
 
     End Sub
@@ -566,7 +583,7 @@ Public Class frmServer
                             cDat._id = _idToSend
                             sock.Send(cDat)
                         Catch ex As Exception
-                            '
+                            Misc.ShowError(ex, "Could not request processor count")
                         End Try
                         Exit Sub
                     Case cSocketData.OrderType.RequestLogList
@@ -585,7 +602,7 @@ Public Class frmServer
                             Dim s As String = CStr(cData.Param1)
                             Dim pid As Integer = Shell(s, AppWinStyle.NormalFocus)
                         Catch ex As Exception
-                            '
+                            Misc.ShowError(ex, "Could not create a new process")
                         End Try
                     Case cSocketData.OrderType.ProcessReanalize
                         asyncCallbackProcEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, Integer()))
@@ -595,7 +612,7 @@ Public Class frmServer
                         Try
                             Native.Objects.Process.GetProcessById(pid).SetAffinity(aff)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not change process affinity")
                         End Try
                     Case cSocketData.OrderType.ProcessChangePriority
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -603,28 +620,28 @@ Public Class frmServer
                         Try
                             Native.Objects.Process.GetProcessById(pid).SetPriority(level)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not change process priority")
                         End Try
                     Case cSocketData.OrderType.ProcessDecreasePriority
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
                             Native.Objects.Process.GetProcessById(pid).DecreasePriority()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not change process priority")
                         End Try
                     Case cSocketData.OrderType.ProcessIncreasePriority
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
                             Native.Objects.Process.GetProcessById(pid).IncreasePriority()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not change process priority")
                         End Try
                     Case cSocketData.OrderType.ProcessKill
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
                             Native.Objects.Process.GetProcessById(pid).Kill()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not kill process")
                         End Try
                     Case cSocketData.OrderType.ProcessKillByMethod
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -632,35 +649,35 @@ Public Class frmServer
                         Try
                             Native.Objects.Process.GetProcessById(pid).KillByMethod(method)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not kill process by method")
                         End Try
                     Case cSocketData.OrderType.ProcessKillTree
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
                             Native.Objects.Process.GetProcessById(pid).KillProcessTree()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not kill process tree")
                         End Try
                     Case cSocketData.OrderType.ProcessReduceWorkingSet
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
                             Native.Objects.Process.GetProcessById(pid).EmptyWorkingSetSize()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not reduce process' working set size")
                         End Try
                     Case cSocketData.OrderType.ProcessResume
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
                             Native.Objects.Process.GetProcessById(pid).ResumeProcess()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not resume process")
                         End Try
                     Case cSocketData.OrderType.ProcessSuspend
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
                             Native.Objects.Process.GetProcessById(pid).SuspendProcess()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not suspend process")
                         End Try
                 End Select
 
@@ -732,14 +749,14 @@ Public Class frmServer
                         Try
                             Native.Objects.Service.GetServiceByName(name).DeleteService()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not delete service")
                         End Try
                     Case cSocketData.OrderType.ServicePause
                         Dim name As String = CStr(cData.Param1)
                         Try
                             Native.Objects.Service.GetServiceByName(name).PauseService()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not pause service")
                         End Try
                     Case cSocketData.OrderType.ServiceChangeServiceStartType
                         Dim name As String = CStr(cData.Param1)
@@ -747,28 +764,28 @@ Public Class frmServer
                         Try
                             Native.Objects.Service.GetServiceByName(name).SetServiceStartType(type)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not change service start type")
                         End Try
                     Case cSocketData.OrderType.ServiceResume
                         Dim name As String = CStr(cData.Param1)
                         Try
                             Native.Objects.Service.GetServiceByName(name).ResumeService()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not resume service")
                         End Try
                     Case cSocketData.OrderType.ServiceStart
                         Dim name As String = CStr(cData.Param1)
                         Try
                             Native.Objects.Service.GetServiceByName(name).StartService()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not start service")
                         End Try
                     Case cSocketData.OrderType.ServiceStop
                         Dim name As String = CStr(cData.Param1)
                         Try
                             Native.Objects.Service.GetServiceByName(name).StopService()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not stop service")
                         End Try
                 End Select
 
@@ -784,7 +801,7 @@ Public Class frmServer
                             sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), True)).DecreasePriority()
                         Catch ex As Exception
-                            ' Thread does not exist
+                            Misc.ShowError(ex, "Could not change thread priority")
                         End Try
                     Case cSocketData.OrderType.ThreadIncreasePriority
                         Dim pid As Integer = CInt(cData.Param1)
@@ -794,7 +811,7 @@ Public Class frmServer
                             sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), True)).IncreasePriority()
                         Catch ex As Exception
-                            ' Thread does not exist
+                            Misc.ShowError(ex, "Could not change thread priority")
                         End Try
                     Case cSocketData.OrderType.ThreadResume
                         Dim pid As Integer = CInt(cData.Param1)
@@ -804,7 +821,7 @@ Public Class frmServer
                             sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).ThreadResume()
                         Catch ex As Exception
-                            ' Thread does not exist
+                            Misc.ShowError(ex, "Could not resume thread")
                         End Try
                     Case cSocketData.OrderType.ThreadSetAffinity
                         'TODO
@@ -817,7 +834,7 @@ Public Class frmServer
                             sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).SetPriority(CType(level, ThreadPriorityLevel))
                         Catch ex As Exception
-                            ' Thread does not exist
+                            Misc.ShowError(ex, "Could not set thread priority")
                         End Try
                     Case cSocketData.OrderType.ThreadSuspend
                         Dim pid As Integer = CInt(cData.Param1)
@@ -827,7 +844,7 @@ Public Class frmServer
                             sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).ThreadSuspend()
                         Catch ex As Exception
-                            ' Thread does not exist
+                            Misc.ShowError(ex, "Could not suspend thread")
                         End Try
                     Case cSocketData.OrderType.ThreadTerminate
                         Dim pid As Integer = CInt(cData.Param1)
@@ -837,7 +854,7 @@ Public Class frmServer
                             sti.ClientId = New Native.Api.NativeStructs.ClientId(pid, tid)
                             Call (New cThread(New threadInfos(sti), False)).ThreadTerminate()
                         Catch ex As Exception
-                            ' Thread does not exist
+                            Misc.ShowError(ex, "Could not terminate thread")
                         End Try
                 End Select
 
@@ -850,7 +867,7 @@ Public Class frmServer
                         Try
                             cJob.SharedLRTerminateJob(name)
                         Catch ex As Exception
-                            ' 
+                            Misc.ShowError(ex, "Could not terminate job")
                         End Try
                     Case cSocketData.OrderType.JobSetLimits
                         Dim name As String = CType(cData.Param1, String)
@@ -859,7 +876,7 @@ Public Class frmServer
                         Try
                             cJob.SharedLRSetLimits(name, l1, l2)
                         Catch ex As Exception
-                            ' 
+                            Misc.ShowError(ex, "Could not set job limits")
                         End Try
                     Case cSocketData.OrderType.JobAddProcessToJob
                         Dim name As String = CType(cData.Param1, String)
@@ -867,7 +884,7 @@ Public Class frmServer
                         Try
                             cJob.SharedLRAddProcess(name, pid)
                         Catch ex As Exception
-                            ' 
+                            Misc.ShowError(ex, "Could not add process to job")
                         End Try
                     Case cSocketData.OrderType.MemoryFree
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -877,7 +894,7 @@ Public Class frmServer
                         Try
                             cMemRegion.SharedLRFree(pid, address, size, type)
                         Catch ex As Exception
-                            '
+                            Misc.ShowError(ex, "Could not free memory region")
                         End Try
                     Case cSocketData.OrderType.MemoryChangeProtectionType
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -887,7 +904,7 @@ Public Class frmServer
                         Try
                             cMemRegion.SharedLRChangeProtection(pid, address, size, type)
                         Catch ex As Exception
-                            '
+                            Misc.ShowError(ex, "Could not change memory region protection type")
                         End Try
                     Case cSocketData.OrderType.HandleClose
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -895,7 +912,7 @@ Public Class frmServer
                         Try
                             cHandle.SharedLRCloseHandle(pid, handle)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not close handle")
                         End Try
                     Case cSocketData.OrderType.ModuleUnload
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -903,7 +920,7 @@ Public Class frmServer
                         Try
                             cProcess.SharedRLUnLoadModuleFromProcess(pid, address)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not unload module")
                         End Try
                     Case cSocketData.OrderType.PrivilegeChangeStatus
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -912,56 +929,56 @@ Public Class frmServer
                         Try
                             cPrivilege.LocalChangeStatus(pid, name, status)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not change privilege status")
                         End Try
                     Case cSocketData.OrderType.GeneralCommandHibernate
                         Dim force As Boolean = CBool(cData.Param1)
                         Try
                             cSystem.Hibernate(force)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not hibernate system")
                         End Try
                     Case cSocketData.OrderType.GeneralCommandLock
                         Dim force As Boolean = CBool(cData.Param1)
                         Try
                             cSystem.Lock()
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not lock system")
                         End Try
                     Case cSocketData.OrderType.GeneralCommandLogoff
                         Dim force As Boolean = CBool(cData.Param1)
                         Try
                             cSystem.Logoff(force)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not logoff system")
                         End Try
                     Case cSocketData.OrderType.GeneralCommandPoweroff
                         Dim force As Boolean = CBool(cData.Param1)
                         Try
                             cSystem.Poweroff(force)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not poweroff system")
                         End Try
                     Case cSocketData.OrderType.GeneralCommandRestart
                         Dim force As Boolean = CBool(cData.Param1)
                         Try
                             cSystem.Restart(force)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not restart system")
                         End Try
                     Case cSocketData.OrderType.GeneralCommandShutdown
                         Dim force As Boolean = CBool(cData.Param1)
                         Try
                             cSystem.Shutdown(force)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not shutdown system")
                         End Try
                     Case cSocketData.OrderType.GeneralCommandSleep
                         Dim force As Boolean = CBool(cData.Param1)
                         Try
                             cSystem.Sleep(force)
                         Catch ex As Exception
-                            ' Process does not exist
+                            Misc.ShowError(ex, "Could not sleep system")
                         End Try
                     Case cSocketData.OrderType.TcpClose
                         Dim local As IPEndPoint = CType(cData.Param1, IPEndPoint)
@@ -969,26 +986,15 @@ Public Class frmServer
                         Try
                             cNetwork.LocalCloseTCP(local, remote)
                         Catch ex As Exception
-                            ' Error...
+                            Misc.ShowError(ex, "Could not close TCP connection")
                         End Try
                 End Select
-
-
-
-                ' Send an ACK for orders executed (except enumerations)
-                'Try
-                '    Dim cDat As New cSocketData(cSocketData.DataType.Ack, , ret)
-                '    cDat._id = _idToSend
-                '    sock.Send(cDat)
-                'Catch ex As Exception
-                '    MsgBox(ex.Message)
-                'End Try
 
 
             End If
 
         Catch ex As Exception
-            MsgBox(ex.Message)
+            Misc.ShowError(ex, "Could not process client request")
         End Try
     End Sub
 
@@ -1052,6 +1058,16 @@ Public Class frmServer
         'Catch ex As Exception
         '    MsgBox(ex.Message)
         'End Try
+    End Sub
+
+    ' Send an error message to the client
+    Public Sub SendErrorToClient(ByVal _ex As cError)
+        Try
+            Dim cDat As New cSocketData(cSocketData.DataType.ErrorOnServer, , New SerializableException(_ex))
+            sock.Send(cDat)
+        Catch ex As Exception
+            ' FAILED !!
+        End Try
     End Sub
 
 End Class

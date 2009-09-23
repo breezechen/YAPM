@@ -513,7 +513,8 @@
     <Compile Include="Classes\Download\cUpdate.vb" />
     <Compile Include="Classes\Download\cAsyncProcInfoDownload.vb" />
     <Compile Include="Classes\Download\cDownload.vb" />
-    <Compile Include="Classes\Misc\cError.vb" />
+    <Compile Include="Classes\Exceptions\cError.vb" />
+    <Compile Include="Classes\Exceptions\SerializableException.vb" />
     <Compile Include="Classes\Socket\RemotingServerClient.vb" />
     <Compile Include="Common\Objects\Token.vb" />
     <Compile Include="Forms\MainForms\frmJobInfo.Designer.vb">

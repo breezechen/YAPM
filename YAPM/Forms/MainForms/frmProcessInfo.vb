@@ -1169,11 +1169,11 @@ Public Class frmProcessInfo
                     stream.WriteLine()
                     stream.WriteLine(CStr(Me.lvLog.Items.Count) & " entries(s)")
                     stream.Close()
-                    MsgBox("Save done.", MsgBoxStyle.Information Or MsgBoxStyle.OkOnly, "Log save")
+                    Misc.ShowMsg("Save log", Nothing, "Saved file successfully.", MessageBoxButtons.OK, TaskDialogIcon.ShieldOk)
                 End If
             End If
         Catch ex As Exception
-            '
+            Misc.ShowError(ex, "Could not save file")
         End Try
 
     End Sub
@@ -1347,7 +1347,7 @@ Public Class frmProcessInfo
             Me.lvProcNetwork.ConnectionObj = theConnection
             theConnection.Connect()
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical Or MsgBoxStyle.OkOnly, "Can not connect")
+            Misc.ShowError(ex, "Unable to connect")
         End Try
     End Sub
 
@@ -2551,9 +2551,7 @@ Public Class frmProcessInfo
         My.Settings.ShowFindWindowDetailedForm = False
         If My.Settings.FirstTimeShowFindWindowWasClosed Then
             My.Settings.FirstTimeShowFindWindowWasClosed = False
-            MsgBox("You have closed the search panel." & vbNewLine & _
-                           "Press Ctrl+F on a listview to open it again.", _
-                           MsgBoxStyle.Information, "Search panel")
+            Misc.ShowMsg("Search panel", "You have closed the search panel.", "Press Ctrl+F on a listview to open it again.", MessageBoxButtons.OK, TaskDialogIcon.Information)
             My.Settings.Save()
         End If
         Call hideFindPanel()

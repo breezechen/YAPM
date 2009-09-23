@@ -140,8 +140,7 @@ Public Class cJob
     End Function
     Private Shared Sub sharedKillJobDone(ByVal Success As Boolean, ByVal jobName As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not kill job " & jobName)
+            Misc.ShowError("Could not kill job " & jobName & " : " & msg)
         End If
         RemoveSharedPendingTask(actionNumber)
     End Sub
@@ -164,8 +163,7 @@ Public Class cJob
     End Function
     Private Shared Sub sharedAddedJobDone(ByVal Success As Boolean, ByVal pid() As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not add processes to job")
+            Misc.ShowError("Could not add processes to job : " & msg)
         End If
         RemoveSharedPendingTask(actionNumber)
     End Sub
@@ -190,8 +188,7 @@ Public Class cJob
     End Function
     Private Shared Sub sharedHasSetL(ByVal Success As Boolean, ByVal jobName As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set limits to job " & jobName)
+            Misc.ShowError("Could not set limits to job " & jobName & " : " & msg)
         End If
         RemoveSharedPendingTask(actionNumber)
     End Sub
@@ -221,8 +218,7 @@ Public Class cJob
     End Function
     Private Sub addedProcessDone(ByVal Success As Boolean, ByVal pid() As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not add processes to job")
+            Misc.ShowError("Could not add processes to job : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -245,8 +241,7 @@ Public Class cJob
     End Function
     Private Sub killJobDone(ByVal Success As Boolean, ByVal jobName As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not terminate job " & jobName)
+            Misc.ShowError("Could not terminate job " & jobName & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
@@ -270,8 +265,7 @@ Public Class cJob
     End Function
     Private Sub hasSetL(ByVal Success As Boolean, ByVal jobName As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not set limits to job " & jobName)
+            Misc.ShowError("Could not set limits to job " & jobName & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub

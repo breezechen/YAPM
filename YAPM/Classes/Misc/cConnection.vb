@@ -183,44 +183,24 @@ Public Class cConnection
         ' When we have sent datas
     End Sub
 
-    '' When we receive datas
-    'Private Sub _sock_ReceivedData(ByRef cDat As cSocketData) Handles _sock.ReceivedData
+    ' When we receive datas
+    Private Sub _sock_ReceivedData(ByRef cDat As cSocketData) Handles _sock.ReceivedData
 
-    '    If cDat Is Nothing Then
-    '        Trace.WriteLine("Serialization error")
-    '        Exit Sub
-    '    End If
+        Try
+            If cDat.Type = cSocketData.DataType.ErrorOnServer Then
+                Dim cErr As Exception = CType(cDat.Param1, SerializableException).GetException
+                _frmMain.Invoke(New frmMain.GotErrorFromServer(AddressOf impGotErrorFromServer), cErr)
+            End If
+            Trace.WriteLine(cDat.Type.ToString)
+        Catch ex As Exception
+            '
+        End Try
 
-    '    If cDat.Type = cSocketData.DataType.RequestedList Then
-    '        ' Here we got a list of items
-    '        Select Case cDat.Order
-    '            Case cSocketData.OrderType.RequestProcessList
-    '                'asyncCallbackProcEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-    '            Case cSocketData.OrderType.RequestEnvironmentVariableList
-    '                ' asyncCallbackEnvVariableEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-    '            Case cSocketData.OrderType.RequestHandleList
-    '                '  asyncCallbackHandleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-    '            Case cSocketData.OrderType.RequestMemoryRegionList
-    '                ' asyncCallbackMemRegionEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-    '            Case cSocketData.OrderType.RequestModuleList
-    '                ' asyncCallbackModuleEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-    '            Case cSocketData.OrderType.RequestNetworkConnectionList
-    '                ' asyncCallbackNetworkEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-    '            Case cSocketData.OrderType.RequestPrivilegesList
-    '                'asyncCallbackPrivilegesEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-    '            Case cSocketData.OrderType.RequestServiceList
-    '                ' asyncCallbackServiceEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-    '            Case cSocketData.OrderType.RequestTaskList
-    '                'asyncCallbackTaskEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-    '            Case cSocketData.OrderType.RequestThreadList
-    '                '  asyncCallbackThreadEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-    '            Case cSocketData.OrderType.RequestWindowList
-    '                ' asyncCallbackWindowEnumerate.GotListFromSocket(cDat.GetList, cDat.GetKeys)
-    '        End Select
+    End Sub
 
-    '    Else
-    '        '
-    '    End If
-    'End Sub
+    ' Displays error
+    Private Sub impGotErrorFromServer(ByVal err As Exception)
+        Misc.ShowError(err, "The server sent a error.")
+    End Sub
 
 End Class

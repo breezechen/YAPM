@@ -226,7 +226,7 @@ Public Module Program
 
         ' ======= Check if framework is 2.0 or above
         If cEnvironment.IsFramework2OrAbove = False Then
-            MsgBox(".Net Framework 2.0 or above must be installed.", MsgBoxStyle.Critical, "Error")
+            Misc.ShowError(".Net Framework 2.0 must be installed.")
             Application.Exit()
         End If
 
@@ -234,7 +234,7 @@ Public Module Program
 
         ' ======= Check if system is 32 bits
         If cEnvironment.Is32Bits = False Then
-            MsgBox("x64 support is experimental !", MsgBoxStyle.Information, "Warning !")
+            Misc.ShowMsg("Warning !", "YAPM starts on a x64 system.", "x64 support is still experimental !", MessageBoxButtons.OK, TaskDialogIcon.ShieldWarning)
         End If
 
 
@@ -333,7 +333,11 @@ Public Module Program
             If _progParameters.ModeServer = False Then
                 Try
                     If My.Settings.FirstTime Then
-                        MsgBox(Pref.MSGFIRSTTIME, MsgBoxStyle.Information, "Please read this")
+                        Misc.ShowMsg("This is the first time YAPM starts", _
+                                     "Please read this :", _
+                                     Pref.MessageFirstStartOfYAPM, _
+                                     MessageBoxButtons.OK, _
+                                     TaskDialogIcon.ShieldWarning)
                         My.Settings.FirstTime = False
                         Program.Preferences.Save()
                     End If
@@ -341,7 +345,7 @@ Public Module Program
                     cProcess.BuffSize = My.Settings.HistorySize
                 Catch ex As Exception
                     ' Preference file corrupted/missing
-                    MsgBox("Preference file is missing or corrupted and will be now recreated.", MsgBoxStyle.Critical, "Startup error")
+                    Misc.ShowMsg("Startup error", "Failed to load preferences.", "Preference file is missing or corrupted and will be now recreated.", MessageBoxButtons.OK, TaskDialogIcon.ShieldError)
                     Program.Preferences.SetDefault()
                 End Try
             End If

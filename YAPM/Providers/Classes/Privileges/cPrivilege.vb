@@ -85,8 +85,7 @@ Public Class cPrivilege
     End Function
     Private Sub changeStatusDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not change privilege status " & name)
+            Misc.ShowError("Could not change privilege (" & name & ") status : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub

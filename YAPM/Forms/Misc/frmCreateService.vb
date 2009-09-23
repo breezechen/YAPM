@@ -81,7 +81,7 @@ Public Class frmCreateService
             ' MsgBox("Success", MsgBoxStyle.Information, "Create service")
             Me.Close()
         Else
-            MsgBox("Failed : " & Native.Api.Win32.GetLastError, MsgBoxStyle.Critical, "Create service")
+            Misc.ShowMsg("Create service", "Failed to create the service.", "Informations : " & Native.Api.Win32.GetLastError, MessageBoxButtons.OK, TaskDialogIcon.Error)
         End If
 
         Me.OK_Button.Enabled = True

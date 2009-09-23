@@ -164,8 +164,7 @@ Public Class cNetwork
             If local IsNot Nothing Then
                 s = local.ToString
             End If
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not close TCP connection " & s)
+            Misc.ShowError("Could not close TCP connection " & s & " : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub

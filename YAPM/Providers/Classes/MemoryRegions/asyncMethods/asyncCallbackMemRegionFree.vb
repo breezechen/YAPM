@@ -68,7 +68,7 @@ Public Class asyncCallbackMemRegionFree
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.MemoryFree, pObj.pid, pObj.address, pObj.size, pObj.type)
                     con.ConnectionObj.Socket.Send(cDat)
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    Misc.ShowError(ex, "Unable to send request to server")
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

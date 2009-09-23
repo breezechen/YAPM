@@ -31,7 +31,7 @@ Option Strict On
     Public Enum DataType As Byte
         [Order] = 1                 ' An order (nothing expected after)
         [RequestedList] = 2         ' Requested list
-        [Ack] = 3                   ' Acknowledge
+        [ErrorOnServer] = 3         ' Error occured on server
         [Identification] = 4        ' For key return
     End Enum
 
@@ -148,7 +148,6 @@ Option Strict On
     Private _param2 As Object
     Private _param3 As Object
     Private _param4 As Object
-    Private _ack As Boolean = False     ' Acknowledge
 
     Public _id As String
 
@@ -157,14 +156,6 @@ Option Strict On
     Private _keys() As String
 
     ' Properties
-    Public Property Ack() As Boolean
-        Get
-            Return _ack
-        End Get
-        Set(ByVal value As Boolean)
-            _ack = value
-        End Set
-    End Property
     Public Property InstanceId() As Integer
         Get
             Return _instanceId
@@ -226,9 +217,6 @@ Option Strict On
         _param2 = param2
         _param3 = param3
         _param4 = param4
-        If _datatType = DataType.Ack Then
-            _ack = True
-        End If
     End Sub
 
 #Region "Set list to data"

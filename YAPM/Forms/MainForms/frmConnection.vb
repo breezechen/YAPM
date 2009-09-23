@@ -277,8 +277,7 @@ Public Class frmConnection
     End Function
     Private Sub shutdownDone(ByVal Success As Boolean, ByVal type As ShutdownType, ByVal msg As String)
         If Success = False Then
-            MsgBox("Error : " & msg, MsgBoxStyle.Exclamation Or MsgBoxStyle.OkOnly, _
-                   "Could not send " & type.ToString & " command")
+            Misc.ShowMsg("Shutdown command", "Could not send " & type.ToString & " command.", msg, MessageBoxButtons.OK, TaskDialogIcon.Error)
         End If
     End Sub
 

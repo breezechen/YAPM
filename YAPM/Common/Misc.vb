@@ -1101,6 +1101,10 @@ Namespace Common
             Dim t0 As New cError(msg, ex)
             t0.ShowMessage()
         End Sub
+        Public Shared Sub ShowError(ByVal msg As String)
+            Dim t0 As New cError(msg)
+            t0.ShowMessage()
+        End Sub
 
 
 
