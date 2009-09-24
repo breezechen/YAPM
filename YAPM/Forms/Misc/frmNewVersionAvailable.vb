@@ -53,6 +53,7 @@ Public Class frmNewVersionAvailable
             Me.lblDate.Text = .Date
             Me.txtDesc.Text = desc
             Me.lblCaption.Text = .Caption
+            Me.lblType.Text = .Type
         End With
 
     End Sub

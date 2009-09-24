@@ -130,7 +130,7 @@ Partial Class frmNewVersionAvailable
         '
         Me.lblType.AutoSize = True
         Me.lblType.BackColor = System.Drawing.SystemColors.Control
-        Me.lblType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblType.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblType.Location = New System.Drawing.Point(256, 41)
         Me.lblType.Name = "lblType"
         Me.lblType.Size = New System.Drawing.Size(0, 13)
