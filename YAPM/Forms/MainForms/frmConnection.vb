@@ -28,6 +28,8 @@ Public Class frmConnection
     Private REMOTE_PORT As Integer
     Private WithEvents _formConnectionReference As cConnection
 
+    Public Delegate Sub AddItemToReceivedDataList(ByRef dat As cSocketData)
+
     Private _localDesc As String = "Local connection monitors all processes and services running on the local machine."
     Private _wmiDesc As String = "Remote connection via WMI monitors all processes and services running on a remote machine. You will need a username and password of the remote machine, WMI needs to be installed on both machines (your machine and the remote machine), and your firewall have to accept the connection. Furthermore, not all informations and actions on your processes are available. If possible, you should use 'remote via YAPM server' instead."
     Private _serverDes As String = "Remote connection via WMI YAPM server monitors all processes and services running on a remote machine. You will need the IP address of the remote machine, and the associated port must be available (you might need to configure your firewall). You will also need to run yapmserv.exe on the remote machine. This is the best way, if possible, to monitor a remote machine."
@@ -66,6 +68,7 @@ Public Class frmConnection
         SetToolTip(Me.optWMI, "Remote connection with the use of WMI")
         SetToolTip(Me.txtPort, "Port to use to connect to remote machine")
         SetToolTip(Me.cmdTerminal, "Start Microsoft terminal service client")
+        SetToolTip(Me.cmdShowDatas, "Show/hide list of data received from remote machine")
 
         Me.txtPort.Text = CStr(My.Settings.RemotePort)
         Me.txtServerMachine.Text = My.Settings.RemoteMachineNameW
@@ -319,5 +322,22 @@ Public Class frmConnection
 
     Private Sub txtServerIP_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtServerIP.TextChanged
         My.Settings.RemoteMachineName = Me.txtServerIP.Text
+    End Sub
+
+    Private Sub cmdShowDatas_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdShowDatas.Click
+        If Me.Width = 643 Then
+            Me.Width = 347
+            Me.cmdShowDatas.Text = "Show received data"
+        Else
+            Me.Width = 643
+            Me.cmdShowDatas.Text = "Hide received data"
+        End If
+    End Sub
+
+    ' Add an item to the list of data received from remote server
+    Public Sub impAddItemToReceivedDataList(ByRef dat As cSocketData)
+        Dim it As New ListViewItem(Date.Now.ToLongDateString & " - " & Date.Now.ToLongTimeString)
+        it.SubItems.Add(dat.ToString)
+        Me.lvData.Items.Add(it)
     End Sub
 End Class

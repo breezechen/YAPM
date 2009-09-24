@@ -186,12 +186,19 @@ Public Class cConnection
     ' When we receive datas
     Private Sub _sock_ReceivedData(ByRef cDat As cSocketData) Handles _sock.ReceivedData
 
+        ' If we got an error, we display it
         Try
             If cDat.Type = cSocketData.DataType.ErrorOnServer Then
                 Dim cErr As Exception = CType(cDat.Param1, SerializableException).GetException
                 _frmMain.Invoke(New frmMain.GotErrorFromServer(AddressOf impGotErrorFromServer), cErr)
             End If
-            Trace.WriteLine(cDat.Type.ToString)
+        Catch ex As Exception
+            '
+        End Try
+
+        ' Now we add this entry to the list of received datas
+        Try
+            Program.ConnectionForm.Invoke(New frmConnection.AddItemToReceivedDataList(AddressOf Program.ConnectionForm.impAddItemToReceivedDataList), cDat)
         Catch ex As Exception
             '
         End Try

@@ -23,7 +23,7 @@ Partial Class frmConnection
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim SecureString3 As System.Security.SecureString = New System.Security.SecureString
+        Dim SecureString1 As System.Security.SecureString = New System.Security.SecureString
         Me.optLocal = New System.Windows.Forms.RadioButton
         Me.optWMI = New System.Windows.Forms.RadioButton
         Me.optServer = New System.Windows.Forms.RadioButton
@@ -48,6 +48,10 @@ Partial Class frmConnection
         Me.cbShutdown = New System.Windows.Forms.ComboBox
         Me.chkForceShutdown = New System.Windows.Forms.CheckBox
         Me.cmdTerminal = New System.Windows.Forms.Button
+        Me.cmdShowDatas = New System.Windows.Forms.Button
+        Me.lvData = New YAPM.DoubleBufferedLV
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.gpServer.SuspendLayout()
         Me.gpWMI.SuspendLayout()
         Me.gpShutdown.SuspendLayout()
@@ -122,6 +126,7 @@ Partial Class frmConnection
         'gpServer
         '
         Me.gpServer.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.gpServer.Controls.Add(Me.cmdShowDatas)
         Me.gpServer.Controls.Add(Me.txtPort)
         Me.gpServer.Controls.Add(Me.Label1)
         Me.gpServer.Controls.Add(Me.txtServerIP)
@@ -184,7 +189,7 @@ Partial Class frmConnection
         Me.txtServerPassword.Location = New System.Drawing.Point(221, 45)
         Me.txtServerPassword.Name = "txtServerPassword"
         Me.txtServerPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtServerPassword.SecureText = SecureString3
+        Me.txtServerPassword.SecureText = SecureString1
         Me.txtServerPassword.Size = New System.Drawing.Size(87, 22)
         Me.txtServerPassword.TabIndex = 15
         Me.txtServerPassword.UseSystemPasswordChar = True
@@ -287,11 +292,43 @@ Partial Class frmConnection
         Me.cmdTerminal.Text = "Terminal Services Client"
         Me.cmdTerminal.UseVisualStyleBackColor = True
         '
+        'cmdShowDatas
+        '
+        Me.cmdShowDatas.Location = New System.Drawing.Point(159, 44)
+        Me.cmdShowDatas.Name = "cmdShowDatas"
+        Me.cmdShowDatas.Size = New System.Drawing.Size(146, 23)
+        Me.cmdShowDatas.TabIndex = 14
+        Me.cmdShowDatas.Text = "Show received data"
+        Me.cmdShowDatas.UseVisualStyleBackColor = True
+        '
+        'lvData
+        '
+        Me.lvData.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
+        Me.lvData.FullRowSelect = True
+        Me.lvData.Location = New System.Drawing.Point(345, 12)
+        Me.lvData.Name = "lvData"
+        Me.lvData.OverriddenDoubleBuffered = True
+        Me.lvData.Size = New System.Drawing.Size(289, 286)
+        Me.lvData.TabIndex = 17
+        Me.lvData.UseCompatibleStateImageBehavior = False
+        Me.lvData.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Time"
+        Me.ColumnHeader1.Width = 143
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Command received"
+        Me.ColumnHeader2.Width = 349
+        '
         'frmConnection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(339, 299)
+        Me.ClientSize = New System.Drawing.Size(341, 299)
+        Me.Controls.Add(Me.lvData)
         Me.Controls.Add(Me.cmdTerminal)
         Me.Controls.Add(Me.gpShutdown)
         Me.Controls.Add(Me.cmdCancel)
@@ -343,4 +380,8 @@ Partial Class frmConnection
     Friend WithEvents txtPort As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents cmdTerminal As System.Windows.Forms.Button
+    Friend WithEvents cmdShowDatas As System.Windows.Forms.Button
+    Friend WithEvents lvData As YAPM.DoubleBufferedLV
+    Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
 End Class
