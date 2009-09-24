@@ -475,7 +475,14 @@ Namespace Common
                     .CommonButtons = Buttons
                     .DefaultButton = DefButton
                 End With
-                Return dlg.Show(Form.ActiveForm)
+                Try
+                    Return dlg.Show(Form.ActiveForm)
+                Catch ex As Exception
+                    ' Failed !! Fu*k !!
+                    Misc.ShowDebugError(ex)
+                    ' Display normal MessageBox
+                    ShowMsg(Title, HeaderMessage, Content, MessageBoxButtons.YesNoCancel, Icon, CBool(DefButton), True)
+                End Try
             Else
                 Return -1
             End If
