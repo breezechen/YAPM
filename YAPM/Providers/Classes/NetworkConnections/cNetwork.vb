@@ -358,6 +358,8 @@ Public Class cNetwork
             Case "State"
                 If Me.Infos.State > 0 Then
                     res = Me.Infos.State.ToString
+                Else
+                    res = ""
                 End If
                 If res = _old_State Then
                     hasChanged = False

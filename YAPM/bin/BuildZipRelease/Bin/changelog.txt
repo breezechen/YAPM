@@ -14,6 +14,7 @@ CHANGES FROM 2.2.0
 - Fixed bad wait time for process termination
 - Fixed incorrect error message when closing a window
 - Fixed "parent process name" in process details form
+- Fixed bad connection state for UDP/TCP6
 
 
 CHANGES FROM 2.1.0
