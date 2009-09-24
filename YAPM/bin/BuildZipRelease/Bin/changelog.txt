@@ -8,6 +8,7 @@ CHANGES FROM 2.2.0
 - Highly improved exception management
 - Now all messageboxes use Vista style if possible
 - Added 'Start Terminal Service Client' button
+- Updated Help File
 
 * Bug fixes
 - 'Select associated process' menu now works again

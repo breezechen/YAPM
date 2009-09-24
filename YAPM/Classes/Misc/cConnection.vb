@@ -200,7 +200,9 @@ Public Class cConnection
 
     ' Displays error
     Private Sub impGotErrorFromServer(ByVal err As Exception)
-        Misc.ShowError(err, "The server sent a error.")
+        If _isConnected Then
+            Misc.ShowError(err, "The server sent a error.")
+        End If
     End Sub
 
 End Class

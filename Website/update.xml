@@ -4,7 +4,7 @@
 		<version>2.2.1.0</version>
 		<caption>Yet Another (remote) Process Monitor 2.2.1</caption>
 		<description>2.2.x is a major release with a lot of improvements (stability of remote monitoring and general performances) and new features.
-2.2.1 is a "bug-fix" release which correct an annoying bug of 2.2.0 release. Here is the complete changelog :
+2.2.1 is a "bug-fix" release which correct an (very) annoying bug of 2.2.0 release, and adds some new features. Here is the complete changelog :
 
 CHANGES FROM 2.2.0
 
@@ -13,12 +13,16 @@ CHANGES FROM 2.2.0
 - Added 'Show classic messagebox' option
 - Highly improved exception management
 - Now all messageboxes use Vista style if possible
+- Added 'Start Terminal Service Client' button
+- Updated Help File
 
 * Bug fixes
 - 'Select associated process' menu now works again
 - Removed 'Select in window tab' menu
 - Fixed bad wait time for process termination
 - Fixed incorrect error message when closing a window
+- Fixed "parent process name" in process details form
+- Fixed bad connection state for UDP/TCP6
 		</description>
 		<date>23 September 2009</date>
 		<downloadUrl>http://surfnet.dl.sourceforge.net/project/yaprocmon/YAPM-beta/YAPM-2.2.0/YAPM%202.2.0%20Setup.exe</downloadUrl>
