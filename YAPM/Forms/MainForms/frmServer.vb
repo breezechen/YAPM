@@ -1067,6 +1067,7 @@ Public Class frmServer
             sock.Send(cDat)
         Catch ex As Exception
             ' FAILED !!
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 

@@ -71,7 +71,7 @@ Public Class asyncCallbackServiceResume
                 Try
                     _deg.Invoke(res, pObj.name, msg, pObj.newAction)
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
 
             Case Else

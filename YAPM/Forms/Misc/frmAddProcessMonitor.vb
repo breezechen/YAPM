@@ -88,6 +88,7 @@ Public Class frmAddProcessMonitor
             Next
         Catch ex As Exception
             ' Cannot connect to network or access denied ??
+            Misc.ShowDebugError(ex)
             Misc.ShowError(ex, "Unable to access to performance counters")
         End Try
 

@@ -75,7 +75,7 @@ Public Class cNetworkConnection
                         _control.Invoke(Connected, True)
                     End If
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
         End Select
 

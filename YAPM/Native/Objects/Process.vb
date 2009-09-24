@@ -948,7 +948,7 @@ Namespace Native.Objects
                 Try
                     pObj.[Delegate].Invoke(exCode)
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
             End If
 

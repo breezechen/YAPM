@@ -62,7 +62,7 @@ Public Class cNetwork
                 Call Threading.ThreadPool.QueueUserWorkItem(t, Me.Infos.Local)
             End If
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
         Try
             If Me.Infos._remote IsNot Nothing AndAlso Me.Infos._remote.Address.Equals(nullAddress) = False Then
@@ -70,7 +70,7 @@ Public Class cNetwork
                 Call Threading.ThreadPool.QueueUserWorkItem(t, Me.Infos.Remote)
             End If
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
     Private disposed As Boolean = False

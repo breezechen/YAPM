@@ -429,7 +429,7 @@ Public Module Program
         Try
             Native.Objects.Handle.HandleEnumerationClass.Close()
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
 
         ' Close forms & exit
@@ -470,6 +470,7 @@ Public Module Program
 
         Catch ex As Exception
             ' Could not set key -> failed
+            Misc.ShowDebugError(ex)
             Dim res As RequestReplaceTaskMgrResult
             If value Then
                 res = RequestReplaceTaskMgrResult.ReplaceFail

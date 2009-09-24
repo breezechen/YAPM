@@ -101,7 +101,7 @@ Public Class cProcessConnection
                     wmiSearcher.Scope = New Management.ManagementScope("\\" & _conObj.WmiParameters.serverName & "\root\cimv2", __con)
                     _connected = True
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
 
             Case Else

@@ -193,14 +193,14 @@ Public Class cConnection
                 _frmMain.Invoke(New frmMain.GotErrorFromServer(AddressOf impGotErrorFromServer), cErr)
             End If
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
 
         ' Now we add this entry to the list of received datas
         Try
             Program.ConnectionForm.Invoke(New frmConnection.AddItemToReceivedDataList(AddressOf Program.ConnectionForm.impAddItemToReceivedDataList), cDat)
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
 
     End Sub

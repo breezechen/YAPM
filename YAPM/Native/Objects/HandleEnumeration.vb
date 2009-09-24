@@ -478,7 +478,7 @@ Namespace Native.Objects
                     driver = Nothing
                 End If
             Catch ex As Exception
-                '
+                Misc.ShowDebugError(ex)
             End Try
         End Sub
 

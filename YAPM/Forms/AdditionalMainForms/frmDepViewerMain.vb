@@ -31,7 +31,7 @@ Public Class frmDepViewerMain
             Next
             lvAllDeps.EndUpdate()
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
 
     End Sub
@@ -82,7 +82,7 @@ Public Class frmDepViewerMain
             statusFile.Text = refNode.PE.FileName
             If refNode.Resolved Then Me.ShowAssemblyInfos(refNode)
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
 
     End Sub
@@ -133,7 +133,7 @@ Public Class frmDepViewerMain
                 End If
             End If
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 
@@ -146,7 +146,7 @@ Public Class frmDepViewerMain
                 End If
             End If
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 
@@ -158,7 +158,7 @@ Public Class frmDepViewerMain
                 End If
             Next
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 
@@ -170,7 +170,7 @@ Public Class frmDepViewerMain
                 End If
             Next
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 
@@ -221,7 +221,7 @@ Public Class frmDepViewerMain
                 End If
             End If
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 
@@ -235,7 +235,7 @@ Public Class frmDepViewerMain
                 End If
             End If
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 
@@ -247,7 +247,7 @@ Public Class frmDepViewerMain
                 End If
             Next
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 
@@ -260,7 +260,7 @@ Public Class frmDepViewerMain
                 End If
             Next
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 

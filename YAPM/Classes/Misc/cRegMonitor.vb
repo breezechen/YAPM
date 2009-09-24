@@ -144,7 +144,7 @@ Public Class cRegMonitor
             Next
 
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
 
     End Sub

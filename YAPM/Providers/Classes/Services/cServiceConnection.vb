@@ -87,7 +87,7 @@ Public Class cServiceConnection
                     wmiSearcher.Scope = New Management.ManagementScope("\\" & _conObj.WmiParameters.serverName & "\root\cimv2", __con)
                     _connected = True
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
 
             Case Else
@@ -100,7 +100,7 @@ Public Class cServiceConnection
                     If Connected IsNot Nothing AndAlso _control.Created Then _
                         _control.Invoke(Connected, True)
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
         End Select
 

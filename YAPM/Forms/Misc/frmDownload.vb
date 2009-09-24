@@ -58,7 +58,7 @@ Public Class frmDownload
             'End If
 
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 
@@ -76,7 +76,7 @@ Public Class frmDownload
         Try
             _download.Cancel()
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
         Me.Close()
     End Sub

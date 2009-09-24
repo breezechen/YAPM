@@ -264,7 +264,7 @@ Imports System.Runtime.InteropServices
             Try
                 _StartTime = Date.FromFileTime(.CreateTime).Ticks
             Catch ex As Exception
-                '
+                Misc.ShowDebugError(ex)
             End Try
             _MemoryInfos = .VirtualMemoryCounters
             _Priority = getPriorityClass(.BasePriority)

@@ -398,7 +398,7 @@ Namespace Common
                     regKey.DeleteValue(Application.ProductName)
                 End If
             Catch ex As Exception
-                '
+                Misc.ShowDebugError(ex)
             End Try
         End Sub
 
@@ -412,17 +412,17 @@ Namespace Common
                     Try
                         regKey.CreateSubKey("taskmgr.exe").SetValue("debugger", Application.ExecutablePath)
                     Catch ex As Exception
-                        '
+                        Misc.ShowDebugError(ex)
                     End Try
                 Else
                     Try
                         regKey.DeleteSubKey("taskmgr.exe")
                     Catch ex As Exception
-                        '
+                        Misc.ShowDebugError(ex)
                     End Try
                 End If
             Catch ex As Exception
-                '
+                Misc.ShowDebugError(ex)
             End Try
         End Sub
 
@@ -580,7 +580,7 @@ Namespace Common
                     regKey.Close()
                     Shell("regedit.exe", AppWinStyle.NormalFocus)
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
             End If
         End Sub
@@ -1107,6 +1107,15 @@ Namespace Common
             t0.ShowMessage(forceClassical)
         End Sub
 
+        ' Show an error message as a debug message (now messagebox)
+        Public Shared Sub ShowDebugError(ByVal ex As Exception)
+            Debug.WriteLine("================================================================")
+            Debug.WriteLine("GOT AN ERROR")
+            Debug.WriteLine("       Source : " & ex.Source)
+            Debug.WriteLine("       Message : " & ex.Message)
+            Debug.WriteLine("       Trace : " & ex.StackTrace)
+            Debug.WriteLine("================================================================")
+        End Sub
 
 
 
@@ -1121,7 +1130,7 @@ Namespace Common
                     _tmp.DialogResult = Windows.Forms.DialogResult.Cancel
                     _tmp.Close()
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
                 e.Handled = True
             End If
@@ -1133,7 +1142,7 @@ Namespace Common
                     Dim _tmp As System.Windows.Forms.Form = DirectCast(sender, System.Windows.Forms.Form)
                     _tmp.Hide()
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
                 e.Handled = True
             End If

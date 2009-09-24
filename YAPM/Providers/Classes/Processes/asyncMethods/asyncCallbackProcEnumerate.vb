@@ -134,7 +134,7 @@ Public Class asyncCallbackProcEnumerate
             'If deg IsNot Nothing AndAlso ctrl.Created Then _
             ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 
@@ -173,7 +173,7 @@ Public Class asyncCallbackProcEnumerate
                     'If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
 
             Case Else
@@ -193,7 +193,7 @@ Public Class asyncCallbackProcEnumerate
                     'If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
         End Select
 

@@ -89,6 +89,7 @@ Public Class frmConnection
     Private Sub changeInfos()
 
         Me.gpServer.Visible = optServer.Checked
+        Me.lvData.Enabled = Me.optServer.Checked
         Me.gpWMI.Visible = optWMI.Checked
         If optLocal.Checked Then
             Me.txtDesc.Text = _localDesc

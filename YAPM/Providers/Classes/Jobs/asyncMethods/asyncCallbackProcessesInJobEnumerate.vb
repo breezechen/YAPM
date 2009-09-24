@@ -97,7 +97,7 @@ Public Class asyncCallbackProcessesInJobEnumerate
                     Try
                         ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
                     Catch ex As Exception
-                        '
+                        Misc.ShowDebugError(ex)
                     End Try
                 End If
 

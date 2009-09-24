@@ -84,7 +84,7 @@ Public Class frmSearchMonitor
 
                 Next
             Catch ex As Exception
-                '
+                Misc.ShowDebugError(ex)
             End Try
 
             ' List all counters with an instance
@@ -115,11 +115,11 @@ Public Class frmSearchMonitor
 
                         Next
                     Catch ex As Exception
-                        '
+                        Misc.ShowDebugError(ex)
                     End Try
                 End If
             Catch ex As Exception
-                '
+                Misc.ShowDebugError(ex)
             End Try
 
         Next

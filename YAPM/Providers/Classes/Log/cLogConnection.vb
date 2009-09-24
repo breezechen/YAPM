@@ -79,7 +79,7 @@ Public Class cLogConnection
                     If Connected IsNot Nothing AndAlso _control.Created Then _
                         _control.Invoke(Connected, True)
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
 
         End Select

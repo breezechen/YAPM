@@ -572,7 +572,7 @@ Public Class frmProcessInfo
                     gpProcGeneralFile.Text = "Image file (not verified)"
                 End If
             Catch ex As Exception
-                '
+                Misc.ShowDebugError(ex)
             End Try
         Else
             gpProcGeneralFile.Text = "Image file (no verification was made)"
@@ -936,7 +936,7 @@ Public Class frmProcessInfo
             Next
             stream.Close()
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
 
     End Sub

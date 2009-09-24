@@ -488,7 +488,7 @@ Public Class frmMain
             _tab.SelectedTab.Show()
 
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 
@@ -1511,7 +1511,7 @@ Public Class frmMain
                         g.HeaderAlignment = HorizontalAlignment.Center
                         Me.lvMonitorReport.Groups.Add(g)
                     Catch ex As Exception
-                        '
+                        Misc.ShowDebugError(ex)
                     End Try
 
                     Dim lvit As New ListViewItem(it.CounterName)
@@ -2668,7 +2668,7 @@ Public Class frmMain
                 Try
                     frm.Close()
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
             End If
         Next
@@ -3256,7 +3256,7 @@ Public Class frmMain
                     Me.Ribbon.ActiveTab = Me.ProcessTab
                 End If
             Catch ex As Exception
-                '
+                Misc.ShowDebugError(ex)
             End Try
         Next
 
@@ -3742,7 +3742,7 @@ Public Class frmMain
             Me.sbPanelServices.Text = Me.lvServices.Items.Count & " services"
 
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
 
     End Sub

@@ -199,7 +199,7 @@ Public Class cMonitor
         Try
             _colInfos.Add(it, Key)
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
     End Sub
 

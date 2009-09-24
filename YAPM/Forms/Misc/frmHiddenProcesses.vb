@@ -41,7 +41,7 @@ Public Class frmHiddenProcesses
         Try
             theConnection.Connect()
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
         Me.TimerProcess.Enabled = True
 

@@ -330,7 +330,7 @@ Public Class cFile
             ft = CStr(My.Computer.Registry.GetValue("HKEY_CLASSES_ROOT\" & ft, "", ""))
             _FileType = CStr(IIf(ft = vbNullString, "Unknown", ft))
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
 
         ' Short name/path
@@ -504,7 +504,7 @@ Public Class cFile
             My.Computer.FileSystem.MoveFile(_Path, dest & "\" & Me.Name, FileIO.UIOption.AllDialogs)
             _Path = dest & "\" & Me.Name
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
         Return _Path
     End Function
@@ -525,7 +525,7 @@ Public Class cFile
             My.Computer.FileSystem.RenameFile(_Path, newName)
             _Path = GetParentDir(_Path) & newName
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
         Return _Path
     End Function

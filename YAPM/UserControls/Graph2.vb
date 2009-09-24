@@ -152,7 +152,7 @@ Public Class Graph2
                     DrawValues2(e.Graphics)
                 End If
             Catch ex As Exception
-                '
+                Misc.ShowDebugError(ex)
             End Try
             DrawLegend(e.Graphics)
         End If

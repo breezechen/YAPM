@@ -54,7 +54,7 @@ Public Class cEnvironment
                         Try
                             AppActivate(hPid)
                         Catch ex As Exception
-                            '
+                            Misc.ShowDebugError(ex)
                         End Try
                     End If
                     Native.Api.NativeFunctions.UnmapViewOfFile(pMem)
@@ -236,7 +236,7 @@ Public Class cEnvironment
                 Native.Api.NativeFunctions.ExitProcess(0)
             End If
         Catch ex As Exception
-            'ex = ex
+            Misc.ShowDebugError(ex)
         End Try
 
     End Sub

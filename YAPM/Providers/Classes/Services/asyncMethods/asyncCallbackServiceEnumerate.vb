@@ -76,7 +76,7 @@ Public Class asyncCallbackServiceEnumerate
             'If deg IsNot Nothing AndAlso ctrl.Created Then _
             ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
 
     End Sub
@@ -115,7 +115,7 @@ Public Class asyncCallbackServiceEnumerate
                 Try
                     ctrl.Invoke(deg, res, _dico, msg, 0)
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
 
             Case Else
@@ -130,7 +130,7 @@ Public Class asyncCallbackServiceEnumerate
                     'If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
                 Catch ex As Exception
-                    '
+                    Misc.ShowDebugError(ex)
                 End Try
 
         End Select

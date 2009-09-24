@@ -93,7 +93,7 @@ Public Class cTrayIcon
             oIcon = Icon.FromHandle(bm.GetHicon())
 
         Catch ex As Exception
-            '
+            Misc.ShowDebugError(ex)
         End Try
 
         ' MUST destroy previous icon to avoid memory exception after long time...
