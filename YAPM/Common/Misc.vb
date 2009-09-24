@@ -416,7 +416,9 @@ Namespace Common
                     End Try
                 Else
                     Try
-                        regKey.DeleteSubKey("taskmgr.exe")
+                        If regKey.OpenSubKey("taskmgr.exe", False) IsNot Nothing Then
+                            regKey.DeleteSubKey("taskmgr.exe")
+                        End If
                     Catch ex As Exception
                         Misc.ShowDebugError(ex)
                     End Try

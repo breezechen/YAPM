@@ -934,22 +934,24 @@ Namespace Native.Objects
             Dim pObj As ProcessTerminationStruct = CType(context,  _
                                                             ProcessTerminationStruct)
 
-            ' Wait process to terminate (infinite timeout)
-            ' -1 != INFINITE, but if we use the INFINITE value (Const INFINITE = &HFFFF)
-            ' it just waits 65 seconds... Oh yeah -__-
-            Dim ret As NativeEnums.WaitResult = _
-                    NativeFunctions.WaitForSingleObject(pObj.ProcessHandle, -1)
+            If pObj.ProcessHandle.IsNotNull Then
+                ' Wait process to terminate (infinite timeout)
+                ' -1 != INFINITE, but if we use the INFINITE value (Const INFINITE = &HFFFF)
+                ' it just waits 65 seconds... Oh yeah -__-
+                Dim ret As NativeEnums.WaitResult = _
+                        NativeFunctions.WaitForSingleObject(pObj.ProcessHandle, -1)
 
-            ' Get exit code
-            Dim exCode As UInteger
-            NativeFunctions.GetExitCodeProcess(pObj.ProcessHandle, exCode)
+                ' Get exit code
+                Dim exCode As UInteger
+                NativeFunctions.GetExitCodeProcess(pObj.ProcessHandle, exCode)
 
-            If pObj.[Delegate] IsNot Nothing Then
-                Try
-                    pObj.[Delegate].Invoke(exCode)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
+                If pObj.[Delegate] IsNot Nothing Then
+                    Try
+                        pObj.[Delegate].Invoke(exCode)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
+                End If
             End If
 
         End Sub
