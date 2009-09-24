@@ -535,16 +535,8 @@ Public Module Program
     ' Called when a new update is available
     ' It's here cause of thread safety
     Public Sub impNewUpdateAvailableNotification(ByVal release As cUpdate.NewReleaseInfos)
-        Dim ret As DialogResult = _
-                Common.Misc.ShowMsg("YAPM update", _
-                                    "A new version of YAPM is available. Would you like to download it now ?", _
-                                    "Here are the informations about the new version : " & vbNewLine & release.Infos, _
-                                    MessageBoxButtons.YesNo, _
-                                    TaskDialogIcon.Information)
-        If ret = DialogResult.Yes Then
-            ' Download last version
-            cFile.ShellOpenFile(release.Url, IntPtr.Zero)
-        End If
+        Dim frm As New frmNewVersionAvailable(release)
+        frm.ShowDialog()
     End Sub
 
     ' Called when no new update is available

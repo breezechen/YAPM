@@ -49,6 +49,11 @@ Public Class cUpdate
         Public Infos As String
         Public Url As String
         Public Hash As String
+        Public Version As String
+        Public Description As String
+        Public Type As String
+        Public Caption As String
+        Public [Date] As String
         Public Sub New(ByVal aInfos As String, ByVal aUrl As String, ByVal aHash As String)
             Infos = aInfos
             Url = aUrl
@@ -113,6 +118,7 @@ Public Class cUpdate
         Dim updUurl As String = Nothing
         Dim updDate As String = Nothing
         Dim updVersion As String = Nothing
+        Dim updType As String = Nothing
 
         Try
             Dim xmlDoc As XmlDocument = New XmlDocument
@@ -161,6 +167,7 @@ Public Class cUpdate
                         updUurl = _updUurl
                         updDate = _updDate
                         updVersion = _updVersion
+                        updType = sType
                     End If
 
                 End If
@@ -188,6 +195,13 @@ Public Class cUpdate
             sInfos = sInfosL & vbNewLine & "Description : " & updDescription
             newRelease = New NewReleaseInfos(sInfos, updUurl, updHash)
             newReleaseL = New NewReleaseInfos(sInfosL, updUurl, updHash)
+            With newRelease
+                .Type = updType
+                .Version = updVersion
+                .Caption = updCaption
+                .Date = updDate
+                .Description = updDescription
+            End With
         End If
 
 

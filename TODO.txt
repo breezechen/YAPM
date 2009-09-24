@@ -3,7 +3,6 @@ TODO LIST
 Refactoring bugs
 - 64TODO
 
-- ajouter 'connection bureau à distance' dans frmConnection (appel à mstsc.exe)
 - virer PtrToStructure et n'utiliser que MemoryAlloc
 
 

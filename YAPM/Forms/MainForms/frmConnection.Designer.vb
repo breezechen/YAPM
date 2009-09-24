@@ -23,7 +23,7 @@ Partial Class frmConnection
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim SecureString1 As System.Security.SecureString = New System.Security.SecureString
+        Dim SecureString2 As System.Security.SecureString = New System.Security.SecureString
         Me.optLocal = New System.Windows.Forms.RadioButton
         Me.optWMI = New System.Windows.Forms.RadioButton
         Me.optServer = New System.Windows.Forms.RadioButton
@@ -47,6 +47,7 @@ Partial Class frmConnection
         Me.cmdShutdown = New System.Windows.Forms.Button
         Me.cbShutdown = New System.Windows.Forms.ComboBox
         Me.chkForceShutdown = New System.Windows.Forms.CheckBox
+        Me.cmdTerminal = New System.Windows.Forms.Button
         Me.gpServer.SuspendLayout()
         Me.gpWMI.SuspendLayout()
         Me.gpShutdown.SuspendLayout()
@@ -183,7 +184,7 @@ Partial Class frmConnection
         Me.txtServerPassword.Location = New System.Drawing.Point(221, 45)
         Me.txtServerPassword.Name = "txtServerPassword"
         Me.txtServerPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtServerPassword.SecureText = SecureString1
+        Me.txtServerPassword.SecureText = SecureString2
         Me.txtServerPassword.Size = New System.Drawing.Size(87, 22)
         Me.txtServerPassword.TabIndex = 15
         Me.txtServerPassword.UseSystemPasswordChar = True
@@ -277,11 +278,21 @@ Partial Class frmConnection
         Me.chkForceShutdown.Text = "Force"
         Me.chkForceShutdown.UseVisualStyleBackColor = True
         '
+        'cmdTerminal
+        '
+        Me.cmdTerminal.Location = New System.Drawing.Point(172, 197)
+        Me.cmdTerminal.Name = "cmdTerminal"
+        Me.cmdTerminal.Size = New System.Drawing.Size(146, 23)
+        Me.cmdTerminal.TabIndex = 16
+        Me.cmdTerminal.Text = "Terminal Services Client"
+        Me.cmdTerminal.UseVisualStyleBackColor = True
+        '
         'frmConnection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(339, 299)
+        Me.Controls.Add(Me.cmdTerminal)
         Me.Controls.Add(Me.gpShutdown)
         Me.Controls.Add(Me.cmdCancel)
         Me.Controls.Add(Me.cmdConnect)
@@ -331,4 +342,5 @@ Partial Class frmConnection
     Friend WithEvents chkForceShutdown As System.Windows.Forms.CheckBox
     Friend WithEvents txtPort As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents cmdTerminal As System.Windows.Forms.Button
 End Class

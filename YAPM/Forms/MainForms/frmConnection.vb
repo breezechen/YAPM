@@ -65,8 +65,10 @@ Public Class frmConnection
         SetToolTip(Me.optServer, "Remote connection with the use of a server")
         SetToolTip(Me.optWMI, "Remote connection with the use of WMI")
         SetToolTip(Me.txtPort, "Port to use to connect to remote machine")
+        SetToolTip(Me.cmdTerminal, "Start Microsoft terminal service client")
 
         Me.txtPort.Text = CStr(My.Settings.RemotePort)
+        Me.cmdTerminal.Enabled = IO.File.Exists(System.Environment.GetFolderPath(Environment.SpecialFolder.System) & "\mstsc.exe")
 
     End Sub
 
@@ -300,4 +302,7 @@ Public Class frmConnection
 
 #End Region
 
+    Private Sub cmdTerminal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdTerminal.Click
+        cFile.ShellOpenFile(System.Environment.GetFolderPath(Environment.SpecialFolder.System) & "\mstsc.exe", Me.Handle)
+    End Sub
 End Class
