@@ -291,7 +291,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="CoefTimeMul" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">200</Value>
+      <Value Profile="(Default)">250</Value>
     </Setting>
   </Settings>
 </SettingsFile>

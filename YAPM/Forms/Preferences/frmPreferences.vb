@@ -343,7 +343,7 @@ Public Class frmPreferences
         Me.chkUpdateBeta.Checked = False
         Me.chkUpdateAuto.Checked = False
         Me.txtUpdateServer.Text = "http://yaprocmon.sourceforge.net/update.xml"
-        Me.valCoefRemote.Value = 200
+        Me.valCoefRemote.Value = 250
         If Me.chkClassicMsgbox.Enabled Then
             Me.chkClassicMsgbox.Checked = True
         End If
