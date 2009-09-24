@@ -73,6 +73,7 @@ Public Class frmPreferences
         My.Settings.UpdateAuto = Me.chkUpdateAuto.Checked
         My.Settings.UpdateServer = Me.txtUpdateServer.Text
         My.Settings.ShowClassicMessageBoxes = Me.chkClassicMsgbox.Checked
+        My.Settings.CoefTimeMul = CInt(Me.valCoefRemote.Value)
 
         If Me.chkUnlimitedBuf.Checked Then
             My.Settings.HistorySize = -1
@@ -192,6 +193,7 @@ Public Class frmPreferences
         SetToolTip(Me.cmdUpdateCheckNow, "Check for updates now.")
         SetToolTip(Me.txtUpdateServer, "Update server.")
         SetToolTip(Me.chkClassicMsgbox, "Display classical messageboxes (Windows XP style)")
+        SetToolTip(Me.valCoefRemote, "Coefficient for update interval in case of remote monitoring." & vbNewLine & "For example, if you set 200, all refreshment intervals for remote monitoring will" & vbNewLine & "be 2 times greater than intervals for local monitoring.")
 
 
         ' Set control's values
@@ -229,6 +231,7 @@ Public Class frmPreferences
         Me.txtUpdateServer.Text = My.Settings.UpdateServer
         Me.chkClassicMsgbox.Checked = My.Settings.ShowClassicMessageBoxes
         Me.chkClassicMsgbox.Enabled = cEnvironment.SupportsTaskDialog
+        Me.valCoefRemote.Value = My.Settings.CoefTimeMul
 
         If My.Settings.HistorySize > 0 Then
             Me.bufferSize.Value = CInt(My.Settings.HistorySize / 1024)
@@ -340,6 +343,7 @@ Public Class frmPreferences
         Me.chkUpdateBeta.Checked = False
         Me.chkUpdateAuto.Checked = False
         Me.txtUpdateServer.Text = "http://yaprocmon.sourceforge.net/update.xml"
+        Me.valCoefRemote.Value = 200
         If Me.chkClassicMsgbox.Enabled Then
             Me.chkClassicMsgbox.Checked = True
         End If

@@ -127,6 +127,12 @@ Public Class cConnection
         End Select
     End Function
 
+    Public ReadOnly Property RefreshmentCoefficient() As Double
+        Get
+            Return CDbl(If(_conType = TypeOfConnection.LocalConnection, 1, My.Settings.CoefTimeMul / 100))
+        End Get
+    End Property
+
 
     Public Sub New()
         '

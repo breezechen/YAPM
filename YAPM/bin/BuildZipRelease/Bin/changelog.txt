@@ -10,6 +10,7 @@ CHANGES FROM 2.2.0
 - Now save last remote machine name
 - Added 'Start Terminal Service Client' button
 - Added 'Display list of data received from server' feature
+- Added 'Remote monitoring refreshement interval coefficient' option
 - Updated Help File
 
 * Bug fixes

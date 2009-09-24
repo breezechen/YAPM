@@ -49,9 +49,10 @@ Public Class frmConnection
     End Sub
 
     Private Sub frmConnection_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
         Call hideWithEchapKey(Me)
         Call changeInfos()
-        'Me.txtServerMachine.Text = My.Computer.Name
+        Native.Functions.Misc.SetTheme(Me.lvData.Handle)
 
         SetToolTip(Me.txtDesc, "Description of the type of connection")
         SetToolTip(Me.txtServerIP, "Name (or IP) of the server machine")

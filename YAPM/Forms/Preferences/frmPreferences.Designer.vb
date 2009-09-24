@@ -55,6 +55,7 @@ Partial Class frmPreferences
         Me.lvHighlightingProcess = New System.Windows.Forms.ListView
         Me.Header = New System.Windows.Forms.ColumnHeader
         Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.chkClassicMsgbox = New System.Windows.Forms.CheckBox
         Me.cbShownTab = New System.Windows.Forms.ComboBox
         Me.chkFixedTab = New System.Windows.Forms.CheckBox
         Me.chkStatusBar = New System.Windows.Forms.CheckBox
@@ -102,7 +103,8 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.chkClassicMsgbox = New System.Windows.Forms.CheckBox
+        Me.valCoefRemote = New System.Windows.Forms.NumericUpDown
+        Me.Label14 = New System.Windows.Forms.Label
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -122,6 +124,7 @@ Partial Class frmPreferences
         CType(Me.txtServiceIntervall, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtProcessIntervall, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
+        CType(Me.valCoefRemote, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl
@@ -378,6 +381,16 @@ Partial Class frmPreferences
         Me.TabPage3.Text = "Display"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'chkClassicMsgbox
+        '
+        Me.chkClassicMsgbox.AutoSize = True
+        Me.chkClassicMsgbox.Location = New System.Drawing.Point(181, 169)
+        Me.chkClassicMsgbox.Name = "chkClassicMsgbox"
+        Me.chkClassicMsgbox.Size = New System.Drawing.Size(167, 17)
+        Me.chkClassicMsgbox.TabIndex = 14
+        Me.chkClassicMsgbox.Text = "Show classic messageboxes"
+        Me.chkClassicMsgbox.UseVisualStyleBackColor = True
+        '
         'cbShownTab
         '
         Me.cbShownTab.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -578,6 +591,8 @@ Partial Class frmPreferences
         '
         'GroupBox2
         '
+        Me.GroupBox2.Controls.Add(Me.valCoefRemote)
+        Me.GroupBox2.Controls.Add(Me.Label14)
         Me.GroupBox2.Controls.Add(Me.txtJobInterval)
         Me.GroupBox2.Controls.Add(Me.Label12)
         Me.GroupBox2.Controls.Add(Me.txtSysInfoInterval)
@@ -846,15 +861,24 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
-        'chkClassicMsgbox
+        'valCoefRemote
         '
-        Me.chkClassicMsgbox.AutoSize = True
-        Me.chkClassicMsgbox.Location = New System.Drawing.Point(181, 169)
-        Me.chkClassicMsgbox.Name = "chkClassicMsgbox"
-        Me.chkClassicMsgbox.Size = New System.Drawing.Size(167, 17)
-        Me.chkClassicMsgbox.TabIndex = 14
-        Me.chkClassicMsgbox.Text = "Show classic messageboxes"
-        Me.chkClassicMsgbox.UseVisualStyleBackColor = True
+        Me.valCoefRemote.Location = New System.Drawing.Point(367, 135)
+        Me.valCoefRemote.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
+        Me.valCoefRemote.Minimum = New Decimal(New Integer() {100, 0, 0, 0})
+        Me.valCoefRemote.Name = "valCoefRemote"
+        Me.valCoefRemote.Size = New System.Drawing.Size(55, 22)
+        Me.valCoefRemote.TabIndex = 22
+        Me.valCoefRemote.Value = New Decimal(New Integer() {200, 0, 0, 0})
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(205, 138)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(156, 13)
+        Me.Label14.TabIndex = 21
+        Me.Label14.Text = "Coeff. for remote monitoring"
         '
         'frmPreferences
         '
@@ -901,6 +925,7 @@ Partial Class frmPreferences
         CType(Me.txtProcessIntervall, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
+        CType(Me.valCoefRemote, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -974,4 +999,6 @@ Partial Class frmPreferences
     Friend WithEvents txtUpdateServer As System.Windows.Forms.TextBox
     Friend WithEvents Label13 As System.Windows.Forms.Label
     Friend WithEvents chkClassicMsgbox As System.Windows.Forms.CheckBox
+    Friend WithEvents valCoefRemote As System.Windows.Forms.NumericUpDown
+    Friend WithEvents Label14 As System.Windows.Forms.Label
 End Class

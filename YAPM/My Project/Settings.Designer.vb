@@ -1218,6 +1218,18 @@ Namespace My
                 Me("RemoteMachineUserW") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("250")>  _
+        Public Property CoefTimeMul() As Integer
+            Get
+                Return CType(Me("CoefTimeMul"),Integer)
+            End Get
+            Set
+                Me("CoefTimeMul") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

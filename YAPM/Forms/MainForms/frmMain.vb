@@ -2633,6 +2633,14 @@ Public Class frmMain
         Me.lvNetwork.CatchErrors = Not (_local)
         Me.lvJob.CatchErrors = Not (_local)
 
+        ' Set new refreshment intervals
+        Me.timerProcess.Interval = CInt(My.Settings.ProcessInterval * Program.Connection.RefreshmentCoefficient)
+        Me.timerServices.Interval = CInt(My.Settings.ServiceInterval * Program.Connection.RefreshmentCoefficient)
+        Me.timerNetwork.Interval = CInt(My.Settings.NetworkInterval * Program.Connection.RefreshmentCoefficient)
+        Me.timerTask.Interval = CInt(My.Settings.TaskInterval * Program.Connection.RefreshmentCoefficient)
+        Me.timerTrayIcon.Interval = CInt(My.Settings.TrayInterval * Program.Connection.RefreshmentCoefficient)
+        Me.timerJobs.Interval = CInt(My.Settings.JobInterval * Program.Connection.RefreshmentCoefficient)
+
         ' Enable all refreshments
         Me.timerProcess.Enabled = True ' _local
         Me.timerServices.Enabled = True ' _local

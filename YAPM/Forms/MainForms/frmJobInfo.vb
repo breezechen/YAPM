@@ -205,6 +205,7 @@ Public Class frmJobInfo
         _notWMI = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
 
         Me.Timer.Enabled = True
+        Me.TimerLimits.Enabled = True
         Me.cmdSetLimits.Enabled = _notWMI
 
     End Sub
@@ -223,6 +224,8 @@ Public Class frmJobInfo
             Me.lvProcess.ConnectionObj = theConnection
             Me.lvLimits.ConnectionObj = theConnection
             theConnection.Connect()
+            Me.Timer.Interval = CInt(1000 * Program.Connection.RefreshmentCoefficient)
+            Me.TimerLimits.Interval = CInt(1000 * Program.Connection.RefreshmentCoefficient)
         Catch ex As Exception
             Misc.ShowError(ex, "Unable to connect")
         End Try

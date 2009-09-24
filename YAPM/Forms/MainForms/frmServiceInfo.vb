@@ -345,12 +345,12 @@ Public Class frmServiceInfo
     ' Connection
     Public Sub Connect()
         ' Connect providers
-        'theConnection.CopyFromInstance(Program.Connection)
         Try
             theConnection = Program.Connection
             Me.tv.ConnectionObj = theConnection
             Me.tv2.ConnectionObj = theConnection
             theConnection.Connect()
+            Me.Timer.Interval = CInt(1000 * Program.Connection.RefreshmentCoefficient)
         Catch ex As Exception
             Misc.ShowError(ex, "Unable to connect")
         End Try

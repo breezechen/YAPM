@@ -41,12 +41,12 @@ Public Class Pref
     ' Apply pref
     Public Sub Apply()
         Static first As Boolean = True
-        _frmMain.timerProcess.Interval = My.Settings.ProcessInterval
-        _frmMain.timerServices.Interval = My.Settings.ServiceInterval
-        _frmMain.timerNetwork.Interval = My.Settings.NetworkInterval
-        _frmMain.timerTask.Interval = My.Settings.TaskInterval
-        _frmMain.timerTrayIcon.Interval = My.Settings.TrayInterval
-        _frmMain.timerJobs.Interval = My.Settings.JobInterval
+        _frmMain.timerProcess.Interval = CInt(My.Settings.ProcessInterval * Program.Connection.RefreshmentCoefficient)
+        _frmMain.timerServices.Interval = CInt(My.Settings.ServiceInterval * Program.Connection.RefreshmentCoefficient)
+        _frmMain.timerNetwork.Interval = CInt(My.Settings.NetworkInterval * Program.Connection.RefreshmentCoefficient)
+        _frmMain.timerTask.Interval = CInt(My.Settings.TaskInterval * Program.Connection.RefreshmentCoefficient)
+        _frmMain.timerTrayIcon.Interval = CInt(My.Settings.TrayInterval * Program.Connection.RefreshmentCoefficient)
+        _frmMain.timerJobs.Interval = CInt(My.Settings.JobInterval * Program.Connection.RefreshmentCoefficient)
         Select Case My.Settings.Priority
             Case 0
                 Process.GetCurrentProcess.PriorityClass = ProcessPriorityClass.Idle

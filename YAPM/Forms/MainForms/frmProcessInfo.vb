@@ -1346,6 +1346,7 @@ Public Class frmProcessInfo
             Me.lvWindows.ConnectionObj = theConnection
             Me.lvProcNetwork.ConnectionObj = theConnection
             theConnection.Connect()
+            Me.timerProcPerf.Interval = CInt(1000 * Program.Connection.RefreshmentCoefficient)
         Catch ex As Exception
             Misc.ShowError(ex, "Unable to connect")
         End Try
