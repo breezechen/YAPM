@@ -111,7 +111,7 @@ Public Class cShutdownConnection
         _connected = False
     End Sub
 
-    Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
+    Protected Shadows Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
         '
     End Sub
 

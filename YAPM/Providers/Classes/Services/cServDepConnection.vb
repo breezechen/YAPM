@@ -130,15 +130,12 @@ Public Class cServDepConnection
         _connected = False
     End Sub
 
-    Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
+    Protected Shadows Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
 
-        ' OK, THIS IS NOT THE BEST WAY TO AVOID THE BUG
-        Static _antiEcho As Boolean = False
-        _antiEcho = Not (_antiEcho)
-        If _antiEcho Then
+        ' Exit immediately if not connected
+        If Program.Connection.IsConnected = False OrElse Program.Connection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaSocket Then
             Exit Sub
         End If
-        ' OK, THIS IS NOT THE BEST WAY TO AVOID THE BUG
 
         If data Is Nothing Then
             Trace.WriteLine("Serialization error")
