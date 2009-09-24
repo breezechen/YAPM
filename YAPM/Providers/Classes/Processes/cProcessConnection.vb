@@ -189,6 +189,11 @@ Public Class cProcessConnection
 
     Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
 
+        ' Exit immediately if not connected
+        If Program.Connection.IsConnected = False Then
+            Exit Sub
+        End If
+
         If _processors = 0 Then
             ' Send the request
             Try
@@ -216,11 +221,11 @@ Public Class cProcessConnection
             Trace.WriteLine("Serialization error")
             Exit Sub
         End If
-
         If data.Type = cSocketData.DataType.RequestedList AndAlso _
             data.Order = cSocketData.OrderType.RequestProcessList Then
             If _instanceId = data.InstanceId Then
                 ' OK it is for me
+                Beep()
                 _procEnum.GotListFromSocket(data.GetList, data.GetKeys)
             End If
         End If

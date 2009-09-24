@@ -155,6 +155,11 @@ Public Class cServiceConnection
 
     Protected Overrides Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
 
+        ' Exit immediately if not connected
+        If Program.Connection.IsConnected = False Then
+            Exit Sub
+        End If
+
         ' OK, THIS IS NOT THE BEST WAY TO AVOID THE BUG
         Static _antiEcho As Boolean = False
         _antiEcho = Not (_antiEcho)

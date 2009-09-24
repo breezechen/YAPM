@@ -68,6 +68,9 @@ Public Class frmConnection
         SetToolTip(Me.cmdTerminal, "Start Microsoft terminal service client")
 
         Me.txtPort.Text = CStr(My.Settings.RemotePort)
+        Me.txtServerMachine.Text = My.Settings.RemoteMachineNameW
+        Me.txtServerIP.Text = My.Settings.RemoteMachineName
+        Me.txtServerUser.Text = My.Settings.RemoteMachineUserW
         Me.cmdTerminal.Enabled = IO.File.Exists(System.Environment.GetFolderPath(Environment.SpecialFolder.System) & "\mstsc.exe")
 
     End Sub
@@ -304,5 +307,17 @@ Public Class frmConnection
 
     Private Sub cmdTerminal_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdTerminal.Click
         cFile.ShellOpenFile(System.Environment.GetFolderPath(Environment.SpecialFolder.System) & "\mstsc.exe", Me.Handle)
+    End Sub
+
+    Private Sub txtServerMachine_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtServerMachine.TextChanged
+        My.Settings.RemoteMachineNameW = Me.txtServerMachine.Text
+    End Sub
+
+    Private Sub txtServerUser_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtServerUser.TextChanged
+        My.Settings.RemoteMachineUserW = Me.txtServerUser.Text
+    End Sub
+
+    Private Sub txtServerIP_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtServerIP.TextChanged
+        My.Settings.RemoteMachineName = Me.txtServerIP.Text
     End Sub
 End Class

@@ -78,6 +78,8 @@ Public Class AsynchronousClient
     End Sub
 
     Public Sub Disconnect()
+        ServerTalk.ClientToServerQueue.Clear()
+        _ServerTalk.SendMessageToServer(New CommsInfo("clientDisconnect"))
         RaiseEvent Disconnected()
     End Sub
 

@@ -1182,6 +1182,42 @@ Namespace My
                 Me("ShowClassicMessageBoxes") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property RemoteMachineName() As String
+            Get
+                Return CType(Me("RemoteMachineName"),String)
+            End Get
+            Set
+                Me("RemoteMachineName") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property RemoteMachineNameW() As String
+            Get
+                Return CType(Me("RemoteMachineNameW"),String)
+            End Get
+            Set
+                Me("RemoteMachineNameW") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property RemoteMachineUserW() As String
+            Get
+                Return CType(Me("RemoteMachineUserW"),String)
+            End Get
+            Set
+                Me("RemoteMachineUserW") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

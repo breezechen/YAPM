@@ -23,7 +23,7 @@ Partial Class frmConnection
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim SecureString2 As System.Security.SecureString = New System.Security.SecureString
+        Dim SecureString3 As System.Security.SecureString = New System.Security.SecureString
         Me.optLocal = New System.Windows.Forms.RadioButton
         Me.optWMI = New System.Windows.Forms.RadioButton
         Me.optServer = New System.Windows.Forms.RadioButton
@@ -184,7 +184,7 @@ Partial Class frmConnection
         Me.txtServerPassword.Location = New System.Drawing.Point(221, 45)
         Me.txtServerPassword.Name = "txtServerPassword"
         Me.txtServerPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtServerPassword.SecureText = SecureString2
+        Me.txtServerPassword.SecureText = SecureString3
         Me.txtServerPassword.Size = New System.Drawing.Size(87, 22)
         Me.txtServerPassword.TabIndex = 15
         Me.txtServerPassword.UseSystemPasswordChar = True

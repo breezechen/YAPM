@@ -63,7 +63,6 @@ Public Class AsynchronousSocketListener
 
     Public Sub Connect(ByVal port As Integer)
         ThreadPool.QueueUserWorkItem(AddressOf pvtConnect, CObj(port))
-
     End Sub 'Main
 
 
@@ -99,7 +98,12 @@ Public Class AsynchronousSocketListener
             ' allow rest of the system to continue whilst waiting...
             If ServerTalk.ClientToServerQueue.Count > 0 Then
                 Dim message As CommsInfo = DirectCast(ServerTalk.ClientToServerQueue.Dequeue(), CommsInfo)
-                ClientToHost(message)
+                If message.Message = "clientDisconnect" Then
+                    ' Oh, the client has disconnected !
+                    ServerTalk.ClientToServerQueue.Clear()
+                Else
+                    ClientToHost(message)
+                End If
             End If
         End While
     End Sub
