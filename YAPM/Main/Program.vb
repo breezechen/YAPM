@@ -221,6 +221,9 @@ Public Module Program
 
 
         ' ======= Some basic initialisations
+        ' /!\ Looks like Comctl32 v6 could not be initialized before
+        ' a form is loaded. So as Comctl32 v5 can not display VistaDialogBoxes,
+        ' all error messages before instanciation of a form should use classical style.
         Application.EnableVisualStyles()
         Application.SetCompatibleTextRenderingDefault(False)    ' Use GDI, not GDI+
 
@@ -233,7 +236,7 @@ Public Module Program
 
         ' ======= Check if framework is 2.0 or above
         If cEnvironment.IsFramework2OrAbove = False Then
-            Misc.ShowError(".Net Framework 2.0 must be installed.")
+            Misc.ShowError(".Net Framework 2.0 must be installed.", True)
             Application.Exit()
         End If
 
@@ -241,7 +244,7 @@ Public Module Program
 
         ' ======= Check if system is 32 bits
         If cEnvironment.Is32Bits = False Then
-            Misc.ShowMsg("Warning !", "YAPM starts on a x64 system.", "x64 support is still experimental !", MessageBoxButtons.OK, TaskDialogIcon.ShieldWarning)
+            Misc.ShowMsg("Warning !", "YAPM starts on a x64 system.", "x64 support is still experimental !", MessageBoxButtons.OK, TaskDialogIcon.ShieldWarning, , True)
         End If
 
 
@@ -326,7 +329,7 @@ Public Module Program
                     ' Try to update settings from a previous version of YAPM
                     My.Settings.Upgrade()
                 Catch ex As Exception
-                    '
+                    ex = ex
                 End Try
                 My.Settings.ShouldUpgrade = False
                 My.Settings.Save()
@@ -338,7 +341,7 @@ Public Module Program
                                      "Please read this :", _
                                      Pref.MessageFirstStartOfYAPM, _
                                      MessageBoxButtons.OK, _
-                                     TaskDialogIcon.ShieldWarning)
+                                     TaskDialogIcon.ShieldWarning, , True)
                         My.Settings.FirstTime = False
                         Program.Preferences.Save()
                     End If
@@ -346,7 +349,7 @@ Public Module Program
                     cProcess.BuffSize = My.Settings.HistorySize
                 Catch ex As Exception
                     ' Preference file corrupted/missing
-                    Misc.ShowMsg("Startup error", "Failed to load preferences.", "Preference file is missing or corrupted and will be now recreated.", MessageBoxButtons.OK, TaskDialogIcon.ShieldError)
+                    Misc.ShowMsg("Startup error", "Failed to load preferences.", "Preference file is missing or corrupted and will be now recreated.", MessageBoxButtons.OK, TaskDialogIcon.ShieldError, True)
                     Program.Preferences.SetDefault()
                 End Try
             End If

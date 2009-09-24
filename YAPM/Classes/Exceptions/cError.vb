@@ -75,14 +75,14 @@ Public Class cError
     End Sub
 
     ' Show message
-    Public Sub ShowMessage()
+    Public Sub ShowMessage(Optional ByVal forceClassical As Boolean = False)
         If Program.Parameters.ModeServer = False Then
             ' The we have to display our error as a message box
             Misc.ShowMsg("An handled error occured", _
                          CustomMessage, _
                          "Detailed information : " & Message, _
                          MessageBoxButtons.OK, _
-                         TaskDialogIcon.Error)
+                         TaskDialogIcon.Error, , forceClassical)
         Else
             ' Then we have to send the error to the client
             _frmServer.SendErrorToClient(Me)

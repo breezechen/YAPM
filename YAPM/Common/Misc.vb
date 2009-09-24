@@ -1002,14 +1002,15 @@ Namespace Common
                                     Optional ByVal Text As String = "", _
                                     Optional ByVal Buttons As MessageBoxButtons = MessageBoxButtons.OK, _
                                     Optional ByVal Icon As TaskDialogIcon = TaskDialogIcon.Information, _
-                                    Optional ByVal DefButtonIsNoButton As Boolean = False) As DialogResult
+                                    Optional ByVal DefButtonIsNoButton As Boolean = False, _
+                                    Optional ByVal forceClassical As Boolean = False) As DialogResult
 
             ' No messageboxes if server mode !
             If Program.Parameters.ModeServer Then
                 Return DialogResult.None
             End If
 
-            If cEnvironment.SupportsTaskDialog AndAlso My.Settings.ShowClassicMessageBoxes = False Then
+            If cEnvironment.SupportsTaskDialog AndAlso My.Settings.ShowClassicMessageBoxes = False AndAlso forceClassical = False Then
                 ' Show special task dialog
                 Dim but As TaskDialogCommonButtons  ' Cancel Close No None Ok Retry Yes
                 Select Case Buttons
@@ -1097,13 +1098,13 @@ Namespace Common
         End Function
 
         ' Show an error message
-        Public Shared Sub ShowError(ByVal ex As Exception, ByVal msg As String)
+        Public Shared Sub ShowError(ByVal ex As Exception, ByVal msg As String, Optional ByVal forceClassical As Boolean = False)
             Dim t0 As New cError(msg, ex)
-            t0.ShowMessage()
+            t0.ShowMessage(forceClassical)
         End Sub
-        Public Shared Sub ShowError(ByVal msg As String)
+        Public Shared Sub ShowError(ByVal msg As String, Optional ByVal forceClassical As Boolean = False)
             Dim t0 As New cError(msg)
-            t0.ShowMessage()
+            t0.ShowMessage(forceClassical)
         End Sub
 
 
