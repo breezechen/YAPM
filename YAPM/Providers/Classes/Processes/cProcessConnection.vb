@@ -218,7 +218,6 @@ Public Class cProcessConnection
             data.Order = cSocketData.OrderType.RequestProcessList Then
             If _instanceId = data.InstanceId Then
                 ' OK it is for me
-                Beep()
                 _procEnum.GotListFromSocket(data.GetList, data.GetKeys)
             End If
         End If

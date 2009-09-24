@@ -115,7 +115,11 @@ Public Class cConnection
             Case TypeOfConnection.LocalConnection
                 Return "Localhost"
             Case TypeOfConnection.RemoteConnectionViaSocket
-                Return _conSocket.ServerName.ToString & ":" & _conSocket.port & " (server)"
+                If _conSocket.ServerName IsNot Nothing Then
+                    Return _conSocket.ServerName.ToString & ":" & _conSocket.port & " (server)"
+                Else
+                    Return "[NO SERVER] :" & _conSocket.port & " (server)"
+                End If
             Case TypeOfConnection.RemoteConnectionViaWMI
                 Return _conWMI.serverName & " (WMI)"
             Case Else

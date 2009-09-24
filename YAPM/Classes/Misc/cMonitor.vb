@@ -195,7 +195,6 @@ Public Class cMonitor
                 .value = Nothing
             End Try
         End With
-        ' Beep()
         Try
             _colInfos.Add(it, Key)
         Catch ex As Exception
