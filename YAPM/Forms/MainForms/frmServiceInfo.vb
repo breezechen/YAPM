@@ -249,7 +249,7 @@ Public Class frmServiceInfo
                     curServ.Infos.FileInfo = FileVersionInfo.GetVersionInfo(Me.txtServicePath.Text)
                 End If
             Catch ex As Exception
-                ex = ex
+                Misc.ShowDebugError(ex)
             End Try
         End If
 

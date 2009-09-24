@@ -31,6 +31,7 @@ Partial Class frmConnection
         Me.cmdConnect = New System.Windows.Forms.Button
         Me.cmdCancel = New System.Windows.Forms.Button
         Me.gpServer = New System.Windows.Forms.GroupBox
+        Me.cmdShowDatas = New System.Windows.Forms.Button
         Me.txtPort = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.txtServerIP = New System.Windows.Forms.TextBox
@@ -48,7 +49,6 @@ Partial Class frmConnection
         Me.cbShutdown = New System.Windows.Forms.ComboBox
         Me.chkForceShutdown = New System.Windows.Forms.CheckBox
         Me.cmdTerminal = New System.Windows.Forms.Button
-        Me.cmdShowDatas = New System.Windows.Forms.Button
         Me.lvData = New YAPM.DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
@@ -137,6 +137,15 @@ Partial Class frmConnection
         Me.gpServer.TabIndex = 6
         Me.gpServer.TabStop = False
         '
+        'cmdShowDatas
+        '
+        Me.cmdShowDatas.Location = New System.Drawing.Point(159, 44)
+        Me.cmdShowDatas.Name = "cmdShowDatas"
+        Me.cmdShowDatas.Size = New System.Drawing.Size(146, 23)
+        Me.cmdShowDatas.TabIndex = 14
+        Me.cmdShowDatas.Text = "Show received data"
+        Me.cmdShowDatas.UseVisualStyleBackColor = True
+        '
         'txtPort
         '
         Me.txtPort.Location = New System.Drawing.Point(43, 45)
@@ -209,7 +218,6 @@ Partial Class frmConnection
         Me.txtServerUser.Name = "txtServerUser"
         Me.txtServerUser.Size = New System.Drawing.Size(108, 22)
         Me.txtServerUser.TabIndex = 13
-        Me.txtServerUser.Text = "admin"
         '
         'Label13
         '
@@ -226,7 +234,6 @@ Partial Class frmConnection
         Me.txtServerMachine.Name = "txtServerMachine"
         Me.txtServerMachine.Size = New System.Drawing.Size(87, 22)
         Me.txtServerMachine.TabIndex = 11
-        Me.txtServerMachine.Text = "admin-virtual"
         '
         'Label12
         '
@@ -291,15 +298,6 @@ Partial Class frmConnection
         Me.cmdTerminal.TabIndex = 16
         Me.cmdTerminal.Text = "Terminal Services Client"
         Me.cmdTerminal.UseVisualStyleBackColor = True
-        '
-        'cmdShowDatas
-        '
-        Me.cmdShowDatas.Location = New System.Drawing.Point(159, 44)
-        Me.cmdShowDatas.Name = "cmdShowDatas"
-        Me.cmdShowDatas.Size = New System.Drawing.Size(146, 23)
-        Me.cmdShowDatas.TabIndex = 14
-        Me.cmdShowDatas.Text = "Show received data"
-        Me.cmdShowDatas.UseVisualStyleBackColor = True
         '
         'lvData
         '

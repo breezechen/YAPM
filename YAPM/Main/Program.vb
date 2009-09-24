@@ -329,7 +329,7 @@ Public Module Program
                     ' Try to update settings from a previous version of YAPM
                     My.Settings.Upgrade()
                 Catch ex As Exception
-                    ex = ex
+                    Misc.ShowDebugError(ex)
                 End Try
                 My.Settings.ShouldUpgrade = False
                 My.Settings.Save()

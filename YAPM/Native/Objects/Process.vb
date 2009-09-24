@@ -408,7 +408,7 @@ Namespace Native.Objects
                     Try
                         resFile = sb.ToString(0, sb.Length)
                     Catch ex As Exception
-                        ex = ex
+                        Misc.ShowDebugError(ex)
                     End Try
                 End If
             End If

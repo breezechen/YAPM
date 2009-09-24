@@ -118,7 +118,7 @@ Public Class AsynchronousClient
 
             Catch ex As Exception
                 ' Already exists (reconnection)
-                ex = ex
+                Misc.ShowDebugError(ex)
             End Try
             ' now create a transparent proxy to the server component
             Dim obj As Object = Activator.GetObject(GetType(ServerTalk), "tcp://" & pObj.ServerName & ":" & pObj.Port.ToString & "/TalkIsGood")
