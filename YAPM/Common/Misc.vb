@@ -1008,7 +1008,7 @@ Namespace Common
                                     Optional ByVal forceClassical As Boolean = False) As DialogResult
 
             ' No messageboxes if server mode !
-            If Program.Parameters.ModeServer Then
+            If Program.Parameters IsNot Nothing AndAlso Program.Parameters.ModeServer Then
                 Return DialogResult.None
             End If
 
