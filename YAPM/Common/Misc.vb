@@ -1019,7 +1019,7 @@ Namespace Common
                 Return DialogResult.None
             End If
 
-            If cEnvironment.SupportsTaskDialog AndAlso My.Settings.ShowClassicMessageBoxes = False AndAlso forceClassical = False Then
+            If False Then ' cEnvironment.SupportsTaskDialog AndAlso My.Settings.ShowClassicMessageBoxes = False AndAlso forceClassical = False Then
                 ' Show special task dialog
                 Dim but As TaskDialogCommonButtons  ' Cancel Close No None Ok Retry Yes
                 Select Case Buttons

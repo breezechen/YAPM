@@ -230,7 +230,7 @@ Public Class frmPreferences
         Me.chkUpdateAuto.Checked = My.Settings.UpdateAuto
         Me.txtUpdateServer.Text = My.Settings.UpdateServer
         Me.chkClassicMsgbox.Checked = My.Settings.ShowClassicMessageBoxes
-        Me.chkClassicMsgbox.Enabled = cEnvironment.SupportsTaskDialog
+        Me.chkClassicMsgbox.Enabled = False ' cEnvironment.SupportsTaskDialog
         Me.valCoefRemote.Value = My.Settings.CoefTimeMul
 
         If My.Settings.HistorySize > 0 Then
