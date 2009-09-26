@@ -1208,6 +1208,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Misc\locked.gif" />
+    <None Include="Misc\target3.gif" />
     <Content Include="process32.ico" />
     <Content Include="process_custom.ico" />
     <None Include="My Project\app.manifest" />

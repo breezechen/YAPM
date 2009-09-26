@@ -25,16 +25,15 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports YAPM.Native.Api
+Imports YAPM.Common.Misc
 
 Public Class frmFindWindow
-
-#Region "API"
 
     Private Selecting As Boolean ' Amd I currently selecting a window?
     Private BorderDrawn As Boolean ' Is there a border currently drawn that needs To be undrawn?
     Private Myhwnd As IntPtr  ' The current hWnd that has a border drawn on it
+    Private SelectedHwnd As IntPtr  ' The selecte hWnd
 
-#End Region
 
     Private Sub Draw()
         Dim Cursor As NativeStructs.PointApi  ' Cursor position
@@ -245,13 +244,7 @@ Public Class frmFindWindow
         NativeFunctions.ReleaseDC(Myhwnd, hdc)
     End Sub
 
-    Private Sub frmFindWindow_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
-        _frmMain.WindowState = FormWindowState.Normal
-        _frmMain.Show()
-    End Sub
-
     Private Sub Form_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseDown
-        Me.Visible = False
         ' Set the selecting flag
         Selecting = True
         ' Capture all mouse events to this window form
@@ -265,10 +258,11 @@ Public Class frmFindWindow
         If Selecting = False Then Exit Sub
         ' Call the "Draw" subroutine
         Draw()
+        ' Refresh infos
+        RefreshInfos(Myhwnd)
     End Sub
 
     Private Sub Form_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles MyBase.MouseUp
-        Me.Visible = True
         ' If not selecting, then skip
         If Selecting = False Then Exit Sub
         ' Clean up the graphics drawn
@@ -278,16 +272,13 @@ Public Class frmFindWindow
         ' Not selecting
         Selecting = False
         ' Found our handle
-        found(Myhwnd)
+        SelectedHwnd = Myhwnd
         ' Reset the variable
         Myhwnd = IntPtr.Zero
+        Me.cmdGoToProcess.Enabled = (SelectedHwnd.IsNotNull)
     End Sub
 
-    Private Sub frmFindWindow_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        _frmMain.Hide()
-    End Sub
-
-    Private Sub found(ByVal hWnd As IntPtr)
+    Private Sub Found(ByVal hWnd As IntPtr)
 
         ' Get process ID
         Dim pid As Integer
@@ -310,5 +301,38 @@ Public Class frmFindWindow
 
         Me.Close()
 
+    End Sub
+
+    Private Sub RefreshInfos(ByVal hWnd As IntPtr)
+        ' Get thread & process ID
+        Dim pid As Integer
+        Dim tid As Integer = NativeFunctions.GetWindowThreadProcessId(hWnd, pid)
+        If tid > 0 Then
+            Me.lblThread.Text = tid.ToString
+        Else
+            Me.lblThread.Text = NO_INFO_RETRIEVED
+        End If
+        Dim cP As Process = Process.GetProcessById(pid)
+        If cP IsNot Nothing Then
+            Me.lblProcess.Text = cP.ProcessName & " (" & cP.Id.ToString & ")"
+        Else
+            Me.lblProcess.Text = NO_INFO_RETRIEVED
+        End If
+    End Sub
+
+    Private Sub frmFindWindow_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        closeWithEchapKey(Me)
+        SetToolTip(Me.cmdGoToProcess, "Select associated process")
+    End Sub
+
+    Private Sub cmdGoToProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGoToProcess.Click
+        ' Found our handle
+        Found(SelectedHwnd)
+    End Sub
+
+    Private Sub frmFindWindow_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
+        ' Paint an image on our Form (target image)
+        Dim g As Graphics = e.Graphics
+        g.DrawImage(My.Resources.target3, New PointF(12, 46))
     End Sub
 End Class

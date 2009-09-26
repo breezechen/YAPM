@@ -487,6 +487,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property target3() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("target3", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property taskmgr() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("taskmgr", resourceCulture)

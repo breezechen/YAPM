@@ -10,6 +10,7 @@ CHANGES FROM 2.2.0
 - Added 'Start Terminal Service Client' button
 - Added 'Display list of data received from server' feature
 - Added 'Remote monitoring refreshement interval coefficient' option
+- Improved 'select process by its window' feature
 - Updated Help File
 
 * Bug fixes
