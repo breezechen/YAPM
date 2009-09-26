@@ -12,8 +12,11 @@ CHANGES FROM 2.2.0
 - Now "update feature" is much more efficient
 - Added 'Show classic messagebox' option
 - Highly improved exception management
-- Now all messageboxes use Vista style if possible
+- Now save last remote machine name
 - Added 'Start Terminal Service Client' button
+- Added 'Display list of data received from server' feature
+- Added 'Remote monitoring refreshement interval coefficient' option
+- Improved 'select process by its window' feature
 - Updated Help File
 
 * Bug fixes
