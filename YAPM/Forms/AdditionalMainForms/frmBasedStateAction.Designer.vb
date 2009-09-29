@@ -67,7 +67,7 @@ Partial Class frmBasedStateAction
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
         Me.DisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.SimulationConsoleToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.lv = New YAPM.DoubleBufferedLV
+        Me.lv = New DoubleBufferedLV
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
@@ -94,14 +94,14 @@ Partial Class frmBasedStateAction
         'ShowToolStripMenuItem
         '
         Me.ShowToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ShowToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.plus_circle
+        Me.ShowToolStripMenuItem.Image = Global.My.Resources.Resources.plus_circle
         Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
         Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.ShowToolStripMenuItem.Text = "Add"
         '
         'CloseToolStripMenuItem
         '
-        Me.CloseToolStripMenuItem.Image = Global.YAPM.My.Resources.Resources.cross_circle
+        Me.CloseToolStripMenuItem.Image = Global.My.Resources.Resources.cross_circle
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
         Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.CloseToolStripMenuItem.Text = "Remove"
@@ -539,7 +539,7 @@ Partial Class frmBasedStateAction
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents lv As YAPM.DoubleBufferedLV
+    Friend WithEvents lv As DoubleBufferedLV
     Friend WithEvents timerRefresh As System.Windows.Forms.Timer
     Friend WithEvents ContextMenuStrip1 As System.Windows.Forms.ContextMenuStrip
     Friend WithEvents ShowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

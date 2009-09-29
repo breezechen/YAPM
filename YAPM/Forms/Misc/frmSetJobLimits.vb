@@ -22,9 +22,9 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Common.Misc
-Imports YAPM.Native.Api
-Imports YAPM.Native.Objects.Job
+Imports Common.Misc
+Imports Native.Api
+Imports Native.Objects.Job
 
 Public Class frmSetJobLimits
 

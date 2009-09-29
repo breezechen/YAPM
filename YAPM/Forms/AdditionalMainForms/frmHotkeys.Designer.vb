@@ -37,7 +37,7 @@ Partial Class frmHotkeys
         Me.chkAlt = New System.Windows.Forms.CheckBox
         Me.chkShift = New System.Windows.Forms.CheckBox
         Me.chkCtrl = New System.Windows.Forms.CheckBox
-        Me.lv = New YAPM.DoubleBufferedLV
+        Me.lv = New DoubleBufferedLV
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
@@ -217,14 +217,14 @@ Partial Class frmHotkeys
         '
         'mnuRemoveFolder
         '
-        Me.VistaMenu.SetImage(Me.mnuRemoveFolder, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.mnuRemoveFolder, Global.My.Resources.Resources.cross)
         Me.mnuRemoveFolder.Index = 1
         Me.mnuRemoveFolder.Text = "Remove"
         '
         'MenuItem
         '
         Me.MenuItem.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItem, Global.YAPM.My.Resources.Resources.plus_circle)
+        Me.VistaMenu.SetImage(Me.MenuItem, Global.My.Resources.Resources.plus_circle)
         Me.MenuItem.Index = 0
         Me.MenuItem.Text = "Add"
         '
@@ -267,7 +267,7 @@ Partial Class frmHotkeys
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents lv As YAPM.DoubleBufferedLV
+    Friend WithEvents lv As DoubleBufferedLV
     Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerRefresh As System.Windows.Forms.Timer
     Friend WithEvents imgList As System.Windows.Forms.ImageList

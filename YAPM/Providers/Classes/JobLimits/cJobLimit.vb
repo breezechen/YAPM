@@ -21,7 +21,7 @@
 Option Strict On
 
 Imports System.Net
-Imports YAPM.Native.Api
+Imports Native.Api
 
 Public Class cJobLimit
     Inherits cGeneralObject

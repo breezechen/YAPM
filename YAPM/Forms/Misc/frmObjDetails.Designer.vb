@@ -24,7 +24,7 @@ Partial Class frmObjDetails
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Me.SplitContainer = New System.Windows.Forms.SplitContainer
-        Me.lv = New YAPM.DoubleBufferedLV
+        Me.lv = New DoubleBufferedLV
         Me.headerDesc = New System.Windows.Forms.ColumnHeader
         Me.headerValue = New System.Windows.Forms.ColumnHeader
         Me.cmdOK = New System.Windows.Forms.Button
@@ -96,7 +96,7 @@ Partial Class frmObjDetails
         '
         'cmdRefresh
         '
-        Me.cmdRefresh.Image = Global.YAPM.My.Resources.Resources.refresh16
+        Me.cmdRefresh.Image = Global.My.Resources.Resources.refresh16
         Me.cmdRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdRefresh.Location = New System.Drawing.Point(37, 1)
         Me.cmdRefresh.Name = "cmdRefresh"
@@ -111,7 +111,7 @@ Partial Class frmObjDetails
         '
         'MenuItemCopyObj
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyObj, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyObj, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyObj.Index = 0
         Me.MenuItemCopyObj.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCpProperty, Me.MenuItemCpValue})
         Me.MenuItemCopyObj.Text = "Copy to clipboard"
@@ -150,7 +150,7 @@ Partial Class frmObjDetails
 
     End Sub
     Friend WithEvents SplitContainer As System.Windows.Forms.SplitContainer
-    Friend WithEvents lv As YAPM.DoubleBufferedLV
+    Friend WithEvents lv As DoubleBufferedLV
     Friend WithEvents headerDesc As System.Windows.Forms.ColumnHeader
     Friend WithEvents headerValue As System.Windows.Forms.ColumnHeader
     Friend WithEvents cmdRefresh As System.Windows.Forms.Button

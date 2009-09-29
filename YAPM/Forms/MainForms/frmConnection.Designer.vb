@@ -49,7 +49,7 @@ Partial Class frmConnection
         Me.cbShutdown = New System.Windows.Forms.ComboBox
         Me.chkForceShutdown = New System.Windows.Forms.CheckBox
         Me.cmdTerminal = New System.Windows.Forms.Button
-        Me.lvData = New YAPM.DoubleBufferedLV
+        Me.lvData = New DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.gpServer.SuspendLayout()
@@ -114,7 +114,7 @@ Partial Class frmConnection
         '
         Me.cmdCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdCancel.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdCancel.Image = Global.YAPM.My.Resources.Resources.down
+        Me.cmdCancel.Image = Global.My.Resources.Resources.down
         Me.cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdCancel.Location = New System.Drawing.Point(189, 262)
         Me.cmdCancel.Name = "cmdCancel"
@@ -379,7 +379,7 @@ Partial Class frmConnection
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents cmdTerminal As System.Windows.Forms.Button
     Friend WithEvents cmdShowDatas As System.Windows.Forms.Button
-    Friend WithEvents lvData As YAPM.DoubleBufferedLV
+    Friend WithEvents lvData As DoubleBufferedLV
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
 End Class

@@ -174,25 +174,25 @@ Partial Class frmHiddenProcesses
         '
         'MenuItemShow
         '
-        Me.VistaMenu.SetImage(Me.MenuItemShow, Global.YAPM.My.Resources.Resources.document_text)
+        Me.VistaMenu.SetImage(Me.MenuItemShow, Global.My.Resources.Resources.document_text)
         Me.MenuItemShow.Index = 0
         Me.MenuItemShow.Text = "File properties"
         '
         'MenuItemClose
         '
-        Me.VistaMenu.SetImage(Me.MenuItemClose, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.VistaMenu.SetImage(Me.MenuItemClose, Global.My.Resources.Resources.folder_open)
         Me.MenuItemClose.Index = 1
         Me.MenuItemClose.Text = "Open directory"
         '
         'MenuItem1
         '
-        Me.VistaMenu.SetImage(Me.MenuItem1, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.VistaMenu.SetImage(Me.MenuItem1, Global.My.Resources.Resources.magnifier)
         Me.MenuItem1.Index = 2
         Me.MenuItem1.Text = "File details"
         '
         'MenuItem2
         '
-        Me.VistaMenu.SetImage(Me.MenuItem2, Global.YAPM.My.Resources.Resources.globe)
+        Me.VistaMenu.SetImage(Me.MenuItem2, Global.My.Resources.Resources.globe)
         Me.MenuItem2.Index = 3
         Me.MenuItem2.Text = "Internet search"
         '

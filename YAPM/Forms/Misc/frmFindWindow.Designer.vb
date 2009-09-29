@@ -77,7 +77,7 @@ Partial Class frmFindWindow
         '
         Me.cmdGoToProcess.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdGoToProcess.Enabled = False
-        Me.cmdGoToProcess.Image = Global.YAPM.My.Resources.Resources.down
+        Me.cmdGoToProcess.Image = Global.My.Resources.Resources.down
         Me.cmdGoToProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdGoToProcess.Location = New System.Drawing.Point(166, 79)
         Me.cmdGoToProcess.Name = "cmdGoToProcess"

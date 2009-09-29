@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports System.Text
-Imports YAPM.Native.Api
+Imports Native.Api
 
 Public Class asyncCallbackJobLimitsSetLimits
 

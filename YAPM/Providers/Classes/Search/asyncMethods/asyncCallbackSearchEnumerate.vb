@@ -26,7 +26,7 @@ Imports System.Text
 Imports System.Windows.Forms
 Imports System.Management
 Imports System.Net
-Imports YAPM.Native.Api.Enums
+Imports Native.Api.Enums
 
 Public Class asyncCallbackSearchEnumerate
 

@@ -21,7 +21,7 @@
 Option Strict On
 
 Imports System.Text
-Imports YAPM.Native.Objects
+Imports Native.Objects
 
 Public Class cWindow
     Inherits cGeneralObject

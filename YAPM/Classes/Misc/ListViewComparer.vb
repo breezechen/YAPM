@@ -25,7 +25,7 @@
 
 Option Strict On
 
-Imports YAPM.Common.Misc
+Imports Common.Misc
 
 ' Implements a comparer for ListView columns.
 Public Class ListViewComparer

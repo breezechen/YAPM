@@ -23,10 +23,10 @@ Partial Class frmFileRelease
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection1 As cConnection = New cConnection
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmFileRelease))
         Me.cmdCheck = New System.Windows.Forms.Button
-        Me.lv = New YAPM.searchList
+        Me.lv = New searchList
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.IMG = New System.Windows.Forms.ImageList(Me.components)
         Me.cmdFix = New System.Windows.Forms.Button
@@ -47,12 +47,12 @@ Partial Class frmFileRelease
         Me.lv.CatchErrors = False
         Me.lv.CheckBoxes = True
         Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2})
-        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lv.ConnectionObj = CConnection1
         Me.lv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lv.FullRowSelect = True
         Me.lv.GridLines = True
-        Me.lv.Includes = YAPM.Native.Api.Enums.GeneralObjectType.Process
+        Me.lv.Includes = Native.Api.Enums.GeneralObjectType.Process
         Me.lv.IsConnected = False
         Me.lv.Location = New System.Drawing.Point(12, 40)
         Me.lv.Name = "lv"
@@ -108,5 +108,5 @@ Partial Class frmFileRelease
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents cmdFix As System.Windows.Forms.Button
     Friend WithEvents IMG As System.Windows.Forms.ImageList
-    Friend WithEvents lv As YAPM.searchList
+    Friend WithEvents lv As searchList
 End Class

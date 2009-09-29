@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Net
 Imports System.Net.Sockets
-Imports YAPM.Common.Misc
+Imports Common.Misc
 
 Public Class frmServer
 

@@ -20,7 +20,7 @@
 
 Imports System.Runtime.InteropServices
 Imports System.Text
-Imports YAPM.Native.Api
+Imports Native.Api
 
 Namespace Native.Objects
 

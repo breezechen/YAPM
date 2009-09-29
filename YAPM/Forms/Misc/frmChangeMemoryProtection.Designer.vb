@@ -54,7 +54,7 @@ Partial Class frmChangeMemoryProtection
         '
         Me.cmdChangeProtection.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdChangeProtection.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdChangeProtection.Image = Global.YAPM.My.Resources.Resources.locked
+        Me.cmdChangeProtection.Image = Global.My.Resources.Resources.locked
         Me.cmdChangeProtection.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdChangeProtection.Location = New System.Drawing.Point(15, 238)
         Me.cmdChangeProtection.Name = "cmdChangeProtection"

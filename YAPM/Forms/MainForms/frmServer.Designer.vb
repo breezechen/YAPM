@@ -27,7 +27,7 @@ Partial Class frmServer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.Label1 = New System.Windows.Forms.Label
         Me.txtIp = New System.Windows.Forms.TextBox
-        Me.lvServer = New YAPM.DoubleBufferedLV
+        Me.lvServer = New DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.SplitContainer.Panel1.SuspendLayout()
@@ -144,7 +144,7 @@ Partial Class frmServer
 
     End Sub
     Friend WithEvents SplitContainer As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvServer As YAPM.DoubleBufferedLV
+    Friend WithEvents lvServer As DoubleBufferedLV
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer

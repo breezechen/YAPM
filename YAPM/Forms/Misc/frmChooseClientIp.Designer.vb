@@ -23,7 +23,7 @@ Partial Class frmChooseClientIp
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.cmdExit = New System.Windows.Forms.Button
-        Me.lvNIC = New YAPM.DoubleBufferedLV
+        Me.lvNIC = New DoubleBufferedLV
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
@@ -109,7 +109,7 @@ Partial Class frmChooseClientIp
 
     End Sub
     Friend WithEvents cmdExit As System.Windows.Forms.Button
-    Friend WithEvents lvNIC As YAPM.DoubleBufferedLV
+    Friend WithEvents lvNIC As DoubleBufferedLV
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader

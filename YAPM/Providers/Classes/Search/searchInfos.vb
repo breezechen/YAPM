@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports System.Net
-Imports YAPM.Native.Api.Enums
+Imports Native.Api.Enums
 
 <Serializable()> Public Class searchInfos
     Inherits generalInfos

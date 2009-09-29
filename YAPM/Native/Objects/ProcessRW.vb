@@ -22,7 +22,7 @@
 Option Strict On
 
 Imports System.Windows.Forms
-Imports YAPM.Native.Api
+Imports Native.Api
 
 Public Class ProcessRW
 

@@ -25,7 +25,7 @@
 
 Option Strict On
 
-Imports YAPM.Native.Api
+Imports Native.Api
 
 Namespace Native.Driver
 

@@ -119,10 +119,10 @@ Partial Class frmSystemInfo
         Me.Label1 = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.g2 = New YAPM.Graph2
+        Me.g2 = New Graph2
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
-        Me.g3 = New YAPM.Graph2
-        Me.g4 = New YAPM.Graph2
+        Me.g3 = New Graph2
+        Me.g4 = New Graph2
         Me.lblCPUTotalTime = New System.Windows.Forms.Label
         Me.Label37 = New System.Windows.Forms.Label
         Me.lblCPUUsage = New System.Windows.Forms.Label
@@ -1366,9 +1366,9 @@ Partial Class frmSystemInfo
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents g2 As YAPM.Graph2
-    Friend WithEvents g3 As YAPM.Graph2
-    Friend WithEvents g4 As YAPM.Graph2
+    Friend WithEvents g2 As Graph2
+    Friend WithEvents g3 As Graph2
+    Friend WithEvents g4 As Graph2
     Friend WithEvents chkOneGraphPerCpu As System.Windows.Forms.CheckBox
     Friend WithEvents lblCPUTotalTime As System.Windows.Forms.Label
     Friend WithEvents Label37 As System.Windows.Forms.Label

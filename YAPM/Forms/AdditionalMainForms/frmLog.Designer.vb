@@ -24,7 +24,7 @@ Partial Class frmLog
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLog))
-        Me.lv = New YAPM.DoubleBufferedLV
+        Me.lv = New DoubleBufferedLV
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
@@ -67,7 +67,7 @@ Partial Class frmLog
         'MenuItem
         '
         Me.MenuItem.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItem, Global.YAPM.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItem, Global.My.Resources.Resources._096)
         Me.MenuItem.Index = 0
         Me.MenuItem.Text = "Save..."
         '
@@ -101,7 +101,7 @@ Partial Class frmLog
 
     End Sub
     Friend WithEvents Ribbon As System.Windows.Forms.Ribbon
-    Friend WithEvents lv As YAPM.DoubleBufferedLV
+    Friend WithEvents lv As DoubleBufferedLV
     Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents VistaMenu As wyDay.Controls.VistaMenu

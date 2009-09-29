@@ -21,7 +21,7 @@
 
 Option Strict On
 
-Imports YAPM.frmProcessInfo
+Imports frmProcessInfo
 
 Public Class frmLogOptions
 

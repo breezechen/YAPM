@@ -59,7 +59,7 @@ Partial Class frmSaveReport
         '
         Me.cmdOpenReport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.cmdOpenReport.Enabled = False
-        Me.cmdOpenReport.Image = Global.YAPM.My.Resources.Resources.folder_open_document
+        Me.cmdOpenReport.Image = Global.My.Resources.Resources.folder_open_document
         Me.cmdOpenReport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdOpenReport.Location = New System.Drawing.Point(104, 62)
         Me.cmdOpenReport.Name = "cmdOpenReport"
@@ -72,7 +72,7 @@ Partial Class frmSaveReport
         '
         Me.cmdGO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.cmdGO.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdGO.Image = Global.YAPM.My.Resources.Resources._096
+        Me.cmdGO.Image = Global.My.Resources.Resources._096
         Me.cmdGO.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdGO.Location = New System.Drawing.Point(12, 62)
         Me.cmdGO.Name = "cmdGO"

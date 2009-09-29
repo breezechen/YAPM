@@ -20,7 +20,7 @@
 
 Option Strict On
 
-Imports YAPM.Native.Api.Enums
+Imports Native.Api.Enums
 
 Public Class cSearchItem
     Inherits cGeneralObject

@@ -22,7 +22,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Common.Misc
+Imports Common.Misc
 
 Public Class frmAddProcessMonitor
 
@@ -100,7 +100,7 @@ Public Class frmAddProcessMonitor
 
         For Each lstIt In Me.lstToAdd.Items
 
-            Dim obj As monCounter = CType(lstIt.Tag, Global.YAPM.frmAddProcessMonitor.monCounter)
+            Dim obj As monCounter = CType(lstIt.Tag, Global.frmAddProcessMonitor.monCounter)
 
             With obj
                 Dim _name As String = .instanceName

@@ -23,9 +23,9 @@ Partial Class frmServiceInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection1 As cConnection = New cConnection
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServiceInfo))
-        Dim CConnection2 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection2 As cConnection = New cConnection
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
@@ -101,13 +101,13 @@ Partial Class frmServiceInfo
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.Label9 = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.tv2 = New YAPM.serviceDependenciesList
+        Me.tv2 = New serviceDependenciesList
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.cmdServDet1 = New System.Windows.Forms.Button
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.Label21 = New System.Windows.Forms.Label
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer
-        Me.tv = New YAPM.serviceDependenciesList
+        Me.tv = New serviceDependenciesList
         Me.cmdServDet2 = New System.Windows.Forms.Button
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
@@ -214,7 +214,7 @@ Partial Class frmServiceInfo
         '
         'cmdDelete
         '
-        Me.cmdDelete.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.cmdDelete.Image = Global.My.Resources.Resources.cross
         Me.cmdDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdDelete.Location = New System.Drawing.Point(166, 21)
         Me.cmdDelete.Name = "cmdDelete"
@@ -227,7 +227,7 @@ Partial Class frmServiceInfo
         'cmdResume
         '
         Me.cmdResume.Enabled = False
-        Me.cmdResume.Image = Global.YAPM.My.Resources.Resources.control
+        Me.cmdResume.Image = Global.My.Resources.Resources.control
         Me.cmdResume.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdResume.Location = New System.Drawing.Point(94, 21)
         Me.cmdResume.Name = "cmdResume"
@@ -269,7 +269,7 @@ Partial Class frmServiceInfo
         'cmdStop
         '
         Me.cmdStop.Enabled = False
-        Me.cmdStop.Image = Global.YAPM.My.Resources.Resources.control_stop_square
+        Me.cmdStop.Image = Global.My.Resources.Resources.control_stop_square
         Me.cmdStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdStop.Location = New System.Drawing.Point(13, 50)
         Me.cmdStop.Name = "cmdStop"
@@ -282,7 +282,7 @@ Partial Class frmServiceInfo
         'cmdPause
         '
         Me.cmdPause.Enabled = False
-        Me.cmdPause.Image = Global.YAPM.My.Resources.Resources.control_pause
+        Me.cmdPause.Image = Global.My.Resources.Resources.control_pause
         Me.cmdPause.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdPause.Location = New System.Drawing.Point(13, 21)
         Me.cmdPause.Name = "cmdPause"
@@ -295,7 +295,7 @@ Partial Class frmServiceInfo
         'cmdStart
         '
         Me.cmdStart.Enabled = False
-        Me.cmdStart.Image = Global.YAPM.My.Resources.Resources.control
+        Me.cmdStart.Image = Global.My.Resources.Resources.control
         Me.cmdStart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdStart.Location = New System.Drawing.Point(94, 50)
         Me.cmdStart.Name = "cmdStart"
@@ -391,7 +391,7 @@ Partial Class frmServiceInfo
         '
         'cmdInspectExe
         '
-        Me.cmdInspectExe.Image = Global.YAPM.My.Resources.Resources.dllIcon
+        Me.cmdInspectExe.Image = Global.My.Resources.Resources.dllIcon
         Me.cmdInspectExe.Location = New System.Drawing.Point(266, 81)
         Me.cmdInspectExe.Name = "cmdInspectExe"
         Me.cmdInspectExe.Size = New System.Drawing.Size(26, 26)
@@ -401,7 +401,7 @@ Partial Class frmServiceInfo
         'cmdShowFileDetails
         '
         Me.cmdShowFileDetails.Enabled = False
-        Me.cmdShowFileDetails.Image = Global.YAPM.My.Resources.Resources.magnifier
+        Me.cmdShowFileDetails.Image = Global.My.Resources.Resources.magnifier
         Me.cmdShowFileDetails.Location = New System.Drawing.Point(292, 81)
         Me.cmdShowFileDetails.Name = "cmdShowFileDetails"
         Me.cmdShowFileDetails.Size = New System.Drawing.Size(26, 26)
@@ -411,7 +411,7 @@ Partial Class frmServiceInfo
         'cmdShowFileProperties
         '
         Me.cmdShowFileProperties.Enabled = False
-        Me.cmdShowFileProperties.Image = Global.YAPM.My.Resources.Resources.document_text
+        Me.cmdShowFileProperties.Image = Global.My.Resources.Resources.document_text
         Me.cmdShowFileProperties.Location = New System.Drawing.Point(318, 81)
         Me.cmdShowFileProperties.Name = "cmdShowFileProperties"
         Me.cmdShowFileProperties.Size = New System.Drawing.Size(26, 26)
@@ -421,7 +421,7 @@ Partial Class frmServiceInfo
         'cmdOpenDirectory
         '
         Me.cmdOpenDirectory.Enabled = False
-        Me.cmdOpenDirectory.Image = Global.YAPM.My.Resources.Resources.folder_open_document
+        Me.cmdOpenDirectory.Image = Global.My.Resources.Resources.folder_open_document
         Me.cmdOpenDirectory.Location = New System.Drawing.Point(344, 81)
         Me.cmdOpenDirectory.Name = "cmdOpenDirectory"
         Me.cmdOpenDirectory.Size = New System.Drawing.Size(26, 26)
@@ -541,7 +541,7 @@ Partial Class frmServiceInfo
         'cmdGoProcess
         '
         Me.cmdGoProcess.Enabled = False
-        Me.cmdGoProcess.Image = Global.YAPM.My.Resources.Resources.down
+        Me.cmdGoProcess.Image = Global.My.Resources.Resources.down
         Me.cmdGoProcess.Location = New System.Drawing.Point(341, 136)
         Me.cmdGoProcess.Name = "cmdGoProcess"
         Me.cmdGoProcess.Size = New System.Drawing.Size(26, 26)
@@ -998,13 +998,13 @@ Partial Class frmServiceInfo
         '
         'tv2
         '
-        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.tv2.ConnectionObj = CConnection1
         Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv2.ImageIndex = 0
         Me.tv2.ImageList = Me.imgServices
-        Me.tv2.InfosToGet = YAPM.cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+        Me.tv2.InfosToGet = cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
         Me.tv2.IsConnected = False
         Me.tv2.Location = New System.Drawing.Point(0, 0)
         Me.tv2.Name = "tv2"
@@ -1085,13 +1085,13 @@ Partial Class frmServiceInfo
         '
         'tv
         '
-        CConnection2.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.tv.ConnectionObj = CConnection2
         Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv.ImageIndex = 0
         Me.tv.ImageList = Me.imgServices
-        Me.tv.InfosToGet = YAPM.cServDepConnection.DependenciesToget.DependenciesOfMe
+        Me.tv.InfosToGet = cServDepConnection.DependenciesToget.DependenciesOfMe
         Me.tv.IsConnected = False
         Me.tv.Location = New System.Drawing.Point(0, 0)
         Me.tv.Name = "tv"
@@ -1156,7 +1156,7 @@ Partial Class frmServiceInfo
         'cmdInfosToClipB
         '
         Me.cmdInfosToClipB.Enabled = False
-        Me.cmdInfosToClipB.Image = Global.YAPM.My.Resources.Resources.copy16
+        Me.cmdInfosToClipB.Image = Global.My.Resources.Resources.copy16
         Me.cmdInfosToClipB.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdInfosToClipB.Location = New System.Drawing.Point(3, 0)
         Me.cmdInfosToClipB.Name = "cmdInfosToClipB"
@@ -1222,7 +1222,7 @@ Partial Class frmServiceInfo
         '
         'MenuItemCopyBig
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyBig, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyBig, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyBig.Index = 0
         Me.MenuItemCopyBig.Text = "Copy to clipboard"
         '
@@ -1232,7 +1232,7 @@ Partial Class frmServiceInfo
         '
         'MenuItemCopySmall
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopySmall, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopySmall, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopySmall.Index = 0
         Me.MenuItemCopySmall.Text = "Copy to clipboard"
         '

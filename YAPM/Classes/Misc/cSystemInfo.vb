@@ -22,7 +22,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Native.Api
+Imports Native.Api
 
 Public Class cSystemInfo
 

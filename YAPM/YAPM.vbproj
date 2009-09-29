@@ -21,7 +21,8 @@
     <ProjectGuid>{A82E9888-6B2A-44A7-B79A-27C93079ACDD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <StartupObject>Sub Main</StartupObject>
-    <RootNamespace>YAPM</RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <AssemblyName>YAPM</AssemblyName>
     <MyType>WindowsFormsWithCustomSubMain</MyType>
     <OptionStrict>On</OptionStrict>
@@ -47,7 +48,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <SignManifests>false</SignManifests>
     <TargetZone>LocalIntranet</TargetZone>
     <GenerateManifests>false</GenerateManifests>
@@ -161,9 +162,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Remoting" />
@@ -179,6 +177,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Import Include="Common" />
     <Import Include="Microsoft.Samples" />
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
@@ -186,10 +185,8 @@
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Diagnostics" />
     <Import Include="System.Drawing" />
-    <Import Include="System.Linq" />
     <Import Include="System.Windows.Forms" />
     <Import Include="System.Xml" />
-    <Import Include="YAPM.Common" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\Misc\frmAbout.Designer.vb">

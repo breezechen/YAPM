@@ -24,25 +24,25 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection1 As cConnection = New cConnection
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("System")
         Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("[System process]", New System.Windows.Forms.TreeNode() {TreeNode1})
-        Dim CConnection2 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection2 As cConnection = New cConnection
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection3 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection3 As cConnection = New cConnection
         Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Items", 1, 1)
-        Dim CConnection4 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection4 As cConnection = New cConnection
         Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection5 As YAPM.cConnection = New YAPM.cConnection
-        Dim CConnection6 As YAPM.cConnection = New YAPM.cConnection
-        Dim CConnection7 As YAPM.cConnection = New YAPM.cConnection
-        Dim CConnection8 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection5 As cConnection = New cConnection
+        Dim CConnection6 As cConnection = New cConnection
+        Dim CConnection7 As cConnection = New cConnection
+        Dim CConnection8 As cConnection = New cConnection
         Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
@@ -214,7 +214,7 @@ Partial Class frmMain
         Me.Label19 = New System.Windows.Forms.Label
         Me.lblTaskCountResult = New System.Windows.Forms.Label
         Me.txtSearchTask = New System.Windows.Forms.TextBox
-        Me.lvTask = New YAPM.taskList
+        Me.lvTask = New taskList
         Me.ColumnHeader62 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader63 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader64 = New System.Windows.Forms.ColumnHeader
@@ -228,7 +228,7 @@ Partial Class frmMain
         Me.SplitContainerProcess = New System.Windows.Forms.SplitContainer
         Me.SplitContainerTvLv = New System.Windows.Forms.SplitContainer
         Me.tvProc = New System.Windows.Forms.TreeView
-        Me.lvProcess = New YAPM.processList
+        Me.lvProcess = New processList
         Me.c1 = New System.Windows.Forms.ColumnHeader
         Me.c2 = New System.Windows.Forms.ColumnHeader
         Me.c3 = New System.Windows.Forms.ColumnHeader
@@ -241,7 +241,7 @@ Partial Class frmMain
         Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
         Me.pageJobs = New System.Windows.Forms.TabPage
         Me.panelMain12 = New System.Windows.Forms.Panel
-        Me.lvJob = New YAPM.jobList
+        Me.lvJob = New jobList
         Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.pageMonitor = New System.Windows.Forms.TabPage
@@ -250,7 +250,7 @@ Partial Class frmMain
         Me.tvMonitor = New System.Windows.Forms.TreeView
         Me.splitMonitor2 = New System.Windows.Forms.SplitContainer
         Me.txtMonitoringLog = New System.Windows.Forms.TextBox
-        Me.lvMonitorReport = New YAPM.DoubleBufferedLV
+        Me.lvMonitorReport = New DoubleBufferedLV
         Me.ColumnHeader22 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader23 = New System.Windows.Forms.ColumnHeader
@@ -259,7 +259,7 @@ Partial Class frmMain
         Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
         Me.splitMonitor3 = New System.Windows.Forms.SplitContainer
         Me.splitMonitor4 = New System.Windows.Forms.SplitContainer
-        Me.graphMonitor = New YAPM.Graph
+        Me.graphMonitor = New Graph
         Me.txtMonitorNumber = New System.Windows.Forms.TextBox
         Me.lblMonitorMaxNumber = New System.Windows.Forms.Label
         Me.chkMonitorRightAuto = New System.Windows.Forms.CheckBox
@@ -274,7 +274,7 @@ Partial Class frmMain
         Me.txtServiceSearch = New System.Windows.Forms.TextBox
         Me.panelMain2 = New System.Windows.Forms.Panel
         Me.splitServices = New System.Windows.Forms.SplitContainer
-        Me.lvServices = New YAPM.serviceList
+        Me.lvServices = New serviceList
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
@@ -289,11 +289,11 @@ Partial Class frmMain
         Me.splitServices3 = New System.Windows.Forms.SplitContainer
         Me.rtb2 = New System.Windows.Forms.RichTextBox
         Me.splitServices4 = New System.Windows.Forms.SplitContainer
-        Me.tv2 = New YAPM.serviceDependenciesList
-        Me.tv = New YAPM.serviceDependenciesList
+        Me.tv2 = New serviceDependenciesList
+        Me.tv = New serviceDependenciesList
         Me.pageNetwork = New System.Windows.Forms.TabPage
         Me.panelMain14 = New System.Windows.Forms.Panel
-        Me.lvNetwork = New YAPM.networkList
+        Me.lvNetwork = New networkList
         Me.ColumnHeader66 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader67 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader68 = New System.Windows.Forms.ColumnHeader
@@ -325,7 +325,7 @@ Partial Class frmMain
         Me.Label6 = New System.Windows.Forms.Label
         Me.Label5 = New System.Windows.Forms.Label
         Me.Label4 = New System.Windows.Forms.Label
-        Me.lvFileString = New YAPM.DoubleBufferedLV
+        Me.lvFileString = New DoubleBufferedLV
         Me.headerString = New System.Windows.Forms.ColumnHeader
         Me.pageSearch = New System.Windows.Forms.TabPage
         Me.panelMain6 = New System.Windows.Forms.Panel
@@ -341,7 +341,7 @@ Partial Class frmMain
         Me.chkSearchServices = New System.Windows.Forms.CheckBox
         Me.chkSearchProcess = New System.Windows.Forms.CheckBox
         Me.chkSearchCase = New System.Windows.Forms.CheckBox
-        Me.lvSearchResults = New YAPM.searchList
+        Me.lvSearchResults = New searchList
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
@@ -781,8 +781,8 @@ Partial Class frmMain
         Me.orbStartElevated.AltKey = Nothing
         Me.orbStartElevated.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.orbStartElevated.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.orbStartElevated.Image = Global.YAPM.My.Resources.Resources.shield_32
-        Me.orbStartElevated.SmallImage = Global.YAPM.My.Resources.Resources.shield_32
+        Me.orbStartElevated.Image = Global.My.Resources.Resources.shield_32
+        Me.orbStartElevated.SmallImage = Global.My.Resources.Resources.shield_32
         Me.orbStartElevated.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.orbStartElevated.Tag = Nothing
         Me.orbStartElevated.Text = "Restart with privileges"
@@ -833,8 +833,8 @@ Partial Class frmMain
         Me.orbMenuSBA.AltKey = Nothing
         Me.orbMenuSBA.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.orbMenuSBA.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.orbMenuSBA.Image = Global.YAPM.My.Resources.Resources.monitoring2
-        Me.orbMenuSBA.SmallImage = Global.YAPM.My.Resources.Resources.monitoring2
+        Me.orbMenuSBA.Image = Global.My.Resources.Resources.monitoring2
+        Me.orbMenuSBA.SmallImage = Global.My.Resources.Resources.monitoring2
         Me.orbMenuSBA.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.orbMenuSBA.Tag = Nothing
         Me.orbMenuSBA.Text = "State based actions  "
@@ -895,8 +895,8 @@ Partial Class frmMain
         Me.butExit.AltKey = Nothing
         Me.butExit.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butExit.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butExit.Image = Global.YAPM.My.Resources.Resources.cross_circle
-        Me.butExit.SmallImage = Global.YAPM.My.Resources.Resources.cross_circle
+        Me.butExit.Image = Global.My.Resources.Resources.cross_circle
+        Me.butExit.SmallImage = Global.My.Resources.Resources.cross_circle
         Me.butExit.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butExit.Tag = Nothing
         Me.butExit.Text = "Quit"
@@ -925,7 +925,7 @@ Partial Class frmMain
         Me.butLog.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butLog.Image = Nothing
         Me.butLog.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butLog.SmallImage = Global.YAPM.My.Resources.Resources.document_text
+        Me.butLog.SmallImage = Global.My.Resources.Resources.document_text
         Me.butLog.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butLog.Tag = Nothing
         Me.butLog.Text = "Show log"
@@ -1000,7 +1000,7 @@ Partial Class frmMain
         Me.butFeedBack.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFeedBack.Image = CType(resources.GetObject("butFeedBack.Image"), System.Drawing.Image)
         Me.butFeedBack.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butFeedBack.SmallImage = Global.YAPM.My.Resources.Resources.information_frame
+        Me.butFeedBack.SmallImage = Global.My.Resources.Resources.information_frame
         Me.butFeedBack.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butFeedBack.Tag = Nothing
         Me.butFeedBack.Text = "Feed back"
@@ -1030,7 +1030,7 @@ Partial Class frmMain
         Me.butShowDepViewer.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butShowDepViewer.Image = CType(resources.GetObject("butShowDepViewer.Image"), System.Drawing.Image)
         Me.butShowDepViewer.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butShowDepViewer.SmallImage = Global.YAPM.My.Resources.Resources.dllIcon
+        Me.butShowDepViewer.SmallImage = Global.My.Resources.Resources.dllIcon
         Me.butShowDepViewer.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butShowDepViewer.Tag = Nothing
         Me.butShowDepViewer.Text = "Dependencies viewer"
@@ -1045,7 +1045,7 @@ Partial Class frmMain
         Me.butShowAllPendingTasks.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butShowAllPendingTasks.Image = CType(resources.GetObject("butShowAllPendingTasks.Image"), System.Drawing.Image)
         Me.butShowAllPendingTasks.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butShowAllPendingTasks.SmallImage = Global.YAPM.My.Resources.Resources.thread
+        Me.butShowAllPendingTasks.SmallImage = Global.My.Resources.Resources.thread
         Me.butShowAllPendingTasks.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butShowAllPendingTasks.Tag = Nothing
         Me.butShowAllPendingTasks.Text = "Display pending tasks"
@@ -1060,7 +1060,7 @@ Partial Class frmMain
         Me.butCreateService.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butCreateService.Image = CType(resources.GetObject("butCreateService.Image"), System.Drawing.Image)
         Me.butCreateService.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butCreateService.SmallImage = Global.YAPM.My.Resources.Resources.plus_circle
+        Me.butCreateService.SmallImage = Global.My.Resources.Resources.plus_circle
         Me.butCreateService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butCreateService.Tag = Nothing
         Me.butCreateService.Text = "Create service"
@@ -1111,7 +1111,7 @@ Partial Class frmMain
         Me.butTaskShow.AltKey = Nothing
         Me.butTaskShow.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butTaskShow.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butTaskShow.Image = Global.YAPM.My.Resources.Resources.showDetails
+        Me.butTaskShow.Image = Global.My.Resources.Resources.showDetails
         Me.butTaskShow.SmallImage = CType(resources.GetObject("butTaskShow.SmallImage"), System.Drawing.Image)
         Me.butTaskShow.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butTaskShow.Tag = Nothing
@@ -1125,7 +1125,7 @@ Partial Class frmMain
         Me.butTaskEndTask.AltKey = Nothing
         Me.butTaskEndTask.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butTaskEndTask.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butTaskEndTask.Image = Global.YAPM.My.Resources.Resources.delete2
+        Me.butTaskEndTask.Image = Global.My.Resources.Resources.delete2
         Me.butTaskEndTask.SmallImage = CType(resources.GetObject("butTaskEndTask.SmallImage"), System.Drawing.Image)
         Me.butTaskEndTask.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butTaskEndTask.Tag = Nothing
@@ -1172,7 +1172,7 @@ Partial Class frmMain
         Me.butProcessDisplayDetails.AltKey = Nothing
         Me.butProcessDisplayDetails.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butProcessDisplayDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessDisplayDetails.Image = Global.YAPM.My.Resources.Resources.showDetails
+        Me.butProcessDisplayDetails.Image = Global.My.Resources.Resources.showDetails
         Me.butProcessDisplayDetails.SmallImage = CType(resources.GetObject("butProcessDisplayDetails.SmallImage"), System.Drawing.Image)
         Me.butProcessDisplayDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butProcessDisplayDetails.Tag = Nothing
@@ -1212,7 +1212,7 @@ Partial Class frmMain
         Me.butKillProcess.AltKey = Nothing
         Me.butKillProcess.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butKillProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butKillProcess.Image = Global.YAPM.My.Resources.Resources.delete2
+        Me.butKillProcess.Image = Global.My.Resources.Resources.delete2
         Me.butKillProcess.SmallImage = CType(resources.GetObject("butKillProcess.SmallImage"), System.Drawing.Image)
         Me.butKillProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butKillProcess.Tag = Nothing
@@ -1226,7 +1226,7 @@ Partial Class frmMain
         Me.butStopProcess.AltKey = Nothing
         Me.butStopProcess.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butStopProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butStopProcess.Image = Global.YAPM.My.Resources.Resources.pause_32
+        Me.butStopProcess.Image = Global.My.Resources.Resources.pause_32
         Me.butStopProcess.SmallImage = CType(resources.GetObject("butStopProcess.SmallImage"), System.Drawing.Image)
         Me.butStopProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butStopProcess.Tag = Nothing
@@ -1515,7 +1515,7 @@ Partial Class frmMain
         Me.butJobDetails.AltKey = Nothing
         Me.butJobDetails.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butJobDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butJobDetails.Image = Global.YAPM.My.Resources.Resources.showDetails
+        Me.butJobDetails.Image = Global.My.Resources.Resources.showDetails
         Me.butJobDetails.SmallImage = CType(resources.GetObject("butJobDetails.SmallImage"), System.Drawing.Image)
         Me.butJobDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butJobDetails.Tag = Nothing
@@ -1557,7 +1557,7 @@ Partial Class frmMain
         Me.butJobElevate.AltKey = Nothing
         Me.butJobElevate.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butJobElevate.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butJobElevate.Image = Global.YAPM.My.Resources.Resources.shield_32
+        Me.butJobElevate.Image = Global.My.Resources.Resources.shield_32
         Me.butJobElevate.SmallImage = CType(resources.GetObject("butJobElevate.SmallImage"), System.Drawing.Image)
         Me.butJobElevate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butJobElevate.Tag = Nothing
@@ -1641,7 +1641,7 @@ Partial Class frmMain
         Me.butMonitorStop.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butMonitorStop.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butMonitorStop.Enabled = False
-        Me.butMonitorStop.Image = Global.YAPM.My.Resources.Resources.stop32
+        Me.butMonitorStop.Image = Global.My.Resources.Resources.stop32
         Me.butMonitorStop.SmallImage = CType(resources.GetObject("butMonitorStop.SmallImage"), System.Drawing.Image)
         Me.butMonitorStop.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butMonitorStop.Tag = Nothing
@@ -1712,7 +1712,7 @@ Partial Class frmMain
         Me.butServiceDetails.AltKey = Nothing
         Me.butServiceDetails.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butServiceDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceDetails.Image = Global.YAPM.My.Resources.Resources.showDetails
+        Me.butServiceDetails.Image = Global.My.Resources.Resources.showDetails
         Me.butServiceDetails.SmallImage = CType(resources.GetObject("butServiceDetails.SmallImage"), System.Drawing.Image)
         Me.butServiceDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butServiceDetails.Tag = Nothing
@@ -1740,7 +1740,7 @@ Partial Class frmMain
         Me.butStopService.AltKey = Nothing
         Me.butStopService.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butStopService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butStopService.Image = Global.YAPM.My.Resources.Resources.stop32
+        Me.butStopService.Image = Global.My.Resources.Resources.stop32
         Me.butStopService.SmallImage = CType(resources.GetObject("butStopService.SmallImage"), System.Drawing.Image)
         Me.butStopService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butStopService.Tag = Nothing
@@ -1778,7 +1778,7 @@ Partial Class frmMain
         Me.butPauseService.AltKey = Nothing
         Me.butPauseService.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butPauseService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butPauseService.Image = Global.YAPM.My.Resources.Resources.pause_32
+        Me.butPauseService.Image = Global.My.Resources.Resources.pause_32
         Me.butPauseService.SmallImage = CType(resources.GetObject("butPauseService.SmallImage"), System.Drawing.Image)
         Me.butPauseService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butPauseService.Tag = Nothing
@@ -1817,7 +1817,7 @@ Partial Class frmMain
         Me.butDeleteService.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butDeleteService.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butDeleteService.DropDownItems.Add(Me.RibbonSeparator3)
-        Me.butDeleteService.Image = Global.YAPM.My.Resources.Resources.delete2
+        Me.butDeleteService.Image = Global.My.Resources.Resources.delete2
         Me.butDeleteService.SmallImage = CType(resources.GetObject("butDeleteService.SmallImage"), System.Drawing.Image)
         Me.butDeleteService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butDeleteService.Tag = Nothing
@@ -2620,7 +2620,7 @@ Partial Class frmMain
         Me.butProcessPermuteLvTv.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butProcessPermuteLvTv.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butProcessPermuteLvTv.Enabled = False
-        Me.butProcessPermuteLvTv.Image = Global.YAPM.My.Resources.Resources.tv2
+        Me.butProcessPermuteLvTv.Image = Global.My.Resources.Resources.tv2
         Me.butProcessPermuteLvTv.SmallImage = CType(resources.GetObject("butProcessPermuteLvTv.SmallImage"), System.Drawing.Image)
         Me.butProcessPermuteLvTv.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butProcessPermuteLvTv.Tag = Nothing
@@ -2757,7 +2757,7 @@ Partial Class frmMain
         Me.lvTask.AllowColumnReorder = True
         Me.lvTask.CatchErrors = False
         Me.lvTask.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader62, Me.ColumnHeader63, Me.ColumnHeader64})
-        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvTask.ConnectionObj = CConnection1
         Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvTask.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2930,10 +2930,10 @@ Partial Class frmMain
         Me.lvProcess.AllowColumnReorder = True
         Me.lvProcess.CatchErrors = False
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
-        CConnection2.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvProcess.ConnectionObj = CConnection2
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcess.EnumMethod = YAPM.asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
+        Me.lvProcess.EnumMethod = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcess.FullRowSelect = True
         ListViewGroup3.Header = "Processes"
@@ -3033,7 +3033,7 @@ Partial Class frmMain
         Me.lvJob.AllowColumnReorder = True
         Me.lvJob.CatchErrors = False
         Me.lvJob.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader5})
-        CConnection3.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvJob.ConnectionObj = CConnection3
         Me.lvJob.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJob.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3414,7 +3414,7 @@ Partial Class frmMain
         Me.lvServices.AllowColumnReorder = True
         Me.lvServices.CatchErrors = False
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader19})
-        CConnection4.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvServices.ConnectionObj = CConnection4
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3498,7 +3498,7 @@ Partial Class frmMain
         '
         Me.cmdCopyServiceToCp.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdCopyServiceToCp.Enabled = False
-        Me.cmdCopyServiceToCp.Image = Global.YAPM.My.Resources.Resources.copy16
+        Me.cmdCopyServiceToCp.Image = Global.My.Resources.Resources.copy16
         Me.cmdCopyServiceToCp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdCopyServiceToCp.Location = New System.Drawing.Point(720, 8)
         Me.cmdCopyServiceToCp.Name = "cmdCopyServiceToCp"
@@ -3581,13 +3581,13 @@ Partial Class frmMain
         '
         'tv2
         '
-        CConnection5.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection5.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.tv2.ConnectionObj = CConnection5
         Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv2.ImageIndex = 0
         Me.tv2.ImageList = Me.imgServices
-        Me.tv2.InfosToGet = YAPM.cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+        Me.tv2.InfosToGet = cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
         Me.tv2.IsConnected = False
         Me.tv2.Location = New System.Drawing.Point(0, 0)
         Me.tv2.Name = "tv2"
@@ -3598,13 +3598,13 @@ Partial Class frmMain
         '
         'tv
         '
-        CConnection6.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection6.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.tv.ConnectionObj = CConnection6
         Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv.ImageIndex = 0
         Me.tv.ImageList = Me.imgServices
-        Me.tv.InfosToGet = YAPM.cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+        Me.tv.InfosToGet = cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
         Me.tv.IsConnected = False
         Me.tv.Location = New System.Drawing.Point(0, 0)
         Me.tv.Name = "tv"
@@ -3639,7 +3639,7 @@ Partial Class frmMain
         Me.lvNetwork.AllowColumnReorder = True
         Me.lvNetwork.CatchErrors = False
         Me.lvNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader66, Me.ColumnHeader67, Me.ColumnHeader68, Me.ColumnHeader69})
-        CConnection7.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection7.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvNetwork.ConnectionObj = CConnection7
         Me.lvNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3739,7 +3739,7 @@ Partial Class frmMain
         '
         Me.cmdFileClipboard.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cmdFileClipboard.Enabled = False
-        Me.cmdFileClipboard.Image = Global.YAPM.My.Resources.Resources.copy16
+        Me.cmdFileClipboard.Image = Global.My.Resources.Resources.copy16
         Me.cmdFileClipboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdFileClipboard.Location = New System.Drawing.Point(651, 7)
         Me.cmdFileClipboard.Name = "cmdFileClipboard"
@@ -4190,7 +4190,7 @@ Partial Class frmMain
         Me.lvSearchResults.CaseSensitive = False
         Me.lvSearchResults.CatchErrors = False
         Me.lvSearchResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14, Me.ColumnHeader17})
-        CConnection8.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvSearchResults.ConnectionObj = CConnection8
         Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvSearchResults.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -4201,7 +4201,7 @@ Partial Class frmMain
         ListViewGroup10.Name = "gpSearchResults"
         Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
         Me.lvSearchResults.HideSelection = False
-        Me.lvSearchResults.Includes = YAPM.Native.Api.Enums.GeneralObjectType.Process
+        Me.lvSearchResults.Includes = Native.Api.Enums.GeneralObjectType.Process
         Me.lvSearchResults.IsConnected = False
         Me.lvSearchResults.Location = New System.Drawing.Point(0, 0)
         Me.lvSearchResults.Name = "lvSearchResults"
@@ -4279,235 +4279,235 @@ Partial Class frmMain
         'MenuItemTaskShow
         '
         Me.MenuItemTaskShow.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemTaskShow, Global.YAPM.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemTaskShow, Global.My.Resources.Resources.display16)
         Me.MenuItemTaskShow.Index = 0
         Me.MenuItemTaskShow.Text = "Show window"
         '
         'MenuItemTaskEnd
         '
-        Me.VistaMenu.SetImage(Me.MenuItemTaskEnd, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemTaskEnd, Global.My.Resources.Resources.cross)
         Me.MenuItemTaskEnd.Index = 4
         Me.MenuItemTaskEnd.Text = "End task"
         '
         'MenuItemTaskSelProc
         '
         Me.MenuItemTaskSelProc.Enabled = False
-        Me.VistaMenu.SetImage(Me.MenuItemTaskSelProc, Global.YAPM.My.Resources.Resources.exe)
+        Me.VistaMenu.SetImage(Me.MenuItemTaskSelProc, Global.My.Resources.Resources.exe)
         Me.MenuItemTaskSelProc.Index = 6
         Me.MenuItemTaskSelProc.Text = "Select associated process"
         '
         'MenuItemMonitorAdd
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMonitorAdd, Global.YAPM.My.Resources.Resources.plus_circle)
+        Me.VistaMenu.SetImage(Me.MenuItemMonitorAdd, Global.My.Resources.Resources.plus_circle)
         Me.MenuItemMonitorAdd.Index = 0
         Me.MenuItemMonitorAdd.Text = "Add..."
         '
         'MenuItemMonitorRemove
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMonitorRemove, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemMonitorRemove, Global.My.Resources.Resources.cross)
         Me.MenuItemMonitorRemove.Index = 1
         Me.MenuItemMonitorRemove.Text = "Remove selection"
         '
         'MenuItemMonitorStart
         '
         Me.MenuItemMonitorStart.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemMonitorStart, Global.YAPM.My.Resources.Resources.control)
+        Me.VistaMenu.SetImage(Me.MenuItemMonitorStart, Global.My.Resources.Resources.control)
         Me.MenuItemMonitorStart.Index = 3
         Me.MenuItemMonitorStart.Text = "Start"
         '
         'MenuItemMonitorStop
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMonitorStop, Global.YAPM.My.Resources.Resources.control_stop_square)
+        Me.VistaMenu.SetImage(Me.MenuItemMonitorStop, Global.My.Resources.Resources.control_stop_square)
         Me.MenuItemMonitorStop.Index = 4
         Me.MenuItemMonitorStop.Text = "Stop"
         '
         'MenuItemCopyBig
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyBig, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyBig, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyBig.Index = 0
         Me.MenuItemCopyBig.Text = "Copy to clipboard"
         '
         'MenuItemCopySmall
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopySmall, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopySmall, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopySmall.Index = 0
         Me.MenuItemCopySmall.Text = "Copy to clipboard"
         '
         'MenuItemMainShow
         '
         Me.MenuItemMainShow.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemMainShow, Global.YAPM.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemMainShow, Global.My.Resources.Resources.display16)
         Me.MenuItemMainShow.Index = 0
         Me.MenuItemMainShow.Text = "Show YAPM"
         '
         'MenuItemMainToTray
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMainToTray, Global.YAPM.My.Resources.Resources.down)
+        Me.VistaMenu.SetImage(Me.MenuItemMainToTray, Global.My.Resources.Resources.down)
         Me.MenuItemMainToTray.Index = 1
         Me.MenuItemMainToTray.Text = "Minimize to tray"
         '
         'MenuItemMainAbout
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMainAbout, Global.YAPM.My.Resources.Resources.information_frame)
+        Me.VistaMenu.SetImage(Me.MenuItemMainAbout, Global.My.Resources.Resources.information_frame)
         Me.MenuItemMainAbout.Index = 2
         Me.MenuItemMainAbout.Text = "About YAPM"
         '
         'MenuItemMainLog
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMainLog, Global.YAPM.My.Resources.Resources.document_text)
+        Me.VistaMenu.SetImage(Me.MenuItemMainLog, Global.My.Resources.Resources.document_text)
         Me.MenuItemMainLog.Index = 9
         Me.MenuItemMainLog.Text = "Show log"
         '
         'MenuItemMainOpenedW
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMainOpenedW, Global.YAPM.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemMainOpenedW, Global.My.Resources.Resources.display16)
         Me.MenuItemMainOpenedW.Index = 12
         Me.MenuItemMainOpenedW.Text = "Opened windows"
         '
         'MenuItemMainExit
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMainExit, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemMainExit, Global.My.Resources.Resources.cross)
         Me.MenuItemMainExit.Index = 20
         Me.MenuItemMainExit.Text = "Exit YAPM"
         '
         'MenuItemMainSysInfo
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMainSysInfo, Global.YAPM.My.Resources.Resources.taskmgr)
+        Me.VistaMenu.SetImage(Me.MenuItemMainSysInfo, Global.My.Resources.Resources.taskmgr)
         Me.MenuItemMainSysInfo.Index = 11
         Me.MenuItemMainSysInfo.Text = "System information"
         '
         'MenuItemServSelService
         '
         Me.MenuItemServSelService.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemServSelService, Global.YAPM.My.Resources.Resources.exe)
+        Me.VistaMenu.SetImage(Me.MenuItemServSelService, Global.My.Resources.Resources.exe)
         Me.MenuItemServSelService.Index = 0
         Me.MenuItemServSelService.Text = "Show selected process"
         '
         'MenuItemServFileProp
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServFileProp, Global.YAPM.My.Resources.Resources.document_text)
+        Me.VistaMenu.SetImage(Me.MenuItemServFileProp, Global.My.Resources.Resources.document_text)
         Me.MenuItemServFileProp.Index = 2
         Me.MenuItemServFileProp.Text = "File properties"
         '
         'MenuItemServOpenDir
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServOpenDir, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.VistaMenu.SetImage(Me.MenuItemServOpenDir, Global.My.Resources.Resources.folder_open)
         Me.MenuItemServOpenDir.Index = 3
         Me.MenuItemServOpenDir.Text = "Open directory"
         '
         'MenuItemServFileDetails
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServFileDetails, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.VistaMenu.SetImage(Me.MenuItemServFileDetails, Global.My.Resources.Resources.magnifier)
         Me.MenuItemServFileDetails.Index = 4
         Me.MenuItemServFileDetails.Text = "File details"
         '
         'MenuItemServSearch
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServSearch, Global.YAPM.My.Resources.Resources.globe)
+        Me.VistaMenu.SetImage(Me.MenuItemServSearch, Global.My.Resources.Resources.globe)
         Me.MenuItemServSearch.Index = 5
         Me.MenuItemServSearch.Text = "Internet search"
         '
         'MenuItemServPause
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServPause, Global.YAPM.My.Resources.Resources.control_pause)
+        Me.VistaMenu.SetImage(Me.MenuItemServPause, Global.My.Resources.Resources.control_pause)
         Me.MenuItemServPause.Index = 8
         Me.MenuItemServPause.Text = "Pause"
         '
         'MenuItemServStop
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServStop, Global.YAPM.My.Resources.Resources.control_stop_square)
+        Me.VistaMenu.SetImage(Me.MenuItemServStop, Global.My.Resources.Resources.control_stop_square)
         Me.MenuItemServStop.Index = 9
         Me.MenuItemServStop.Text = "Stop"
         '
         'MenuItemServStart
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServStart, Global.YAPM.My.Resources.Resources.control)
+        Me.VistaMenu.SetImage(Me.MenuItemServStart, Global.My.Resources.Resources.control)
         Me.MenuItemServStart.Index = 10
         Me.MenuItemServStart.Text = "Start"
         '
         'MenuItemServAutoStart
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServAutoStart, Global.YAPM.My.Resources.Resources.p6)
+        Me.VistaMenu.SetImage(Me.MenuItemServAutoStart, Global.My.Resources.Resources.p6)
         Me.MenuItemServAutoStart.Index = 0
         Me.MenuItemServAutoStart.Text = "Auto start"
         '
         'MenuItemServOnDemand
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServOnDemand, Global.YAPM.My.Resources.Resources.p3)
+        Me.VistaMenu.SetImage(Me.MenuItemServOnDemand, Global.My.Resources.Resources.p3)
         Me.MenuItemServOnDemand.Index = 1
         Me.MenuItemServOnDemand.Text = "On demand"
         '
         'MenuItemServDisabled
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServDisabled, Global.YAPM.My.Resources.Resources.p0)
+        Me.VistaMenu.SetImage(Me.MenuItemServDisabled, Global.My.Resources.Resources.p0)
         Me.MenuItemServDisabled.Index = 2
         Me.MenuItemServDisabled.Text = "Disabled"
         '
         'MenuItemServDepe
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServDepe, Global.YAPM.My.Resources.Resources.dllIcon)
+        Me.VistaMenu.SetImage(Me.MenuItemServDepe, Global.My.Resources.Resources.dllIcon)
         Me.MenuItemServDepe.Index = 6
         Me.MenuItemServDepe.Text = "Show dependencies..."
         '
         'MenuItemNetworkClose
         '
-        Me.VistaMenu.SetImage(Me.MenuItemNetworkClose, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemNetworkClose, Global.My.Resources.Resources.cross)
         Me.MenuItemNetworkClose.Index = 2
         Me.MenuItemNetworkClose.Text = "Close TCP connection"
         '
         'MenuItemServSelProc
         '
         Me.MenuItemServSelProc.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemServSelProc, Global.YAPM.My.Resources.Resources.exe)
+        Me.VistaMenu.SetImage(Me.MenuItemServSelProc, Global.My.Resources.Resources.exe)
         Me.MenuItemServSelProc.Index = 0
         Me.MenuItemServSelProc.Text = "Select associated process"
         '
         'MenuItemSearchSel
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSearchSel, Global.YAPM.My.Resources.Resources.exe)
+        Me.VistaMenu.SetImage(Me.MenuItemSearchSel, Global.My.Resources.Resources.exe)
         Me.MenuItemSearchSel.Index = 2
         Me.MenuItemSearchSel.Text = "Select associated process/service"
         '
         'MenuItemSearchClose
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSearchClose, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemSearchClose, Global.My.Resources.Resources.cross)
         Me.MenuItemSearchClose.Index = 3
         Me.MenuItemSearchClose.Text = "Close/terminate item"
         '
         'MenuItemProcSFileProp
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSFileProp, Global.YAPM.My.Resources.Resources.document_text)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSFileProp, Global.My.Resources.Resources.document_text)
         Me.MenuItemProcSFileProp.Index = 11
         Me.MenuItemProcSFileProp.Text = "File properties"
         '
         'MenuItemProcSOpenDir
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSOpenDir, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSOpenDir, Global.My.Resources.Resources.folder_open)
         Me.MenuItemProcSOpenDir.Index = 12
         Me.MenuItemProcSOpenDir.Text = "Open directory"
         '
         'MenuItemProcSFileDetails
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSFileDetails, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSFileDetails, Global.My.Resources.Resources.magnifier)
         Me.MenuItemProcSFileDetails.Index = 13
         Me.MenuItemProcSFileDetails.Text = "File details"
         '
         'MenuItemProcSSearch
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSSearch, Global.YAPM.My.Resources.Resources.globe)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSSearch, Global.My.Resources.Resources.globe)
         Me.MenuItemProcSSearch.Index = 14
         Me.MenuItemProcSSearch.Text = "Internet search"
         '
         'MenuItemProcSDep
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSDep, Global.YAPM.My.Resources.Resources.dllIcon)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSDep, Global.My.Resources.Resources.dllIcon)
         Me.MenuItemProcSDep.Index = 15
         Me.MenuItemProcSDep.Text = "View dependencies..."
         '
         'MenuItemProcKill
         '
         Me.MenuItemProcKill.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemProcKill, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemProcKill, Global.My.Resources.Resources.cross)
         Me.MenuItemProcKill.Index = 0
         Me.MenuItemProcKill.Text = "Kill"
         '
@@ -4518,119 +4518,119 @@ Partial Class frmMain
         '
         'MenuItemProcStop
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcStop, Global.YAPM.My.Resources.Resources.control_stop_square)
+        Me.VistaMenu.SetImage(Me.MenuItemProcStop, Global.My.Resources.Resources.control_stop_square)
         Me.MenuItemProcStop.Index = 3
         Me.MenuItemProcStop.Text = "Stop"
         '
         'MenuItemProcResume
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcResume, Global.YAPM.My.Resources.Resources.control)
+        Me.VistaMenu.SetImage(Me.MenuItemProcResume, Global.My.Resources.Resources.control)
         Me.MenuItemProcResume.Index = 4
         Me.MenuItemProcResume.Text = "Resume"
         '
         'MenuItemProcPIdle
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPIdle, Global.YAPM.My.Resources.Resources.p0)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPIdle, Global.My.Resources.Resources.p0)
         Me.MenuItemProcPIdle.Index = 0
         Me.MenuItemProcPIdle.Text = "Idle"
         '
         'MenuItemProcPBN
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPBN, Global.YAPM.My.Resources.Resources.p1)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPBN, Global.My.Resources.Resources.p1)
         Me.MenuItemProcPBN.Index = 1
         Me.MenuItemProcPBN.Text = "Below normal"
         '
         'MenuItemProcPN
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPN, Global.YAPM.My.Resources.Resources.p2)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPN, Global.My.Resources.Resources.p2)
         Me.MenuItemProcPN.Index = 2
         Me.MenuItemProcPN.Text = "Normal"
         '
         'MenuItemProcPAN
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPAN, Global.YAPM.My.Resources.Resources.p3)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPAN, Global.My.Resources.Resources.p3)
         Me.MenuItemProcPAN.Index = 3
         Me.MenuItemProcPAN.Text = "Above normal"
         '
         'MenuItemProcPH
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPH, Global.YAPM.My.Resources.Resources.p4)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPH, Global.My.Resources.Resources.p4)
         Me.MenuItemProcPH.Index = 4
         Me.MenuItemProcPH.Text = "High"
         '
         'MenuItemProcPRT
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPRT, Global.YAPM.My.Resources.Resources.p6)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPRT, Global.My.Resources.Resources.p6)
         Me.MenuItemProcPRT.Index = 5
         Me.MenuItemProcPRT.Text = "Real time"
         '
         'MenuItemSystemRefresh
         '
         Me.MenuItemSystemRefresh.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemSystemRefresh, Global.YAPM.My.Resources.Resources.refresh16)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemRefresh, Global.My.Resources.Resources.refresh16)
         Me.MenuItemSystemRefresh.Index = 0
         Me.MenuItemSystemRefresh.Shortcut = System.Windows.Forms.Shortcut.F5
         Me.MenuItemSystemRefresh.Text = "&Refresh"
         '
         'MenuItemSystemLog
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemLog, Global.YAPM.My.Resources.Resources.document_text)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemLog, Global.My.Resources.Resources.document_text)
         Me.MenuItemSystemLog.Index = 5
         Me.MenuItemSystemLog.Text = "Show &log"
         '
         'MenuItemSystemInfos
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemInfos, Global.YAPM.My.Resources.Resources.taskmgr)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemInfos, Global.My.Resources.Resources.taskmgr)
         Me.MenuItemSystemInfos.Index = 8
         Me.MenuItemSystemInfos.Text = "System &infos"
         '
         'MenuItemSystemOpenedWindows
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemOpenedWindows, Global.YAPM.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemOpenedWindows, Global.My.Resources.Resources.display16)
         Me.MenuItemSystemOpenedWindows.Index = 9
         Me.MenuItemSystemOpenedWindows.Text = "Opened &windows"
         '
         'MenuItemSystemToTray
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemToTray, Global.YAPM.My.Resources.Resources.down)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemToTray, Global.My.Resources.Resources.down)
         Me.MenuItemSystemToTray.Index = 16
         Me.MenuItemSystemToTray.Text = "Minimize to &tray"
         '
         'MenuItemSystemExit
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemExit, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemExit, Global.My.Resources.Resources.cross)
         Me.MenuItemSystemExit.Index = 17
         Me.MenuItemSystemExit.Shortcut = System.Windows.Forms.Shortcut.AltF4
         Me.MenuItemSystemExit.Text = "E&xit"
         '
         'MenuItemSystemUpdate
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemUpdate, Global.YAPM.My.Resources.Resources.refresh16)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemUpdate, Global.My.Resources.Resources.refresh16)
         Me.MenuItemSystemUpdate.Index = 0
         Me.MenuItemSystemUpdate.Text = "Check &updates"
         '
         'MenuItemSystemWebsite
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemWebsite, Global.YAPM.My.Resources.Resources.globe)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemWebsite, Global.My.Resources.Resources.globe)
         Me.MenuItemSystemWebsite.Index = 5
         Me.MenuItemSystemWebsite.Text = "&Website"
         '
         'MenuItemSystemAbout
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemAbout, Global.YAPM.My.Resources.Resources.information_frame)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemAbout, Global.My.Resources.Resources.information_frame)
         Me.MenuItemSystemAbout.Index = 9
         Me.MenuItemSystemAbout.Text = "&About"
         '
         'MenuItemSystemFindWindow
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemFindWindow, Global.YAPM.My.Resources.Resources.target16)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemFindWindow, Global.My.Resources.Resources.target16)
         Me.MenuItemSystemFindWindow.Index = 12
         Me.MenuItemSystemFindWindow.Text = "&Find a window"
         '
         'MenuItemSystemHelp
         '
         Me.MenuItemSystemHelp.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemSystemHelp, Global.YAPM.My.Resources.Resources.help16)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemHelp, Global.My.Resources.Resources.help16)
         Me.MenuItemSystemHelp.Index = 8
         Me.MenuItemSystemHelp.Shortcut = System.Windows.Forms.Shortcut.F1
         Me.MenuItemSystemHelp.Text = "&Help"
@@ -4638,43 +4638,43 @@ Partial Class frmMain
         'MenuItemSystemOptions
         '
         Me.MenuItemSystemOptions.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemSystemOptions, Global.YAPM.My.Resources.Resources.options16)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemOptions, Global.My.Resources.Resources.options16)
         Me.MenuItemSystemOptions.Index = 5
         Me.MenuItemSystemOptions.Text = "&Options..."
         '
         'MenuItemMainFindWindow
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMainFindWindow, Global.YAPM.My.Resources.Resources.target16)
+        Me.VistaMenu.SetImage(Me.MenuItemMainFindWindow, Global.My.Resources.Resources.target16)
         Me.MenuItemMainFindWindow.Index = 14
         Me.MenuItemMainFindWindow.Text = "Find a window"
         '
         'MenuItemCopyTask
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyTask, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyTask, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyTask.Index = 8
         Me.MenuItemCopyTask.Text = "Copy to clipboard"
         '
         'MenuItemCopyService
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyService, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyService, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyService.Index = 16
         Me.MenuItemCopyService.Text = "Copy to clipboard"
         '
         'MenuItemCopyNetwork
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyNetwork, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyNetwork, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyNetwork.Index = 4
         Me.MenuItemCopyNetwork.Text = "Copy to clipboard"
         '
         'MenuItemCopySearch
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopySearch, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopySearch, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopySearch.Index = 5
         Me.MenuItemCopySearch.Text = "Copy to clipboard"
         '
         'MenuItemCopyProcess
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyProcess, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyProcess, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyProcess.Index = 17
         Me.MenuItemCopyProcess.Text = "Copy to clipboard"
         '
@@ -4906,7 +4906,7 @@ Partial Class frmMain
         '
         'MenuItemServDelete
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.My.Resources.Resources.cross)
         Me.MenuItemServDelete.Index = 12
         Me.MenuItemServDelete.Text = "Delete"
         '
@@ -5127,7 +5127,7 @@ Partial Class frmMain
         '
         'MenuItemReportProcesses
         '
-        Me.VistaMenu.SetImage(Me.MenuItemReportProcesses, Global.YAPM.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItemReportProcesses, Global.My.Resources.Resources._096)
         Me.MenuItemReportProcesses.Index = 0
         Me.MenuItemReportProcesses.Text = "&Save report..."
         '
@@ -5146,7 +5146,7 @@ Partial Class frmMain
         '
         'MenuItemReportMonitor
         '
-        Me.VistaMenu.SetImage(Me.MenuItemReportMonitor, Global.YAPM.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItemReportMonitor, Global.My.Resources.Resources._096)
         Me.MenuItemReportMonitor.Index = 0
         Me.MenuItemReportMonitor.Text = "&Save report..."
         '
@@ -5159,7 +5159,7 @@ Partial Class frmMain
         '
         'MenuItemReportServices
         '
-        Me.VistaMenu.SetImage(Me.MenuItemReportServices, Global.YAPM.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItemReportServices, Global.My.Resources.Resources._096)
         Me.MenuItemReportServices.Index = 0
         Me.MenuItemReportServices.Text = "&Save report..."
         '
@@ -5183,7 +5183,7 @@ Partial Class frmMain
         '
         'MenuItemReportSearch
         '
-        Me.VistaMenu.SetImage(Me.MenuItemReportSearch, Global.YAPM.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItemReportSearch, Global.My.Resources.Resources._096)
         Me.MenuItemReportSearch.Index = 2
         Me.MenuItemReportSearch.Text = "&Save report..."
         '
@@ -5197,7 +5197,7 @@ Partial Class frmMain
         'MenuItemFileOpen
         '
         Me.MenuItemFileOpen.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemFileOpen, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.VistaMenu.SetImage(Me.MenuItemFileOpen, Global.My.Resources.Resources.folder_open)
         Me.MenuItemFileOpen.Index = 0
         Me.MenuItemFileOpen.Text = "&Open file..."
         '
@@ -5209,19 +5209,19 @@ Partial Class frmMain
         'MenuItemFileRelease
         '
         Me.MenuItemFileRelease.Enabled = False
-        Me.VistaMenu.SetImage(Me.MenuItemFileRelease, Global.YAPM.My.Resources.Resources.locked)
+        Me.VistaMenu.SetImage(Me.MenuItemFileRelease, Global.My.Resources.Resources.locked)
         Me.MenuItemFileRelease.Index = 2
         Me.MenuItemFileRelease.Text = "&Release file..."
         '
         'MenuItemFileDelete
         '
-        Me.VistaMenu.SetImage(Me.MenuItemFileDelete, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemFileDelete, Global.My.Resources.Resources.cross)
         Me.MenuItemFileDelete.Index = 3
         Me.MenuItemFileDelete.Text = "&Delete file..."
         '
         'MenuItemFileTrash
         '
-        Me.VistaMenu.SetImage(Me.MenuItemFileTrash, Global.YAPM.My.Resources.Resources.cross_circle)
+        Me.VistaMenu.SetImage(Me.MenuItemFileTrash, Global.My.Resources.Resources.cross_circle)
         Me.MenuItemFileTrash.Index = 4
         Me.MenuItemFileTrash.Text = "&Move to trash..."
         '
@@ -5428,13 +5428,13 @@ Partial Class frmMain
         '
         'MenuItemJobTerminate
         '
-        Me.VistaMenu.SetImage(Me.MenuItemJobTerminate, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemJobTerminate, Global.My.Resources.Resources.cross)
         Me.MenuItemJobTerminate.Index = 0
         Me.MenuItemJobTerminate.Text = "Terminate job"
         '
         'MenuItemCopyJob
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyJob, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyJob, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyJob.Index = 2
         Me.MenuItemCopyJob.Text = "Copy to clipboard"
         '
@@ -5788,7 +5788,7 @@ Partial Class frmMain
     Friend WithEvents tvMonitor As System.Windows.Forms.TreeView
     Friend WithEvents splitMonitor2 As System.Windows.Forms.SplitContainer
     Friend WithEvents txtMonitoringLog As System.Windows.Forms.TextBox
-    Friend WithEvents lvMonitorReport As YAPM.DoubleBufferedLV
+    Friend WithEvents lvMonitorReport As DoubleBufferedLV
     Friend WithEvents ColumnHeader22 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader23 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader47 As System.Windows.Forms.ColumnHeader
@@ -5796,7 +5796,7 @@ Partial Class frmMain
     Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
     Friend WithEvents splitMonitor3 As System.Windows.Forms.SplitContainer
     Friend WithEvents splitMonitor4 As System.Windows.Forms.SplitContainer
-    Friend WithEvents graphMonitor As YAPM.Graph
+    Friend WithEvents graphMonitor As Graph
     Friend WithEvents txtMonitorNumber As System.Windows.Forms.TextBox
     Friend WithEvents lblMonitorMaxNumber As System.Windows.Forms.Label
     Friend WithEvents chkMonitorRightAuto As System.Windows.Forms.CheckBox
@@ -6127,7 +6127,7 @@ Partial Class frmMain
     Friend WithEvents JobTab As System.Windows.Forms.RibbonTab
     Friend WithEvents MenuItemJobs As System.Windows.Forms.MenuItem
     Friend WithEvents panelMain12 As System.Windows.Forms.Panel
-    Friend WithEvents lvJob As YAPM.jobList
+    Friend WithEvents lvJob As jobList
     Friend WithEvents ColumnHeader50 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerJobs As System.Windows.Forms.Timer
     Private WithEvents mnuJob As System.Windows.Forms.ContextMenu

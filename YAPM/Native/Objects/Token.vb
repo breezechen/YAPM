@@ -19,7 +19,7 @@
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Native.Api
+Imports Native.Api
 Imports System.Text
 
 Namespace Native.Objects

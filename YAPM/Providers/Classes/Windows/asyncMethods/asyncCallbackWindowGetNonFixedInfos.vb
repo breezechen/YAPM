@@ -22,7 +22,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Native.Objects
+Imports Native.Objects
 
 Public Class asyncCallbackWindowGetNonFixedInfos
 

@@ -21,8 +21,8 @@
 Option Strict On
 
 Imports System.Drawing
-Imports YAPM.Common.Misc
-Imports YAPM.Native.Api.Structs
+Imports Common.Misc
+Imports Native.Api.Structs
 
 Public Class cProcess
     Inherits cGeneralObject

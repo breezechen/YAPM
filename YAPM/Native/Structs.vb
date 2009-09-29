@@ -22,7 +22,7 @@
 Option Strict On
 
 Imports System.Net
-Imports YAPM.Native.Api.Enums
+Imports Native.Api.Enums
 
 Namespace Native.Api
 

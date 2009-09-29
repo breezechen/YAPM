@@ -20,8 +20,8 @@
 
 Option Strict On
 
-Imports YAPM.Common.Misc
-Imports YAPM.Native.Api.Enums
+Imports Common.Misc
+Imports Native.Api.Enums
 
 Public Class frmConnection
 

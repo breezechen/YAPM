@@ -24,7 +24,7 @@ Option Strict On
 Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Management
-Imports YAPM.Native.Api.Enums
+Imports Native.Api.Enums
 
 Public Class asyncCallbackShutdownAction
 

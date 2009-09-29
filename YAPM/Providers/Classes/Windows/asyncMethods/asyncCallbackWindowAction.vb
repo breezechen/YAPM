@@ -23,8 +23,8 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports System.Text
-Imports YAPM.Native.Api.Enums
-Imports YAPM.Native.Objects
+Imports Native.Api.Enums
+Imports Native.Objects
 
 Public Class asyncCallbackWindowAction
 

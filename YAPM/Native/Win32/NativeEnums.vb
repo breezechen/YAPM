@@ -48,7 +48,7 @@
 
 Option Strict On
 
-Imports YAPM.Native.Api.NativeConstants
+Imports Native.Api.NativeConstants
 
 Namespace Native.Api
 

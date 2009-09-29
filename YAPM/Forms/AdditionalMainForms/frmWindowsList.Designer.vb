@@ -25,7 +25,7 @@ Partial Class frmWindowsList
         Me.components = New System.ComponentModel.Container
         Me.timerRefresh = New System.Windows.Forms.Timer(Me.components)
         Me.imgList = New System.Windows.Forms.ImageList(Me.components)
-        Me.lv = New YAPM.DoubleBufferedLV
+        Me.lv = New DoubleBufferedLV
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
         Me.TheContextMenu = New System.Windows.Forms.ContextMenu
         Me.MenuItemShow = New System.Windows.Forms.MenuItem
@@ -72,13 +72,13 @@ Partial Class frmWindowsList
         'MenuItemShow
         '
         Me.MenuItemShow.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemShow, Global.YAPM.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemShow, Global.My.Resources.Resources.display16)
         Me.MenuItemShow.Index = 0
         Me.MenuItemShow.Text = "Show"
         '
         'MenuItemClose
         '
-        Me.VistaMenu.SetImage(Me.MenuItemClose, Global.YAPM.My.Resources.Resources.close)
+        Me.VistaMenu.SetImage(Me.MenuItemClose, Global.My.Resources.Resources.close)
         Me.MenuItemClose.Index = 1
         Me.MenuItemClose.Text = "Close"
         '
@@ -103,7 +103,7 @@ Partial Class frmWindowsList
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents lv As YAPM.DoubleBufferedLV
+    Friend WithEvents lv As DoubleBufferedLV
     Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerRefresh As System.Windows.Forms.Timer
     Friend WithEvents imgList As System.Windows.Forms.ImageList

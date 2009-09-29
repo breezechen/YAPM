@@ -20,7 +20,7 @@
 
 Option Strict On
 
-Imports YAPM.Native.Api
+Imports Native.Api
 Imports System.Runtime.InteropServices
 Imports System.Net
 

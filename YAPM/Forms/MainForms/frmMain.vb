@@ -22,8 +22,8 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Program
-Imports YAPM.Common.Misc
+Imports Program
+Imports Common.Misc
 
 Public Class frmMain
 

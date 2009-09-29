@@ -30,8 +30,8 @@ Imports System.Runtime.InteropServices
 Imports System.Text
 Imports System.Drawing
 Imports System.Net
-Imports YAPM.Native.Api.NativeStructs
-Imports YAPM.Native.Api.NativeEnums
+Imports Native.Api.NativeStructs
+Imports Native.Api.NativeEnums
 
 Namespace Native.Api
 

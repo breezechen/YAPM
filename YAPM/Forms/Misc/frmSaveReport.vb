@@ -21,7 +21,7 @@
 
 Option Strict On
 
-Imports YAPM.Common.Misc
+Imports Common.Misc
 
 Public Class frmSaveReport
 

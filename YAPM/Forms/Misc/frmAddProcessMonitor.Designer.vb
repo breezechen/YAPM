@@ -34,13 +34,13 @@ Partial Class frmAddProcessMonitor
         Me.cmdRemoveFromList = New System.Windows.Forms.Button
         Me.txtHelp = New System.Windows.Forms.TextBox
         Me.cmdSearch = New System.Windows.Forms.Button
-        Me.lstCategory = New YAPM.DoubleBufferedLV
+        Me.lstCategory = New DoubleBufferedLV
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
-        Me.lstInstance = New YAPM.DoubleBufferedLV
+        Me.lstInstance = New DoubleBufferedLV
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
-        Me.lstCounterType = New YAPM.DoubleBufferedLV
+        Me.lstCounterType = New DoubleBufferedLV
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.lstToAdd = New YAPM.DoubleBufferedLV
+        Me.lstToAdd = New DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.SuspendLayout()
         '
@@ -281,8 +281,8 @@ Partial Class frmAddProcessMonitor
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader4 As System.Windows.Forms.ColumnHeader
     Friend WithEvents cmdSearch As System.Windows.Forms.Button
-    Friend WithEvents lstToAdd As YAPM.DoubleBufferedLV
-    Friend WithEvents lstCounterType As YAPM.DoubleBufferedLV
-    Friend WithEvents lstInstance As YAPM.DoubleBufferedLV
-    Friend WithEvents lstCategory As YAPM.DoubleBufferedLV
+    Friend WithEvents lstToAdd As DoubleBufferedLV
+    Friend WithEvents lstCounterType As DoubleBufferedLV
+    Friend WithEvents lstInstance As DoubleBufferedLV
+    Friend WithEvents lstCategory As DoubleBufferedLV
 End Class

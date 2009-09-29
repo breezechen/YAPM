@@ -24,8 +24,8 @@ Option Strict On
 'http://www.pscode.com/vb/scripts/ShowCode.asp?txtCodeId=6362&lngWId=1
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Native.Api
-Imports YAPM.Common.Misc
+Imports Native.Api
+Imports Common.Misc
 
 Public Class frmFindWindow
 

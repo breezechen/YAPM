@@ -32,19 +32,19 @@ Partial Class frmDepViewerMain
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.tabImports = New System.Windows.Forms.TabPage
-        Me.lvImports = New YAPM.DoubleBufferedLV
+        Me.lvImports = New DoubleBufferedLV
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
         Me.tabExports = New System.Windows.Forms.TabPage
-        Me.lvExports = New YAPM.DoubleBufferedLV
+        Me.lvExports = New DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
-        Me.lvAllDeps = New YAPM.DoubleBufferedLV
+        Me.lvAllDeps = New DoubleBufferedLV
         Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader17 = New System.Windows.Forms.ColumnHeader
@@ -335,13 +335,13 @@ Partial Class frmDepViewerMain
         '
         'MenuItem3
         '
-        Me.VistaMenu.SetImage(Me.MenuItem3, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.VistaMenu.SetImage(Me.MenuItem3, Global.My.Resources.Resources.magnifier)
         Me.MenuItem3.Index = 2
         Me.MenuItem3.Text = "File details"
         '
         'MenuItem4
         '
-        Me.VistaMenu.SetImage(Me.MenuItem4, Global.YAPM.My.Resources.Resources.globe)
+        Me.VistaMenu.SetImage(Me.MenuItem4, Global.My.Resources.Resources.globe)
         Me.MenuItem4.Index = 3
         Me.MenuItem4.Text = "Internet search"
         '
@@ -353,7 +353,7 @@ Partial Class frmDepViewerMain
         '
         'MenuItemOpenDir
         '
-        Me.VistaMenu.SetImage(Me.MenuItemOpenDir, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.VistaMenu.SetImage(Me.MenuItemOpenDir, Global.My.Resources.Resources.folder_open)
         Me.MenuItemOpenDir.Index = 1
         Me.MenuItemOpenDir.Text = "&Open directory"
         '
@@ -363,13 +363,13 @@ Partial Class frmDepViewerMain
         '
         'MenuItemFileDet
         '
-        Me.VistaMenu.SetImage(Me.MenuItemFileDet, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.VistaMenu.SetImage(Me.MenuItemFileDet, Global.My.Resources.Resources.magnifier)
         Me.MenuItemFileDet.Index = 2
         Me.MenuItemFileDet.Text = "&File details"
         '
         'MenuItemInternetSearch
         '
-        Me.VistaMenu.SetImage(Me.MenuItemInternetSearch, Global.YAPM.My.Resources.Resources.globe)
+        Me.VistaMenu.SetImage(Me.MenuItemInternetSearch, Global.My.Resources.Resources.globe)
         Me.MenuItemInternetSearch.Index = 3
         Me.MenuItemInternetSearch.Text = "&Internet search"
         '
@@ -384,7 +384,7 @@ Partial Class frmDepViewerMain
         'MenuItemOpen
         '
         Me.MenuItemOpen.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemOpen, Global.YAPM.My.Resources.Resources.folder_open_document)
+        Me.VistaMenu.SetImage(Me.MenuItemOpen, Global.My.Resources.Resources.folder_open_document)
         Me.MenuItemOpen.Index = 0
         Me.MenuItemOpen.Shortcut = System.Windows.Forms.Shortcut.CtrlO
         Me.MenuItemOpen.Text = "&Open..."

@@ -22,7 +22,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Common.Misc
+Imports Common.Misc
 
 Public Class frmProcessInfo
 

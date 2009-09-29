@@ -23,19 +23,19 @@ Partial Class frmProcessInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
-        Dim CConnection2 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection1 As cConnection = New cConnection
+        Dim CConnection2 As cConnection = New cConnection
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessInfo))
-        Dim CConnection3 As YAPM.cConnection = New YAPM.cConnection
-        Dim CConnection4 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection3 As cConnection = New cConnection
+        Dim CConnection4 As cConnection = New cConnection
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection5 As YAPM.cConnection = New YAPM.cConnection
-        Dim CConnection6 As YAPM.cConnection = New YAPM.cConnection
-        Dim CConnection7 As YAPM.cConnection = New YAPM.cConnection
-        Dim CConnection8 As YAPM.cConnection = New YAPM.cConnection
-        Dim CConnection9 As YAPM.cConnection = New YAPM.cConnection
-        Dim CConnection10 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection5 As cConnection = New cConnection
+        Dim CConnection6 As cConnection = New cConnection
+        Dim CConnection7 As cConnection = New cConnection
+        Dim CConnection8 As cConnection = New cConnection
+        Dim CConnection9 As cConnection = New cConnection
+        Dim CConnection10 As cConnection = New cConnection
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPageGeneral = New System.Windows.Forms.TabPage
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
@@ -144,19 +144,19 @@ Partial Class frmProcessInfo
         Me.Label18 = New System.Windows.Forms.Label
         Me.TabPagePerf = New System.Windows.Forms.TabPage
         Me.splitPerformances = New System.Windows.Forms.SplitContainer
-        Me.graphCPU = New YAPM.Graph2
+        Me.graphCPU = New Graph2
         Me.splitPerformance2 = New System.Windows.Forms.SplitContainer
-        Me.graphMemory = New YAPM.Graph2
-        Me.graphIO = New YAPM.Graph2
+        Me.graphMemory = New Graph2
+        Me.graphIO = New Graph2
         Me.TabPageToken = New System.Windows.Forms.TabPage
         Me.tabProcessToken = New System.Windows.Forms.TabControl
         Me.tabProcessTokenPagePrivileges = New System.Windows.Forms.TabPage
-        Me.lvPrivileges = New YAPM.privilegeList
+        Me.lvPrivileges = New privilegeList
         Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader51 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
         Me.TabPageMemory = New System.Windows.Forms.TabPage
-        Me.lvProcMem = New YAPM.memoryList
+        Me.lvProcMem = New memoryList
         Me.ColumnHeader53 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader54 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader55 = New System.Windows.Forms.ColumnHeader
@@ -168,7 +168,7 @@ Partial Class frmProcessInfo
         Me.cmdInfosToClipB = New System.Windows.Forms.Button
         Me.rtb = New System.Windows.Forms.RichTextBox
         Me.TabPageServices = New System.Windows.Forms.TabPage
-        Me.lvProcServices = New YAPM.serviceList
+        Me.lvProcServices = New serviceList
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
@@ -176,14 +176,14 @@ Partial Class frmProcessInfo
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
         Me.TabPageNetwork = New System.Windows.Forms.TabPage
-        Me.lvProcNetwork = New YAPM.networkList
+        Me.lvProcNetwork = New networkList
         Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
         Me.TabPageString = New System.Windows.Forms.TabPage
         Me.SplitContainerStrings = New System.Windows.Forms.SplitContainer
-        Me.lvProcString = New YAPM.DoubleBufferedLV
+        Me.lvProcString = New DoubleBufferedLV
         Me.ColumnHeader76 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader77 = New System.Windows.Forms.ColumnHeader
         Me.cmdProcSearchR = New System.Windows.Forms.Button
@@ -195,11 +195,11 @@ Partial Class frmProcessInfo
         Me.optProcStringMemory = New System.Windows.Forms.RadioButton
         Me.optProcStringImage = New System.Windows.Forms.RadioButton
         Me.TabPageEnv = New System.Windows.Forms.TabPage
-        Me.lvProcEnv = New YAPM.envVariableList
+        Me.lvProcEnv = New envVariableList
         Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader61 = New System.Windows.Forms.ColumnHeader
         Me.TabPageModules = New System.Windows.Forms.TabPage
-        Me.lvModules = New YAPM.moduleList
+        Me.lvModules = New moduleList
         Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
@@ -207,7 +207,7 @@ Partial Class frmProcessInfo
         Me.ColumnHeader46 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.TabPageThreads = New System.Windows.Forms.TabPage
-        Me.lvThreads = New YAPM.threadList
+        Me.lvThreads = New threadList
         Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
@@ -218,14 +218,14 @@ Partial Class frmProcessInfo
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.TabPageWindows = New System.Windows.Forms.TabPage
-        Me.lvWindows = New YAPM.windowList
+        Me.lvWindows = New windowList
         Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader39 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader40 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader41 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
         Me.TabPageHandles = New System.Windows.Forms.TabPage
-        Me.lvHandles = New YAPM.handleList
+        Me.lvHandles = New handleList
         Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader26 = New System.Windows.Forms.ColumnHeader
@@ -238,7 +238,7 @@ Partial Class frmProcessInfo
         Me.cmdSave = New System.Windows.Forms.Button
         Me.cmdClearLog = New System.Windows.Forms.Button
         Me.chkLog = New System.Windows.Forms.CheckBox
-        Me.lvLog = New YAPM.logList
+        Me.lvLog = New logList
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
@@ -518,7 +518,7 @@ Partial Class frmProcessInfo
         '
         'cmdAffinity
         '
-        Me.cmdAffinity.Image = Global.YAPM.My.Resources.Resources.gear
+        Me.cmdAffinity.Image = Global.My.Resources.Resources.gear
         Me.cmdAffinity.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdAffinity.Location = New System.Drawing.Point(10, 50)
         Me.cmdAffinity.Name = "cmdAffinity"
@@ -530,7 +530,7 @@ Partial Class frmProcessInfo
         '
         'cmdPause
         '
-        Me.cmdPause.Image = Global.YAPM.My.Resources.Resources.control_pause
+        Me.cmdPause.Image = Global.My.Resources.Resources.control_pause
         Me.cmdPause.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdPause.Location = New System.Drawing.Point(76, 21)
         Me.cmdPause.Name = "cmdPause"
@@ -542,7 +542,7 @@ Partial Class frmProcessInfo
         '
         'cmdResume
         '
-        Me.cmdResume.Image = Global.YAPM.My.Resources.Resources.control
+        Me.cmdResume.Image = Global.My.Resources.Resources.control
         Me.cmdResume.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdResume.Location = New System.Drawing.Point(158, 21)
         Me.cmdResume.Name = "cmdResume"
@@ -554,7 +554,7 @@ Partial Class frmProcessInfo
         '
         'cmdKill
         '
-        Me.cmdKill.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.cmdKill.Image = Global.My.Resources.Resources.cross
         Me.cmdKill.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdKill.Location = New System.Drawing.Point(10, 21)
         Me.cmdKill.Name = "cmdKill"
@@ -789,7 +789,7 @@ Partial Class frmProcessInfo
         '
         'cmdInspectExe
         '
-        Me.cmdInspectExe.Image = Global.YAPM.My.Resources.Resources.dllIcon
+        Me.cmdInspectExe.Image = Global.My.Resources.Resources.dllIcon
         Me.cmdInspectExe.Location = New System.Drawing.Point(266, 81)
         Me.cmdInspectExe.Name = "cmdInspectExe"
         Me.cmdInspectExe.Size = New System.Drawing.Size(26, 26)
@@ -798,7 +798,7 @@ Partial Class frmProcessInfo
         '
         'cmdShowFileDetails
         '
-        Me.cmdShowFileDetails.Image = Global.YAPM.My.Resources.Resources.magnifier
+        Me.cmdShowFileDetails.Image = Global.My.Resources.Resources.magnifier
         Me.cmdShowFileDetails.Location = New System.Drawing.Point(292, 81)
         Me.cmdShowFileDetails.Name = "cmdShowFileDetails"
         Me.cmdShowFileDetails.Size = New System.Drawing.Size(26, 26)
@@ -807,7 +807,7 @@ Partial Class frmProcessInfo
         '
         'cmdShowFileProperties
         '
-        Me.cmdShowFileProperties.Image = Global.YAPM.My.Resources.Resources.document_text
+        Me.cmdShowFileProperties.Image = Global.My.Resources.Resources.document_text
         Me.cmdShowFileProperties.Location = New System.Drawing.Point(318, 81)
         Me.cmdShowFileProperties.Name = "cmdShowFileProperties"
         Me.cmdShowFileProperties.Size = New System.Drawing.Size(26, 26)
@@ -816,7 +816,7 @@ Partial Class frmProcessInfo
         '
         'cmdOpenDirectory
         '
-        Me.cmdOpenDirectory.Image = Global.YAPM.My.Resources.Resources.folder_open_document
+        Me.cmdOpenDirectory.Image = Global.My.Resources.Resources.folder_open_document
         Me.cmdOpenDirectory.Location = New System.Drawing.Point(344, 81)
         Me.cmdOpenDirectory.Name = "cmdOpenDirectory"
         Me.cmdOpenDirectory.Size = New System.Drawing.Size(26, 26)
@@ -1709,7 +1709,7 @@ Partial Class frmProcessInfo
         Me.lvPrivileges.AllowColumnReorder = True
         Me.lvPrivileges.CatchErrors = False
         Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
-        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvPrivileges.ConnectionObj = CConnection1
         Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvPrivileges.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1757,7 +1757,7 @@ Partial Class frmProcessInfo
         Me.lvProcMem.AllowColumnReorder = True
         Me.lvProcMem.CatchErrors = False
         Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56, Me.ColumnHeader13})
-        CConnection2.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvProcMem.ConnectionObj = CConnection2
         Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcMem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1845,7 +1845,7 @@ Partial Class frmProcessInfo
         'cmdInfosToClipB
         '
         Me.cmdInfosToClipB.Enabled = False
-        Me.cmdInfosToClipB.Image = Global.YAPM.My.Resources.Resources.copy16
+        Me.cmdInfosToClipB.Image = Global.My.Resources.Resources.copy16
         Me.cmdInfosToClipB.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdInfosToClipB.Location = New System.Drawing.Point(3, 0)
         Me.cmdInfosToClipB.Name = "cmdInfosToClipB"
@@ -1884,7 +1884,7 @@ Partial Class frmProcessInfo
         Me.lvProcServices.AllowColumnReorder = True
         Me.lvProcServices.CatchErrors = False
         Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader19})
-        CConnection3.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvProcServices.ConnectionObj = CConnection3
         Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1948,7 +1948,7 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.AllowColumnReorder = True
         Me.lvProcNetwork.CatchErrors = False
         Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
-        CConnection4.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvProcNetwork.ConnectionObj = CConnection4
         Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2054,7 +2054,7 @@ Partial Class frmProcessInfo
         '
         'cmdProcSearchR
         '
-        Me.cmdProcSearchR.Image = Global.YAPM.My.Resources.Resources.arrow_000_medium
+        Me.cmdProcSearchR.Image = Global.My.Resources.Resources.arrow_000_medium
         Me.cmdProcSearchR.Location = New System.Drawing.Point(499, 1)
         Me.cmdProcSearchR.Name = "cmdProcSearchR"
         Me.cmdProcSearchR.Size = New System.Drawing.Size(19, 23)
@@ -2063,7 +2063,7 @@ Partial Class frmProcessInfo
         '
         'cmdProcSearchL
         '
-        Me.cmdProcSearchL.Image = Global.YAPM.My.Resources.Resources.arrow_180_medium
+        Me.cmdProcSearchL.Image = Global.My.Resources.Resources.arrow_180_medium
         Me.cmdProcSearchL.Location = New System.Drawing.Point(476, 1)
         Me.cmdProcSearchL.Name = "cmdProcSearchL"
         Me.cmdProcSearchL.Size = New System.Drawing.Size(19, 23)
@@ -2095,7 +2095,7 @@ Partial Class frmProcessInfo
         '
         'cmdProcStringSave
         '
-        Me.cmdProcStringSave.Image = Global.YAPM.My.Resources.Resources._096
+        Me.cmdProcStringSave.Image = Global.My.Resources.Resources._096
         Me.cmdProcStringSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdProcStringSave.Location = New System.Drawing.Point(140, 1)
         Me.cmdProcStringSave.Name = "cmdProcStringSave"
@@ -2141,7 +2141,7 @@ Partial Class frmProcessInfo
         Me.lvProcEnv.AllowColumnReorder = True
         Me.lvProcEnv.CatchErrors = False
         Me.lvProcEnv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader60, Me.ColumnHeader61})
-        CConnection5.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection5.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvProcEnv.ConnectionObj = CConnection5
         Me.lvProcEnv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcEnv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2184,7 +2184,7 @@ Partial Class frmProcessInfo
         Me.lvModules.AllowColumnReorder = True
         Me.lvModules.CatchErrors = False
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader1})
-        CConnection6.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection6.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvModules.ConnectionObj = CConnection6
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2251,7 +2251,7 @@ Partial Class frmProcessInfo
         Me.lvThreads.AllowColumnReorder = True
         Me.lvThreads.CatchErrors = False
         Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader12, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader11})
-        CConnection7.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection7.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvThreads.ConnectionObj = CConnection7
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2327,7 +2327,7 @@ Partial Class frmProcessInfo
         Me.lvWindows.AllowColumnReorder = True
         Me.lvWindows.CatchErrors = False
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
-        CConnection8.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvWindows.ConnectionObj = CConnection8
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2383,7 +2383,7 @@ Partial Class frmProcessInfo
         Me.lvHandles.AllowColumnReorder = True
         Me.lvHandles.CatchErrors = False
         Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15})
-        CConnection9.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection9.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvHandles.ConnectionObj = CConnection9
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2504,12 +2504,12 @@ Partial Class frmProcessInfo
         'lvLog
         '
         Me.lvLog.AllowColumnReorder = True
-        Me.lvLog.CaptureItems = YAPM.asyncCallbackLogEnumerate.LogItemType.AllItems
+        Me.lvLog.CaptureItems = asyncCallbackLogEnumerate.LogItemType.AllItems
         Me.lvLog.CatchErrors = False
         Me.lvLog.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2, Me.ColumnHeader5, Me.ColumnHeader4})
-        CConnection10.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection10.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvLog.ConnectionObj = CConnection10
-        Me.lvLog.DisplayItems = YAPM.asyncCallbackLogEnumerate.LogItemType.AllItems
+        Me.lvLog.DisplayItems = asyncCallbackLogEnumerate.LogItemType.AllItems
         Me.lvLog.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvLog.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvLog.FullRowSelect = True
@@ -2629,235 +2629,235 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyBig
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyBig, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyBig, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyBig.Index = 0
         Me.MenuItemCopyBig.Text = "Copy to clipboard"
         '
         'MenuItemCopySmall
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopySmall, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopySmall, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopySmall.Index = 0
         Me.MenuItemCopySmall.Text = "Copy to clipboard"
         '
         'MenuItemPriEnable
         '
-        Me.VistaMenu.SetImage(Me.MenuItemPriEnable, Global.YAPM.My.Resources.Resources.ok)
+        Me.VistaMenu.SetImage(Me.MenuItemPriEnable, Global.My.Resources.Resources.ok)
         Me.MenuItemPriEnable.Index = 0
         Me.MenuItemPriEnable.Text = "Enable"
         '
         'MenuItemViewMemory
         '
         Me.MenuItemViewMemory.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemViewMemory, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.VistaMenu.SetImage(Me.MenuItemViewMemory, Global.My.Resources.Resources.magnifier)
         Me.MenuItemViewMemory.Index = 0
         Me.MenuItemViewMemory.Text = "View memory"
         '
         'MenuItemCloseHandle
         '
         Me.MenuItemCloseHandle.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemCloseHandle, Global.YAPM.My.Resources.Resources.close)
+        Me.VistaMenu.SetImage(Me.MenuItemCloseHandle, Global.My.Resources.Resources.close)
         Me.MenuItemCloseHandle.Index = 0
         Me.MenuItemCloseHandle.Text = "Close item"
         '
         'menuCloseTCP
         '
         Me.menuCloseTCP.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.menuCloseTCP, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.menuCloseTCP, Global.My.Resources.Resources.cross)
         Me.menuCloseTCP.Index = 0
         Me.menuCloseTCP.Text = "Close TCP connection"
         '
         'MenuItemPriDisable
         '
-        Me.VistaMenu.SetImage(Me.MenuItemPriDisable, Global.YAPM.My.Resources.Resources.close)
+        Me.VistaMenu.SetImage(Me.MenuItemPriDisable, Global.My.Resources.Resources.close)
         Me.MenuItemPriDisable.Index = 1
         Me.MenuItemPriDisable.Text = "Disable"
         '
         'MenuItemPriRemove
         '
-        Me.VistaMenu.SetImage(Me.MenuItemPriRemove, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemPriRemove, Global.My.Resources.Resources.cross)
         Me.MenuItemPriRemove.Index = 2
         Me.MenuItemPriRemove.Text = "Remove"
         '
         'MenuItemModuleFileProp
         '
-        Me.VistaMenu.SetImage(Me.MenuItemModuleFileProp, Global.YAPM.My.Resources.Resources.document_text)
+        Me.VistaMenu.SetImage(Me.MenuItemModuleFileProp, Global.My.Resources.Resources.document_text)
         Me.MenuItemModuleFileProp.Index = 0
         Me.MenuItemModuleFileProp.Text = "File properties"
         '
         'MenuItemModuleOpenDir
         '
-        Me.VistaMenu.SetImage(Me.MenuItemModuleOpenDir, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.VistaMenu.SetImage(Me.MenuItemModuleOpenDir, Global.My.Resources.Resources.folder_open)
         Me.MenuItemModuleOpenDir.Index = 1
         Me.MenuItemModuleOpenDir.Text = "Open directory"
         '
         'MenuItemModuleFileDetails
         '
-        Me.VistaMenu.SetImage(Me.MenuItemModuleFileDetails, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.VistaMenu.SetImage(Me.MenuItemModuleFileDetails, Global.My.Resources.Resources.magnifier)
         Me.MenuItemModuleFileDetails.Index = 2
         Me.MenuItemModuleFileDetails.Text = "File details"
         '
         'MenuItemModuleSearch
         '
-        Me.VistaMenu.SetImage(Me.MenuItemModuleSearch, Global.YAPM.My.Resources.Resources.globe)
+        Me.VistaMenu.SetImage(Me.MenuItemModuleSearch, Global.My.Resources.Resources.globe)
         Me.MenuItemModuleSearch.Index = 3
         Me.MenuItemModuleSearch.Text = "Internet search"
         '
         'MenuItemModuleDependencies
         '
-        Me.VistaMenu.SetImage(Me.MenuItemModuleDependencies, Global.YAPM.My.Resources.Resources.dllIcon)
+        Me.VistaMenu.SetImage(Me.MenuItemModuleDependencies, Global.My.Resources.Resources.dllIcon)
         Me.MenuItemModuleDependencies.Index = 4
         Me.MenuItemModuleDependencies.Text = "View dependencies..."
         '
         'MenuItemUnloadModule
         '
         Me.MenuItemUnloadModule.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemUnloadModule, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemUnloadModule, Global.My.Resources.Resources.cross)
         Me.MenuItemUnloadModule.Index = 7
         Me.MenuItemUnloadModule.Text = "Unload module"
         '
         'MenuItemViewModuleMemory
         '
-        Me.VistaMenu.SetImage(Me.MenuItemViewModuleMemory, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.VistaMenu.SetImage(Me.MenuItemViewModuleMemory, Global.My.Resources.Resources.magnifier)
         Me.MenuItemViewModuleMemory.Index = 5
         Me.MenuItemViewModuleMemory.Text = "View memory"
         '
         'MenuItemServSelService
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServSelService, Global.YAPM.My.Resources.Resources.exe)
+        Me.VistaMenu.SetImage(Me.MenuItemServSelService, Global.My.Resources.Resources.exe)
         Me.MenuItemServSelService.Index = 1
         Me.MenuItemServSelService.Text = "Select service"
         '
         'MenuItemServFileProp
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServFileProp, Global.YAPM.My.Resources.Resources.document_text)
+        Me.VistaMenu.SetImage(Me.MenuItemServFileProp, Global.My.Resources.Resources.document_text)
         Me.MenuItemServFileProp.Index = 3
         Me.MenuItemServFileProp.Text = "File properties"
         '
         'MenuItemServOpenDir
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServOpenDir, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.VistaMenu.SetImage(Me.MenuItemServOpenDir, Global.My.Resources.Resources.folder_open)
         Me.MenuItemServOpenDir.Index = 4
         Me.MenuItemServOpenDir.Text = "Open directory"
         '
         'MenuItemServFileDetails
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServFileDetails, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.VistaMenu.SetImage(Me.MenuItemServFileDetails, Global.My.Resources.Resources.magnifier)
         Me.MenuItemServFileDetails.Index = 5
         Me.MenuItemServFileDetails.Text = "File details"
         '
         'MenuItemServSearch
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServSearch, Global.YAPM.My.Resources.Resources.globe)
+        Me.VistaMenu.SetImage(Me.MenuItemServSearch, Global.My.Resources.Resources.globe)
         Me.MenuItemServSearch.Index = 6
         Me.MenuItemServSearch.Text = "Internet search"
         '
         'MenuItemServPause
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServPause, Global.YAPM.My.Resources.Resources.control_pause)
+        Me.VistaMenu.SetImage(Me.MenuItemServPause, Global.My.Resources.Resources.control_pause)
         Me.MenuItemServPause.Index = 9
         Me.MenuItemServPause.Text = "Pause"
         '
         'MenuItemServStop
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServStop, Global.YAPM.My.Resources.Resources.control_stop_square)
+        Me.VistaMenu.SetImage(Me.MenuItemServStop, Global.My.Resources.Resources.control_stop_square)
         Me.MenuItemServStop.Index = 10
         Me.MenuItemServStop.Text = "Stop"
         '
         'MenuItemServStart
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServStart, Global.YAPM.My.Resources.Resources.control)
+        Me.VistaMenu.SetImage(Me.MenuItemServStart, Global.My.Resources.Resources.control)
         Me.MenuItemServStart.Index = 11
         Me.MenuItemServStart.Text = "Start"
         '
         'MenuItemServAutoStart
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServAutoStart, Global.YAPM.My.Resources.Resources.p6)
+        Me.VistaMenu.SetImage(Me.MenuItemServAutoStart, Global.My.Resources.Resources.p6)
         Me.MenuItemServAutoStart.Index = 0
         Me.MenuItemServAutoStart.Text = "Auto start"
         '
         'MenuItemServOnDemand
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServOnDemand, Global.YAPM.My.Resources.Resources.p3)
+        Me.VistaMenu.SetImage(Me.MenuItemServOnDemand, Global.My.Resources.Resources.p3)
         Me.MenuItemServOnDemand.Index = 1
         Me.MenuItemServOnDemand.Text = "On demand"
         '
         'MenuItemServDisabled
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServDisabled, Global.YAPM.My.Resources.Resources.p0)
+        Me.VistaMenu.SetImage(Me.MenuItemServDisabled, Global.My.Resources.Resources.p0)
         Me.MenuItemServDisabled.Index = 2
         Me.MenuItemServDisabled.Text = "Disabled"
         '
         'MenuItemThTerm
         '
         Me.MenuItemThTerm.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemThTerm, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemThTerm, Global.My.Resources.Resources.cross)
         Me.MenuItemThTerm.Index = 0
         Me.MenuItemThTerm.Text = "Terminate"
         '
         'MenuItemThSuspend
         '
-        Me.VistaMenu.SetImage(Me.MenuItemThSuspend, Global.YAPM.My.Resources.Resources.control_pause)
+        Me.VistaMenu.SetImage(Me.MenuItemThSuspend, Global.My.Resources.Resources.control_pause)
         Me.MenuItemThSuspend.Index = 1
         Me.MenuItemThSuspend.Text = "Suspend"
         '
         'MenuItemThResu
         '
-        Me.VistaMenu.SetImage(Me.MenuItemThResu, Global.YAPM.My.Resources.Resources.control)
+        Me.VistaMenu.SetImage(Me.MenuItemThResu, Global.My.Resources.Resources.control)
         Me.MenuItemThResu.Index = 2
         Me.MenuItemThResu.Text = "Resume"
         '
         'MenuItemThIdle
         '
-        Me.VistaMenu.SetImage(Me.MenuItemThIdle, Global.YAPM.My.Resources.Resources.p0)
+        Me.VistaMenu.SetImage(Me.MenuItemThIdle, Global.My.Resources.Resources.p0)
         Me.MenuItemThIdle.Index = 0
         Me.MenuItemThIdle.Text = "Idle"
         '
         'MenuItemThLowest
         '
-        Me.VistaMenu.SetImage(Me.MenuItemThLowest, Global.YAPM.My.Resources.Resources.p1)
+        Me.VistaMenu.SetImage(Me.MenuItemThLowest, Global.My.Resources.Resources.p1)
         Me.MenuItemThLowest.Index = 1
         Me.MenuItemThLowest.Text = "Lowest"
         '
         'MenuItemThBNormal
         '
-        Me.VistaMenu.SetImage(Me.MenuItemThBNormal, Global.YAPM.My.Resources.Resources.p2)
+        Me.VistaMenu.SetImage(Me.MenuItemThBNormal, Global.My.Resources.Resources.p2)
         Me.MenuItemThBNormal.Index = 2
         Me.MenuItemThBNormal.Text = "Below normal"
         '
         'MenuItemThNorm
         '
-        Me.VistaMenu.SetImage(Me.MenuItemThNorm, Global.YAPM.My.Resources.Resources.p3)
+        Me.VistaMenu.SetImage(Me.MenuItemThNorm, Global.My.Resources.Resources.p3)
         Me.MenuItemThNorm.Index = 3
         Me.MenuItemThNorm.Text = "Normal"
         '
         'MenuItemThANorm
         '
-        Me.VistaMenu.SetImage(Me.MenuItemThANorm, Global.YAPM.My.Resources.Resources.p4)
+        Me.VistaMenu.SetImage(Me.MenuItemThANorm, Global.My.Resources.Resources.p4)
         Me.MenuItemThANorm.Index = 4
         Me.MenuItemThANorm.Text = "Above normal"
         '
         'MenuItemThHighest
         '
-        Me.VistaMenu.SetImage(Me.MenuItemThHighest, Global.YAPM.My.Resources.Resources.p5)
+        Me.VistaMenu.SetImage(Me.MenuItemThHighest, Global.My.Resources.Resources.p5)
         Me.MenuItemThHighest.Index = 5
         Me.MenuItemThHighest.Text = "Highest"
         '
         'MenuItemThTimeCr
         '
-        Me.VistaMenu.SetImage(Me.MenuItemThTimeCr, Global.YAPM.My.Resources.Resources.p6)
+        Me.VistaMenu.SetImage(Me.MenuItemThTimeCr, Global.My.Resources.Resources.p6)
         Me.MenuItemThTimeCr.Index = 6
         Me.MenuItemThTimeCr.Text = "Time critical"
         '
         'MenuItemWShow
         '
         Me.MenuItemWShow.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemWShow, Global.YAPM.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemWShow, Global.My.Resources.Resources.display16)
         Me.MenuItemWShow.Index = 0
         Me.MenuItemWShow.Text = "Show"
         '
         'MenuItemWClose
         '
-        Me.VistaMenu.SetImage(Me.MenuItemWClose, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemWClose, Global.My.Resources.Resources.cross)
         Me.MenuItemWClose.Index = 3
         Me.MenuItemWClose.Text = "Close"
         '
@@ -2868,80 +2868,80 @@ Partial Class frmProcessInfo
         '
         'MenuItemLogGoto
         '
-        Me.VistaMenu.SetImage(Me.MenuItemLogGoto, Global.YAPM.My.Resources.Resources.right)
+        Me.VistaMenu.SetImage(Me.MenuItemLogGoto, Global.My.Resources.Resources.right)
         Me.MenuItemLogGoto.Index = 0
         Me.MenuItemLogGoto.Text = "Go to item"
         '
         'MenuItemNavigateToHandle
         '
-        Me.VistaMenu.SetImage(Me.MenuItemNavigateToHandle, Global.YAPM.My.Resources.Resources.arrow_000_medium)
+        Me.VistaMenu.SetImage(Me.MenuItemNavigateToHandle, Global.My.Resources.Resources.arrow_000_medium)
         Me.MenuItemNavigateToHandle.Index = 1
         Me.MenuItemNavigateToHandle.Text = "Navigate..."
         '
         'menuViewMemory
         '
         Me.menuViewMemory.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.menuViewMemory, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.VistaMenu.SetImage(Me.menuViewMemory, Global.My.Resources.Resources.magnifier)
         Me.menuViewMemory.Index = 0
         Me.menuViewMemory.Text = "View memory"
         '
         'MenuItemCopyPrivilege
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyPrivilege, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyPrivilege, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyPrivilege.Index = 4
         Me.MenuItemCopyPrivilege.Text = "Copy to clipboard"
         '
         'MenuItemCopyMemory
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyMemory, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyMemory, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyMemory.Index = 8
         Me.MenuItemCopyMemory.Text = "Copy to clipboard"
         '
         'MenuItemCopyModule
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyModule, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyModule, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyModule.Index = 9
         Me.MenuItemCopyModule.Text = "Copy to clipboard"
         '
         'MenuItemCopyThread
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyThread, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyThread, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyThread.Index = 6
         Me.MenuItemCopyThread.Text = "Copy to clipboard"
         '
         'MenuItemCopyWindow
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyWindow, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyWindow, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyWindow.Index = 10
         Me.MenuItemCopyWindow.Text = "Copy to clipboard"
         '
         'MenuItemCopyHandle
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyHandle, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyHandle, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyHandle.Index = 5
         Me.MenuItemCopyHandle.Text = "Copy to clipboard"
         '
         'MenuItemCopyNetwork
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyNetwork, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyNetwork, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyNetwork.Index = 2
         Me.MenuItemCopyNetwork.Text = "Copy to clipboard"
         '
         'MenuItemCopyService
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyService, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyService, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyService.Index = 17
         Me.MenuItemCopyService.Text = "Copy to clipboard"
         '
         'MenuItemCopyLog
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyLog, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyLog, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyLog.Index = 2
         Me.MenuItemCopyLog.Text = "Copy to clipboard"
         '
         'MenuItemCopyEnvVariable
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyEnvVariable, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyEnvVariable, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyEnvVariable.Index = 0
         Me.MenuItemCopyEnvVariable.Text = "Copy to clipboard"
         '
@@ -2964,7 +2964,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemCopyString
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyString, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyString, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyString.Index = 2
         Me.MenuItemCopyString.Text = "Copy to clipboard"
         '
@@ -2983,7 +2983,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemMemoryDump
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMemoryDump, Global.YAPM.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItemMemoryDump, Global.My.Resources.Resources._096)
         Me.MenuItemMemoryDump.Index = 1
         Me.MenuItemMemoryDump.Text = "Dump..."
         '
@@ -2999,19 +2999,19 @@ Partial Class frmProcessInfo
         '
         'MenuItemMemoryRelease
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMemoryRelease, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemMemoryRelease, Global.My.Resources.Resources.cross)
         Me.MenuItemMemoryRelease.Index = 4
         Me.MenuItemMemoryRelease.Text = "Release"
         '
         'MenuItemMemoryDecommit
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMemoryDecommit, Global.YAPM.My.Resources.Resources.close)
+        Me.VistaMenu.SetImage(Me.MenuItemMemoryDecommit, Global.My.Resources.Resources.close)
         Me.MenuItemMemoryDecommit.Index = 5
         Me.MenuItemMemoryDecommit.Text = "Decommit"
         '
         'MenuItemMemoryChangeProtection
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMemoryChangeProtection, Global.YAPM.My.Resources.Resources.locked)
+        Me.VistaMenu.SetImage(Me.MenuItemMemoryChangeProtection, Global.My.Resources.Resources.locked)
         Me.MenuItemMemoryChangeProtection.Index = 6
         Me.MenuItemMemoryChangeProtection.Text = "Change protection..."
         '
@@ -3239,7 +3239,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemServDepe
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServDepe, Global.YAPM.My.Resources.Resources.dllIcon)
+        Me.VistaMenu.SetImage(Me.MenuItemServDepe, Global.My.Resources.Resources.dllIcon)
         Me.MenuItemServDepe.Index = 7
         Me.MenuItemServDepe.Text = "View dependencies..."
         '
@@ -3374,7 +3374,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemServDelete
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.My.Resources.Resources.cross)
         Me.MenuItemServDelete.Index = 13
         Me.MenuItemServDelete.Text = "Delete"
         '
@@ -3527,10 +3527,10 @@ Partial Class frmProcessInfo
     Friend WithEvents Label18 As System.Windows.Forms.Label
     Friend WithEvents TabPagePerf As System.Windows.Forms.TabPage
     Friend WithEvents splitPerformances As System.Windows.Forms.SplitContainer
-    Friend WithEvents graphCPU As YAPM.Graph2
+    Friend WithEvents graphCPU As Graph2
     Friend WithEvents splitPerformance2 As System.Windows.Forms.SplitContainer
-    Friend WithEvents graphMemory As YAPM.Graph2
-    Friend WithEvents graphIO As YAPM.Graph2
+    Friend WithEvents graphMemory As Graph2
+    Friend WithEvents graphIO As Graph2
     Friend WithEvents TabPageToken As System.Windows.Forms.TabPage
     Friend WithEvents tabProcessToken As System.Windows.Forms.TabControl
     Friend WithEvents tabProcessTokenPagePrivileges As System.Windows.Forms.TabPage
@@ -3557,7 +3557,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader59 As System.Windows.Forms.ColumnHeader
     Friend WithEvents TabPageString As System.Windows.Forms.TabPage
     Friend WithEvents SplitContainerStrings As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvProcString As YAPM.DoubleBufferedLV
+    Friend WithEvents lvProcString As DoubleBufferedLV
     Friend WithEvents ColumnHeader76 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader77 As System.Windows.Forms.ColumnHeader
     Friend WithEvents cmdProcSearchR As System.Windows.Forms.Button

@@ -47,8 +47,8 @@ Partial Class frmLogOptions
         Me.cmdOK = New System.Windows.Forms.Button
         Me._autoScroll = New System.Windows.Forms.CheckBox
         Me.cmdCancel = New System.Windows.Forms.Button
-        Me.Line2 = New YAPM.HorizontalLine
-        Me.Line1 = New YAPM.HorizontalLine
+        Me.Line2 = New HorizontalLine
+        Me.Line1 = New HorizontalLine
         CType(Me.logInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -416,5 +416,5 @@ Partial Class frmLogOptions
     Friend WithEvents _autoScroll As System.Windows.Forms.CheckBox
     Friend WithEvents cmdCancel As System.Windows.Forms.Button
     Friend WithEvents Line1 As HorizontalLine
-    Friend WithEvents Line2 As YAPM.HorizontalLine
+    Friend WithEvents Line2 As HorizontalLine
 End Class

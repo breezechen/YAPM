@@ -36,7 +36,7 @@ Imports System.Runtime.Remoting.Channels.Http
 Imports System.Runtime.Remoting.Channels.Tcp
 Imports System.Runtime.Remoting.Channels.Ipc
 Imports System.Runtime.Serialization.Formatters.Binary
-Imports YAPM.RemotingServerClient
+Imports RemotingServerClient
 Imports MsdnMag.Remoting
 
 Public Class AsynchronousClient

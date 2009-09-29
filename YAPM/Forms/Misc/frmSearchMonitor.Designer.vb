@@ -61,7 +61,7 @@ Partial Class frmSearchMonitor
         'cmdGo
         '
         Me.cmdGo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
-        Me.cmdGo.Image = Global.YAPM.My.Resources.Resources.magnifier
+        Me.cmdGo.Image = Global.My.Resources.Resources.magnifier
         Me.cmdGo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdGo.Location = New System.Drawing.Point(330, 6)
         Me.cmdGo.Name = "cmdGo"

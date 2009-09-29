@@ -41,7 +41,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Native.Api.NativeEnums
+Imports Native.Api.NativeEnums
 
 Namespace Native.Api
 

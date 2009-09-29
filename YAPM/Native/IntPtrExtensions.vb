@@ -26,6 +26,15 @@ Imports System.Runtime.CompilerServices
 
 ' http://blogs.msdn.com/jaredpar/archive/2008/11/11/properly-incrementing-an-intptr.aspx
 
+Namespace System.Runtime.CompilerServices
+
+    <AttributeUsage(AttributeTargets.Method Or AttributeTargets.Assembly Or AttributeTargets.Class)> _
+    Public Class ExtensionAttribute
+        Inherits Attribute
+    End Class
+
+End Namespace
+
 Public Module IntPtrExtensions
 
     ' This module extendes the methods available for IntPtr.

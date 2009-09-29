@@ -70,7 +70,7 @@ Partial Class frmAboutG
         '
         'pctIcon
         '
-        Me.pctIcon.Image = Global.YAPM.My.Resources.Resources.process
+        Me.pctIcon.Image = Global.My.Resources.Resources.process
         Me.pctIcon.Location = New System.Drawing.Point(12, 12)
         Me.pctIcon.Name = "pctIcon"
         Me.pctIcon.Size = New System.Drawing.Size(64, 64)

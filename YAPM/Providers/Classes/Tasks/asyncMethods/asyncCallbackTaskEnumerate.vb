@@ -24,7 +24,7 @@ Option Strict On
 Imports System.Runtime.InteropServices
 Imports System.Windows.Forms
 Imports System.Management
-Imports YAPM.Native.Objects
+Imports Native.Objects
 
 Public Class asyncCallbackTaskEnumerate
 

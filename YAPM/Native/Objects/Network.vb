@@ -20,8 +20,8 @@
 
 Imports System.Runtime.InteropServices
 Imports System.Net
-Imports YAPM.Native.Api
-Imports YAPM.Common.Misc
+Imports Native.Api
+Imports Common.Misc
 
 Namespace Native.Objects
 

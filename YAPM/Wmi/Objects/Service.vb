@@ -19,9 +19,9 @@
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Native.Api
+Imports Native.Api
 Imports System.Management
-Imports YAPM.Native.Api.Enums
+Imports Native.Api.Enums
 
 Namespace Wmi.Objects
 

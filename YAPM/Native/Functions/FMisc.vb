@@ -22,9 +22,9 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
-Imports YAPM.Native.Api.NativeStructs
-Imports YAPM.Native.Api.NativeEnums
-Imports YAPM.Native.Api.NativeFunctions
+Imports Native.Api.NativeStructs
+Imports Native.Api.NativeEnums
+Imports Native.Api.NativeFunctions
 
 Namespace Native.Functions
 

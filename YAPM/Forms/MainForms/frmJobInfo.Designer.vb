@@ -23,10 +23,10 @@ Partial Class frmJobInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim CConnection1 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection1 As cConnection = New cConnection
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection2 As YAPM.cConnection = New YAPM.cConnection
+        Dim CConnection2 As cConnection = New cConnection
         Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmJobInfo))
@@ -35,7 +35,7 @@ Partial Class frmJobInfo
         Me.SplitContainer = New System.Windows.Forms.SplitContainer
         Me.cmdTerminateJob = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.lvProcess = New YAPM.processesInJobList
+        Me.lvProcess = New processesInJobList
         Me.c1 = New System.Windows.Forms.ColumnHeader
         Me.c2 = New System.Windows.Forms.ColumnHeader
         Me.c3 = New System.Windows.Forms.ColumnHeader
@@ -108,7 +108,7 @@ Partial Class frmJobInfo
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.cmdSetLimits = New System.Windows.Forms.Button
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
-        Me.lvLimits = New YAPM.jobLimitList
+        Me.lvLimits = New jobLimitList
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
@@ -207,7 +207,7 @@ Partial Class frmJobInfo
         '
         'cmdTerminateJob
         '
-        Me.cmdTerminateJob.Image = Global.YAPM.My.Resources.Resources.cross
+        Me.cmdTerminateJob.Image = Global.My.Resources.Resources.cross
         Me.cmdTerminateJob.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdTerminateJob.Location = New System.Drawing.Point(5, 0)
         Me.cmdTerminateJob.Name = "cmdTerminateJob"
@@ -233,7 +233,7 @@ Partial Class frmJobInfo
         Me.lvProcess.AllowColumnReorder = True
         Me.lvProcess.CatchErrors = False
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
-        CConnection1.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvProcess.ConnectionObj = CConnection1
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -973,7 +973,7 @@ Partial Class frmJobInfo
         Me.lvLimits.AllowColumnReorder = True
         Me.lvLimits.CatchErrors = False
         Me.lvLimits.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader11, Me.ColumnHeader13})
-        CConnection2.ConnectionType = YAPM.cConnection.TypeOfConnection.LocalConnection
+        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvLimits.ConnectionObj = CConnection2
         Me.lvLimits.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvLimits.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1016,98 +1016,98 @@ Partial Class frmJobInfo
         '
         'MenuItemCopyLimit
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyLimit, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyLimit, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyLimit.Index = 0
         Me.MenuItemCopyLimit.Text = "Copy to clipboard"
         '
         'MenuItemProcKill
         '
         Me.MenuItemProcKill.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemProcKill, Global.YAPM.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemProcKill, Global.My.Resources.Resources.cross)
         Me.MenuItemProcKill.Index = 0
         Me.MenuItemProcKill.Text = "Kill"
         '
         'MenuItemProcStop
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcStop, Global.YAPM.My.Resources.Resources.control_stop_square)
+        Me.VistaMenu.SetImage(Me.MenuItemProcStop, Global.My.Resources.Resources.control_stop_square)
         Me.MenuItemProcStop.Index = 3
         Me.MenuItemProcStop.Text = "Stop"
         '
         'MenuItemProcResume
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcResume, Global.YAPM.My.Resources.Resources.control)
+        Me.VistaMenu.SetImage(Me.MenuItemProcResume, Global.My.Resources.Resources.control)
         Me.MenuItemProcResume.Index = 4
         Me.MenuItemProcResume.Text = "Resume"
         '
         'MenuItemProcPIdle
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPIdle, Global.YAPM.My.Resources.Resources.p0)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPIdle, Global.My.Resources.Resources.p0)
         Me.MenuItemProcPIdle.Index = 0
         Me.MenuItemProcPIdle.Text = "Idle"
         '
         'MenuItemProcPBN
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPBN, Global.YAPM.My.Resources.Resources.p1)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPBN, Global.My.Resources.Resources.p1)
         Me.MenuItemProcPBN.Index = 1
         Me.MenuItemProcPBN.Text = "Below normal"
         '
         'MenuItemProcPN
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPN, Global.YAPM.My.Resources.Resources.p2)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPN, Global.My.Resources.Resources.p2)
         Me.MenuItemProcPN.Index = 2
         Me.MenuItemProcPN.Text = "Normal"
         '
         'MenuItemProcPAN
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPAN, Global.YAPM.My.Resources.Resources.p3)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPAN, Global.My.Resources.Resources.p3)
         Me.MenuItemProcPAN.Index = 3
         Me.MenuItemProcPAN.Text = "Above normal"
         '
         'MenuItemProcPH
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPH, Global.YAPM.My.Resources.Resources.p4)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPH, Global.My.Resources.Resources.p4)
         Me.MenuItemProcPH.Index = 4
         Me.MenuItemProcPH.Text = "High"
         '
         'MenuItemProcPRT
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcPRT, Global.YAPM.My.Resources.Resources.p6)
+        Me.VistaMenu.SetImage(Me.MenuItemProcPRT, Global.My.Resources.Resources.p6)
         Me.MenuItemProcPRT.Index = 5
         Me.MenuItemProcPRT.Text = "Real time"
         '
         'MenuItemProcSFileProp
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSFileProp, Global.YAPM.My.Resources.Resources.document_text)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSFileProp, Global.My.Resources.Resources.document_text)
         Me.MenuItemProcSFileProp.Index = 9
         Me.MenuItemProcSFileProp.Text = "File properties"
         '
         'MenuItemProcSOpenDir
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSOpenDir, Global.YAPM.My.Resources.Resources.folder_open)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSOpenDir, Global.My.Resources.Resources.folder_open)
         Me.MenuItemProcSOpenDir.Index = 10
         Me.MenuItemProcSOpenDir.Text = "Open directory"
         '
         'MenuItemProcSFileDetails
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSFileDetails, Global.YAPM.My.Resources.Resources.magnifier)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSFileDetails, Global.My.Resources.Resources.magnifier)
         Me.MenuItemProcSFileDetails.Index = 11
         Me.MenuItemProcSFileDetails.Text = "File details"
         '
         'MenuItemProcSSearch
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSSearch, Global.YAPM.My.Resources.Resources.globe)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSSearch, Global.My.Resources.Resources.globe)
         Me.MenuItemProcSSearch.Index = 12
         Me.MenuItemProcSSearch.Text = "Internet search"
         '
         'MenuItemProcSDep
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSDep, Global.YAPM.My.Resources.Resources.dllIcon)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSDep, Global.My.Resources.Resources.dllIcon)
         Me.MenuItemProcSDep.Index = 13
         Me.MenuItemProcSDep.Text = "View dependencies..."
         '
         'MenuItemCopyProcess
         '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyProcess, Global.YAPM.My.Resources.Resources.copy16)
+        Me.VistaMenu.SetImage(Me.MenuItemCopyProcess, Global.My.Resources.Resources.copy16)
         Me.MenuItemCopyProcess.Index = 15
         Me.MenuItemCopyProcess.Text = "Copy to clipboard"
         '
@@ -1279,7 +1279,7 @@ Partial Class frmJobInfo
     Friend WithEvents SplitContainer As System.Windows.Forms.SplitContainer
     Friend WithEvents cmdTerminateJob As System.Windows.Forms.Button
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents lvProcess As YAPM.processesInJobList
+    Friend WithEvents lvProcess As processesInJobList
     Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c3 As System.Windows.Forms.ColumnHeader
@@ -1293,7 +1293,7 @@ Partial Class frmJobInfo
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents cmdSetLimits As System.Windows.Forms.Button
     Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
-    Friend WithEvents lvLimits As YAPM.jobLimitList
+    Friend WithEvents lvLimits As jobLimitList
     Friend WithEvents TimerLimits As System.Windows.Forms.Timer
     Friend WithEvents ColumnHeader11 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader13 As System.Windows.Forms.ColumnHeader
