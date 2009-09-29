@@ -688,6 +688,10 @@ Public Class cProcess
                 If Me.Infos.FileInfo IsNot Nothing Then
                     res = Me.Infos.FileInfo.FileVersion
                 End If
+            Case "Company"
+                If Me.Infos.FileInfo IsNot Nothing Then
+                    res = Me.Infos.FileInfo.CompanyName
+                End If
             Case "Name"
                 res = Me.Infos.Name
             Case "GdiObjects"
@@ -780,6 +784,7 @@ Public Class cProcess
         Static _old_Description As String = ""
         Static _old_Copyright As String = ""
         Static _old_Version As String = ""
+        Static _old_CompanyName As String = ""
         Static _old_Name As String = ""
         Static _old_GdiObjects As String = ""
         Static _old_UserObjects As String = ""
@@ -1029,6 +1034,15 @@ Public Class cProcess
                     hasChanged = False
                 Else
                     _old_Version = res
+                End If
+            Case "Company"
+                If Me.Infos.FileInfo IsNot Nothing Then
+                    res = Me.Infos.FileInfo.CompanyName
+                End If
+                If res = _old_CompanyName Then
+                    hasChanged = False
+                Else
+                    _old_CompanyName = res
                 End If
             Case "Name"
                 res = Me.Infos.Name

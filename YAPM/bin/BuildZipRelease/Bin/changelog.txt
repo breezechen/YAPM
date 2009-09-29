@@ -1,5 +1,15 @@
 YAPM 2.2.0 BETA
 
+CHANGES FROM 2.2.1
+
+*NEW / Improvements
+- YAPM does not require .Net Framework 3.5 anymore (.Net 2.0 is enough)
+- Request #2869164 : Added 'Company' information column for processes
+
+* Bug fixes
+
+
+
 CHANGES FROM 2.2.0
 
 *NEW / Improvements

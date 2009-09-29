@@ -319,7 +319,7 @@ Imports System.Runtime.InteropServices
 
     ' Retrieve all information's names availables
     Public Shared  Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
-        Dim s(49) As String
+        Dim s(50) As String
 
         s(0) = "PID"
         s(1) = "UserName"
@@ -371,6 +371,7 @@ Imports System.Runtime.InteropServices
         s(47) = "Description"
         s(48) = "Copyright"
         s(49) = "Version"
+        s(50) = "Company"
 
 
         If includeFirstProp Then
