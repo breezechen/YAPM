@@ -7,6 +7,7 @@ CHANGES FROM 2.2.1
 - Request #2869164 : Added 'Company' information column for processes
 
 * Bug fixes
+- Somes minor bugs
 
 
 

@@ -1,4 +1,4 @@
-Yet Another (remote) Process Monitor (YAPM) v2.2.1 beta
+Yet Another (remote) Process Monitor (YAPM) v2.3.0 beta
 
 
 SUMMARY
