@@ -14,8 +14,8 @@ CHANGES FROM 2.2.1
 * Bug fixes
 - Somes minor bugs
 		</description>
-		<date>23 September 2009</date>
-		<downloadUrl>http://surfnet.dl.sourceforge.net/project/yaprocmon/YAPM-beta/YAPM-2.2.0/YAPM%202.2.0%20Setup.exe</downloadUrl>
-		<hash>7044eb36415bf0165188ff7716648ef5c39c614f207f35111b2569f540da9a33696cf7e81a534f5f1f1f2dfbd654d57aca86c0a512b9c40c993b5f87d02f6d11</hash>
+		<date>01 October 2009</date>
+		<downloadUrl>http://downloads.sourceforge.net/project/yaprocmon/YAPM-beta/YAPM-2.3.0/YAPM-v2.3.0-Setup.exe</downloadUrl>
+		<hash>d078ff095b75a26cad9205c56d681c6b4311803ee01b089c17b74a9a3c64bb9b8df9d60d5669633a4a633726e2741992acf2871222e5068b58e414d7574ebff4</hash>
 	</update>
 </YAPM>
