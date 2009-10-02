@@ -1,31 +1,18 @@
 <YAPM>
 	<!-- update possible types are "stable", "beta", "alpha" -->
 	<update type="stable">
-		<version>2.2.1.0</version>
-		<caption>Yet Another (remote) Process Monitor 2.2.1</caption>
-		<description>2.2.x is a major release with a lot of improvements (stability of remote monitoring and general performances) and new features.
-2.2.1 is a "bug-fix" release which correct an (very) annoying bug of 2.2.0 release, and adds some new features. Here is the complete changelog :
+		<version>2.3.0.0</version>
+		<caption>Yet Another (remote) Process Monitor 2.3.0</caption>
+		<description>2.3.0 is a major release which makes YAPM only require .Net 2.0 (does not need .Net 3.5 anymore).
 
-CHANGES FROM 2.2.0
+CHANGES FROM 2.2.1
 
 *NEW / Improvements
-- Now "update feature" is much more efficient
-- Added 'Show classic messagebox' option
-- Highly improved exception management
-- Now save last remote machine name
-- Added 'Start Terminal Service Client' button
-- Added 'Display list of data received from server' feature
-- Added 'Remote monitoring refreshement interval coefficient' option
-- Improved 'select process by its window' feature
-- Updated Help File
+- YAPM does not require .Net Framework 3.5 anymore (.Net 2.0 is enough)
+- Request #2869164 : Added 'Company' information column for processes
 
 * Bug fixes
-- 'Select associated process' menu now works again
-- Removed 'Select in window tab' menu
-- Fixed bad wait time for process termination
-- Fixed incorrect error message when closing a window
-- Fixed "parent process name" in process details form
-- Fixed bad connection state for UDP/TCP6
+- Somes minor bugs
 		</description>
 		<date>23 September 2009</date>
 		<downloadUrl>http://surfnet.dl.sourceforge.net/project/yaprocmon/YAPM-beta/YAPM-2.2.0/YAPM%202.2.0%20Setup.exe</downloadUrl>
