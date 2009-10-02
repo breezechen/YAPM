@@ -7,16 +7,16 @@
 	</MASTER_PAD_VERSION_INFO>
 	<Company_Info>
 		<Company_Name>v_k softwares</Company_Name>
-		<Address_1>  </Address_1>
-		<Address_2>  </Address_2>
-		<City_Town>  </City_Town>
-		<State_Province>  </State_Province>
-		<Zip_Postal_Code>  </Zip_Postal_Code>
+		<Address_1 />
+		<Address_2 />
+		<City_Town />
+		<State_Province />
+		<Zip_Postal_Code />
 		<Country>France</Country>
 		<Company_WebSite_URL>http://yaprocmon.sourceforge.net/</Company_WebSite_URL>
 		<Contact_Info>
 			<Author_First_Name>violent_ken</Author_First_Name>
-			<Author_Last_Name>  </Author_Last_Name>
+			<Author_Last_Name />
 			<Author_Email>violent_ken@users.sourceforge.net</Author_Email>
 			<Contact_First_Name>Alain</Contact_First_Name>
 			<Contact_Last_Name>Descotes</Contact_Last_Name>
@@ -34,9 +34,9 @@
 	</Company_Info>
 	<Program_Info>
 		<Program_Name>Yet Another (remote) Process Monitor</Program_Name>
-		<Program_Version>2.2.1</Program_Version>
-		<Program_Release_Month>09</Program_Release_Month>
-		<Program_Release_Day>27</Program_Release_Day>
+		<Program_Version>2.3.0</Program_Version>
+		<Program_Release_Month>10</Program_Release_Month>
+		<Program_Release_Day>01</Program_Release_Day>
 		<Program_Release_Year>2009</Program_Release_Year>
 		<Program_Cost_Dollars />
 		<Program_Cost_Other_Code />
@@ -44,12 +44,12 @@
 		<Program_Type>Freeware</Program_Type>
 		<Program_Release_Status>Major Update</Program_Release_Status>
 		<Program_Install_Support>Install and Uninstall</Program_Install_Support>
-		<Program_OS_Support>WinXP,Windows Vista Starter,Windows Vista Home Basic,Windows Vista Home Premium,Windows Vista Enterprise,Windows Vista Ultimate,Windows Vista Home Basic x64,Windows Vista Home Premium x64,Windows Vista Business x64,Windows Vista Enterprise x64,Windows Vista Ultimate x64</Program_OS_Support>
+		<Program_OS_Support>WinXP,Windows Vista Starter,Windows Vista Home Basic,Windows Vista Home Premium,Windows Vista Business,Windows Vista Enterprise,Windows Vista Ultimate,Windows Vista Home Basic x64,Windows Vista Home Premium x64,Windows Vista Business x64,Windows Vista Enterprise x64,Windows Vista Ultimate x64</Program_OS_Support>
 		<Program_Language>English</Program_Language>
 		<Program_Change_Info />
 		<Program_Specific_Category>Utilities</Program_Specific_Category>
 		<Program_Category_Class>System Utilities::Other</Program_Category_Class>
-		<Program_System_Requirements>.Net Framework 3.5 / 64-bits OS support is experimental for now</Program_System_Requirements>
+		<Program_System_Requirements>.Net Framework 2.0 / 64-bits OS support is experimental for now</Program_System_Requirements>
 		<File_Info>
 			<File_Size_Bytes>1286590</File_Size_Bytes>
 			<File_Size_K>1256</File_Size_K>
