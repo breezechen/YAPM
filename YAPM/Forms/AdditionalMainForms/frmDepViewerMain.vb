@@ -116,7 +116,7 @@ Public Class frmDepViewerMain
         Native.Functions.Misc.SetTheme(Me.lvAllDeps.Handle)
         Native.Functions.Misc.SetTheme(Me.lvExports.Handle)
         Native.Functions.Misc.SetTheme(Me.lvImports.Handle)
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
     End Sub
 
     Public Sub HideOpenMenu()

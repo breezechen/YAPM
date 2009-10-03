@@ -36,7 +36,7 @@ Public Class frmKillProcessByMethod
     End Property
 
     Private Sub frmKillProcessByMethod_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Common.Misc.closeWithEchapKey(Me)
+        Common.Misc.CloseWithEchapKey(Me)
         SetToolTip(Me.lstMethods, "List of available methods to kill the process")
         SetToolTip(Me.cmdExit, "Exit")
         SetToolTip(Me.cmdKill, "Kill process with selected methods")

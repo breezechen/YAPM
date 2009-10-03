@@ -47,7 +47,7 @@ Public Class frmSetJobLimits
     End Sub
 
     Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
 
         ' Tooltips
         SetToolTip(Me.chkActiveProcesses, "Establishes a maximum number of simultaneously active processes associated with the job")

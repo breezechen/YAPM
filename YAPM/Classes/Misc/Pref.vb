@@ -139,7 +139,7 @@ Public Class Pref
 
 
         ' Here is an example of column description :
-        ' col1?width1?index1$col2?width2?index2$...
+        ' col1?width1?index1?alignment1$col2?width2?index2?alignment2$...
         Dim s As String = ""
         Try
             s = CStr(My.Settings(name))
@@ -161,6 +161,11 @@ Public Class Pref
             If Len(column) > 0 Then
                 Dim obj() As String = Split(column, "?")
                 Dim col As ColumnHeader = lv.Columns.Add(obj(0), CInt(Val((obj(1)))))
+                If obj.Length < 4 Then
+                    col.TextAlign = HorizontalAlignment.Left
+                Else
+                    col.TextAlign = CType([Enum].Parse(GetType(HorizontalAlignment), obj(3)), HorizontalAlignment)
+                End If
             End If
         Next
 
@@ -184,7 +189,7 @@ Public Class Pref
         Dim s As String = ""
 
         For Each it As ColumnHeader In lv.Columns
-            s &= it.Text.Replace("< ", "").Replace("> ", "") & "?" & it.Width.ToString & "?" & it.DisplayIndex.ToString & "$"
+            s &= it.Text.Replace("< ", "").Replace("> ", "") & "?" & it.Width.ToString & "?" & it.DisplayIndex.ToString & "?" & it.TextAlign.ToString & "$"
         Next
 
         My.Settings(name) = s

@@ -146,7 +146,7 @@ Public Class frmPreferences
 
     Private Sub frmPreferences_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
 
         Native.Functions.Misc.SetTheme(Me.lvHighlightingProcess.Handle)
         Native.Functions.Misc.SetTheme(Me.lvHighlightingOther.Handle)

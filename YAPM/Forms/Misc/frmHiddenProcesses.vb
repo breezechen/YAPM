@@ -28,7 +28,7 @@ Public Class frmHiddenProcesses
 
     Private Sub frmHiddenProcesses_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
         SetToolTip(Me.sb, "Change method (click on the arrow) and/or refresh items (click on the shield)")
 
         Call Native.Functions.Misc.SetTheme(Me.lvProcess.Handle)

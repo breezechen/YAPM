@@ -321,7 +321,7 @@ Public Class frmFindWindow
     End Sub
 
     Private Sub frmFindWindow_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
         SetToolTip(Me.cmdGoToProcess, "Select associated process")
     End Sub
 

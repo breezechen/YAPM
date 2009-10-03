@@ -28,7 +28,7 @@ Public Class frmSearchMonitor
 
     Private Sub frmSearchMonitor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
         SetToolTip(Me.txtToSearch, "Text to search")
         SetToolTip(Me.chkCase, "Is the search case sensitive or not ?")
         SetToolTip(Me.cmdGo, "Launch the search of the specified text")

@@ -35,7 +35,7 @@ Public Class frmThreadAffinity
 
     Private Sub frmProcessAffinity_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
         SetToolTip(Me.cmdCancel, "Do not validate changes")
         SetToolTip(Me.cmdOK, "Validate changes")
 

@@ -39,7 +39,7 @@ Public Class frmNewVersionAvailable
 
     Private Sub frmAboutG_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
 
         SetToolTip(Me.cmdDownload, "Download the new version now")
         SetToolTip(Me.btnOK, "Close this window")

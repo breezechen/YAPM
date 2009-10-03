@@ -120,7 +120,7 @@ Public Class frmChangeMemoryProtection
     End Property
 
     Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
         SetToolTip(Me.cmdChangeProtection, "Change protection type now")
         SetToolTip(Me.cmdExit, "Close this window")
         SetToolTip(Me.optE, "Enables execute access to the committed region of pages. An attempt to read from or write to the committed region results in an access violation.")

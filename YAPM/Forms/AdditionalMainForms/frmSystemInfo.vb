@@ -202,7 +202,7 @@ Public Class frmSystemInfo
     Private Sub frmSystemInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         SetToolTip(Me.chkOneGraphPerCpu, "Display one graph per CPU or one graph for all CPUs")
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
 
         Me.timerRefresh.Interval = My.Settings.SystemInterval
         Call chkOneGraphPerCpu_CheckedChanged(Nothing, Nothing) ' Add graphs

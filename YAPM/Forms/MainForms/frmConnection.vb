@@ -50,7 +50,7 @@ Public Class frmConnection
 
     Private Sub frmConnection_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Call hideWithEchapKey(Me)
+        Call HideWithEchapKey(Me)
         Call changeInfos()
         Native.Functions.Misc.SetTheme(Me.lvData.Handle)
 

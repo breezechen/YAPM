@@ -56,7 +56,7 @@ Public Class frmLog
 
     Private Sub frmLog_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        Common.Misc.closeWithEchapKey(Me)
+        Common.Misc.CloseWithEchapKey(Me)
 
         Call Native.Functions.Misc.SetTheme(Me.lv.Handle)
     End Sub

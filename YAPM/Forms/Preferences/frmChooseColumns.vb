@@ -56,7 +56,7 @@ Public Class frmChooseColumns
             If width <= 0 Then
                 width = 90        ' Default size
             End If
-            theListview.Columns.Add(it.Text, width)
+            theListview.Columns.Add(it.Text, width).TextAlign = CType([Enum].Parse(GetType(HorizontalAlignment), it.SubItems(2).Text), HorizontalAlignment)
         Next
 
         ' Add items which are selected
@@ -108,7 +108,7 @@ Public Class frmChooseColumns
 
     Private Sub frmChooseProcessColumns_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        Call closeWithEchapKey(Me)
+        Call CloseWithEchapKey(Me)
 
         Native.Functions.Misc.SetTheme(Me.lv.Handle)
 
@@ -162,6 +162,7 @@ Public Class frmChooseColumns
             it.Checked = True
             it.Name = sss
             it.SubItems.Add(col.Width.ToString)
+            it.SubItems.Add(col.TextAlign.ToString)
             Me.lv.Items.Add(it)
         Next
 
@@ -170,6 +171,7 @@ Public Class frmChooseColumns
             If Me.lv.Items.ContainsKey(s) = False Then
                 Dim it As New ListViewItem(s)
                 it.SubItems.Add("")
+                it.SubItems.Add(HorizontalAlignment.Left.ToString)
                 Me.lv.Items.Add(it)
             End If
         Next
@@ -213,4 +215,20 @@ Public Class frmChooseColumns
         ' Set default columns
 
     End Sub
+
+    Private Sub lv_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseDown
+        If Me.lv.SelectedItems.Count = 1 AndAlso e.Button = Windows.Forms.MouseButtons.Right Then
+            Dim sAlign As String = Me.lv.SelectedItems(0).SubItems(2).Text
+            Select Case sAlign
+                Case HorizontalAlignment.Left.ToString
+                    sAlign = HorizontalAlignment.Center.ToString
+                Case HorizontalAlignment.Right.ToString
+                    sAlign = HorizontalAlignment.Left.ToString
+                Case Else '"Center"
+                    sAlign = HorizontalAlignment.Right.ToString
+            End Select
+            Me.lv.SelectedItems(0).SubItems(2).Text = sAlign
+        End If
+    End Sub
+
 End Class

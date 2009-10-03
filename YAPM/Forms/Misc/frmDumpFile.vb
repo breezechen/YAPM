@@ -71,7 +71,7 @@ Public Class frmDumpFile
     End Property
 
     Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
         SetToolTip(Me.cmdBrowse, "Select target directory")
         SetToolTip(Me.txtDir, "Target directory")
         SetToolTip(Me.cmdCreate, "Create the minidump now")

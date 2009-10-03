@@ -54,7 +54,7 @@ Public Class frmAddToJob
         Common.Misc.SetToolTip(Me.txtJobName, "Job name (must be not null)")
 
         Native.Functions.Misc.SetTheme(Me.lvJob.Handle)
-        Common.Misc.closeWithEchapKey(Me)
+        Common.Misc.CloseWithEchapKey(Me)
 
     End Sub
 

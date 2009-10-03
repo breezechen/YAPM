@@ -32,10 +32,11 @@ Partial Class frmChooseColumns
         Me.cmdInvert = New System.Windows.Forms.Button
         Me.cmdMoveUp = New System.Windows.Forms.Button
         Me.cmdMoveDown = New System.Windows.Forms.Button
+        Me.cmdDefault = New System.Windows.Forms.Button
         Me.lv = New DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.cmdDefault = New System.Windows.Forms.Button
+        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -76,11 +77,11 @@ Partial Class frmChooseColumns
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
+        Me.Label1.Location = New System.Drawing.Point(12, 6)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(207, 13)
+        Me.Label1.Size = New System.Drawing.Size(212, 26)
         Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Select the columns you want to display"
+        Me.Label1.Text = "Select the columns you want to display" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Right click to change the text alignment"
         '
         'cmdSelAll
         '
@@ -127,30 +128,6 @@ Partial Class frmChooseColumns
         Me.cmdMoveDown.TabIndex = 9
         Me.cmdMoveDown.UseVisualStyleBackColor = True
         '
-        'lv
-        '
-        Me.lv.CheckBoxes = True
-        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
-        Me.lv.FullRowSelect = True
-        Me.lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
-        Me.lv.Location = New System.Drawing.Point(12, 25)
-        Me.lv.MultiSelect = False
-        Me.lv.Name = "lv"
-        Me.lv.OverriddenDoubleBuffered = False
-        Me.lv.Size = New System.Drawing.Size(309, 196)
-        Me.lv.TabIndex = 6
-        Me.lv.UseCompatibleStateImageBehavior = False
-        Me.lv.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Width = 280
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.Text = "Width"
-        Me.ColumnHeader2.Width = 0
-        '
         'cmdDefault
         '
         Me.cmdDefault.Location = New System.Drawing.Point(8, 314)
@@ -159,6 +136,35 @@ Partial Class frmChooseColumns
         Me.cmdDefault.TabIndex = 10
         Me.cmdDefault.Text = "Default"
         Me.cmdDefault.UseVisualStyleBackColor = True
+        '
+        'lv
+        '
+        Me.lv.CheckBoxes = True
+        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3})
+        Me.lv.FullRowSelect = True
+        Me.lv.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None
+        Me.lv.Location = New System.Drawing.Point(12, 38)
+        Me.lv.MultiSelect = False
+        Me.lv.Name = "lv"
+        Me.lv.OverriddenDoubleBuffered = False
+        Me.lv.Size = New System.Drawing.Size(309, 183)
+        Me.lv.TabIndex = 6
+        Me.lv.UseCompatibleStateImageBehavior = False
+        Me.lv.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Width = 230
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Width"
+        Me.ColumnHeader2.Width = 0
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Alignment"
+        Me.ColumnHeader3.Width = 50
         '
         'frmChooseColumns
         '
@@ -201,4 +207,5 @@ Partial Class frmChooseColumns
     Friend WithEvents cmdMoveDown As System.Windows.Forms.Button
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents cmdDefault As System.Windows.Forms.Button
+    Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
 End Class

@@ -27,7 +27,7 @@ Public Class frmTracker
 
     Private Sub frmTracker_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
         SetToolTip(Me.cmdGoBug, "Navigate to the bug tracker")
         SetToolTip(Me.cmdGoFeed, "Send a feed back")
         SetToolTip(Me.cmdGoSug, "Navigate to the forums of YAPM on sourceforge.net")

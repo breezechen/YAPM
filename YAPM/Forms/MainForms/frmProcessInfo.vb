@@ -360,7 +360,7 @@ Public Class frmProcessInfo
             Call hideFindPanel()
         End If
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
 
         ' Cool theme
         Native.Functions.Misc.SetTheme(Me.lvProcString.Handle)

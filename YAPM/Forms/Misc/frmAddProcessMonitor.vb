@@ -44,7 +44,7 @@ Public Class frmAddProcessMonitor
 
     Private Sub frmAddProcessMonitor_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
 
         SetToolTip(Me.butAdd, "Monitor the selected process")
         SetToolTip(Me.txtInterval, "Set the refresh interval (milliseconds)")

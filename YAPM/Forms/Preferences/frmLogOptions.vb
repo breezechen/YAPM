@@ -56,7 +56,7 @@ Public Class frmLogOptions
 
     Private Sub frmLogOptions_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        Common.Misc.closeWithEchapKey(Me)
+        Common.Misc.CloseWithEchapKey(Me)
 
         Me.captureHandles.Checked = (_logCaptureMask And asyncCallbackLogEnumerate.LogItemType.HandleItem) = asyncCallbackLogEnumerate.LogItemType.HandleItem
         Me.showHandles.Checked = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.HandleItem) = asyncCallbackLogEnumerate.LogItemType.HandleItem

@@ -359,7 +359,7 @@ Public Class frmGlobalReport
 
     Private Sub frmGlobalReport_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
 
         SetToolTip(Me.chkAllHandles, "Get all handles (including unnamed handles)")
         SetToolTip(Me.chkAllWindows, "Get all windows (including unnamed windows)")

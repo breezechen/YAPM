@@ -43,7 +43,7 @@ Public Class frmCreateService
         Common.Misc.SetToolTip(Me.optLocal, "Create service on the local machine")
         Common.Misc.SetToolTip(Me.optRemote, "Create service on a remote machine")
 
-        Common.Misc.closeWithEchapKey(Me)
+        Common.Misc.CloseWithEchapKey(Me)
 
         Me.cbErrControl.SelectedIndex = 1
         Me.cbServType.SelectedIndex = 4

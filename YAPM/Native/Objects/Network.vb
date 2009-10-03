@@ -313,12 +313,12 @@ Namespace Native.Objects
             With row
                 If remote IsNot Nothing Then
                     .RemotePort = Common.Misc.PermuteBytes(remote.Port)
-                    .RemoteAddress = Common.Misc.getAddressAsInteger(remote)
+                    .RemoteAddress = Common.Misc.GetAddressAsInteger(remote)
                 Else
                     .RemotePort = 0
                     .RemoteAddress = 0
                 End If
-                .LocalAddress = Common.Misc.getAddressAsInteger(local)
+                .LocalAddress = Common.Misc.GetAddressAsInteger(local)
                 .LocalPort = Common.Misc.PermuteBytes(local.Port)
                 .State = Enums.MibTcpState.DeleteTcb
             End With

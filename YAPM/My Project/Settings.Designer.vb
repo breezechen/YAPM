@@ -716,7 +716,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?540?0$CpuUsage?73?1$Process?233?2$")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?540?0?Left$CpuUsage?73?1?Right$Process?233?2?Left$")>  _
         Public Property COLmain_task() As String
             Get
                 Return CType(Me("COLmain_task"),String)
@@ -728,9 +728,9 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?106?0$PID?50?1$UserName?124?2$ParentName?94?3$CpuUsage?68?4$AverageCpuUsage?"& _ 
-            "61?5$TotalCpuTime?90?6$HandleCount?56?7$ThreadCount?50?8$WorkingSet?76?9$Priorit"& _ 
-            "y?90?10$Path?420?11$")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?106?0$PID?50?1$UserName?124?2$ParentName?94?3$CpuUsage?68?4?Right$AverageCpu"& _ 
+            "Usage?61?5?Right$TotalCpuTime?90?6?Right$HandleCount?56?7?Right$ThreadCount?50?8"& _ 
+            "?Right$WorkingSet?76?9?Right$Priority?90?10$Path?420?11$")>  _
         Public Property COLmain_process() As String
             Get
                 Return CType(Me("COLmain_process"),String)
@@ -755,9 +755,9 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Id?60?0$Priority?88?1$State?74?2$WaitReason?98?3$CreateTime?173?4$TotalTime?90?5$"& _ 
-            "StartAddress?83?6$AffinityMask?78?7$ContextSwitchCount?118?8$ContextSwitchDelta?"& _ 
-            "114?9$ProcessId?68?10$")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Id?60?0$Priority?88?1$State?74?2$WaitReason?98?3$CreateTime?173?4?Right$TotalTime"& _ 
+            "?90?5?Right$StartAddress?83?6?Right$AffinityMask?78?7?Right$ContextSwitchCount?1"& _ 
+            "18?8?Right$ContextSwitchDelta?114?9?Right$ProcessId?68?10$")>  _
         Public Property COLmain_thread() As String
             Get
                 Return CType(Me("COLmain_thread"),String)
@@ -769,8 +769,8 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Type?113?0$Name?400?1$HandleCount?70?2$PointerCount?70?3$ObjectCount?70?4$Handle?"& _ 
-            "60?5$Process?51?6$")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Type?113?0$Name?400?1$HandleCount?70??Right2$PointerCount?70?3?Right$ObjectCount?"& _ 
+            "70?4?Right$Handle?60?5?Right$Process?51?6$")>  _
         Public Property COLmain_handle() As String
             Get
                 Return CType(Me("COLmain_handle"),String)
@@ -808,7 +808,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Local?266?0$Remote?214?1$Protocol?65?2$State?99?3$LocalPortDescription?182?4$Proc"& _ 
+         Global.System.Configuration.DefaultSettingValueAttribute("Local?226?0$Remote?214?1$Protocol?65?2$State?99?3$LocalPortDescription?182?4$Proc"& _ 
             "ess?100?5")>  _
         Public Property COLmain_network() As String
             Get
@@ -833,7 +833,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?173?0$Protection?66?1$Address?90?2$Size?66?3$File?223?4$")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?173?0$Protection?66?1$Address?90?2?Right$Size?66?3?Right$File?223?4$")>  _
         Public Property COLprocdetail_memory() As String
             Get
                 Return CType(Me("COLprocdetail_memory"),String)
@@ -870,8 +870,8 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Type?95?0$Name?400?1$HandleCount?70?2$PointerCount?69?3$ObjectCount?66?4$Handle?5"& _ 
-            "2?5$")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Type?95?0$Name?400?1$HandleCount?70?2?Right$PointerCount?69?3?Right$ObjectCount?6"& _ 
+            "6?4?Right$Handle?52?5?Right$")>  _
         Public Property COLprocdetail_handle() As String
             Get
                 Return CType(Me("COLprocdetail_handle"),String)
@@ -895,8 +895,9 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Id?60?0$ContextSwitchDelta?118?1$Priority?100?2$State?70?3$WaitReason?100?4$Creat"& _ 
-            "eTime?119?5$TotalTime?200?6$StartAddress?100?7$ContextSwitchCount?200?8$")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Id?60?0$ContextSwitchDelta?118?1?Right$Priority?100?2$State?70?3$WaitReason?100?4"& _ 
+            "$CreateTime?119?5?Right$TotalTime?200?6?Right$StartAddress?100?7?Right$ContextSw"& _ 
+            "itchCount?200?8?Right$")>  _
         Public Property COLprocdetail_thread() As String
             Get
                 Return CType(Me("COLprocdetail_thread"),String)

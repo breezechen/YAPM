@@ -153,7 +153,7 @@ Public Class frmServiceInfo
 
     Private Sub frmProcessInfo_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
 
         ' Some tooltips
         SetToolTip(Me.txtServicePath, "Path of the image file")

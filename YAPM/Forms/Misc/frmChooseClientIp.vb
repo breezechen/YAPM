@@ -43,7 +43,7 @@ Public Class frmChooseClientIp
     End Property
 
     Private Sub frmChooseClientIp_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Common.Misc.closeWithEchapKey(Me)
+        Common.Misc.CloseWithEchapKey(Me)
         SetToolTip(Me.lvNIC, "List of available netword card interface")
         SetToolTip(Me.cmdExit, "Cancel")
         SetToolTip(Me.cmdOk, "Use selected netword card interface")

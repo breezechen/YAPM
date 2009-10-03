@@ -338,7 +338,7 @@ Namespace Common
         End Function
 
         ' Return a Uinteger from a IPEndPoint
-        Public Shared Function getAddressAsInteger(ByVal ip As System.Net.IPEndPoint) As UInt32
+        Public Shared Function GetAddressAsInteger(ByVal ip As System.Net.IPEndPoint) As UInt32
             Dim i As Integer = 0
             Dim addressInteger As UInt32 = 0
 
@@ -352,14 +352,14 @@ Namespace Common
         End Function
 
         ' Escape will close the form frm
-        Public Shared Sub closeWithEchapKey(ByRef frm As System.Windows.Forms.Form)
+        Public Shared Sub CloseWithEchapKey(ByRef frm As System.Windows.Forms.Form)
             frm.KeyPreview = True
             Dim oo As New System.Windows.Forms.KeyEventHandler(AddressOf handlerCloseForm_)
             AddHandler frm.KeyDown, oo
         End Sub
 
         ' Escape will hide the form frm
-        Public Shared Sub hideWithEchapKey(ByRef frm As System.Windows.Forms.Form)
+        Public Shared Sub HideWithEchapKey(ByRef frm As System.Windows.Forms.Form)
             frm.KeyPreview = True
             Dim oo As New System.Windows.Forms.KeyEventHandler(AddressOf handlerHideForm_)
             AddHandler frm.KeyDown, oo

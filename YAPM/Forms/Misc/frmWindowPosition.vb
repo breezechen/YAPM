@@ -61,7 +61,7 @@ Public Class frmWindowPosition
 
     Private Sub frmWindowPosition_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
 
         SetToolTip(Me.txtHeight, "Height of the form")
         SetToolTip(Me.txtLeft, "Left position of the form")

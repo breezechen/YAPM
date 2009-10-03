@@ -78,7 +78,7 @@ Public Class frmFileRelease
 
     Private Sub frmFileRelease_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
         SetToolTip(Me.cmdCheck, "Check if a handle to the file in opened by a process")
         SetToolTip(Me.cmdFix, "Close the selected handles")
 

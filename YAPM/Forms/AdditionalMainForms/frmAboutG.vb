@@ -36,7 +36,7 @@ Public Class frmAboutG
 
     Private Sub frmAboutG_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        closeWithEchapKey(Me)
+        CloseWithEchapKey(Me)
 
         SetToolTip(Me.cmdLicense, "Display license of YAPM")
         SetToolTip(Me.btnOK, "Close this window")
