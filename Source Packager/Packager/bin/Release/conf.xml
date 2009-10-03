@@ -6,6 +6,7 @@
 		<dir>SecurePasswordTextBox</dir>
 		<dir>SecureChannel</dir>
 		<dir>InteractiveProcessFromService</dir>
+		<dir>Aga.Controls</dir>
 	</roots>
 	<included_file>
 		<file>changelog_sf.txt</file>
