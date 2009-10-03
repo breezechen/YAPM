@@ -367,6 +367,12 @@ Public Class frmPreferences
             it.Checked = True
         Next
 
+        ' Re-set column properties
+        Pref.LoadListViewColumns(_frmMain.lvProcess, "COLmain_process")
+        Pref.LoadListViewColumns(_frmMain.lvTask, "COLmain_task")
+        Pref.LoadListViewColumns(_frmMain.lvServices, "COLmain_service")
+        Pref.LoadListViewColumns(_frmMain.lvNetwork, "COLmain_network")
+
         ' Set colors of "Highlighting items"
         Call setColorOfHighlightingItems()
     End Sub
