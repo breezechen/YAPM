@@ -164,7 +164,11 @@ Public Class Pref
                 If obj.Length < 4 Then
                     col.TextAlign = HorizontalAlignment.Left
                 Else
-                    col.TextAlign = CType([Enum].Parse(GetType(HorizontalAlignment), obj(3)), HorizontalAlignment)
+                    Try
+                        col.TextAlign = CType([Enum].Parse(GetType(HorizontalAlignment), obj(3)), HorizontalAlignment)
+                    Catch ex As Exception
+                        col.TextAlign = HorizontalAlignment.Left
+                    End Try
                 End If
             End If
         Next

@@ -796,7 +796,7 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("Name?112?0$DisplayName?144?1$State?77?2$StartType?86?3$ImagePath?230?4$ServiceTyp"& _ 
-            "e?113?5Process?127?6$")>  _
+            "e?113?5$Process?127?6$")>  _
         Public Property COLmain_service() As String
             Get
                 Return CType(Me("COLmain_service"),String)
