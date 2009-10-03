@@ -3,7 +3,7 @@ YAPM 2.2.0 BETA
 CHANGES FROM 2.3.0
 
 *NEW / Improvements
-- 
+- Added feature #2869164 (text alignment in listviews)
 
 * Bug fixes
 - 
