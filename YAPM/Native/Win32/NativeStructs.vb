@@ -1304,6 +1304,14 @@ Namespace Native.Api
             Public Length As UShort
             Public MaximumLength As UShort
             Public Buffer As IntPtr
+
+            ' Return uString as a string
+            Public Function Read() As String
+                If Me.Length = 0 Then
+                    Return ""
+                End If
+                Return Marshal.PtrToStringUni(Me.Buffer, Me.Length \ 2)
+            End Function
         End Structure
 
 #End Region

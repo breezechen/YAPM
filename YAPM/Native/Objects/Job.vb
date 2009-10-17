@@ -446,7 +446,15 @@ Namespace Native.Objects
 
             ' We have to get jobTypeNumber
             If jobTypeNumber = 0 Then
-                jobTypeNumber = GetObjectTypeNumberByName("Job")
+                ' For an unknown reason, there seems to be a problem with
+                ' Windows 7 : ObjectTypeNumber for Jobs handles is 6 but
+                ' that is not what is retrieved using ObjectTypesInformation...
+                ' So, for now, we have to hardcode the value for Windows 7
+                If cEnvironment.IsWindows7 Then
+                    jobTypeNumber = 6
+                Else
+                    jobTypeNumber = GetObjectTypeNumberByName("Job")
+                End If
             End If
 
             ' HACK HACK HACK HACK
@@ -519,7 +527,7 @@ Namespace Native.Objects
                             NativeFunctions.ZeroMemory(BufferObjNameJob, New IntPtr(512))
                             NativeFunctions.NtQueryObject(targetHandle, _
                                             NativeEnums.ObjectInformationClass.ObjectNameInformation, _
-                                            BufferObjNameJob.Pointer, 512, ret)
+                                            BufferObjNameJob.Pointer, BufferObjNameJob.Size, ret)
                             ObjName = BufferObjNameJob.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
                             theName = Marshal.PtrToStringUni(ObjName.Name.Buffer)
 
@@ -535,7 +543,6 @@ Namespace Native.Objects
                                     _ownHandles.Add(theName, targetHandle)
                                 End If
                             End If
-
                         End If
                     Else
 
@@ -543,57 +550,61 @@ Namespace Native.Objects
                         hProcess = Native.Objects.Process.GetProcessHandleById(Handle.ProcessId, _
                                                         Security.ProcessAccess.DupHandle)
 
-                        ' Duplicate the handle in our process with same access
-                        NativeFunctions.DuplicateHandle(hProcess, New IntPtr(Handle.Handle), _
-                                                        New IntPtr(NativeFunctions.GetCurrentProcess), _
-                                                        targetHandle, Security.JobAccess.All, False, _
-                                                        0)
-                        ' Close process' handle
-                        Objects.General.CloseHandle(hProcess)
+                        If hProcess.IsNotNull Then
 
-                        If targetHandle.IsNotNull Then
+                            ' Duplicate the handle in our process with same access
+                            NativeFunctions.DuplicateHandle(hProcess, New IntPtr(Handle.Handle), _
+                                                            New IntPtr(NativeFunctions.GetCurrentProcess), _
+                                                            targetHandle, Security.JobAccess.All, False, _
+                                                            0)
+                            ' Close process' handle
+                            Objects.General.CloseHandle(hProcess)
 
-                            NativeFunctions.ZeroMemory(BufferObjNameJob, New IntPtr(512))
-                            NativeFunctions.NtQueryObject(targetHandle, _
-                                            NativeEnums.ObjectInformationClass.ObjectNameInformation, _
-                                            BufferObjNameJob.Pointer, 512, ret)
-                            ObjName = BufferObjNameJob.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
-                            theName = Marshal.PtrToStringUni(ObjName.Name.Buffer)
+                            If targetHandle.IsNotNull Then
 
-                            ' Add to dico only NAMED jobs
-                            ' The key is theName
-                            If String.IsNullOrEmpty(theName) = False Then
-                                If buf.ContainsKey(theName) = False Then
-                                    buf.Add(theName, New jobInfos(theName))
-                                End If
+                                NativeFunctions.ZeroMemory(BufferObjNameJob, New IntPtr(512))
+                                NativeFunctions.NtQueryObject(targetHandle, _
+                                                NativeEnums.ObjectInformationClass.ObjectNameInformation, _
+                                                BufferObjNameJob.Pointer, BufferObjNameJob.Size, ret)
+                                ObjName = BufferObjNameJob.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
+                                theName = Marshal.PtrToStringUni(ObjName.Name.Buffer)
 
-                                ' Add the handle to the list of duplicated handles
-                                ' So we will close it just before next enumeration
-                                ' to avoid to multiple per 2 each enumeration the number
-                                ' of handles... And to avoid JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit issue
-                                If _dupHandles.ContainsKey(theName) = False Then
-                                    _dupHandles.Add(theName, targetHandle)
+                                ' Add to dico only NAMED jobs
+                                ' The key is theName
+                                If String.IsNullOrEmpty(theName) = False Then
+                                    If buf.ContainsKey(theName) = False Then
+                                        buf.Add(theName, New jobInfos(theName))
+                                    End If
+
+                                    ' Add the handle to the list of duplicated handles
+                                    ' So we will close it just before next enumeration
+                                    ' to avoid to multiple per 2 each enumeration the number
+                                    ' of handles... And to avoid JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit issue
+                                    If _dupHandles.ContainsKey(theName) = False Then
+                                        _dupHandles.Add(theName, targetHandle)
+                                    Else
+                                        Objects.General.CloseHandle(targetHandle)
+                                    End If
                                 Else
-                                    Objects.General.CloseHandle(targetHandle)
-                                End If
-                            Else
-                                ' Then the job has no name...
-                                ' We will create a name for this job, as a name
-                                ' is expected as a primary key for dictionaries.
+                                    ' Then the job has no name...
+                                    ' We will create a name for this job, as a name
+                                    ' is expected as a primary key for dictionaries.
 
-                                noNameJobIndex += 1
-                                theName = "(no name)[" & noNameJobIndex.ToString & "]"
+                                    noNameJobIndex += 1
+                                    theName = "(no name)[" & noNameJobIndex.ToString & "]"
 
-                                If buf.ContainsKey(theName) = False Then
-                                    buf.Add(theName, New jobInfos(theName))
-                                End If
+                                    If buf.ContainsKey(theName) = False Then
+                                        buf.Add(theName, New jobInfos(theName))
+                                    End If
 
-                                ' Add the handle to the list of duplicated handles
-                                ' So we will close it just before next enumeration
-                                ' to avoid to multiple per 2 each enumeration the number
-                                ' of handles... And to avoid JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit issue
-                                If _dupHandles.ContainsKey(theName) = False Then
-                                    _dupHandles.Add(theName, targetHandle)
+                                    ' Add the handle to the list of duplicated handles
+                                    ' So we will close it just before next enumeration
+                                    ' to avoid to multiple per 2 each enumeration the number
+                                    ' of handles... And to avoid JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit issue
+                                    If _dupHandles.ContainsKey(theName) = False Then
+                                        _dupHandles.Add(theName, targetHandle)
+                                    End If
+
                                 End If
 
                             End If

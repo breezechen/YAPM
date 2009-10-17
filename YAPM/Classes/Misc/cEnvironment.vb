@@ -107,6 +107,13 @@ Public Class cEnvironment
         End Get
     End Property
 
+    Public Shared ReadOnly Property IsWindows7() As Boolean
+        Get
+            Return (Environment.OSVersion.Platform = PlatformID.Win32NT) And (Environment.OSVersion.Version.Major = 6 And Environment.OSVersion.Version.Minor = 1)
+        End Get
+    End Property
+
+
 #Region "SupportsXXX properties"
 
     Public Shared ReadOnly Property SupportsTaskDialog() As Boolean
