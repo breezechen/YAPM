@@ -30,6 +30,11 @@ BUGS CRITIQUES
 	!!! reports des modules/threads/handles/windows (depuis que les maintab sont plus là) ?
 	
 BUGS NON CRITIQUES
+- show dependencies pour un service marche pas -__-
+- view strings dans un autre thread
+- dbl click memory lv -> ouvre details objet + hexeditor
+- outils network connection (ping, trace, whois...)
+- implémenter le dump...
 - détail des handles (form spécifique avec infos Acces)
 - ajouter "delete service" (+ elevation pour create service)
 - déconnexion remote quand recherche non terminée -> lvSearch disabled
