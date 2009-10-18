@@ -130,3 +130,4 @@ Temp Change log :
 * Bug fixed
 - fixed job enumeration for windows Seven
 - fixed some bugs when trying to get informations about the ImagePath property of a service
+- fixed bug when trying to display some informations about handles
