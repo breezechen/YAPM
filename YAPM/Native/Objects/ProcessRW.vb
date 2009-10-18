@@ -369,11 +369,8 @@ Public Class ProcessRW
         Next i
 
         If Not (PGB Is Nothing) Then
-            With PGB
-                .Minimum = 0
-                .Value = 0
-                .Maximum = LS.Length + 1
-            End With
+            updatePGBMaxValueImp(PGB, LS.Length + 1)
+            updatePGBValueImp(PGB, 0)
         End If
 
 
@@ -386,14 +383,14 @@ Public Class ProcessRW
 
             ' Search in string
             If Not (PGB Is Nothing) Then
-                PGB.Value += 1
+                updatePGBValueImp(PGB, PGB.Value + 1)
             End If
 
             For i = 0 To LS(x).ToInt32 - 1
 
                 If _stringSearchImmediateStop Then
                     ' Exit
-                    PGB.Value = PGB.Maximum
+                    updatePGBValueImp(PGB, PGB.Maximum)
                     Exit Sub
                 End If
 
@@ -434,7 +431,7 @@ Public Class ProcessRW
 
 
         If Not (PGB Is Nothing) Then
-            PGB.Value = PGB.Maximum
+            updatePGBValueImp(PGB, PGB.Maximum)
         End If
         strBuffer = vbNullString
 
@@ -446,6 +443,27 @@ Public Class ProcessRW
         Next i
 
     End Sub
+
+    ' Update some properties of a control (thread safe)
+    Private Delegate Sub updatePGBValue(ByVal PGB As ProgressBar, ByVal value As Integer)
+    Private Sub updatePGBValueImp(ByVal PGB As ProgressBar, ByVal value As Integer)
+        If PGB.InvokeRequired = True Then
+            Dim d As New updatePGBValue(AddressOf updatePGBValueImp)
+            PGB.Invoke(d, PGB, value)
+        Else
+            PGB.Value = value
+        End If
+    End Sub
+    Private Delegate Sub updatePGBMaxValue(ByVal PGB As ProgressBar, ByVal value As Integer)
+    Private Sub updatePGBMaxValueImp(ByVal PGB As ProgressBar, ByVal value As Integer)
+        If PGB.InvokeRequired = True Then
+            Dim d As New updatePGBMaxValue(AddressOf updatePGBMaxValueImp)
+            PGB.Invoke(d, PGB, value)
+        Else
+            PGB.Maximum = value
+        End If
+    End Sub
+
 
     Private Function isLetter(ByVal c As Char) As Boolean
         Dim i As Integer = Asc(c)

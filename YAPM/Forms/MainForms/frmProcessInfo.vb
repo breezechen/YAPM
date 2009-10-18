@@ -23,6 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports Common.Misc
+Imports System.Threading
 
 Public Class frmProcessInfo
 
@@ -151,8 +152,9 @@ Public Class frmProcessInfo
 
 
             Case "Strings"
-                If _local Then _
-                Call getProcString(curProc)
+                If _local Then
+                    ThreadPool.QueueUserWorkItem(AddressOf getProcString, curProc)
+                End If
 
             Case "General"
                 Me.txtProcessPath.Text = curProc.Infos.Path
@@ -690,11 +692,14 @@ Public Class frmProcessInfo
         End Select
     End Sub
 
-    Private Sub getProcString(ByRef curProc As cProcess)
+    Private Sub getProcString(ByVal cuProc As Object)
 
         Static reentrance As Boolean = False
         If reentrance Then Exit Sub
         reentrance = True
+
+        Dim curProc As cProcess = DirectCast(cuProc, cProcess)
+        updateStringPanelEnabledPropImp(False)
 
         Me.lvProcString.Items.Clear()
         If Me.optProcStringImage.Checked Then
@@ -712,12 +717,52 @@ Public Class frmProcessInfo
             __sRes = sRes
             __lRes = lRes
 
-            Me.lvProcString.VirtualListSize = sRes.Length
+            updateLvProcStringVirtualSizeImp(sRes.Length)
 
         End If
 
         reentrance = False
+        updateStringPanelEnabledPropImp(True)
     End Sub
+
+   ' Update some properties of a control (thread safe)
+    Private Delegate Sub updatePGBValue(ByVal value As Integer)
+    Private Sub updatePGBValueImp(ByVal value As Integer)
+        If Me.pgbString.InvokeRequired = True Then
+            Dim d As New updatePGBValue(AddressOf updatePGBValueImp)
+            Me.pgbString.Invoke(d, value)
+        Else
+            Me.pgbString.Value = value
+        End If
+    End Sub
+    Private Delegate Sub updatePGBMaxValue(ByVal value As Integer)
+    Private Sub updatePGBMaxValueImp(ByVal value As Integer)
+        If Me.pgbString.InvokeRequired = True Then
+            Dim d As New updatePGBMaxValue(AddressOf updatePGBMaxValueImp)
+            Me.pgbString.Invoke(d, value)
+        Else
+            Me.pgbString.Maximum = value
+        End If
+    End Sub
+    Private Delegate Sub updateLvProcStringVirtualSize(ByVal value As Integer)
+    Private Sub updateLvProcStringVirtualSizeImp(ByVal value As Integer)
+        If Me.lvProcString.InvokeRequired = True Then
+            Dim d As New updateLvProcStringVirtualSize(AddressOf updateLvProcStringVirtualSizeImp)
+            Me.lvProcString.Invoke(d, value)
+        Else
+            Me.lvProcString.VirtualListSize = value
+        End If
+    End Sub
+    Private Delegate Sub updateStringPanelEnabledProp(ByVal value As Boolean)
+    Private Sub updateStringPanelEnabledPropImp(ByVal value As Boolean)
+        If Me.SplitContainerStrings.InvokeRequired = True Then
+            Dim d As New updateStringPanelEnabledProp(AddressOf updateStringPanelEnabledPropImp)
+            Me.SplitContainerStrings.Invoke(d, value)
+        Else
+            Me.SplitContainerStrings.Enabled = value
+        End If
+    End Sub
+
 
     ' Display file strings
     Public Sub DisplayFileStringsImage(ByRef cp As cProcess)
@@ -750,15 +795,15 @@ Public Class frmProcessInfo
 
             ' A char is considered as part of a string if its value is between 32 and 122
             lLen = Len(s)
-            Me.pgbString.Maximum = CInt(lLen / 10000 + 2)
-            Me.pgbString.Value = 0
+            updatePGBMaxValueImp(CInt(lLen / 10000 + 2))
+            updatePGBValueImp(0)
 
             ' Ok, parse file
             Do Until x >= lLen
 
                 If _stringSearchImmediateStop Then
                     ' Exit
-                    Me.pgbString.Value = Me.pgbString.Maximum
+                    updatePGBValueImp(Me.pgbString.Maximum)
                     Exit Sub
                 End If
 
@@ -783,15 +828,13 @@ Public Class frmProcessInfo
                 End If
 
                 If (x Mod 10000) = 0 Then
-                    Me.pgbString.Value += 1
-                    Application.DoEvents()
+                    updatePGBValueImp(Me.pgbString.Value + 1)
                 End If
 
                 x += 1
             Loop
 
-            Me.pgbString.Value = Me.pgbString.Maximum
-
+            updatePGBValueImp(Me.pgbString.Maximum)
 
             ' Last item
             If Len(strCtemp) > SIZE_FOR_STRING Then
@@ -819,7 +862,7 @@ Public Class frmProcessInfo
             __sRes = strRes
             __lRes = lngRes
 
-            Me.lvProcString.VirtualListSize = tRes.Length - BUF_SIZE + cArraySizeBef - 1
+            updateLvProcStringVirtualSizeImp(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
 
         End If
 

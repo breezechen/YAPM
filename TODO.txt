@@ -30,11 +30,10 @@ BUGS CRITIQUES
 	!!! reports des modules/threads/handles/windows (depuis que les maintab sont plus là) ?
 	
 BUGS NON CRITIQUES
-- view strings dans un autre thread
 - outils network connection (ping, trace, whois...)
 - implémenter le dump...
 - détail des handles (form spécifique avec infos Acces)
-- ajouter "delete service" (+ elevation pour create service)
+- elevation pour create service
 - déconnexion remote quand recherche non terminée -> lvSearch disabled
 - timer dans jobInfos doit avoir le même temps que dans frmMain
 - ajouter nouvelles infos pour les handles (cf struct récupérée)
@@ -123,6 +122,11 @@ BUGS NON CRITIQUES
 
 Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
+
+* NEW / Improvements
+- now first node in dependencies form's treeview is automatically selected
+- now "search string" features are async
+
+* Bug fixed
 - fixed job enumeration for windows Seven
 - fixed some bugs when trying to get informations about the ImagePath property of a service
-- now first node in dependencies form's treeview is automatically selected
