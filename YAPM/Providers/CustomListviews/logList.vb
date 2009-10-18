@@ -405,24 +405,25 @@ Public Class logList
                 frm.Show()
             Next
         ElseIf e.KeyCode = Keys.F7 Then
-            For Each obj As cGeneralObject In Me.GetSelectedItems
-                Dim frm As New frmObjDetails
-                frm.TopMost = _frmMain.TopMost
-                frm.TheObject = obj
-                frm.Show()
-            Next
+            Me.showObjectProperties()
         End If
     End Sub
 
     ' Display properties form
     Protected Overrides Sub OnMouseDoubleClick(ByVal e As System.Windows.Forms.MouseEventArgs)
         MyBase.OnMouseDoubleClick(e)
-        If Me.SelectedItems.Count > 0 Then
+        If Me.ShowObjectDetailsOnDoubleClick Then
+            Me.showObjectProperties()
+        End If
+    End Sub
+
+    Private Sub showObjectProperties()
+        For Each obj As cGeneralObject In Me.GetSelectedItems
             Dim frm As New frmObjDetails
             frm.TopMost = _frmMain.TopMost
-            frm.TheObject = Me.GetSelectedItem
+            frm.TheObject = obj
             frm.Show()
-        End If
+        Next
     End Sub
 
 End Class

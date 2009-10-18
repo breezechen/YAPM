@@ -54,6 +54,8 @@ Public MustInherit Class customLV
 
     Private _Isconnected As Boolean
 
+    Private _showObjDetailsOnDblClick As Boolean = True
+
 
     ' ========================================
     ' Public
@@ -64,6 +66,16 @@ Public MustInherit Class customLV
         [RemoteWMI]
         [Remote]
     End Enum
+
+    ' Show object details on double click
+    Public Property ShowObjectDetailsOnDoubleClick() As Boolean
+        Get
+            Return _showObjDetailsOnDblClick
+        End Get
+        Set(ByVal value As Boolean)
+            _showObjDetailsOnDblClick = value
+        End Set
+    End Property
 
     ' Catch or not errors
     Public Property CatchErrors() As Boolean

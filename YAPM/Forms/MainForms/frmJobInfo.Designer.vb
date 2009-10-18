@@ -250,6 +250,7 @@ Partial Class frmJobInfo
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
         Me.lvProcess.ReorganizeColumns = True
+        Me.lvProcess.ShowObjectDetailsOnDoubleClick = False
         Me.lvProcess.Size = New System.Drawing.Size(683, 255)
         Me.lvProcess.TabIndex = 4
         Me.lvProcess.UseCompatibleStateImageBehavior = False
@@ -990,6 +991,7 @@ Partial Class frmJobInfo
         Me.lvLimits.Name = "lvLimits"
         Me.lvLimits.OverriddenDoubleBuffered = True
         Me.lvLimits.ReorganizeColumns = True
+        Me.lvLimits.ShowObjectDetailsOnDoubleClick = True
         Me.lvLimits.Size = New System.Drawing.Size(683, 255)
         Me.lvLimits.TabIndex = 4
         Me.lvLimits.UseCompatibleStateImageBehavior = False

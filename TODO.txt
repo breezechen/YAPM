@@ -32,7 +32,6 @@ BUGS CRITIQUES
 BUGS NON CRITIQUES
 - show dependencies pour un service marche pas -__-
 - view strings dans un autre thread
-- dbl click memory lv -> ouvre details objet + hexeditor
 - outils network connection (ping, trace, whois...)
 - implémenter le dump...
 - détail des handles (form spécifique avec infos Acces)
@@ -126,3 +125,5 @@ BUGS NON CRITIQUES
 
 Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
+- fixed job enumeration for windows Seven
+- 

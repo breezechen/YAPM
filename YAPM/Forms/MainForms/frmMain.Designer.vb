@@ -2773,6 +2773,7 @@ Partial Class frmMain
         Me.lvTask.Name = "lvTask"
         Me.lvTask.OverriddenDoubleBuffered = True
         Me.lvTask.ReorganizeColumns = True
+        Me.lvTask.ShowObjectDetailsOnDoubleClick = False
         Me.lvTask.Size = New System.Drawing.Size(852, 330)
         Me.lvTask.TabIndex = 3
         Me.lvTask.UseCompatibleStateImageBehavior = False
@@ -2947,6 +2948,7 @@ Partial Class frmMain
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
         Me.lvProcess.ReorganizeColumns = True
+        Me.lvProcess.ShowObjectDetailsOnDoubleClick = False
         Me.lvProcess.Size = New System.Drawing.Size(852, 330)
         Me.lvProcess.TabIndex = 3
         Me.lvProcess.UseCompatibleStateImageBehavior = False
@@ -3049,6 +3051,7 @@ Partial Class frmMain
         Me.lvJob.Name = "lvJob"
         Me.lvJob.OverriddenDoubleBuffered = True
         Me.lvJob.ReorganizeColumns = True
+        Me.lvJob.ShowObjectDetailsOnDoubleClick = False
         Me.lvJob.Size = New System.Drawing.Size(852, 359)
         Me.lvJob.TabIndex = 10
         Me.lvJob.UseCompatibleStateImageBehavior = False
@@ -3432,6 +3435,7 @@ Partial Class frmMain
         Me.lvServices.ProcessId = 0
         Me.lvServices.ReorganizeColumns = True
         Me.lvServices.ShowAll = True
+        Me.lvServices.ShowObjectDetailsOnDoubleClick = False
         Me.lvServices.Size = New System.Drawing.Size(852, 198)
         Me.lvServices.TabIndex = 1
         Me.lvServices.UseCompatibleStateImageBehavior = False
@@ -3653,6 +3657,7 @@ Partial Class frmMain
         Me.lvNetwork.ReorganizeColumns = True
         Me.lvNetwork.ShowAllPid = False
         Me.lvNetwork.ShowConnectionsByProcessesGroup = False
+        Me.lvNetwork.ShowObjectDetailsOnDoubleClick = True
         Me.lvNetwork.Size = New System.Drawing.Size(852, 359)
         Me.lvNetwork.TabIndex = 4
         Me.lvNetwork.UseCompatibleStateImageBehavior = False
@@ -4208,6 +4213,7 @@ Partial Class frmMain
         Me.lvSearchResults.OverriddenDoubleBuffered = True
         Me.lvSearchResults.ReorganizeColumns = True
         Me.lvSearchResults.SearchString = Nothing
+        Me.lvSearchResults.ShowObjectDetailsOnDoubleClick = True
         Me.lvSearchResults.Size = New System.Drawing.Size(852, 300)
         Me.lvSearchResults.TabIndex = 3
         Me.lvSearchResults.UseCompatibleStateImageBehavior = False
@@ -4256,7 +4262,6 @@ Partial Class frmMain
         '
         'WBHelp
         '
-        Me.WBHelp.AllowNavigation = True
         Me.WBHelp.AllowWebBrowserDrop = False
         Me.WBHelp.Dock = System.Windows.Forms.DockStyle.Fill
         Me.WBHelp.IsWebBrowserContextMenuEnabled = False

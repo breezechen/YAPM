@@ -367,6 +367,7 @@ Partial Class frmProcessInfo
         Me.MenuItemServDepe = New System.Windows.Forms.MenuItem
         Me.MenuItem20 = New System.Windows.Forms.MenuItem
         Me.MenuItem17 = New System.Windows.Forms.MenuItem
+        Me.MenuItemServDelete = New System.Windows.Forms.MenuItem
         Me.MenuItem25 = New System.Windows.Forms.MenuItem
         Me.MenuItemServReanalize = New System.Windows.Forms.MenuItem
         Me.MenuItem24 = New System.Windows.Forms.MenuItem
@@ -382,7 +383,6 @@ Partial Class frmProcessInfo
         Me.lblResCount = New System.Windows.Forms.Label
         Me.txtSearch = New System.Windows.Forms.TextBox
         Me.RadioButton1 = New System.Windows.Forms.RadioButton
-        Me.MenuItemServDelete = New System.Windows.Forms.MenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -1721,6 +1721,7 @@ Partial Class frmProcessInfo
         Me.lvPrivileges.OverriddenDoubleBuffered = True
         Me.lvPrivileges.ProcessId = 0
         Me.lvPrivileges.ReorganizeColumns = True
+        Me.lvPrivileges.ShowObjectDetailsOnDoubleClick = True
         Me.lvPrivileges.Size = New System.Drawing.Size(627, 244)
         Me.lvPrivileges.TabIndex = 13
         Me.lvPrivileges.UseCompatibleStateImageBehavior = False
@@ -1769,6 +1770,7 @@ Partial Class frmProcessInfo
         Me.lvProcMem.OverriddenDoubleBuffered = True
         Me.lvProcMem.ProcessId = 0
         Me.lvProcMem.ReorganizeColumns = True
+        Me.lvProcMem.ShowObjectDetailsOnDoubleClick = False
         Me.lvProcMem.Size = New System.Drawing.Size(641, 276)
         Me.lvProcMem.TabIndex = 14
         Me.lvProcMem.UseCompatibleStateImageBehavior = False
@@ -1897,6 +1899,7 @@ Partial Class frmProcessInfo
         Me.lvProcServices.ProcessId = 0
         Me.lvProcServices.ReorganizeColumns = True
         Me.lvProcServices.ShowAll = False
+        Me.lvProcServices.ShowObjectDetailsOnDoubleClick = False
         Me.lvProcServices.Size = New System.Drawing.Size(641, 276)
         Me.lvProcServices.TabIndex = 2
         Me.lvProcServices.UseCompatibleStateImageBehavior = False
@@ -1962,6 +1965,7 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.ReorganizeColumns = True
         Me.lvProcNetwork.ShowAllPid = False
         Me.lvProcNetwork.ShowConnectionsByProcessesGroup = False
+        Me.lvProcNetwork.ShowObjectDetailsOnDoubleClick = True
         Me.lvProcNetwork.Size = New System.Drawing.Size(641, 276)
         Me.lvProcNetwork.TabIndex = 21
         Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
@@ -2154,6 +2158,7 @@ Partial Class frmProcessInfo
         'TODO: La génération de code pour 'Me.lvProcEnv.Peb' a échoué en raison de l'exception 'Type Primitive non valide : System.IntPtr. Si possible, utilisez CodeObjectCreateExpression à la place.'.
         Me.lvProcEnv.ProcessId = 0
         Me.lvProcEnv.ReorganizeColumns = True
+        Me.lvProcEnv.ShowObjectDetailsOnDoubleClick = True
         Me.lvProcEnv.Size = New System.Drawing.Size(647, 282)
         Me.lvProcEnv.TabIndex = 30
         Me.lvProcEnv.UseCompatibleStateImageBehavior = False
@@ -2196,6 +2201,7 @@ Partial Class frmProcessInfo
         Me.lvModules.OverriddenDoubleBuffered = True
         Me.lvModules.ProcessId = Nothing
         Me.lvModules.ReorganizeColumns = True
+        Me.lvModules.ShowObjectDetailsOnDoubleClick = True
         Me.lvModules.Size = New System.Drawing.Size(647, 282)
         Me.lvModules.TabIndex = 31
         Me.lvModules.UseCompatibleStateImageBehavior = False
@@ -2263,6 +2269,7 @@ Partial Class frmProcessInfo
         Me.lvThreads.OverriddenDoubleBuffered = True
         Me.lvThreads.ProcessId = Nothing
         Me.lvThreads.ReorganizeColumns = True
+        Me.lvThreads.ShowObjectDetailsOnDoubleClick = True
         Me.lvThreads.Size = New System.Drawing.Size(647, 282)
         Me.lvThreads.TabIndex = 4
         Me.lvThreads.UseCompatibleStateImageBehavior = False
@@ -2340,6 +2347,7 @@ Partial Class frmProcessInfo
         Me.lvWindows.ProcessId = Nothing
         Me.lvWindows.ReorganizeColumns = True
         Me.lvWindows.ShowAllPid = False
+        Me.lvWindows.ShowObjectDetailsOnDoubleClick = True
         Me.lvWindows.ShowUnNamed = False
         Me.lvWindows.Size = New System.Drawing.Size(647, 282)
         Me.lvWindows.TabIndex = 33
@@ -2395,6 +2403,7 @@ Partial Class frmProcessInfo
         Me.lvHandles.OverriddenDoubleBuffered = True
         Me.lvHandles.ProcessId = Nothing
         Me.lvHandles.ReorganizeColumns = True
+        Me.lvHandles.ShowObjectDetailsOnDoubleClick = False
         Me.lvHandles.ShowUnnamed = False
         Me.lvHandles.Size = New System.Drawing.Size(647, 282)
         Me.lvHandles.TabIndex = 34
@@ -2521,6 +2530,7 @@ Partial Class frmProcessInfo
         Me.lvLog.OverriddenDoubleBuffered = True
         Me.lvLog.ProcessId = 0
         Me.lvLog.ReorganizeColumns = True
+        Me.lvLog.ShowObjectDetailsOnDoubleClick = True
         Me.lvLog.Size = New System.Drawing.Size(647, 253)
         Me.lvLog.TabIndex = 24
         Me.lvLog.UseCompatibleStateImageBehavior = False
@@ -3254,6 +3264,12 @@ Partial Class frmProcessInfo
         Me.MenuItem17.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServAutoStart, Me.MenuItemServOnDemand, Me.MenuItemServDisabled})
         Me.MenuItem17.Text = "Start type"
         '
+        'MenuItemServDelete
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.My.Resources.Resources.cross)
+        Me.MenuItemServDelete.Index = 13
+        Me.MenuItemServDelete.Text = "Delete"
+        '
         'MenuItem25
         '
         Me.MenuItem25.Index = 14
@@ -3371,12 +3387,6 @@ Partial Class frmProcessInfo
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(104, 24)
         Me.RadioButton1.TabIndex = 0
-        '
-        'MenuItemServDelete
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.My.Resources.Resources.cross)
-        Me.MenuItemServDelete.Index = 13
-        Me.MenuItemServDelete.Text = "Delete"
         '
         'frmProcessInfo
         '
