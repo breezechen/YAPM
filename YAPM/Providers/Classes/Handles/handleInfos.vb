@@ -39,7 +39,7 @@ Imports Native.Api
     Friend _NameInformation As String 'type de l'ojet
     Friend _ObjectAddress As IntPtr  'adresse de l'objet
     Friend _GrantedAccess As Native.Security.StandardRights  'accès autorisés à l'objet
-    Friend _Attributes As UInteger 'attributs
+    Friend _Attributes As NativeEnums.HandleFlags 'attributs
     Friend _HandleCount As Integer 'nombre de handle de ce type dans le système
     Friend _PointerCount As UInteger 'nombre de références pointeurs à cet objet dans le système
     Friend _CreateTime As Decimal 'date de création de l'objet
@@ -113,7 +113,7 @@ Imports Native.Api
             Return _GrantedAccess
         End Get
     End Property
-    Public ReadOnly Property Attributes() As UInteger
+    Public ReadOnly Property Attributes() As NativeEnums.HandleFlags
         Get
             Return _Attributes
         End Get

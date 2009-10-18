@@ -413,7 +413,7 @@ Namespace Native.Objects
 
             ' Return all informations we've got
             With h
-                ._Attributes = ObjBasic.Attributes
+                ._Attributes = CType(ObjBasic.Attributes, NativeEnums.HandleFlags)
                 ._CreateTime = ObjBasic.CreateTime
                 ._Flags = Handle.Flags
                 ._GenericAll = ObjType.GenericMapping.GenericAll

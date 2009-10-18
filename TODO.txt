@@ -32,7 +32,6 @@ BUGS CRITIQUES
 BUGS NON CRITIQUES
 - outils network connection (ping, trace, whois...)
 - implémenter le dump...
-- détail des handles (form spécifique avec infos Acces)
 - elevation pour create service
 - déconnexion remote quand recherche non terminée -> lvSearch disabled
 - timer dans jobInfos doit avoir le même temps que dans frmMain
@@ -126,6 +125,7 @@ Temp Change log :
 * NEW / Improvements
 - now first node in dependencies form's treeview is automatically selected
 - now "search string" features are async
+- added detailed window for handles
 
 * Bug fixed
 - fixed job enumeration for windows Seven

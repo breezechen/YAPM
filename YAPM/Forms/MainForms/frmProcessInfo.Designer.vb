@@ -383,6 +383,7 @@ Partial Class frmProcessInfo
         Me.lblResCount = New System.Windows.Forms.Label
         Me.txtSearch = New System.Windows.Forms.TextBox
         Me.RadioButton1 = New System.Windows.Forms.RadioButton
+        Me.MenuItemHandleDetails = New System.Windows.Forms.MenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -2664,9 +2665,8 @@ Partial Class frmProcessInfo
         '
         'MenuItemCloseHandle
         '
-        Me.MenuItemCloseHandle.DefaultItem = True
         Me.VistaMenu.SetImage(Me.MenuItemCloseHandle, Global.My.Resources.Resources.close)
-        Me.MenuItemCloseHandle.Index = 0
+        Me.MenuItemCloseHandle.Index = 1
         Me.MenuItemCloseHandle.Text = "Close item"
         '
         'menuCloseTCP
@@ -2885,7 +2885,7 @@ Partial Class frmProcessInfo
         'MenuItemNavigateToHandle
         '
         Me.VistaMenu.SetImage(Me.MenuItemNavigateToHandle, Global.My.Resources.Resources.arrow_000_medium)
-        Me.MenuItemNavigateToHandle.Index = 1
+        Me.MenuItemNavigateToHandle.Index = 2
         Me.MenuItemNavigateToHandle.Text = "Navigate..."
         '
         'menuViewMemory
@@ -2928,7 +2928,7 @@ Partial Class frmProcessInfo
         'MenuItemCopyHandle
         '
         Me.VistaMenu.SetImage(Me.MenuItemCopyHandle, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyHandle.Index = 5
+        Me.MenuItemCopyHandle.Index = 6
         Me.MenuItemCopyHandle.Text = "Copy to clipboard"
         '
         'MenuItemCopyNetwork
@@ -3196,26 +3196,26 @@ Partial Class frmProcessInfo
         '
         'mnuHandle
         '
-        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCloseHandle, Me.MenuItemNavigateToHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemCopyHandle, Me.MenuItemChooseColumnsHandle})
+        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemHandleDetails, Me.MenuItemCloseHandle, Me.MenuItemNavigateToHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemCopyHandle, Me.MenuItemChooseColumnsHandle})
         '
         'MenuItem12
         '
-        Me.MenuItem12.Index = 2
+        Me.MenuItem12.Index = 3
         Me.MenuItem12.Text = "-"
         '
         'MenuItemShowUnnamedHandles
         '
-        Me.MenuItemShowUnnamedHandles.Index = 3
+        Me.MenuItemShowUnnamedHandles.Index = 4
         Me.MenuItemShowUnnamedHandles.Text = "Show unnamed handles"
         '
         'MenuItem14
         '
-        Me.MenuItem14.Index = 4
+        Me.MenuItem14.Index = 5
         Me.MenuItem14.Text = "-"
         '
         'MenuItemChooseColumnsHandle
         '
-        Me.MenuItemChooseColumnsHandle.Index = 6
+        Me.MenuItemChooseColumnsHandle.Index = 7
         Me.MenuItemChooseColumnsHandle.Text = "Choose columns..."
         '
         'mnuNetwork
@@ -3387,6 +3387,13 @@ Partial Class frmProcessInfo
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(104, 24)
         Me.RadioButton1.TabIndex = 0
+        '
+        'MenuItemHandleDetails
+        '
+        Me.MenuItemHandleDetails.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.MenuItemHandleDetails, Global.My.Resources.Resources.display16)
+        Me.MenuItemHandleDetails.Index = 0
+        Me.MenuItemHandleDetails.Text = "Details..."
         '
         'frmProcessInfo
         '
@@ -3814,4 +3821,5 @@ Partial Class frmProcessInfo
     Friend WithEvents chkFreeze As System.Windows.Forms.CheckBox
     Friend WithEvents cmdHideFindPanel As System.Windows.Forms.Button
     Friend WithEvents MenuItemServDelete As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemHandleDetails As System.Windows.Forms.MenuItem
 End Class

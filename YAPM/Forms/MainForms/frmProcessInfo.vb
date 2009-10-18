@@ -1559,6 +1559,15 @@ Public Class frmProcessInfo
         Me.lvProcNetwork.ChooseColumns()
     End Sub
 
+    Private Sub lvHandles_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseDoubleClick
+        For Each it As cHandle In Me.lvHandles.GetSelectedItems
+            Dim frm As New frmHandleInfo
+            frm.SetHandle(it)
+            frm.TopMost = _frmMain.TopMost
+            frm.Show()
+        Next
+    End Sub
+
     Private Sub lvHandles_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHandles.MouseUp
         If e.Button = Windows.Forms.MouseButtons.Right Then
 
@@ -2681,6 +2690,13 @@ Public Class frmProcessInfo
             For Each it As cHandle In Me.lvHandles.GetSelectedItems
                 it.CloseHandle()
             Next
+        ElseIf e.KeyCode = Keys.Enter And Me.lvHandles.SelectedItems.Count > 0 Then
+            For Each it As cHandle In Me.lvHandles.GetSelectedItems
+                Dim frm As New frmHandleInfo
+                frm.SetHandle(it)
+                frm.TopMost = _frmMain.TopMost
+                frm.Show()
+            Next
         End If
     End Sub
 
@@ -2835,5 +2851,9 @@ Public Class frmProcessInfo
         For Each it As cService In Me.lvProcServices.GetSelectedItems
             it.DeleteService()
         Next
+    End Sub
+
+    Private Sub MenuItemHandleDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemHandleDetails.Click
+        Call Me.lvHandles_MouseDoubleClick(Nothing, Nothing)
     End Sub
 End Class

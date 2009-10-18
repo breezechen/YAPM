@@ -123,6 +123,18 @@ Public Class cHandle
                 res = Me.Infos.Handle.ToString
             Case "Process"
                 res = Me.Infos.ProcessId.ToString
+            Case "ObjectAddress"
+                res = "0x" & Me.Infos.ObjectAddress.ToString("x")
+            Case "GrantedAccess"
+                res = "0x" & Me.Infos.GrantedAccess.ToString("x")
+            Case "Attributes"
+                res = Me.Infos.Attributes.ToString
+            Case "CreateTime"
+                res = Me.Infos.CreateTime.ToString
+            Case "PagedPoolUsage"
+                res = Me.Infos.PagedPoolUsage.ToString
+            Case "NonPagedPoolUsage"
+                res = Me.Infos.NonPagedPoolUsage.ToString
         End Select
 
         Return res
@@ -225,7 +237,7 @@ Public Class cHandle
                     _old_ObjectAddress = res
                 End If
             Case "GrantedAccess"
-                res = Me.Infos.GrantedAccess.ToString
+                res = "0x" & Me.Infos.GrantedAccess.ToString("x")
                 If res = _old_GrantedAccess Then
                     hasChanged = False
                 Else
