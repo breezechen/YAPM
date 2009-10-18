@@ -2419,7 +2419,7 @@ Public Class frmProcessInfo
 
     Private Sub MenuItemServDepe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDepe.Click
         If Me.lvProcServices.SelectedItems.Count > 0 Then
-            Dim s As String = Me.lvProcServices.GetSelectedItem.Infos.ImagePath
+            Dim s As String = Me.lvProcServices.GetSelectedItem.GetInformation("ImagePath")
             If System.IO.File.Exists(s) Then
                 Dim _depForm As New frmDepViewerMain
                 With _depForm

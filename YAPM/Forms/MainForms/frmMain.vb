@@ -3096,10 +3096,10 @@ Public Class frmMain
 
     Private Sub MenuItemServDepe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemServDepe.Click
         For Each it As cService In Me.lvServices.GetSelectedItems
-            If System.IO.File.Exists(it.Infos.ImagePath) Then
+            If System.IO.File.Exists(it.GetInformation("ImagePath")) Then
                 Dim frm As New frmDepViewerMain
                 frm.HideOpenMenu()
-                frm.OpenReferences(it.Infos.ImagePath)
+                frm.OpenReferences(it.GetInformation("ImagePath"))
                 frm.TopMost = _frmMain.TopMost
                 frm.Show()
             End If

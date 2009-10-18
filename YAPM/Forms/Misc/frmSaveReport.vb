@@ -138,7 +138,7 @@ Public Class frmSaveReport
                                 c &= "Common name" & vbTab & vbTab
                                 c &= cm.Infos.DisplayName & vbNewLine
                                 c &= "Path" & vbTab & vbTab
-                                c &= cm.Infos.ImagePath & vbNewLine
+                                c &= cm.GetInformation("ImagePath") & vbNewLine
                                 c &= "ObjectName" & vbTab & vbTab
                                 c &= cm.Infos.ObjectName & vbNewLine
                                 c &= "State" & vbTab & vbTab
@@ -179,7 +179,7 @@ Public Class frmSaveReport
                                 _lin(1) = cm.Infos.DisplayName
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Path"
-                                _lin(1) = cm.Infos.ImagePath
+                                _lin(1) = cm.GetInformation("ImagePath")
                                 _html.AppendLine(_lin)
                                 _lin(0) = "ObjectName"
                                 _lin(1) = cm.Infos.ObjectName
@@ -914,7 +914,7 @@ Public Class frmSaveReport
                                 c &= "Common name" & vbTab & vbTab
                                 c &= cm.Infos.DisplayName & vbNewLine
                                 c &= "Path" & vbTab & vbTab
-                                c &= cm.Infos.ImagePath & vbNewLine
+                                c &= cm.GetInformation("ImagePath") & vbNewLine
                                 c &= "ObjectName" & vbTab & vbTab
                                 c &= cm.Infos.ObjectName & vbNewLine
                                 c &= "State" & vbTab & vbTab
@@ -955,7 +955,7 @@ Public Class frmSaveReport
                                 _lin(1) = cm.Infos.DisplayName
                                 _html.AppendLine(_lin)
                                 _lin(0) = "Path"
-                                _lin(1) = cm.Infos.ImagePath
+                                _lin(1) = cm.GetInformation("ImagePath")
                                 _html.AppendLine(_lin)
                                 _lin(0) = "ObjectName"
                                 _lin(1) = cm.Infos.ObjectName

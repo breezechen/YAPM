@@ -514,10 +514,10 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub cmdInspectExe_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdInspectExe.Click
-        If System.IO.File.Exists(Me.curServ.Infos.ImagePath) Then
+        If System.IO.File.Exists(Me.curServ.GetInformation("ImagePath")) Then
             Dim _depForm As New frmDepViewerMain
             With _depForm
-                .OpenReferences(Me.curServ.Infos.ImagePath)
+                .OpenReferences(Me.curServ.GetInformation("ImagePath"))
                 .HideOpenMenu()
                 .TopMost = _frmMain.TopMost
                 .Show()
