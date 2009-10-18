@@ -30,6 +30,16 @@ Public Class frmDepViewerMain
                 End If
             Next
             lvAllDeps.EndUpdate()
+
+            ' Select first node in tv
+            Me.tvDepends.SelectedNode = Me.tvDepends.Nodes(0)
+
+            Dim refNode As NativeDependenciesTree.NativeDependency = DirectCast(Me.tvDepends.SelectedNode.Tag, NativeDependenciesTree.NativeDependency)
+            statusFile.Text = refNode.PE.FileName
+            If refNode.Resolved Then
+                Me.ShowAssemblyInfos(refNode)
+            End If
+
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         End Try
@@ -63,7 +73,6 @@ Public Class frmDepViewerMain
             dummy.Tag = "dummy"
             n.Nodes.Add(dummy)
         End If
-
         Return n
     End Function
 
@@ -78,13 +87,13 @@ Public Class frmDepViewerMain
     Private Sub tvDepends_NodeMouseClick(ByVal sender As Object, ByVal e As TreeNodeMouseClickEventArgs) Handles tvDepends.NodeMouseClick
         Try
             Dim refNode As NativeDependenciesTree.NativeDependency = DirectCast(e.Node.Tag, NativeDependenciesTree.NativeDependency)
-
             statusFile.Text = refNode.PE.FileName
-            If refNode.Resolved Then Me.ShowAssemblyInfos(refNode)
+            If refNode.Resolved Then
+                Me.ShowAssemblyInfos(refNode)
+            End If
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         End Try
-
     End Sub
 
     Private Sub ShowAssemblyInfos(ByVal dll As NativeDependenciesTree.NativeDependency)

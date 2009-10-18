@@ -90,7 +90,6 @@ BUGS NON CRITIQUES
 - affinity process/thread (socket)
 - refresh services trop rapide -> impossible de récupérer des infos par socket après (checker semaphore)
 - TODO, TOCHANGE, TODO_, TOCHECK, ISNEEDED, TOREMOVE, PERFISSUE
-- sélectionner premier item tv dep viewer automatiquement
 - replace taskmgr sous 7 ?
 - pending task : caption -> object.tostring (surcharger chaque cXXXX)
 - setLIMITEDinfo dans les access comme pour QueryLIMITEDinfo (thread & process)
@@ -126,3 +125,4 @@ Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
 - fixed job enumeration for windows Seven
 - fixed some bugs when trying to get informations about the ImagePath property of a service
+- now first node in dependencies form's treeview is automatically selected
