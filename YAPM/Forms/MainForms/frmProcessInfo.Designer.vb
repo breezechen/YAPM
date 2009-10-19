@@ -293,7 +293,6 @@ Partial Class frmProcessInfo
         Me.MenuItemWClose = New System.Windows.Forms.MenuItem
         Me.MenuItemWDisa = New System.Windows.Forms.MenuItem
         Me.MenuItemLogGoto = New System.Windows.Forms.MenuItem
-        Me.MenuItemNavigateToHandle = New System.Windows.Forms.MenuItem
         Me.menuViewMemory = New System.Windows.Forms.MenuItem
         Me.MenuItemCopyPrivilege = New System.Windows.Forms.MenuItem
         Me.MenuItemCopyMemory = New System.Windows.Forms.MenuItem
@@ -2882,12 +2881,6 @@ Partial Class frmProcessInfo
         Me.MenuItemLogGoto.Index = 0
         Me.MenuItemLogGoto.Text = "Go to item"
         '
-        'MenuItemNavigateToHandle
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemNavigateToHandle, Global.My.Resources.Resources.arrow_000_medium)
-        Me.MenuItemNavigateToHandle.Index = 2
-        Me.MenuItemNavigateToHandle.Text = "Navigate..."
-        '
         'menuViewMemory
         '
         Me.menuViewMemory.DefaultItem = True
@@ -3196,7 +3189,7 @@ Partial Class frmProcessInfo
         '
         'mnuHandle
         '
-        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemHandleDetails, Me.MenuItemCloseHandle, Me.MenuItemNavigateToHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemCopyHandle, Me.MenuItemChooseColumnsHandle})
+        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemHandleDetails, Me.MenuItemCloseHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemCopyHandle, Me.MenuItemChooseColumnsHandle})
         '
         'MenuItem12
         '
@@ -3783,7 +3776,6 @@ Partial Class frmProcessInfo
     Friend WithEvents MenuItemWColumns As System.Windows.Forms.MenuItem
     Private WithEvents mnuLog As System.Windows.Forms.ContextMenu
     Friend WithEvents MenuItemLogGoto As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItemNavigateToHandle As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemCopyHandle As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem1 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemCopyPrivilege As System.Windows.Forms.MenuItem
