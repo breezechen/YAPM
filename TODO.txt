@@ -76,7 +76,6 @@ BUGS NON CRITIQUES
 - images PNG uniquement + virer img inutiles
 - certaines icones moches (yes/no dans lvPrivileges, refresh, find window, )
 - get online infos pour les services (changer de provider !!)
-- 'select in Window tab' dans task toujours non satisfaisant (au minimum, on peut déjà demander le refresh de lvWindows...)
 - graph monitoring -> refresh l'affichage de la valeur survolée également quand la souris se déplace
 - vérifier pourquoi cpu usage de Idle dépasse les 100% ; le cas échéant limiter la valeur à 100%
 - find hidden processes utilisable pour les PCs distants ? + ajouter Terminate dans le menu popup + éventuellement 'go to process' pour aller dans lvProcess
@@ -125,7 +124,8 @@ Temp Change log :
 * NEW / Improvements
 - now first node in dependencies form's treeview is automatically selected
 - now "search string" features are async
-- added detailed window for handles
+- added detailed window for handles with useful informations
+- re-implemented a robust "select in window tab" feature ^^
 
 * Bug fixed
 - fixed job enumeration for windows Seven

@@ -454,6 +454,51 @@ Namespace Native.Api
 #End Region
 
         ' OK
+#Region "Declarations used for handles"
+
+        Public Enum HandleObjectType
+            Adapter
+            AlpcPort
+            Callback
+            Controller
+            DebugObject
+            Desktop
+            Device
+            Directory
+            Driver
+            EtwRegistration
+            [Event]
+            EventPair
+            File
+            FilterCommunicationPort
+            FilterConnectionPort
+            IoCompletion
+            Job
+            Key
+            KeyedEvent
+            Mutant
+            Process
+            Profile
+            Section
+            Semaphore
+            Session
+            SymbolicLink
+            Thread
+            Timer
+            TmEn
+            TmRm
+            TmTm
+            TmTx
+            Token
+            TpWorkerFactory
+            [Type]
+            WindowStation
+            WmiGuid
+        End Enum
+
+#End Region
+
+        ' OK
 #Region "Declarations used for system"
 
         Public Enum ShutdownType As Byte

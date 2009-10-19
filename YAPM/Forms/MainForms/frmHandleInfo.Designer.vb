@@ -24,28 +24,28 @@ Partial Class frmHandleInfo
     Private Sub InitializeComponent()
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox
+        Me.gpCustomControl = New System.Windows.Forms.GroupBox
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.txtName = New System.Windows.Forms.TextBox
-        Me.txtType = New System.Windows.Forms.TextBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.txtAddress = New System.Windows.Forms.TextBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.txtAccess = New System.Windows.Forms.TextBox
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.lblHandleCount = New System.Windows.Forms.Label
-        Me.lblObjectCount = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.lblPointerCount = New System.Windows.Forms.Label
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.lblPaged = New System.Windows.Forms.Label
-        Me.Label10 = New System.Windows.Forms.Label
         Me.lblNonPaged = New System.Windows.Forms.Label
         Me.Label12 = New System.Windows.Forms.Label
+        Me.lblPaged = New System.Windows.Forms.Label
+        Me.Label10 = New System.Windows.Forms.Label
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.lblPointerCount = New System.Windows.Forms.Label
+        Me.Label8 = New System.Windows.Forms.Label
+        Me.lblObjectCount = New System.Windows.Forms.Label
+        Me.Label7 = New System.Windows.Forms.Label
+        Me.lblHandleCount = New System.Windows.Forms.Label
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.txtAccess = New System.Windows.Forms.TextBox
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.txtAddress = New System.Windows.Forms.TextBox
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.txtType = New System.Windows.Forms.TextBox
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.txtName = New System.Windows.Forms.TextBox
+        Me.Label1 = New System.Windows.Forms.Label
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
@@ -67,7 +67,7 @@ Partial Class frmHandleInfo
         '
         'TabPage1
         '
-        Me.TabPage1.Controls.Add(Me.GroupBox4)
+        Me.TabPage1.Controls.Add(Me.gpCustomControl)
         Me.TabPage1.Controls.Add(Me.GroupBox3)
         Me.TabPage1.Controls.Add(Me.GroupBox2)
         Me.TabPage1.Controls.Add(Me.GroupBox1)
@@ -79,14 +79,14 @@ Partial Class frmHandleInfo
         Me.TabPage1.Text = "Details"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'GroupBox4
+        'gpCustomControl
         '
-        Me.GroupBox4.Location = New System.Drawing.Point(10, 218)
-        Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(308, 125)
-        Me.GroupBox4.TabIndex = 3
-        Me.GroupBox4.TabStop = False
-        Me.GroupBox4.Text = "Object informations"
+        Me.gpCustomControl.Location = New System.Drawing.Point(10, 218)
+        Me.gpCustomControl.Name = "gpCustomControl"
+        Me.gpCustomControl.Size = New System.Drawing.Size(308, 125)
+        Me.gpCustomControl.TabIndex = 3
+        Me.gpCustomControl.TabStop = False
+        Me.gpCustomControl.Text = "Object informations"
         '
         'GroupBox3
         '
@@ -100,6 +100,40 @@ Partial Class frmHandleInfo
         Me.GroupBox3.TabIndex = 2
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Quota"
+        '
+        'lblNonPaged
+        '
+        Me.lblNonPaged.AutoSize = True
+        Me.lblNonPaged.Location = New System.Drawing.Point(78, 44)
+        Me.lblNonPaged.Name = "lblNonPaged"
+        Me.lblNonPaged.Size = New System.Drawing.Size(0, 13)
+        Me.lblNonPaged.TabIndex = 5
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(6, 44)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(72, 13)
+        Me.Label12.TabIndex = 4
+        Me.Label12.Text = "Non-paged :"
+        '
+        'lblPaged
+        '
+        Me.lblPaged.AutoSize = True
+        Me.lblPaged.Location = New System.Drawing.Point(78, 23)
+        Me.lblPaged.Name = "lblPaged"
+        Me.lblPaged.Size = New System.Drawing.Size(0, 13)
+        Me.lblPaged.TabIndex = 3
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(6, 23)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(45, 13)
+        Me.Label10.TabIndex = 2
+        Me.Label10.Text = "Paged :"
         '
         'GroupBox2
         '
@@ -117,6 +151,57 @@ Partial Class frmHandleInfo
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "References"
         '
+        'lblPointerCount
+        '
+        Me.lblPointerCount.AutoSize = True
+        Me.lblPointerCount.Location = New System.Drawing.Point(89, 67)
+        Me.lblPointerCount.Name = "lblPointerCount"
+        Me.lblPointerCount.Size = New System.Drawing.Size(0, 13)
+        Me.lblPointerCount.TabIndex = 5
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Location = New System.Drawing.Point(7, 67)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(82, 13)
+        Me.Label8.TabIndex = 4
+        Me.Label8.Text = "PointerCount :"
+        '
+        'lblObjectCount
+        '
+        Me.lblObjectCount.AutoSize = True
+        Me.lblObjectCount.Location = New System.Drawing.Point(89, 45)
+        Me.lblObjectCount.Name = "lblObjectCount"
+        Me.lblObjectCount.Size = New System.Drawing.Size(0, 13)
+        Me.lblObjectCount.TabIndex = 3
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(6, 45)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(79, 13)
+        Me.Label7.TabIndex = 2
+        Me.Label7.Text = "ObjectCount :"
+        '
+        'lblHandleCount
+        '
+        Me.lblHandleCount.AutoSize = True
+        Me.lblHandleCount.Location = New System.Drawing.Point(89, 24)
+        Me.lblHandleCount.Name = "lblHandleCount"
+        Me.lblHandleCount.Size = New System.Drawing.Size(0, 13)
+        Me.lblHandleCount.TabIndex = 1
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(6, 24)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(82, 13)
+        Me.Label5.TabIndex = 0
+        Me.Label5.Text = "HandleCount :"
+        '
         'GroupBox1
         '
         Me.GroupBox1.Controls.Add(Me.txtAccess)
@@ -133,63 +218,6 @@ Partial Class frmHandleInfo
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "General informations"
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(6, 18)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(42, 13)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Name :"
-        '
-        'txtName
-        '
-        Me.txtName.BackColor = System.Drawing.SystemColors.Window
-        Me.txtName.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtName.Location = New System.Drawing.Point(48, 18)
-        Me.txtName.Name = "txtName"
-        Me.txtName.ReadOnly = True
-        Me.txtName.Size = New System.Drawing.Size(252, 15)
-        Me.txtName.TabIndex = 1
-        '
-        'txtType
-        '
-        Me.txtType.BackColor = System.Drawing.SystemColors.Window
-        Me.txtType.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtType.Location = New System.Drawing.Point(42, 39)
-        Me.txtType.Name = "txtType"
-        Me.txtType.ReadOnly = True
-        Me.txtType.Size = New System.Drawing.Size(258, 15)
-        Me.txtType.TabIndex = 3
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(6, 39)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(36, 13)
-        Me.Label2.TabIndex = 2
-        Me.Label2.Text = "Type :"
-        '
-        'txtAddress
-        '
-        Me.txtAddress.BackColor = System.Drawing.SystemColors.Window
-        Me.txtAddress.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtAddress.Location = New System.Drawing.Point(94, 58)
-        Me.txtAddress.Name = "txtAddress"
-        Me.txtAddress.ReadOnly = True
-        Me.txtAddress.Size = New System.Drawing.Size(206, 15)
-        Me.txtAddress.TabIndex = 5
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(6, 58)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(88, 13)
-        Me.Label3.TabIndex = 4
-        Me.Label3.Text = "ObjectAddress :"
         '
         'txtAccess
         '
@@ -210,90 +238,62 @@ Partial Class frmHandleInfo
         Me.Label4.TabIndex = 6
         Me.Label4.Text = "GrantedAccess :"
         '
-        'Label5
+        'txtAddress
         '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(6, 24)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(82, 13)
-        Me.Label5.TabIndex = 0
-        Me.Label5.Text = "HandleCount :"
+        Me.txtAddress.BackColor = System.Drawing.SystemColors.Window
+        Me.txtAddress.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtAddress.Location = New System.Drawing.Point(94, 58)
+        Me.txtAddress.Name = "txtAddress"
+        Me.txtAddress.ReadOnly = True
+        Me.txtAddress.Size = New System.Drawing.Size(206, 15)
+        Me.txtAddress.TabIndex = 5
         '
-        'lblHandleCount
+        'Label3
         '
-        Me.lblHandleCount.AutoSize = True
-        Me.lblHandleCount.Location = New System.Drawing.Point(89, 24)
-        Me.lblHandleCount.Name = "lblHandleCount"
-        Me.lblHandleCount.Size = New System.Drawing.Size(0, 13)
-        Me.lblHandleCount.TabIndex = 1
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(6, 58)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(88, 13)
+        Me.Label3.TabIndex = 4
+        Me.Label3.Text = "ObjectAddress :"
         '
-        'lblObjectCount
+        'txtType
         '
-        Me.lblObjectCount.AutoSize = True
-        Me.lblObjectCount.Location = New System.Drawing.Point(89, 45)
-        Me.lblObjectCount.Name = "lblObjectCount"
-        Me.lblObjectCount.Size = New System.Drawing.Size(0, 13)
-        Me.lblObjectCount.TabIndex = 3
+        Me.txtType.BackColor = System.Drawing.SystemColors.Window
+        Me.txtType.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtType.Location = New System.Drawing.Point(42, 39)
+        Me.txtType.Name = "txtType"
+        Me.txtType.ReadOnly = True
+        Me.txtType.Size = New System.Drawing.Size(258, 15)
+        Me.txtType.TabIndex = 3
         '
-        'Label7
+        'Label2
         '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(6, 45)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(79, 13)
-        Me.Label7.TabIndex = 2
-        Me.Label7.Text = "ObjectCount :"
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(6, 39)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(36, 13)
+        Me.Label2.TabIndex = 2
+        Me.Label2.Text = "Type :"
         '
-        'lblPointerCount
+        'txtName
         '
-        Me.lblPointerCount.AutoSize = True
-        Me.lblPointerCount.Location = New System.Drawing.Point(89, 67)
-        Me.lblPointerCount.Name = "lblPointerCount"
-        Me.lblPointerCount.Size = New System.Drawing.Size(0, 13)
-        Me.lblPointerCount.TabIndex = 5
+        Me.txtName.BackColor = System.Drawing.SystemColors.Window
+        Me.txtName.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtName.Location = New System.Drawing.Point(48, 18)
+        Me.txtName.Name = "txtName"
+        Me.txtName.ReadOnly = True
+        Me.txtName.Size = New System.Drawing.Size(252, 15)
+        Me.txtName.TabIndex = 1
         '
-        'Label8
+        'Label1
         '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(7, 67)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(82, 13)
-        Me.Label8.TabIndex = 4
-        Me.Label8.Text = "PointerCount :"
-        '
-        'lblPaged
-        '
-        Me.lblPaged.AutoSize = True
-        Me.lblPaged.Location = New System.Drawing.Point(78, 23)
-        Me.lblPaged.Name = "lblPaged"
-        Me.lblPaged.Size = New System.Drawing.Size(0, 13)
-        Me.lblPaged.TabIndex = 3
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(6, 23)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(45, 13)
-        Me.Label10.TabIndex = 2
-        Me.Label10.Text = "Paged :"
-        '
-        'lblNonPaged
-        '
-        Me.lblNonPaged.AutoSize = True
-        Me.lblNonPaged.Location = New System.Drawing.Point(78, 44)
-        Me.lblNonPaged.Name = "lblNonPaged"
-        Me.lblNonPaged.Size = New System.Drawing.Size(0, 13)
-        Me.lblNonPaged.TabIndex = 5
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(6, 44)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(72, 13)
-        Me.Label12.TabIndex = 4
-        Me.Label12.Text = "Non-paged :"
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(6, 18)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(42, 13)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "Name :"
         '
         'frmHandleInfo
         '
@@ -321,7 +321,7 @@ Partial Class frmHandleInfo
     Friend WithEvents tabProcess As System.Windows.Forms.TabControl
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
-    Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
+    Friend WithEvents gpCustomControl As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
     Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents txtName As System.Windows.Forms.TextBox

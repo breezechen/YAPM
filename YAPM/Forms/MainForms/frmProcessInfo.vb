@@ -2856,4 +2856,17 @@ Public Class frmProcessInfo
     Private Sub MenuItemHandleDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemHandleDetails.Click
         Call Me.lvHandles_MouseDoubleClick(Nothing, Nothing)
     End Sub
+
+    ' Select an item in one of the listview
+    Private Delegate Sub degSelectItemInAListView(ByVal text As String, ByVal lv As ListView)
+    Public Sub SelectItemInAListView(ByVal text As String, ByVal lv As ListView)
+        If lv.InvokeRequired Then
+            Dim d As New degSelectItemInAListView(AddressOf SelectItemInAListView)
+            Me.lvProcString.Invoke(d, text, lv)
+        Else
+            Dim it As ListViewItem = lv.FindItemWithText(text)
+            it.Selected = True
+            it.EnsureVisible()
+        End If
+    End Sub
 End Class

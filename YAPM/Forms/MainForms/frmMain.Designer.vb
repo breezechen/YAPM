@@ -571,6 +571,7 @@ Partial Class frmMain
         Me.timerJobs = New System.Windows.Forms.Timer(Me.components)
         Me.mnuJob = New System.Windows.Forms.ContextMenu
         Me.MenuItem53 = New System.Windows.Forms.MenuItem
+        Me.MenuItemTaskSelectWindow = New System.Windows.Forms.MenuItem
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -4656,7 +4657,7 @@ Partial Class frmMain
         'MenuItemCopyTask
         '
         Me.VistaMenu.SetImage(Me.MenuItemCopyTask, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyTask.Index = 8
+        Me.MenuItemCopyTask.Index = 9
         Me.MenuItemCopyTask.Text = "Copy to clipboard"
         '
         'MenuItemCopyService
@@ -4685,7 +4686,7 @@ Partial Class frmMain
         '
         'mnuTask
         '
-        Me.mnuTask.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemTaskShow, Me.MenuItemTaskMax, Me.MenuItemTaskMin, Me.MenuItem4, Me.MenuItemTaskEnd, Me.MenuItem6, Me.MenuItemTaskSelProc, Me.MenuItem9, Me.MenuItemCopyTask, Me.MenuItemTaskColumns})
+        Me.mnuTask.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemTaskShow, Me.MenuItemTaskMax, Me.MenuItemTaskMin, Me.MenuItem4, Me.MenuItemTaskEnd, Me.MenuItem6, Me.MenuItemTaskSelProc, Me.MenuItemTaskSelectWindow, Me.MenuItem9, Me.MenuItemCopyTask, Me.MenuItemTaskColumns})
         '
         'MenuItemTaskMax
         '
@@ -4709,12 +4710,12 @@ Partial Class frmMain
         '
         'MenuItem9
         '
-        Me.MenuItem9.Index = 7
+        Me.MenuItem9.Index = 8
         Me.MenuItem9.Text = "-"
         '
         'MenuItemTaskColumns
         '
-        Me.MenuItemTaskColumns.Index = 9
+        Me.MenuItemTaskColumns.Index = 10
         Me.MenuItemTaskColumns.Text = "Choose columns..."
         '
         'mnuMonitor
@@ -5512,6 +5513,11 @@ Partial Class frmMain
         Me.MenuItem53.Index = 1
         Me.MenuItem53.Text = "-"
         '
+        'MenuItemTaskSelectWindow
+        '
+        Me.MenuItemTaskSelectWindow.Index = 7
+        Me.MenuItemTaskSelectWindow.Text = "Select in ""window tab"""
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6154,5 +6160,6 @@ Partial Class frmMain
     Friend WithEvents RibbonSeparator3 As System.Windows.Forms.RibbonSeparator
     Friend WithEvents RibbonSeparator6 As System.Windows.Forms.RibbonSeparator
     Friend WithEvents MenuItemServDelete As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemTaskSelectWindow As System.Windows.Forms.MenuItem
 
 End Class

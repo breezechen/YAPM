@@ -2850,6 +2850,7 @@ Public Class frmMain
             Me.MenuItemTaskShow.Enabled = selectionIsNotNothing
             Me.MenuItemTaskMax.Enabled = selectionIsNotNothing
             Me.MenuItemTaskMin.Enabled = selectionIsNotNothing
+            Me.MenuItemTaskMin.Enabled = selectionIsNotNothing
             Me.MenuItemCopyTask.Enabled = selectionIsNotNothing
             Me.mnuTask.Show(Me.lvTask, e.Location)
         End If
@@ -4037,5 +4038,54 @@ Public Class frmMain
     Public Delegate Sub FailedToCheckUpDateNotification(ByVal msg As String)
     Public Delegate Sub GotErrorFromServer(ByVal err As Exception)
 
+#Region "Select window in window tab feature"
+
+    Private Sub MenuItemTaskSelectWindow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemTaskSelectWindow.Click
+        ' Select the task's window in the "window tab" of the associated process'
+        ' detailed form
+        ' This is a bit tricky, but here is it :
+        For Each it As cTask In Me.lvTask.GetSelectedItems
+
+            ' Retrieve the associated process
+            Dim _proc As cProcess = cProcess.GetProcessById(it.Infos.ProcessId)
+
+            If _proc IsNot Nothing Then
+
+                ' Open the process' detailed form
+                Dim frm As New frmProcessInfo
+                frm.SetProcess(_proc)
+                frm.TopMost = _frmMain.TopMost
+                frm.Show()
+                ' Display 'Windows' tab
+                frm.tabProcess.SelectedTab = frm.TabPageWindows
+
+                ' Create a thread which wait for threads to be added in the lvThread
+                ' and then select the good thread
+                Threading.ThreadPool.QueueUserWorkItem(AddressOf selectWindowImp, New contextObjSelectWindow(it.Infos.Handle.ToString, frm))
+            End If
+        Next
+    End Sub
+
+    Private Structure contextObjSelectWindow
+        Public handle As String
+        Public frmProcInfo As frmProcessInfo
+        Public Sub New(ByVal hWnd As String, ByVal form As frmProcessInfo)
+            handle = hWnd
+            frmProcInfo = form
+        End Sub
+    End Structure
+    Private Sub selectWindowImp(ByVal context As Object)
+        Dim pObj As contextObjSelectWindow = DirectCast(context, contextObjSelectWindow)
+
+        ' Wait for windows to be added in the listview
+        While pObj.frmProcInfo.lvWindows.Items.Count = 0
+            Threading.Thread.Sleep(50)
+        End While
+
+        ' Select the good window
+        pObj.frmProcInfo.SelectItemInAListView(pObj.handle, pObj.frmProcInfo.lvWindows)
+    End Sub
+
+#End Region
 
 End Class
