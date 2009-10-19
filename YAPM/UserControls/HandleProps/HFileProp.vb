@@ -33,28 +33,20 @@ Public Class HFileProp
     Public Overrides Sub RefreshInfos()
         Dim bFileExists As Boolean = IO.File.Exists(Me.TheHandle.Infos.Name)
         Dim bDirExists As Boolean = IO.Directory.Exists(Me.TheHandle.Infos.Name)
+        Me.cmdFileDetails.Enabled = bFileExists
+        Me.cmdOpenDirectory.Enabled = bDirExists Or bFileExists
+        Me.cmdOpen.Enabled = Me.cmdOpenDirectory.Enabled
+
         If bFileExists Then
             Me.lblFileExists.ForeColor = Color.DarkGreen
             Me.lblFileExists.Text = "File exists"
-            Me.cmdDetails.Text = "  Show details"
-            Me.cmdDetails.Image = My.Resources.magnifier
-            Me.cmdDetails.Enabled = True
-            Me.cmdOpen.Enabled = True
         Else
             If bDirExists Then
                 Me.lblFileExists.ForeColor = Color.DarkGreen
                 Me.lblFileExists.Text = "Directory exists"
-                Me.cmdDetails.Enabled = True
-                Me.cmdDetails.Text = "    Open directory"
-                Me.cmdDetails.Image = My.Resources.folder_open
-                Me.cmdOpen.Enabled = True
             Else
                 Me.lblFileExists.ForeColor = Color.DarkRed
                 Me.lblFileExists.Text = "Unknown file"
-                Me.cmdDetails.Enabled = False
-                Me.cmdDetails.Text = "  Show details"
-                Me.cmdDetails.Image = My.Resources.magnifier
-                Me.cmdOpen.Enabled = False
             End If
         End If
     End Sub
@@ -63,18 +55,21 @@ Public Class HFileProp
         cFile.ShowFileProperty(Me.TheHandle.Infos.Name, Me.Handle)
     End Sub
 
-    Private Sub cmdDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdDetails.Click
-        If Me.cmdDetails.Text.Contains("directory") = False Then
-            ' This is a file
-            Common.Misc.DisplayDetailsFile(Me.TheHandle.Infos.Name)
-        Else
-            ' This is a directory
+    Private Sub cmdOpenDirectory_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdOpenDirectory.Click
+        If IO.Directory.Exists(Me.TheHandle.Infos.Name) Then
             cFile.OpenADirectory(Me.TheHandle.Infos.Name)
+        Else
+            cFile.OpenDirectory(Me.TheHandle.Infos.Name)
         End If
     End Sub
 
     Private Sub HFileProp_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         'Common.Misc.SetToolTip(Me.cmdDetails, "Details about the object")
         Common.Misc.SetToolTip(Me.cmdOpen, "Open properties of item")
+        Common.Misc.SetToolTip(Me.cmdOpenDirectory, "Open directory")
+    End Sub
+
+    Private Sub cmdFileDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdFileDetails.Click
+        Common.Misc.DisplayDetailsFile(Me.TheHandle.Infos.Name)
     End Sub
 End Class

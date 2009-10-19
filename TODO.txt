@@ -126,6 +126,7 @@ Temp Change log :
 - now "search string" features are async
 - added detailed window for handles with useful informations
 - re-implemented a robust "select in window tab" feature ^^
+- removed "Navigate..." feature (now useless cause of detailed window for handles)
 
 * Bug fixed
 - fixed job enumeration for windows Seven

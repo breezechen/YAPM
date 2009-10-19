@@ -17,7 +17,7 @@ Partial Class frmProcessInfo
     'Requise par le Concepteur Windows Form
     Private components As System.ComponentModel.IContainer
 
-    'REMARQUE : la procédure suivante est requise par le Concepteur Windows Form
+    'REMARQUE : la procédure suivante est requise par le Concepteur Windows Form
     'Elle peut être modifiée à l'aide du Concepteur Windows Form.  
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
@@ -353,6 +353,7 @@ Partial Class frmProcessInfo
         Me.MenuItem33 = New System.Windows.Forms.MenuItem
         Me.MenuItemWColumns = New System.Windows.Forms.MenuItem
         Me.mnuHandle = New System.Windows.Forms.ContextMenu
+        Me.MenuItemHandleDetails = New System.Windows.Forms.MenuItem
         Me.MenuItem12 = New System.Windows.Forms.MenuItem
         Me.MenuItemShowUnnamedHandles = New System.Windows.Forms.MenuItem
         Me.MenuItem14 = New System.Windows.Forms.MenuItem
@@ -382,7 +383,6 @@ Partial Class frmProcessInfo
         Me.lblResCount = New System.Windows.Forms.Label
         Me.txtSearch = New System.Windows.Forms.TextBox
         Me.RadioButton1 = New System.Windows.Forms.RadioButton
-        Me.MenuItemHandleDetails = New System.Windows.Forms.MenuItem
         Me.tabProcess.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -2921,7 +2921,7 @@ Partial Class frmProcessInfo
         'MenuItemCopyHandle
         '
         Me.VistaMenu.SetImage(Me.MenuItemCopyHandle, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyHandle.Index = 6
+        Me.MenuItemCopyHandle.Index = 5
         Me.MenuItemCopyHandle.Text = "Copy to clipboard"
         '
         'MenuItemCopyNetwork
@@ -3191,24 +3191,31 @@ Partial Class frmProcessInfo
         '
         Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemHandleDetails, Me.MenuItemCloseHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemCopyHandle, Me.MenuItemChooseColumnsHandle})
         '
+        'MenuItemHandleDetails
+        '
+        Me.MenuItemHandleDetails.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.MenuItemHandleDetails, Global.My.Resources.Resources.display16)
+        Me.MenuItemHandleDetails.Index = 0
+        Me.MenuItemHandleDetails.Text = "Details..."
+        '
         'MenuItem12
         '
-        Me.MenuItem12.Index = 3
+        Me.MenuItem12.Index = 2
         Me.MenuItem12.Text = "-"
         '
         'MenuItemShowUnnamedHandles
         '
-        Me.MenuItemShowUnnamedHandles.Index = 4
+        Me.MenuItemShowUnnamedHandles.Index = 3
         Me.MenuItemShowUnnamedHandles.Text = "Show unnamed handles"
         '
         'MenuItem14
         '
-        Me.MenuItem14.Index = 5
+        Me.MenuItem14.Index = 4
         Me.MenuItem14.Text = "-"
         '
         'MenuItemChooseColumnsHandle
         '
-        Me.MenuItemChooseColumnsHandle.Index = 7
+        Me.MenuItemChooseColumnsHandle.Index = 6
         Me.MenuItemChooseColumnsHandle.Text = "Choose columns..."
         '
         'mnuNetwork
@@ -3380,13 +3387,6 @@ Partial Class frmProcessInfo
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(104, 24)
         Me.RadioButton1.TabIndex = 0
-        '
-        'MenuItemHandleDetails
-        '
-        Me.MenuItemHandleDetails.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemHandleDetails, Global.My.Resources.Resources.display16)
-        Me.MenuItemHandleDetails.Index = 0
-        Me.MenuItemHandleDetails.Text = "Details..."
         '
         'frmProcessInfo
         '

@@ -23,8 +23,9 @@ Partial Class HFileProp
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.cmdOpen = New System.Windows.Forms.Button
-        Me.cmdDetails = New System.Windows.Forms.Button
+        Me.cmdOpenDirectory = New System.Windows.Forms.Button
         Me.lblFileExists = New System.Windows.Forms.Label
+        Me.cmdFileDetails = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'cmdOpen
@@ -38,16 +39,16 @@ Partial Class HFileProp
         Me.cmdOpen.Text = "     Open file properties"
         Me.cmdOpen.UseVisualStyleBackColor = True
         '
-        'cmdDetails
+        'cmdOpenDirectory
         '
-        Me.cmdDetails.Image = Global.My.Resources.Resources.folder_open
-        Me.cmdDetails.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdDetails.Location = New System.Drawing.Point(3, 34)
-        Me.cmdDetails.Name = "cmdDetails"
-        Me.cmdDetails.Size = New System.Drawing.Size(137, 25)
-        Me.cmdDetails.TabIndex = 1
-        Me.cmdDetails.Text = "    Open directory"
-        Me.cmdDetails.UseVisualStyleBackColor = True
+        Me.cmdOpenDirectory.Image = Global.My.Resources.Resources.folder_open
+        Me.cmdOpenDirectory.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdOpenDirectory.Location = New System.Drawing.Point(3, 34)
+        Me.cmdOpenDirectory.Name = "cmdOpenDirectory"
+        Me.cmdOpenDirectory.Size = New System.Drawing.Size(137, 25)
+        Me.cmdOpenDirectory.TabIndex = 1
+        Me.cmdOpenDirectory.Text = "    Open directory"
+        Me.cmdOpenDirectory.UseVisualStyleBackColor = True
         '
         'lblFileExists
         '
@@ -58,10 +59,22 @@ Partial Class HFileProp
         Me.lblFileExists.Size = New System.Drawing.Size(0, 13)
         Me.lblFileExists.TabIndex = 3
         '
+        'cmdFileDetails
+        '
+        Me.cmdFileDetails.Image = Global.My.Resources.Resources.magnifier
+        Me.cmdFileDetails.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdFileDetails.Location = New System.Drawing.Point(146, 3)
+        Me.cmdFileDetails.Name = "cmdFileDetails"
+        Me.cmdFileDetails.Size = New System.Drawing.Size(106, 25)
+        Me.cmdFileDetails.TabIndex = 4
+        Me.cmdFileDetails.Text = "     Show details"
+        Me.cmdFileDetails.UseVisualStyleBackColor = True
+        '
         'HFileProp
         '
+        Me.Controls.Add(Me.cmdFileDetails)
         Me.Controls.Add(Me.lblFileExists)
-        Me.Controls.Add(Me.cmdDetails)
+        Me.Controls.Add(Me.cmdOpenDirectory)
         Me.Controls.Add(Me.cmdOpen)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Name = "HFileProp"
@@ -71,7 +84,8 @@ Partial Class HFileProp
 
     End Sub
     Friend WithEvents cmdOpen As System.Windows.Forms.Button
-    Friend WithEvents cmdDetails As System.Windows.Forms.Button
+    Friend WithEvents cmdOpenDirectory As System.Windows.Forms.Button
     Friend WithEvents lblFileExists As System.Windows.Forms.Label
+    Friend WithEvents cmdFileDetails As System.Windows.Forms.Button
 
 End Class

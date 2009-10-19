@@ -356,6 +356,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\HandleProps\HFileProp.resx">
       <DependentUpon>HFileProp.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\MemoryHexEditor.resx">
       <DependentUpon>MemoryHexEditor.vb</DependentUpon>
