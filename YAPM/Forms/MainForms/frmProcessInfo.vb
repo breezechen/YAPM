@@ -2843,8 +2843,10 @@ Public Class frmProcessInfo
             Me.lvProcString.Invoke(d, text, lv)
         Else
             Dim it As ListViewItem = lv.FindItemWithText(text)
-            it.Selected = True
-            it.EnsureVisible()
+            If it IsNot Nothing Then
+                it.Selected = True
+                it.EnsureVisible()
+            End If
         End If
     End Sub
 End Class

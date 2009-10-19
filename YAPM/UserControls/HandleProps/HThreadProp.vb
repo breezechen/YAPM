@@ -39,7 +39,7 @@ Public Class HThreadProp
             Dim nam As String = Me.TheHandle.Infos.Name
             Dim n2 As Integer = nam.IndexOf("(", nam.Length - 17)
             Dim n1 As Integer = nam.IndexOf(")", nam.Length - 13)
-            Dim n3 As Integer = nam.IndexOf(" ", nam.Length - 6)
+            Dim n3 As Integer = nam.IndexOf(" ", nam.Length - 5)
 
             If n2 > 0 AndAlso n1 > 0 AndAlso n3 > 0 Then
                 _pid = Integer.Parse(nam.Substring(n2 + 1, n1 - n2 - 1))

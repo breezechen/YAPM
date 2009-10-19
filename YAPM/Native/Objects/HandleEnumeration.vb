@@ -405,7 +405,7 @@ Namespace Native.Objects
                 ' These functions are only present in a VISTA OS
                 Dim i As Integer = NativeFunctions.GetThreadId(hHandle)
                 Dim i2 As Integer = NativeFunctions.GetProcessIdOfThread(hHandle)
-                m_ObjectName = GetProcessNameFromPID(i2) & " (" & CStr(i2) & ")" & "  - " & CStr(i)
+                m_ObjectName = GetProcessNameFromPID(i2) & " (" & CStr(i2) & ")" & " - " & CStr(i)
             End If
 
             ' Close the duplicated handle
