@@ -729,19 +729,7 @@ Public Class frmMain
                 Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
                 _tab.SelectedTab = Me.pageProcesses
             Case "Help"
-
                 Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
-                If Not (bHelpShown) Then
-                    bHelpShown = True
-                    ' Load help file
-                    Dim path As String = HELP_PATH
-                    'If IO.File.Exists(path) = False Then
-                    '    WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
-                    'Else
-                    Me.WBHelp.Url = New Uri(HELP_PATH)
-                    'End If
-                End If
-
                 _tab.SelectedTab = Me.pageHelp
             Case "File"
                 Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvProcess.Items.Count) & " processes running"
@@ -2310,14 +2298,14 @@ Public Class frmMain
                 If Not (bHelpShown) Then
                     bHelpShown = True
                     ' Load help file
-                    Dim path As String = HELP_PATH
-                    'If IO.File.Exists(path) = False Then
-                    '    WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
-                    'Else
-                    WBHelp.Navigate(path)
-                    'End If
+                    If IO.File.Exists(My.Application.Info.DirectoryPath & HELP_PATH_DD) Then
+                        'WBHelp.Document.Write("<body link=blue vlink=purple><span>Help file cannot be found. <p></span><span>Please download help file at <a href=" & Chr(34) & "http://sourceforge.net/projects/yaprocmon/" & Chr(34) & ">http://sourceforge.net/projects/yaprocmon</a> and save it in the Help directory.</span></body>")
+                        WBHelp.Navigate(My.Application.Info.DirectoryPath & HELP_PATH_DD)
+                    Else
+                        WBHelp.Navigate(HELP_PATH_INTERNET)
+                    End If
                 End If
-                _tab.SelectedTab = Me.pageHelp
+                    _tab.SelectedTab = Me.pageHelp
         End Select
         Me.Ribbon.ActiveTab = theTab
     End Sub
@@ -2740,6 +2728,8 @@ Public Class frmMain
             Me.MenuItemTaskShow.Enabled = selectionIsNotNothing
             Me.MenuItemTaskMax.Enabled = selectionIsNotNothing
             Me.MenuItemTaskMin.Enabled = selectionIsNotNothing
+            Me.MenuItemTaskSelectWindow.Enabled = selectionIsNotNothing
+
             Me.MenuItemTaskMin.Enabled = selectionIsNotNothing
             Me.MenuItemCopyTask.Enabled = selectionIsNotNothing
             Me.mnuTask.Show(Me.lvTask, e.Location)

@@ -128,6 +128,7 @@ Temp Change log :
 - removed "Navigate..." feature (now useless cause of detailed window for handles)
 - reduced memory usage
 - fixed some icons
+- added embedded help file
 
 * Bug fixed
 - fixed job enumeration for windows Seven

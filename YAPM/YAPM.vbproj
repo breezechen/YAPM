@@ -1290,8 +1290,8 @@
     <None Include="Misc\up.gif" />
     <Content Include="process32.ico" />
     <Content Include="process_custom.ico" />
+    <None Include="Resources\help_static.html" />
     <None Include="My Project\app.manifest" />
-    <None Include="Resources\YAPMLauncherService.exe" />
     <None Include="Resources\tcp.txt" />
     <None Include="Resources\udp.txt" />
   </ItemGroup>

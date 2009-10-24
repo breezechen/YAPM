@@ -208,7 +208,8 @@ Public Module Program
     End Property
 
 
-    Public Const HELP_PATH As String = "http://yaprocmon.sourceforge.net/help_static.html"
+    Public Const HELP_PATH_INTERNET As String = "http://yaprocmon.sourceforge.net/help_static.html"
+    Public Const HELP_PATH_DD As String = "\Help\help_static.html"
     Public Const NO_INFO_RETRIEVED As String = "N/A"
 
     Public NEW_ITEM_COLOR As Color = Color.FromArgb(128, 255, 0)

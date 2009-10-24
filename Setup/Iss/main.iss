@@ -50,12 +50,16 @@ Source: ..\..\YAPM\bin\BuildZipRelease\Bin\launch server.bat; DestDir: {app}; Fl
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\license.rtf; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\README.txt; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\{#MyAppExeName}; DestDir: {app}; Flags: ignoreversion
+Source: ..\..\Website\help_static.html; DestDir: {app}\Help\; Flags: ignoreversion
+Source: ..\..\Website\styles.css; DestDir: {app}\Help\; Flags: ignoreversion
+Source: ..\..\Website\Images\icon.png; DestDir: {app}\Help\Images\; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: {group}\{#MyAppName}; Filename: {app}\{#MyAppExeName}
 Name: {group}\{cm:ProgramOnTheWeb,{#MyAppName}}; Filename: {#MyAppURL}
 Name: {group}\{cm:UninstallProgram,{#MyAppName}}; Filename: {uninstallexe}
+Name: {group}\{cm:HelpFile}; Filename: {app}\Help\help_static.html
 Name: {commondesktop}\{#MyAppName}; Filename: {app}\{#MyAppExeName}; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}; Filename: {app}\{#MyAppExeName}; Tasks: quicklaunchicon
 Name: {group}\{cm:StartServer}; Filename: {app}\launch server.bat; WorkingDir: {app}
@@ -123,5 +127,5 @@ OtherTasks =Other tasks
 RestoreTaskmgr =Restore Windows task manager
 ReplaceTaskmgr =Replace Windows task manager
 Optimization =Optimizing Yet Another (remote) Process Monitor...
-
 StartServer=Start YAPM server
+HelpFile=Help
