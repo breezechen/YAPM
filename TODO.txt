@@ -124,4 +124,4 @@ Temp Change log :
 - 
 
 * Bug fixed
-- 
+- Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)

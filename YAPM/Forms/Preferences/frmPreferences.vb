@@ -510,6 +510,8 @@ Public Class frmPreferences
     Private Sub cmdUpdateCheckNow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdUpdateCheckNow.Click
         ' Check for updates manually
         ' No silent mode, so it will cause a messagebox to be displayed
+        My.Settings.UpdateAlpha = Me.chkUpdateAlpha.Checked
+        My.Settings.UpdateBeta = Me.chkUpdateBeta.Checked
         Program.Updater.CheckUpdates(False)
     End Sub
 End Class
