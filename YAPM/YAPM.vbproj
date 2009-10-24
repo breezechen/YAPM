@@ -326,6 +326,10 @@
       <DependentUpon>frmServer.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\heapList.resx">
+      <DependentUpon>heapList.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\jobLimitList.resx">
       <DependentUpon>jobLimitList.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -612,6 +616,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Native\Driver\DriverCtrl.vb" />
+    <Compile Include="Native\Objects\Heap.vb" />
     <Compile Include="Native\Objects\HandleEnumeration.vb" />
     <Compile Include="Classes\Hotkeys\cHotkeys.vb" />
     <Compile Include="Classes\Hotkeys\cShortcut.vb" />
@@ -791,6 +796,11 @@
     <Compile Include="Native\Objects\Token.vb" />
     <Compile Include="Native\Structs.vb" />
     <Compile Include="Native\Objects\Process.vb" />
+    <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleEnumerate.vb" />
+    <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleUnload.vb" />
+    <Compile Include="Providers\Classes\Heaps\cHeap.vb" />
+    <Compile Include="Providers\Classes\Heaps\cHeapConnection.vb" />
+    <Compile Include="Providers\Classes\Heaps\heapInfos.vb" />
     <Compile Include="Providers\Classes\JobLimits\asyncMethods\asyncCallbackJobLimitsEnumerate.vb" />
     <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobLimitsSetLimits.vb" />
     <Compile Include="Providers\Classes\JobLimits\cJobLimit.vb" />
@@ -825,8 +835,7 @@
     <Compile Include="Providers\Classes\MemoryRegions\cMemRegion.vb" />
     <Compile Include="Providers\Classes\MemoryRegions\cMemRegionConnection.vb" />
     <Compile Include="Providers\Classes\MemoryRegions\memRegionInfos.vb" />
-    <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleEnumerate.vb" />
-    <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleUnload.vb" />
+    <Compile Include="Providers\Classes\Heaps\asyncMethods\asyncCallbackHeapEnumerate.vb" />
     <Compile Include="Providers\Classes\Modules\cModule.vb" />
     <Compile Include="Providers\Classes\Modules\cModuleConnection.vb" />
     <Compile Include="Providers\Classes\Modules\moduleInfos.vb" />
@@ -900,6 +909,12 @@
     <Compile Include="Providers\Classes\Windows\cWindow.vb" />
     <Compile Include="Providers\Classes\Windows\cWindowConnection.vb" />
     <Compile Include="Providers\Classes\Windows\windowInfos.vb" />
+    <Compile Include="Providers\CustomListviews\heapList.Designer.vb">
+      <DependentUpon>heapList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\heapList.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Providers\CustomListviews\jobLimitList.Designer.vb">
       <DependentUpon>jobLimitList.vb</DependentUpon>
     </Compile>

@@ -145,6 +145,8 @@ Public Class frmChooseColumns
             ss = jobInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is processesInJobList Then
             ss = processInfos.GetAvailableProperties
+        ElseIf TypeOf (ConcernedListView) Is heapList Then
+            ss = heapInfos.GetAvailableProperties
         End If
 
         ReDim Preserve ss(ss.Length + 1)

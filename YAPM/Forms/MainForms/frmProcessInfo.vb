@@ -57,6 +57,9 @@ Public Class frmProcessInfo
     ' ProcessHandle for process termination handler
     Private hProcSync As IntPtr
 
+    ' Debug buffer
+    Private _dbgBuffer As Native.Objects.DebugBuffer
+
     ' Here we finished to download informations from internet
     Private _asyncInfoRes As cAsyncProcInfoDownload.InternetProcessInfo
     Private _asyncDownloadDone As Boolean = False
@@ -150,6 +153,9 @@ Public Class frmProcessInfo
                 'If _local Then _
                 Call ShowServices()
 
+            Case "Heaps"
+                If _notWMI Then _
+                Call ShowHeaps()
 
             Case "Strings"
                 If _local Then
@@ -340,10 +346,16 @@ Public Class frmProcessInfo
         Pref.SaveListViewColumns(Me.lvProcNetwork, "COLprocdetail_network")
         Pref.SaveListViewColumns(Me.lvModules, "COLprocdetail_module")
         Pref.SaveListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
+        Pref.SaveListViewColumns(Me.lvHeaps, "COLprocdetail_heaps")
 
         ' Close handles opened
         If _local AndAlso hProcSync.IsNotNull Then
             Native.Objects.General.CloseHandle(hProcSync)
+        End If
+
+        ' Empty debug buffer
+        If _dbgBuffer IsNot Nothing Then
+            _dbgBuffer.Dispose()
         End If
     End Sub
 
@@ -376,6 +388,7 @@ Public Class frmProcessInfo
         Native.Functions.Misc.SetTheme(Me.lvThreads.Handle)
         Native.Functions.Misc.SetTheme(Me.lvWindows.Handle)
         Native.Functions.Misc.SetTheme(Me.lvLog.Handle)
+        Native.Functions.Misc.SetTheme(Me.lvHeaps.Handle)
 
         ' Some tooltips
         SetToolTip(Me.cmdInfosToClipB, "Copy process informations to clipboard. Use left click to copy as text, right click to copy as rtf (preserve text style)")
@@ -426,6 +439,7 @@ Public Class frmProcessInfo
         Pref.LoadListViewColumns(Me.lvModules, "COLprocdetail_module")
         Pref.LoadListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
         Pref.LoadListViewColumns(Me.lvLog, "COLprocdetail_log")
+        Pref.LoadListViewColumns(Me.lvHeaps, "COLprocdetail_heaps")
 
         Select Case My.Settings.ProcSelectedTab
             Case "Token"
@@ -460,6 +474,8 @@ Public Class frmProcessInfo
                 Me.tabProcess.SelectedTab = Me.TabPageLog
             Case "History"
                 Me.tabProcess.SelectedTab = Me.TabPageHistory
+            Case "Heaps"
+                Me.tabProcess.SelectedTab = Me.TabPageHeaps
         End Select
 
         ' Refresh infos
@@ -477,13 +493,6 @@ Public Class frmProcessInfo
                 pctBigIcon.Image = My.Resources.exe32
             End Try
         End If
-
-        ' Show all items
-        'Call ShowModules()
-        'Call ShowThreads()
-        'Call ShowWindows()
-        'Call ShowRegions()
-        'Call ShowNetwork()
 
         Call Connect()
         Call refreshProcessTab()
@@ -523,6 +532,9 @@ Public Class frmProcessInfo
         For Each ss As String In envVariableInfos.GetAvailableProperties(True)
             Me.MenuItemCopyEnvVariable.MenuItems.Add(ss, AddressOf MenuItemCopyEnvVariable_Click)
         Next
+        For Each ss As String In heapInfos.GetAvailableProperties(True)
+            Me.MenuItemCopyHeaps.MenuItems.Add(ss, AddressOf MenuItemCopyHeaps_Click)
+        Next
         Me.MenuItemCopyString.MenuItems.Add("Position", AddressOf MenuItemCopyString_Click)
         Me.MenuItemCopyString.MenuItems.Add("String", AddressOf MenuItemCopyString_Click)
 
@@ -553,6 +565,7 @@ Public Class frmProcessInfo
         Me.lvProcNetwork.Enabled = _notWMI
         Me.lvProcString.Enabled = _notWMI
         Me.lvWindows.Enabled = _notWMI
+        Me.lvHeaps.Enabled = _notWMI
         Me.SplitContainerStrings.Enabled = _notWMI
         Me.SplitContainerLog.Enabled = _notWMI
         Me.cmdShowFileDetails.Enabled = _local
@@ -1063,6 +1076,19 @@ Public Class frmProcessInfo
 
     End Sub
 
+    ' Show heaps
+    Public Sub ShowHeaps()
+
+        If _dbgBuffer Is Nothing Then
+            _dbgBuffer = New Native.Objects.DebugBuffer
+        End If
+
+        Me.lvHeaps.DebugBuffer = _dbgBuffer
+        Me.lvHeaps.ProcessId = curProc.Infos.ProcessId
+        Me.lvHeaps.UpdateTheItems()
+
+    End Sub
+
     ' Show network connections
     Public Sub ShowNetwork()
 
@@ -1349,6 +1375,7 @@ Public Class frmProcessInfo
             Me.lvProcEnv.ConnectionObj = theConnection
             Me.lvProcServices.ConnectionObj = theConnection
             Me.lvWindows.ConnectionObj = theConnection
+            Me.lvHeaps.ConnectionObj = theConnection
             Me.lvProcNetwork.ConnectionObj = theConnection
             theConnection.Connect()
             Me.timerProcPerf.Interval = CInt(1000 * Program.Connection.RefreshmentCoefficient)
@@ -1517,7 +1544,7 @@ Public Class frmProcessInfo
         Next
     End Sub
 
-    Private Sub MenuItem11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem11.Click
+    Private Sub MenuItem11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemColumnsNetwork.Click
         Me.lvProcNetwork.ChooseColumns()
     End Sub
 
@@ -2381,6 +2408,19 @@ Public Class frmProcessInfo
         My.Computer.Clipboard.SetText(toCopy)
     End Sub
 
+    Private Sub MenuItemCopyHeaps_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
+        Dim toCopy As String = ""
+        For Each it As cHeap In Me.lvHeaps.GetSelectedItems
+            toCopy &= it.GetInformation(info) & vbNewLine
+        Next
+        If toCopy.Length > 2 Then
+            ' Remove last vbNewline
+            toCopy = toCopy.Substring(0, toCopy.Length - 2)
+        End If
+        My.Computer.Clipboard.SetText(toCopy)
+    End Sub
+
     Private Sub MenuItemCopyString_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
         Dim toCopy As String = ""
@@ -2594,6 +2634,14 @@ Public Class frmProcessInfo
         End If
     End Sub
 
+    Private Sub lvHeaps_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvHeaps.KeyDown
+        If e.Control AndAlso e.KeyCode = Keys.F Then
+            If Me.SplitContainer.Panel2Collapsed Then
+                Call showFindPanel()
+            End If
+        End If
+    End Sub
+
     Private Sub lvWindows_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvWindows.KeyDown
         If e.Control AndAlso e.KeyCode = Keys.F Then
             If Me.SplitContainer.Panel2Collapsed Then
@@ -2693,6 +2741,11 @@ Public Class frmProcessInfo
                 Me.txtSearch.Enabled = True
                 Me.lblResCount.Enabled = True
                 listViewForSearch = Me.lvLog
+            Case "Heaps"
+                Me.lblSearchItemCaption.Enabled = True
+                Me.txtSearch.Enabled = True
+                Me.lblResCount.Enabled = True
+                listViewForSearch = Me.lvHeaps
             Case Else
                 Me.lblSearchItemCaption.Enabled = False
                 Me.txtSearch.Enabled = False
@@ -2737,8 +2790,8 @@ Public Class frmProcessInfo
 
         ' Add groups to listviews
         Me.lvThreads.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
-                        {New ListViewGroup("0", "Items"), _
-                         New ListViewGroup("1", "Search results")})
+                    {New ListViewGroup("0", "Items"), _
+                     New ListViewGroup("1", "Search results")})
         Me.lvProcServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
                    {New ListViewGroup("0", "Items"), _
                     New ListViewGroup("1", "Search results")})
@@ -2766,6 +2819,9 @@ Public Class frmProcessInfo
         Me.lvProcNetwork.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
                    {New ListViewGroup("0", "Items"), _
                     New ListViewGroup("1", "Search results")})
+        Me.lvHeaps.Groups.AddRange(New System.Windows.Forms.ListViewGroup() _
+                   {New ListViewGroup("0", "Items"), _
+                    New ListViewGroup("1", "Search results")})
     End Sub
     Private Sub hideFindPanel()
         Me.SplitContainer.Panel2Collapsed = True
@@ -2780,6 +2836,7 @@ Public Class frmProcessInfo
         Me.lvWindows.Groups.Clear()
         Me.lvHandles.Groups.Clear()
         Me.lvProcEnv.Groups.Clear()
+        Me.lvHeaps.Groups.Clear()
     End Sub
 
 #End Region
@@ -2797,4 +2854,14 @@ Public Class frmProcessInfo
         Call Me.lvHandles_MouseDoubleClick(Nothing, Nothing)
     End Sub
 
+    Private Sub lvHeaps_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHeaps.MouseUp
+        If e.Button = Windows.Forms.MouseButtons.Right Then
+            Me.MenuItemCopyHeaps.Enabled = Me.lvHeaps.SelectedItems.Count > 0
+            Me.mnuHeaps.Show(Me.lvHeaps, e.Location)
+        End If
+    End Sub
+
+    Private Sub MenuItemColumnsHeap_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemColumnsHeap.Click
+        Me.lvHeaps.ChooseColumns()
+    End Sub
 End Class

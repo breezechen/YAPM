@@ -1439,6 +1439,21 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
+#Region "Declarations used for debugging"
+
+        ' http://www.cygwin.com/ml/cygwin-talk/2006-q2/txt00000.txt
+        <Flags()> _
+        Public Enum RtlQueryProcessDebugInformationFlags As UInteger
+            Modules = &H1
+            BackTrace = &H2
+            Heaps = &H4
+            HeapTags = &H8
+            HeapBlocks = &H10
+            Locks = &H20
+        End Enum
+
+#End Region
 
     End Class
 

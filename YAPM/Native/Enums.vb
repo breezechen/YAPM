@@ -533,6 +533,7 @@ Namespace Native.Api
             [SearchItem] = &H1000
             [Task] = &H2000
             [Thread] = &H4000
+            [Heap] = &H8000
         End Enum
 
 #End Region

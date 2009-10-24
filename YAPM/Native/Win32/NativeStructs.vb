@@ -1433,6 +1433,61 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
+#Region "Declarations used for debugging"
+
+        ' http://www.woodmann.com/forum/blog.php?b=151
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure DebugInformation
+            Public SectionHandle As IntPtr
+            Public SectionBase As IntPtr
+            Public RemoteSectionBase As IntPtr
+            Public SectionBaseDelta As IntPtr
+            Public EventPairHandle As IntPtr
+            Public RemoteEventPair As IntPtr
+            Public RemoteProcessId As IntPtr
+            Public RemoteThreadHandle As IntPtr
+            Public InfoClassMask As Integer
+            Public SizeOfInfo As IntPtr
+            Public AllocatedSize As IntPtr
+            Public SectionSize As IntPtr
+            Public ModuleInformation As IntPtr
+            Public BackTraceInformation As IntPtr
+            Public HeapInformation As IntPtr
+            Public LockInformation As IntPtr
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=8)> _
+            Public Reserved As IntPtr()
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure HeapInformation
+            Public BaseAddress As IntPtr
+            Public Flags As Integer
+            Public Granularity As UShort
+            Public Unknown As UShort
+            Public MemAllocated As IntPtr
+            Public MemCommitted As IntPtr
+            Public TagCount As Integer
+            Public BlockCount As Integer
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=7)> _
+            Public Reserved As Integer()
+            Public Tags As IntPtr
+            Public Blocks As IntPtr
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure ProcessHeaps
+            Public HeapsCount As Integer
+            Public Heaps As HeapInformation
+            Public Shared ReadOnly Property HeapsOffset() As Integer
+                Get
+                    Return Marshal.OffsetOf(GetType(ProcessHeaps), "Heaps").ToInt32
+                End Get
+            End Property
+        End Structure
+
+#End Region
+
     End Class
 
 End Namespace

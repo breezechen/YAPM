@@ -54,7 +54,7 @@ Public Class frmServer
     Private _jobCon As New cJobConnection(Me, theConnection, New cJobConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedJobs))
     Private _procInJobCon As New cJobConnection(Me, theConnection, New cJobConnection.HasEnumeratedProcInJobEventHandler(AddressOf HasEnumeratedProcessInJob))
     Private _jobLimitsCon As New cJobLimitConnection(Me, theConnection, New cJobLimitConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedJobLimits))
-
+    Private _heapCon As New cHeapConnection(Me, theConnection, New cHeapConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHeaps))
 
     ' Connect to local machine
     Private Sub connectLocal()
@@ -80,6 +80,7 @@ Public Class frmServer
             _searchCon.ConnectionObj = theConnection
             _servdepCon.ConnectionObj = theConnection
             _logCon.ConnectionObj = theConnection
+            _heapCon.ConnectionObj = theConnection
 
             _networkCon.Connect()
             _moduleCon.Connect()
@@ -95,6 +96,7 @@ Public Class frmServer
             _handleCon.Connect()
             _procCon.Connect()
             _logCon.Connect()
+            _heapCon.Connect()
 
             cWindow.Connection = _windowCon
             cProcess.Connection = _procCon
@@ -110,6 +112,7 @@ Public Class frmServer
             cLogItem.Connection = _logCon
             cJob.Connection = _jobCon
             cJobLimit.Connection = _jobLimitsCon
+            cHeap.Connection = _heapCon
 
         Catch ex As Exception
             Misc.ShowError(ex, "Unable to connect")
@@ -135,6 +138,25 @@ Public Class frmServer
         Else
             ' Send an error
             Misc.ShowError("Unable to enumerate environnement variables")
+        End If
+
+    End Sub
+
+    Private Sub HasEnumeratedHeaps(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, heapInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+        If Success Then
+            Try
+                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestHeapList)
+                cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat._id = _TheIdToSend
+                cDat.SetHeapList(Dico)
+                sock.Send(cDat)
+            Catch ex As Exception
+                Misc.ShowError(ex, "Unable to enumerate heap list")
+            End Try
+        Else
+            ' Send an error
+            Misc.ShowError("Unable to enumerate heap list")
         End If
 
     End Sub
@@ -590,6 +612,10 @@ Public Class frmServer
                         Dim pid As Integer = CInt(cData.Param1)
                         Dim infos As asyncCallbackLogEnumerate.LogItemType = CType(cData.Param2, asyncCallbackLogEnumerate.LogItemType)
                         Call _logCon.Enumerate(infos, pid, _forInstanceId)
+                        Exit Sub
+                    Case cSocketData.OrderType.RequestHeapList
+                        Dim pid As Integer = CInt(cData.Param1)
+                        Call _heapCon.Enumerate(pid, Nothing, _forInstanceId) 'D'OH
                         Exit Sub
                 End Select
 

@@ -254,7 +254,7 @@ Namespace Native.Api
         End Function
 
         <DllImport("kernel32.dll", CharSet:=CharSet.Ansi, SetLastError:=True)> _
-    Public Shared Function GetProcAddress(<[In]()> ByVal [Module] As IntPtr, _
+        Public Shared Function GetProcAddress(<[In]()> ByVal [Module] As IntPtr, _
                                 <[In]()> ByVal ProcOrdinal As String) As IntPtr
         End Function
 
@@ -1314,6 +1314,29 @@ Namespace Native.Api
                                         ByVal dwDesiredAccess As UInteger, _
                                         ByVal bInheritHandle As Boolean, _
                                         ByVal dwOptions As DuplicateOptions) As Boolean
+        End Function
+
+#End Region
+
+        ' OK
+#Region "Declarations used for debugging"
+
+        ' From here :
+        ' http://www.woodmann.com/forum/blog.php?b=151
+
+        <DllImport("ntdll.dll")> _
+        Public Shared Function RtlCreateQueryDebugBuffer(<[In]()> ByVal Size As Integer, _
+                            <[In]()> ByVal EventPair As Boolean) As IntPtr
+        End Function
+
+        <DllImport("ntdll.dll")> _
+        Public Shared Function RtlDestroyQueryDebugBuffer(<[In]()> ByVal DebugBuffer As IntPtr) As UInteger
+        End Function
+
+        <DllImport("ntdll.dll")> _
+        Public Shared Function RtlQueryProcessDebugInformation(<[In]()> ByVal ProcessId As IntPtr, _
+                                <[In]()> ByVal Flags As NativeEnums.RtlQueryProcessDebugInformationFlags, _
+                                <[In]()> ByVal Buffer As IntPtr) As UInteger
         End Function
 
 #End Region

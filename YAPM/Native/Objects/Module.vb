@@ -80,10 +80,6 @@ Namespace Native.Objects
                 Return _dico
             End If
 
-            If pid Is Nothing Then
-                Return _dico
-            End If
-
             For Each id As Integer In pid
                 Dim _md As New Dictionary(Of String, moduleInfos)
                 _md = EnumerateModulesByProcessId(id, noFileInfo)
