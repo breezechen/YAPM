@@ -94,7 +94,7 @@ Public Class handleList
         _IMG.Images.Add("key", My.Resources.key)
         _IMG.Images.Add("thread", My.Resources.thread)
         _IMG.Images.Add("service", My.Resources.gear)
-        _IMG.Images.Add("noicon", My.Resources.application_blue)
+        _IMG.Images.Add("noicon", My.Resources.application_blue16)
 
         _first = True
 
@@ -119,7 +119,7 @@ Public Class handleList
         _IMG.Images.Add("key", My.Resources.key)
         _IMG.Images.Add("thread", My.Resources.thread)
         _IMG.Images.Add("service", My.Resources.gear)
-        _IMG.Images.Add("noicon", My.Resources.application_blue)
+        _IMG.Images.Add("noicon", My.Resources.application_blue16)
         Me.Items.Clear()
     End Sub
 

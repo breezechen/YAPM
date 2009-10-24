@@ -217,7 +217,7 @@ Partial Class frmHotkeys
         '
         'mnuRemoveFolder
         '
-        Me.VistaMenu.SetImage(Me.mnuRemoveFolder, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.mnuRemoveFolder, Global.My.Resources.Resources.cross16)
         Me.mnuRemoveFolder.Index = 1
         Me.mnuRemoveFolder.Text = "Remove"
         '

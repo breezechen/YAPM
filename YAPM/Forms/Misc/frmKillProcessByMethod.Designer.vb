@@ -32,7 +32,7 @@ Partial Class frmKillProcessByMethod
         '
         Me.cmdKill.Enabled = False
         Me.cmdKill.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdKill.Image = Global.My.Resources.Resources.cross
+        Me.cmdKill.Image = Global.My.Resources.Resources.cross16
         Me.cmdKill.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdKill.Location = New System.Drawing.Point(12, 173)
         Me.cmdKill.Name = "cmdKill"

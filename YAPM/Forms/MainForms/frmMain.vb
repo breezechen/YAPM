@@ -1292,24 +1292,6 @@ Public Class frmMain
         frm.ShowDialog()
     End Sub
 
-    'Private Sub butProcessPermuteLvTv_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessPermuteLvTv.Click
-    '    Static _oldProcessColumnWidth As Integer = 100
-    '    If butProcessPermuteLvTv.Text = "Listview" Then
-    '        Me.SplitContainerTvLv.Panel1Collapsed = True
-    '        'Me.lvProcess.ShowGroups = True
-    '        Me.lvProcess.Columns(0).Width = _oldProcessColumnWidth
-    '        butProcessPermuteLvTv.Image = My.Resources.tv2
-    '        butProcessPermuteLvTv.Text = "Treeview"
-    '    Else
-    '        Me.SplitContainerTvLv.Panel1Collapsed = False
-    '        ' Me.lvProcess.ShowGroups = False
-    '        _oldProcessColumnWidth = Me.lvProcess.Columns(0).Width
-    '        Me.lvProcess.Columns(0).Width = 0
-    '        butProcessPermuteLvTv.Text = "Listview"
-    '        butProcessPermuteLvTv.Image = My.Resources.lv3
-    '    End If
-    'End Sub
-
     Private Sub butProcessDisplayDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessDisplayDetails.Click
         For Each it As cProcess In Me.lvProcess.GetSelectedItems
             Dim frm As New frmProcessInfo
@@ -1318,43 +1300,6 @@ Public Class frmMain
             frm.Show()
         Next
     End Sub
-
-    ' Add a process node
-    'Private Sub addNewProcessNode(ByRef p As cProcess, ByVal imgkey As String)
-    '    Dim parent As Integer = p.ParentProcessId
-    '    Dim pid As Integer = p.Pid
-
-    '    Dim n As TreeNode = findNode(Me.tvProc.Nodes(0).Nodes, parent)
-
-    '    Dim nn As New TreeNode
-    '    nn.Text = p.Name
-    '    nn.Tag = CStr(pid)
-    '    nn.ImageKey = imgkey
-    '    nn.SelectedImageKey = imgkey
-
-    '    If n Is Nothing Then
-    '        ' New node (parent was killed)
-    '        Me.tvProc.Nodes(0).Nodes.Add(nn)
-    '        Me.tvProc.Nodes(0).ExpandAll()
-    '    Else
-    '        ' Found parent
-    '        n.Nodes.Add(nn)
-    '        n.ExpandAll()
-    '    End If
-
-    'End Sub
-
-    'Private Function findNode(ByRef nodes As TreeNodeCollection, ByVal pid As Integer) As TreeNode
-    '    Dim n As TreeNode
-    '    For Each n In nodes
-    '        If n.Tag.ToString = CStr(pid) Then
-    '            Return n
-    '        Else
-    '            findNode(n.Nodes, pid)
-    '        End If
-    '    Next
-    '    Return Nothing
-    'End Function
 
     Private Sub creg_KeyAdded(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyAdded
         'log.AppendLine("Service added : " & key.name)
@@ -2264,27 +2209,6 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub txtSearchThread_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs)
-        'Dim it As ListViewItem
-        'For Each it In Me.lvThreads.Items
-        '    If InStr(LCase(it.Text), LCase(Me.txtSearchThread.Text)) = 0 Then
-        '        it.Group = lvThreads.Groups(0)
-        '    Else
-        '        it.Group = lvThreads.Groups(1)
-        '    End If
-        'Next
-        'Me.lblThreadResults.Text = CStr(lvThreads.Groups(1).Items.Count) & " result(s)"
-    End Sub
-
-    Private Sub lblThreadResults_Click(ByVal sender As Object, ByVal e As System.EventArgs)
-        'If Me.lvThreads.Groups(1).Items.Count > 0 Then
-        '    Me.lvThreads.Focus()
-        '    Me.lvThreads.EnsureVisible(Me.lvThreads.Groups(1).Items(0).Index)
-        '    Me.lvThreads.SelectedItems.Clear()
-        '    Me.lvThreads.Groups(1).Items(0).Selected = True
-        'End If
-    End Sub
-
     Private Sub txtSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles txtSearchResults.MouseDown
         Dim it As ListViewItem
         Dim comp As String = Me.lvSearchResults.Text.ToLowerInvariant
@@ -2785,40 +2709,6 @@ Public Class frmMain
         Me.Ribbon.ActiveTab = Me.ProcessTab
         Call Me.Ribbon_MouseMove(Nothing, Nothing)
         Me.lvProcess.Focus()
-    End Sub
-
-    Private Sub MenuItemTaskSelWin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-        'If Me.lvTask.SelectedItems.Count > 0 Then
-        '    'Dim it As ListViewItem
-        '    'Dim it2 As ListViewItem
-
-        '    Dim x As Integer = 0
-        '    ReDim windowsToRefresh(Me.lvTask.SelectedItems.Count - 1)
-
-        '    For Each cw As cTask In Me.lvTask.GetSelectedItems
-        '        ' May be some doublons in list, but don't care about that
-        '        windowsToRefresh(x) = cw.Infos.ProcessId
-        '        x += 1
-        '    Next
-
-        '    Call ShowWindows()
-
-        '    ' Select windows
-        '    ' TODO_
-        '    'For Each it In Me.lvTask.SelectedItems
-        '    '    Dim _h As IntPtr = Me.lvTask.GetItemByKey(it.Name).Handle
-        '    '    For Each it2 In Me.lvWindows.Items
-        '    '        If Me.lvWindows.GetItemByKey(it2.Name).Handle = _h Then
-        '    '            it2.Selected = True
-        '    '            it2.EnsureVisible()
-        '    '        End If
-        '    '    Next
-        '    'Next
-
-        '    Me.Ribbon.ActiveTab = Me.WindowTab
-        '    Call Me.Ribbon_MouseMove(Nothing, Nothing)
-        'End If
-        'TODO
     End Sub
 
     Private Sub MenuItemTaskColumns_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemTaskColumns.Click

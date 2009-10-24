@@ -22,7 +22,6 @@ Partial Class frmPreferences
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferences))
         Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Suspended thread")
         Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Relocated module")
@@ -77,6 +76,8 @@ Partial Class frmPreferences
         Me.cbPriority = New System.Windows.Forms.ComboBox
         Me.Label5 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.valCoefRemote = New System.Windows.Forms.NumericUpDown
+        Me.Label14 = New System.Windows.Forms.Label
         Me.txtJobInterval = New System.Windows.Forms.NumericUpDown
         Me.Label12 = New System.Windows.Forms.Label
         Me.txtSysInfoInterval = New System.Windows.Forms.NumericUpDown
@@ -98,13 +99,10 @@ Partial Class frmPreferences
         Me.chkUpdateAuto = New System.Windows.Forms.CheckBox
         Me.chkUpdateAlpha = New System.Windows.Forms.CheckBox
         Me.chkUpdateBeta = New System.Windows.Forms.CheckBox
-        Me.IMG = New System.Windows.Forms.ImageList(Me.components)
         Me.cmdSave = New System.Windows.Forms.Button
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.valCoefRemote = New System.Windows.Forms.NumericUpDown
-        Me.Label14 = New System.Windows.Forms.Label
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -116,6 +114,7 @@ Partial Class frmPreferences
         Me.TabPage4.SuspendLayout()
         CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
+        CType(Me.valCoefRemote, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtJobInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSysInfoInterval, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTrayInterval, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -124,7 +123,6 @@ Partial Class frmPreferences
         CType(Me.txtServiceIntervall, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtProcessIntervall, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
-        CType(Me.valCoefRemote, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl
@@ -134,7 +132,6 @@ Partial Class frmPreferences
         Me.TabControl.Controls.Add(Me.TabPage3)
         Me.TabControl.Controls.Add(Me.TabPage4)
         Me.TabControl.Controls.Add(Me.TabPage2)
-        Me.TabControl.ImageList = Me.IMG
         Me.TabControl.Location = New System.Drawing.Point(9, 9)
         Me.TabControl.Name = "TabControl"
         Me.TabControl.SelectedIndex = 0
@@ -614,6 +611,25 @@ Partial Class frmPreferences
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Update intervals"
         '
+        'valCoefRemote
+        '
+        Me.valCoefRemote.Location = New System.Drawing.Point(367, 135)
+        Me.valCoefRemote.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
+        Me.valCoefRemote.Minimum = New Decimal(New Integer() {100, 0, 0, 0})
+        Me.valCoefRemote.Name = "valCoefRemote"
+        Me.valCoefRemote.Size = New System.Drawing.Size(55, 22)
+        Me.valCoefRemote.TabIndex = 22
+        Me.valCoefRemote.Value = New Decimal(New Integer() {200, 0, 0, 0})
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(205, 138)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(156, 13)
+        Me.Label14.TabIndex = 21
+        Me.Label14.Text = "Coeff. for remote monitoring"
+        '
         'txtJobInterval
         '
         Me.txtJobInterval.Location = New System.Drawing.Point(282, 21)
@@ -819,15 +835,6 @@ Partial Class frmPreferences
         Me.chkUpdateBeta.Text = "Check for beta releases"
         Me.chkUpdateBeta.UseVisualStyleBackColor = True
         '
-        'IMG
-        '
-        Me.IMG.ImageStream = CType(resources.GetObject("IMG.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.IMG.TransparentColor = System.Drawing.Color.Transparent
-        Me.IMG.Images.SetKeyName(0, "globe.png")
-        Me.IMG.Images.SetKeyName(1, "application_text_image.png")
-        Me.IMG.Images.SetKeyName(2, "display16.gif")
-        Me.IMG.Images.SetKeyName(3, "icon2.gif")
-        '
         'cmdSave
         '
         Me.cmdSave.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -860,25 +867,6 @@ Partial Class frmPreferences
         '
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
-        '
-        'valCoefRemote
-        '
-        Me.valCoefRemote.Location = New System.Drawing.Point(367, 135)
-        Me.valCoefRemote.Maximum = New Decimal(New Integer() {50000, 0, 0, 0})
-        Me.valCoefRemote.Minimum = New Decimal(New Integer() {100, 0, 0, 0})
-        Me.valCoefRemote.Name = "valCoefRemote"
-        Me.valCoefRemote.Size = New System.Drawing.Size(55, 22)
-        Me.valCoefRemote.TabIndex = 22
-        Me.valCoefRemote.Value = New Decimal(New Integer() {200, 0, 0, 0})
-        '
-        'Label14
-        '
-        Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(205, 138)
-        Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(156, 13)
-        Me.Label14.TabIndex = 21
-        Me.Label14.Text = "Coeff. for remote monitoring"
         '
         'frmPreferences
         '
@@ -916,6 +904,7 @@ Partial Class frmPreferences
         CType(Me.bufferSize, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
+        CType(Me.valCoefRemote, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtJobInterval, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSysInfoInterval, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTrayInterval, System.ComponentModel.ISupportInitialize).EndInit()
@@ -925,7 +914,6 @@ Partial Class frmPreferences
         CType(Me.txtProcessIntervall, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
-        CType(Me.valCoefRemote, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -940,7 +928,6 @@ Partial Class frmPreferences
     Friend WithEvents chkStart As System.Windows.Forms.CheckBox
     Friend WithEvents chkStartTray As System.Windows.Forms.CheckBox
     Friend WithEvents chkTopMost As System.Windows.Forms.CheckBox
-    Friend WithEvents IMG As System.Windows.Forms.ImageList
     Friend WithEvents TabPage3 As System.Windows.Forms.TabPage
     Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
     Friend WithEvents Label5 As System.Windows.Forms.Label

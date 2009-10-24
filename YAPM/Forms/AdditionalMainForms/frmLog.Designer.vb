@@ -67,7 +67,7 @@ Partial Class frmLog
         'MenuItem
         '
         Me.MenuItem.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItem, Global.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItem, Global.My.Resources.Resources.save16)
         Me.MenuItem.Index = 0
         Me.MenuItem.Text = "Save..."
         '

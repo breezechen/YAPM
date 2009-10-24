@@ -27,7 +27,7 @@ Partial Class HJobProp
         '
         'cmdOpen
         '
-        Me.cmdOpen.Image = Global.My.Resources.Resources.application_blue
+        Me.cmdOpen.Image = Global.My.Resources.Resources.application_blue16
         Me.cmdOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdOpen.Location = New System.Drawing.Point(3, 3)
         Me.cmdOpen.Name = "cmdOpen"

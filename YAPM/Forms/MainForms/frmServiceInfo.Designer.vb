@@ -212,7 +212,7 @@ Partial Class frmServiceInfo
         '
         'cmdDelete
         '
-        Me.cmdDelete.Image = Global.My.Resources.Resources.cross
+        Me.cmdDelete.Image = Global.My.Resources.Resources.cross16
         Me.cmdDelete.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdDelete.Location = New System.Drawing.Point(166, 21)
         Me.cmdDelete.Name = "cmdDelete"
@@ -389,7 +389,7 @@ Partial Class frmServiceInfo
         '
         'cmdInspectExe
         '
-        Me.cmdInspectExe.Image = Global.My.Resources.Resources.dllIcon
+        Me.cmdInspectExe.Image = Global.My.Resources.Resources.dllIcon16
         Me.cmdInspectExe.Location = New System.Drawing.Point(266, 81)
         Me.cmdInspectExe.Name = "cmdInspectExe"
         Me.cmdInspectExe.Size = New System.Drawing.Size(26, 26)

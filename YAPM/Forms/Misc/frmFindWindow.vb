@@ -333,6 +333,6 @@ Public Class frmFindWindow
     Private Sub frmFindWindow_Paint(ByVal sender As Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Me.Paint
         ' Paint an image on our Form (target image)
         Dim g As Graphics = e.Graphics
-        g.DrawImage(My.Resources.target3, New PointF(12, 46))
+        g.DrawImage(My.Resources.target32, New PointF(12, 46))
     End Sub
 End Class

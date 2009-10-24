@@ -204,7 +204,6 @@ Partial Class frmMain
         Me.FolderChooser = New System.Windows.Forms.FolderBrowserDialog
         Me.timerTask = New System.Windows.Forms.Timer(Me.components)
         Me.timerTrayIcon = New System.Windows.Forms.Timer(Me.components)
-        Me.butProcessPermuteLvTv = New System.Windows.Forms.RibbonButton
         Me._main = New System.Windows.Forms.SplitContainer
         Me.containerSystemMenu = New System.Windows.Forms.SplitContainer
         Me._tab = New System.Windows.Forms.TabControl
@@ -421,6 +420,7 @@ Partial Class frmMain
         Me.MenuItemTaskMin = New System.Windows.Forms.MenuItem
         Me.MenuItem4 = New System.Windows.Forms.MenuItem
         Me.MenuItem6 = New System.Windows.Forms.MenuItem
+        Me.MenuItemTaskSelectWindow = New System.Windows.Forms.MenuItem
         Me.MenuItem9 = New System.Windows.Forms.MenuItem
         Me.MenuItemTaskColumns = New System.Windows.Forms.MenuItem
         Me.mnuMonitor = New System.Windows.Forms.ContextMenu
@@ -571,7 +571,6 @@ Partial Class frmMain
         Me.timerJobs = New System.Windows.Forms.Timer(Me.components)
         Me.mnuJob = New System.Windows.Forms.ContextMenu
         Me.MenuItem53 = New System.Windows.Forms.MenuItem
-        Me.MenuItemTaskSelectWindow = New System.Windows.Forms.MenuItem
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -782,8 +781,8 @@ Partial Class frmMain
         Me.orbStartElevated.AltKey = Nothing
         Me.orbStartElevated.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.orbStartElevated.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.orbStartElevated.Image = Global.My.Resources.Resources.shield_32
-        Me.orbStartElevated.SmallImage = Global.My.Resources.Resources.shield_32
+        Me.orbStartElevated.Image = Global.My.Resources.Resources.shield32
+        Me.orbStartElevated.SmallImage = Global.My.Resources.Resources.shield32
         Me.orbStartElevated.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.orbStartElevated.Tag = Nothing
         Me.orbStartElevated.Text = "Restart with privileges"
@@ -796,8 +795,8 @@ Partial Class frmMain
         Me.orbMenuNetwork.AltKey = Nothing
         Me.orbMenuNetwork.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.orbMenuNetwork.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.orbMenuNetwork.Image = CType(resources.GetObject("orbMenuNetwork.Image"), System.Drawing.Image)
-        Me.orbMenuNetwork.SmallImage = CType(resources.GetObject("orbMenuNetwork.SmallImage"), System.Drawing.Image)
+        Me.orbMenuNetwork.Image = Global.My.Resources.Resources.network32
+        Me.orbMenuNetwork.SmallImage = Global.My.Resources.Resources.network32
         Me.orbMenuNetwork.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.orbMenuNetwork.Tag = Nothing
         Me.orbMenuNetwork.Text = "Change connection type"
@@ -820,8 +819,8 @@ Partial Class frmMain
         Me.orbMenuEmergency.AltKey = Nothing
         Me.orbMenuEmergency.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.orbMenuEmergency.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.orbMenuEmergency.Image = CType(resources.GetObject("orbMenuEmergency.Image"), System.Drawing.Image)
-        Me.orbMenuEmergency.SmallImage = CType(resources.GetObject("orbMenuEmergency.SmallImage"), System.Drawing.Image)
+        Me.orbMenuEmergency.Image = Global.My.Resources.Resources.warning32
+        Me.orbMenuEmergency.SmallImage = Global.My.Resources.Resources.warning32
         Me.orbMenuEmergency.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.orbMenuEmergency.Tag = Nothing
         Me.orbMenuEmergency.Text = "Emergency hotkeys  "
@@ -834,8 +833,8 @@ Partial Class frmMain
         Me.orbMenuSBA.AltKey = Nothing
         Me.orbMenuSBA.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.orbMenuSBA.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.orbMenuSBA.Image = Global.My.Resources.Resources.monitoring2
-        Me.orbMenuSBA.SmallImage = Global.My.Resources.Resources.monitoring2
+        Me.orbMenuSBA.Image = Global.My.Resources.Resources.monitoring32
+        Me.orbMenuSBA.SmallImage = Global.My.Resources.Resources.monitoring32
         Me.orbMenuSBA.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.orbMenuSBA.Tag = Nothing
         Me.orbMenuSBA.Text = "State based actions  "
@@ -858,8 +857,8 @@ Partial Class frmMain
         Me.orbMenuSaveReport.AltKey = Nothing
         Me.orbMenuSaveReport.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.orbMenuSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.orbMenuSaveReport.Image = CType(resources.GetObject("orbMenuSaveReport.Image"), System.Drawing.Image)
-        Me.orbMenuSaveReport.SmallImage = CType(resources.GetObject("orbMenuSaveReport.SmallImage"), System.Drawing.Image)
+        Me.orbMenuSaveReport.Image = Global.My.Resources.Resources.save32
+        Me.orbMenuSaveReport.SmallImage = Global.My.Resources.Resources.save32
         Me.orbMenuSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.orbMenuSaveReport.Tag = Nothing
         Me.orbMenuSaveReport.Text = "Save report"
@@ -882,8 +881,8 @@ Partial Class frmMain
         Me.orbMenuAbout.AltKey = Nothing
         Me.orbMenuAbout.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.orbMenuAbout.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.orbMenuAbout.Image = CType(resources.GetObject("orbMenuAbout.Image"), System.Drawing.Image)
-        Me.orbMenuAbout.SmallImage = CType(resources.GetObject("orbMenuAbout.SmallImage"), System.Drawing.Image)
+        Me.orbMenuAbout.Image = Global.My.Resources.Resources.info32
+        Me.orbMenuAbout.SmallImage = Global.My.Resources.Resources.info32
         Me.orbMenuAbout.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.orbMenuAbout.Tag = Nothing
         Me.orbMenuAbout.Text = "About"
@@ -896,8 +895,8 @@ Partial Class frmMain
         Me.butExit.AltKey = Nothing
         Me.butExit.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butExit.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butExit.Image = Global.My.Resources.Resources.cross_circle
-        Me.butExit.SmallImage = Global.My.Resources.Resources.cross_circle
+        Me.butExit.Image = Global.My.Resources.Resources.cross_circle16
+        Me.butExit.SmallImage = Global.My.Resources.Resources.cross_circle16
         Me.butExit.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butExit.Tag = Nothing
         Me.butExit.Text = "Quit"
@@ -910,8 +909,8 @@ Partial Class frmMain
         Me.butShowPreferences.AltKey = Nothing
         Me.butShowPreferences.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butShowPreferences.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butShowPreferences.Image = CType(resources.GetObject("butShowPreferences.Image"), System.Drawing.Image)
-        Me.butShowPreferences.SmallImage = CType(resources.GetObject("butShowPreferences.SmallImage"), System.Drawing.Image)
+        Me.butShowPreferences.Image = Global.My.Resources.Resources.options16
+        Me.butShowPreferences.SmallImage = Global.My.Resources.Resources.options16
         Me.butShowPreferences.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butShowPreferences.Tag = Nothing
         Me.butShowPreferences.Text = "Preferences"
@@ -939,9 +938,9 @@ Partial Class frmMain
         Me.butSystemInfo.AltKey = Nothing
         Me.butSystemInfo.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butSystemInfo.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSystemInfo.Image = CType(resources.GetObject("butSystemInfo.Image"), System.Drawing.Image)
+        Me.butSystemInfo.Image = Nothing
         Me.butSystemInfo.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butSystemInfo.SmallImage = CType(resources.GetObject("butSystemInfo.SmallImage"), System.Drawing.Image)
+        Me.butSystemInfo.SmallImage = Global.My.Resources.Resources.taskmgr
         Me.butSystemInfo.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butSystemInfo.Tag = Nothing
         Me.butSystemInfo.Text = "Show system infos"
@@ -954,9 +953,9 @@ Partial Class frmMain
         Me.butWindows.AltKey = Nothing
         Me.butWindows.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butWindows.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butWindows.Image = CType(resources.GetObject("butWindows.Image"), System.Drawing.Image)
+        Me.butWindows.Image = Nothing
         Me.butWindows.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butWindows.SmallImage = CType(resources.GetObject("butWindows.SmallImage"), System.Drawing.Image)
+        Me.butWindows.SmallImage = Global.My.Resources.Resources.monitor16
         Me.butWindows.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butWindows.Tag = Nothing
         Me.butWindows.Text = "Show opened windows"
@@ -969,9 +968,9 @@ Partial Class frmMain
         Me.butFindWindow.AltKey = Nothing
         Me.butFindWindow.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butFindWindow.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFindWindow.Image = CType(resources.GetObject("butFindWindow.Image"), System.Drawing.Image)
+        Me.butFindWindow.Image = Nothing
         Me.butFindWindow.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butFindWindow.SmallImage = CType(resources.GetObject("butFindWindow.SmallImage"), System.Drawing.Image)
+        Me.butFindWindow.SmallImage = Global.My.Resources.Resources.target16
         Me.butFindWindow.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butFindWindow.Tag = Nothing
         Me.butFindWindow.Text = "Find a process by window"
@@ -986,7 +985,7 @@ Partial Class frmMain
         Me.butNetwork.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butNetwork.Image = Nothing
         Me.butNetwork.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butNetwork.SmallImage = CType(resources.GetObject("butNetwork.SmallImage"), System.Drawing.Image)
+        Me.butNetwork.SmallImage = Global.My.Resources.Resources.network16
         Me.butNetwork.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butNetwork.Tag = Nothing
         Me.butNetwork.Text = "Change connection type"
@@ -999,7 +998,7 @@ Partial Class frmMain
         Me.butFeedBack.AltKey = Nothing
         Me.butFeedBack.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butFeedBack.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFeedBack.Image = CType(resources.GetObject("butFeedBack.Image"), System.Drawing.Image)
+        Me.butFeedBack.Image = Nothing
         Me.butFeedBack.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
         Me.butFeedBack.SmallImage = Global.My.Resources.Resources.information_frame
         Me.butFeedBack.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -1014,9 +1013,9 @@ Partial Class frmMain
         Me.butHiddenProcesses.AltKey = Nothing
         Me.butHiddenProcesses.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butHiddenProcesses.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butHiddenProcesses.Image = CType(resources.GetObject("butHiddenProcesses.Image"), System.Drawing.Image)
+        Me.butHiddenProcesses.Image = Nothing
         Me.butHiddenProcesses.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butHiddenProcesses.SmallImage = CType(resources.GetObject("butHiddenProcesses.SmallImage"), System.Drawing.Image)
+        Me.butHiddenProcesses.SmallImage = Global.My.Resources.Resources.shield16
         Me.butHiddenProcesses.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butHiddenProcesses.Tag = Nothing
         Me.butHiddenProcesses.Text = "Show hidden processes"
@@ -1029,9 +1028,9 @@ Partial Class frmMain
         Me.butShowDepViewer.AltKey = Nothing
         Me.butShowDepViewer.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butShowDepViewer.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butShowDepViewer.Image = CType(resources.GetObject("butShowDepViewer.Image"), System.Drawing.Image)
+        Me.butShowDepViewer.Image = Nothing
         Me.butShowDepViewer.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
-        Me.butShowDepViewer.SmallImage = Global.My.Resources.Resources.dllIcon
+        Me.butShowDepViewer.SmallImage = Global.My.Resources.Resources.dllIcon16
         Me.butShowDepViewer.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butShowDepViewer.Tag = Nothing
         Me.butShowDepViewer.Text = "Dependencies viewer"
@@ -1044,7 +1043,7 @@ Partial Class frmMain
         Me.butShowAllPendingTasks.AltKey = Nothing
         Me.butShowAllPendingTasks.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butShowAllPendingTasks.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butShowAllPendingTasks.Image = CType(resources.GetObject("butShowAllPendingTasks.Image"), System.Drawing.Image)
+        Me.butShowAllPendingTasks.Image = Nothing
         Me.butShowAllPendingTasks.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
         Me.butShowAllPendingTasks.SmallImage = Global.My.Resources.Resources.thread
         Me.butShowAllPendingTasks.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -1059,7 +1058,7 @@ Partial Class frmMain
         Me.butCreateService.AltKey = Nothing
         Me.butCreateService.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butCreateService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butCreateService.Image = CType(resources.GetObject("butCreateService.Image"), System.Drawing.Image)
+        Me.butCreateService.Image = Nothing
         Me.butCreateService.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
         Me.butCreateService.SmallImage = Global.My.Resources.Resources.plus_circle
         Me.butCreateService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -1089,7 +1088,7 @@ Partial Class frmMain
         Me.butTaskRefresh.AltKey = Nothing
         Me.butTaskRefresh.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butTaskRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butTaskRefresh.Image = CType(resources.GetObject("butTaskRefresh.Image"), System.Drawing.Image)
+        Me.butTaskRefresh.Image = Global.My.Resources.Resources.refresh32
         Me.butTaskRefresh.SmallImage = CType(resources.GetObject("butTaskRefresh.SmallImage"), System.Drawing.Image)
         Me.butTaskRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butTaskRefresh.Tag = Nothing
@@ -1112,7 +1111,7 @@ Partial Class frmMain
         Me.butTaskShow.AltKey = Nothing
         Me.butTaskShow.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butTaskShow.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butTaskShow.Image = Global.My.Resources.Resources.showDetails
+        Me.butTaskShow.Image = Global.My.Resources.Resources.monitor32
         Me.butTaskShow.SmallImage = CType(resources.GetObject("butTaskShow.SmallImage"), System.Drawing.Image)
         Me.butTaskShow.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butTaskShow.Tag = Nothing
@@ -1126,7 +1125,7 @@ Partial Class frmMain
         Me.butTaskEndTask.AltKey = Nothing
         Me.butTaskEndTask.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butTaskEndTask.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butTaskEndTask.Image = Global.My.Resources.Resources.delete2
+        Me.butTaskEndTask.Image = Global.My.Resources.Resources.delete32
         Me.butTaskEndTask.SmallImage = CType(resources.GetObject("butTaskEndTask.SmallImage"), System.Drawing.Image)
         Me.butTaskEndTask.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butTaskEndTask.Tag = Nothing
@@ -1159,7 +1158,7 @@ Partial Class frmMain
         Me.butProcessRerfresh.AltKey = Nothing
         Me.butProcessRerfresh.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butProcessRerfresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessRerfresh.Image = CType(resources.GetObject("butProcessRerfresh.Image"), System.Drawing.Image)
+        Me.butProcessRerfresh.Image = Global.My.Resources.Resources.refresh32
         Me.butProcessRerfresh.SmallImage = CType(resources.GetObject("butProcessRerfresh.SmallImage"), System.Drawing.Image)
         Me.butProcessRerfresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butProcessRerfresh.Tag = Nothing
@@ -1173,7 +1172,7 @@ Partial Class frmMain
         Me.butProcessDisplayDetails.AltKey = Nothing
         Me.butProcessDisplayDetails.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butProcessDisplayDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessDisplayDetails.Image = Global.My.Resources.Resources.showDetails
+        Me.butProcessDisplayDetails.Image = Global.My.Resources.Resources.monitor32
         Me.butProcessDisplayDetails.SmallImage = CType(resources.GetObject("butProcessDisplayDetails.SmallImage"), System.Drawing.Image)
         Me.butProcessDisplayDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butProcessDisplayDetails.Tag = Nothing
@@ -1199,7 +1198,7 @@ Partial Class frmMain
         Me.butNewProcess.AltKey = Nothing
         Me.butNewProcess.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butNewProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butNewProcess.Image = CType(resources.GetObject("butNewProcess.Image"), System.Drawing.Image)
+        Me.butNewProcess.Image = Global.My.Resources.Resources.window_add32
         Me.butNewProcess.SmallImage = CType(resources.GetObject("butNewProcess.SmallImage"), System.Drawing.Image)
         Me.butNewProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butNewProcess.Tag = Nothing
@@ -1213,7 +1212,7 @@ Partial Class frmMain
         Me.butKillProcess.AltKey = Nothing
         Me.butKillProcess.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butKillProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butKillProcess.Image = Global.My.Resources.Resources.delete2
+        Me.butKillProcess.Image = Global.My.Resources.Resources.delete32
         Me.butKillProcess.SmallImage = CType(resources.GetObject("butKillProcess.SmallImage"), System.Drawing.Image)
         Me.butKillProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butKillProcess.Tag = Nothing
@@ -1227,7 +1226,7 @@ Partial Class frmMain
         Me.butStopProcess.AltKey = Nothing
         Me.butStopProcess.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butStopProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butStopProcess.Image = Global.My.Resources.Resources.pause_32
+        Me.butStopProcess.Image = Global.My.Resources.Resources.pause32
         Me.butStopProcess.SmallImage = CType(resources.GetObject("butStopProcess.SmallImage"), System.Drawing.Image)
         Me.butStopProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butStopProcess.Tag = Nothing
@@ -1241,7 +1240,7 @@ Partial Class frmMain
         Me.butResumeProcess.AltKey = Nothing
         Me.butResumeProcess.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butResumeProcess.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butResumeProcess.Image = CType(resources.GetObject("butResumeProcess.Image"), System.Drawing.Image)
+        Me.butResumeProcess.Image = Global.My.Resources.Resources.play32
         Me.butResumeProcess.SmallImage = CType(resources.GetObject("butResumeProcess.SmallImage"), System.Drawing.Image)
         Me.butResumeProcess.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butResumeProcess.Tag = Nothing
@@ -1259,7 +1258,7 @@ Partial Class frmMain
         Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessReduceWS)
         Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessDumpF)
         Me.butProcessOtherActions.DropDownItems.Add(Me.butProcessLimitCPU)
-        Me.butProcessOtherActions.Image = CType(resources.GetObject("butProcessOtherActions.Image"), System.Drawing.Image)
+        Me.butProcessOtherActions.Image = Global.My.Resources.Resources.process32
         Me.butProcessOtherActions.SmallImage = CType(resources.GetObject("butProcessOtherActions.SmallImage"), System.Drawing.Image)
         Me.butProcessOtherActions.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
         Me.butProcessOtherActions.Tag = Nothing
@@ -1344,7 +1343,7 @@ Partial Class frmMain
         Me.butProcessPriority.DropDownItems.Add(Me.butAboveNormal)
         Me.butProcessPriority.DropDownItems.Add(Me.butHigh)
         Me.butProcessPriority.DropDownItems.Add(Me.butRealTime)
-        Me.butProcessPriority.Image = CType(resources.GetObject("butProcessPriority.Image"), System.Drawing.Image)
+        Me.butProcessPriority.Image = Global.My.Resources.Resources.speed32
         Me.butProcessPriority.SmallImage = CType(resources.GetObject("butProcessPriority.SmallImage"), System.Drawing.Image)
         Me.butProcessPriority.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
         Me.butProcessPriority.Tag = Nothing
@@ -1356,10 +1355,10 @@ Partial Class frmMain
         'butIdle
         '
         Me.butIdle.AltKey = Nothing
-        Me.butIdle.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butIdle.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butIdle.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butIdle.Image = CType(resources.GetObject("butIdle.Image"), System.Drawing.Image)
-        Me.butIdle.SmallImage = CType(resources.GetObject("butIdle.SmallImage"), System.Drawing.Image)
+        Me.butIdle.SmallImage = Global.My.Resources.Resources.p0
         Me.butIdle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butIdle.Tag = Nothing
         Me.butIdle.Text = "Idle"
@@ -1370,10 +1369,10 @@ Partial Class frmMain
         'butBelowNormal
         '
         Me.butBelowNormal.AltKey = Nothing
-        Me.butBelowNormal.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butBelowNormal.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butBelowNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butBelowNormal.Image = CType(resources.GetObject("butBelowNormal.Image"), System.Drawing.Image)
-        Me.butBelowNormal.SmallImage = CType(resources.GetObject("butBelowNormal.SmallImage"), System.Drawing.Image)
+        Me.butBelowNormal.SmallImage = Global.My.Resources.Resources.p1
         Me.butBelowNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butBelowNormal.Tag = Nothing
         Me.butBelowNormal.Text = "Below Normal"
@@ -1384,10 +1383,10 @@ Partial Class frmMain
         'butNormal
         '
         Me.butNormal.AltKey = Nothing
-        Me.butNormal.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butNormal.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butNormal.Image = CType(resources.GetObject("butNormal.Image"), System.Drawing.Image)
-        Me.butNormal.SmallImage = CType(resources.GetObject("butNormal.SmallImage"), System.Drawing.Image)
+        Me.butNormal.SmallImage = Global.My.Resources.Resources.p2
         Me.butNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butNormal.Tag = Nothing
         Me.butNormal.Text = "Normal"
@@ -1398,10 +1397,10 @@ Partial Class frmMain
         'butAboveNormal
         '
         Me.butAboveNormal.AltKey = Nothing
-        Me.butAboveNormal.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butAboveNormal.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butAboveNormal.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butAboveNormal.Image = CType(resources.GetObject("butAboveNormal.Image"), System.Drawing.Image)
-        Me.butAboveNormal.SmallImage = CType(resources.GetObject("butAboveNormal.SmallImage"), System.Drawing.Image)
+        Me.butAboveNormal.SmallImage = Global.My.Resources.Resources.p3
         Me.butAboveNormal.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butAboveNormal.Tag = Nothing
         Me.butAboveNormal.Text = "Above Normal"
@@ -1412,10 +1411,10 @@ Partial Class frmMain
         'butHigh
         '
         Me.butHigh.AltKey = Nothing
-        Me.butHigh.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butHigh.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butHigh.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butHigh.Image = CType(resources.GetObject("butHigh.Image"), System.Drawing.Image)
-        Me.butHigh.SmallImage = CType(resources.GetObject("butHigh.SmallImage"), System.Drawing.Image)
+        Me.butHigh.SmallImage = Global.My.Resources.Resources.p4
         Me.butHigh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butHigh.Tag = Nothing
         Me.butHigh.Text = "High"
@@ -1426,10 +1425,10 @@ Partial Class frmMain
         'butRealTime
         '
         Me.butRealTime.AltKey = Nothing
-        Me.butRealTime.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butRealTime.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butRealTime.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butRealTime.Image = CType(resources.GetObject("butRealTime.Image"), System.Drawing.Image)
-        Me.butRealTime.SmallImage = CType(resources.GetObject("butRealTime.SmallImage"), System.Drawing.Image)
+        Me.butRealTime.SmallImage = Global.My.Resources.Resources.p6
         Me.butRealTime.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butRealTime.Tag = Nothing
         Me.butRealTime.Text = "Real Time"
@@ -1450,7 +1449,7 @@ Partial Class frmMain
         Me.butProcessGoogle.AltKey = Nothing
         Me.butProcessGoogle.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butProcessGoogle.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessGoogle.Image = CType(resources.GetObject("butProcessGoogle.Image"), System.Drawing.Image)
+        Me.butProcessGoogle.Image = Global.My.Resources.Resources.ie732
         Me.butProcessGoogle.SmallImage = CType(resources.GetObject("butProcessGoogle.SmallImage"), System.Drawing.Image)
         Me.butProcessGoogle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butProcessGoogle.Tag = Nothing
@@ -1472,7 +1471,7 @@ Partial Class frmMain
         Me.butSaveProcessReport.AltKey = Nothing
         Me.butSaveProcessReport.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butSaveProcessReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSaveProcessReport.Image = CType(resources.GetObject("butSaveProcessReport.Image"), System.Drawing.Image)
+        Me.butSaveProcessReport.Image = Global.My.Resources.Resources.save32
         Me.butSaveProcessReport.SmallImage = CType(resources.GetObject("butSaveProcessReport.SmallImage"), System.Drawing.Image)
         Me.butSaveProcessReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butSaveProcessReport.Tag = Nothing
@@ -1502,7 +1501,7 @@ Partial Class frmMain
         Me.butJobRefresh.AltKey = Nothing
         Me.butJobRefresh.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butJobRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butJobRefresh.Image = CType(resources.GetObject("butJobRefresh.Image"), System.Drawing.Image)
+        Me.butJobRefresh.Image = Global.My.Resources.Resources.refresh32
         Me.butJobRefresh.SmallImage = CType(resources.GetObject("butJobRefresh.SmallImage"), System.Drawing.Image)
         Me.butJobRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butJobRefresh.Tag = Nothing
@@ -1516,7 +1515,7 @@ Partial Class frmMain
         Me.butJobDetails.AltKey = Nothing
         Me.butJobDetails.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butJobDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butJobDetails.Image = Global.My.Resources.Resources.showDetails
+        Me.butJobDetails.Image = Global.My.Resources.Resources.monitor32
         Me.butJobDetails.SmallImage = CType(resources.GetObject("butJobDetails.SmallImage"), System.Drawing.Image)
         Me.butJobDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butJobDetails.Tag = Nothing
@@ -1537,7 +1536,7 @@ Partial Class frmMain
         Me.butJobTerminate.AltKey = Nothing
         Me.butJobTerminate.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butJobTerminate.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butJobTerminate.Image = CType(resources.GetObject("butJobTerminate.Image"), System.Drawing.Image)
+        Me.butJobTerminate.Image = Global.My.Resources.Resources.delete32
         Me.butJobTerminate.SmallImage = CType(resources.GetObject("butJobTerminate.SmallImage"), System.Drawing.Image)
         Me.butJobTerminate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butJobTerminate.Tag = Nothing
@@ -1558,7 +1557,7 @@ Partial Class frmMain
         Me.butJobElevate.AltKey = Nothing
         Me.butJobElevate.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butJobElevate.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butJobElevate.Image = Global.My.Resources.Resources.shield_32
+        Me.butJobElevate.Image = Global.My.Resources.Resources.shield32
         Me.butJobElevate.SmallImage = CType(resources.GetObject("butJobElevate.SmallImage"), System.Drawing.Image)
         Me.butJobElevate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butJobElevate.Tag = Nothing
@@ -1589,7 +1588,7 @@ Partial Class frmMain
         Me.butMonitoringAdd.AltKey = Nothing
         Me.butMonitoringAdd.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butMonitoringAdd.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butMonitoringAdd.Image = CType(resources.GetObject("butMonitoringAdd.Image"), System.Drawing.Image)
+        Me.butMonitoringAdd.Image = Global.My.Resources.Resources.add32
         Me.butMonitoringAdd.SmallImage = CType(resources.GetObject("butMonitoringAdd.SmallImage"), System.Drawing.Image)
         Me.butMonitoringAdd.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butMonitoringAdd.Tag = Nothing
@@ -1603,7 +1602,7 @@ Partial Class frmMain
         Me.butMonitoringRemove.AltKey = Nothing
         Me.butMonitoringRemove.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butMonitoringRemove.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butMonitoringRemove.Image = CType(resources.GetObject("butMonitoringRemove.Image"), System.Drawing.Image)
+        Me.butMonitoringRemove.Image = Global.My.Resources.Resources.delete32
         Me.butMonitoringRemove.SmallImage = CType(resources.GetObject("butMonitoringRemove.SmallImage"), System.Drawing.Image)
         Me.butMonitoringRemove.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butMonitoringRemove.Tag = Nothing
@@ -1627,7 +1626,7 @@ Partial Class frmMain
         Me.butMonitorStart.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butMonitorStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butMonitorStart.Enabled = False
-        Me.butMonitorStart.Image = CType(resources.GetObject("butMonitorStart.Image"), System.Drawing.Image)
+        Me.butMonitorStart.Image = Global.My.Resources.Resources.play32
         Me.butMonitorStart.SmallImage = CType(resources.GetObject("butMonitorStart.SmallImage"), System.Drawing.Image)
         Me.butMonitorStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butMonitorStart.Tag = Nothing
@@ -1665,7 +1664,7 @@ Partial Class frmMain
         Me.butMonitorSaveReport.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butMonitorSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butMonitorSaveReport.Enabled = False
-        Me.butMonitorSaveReport.Image = CType(resources.GetObject("butMonitorSaveReport.Image"), System.Drawing.Image)
+        Me.butMonitorSaveReport.Image = Global.My.Resources.Resources.save32
         Me.butMonitorSaveReport.SmallImage = CType(resources.GetObject("butMonitorSaveReport.SmallImage"), System.Drawing.Image)
         Me.butMonitorSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butMonitorSaveReport.Tag = Nothing
@@ -1699,7 +1698,7 @@ Partial Class frmMain
         Me.butServiceRefresh.AltKey = Nothing
         Me.butServiceRefresh.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butServiceRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceRefresh.Image = CType(resources.GetObject("butServiceRefresh.Image"), System.Drawing.Image)
+        Me.butServiceRefresh.Image = Global.My.Resources.Resources.refresh32
         Me.butServiceRefresh.SmallImage = CType(resources.GetObject("butServiceRefresh.SmallImage"), System.Drawing.Image)
         Me.butServiceRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butServiceRefresh.Tag = Nothing
@@ -1713,7 +1712,7 @@ Partial Class frmMain
         Me.butServiceDetails.AltKey = Nothing
         Me.butServiceDetails.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butServiceDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceDetails.Image = Global.My.Resources.Resources.showDetails
+        Me.butServiceDetails.Image = Global.My.Resources.Resources.monitor32
         Me.butServiceDetails.SmallImage = CType(resources.GetObject("butServiceDetails.SmallImage"), System.Drawing.Image)
         Me.butServiceDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butServiceDetails.Tag = Nothing
@@ -1755,7 +1754,7 @@ Partial Class frmMain
         Me.butStartService.AltKey = Nothing
         Me.butStartService.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butStartService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butStartService.Image = CType(resources.GetObject("butStartService.Image"), System.Drawing.Image)
+        Me.butStartService.Image = Global.My.Resources.Resources.play32
         Me.butStartService.SmallImage = CType(resources.GetObject("butStartService.SmallImage"), System.Drawing.Image)
         Me.butStartService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butStartService.Tag = Nothing
@@ -1779,7 +1778,7 @@ Partial Class frmMain
         Me.butPauseService.AltKey = Nothing
         Me.butPauseService.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butPauseService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butPauseService.Image = Global.My.Resources.Resources.pause_32
+        Me.butPauseService.Image = Global.My.Resources.Resources.pause32
         Me.butPauseService.SmallImage = CType(resources.GetObject("butPauseService.SmallImage"), System.Drawing.Image)
         Me.butPauseService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butPauseService.Tag = Nothing
@@ -1793,7 +1792,7 @@ Partial Class frmMain
         Me.butResumeService.AltKey = Nothing
         Me.butResumeService.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butResumeService.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butResumeService.Image = CType(resources.GetObject("butResumeService.Image"), System.Drawing.Image)
+        Me.butResumeService.Image = Global.My.Resources.Resources.play32
         Me.butResumeService.SmallImage = CType(resources.GetObject("butResumeService.SmallImage"), System.Drawing.Image)
         Me.butResumeService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butResumeService.Tag = Nothing
@@ -1818,7 +1817,7 @@ Partial Class frmMain
         Me.butDeleteService.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butDeleteService.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butDeleteService.DropDownItems.Add(Me.RibbonSeparator3)
-        Me.butDeleteService.Image = Global.My.Resources.Resources.delete2
+        Me.butDeleteService.Image = Global.My.Resources.Resources.delete32
         Me.butDeleteService.SmallImage = CType(resources.GetObject("butDeleteService.SmallImage"), System.Drawing.Image)
         Me.butDeleteService.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butDeleteService.Tag = Nothing
@@ -1853,7 +1852,7 @@ Partial Class frmMain
         Me.butServiceStartType.DropDownItems.Add(Me.butAutomaticStart)
         Me.butServiceStartType.DropDownItems.Add(Me.butOnDemandStart)
         Me.butServiceStartType.DropDownItems.Add(Me.butDisabledStart)
-        Me.butServiceStartType.Image = CType(resources.GetObject("butServiceStartType.Image"), System.Drawing.Image)
+        Me.butServiceStartType.Image = Global.My.Resources.Resources.start_type32
         Me.butServiceStartType.SmallImage = CType(resources.GetObject("butServiceStartType.SmallImage"), System.Drawing.Image)
         Me.butServiceStartType.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
         Me.butServiceStartType.Tag = Nothing
@@ -1865,10 +1864,10 @@ Partial Class frmMain
         'butAutomaticStart
         '
         Me.butAutomaticStart.AltKey = Nothing
-        Me.butAutomaticStart.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butAutomaticStart.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butAutomaticStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butAutomaticStart.Image = Nothing
-        Me.butAutomaticStart.SmallImage = CType(resources.GetObject("butAutomaticStart.SmallImage"), System.Drawing.Image)
+        Me.butAutomaticStart.SmallImage = Global.My.Resources.Resources.p6
         Me.butAutomaticStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butAutomaticStart.Tag = Nothing
         Me.butAutomaticStart.Text = "Automatic"
@@ -1879,10 +1878,10 @@ Partial Class frmMain
         'butOnDemandStart
         '
         Me.butOnDemandStart.AltKey = Nothing
-        Me.butOnDemandStart.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butOnDemandStart.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butOnDemandStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butOnDemandStart.Image = CType(resources.GetObject("butOnDemandStart.Image"), System.Drawing.Image)
-        Me.butOnDemandStart.SmallImage = CType(resources.GetObject("butOnDemandStart.SmallImage"), System.Drawing.Image)
+        Me.butOnDemandStart.SmallImage = Global.My.Resources.Resources.p3
         Me.butOnDemandStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butOnDemandStart.Tag = Nothing
         Me.butOnDemandStart.Text = "On Demand"
@@ -1893,10 +1892,10 @@ Partial Class frmMain
         'butDisabledStart
         '
         Me.butDisabledStart.AltKey = Nothing
-        Me.butDisabledStart.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butDisabledStart.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butDisabledStart.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butDisabledStart.Image = CType(resources.GetObject("butDisabledStart.Image"), System.Drawing.Image)
-        Me.butDisabledStart.SmallImage = CType(resources.GetObject("butDisabledStart.SmallImage"), System.Drawing.Image)
+        Me.butDisabledStart.SmallImage = Global.My.Resources.Resources.p0
         Me.butDisabledStart.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butDisabledStart.Tag = Nothing
         Me.butDisabledStart.Text = "Disabled"
@@ -1919,7 +1918,7 @@ Partial Class frmMain
         Me.butServiceFileProp.AltKey = Nothing
         Me.butServiceFileProp.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butServiceFileProp.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceFileProp.Image = CType(resources.GetObject("butServiceFileProp.Image"), System.Drawing.Image)
+        Me.butServiceFileProp.Image = Global.My.Resources.Resources.page_info32
         Me.butServiceFileProp.SmallImage = CType(resources.GetObject("butServiceFileProp.SmallImage"), System.Drawing.Image)
         Me.butServiceFileProp.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butServiceFileProp.Tag = Nothing
@@ -1947,7 +1946,7 @@ Partial Class frmMain
         Me.butServiceFileDetails.AltKey = Nothing
         Me.butServiceFileDetails.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butServiceFileDetails.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceFileDetails.Image = CType(resources.GetObject("butServiceFileDetails.Image"), System.Drawing.Image)
+        Me.butServiceFileDetails.Image = Global.My.Resources.Resources.magnify32
         Me.butServiceFileDetails.SmallImage = CType(resources.GetObject("butServiceFileDetails.SmallImage"), System.Drawing.Image)
         Me.butServiceFileDetails.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butServiceFileDetails.Tag = Nothing
@@ -1969,7 +1968,7 @@ Partial Class frmMain
         Me.butServiceGoogle.AltKey = Nothing
         Me.butServiceGoogle.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butServiceGoogle.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceGoogle.Image = CType(resources.GetObject("butServiceGoogle.Image"), System.Drawing.Image)
+        Me.butServiceGoogle.Image = Global.My.Resources.Resources.ie732
         Me.butServiceGoogle.SmallImage = CType(resources.GetObject("butServiceGoogle.SmallImage"), System.Drawing.Image)
         Me.butServiceGoogle.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butServiceGoogle.Tag = Nothing
@@ -1991,7 +1990,7 @@ Partial Class frmMain
         Me.butServiceReport.AltKey = Nothing
         Me.butServiceReport.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butServiceReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butServiceReport.Image = CType(resources.GetObject("butServiceReport.Image"), System.Drawing.Image)
+        Me.butServiceReport.Image = Global.My.Resources.Resources.save32
         Me.butServiceReport.SmallImage = CType(resources.GetObject("butServiceReport.SmallImage"), System.Drawing.Image)
         Me.butServiceReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butServiceReport.Tag = Nothing
@@ -2019,7 +2018,7 @@ Partial Class frmMain
         Me.butNetworkRefresh.AltKey = Nothing
         Me.butNetworkRefresh.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butNetworkRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butNetworkRefresh.Image = CType(resources.GetObject("butNetworkRefresh.Image"), System.Drawing.Image)
+        Me.butNetworkRefresh.Image = Global.My.Resources.Resources.refresh32
         Me.butNetworkRefresh.SmallImage = CType(resources.GetObject("butNetworkRefresh.SmallImage"), System.Drawing.Image)
         Me.butNetworkRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butNetworkRefresh.Tag = Nothing
@@ -2053,7 +2052,7 @@ Partial Class frmMain
         Me.butOpenFile.AltKey = Nothing
         Me.butOpenFile.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butOpenFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butOpenFile.Image = CType(resources.GetObject("butOpenFile.Image"), System.Drawing.Image)
+        Me.butOpenFile.Image = Global.My.Resources.Resources.open_folder32
         Me.butOpenFile.SmallImage = CType(resources.GetObject("butOpenFile.SmallImage"), System.Drawing.Image)
         Me.butOpenFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butOpenFile.Tag = Nothing
@@ -2067,7 +2066,7 @@ Partial Class frmMain
         Me.butFileRefresh.AltKey = Nothing
         Me.butFileRefresh.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butFileRefresh.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFileRefresh.Image = CType(resources.GetObject("butFileRefresh.Image"), System.Drawing.Image)
+        Me.butFileRefresh.Image = Global.My.Resources.Resources.refresh32
         Me.butFileRefresh.SmallImage = CType(resources.GetObject("butFileRefresh.SmallImage"), System.Drawing.Image)
         Me.butFileRefresh.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butFileRefresh.Tag = Nothing
@@ -2091,7 +2090,7 @@ Partial Class frmMain
         Me.butFileRelease.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butFileRelease.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFileRelease.Enabled = False
-        Me.butFileRelease.Image = CType(resources.GetObject("butFileRelease.Image"), System.Drawing.Image)
+        Me.butFileRelease.Image = Global.My.Resources.Resources.unlock32
         Me.butFileRelease.SmallImage = CType(resources.GetObject("butFileRelease.SmallImage"), System.Drawing.Image)
         Me.butFileRelease.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butFileRelease.Tag = Nothing
@@ -2116,7 +2115,7 @@ Partial Class frmMain
         Me.butMoveFileToTrash.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butMoveFileToTrash.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butMoveFileToTrash.Enabled = False
-        Me.butMoveFileToTrash.Image = CType(resources.GetObject("butMoveFileToTrash.Image"), System.Drawing.Image)
+        Me.butMoveFileToTrash.Image = Global.My.Resources.Resources.trash32
         Me.butMoveFileToTrash.SmallImage = CType(resources.GetObject("butMoveFileToTrash.SmallImage"), System.Drawing.Image)
         Me.butMoveFileToTrash.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butMoveFileToTrash.Tag = Nothing
@@ -2131,7 +2130,7 @@ Partial Class frmMain
         Me.butDeleteFile.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butDeleteFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butDeleteFile.Enabled = False
-        Me.butDeleteFile.Image = CType(resources.GetObject("butDeleteFile.Image"), System.Drawing.Image)
+        Me.butDeleteFile.Image = Global.My.Resources.Resources.delete32
         Me.butDeleteFile.SmallImage = CType(resources.GetObject("butDeleteFile.SmallImage"), System.Drawing.Image)
         Me.butDeleteFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butDeleteFile.Tag = Nothing
@@ -2155,7 +2154,7 @@ Partial Class frmMain
         Me.butFileGoogleSearch.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butFileGoogleSearch.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFileGoogleSearch.Enabled = False
-        Me.butFileGoogleSearch.Image = CType(resources.GetObject("butFileGoogleSearch.Image"), System.Drawing.Image)
+        Me.butFileGoogleSearch.Image = Global.My.Resources.Resources.ie732
         Me.butFileGoogleSearch.SmallImage = CType(resources.GetObject("butFileGoogleSearch.SmallImage"), System.Drawing.Image)
         Me.butFileGoogleSearch.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butFileGoogleSearch.Tag = Nothing
@@ -2181,7 +2180,7 @@ Partial Class frmMain
         Me.butFileProperties.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butFileProperties.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFileProperties.Enabled = False
-        Me.butFileProperties.Image = CType(resources.GetObject("butFileProperties.Image"), System.Drawing.Image)
+        Me.butFileProperties.Image = Global.My.Resources.Resources.page_info32
         Me.butFileProperties.SmallImage = CType(resources.GetObject("butFileProperties.SmallImage"), System.Drawing.Image)
         Me.butFileProperties.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butFileProperties.Tag = Nothing
@@ -2211,7 +2210,7 @@ Partial Class frmMain
         Me.butFileShowFolderProperties.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butFileShowFolderProperties.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFileShowFolderProperties.Enabled = False
-        Me.butFileShowFolderProperties.Image = CType(resources.GetObject("butFileShowFolderProperties.Image"), System.Drawing.Image)
+        Me.butFileShowFolderProperties.Image = Global.My.Resources.Resources.file_info32
         Me.butFileShowFolderProperties.SmallImage = CType(resources.GetObject("butFileShowFolderProperties.SmallImage"), System.Drawing.Image)
         Me.butFileShowFolderProperties.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butFileShowFolderProperties.Tag = Nothing
@@ -2245,7 +2244,7 @@ Partial Class frmMain
         Me.butFileOthersActions.DropDownItems.Add(Me.butFileEncrypt)
         Me.butFileOthersActions.DropDownItems.Add(Me.butFileDecrypt)
         Me.butFileOthersActions.Enabled = False
-        Me.butFileOthersActions.Image = CType(resources.GetObject("butFileOthersActions.Image"), System.Drawing.Image)
+        Me.butFileOthersActions.Image = Global.My.Resources.Resources.process32
         Me.butFileOthersActions.SmallImage = CType(resources.GetObject("butFileOthersActions.SmallImage"), System.Drawing.Image)
         Me.butFileOthersActions.Style = System.Windows.Forms.RibbonButtonStyle.DropDown
         Me.butFileOthersActions.Tag = Nothing
@@ -2267,7 +2266,7 @@ Partial Class frmMain
         'butFileRename
         '
         Me.butFileRename.AltKey = Nothing
-        Me.butFileRename.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butFileRename.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butFileRename.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFileRename.Image = CType(resources.GetObject("butFileRename.Image"), System.Drawing.Image)
         Me.butFileRename.SmallImage = CType(resources.GetObject("butFileRename.SmallImage"), System.Drawing.Image)
@@ -2281,7 +2280,7 @@ Partial Class frmMain
         'butFileCopy
         '
         Me.butFileCopy.AltKey = Nothing
-        Me.butFileCopy.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butFileCopy.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butFileCopy.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFileCopy.Image = CType(resources.GetObject("butFileCopy.Image"), System.Drawing.Image)
         Me.butFileCopy.SmallImage = CType(resources.GetObject("butFileCopy.SmallImage"), System.Drawing.Image)
@@ -2295,7 +2294,7 @@ Partial Class frmMain
         'butFileMove
         '
         Me.butFileMove.AltKey = Nothing
-        Me.butFileMove.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butFileMove.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butFileMove.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFileMove.Image = CType(resources.GetObject("butFileMove.Image"), System.Drawing.Image)
         Me.butFileMove.SmallImage = CType(resources.GetObject("butFileMove.SmallImage"), System.Drawing.Image)
@@ -2309,7 +2308,7 @@ Partial Class frmMain
         'butFileOpen
         '
         Me.butFileOpen.AltKey = Nothing
-        Me.butFileOpen.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butFileOpen.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butFileOpen.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFileOpen.Image = CType(resources.GetObject("butFileOpen.Image"), System.Drawing.Image)
         Me.butFileOpen.SmallImage = CType(resources.GetObject("butFileOpen.SmallImage"), System.Drawing.Image)
@@ -2333,7 +2332,7 @@ Partial Class frmMain
         'butFileSeeStrings
         '
         Me.butFileSeeStrings.AltKey = Nothing
-        Me.butFileSeeStrings.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butFileSeeStrings.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butFileSeeStrings.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFileSeeStrings.Image = CType(resources.GetObject("butFileSeeStrings.Image"), System.Drawing.Image)
         Me.butFileSeeStrings.SmallImage = CType(resources.GetObject("butFileSeeStrings.SmallImage"), System.Drawing.Image)
@@ -2357,7 +2356,7 @@ Partial Class frmMain
         'butFileEncrypt
         '
         Me.butFileEncrypt.AltKey = Nothing
-        Me.butFileEncrypt.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butFileEncrypt.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butFileEncrypt.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFileEncrypt.Image = CType(resources.GetObject("butFileEncrypt.Image"), System.Drawing.Image)
         Me.butFileEncrypt.SmallImage = CType(resources.GetObject("butFileEncrypt.SmallImage"), System.Drawing.Image)
@@ -2371,7 +2370,7 @@ Partial Class frmMain
         'butFileDecrypt
         '
         Me.butFileDecrypt.AltKey = Nothing
-        Me.butFileDecrypt.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butFileDecrypt.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Left
         Me.butFileDecrypt.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butFileDecrypt.Image = CType(resources.GetObject("butFileDecrypt.Image"), System.Drawing.Image)
         Me.butFileDecrypt.SmallImage = CType(resources.GetObject("butFileDecrypt.SmallImage"), System.Drawing.Image)
@@ -2404,7 +2403,7 @@ Partial Class frmMain
         Me.butSearchGo.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butSearchGo.DropDownArrowSize = New System.Drawing.Size(5, 3)
         Me.butSearchGo.Enabled = False
-        Me.butSearchGo.Image = CType(resources.GetObject("butSearchGo.Image"), System.Drawing.Image)
+        Me.butSearchGo.Image = Global.My.Resources.Resources.magnify32
         Me.butSearchGo.SmallImage = CType(resources.GetObject("butSearchGo.SmallImage"), System.Drawing.Image)
         Me.butSearchGo.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butSearchGo.Tag = Nothing
@@ -2418,7 +2417,7 @@ Partial Class frmMain
         Me.butSearchSaveReport.AltKey = Nothing
         Me.butSearchSaveReport.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butSearchSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butSearchSaveReport.Image = CType(resources.GetObject("butSearchSaveReport.Image"), System.Drawing.Image)
+        Me.butSearchSaveReport.Image = Global.My.Resources.Resources.save32
         Me.butSearchSaveReport.SmallImage = CType(resources.GetObject("butSearchSaveReport.SmallImage"), System.Drawing.Image)
         Me.butSearchSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butSearchSaveReport.Tag = Nothing
@@ -2460,7 +2459,7 @@ Partial Class frmMain
         Me.butUpdate.AltKey = Nothing
         Me.butUpdate.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butUpdate.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butUpdate.Image = CType(resources.GetObject("butUpdate.Image"), System.Drawing.Image)
+        Me.butUpdate.Image = Global.My.Resources.Resources.refresh32
         Me.butUpdate.SmallImage = CType(resources.GetObject("butUpdate.SmallImage"), System.Drawing.Image)
         Me.butUpdate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butUpdate.Tag = Nothing
@@ -2483,7 +2482,7 @@ Partial Class frmMain
         Me.butDonate.AltKey = Nothing
         Me.butDonate.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butDonate.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butDonate.Image = CType(resources.GetObject("butDonate.Image"), System.Drawing.Image)
+        Me.butDonate.Image = Global.My.Resources.Resources.paypal_big
         Me.butDonate.SmallImage = CType(resources.GetObject("butDonate.SmallImage"), System.Drawing.Image)
         Me.butDonate.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butDonate.Tag = Nothing
@@ -2497,7 +2496,7 @@ Partial Class frmMain
         Me.butAbout.AltKey = Nothing
         Me.butAbout.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butAbout.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butAbout.Image = CType(resources.GetObject("butAbout.Image"), System.Drawing.Image)
+        Me.butAbout.Image = Global.My.Resources.Resources.info32
         Me.butAbout.SmallImage = CType(resources.GetObject("butAbout.SmallImage"), System.Drawing.Image)
         Me.butAbout.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butAbout.Tag = Nothing
@@ -2521,7 +2520,7 @@ Partial Class frmMain
         Me.butWebite.AltKey = Nothing
         Me.butWebite.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butWebite.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butWebite.Image = CType(resources.GetObject("butWebite.Image"), System.Drawing.Image)
+        Me.butWebite.Image = Global.My.Resources.Resources.ie732
         Me.butWebite.SmallImage = CType(resources.GetObject("butWebite.SmallImage"), System.Drawing.Image)
         Me.butWebite.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butWebite.Tag = Nothing
@@ -2535,7 +2534,7 @@ Partial Class frmMain
         Me.butProjectPage.AltKey = Nothing
         Me.butProjectPage.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butProjectPage.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProjectPage.Image = CType(resources.GetObject("butProjectPage.Image"), System.Drawing.Image)
+        Me.butProjectPage.Image = Global.My.Resources.Resources.sourceforge_big
         Me.butProjectPage.SmallImage = CType(resources.GetObject("butProjectPage.SmallImage"), System.Drawing.Image)
         Me.butProjectPage.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butProjectPage.Tag = Nothing
@@ -2549,7 +2548,7 @@ Partial Class frmMain
         Me.butDownload.AltKey = Nothing
         Me.butDownload.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butDownload.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butDownload.Image = CType(resources.GetObject("butDownload.Image"), System.Drawing.Image)
+        Me.butDownload.Image = Global.My.Resources.Resources.download32
         Me.butDownload.SmallImage = CType(resources.GetObject("butDownload.SmallImage"), System.Drawing.Image)
         Me.butDownload.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butDownload.Tag = Nothing
@@ -2572,7 +2571,7 @@ Partial Class frmMain
         Me.butPreferences.AltKey = Nothing
         Me.butPreferences.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butPreferences.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butPreferences.Image = CType(resources.GetObject("butPreferences.Image"), System.Drawing.Image)
+        Me.butPreferences.Image = Global.My.Resources.Resources.options32
         Me.butPreferences.SmallImage = CType(resources.GetObject("butPreferences.SmallImage"), System.Drawing.Image)
         Me.butPreferences.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butPreferences.Tag = Nothing
@@ -2586,7 +2585,7 @@ Partial Class frmMain
         Me.butAlwaysDisplay.AltKey = Nothing
         Me.butAlwaysDisplay.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butAlwaysDisplay.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butAlwaysDisplay.Image = CType(resources.GetObject("butAlwaysDisplay.Image"), System.Drawing.Image)
+        Me.butAlwaysDisplay.Image = Global.My.Resources.Resources.monitor32
         Me.butAlwaysDisplay.SmallImage = CType(resources.GetObject("butAlwaysDisplay.SmallImage"), System.Drawing.Image)
         Me.butAlwaysDisplay.Style = System.Windows.Forms.RibbonButtonStyle.Normal
         Me.butAlwaysDisplay.Tag = Nothing
@@ -2614,21 +2613,6 @@ Partial Class frmMain
         'timerTrayIcon
         '
         Me.timerTrayIcon.Interval = 1000
-        '
-        'butProcessPermuteLvTv
-        '
-        Me.butProcessPermuteLvTv.AltKey = Nothing
-        Me.butProcessPermuteLvTv.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.butProcessPermuteLvTv.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butProcessPermuteLvTv.Enabled = False
-        Me.butProcessPermuteLvTv.Image = Global.My.Resources.Resources.tv2
-        Me.butProcessPermuteLvTv.SmallImage = CType(resources.GetObject("butProcessPermuteLvTv.SmallImage"), System.Drawing.Image)
-        Me.butProcessPermuteLvTv.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butProcessPermuteLvTv.Tag = Nothing
-        Me.butProcessPermuteLvTv.Text = "Listview"
-        Me.butProcessPermuteLvTv.ToolTip = Nothing
-        Me.butProcessPermuteLvTv.ToolTipImage = Nothing
-        Me.butProcessPermuteLvTv.ToolTipTitle = Nothing
         '
         '_main
         '
@@ -4285,13 +4269,13 @@ Partial Class frmMain
         'MenuItemTaskShow
         '
         Me.MenuItemTaskShow.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemTaskShow, Global.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemTaskShow, Global.My.Resources.Resources.monitor16)
         Me.MenuItemTaskShow.Index = 0
         Me.MenuItemTaskShow.Text = "Show window"
         '
         'MenuItemTaskEnd
         '
-        Me.VistaMenu.SetImage(Me.MenuItemTaskEnd, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemTaskEnd, Global.My.Resources.Resources.cross16)
         Me.MenuItemTaskEnd.Index = 4
         Me.MenuItemTaskEnd.Text = "End task"
         '
@@ -4310,7 +4294,7 @@ Partial Class frmMain
         '
         'MenuItemMonitorRemove
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMonitorRemove, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemMonitorRemove, Global.My.Resources.Resources.cross16)
         Me.MenuItemMonitorRemove.Index = 1
         Me.MenuItemMonitorRemove.Text = "Remove selection"
         '
@@ -4342,7 +4326,7 @@ Partial Class frmMain
         'MenuItemMainShow
         '
         Me.MenuItemMainShow.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemMainShow, Global.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemMainShow, Global.My.Resources.Resources.monitor16)
         Me.MenuItemMainShow.Index = 0
         Me.MenuItemMainShow.Text = "Show YAPM"
         '
@@ -4366,13 +4350,13 @@ Partial Class frmMain
         '
         'MenuItemMainOpenedW
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMainOpenedW, Global.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemMainOpenedW, Global.My.Resources.Resources.monitor16)
         Me.MenuItemMainOpenedW.Index = 12
         Me.MenuItemMainOpenedW.Text = "Opened windows"
         '
         'MenuItemMainExit
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMainExit, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemMainExit, Global.My.Resources.Resources.cross16)
         Me.MenuItemMainExit.Index = 20
         Me.MenuItemMainExit.Text = "Exit YAPM"
         '
@@ -4451,13 +4435,13 @@ Partial Class frmMain
         '
         'MenuItemServDepe
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServDepe, Global.My.Resources.Resources.dllIcon)
+        Me.VistaMenu.SetImage(Me.MenuItemServDepe, Global.My.Resources.Resources.dllIcon16)
         Me.MenuItemServDepe.Index = 6
         Me.MenuItemServDepe.Text = "Show dependencies..."
         '
         'MenuItemNetworkClose
         '
-        Me.VistaMenu.SetImage(Me.MenuItemNetworkClose, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemNetworkClose, Global.My.Resources.Resources.cross16)
         Me.MenuItemNetworkClose.Index = 2
         Me.MenuItemNetworkClose.Text = "Close TCP connection"
         '
@@ -4476,7 +4460,7 @@ Partial Class frmMain
         '
         'MenuItemSearchClose
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSearchClose, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemSearchClose, Global.My.Resources.Resources.cross16)
         Me.MenuItemSearchClose.Index = 3
         Me.MenuItemSearchClose.Text = "Close/terminate item"
         '
@@ -4506,14 +4490,14 @@ Partial Class frmMain
         '
         'MenuItemProcSDep
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSDep, Global.My.Resources.Resources.dllIcon)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSDep, Global.My.Resources.Resources.dllIcon16)
         Me.MenuItemProcSDep.Index = 15
         Me.MenuItemProcSDep.Text = "View dependencies..."
         '
         'MenuItemProcKill
         '
         Me.MenuItemProcKill.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemProcKill, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemProcKill, Global.My.Resources.Resources.cross16)
         Me.MenuItemProcKill.Index = 0
         Me.MenuItemProcKill.Text = "Kill"
         '
@@ -4592,7 +4576,7 @@ Partial Class frmMain
         '
         'MenuItemSystemOpenedWindows
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemOpenedWindows, Global.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemOpenedWindows, Global.My.Resources.Resources.monitor16)
         Me.MenuItemSystemOpenedWindows.Index = 9
         Me.MenuItemSystemOpenedWindows.Text = "Opened &windows"
         '
@@ -4604,7 +4588,7 @@ Partial Class frmMain
         '
         'MenuItemSystemExit
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemExit, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemExit, Global.My.Resources.Resources.cross16)
         Me.MenuItemSystemExit.Index = 17
         Me.MenuItemSystemExit.Shortcut = System.Windows.Forms.Shortcut.AltF4
         Me.MenuItemSystemExit.Text = "E&xit"
@@ -4707,6 +4691,11 @@ Partial Class frmMain
         '
         Me.MenuItem6.Index = 5
         Me.MenuItem6.Text = "-"
+        '
+        'MenuItemTaskSelectWindow
+        '
+        Me.MenuItemTaskSelectWindow.Index = 7
+        Me.MenuItemTaskSelectWindow.Text = "Select in ""window tab"""
         '
         'MenuItem9
         '
@@ -4912,7 +4901,7 @@ Partial Class frmMain
         '
         'MenuItemServDelete
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.My.Resources.Resources.cross16)
         Me.MenuItemServDelete.Index = 12
         Me.MenuItemServDelete.Text = "Delete"
         '
@@ -5133,7 +5122,7 @@ Partial Class frmMain
         '
         'MenuItemReportProcesses
         '
-        Me.VistaMenu.SetImage(Me.MenuItemReportProcesses, Global.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItemReportProcesses, Global.My.Resources.Resources.save16)
         Me.MenuItemReportProcesses.Index = 0
         Me.MenuItemReportProcesses.Text = "&Save report..."
         '
@@ -5152,7 +5141,7 @@ Partial Class frmMain
         '
         'MenuItemReportMonitor
         '
-        Me.VistaMenu.SetImage(Me.MenuItemReportMonitor, Global.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItemReportMonitor, Global.My.Resources.Resources.save16)
         Me.MenuItemReportMonitor.Index = 0
         Me.MenuItemReportMonitor.Text = "&Save report..."
         '
@@ -5165,7 +5154,7 @@ Partial Class frmMain
         '
         'MenuItemReportServices
         '
-        Me.VistaMenu.SetImage(Me.MenuItemReportServices, Global.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItemReportServices, Global.My.Resources.Resources.save16)
         Me.MenuItemReportServices.Index = 0
         Me.MenuItemReportServices.Text = "&Save report..."
         '
@@ -5189,7 +5178,7 @@ Partial Class frmMain
         '
         'MenuItemReportSearch
         '
-        Me.VistaMenu.SetImage(Me.MenuItemReportSearch, Global.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItemReportSearch, Global.My.Resources.Resources.save16)
         Me.MenuItemReportSearch.Index = 2
         Me.MenuItemReportSearch.Text = "&Save report..."
         '
@@ -5221,13 +5210,13 @@ Partial Class frmMain
         '
         'MenuItemFileDelete
         '
-        Me.VistaMenu.SetImage(Me.MenuItemFileDelete, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemFileDelete, Global.My.Resources.Resources.cross16)
         Me.MenuItemFileDelete.Index = 3
         Me.MenuItemFileDelete.Text = "&Delete file..."
         '
         'MenuItemFileTrash
         '
-        Me.VistaMenu.SetImage(Me.MenuItemFileTrash, Global.My.Resources.Resources.cross_circle)
+        Me.VistaMenu.SetImage(Me.MenuItemFileTrash, Global.My.Resources.Resources.cross_circle16)
         Me.MenuItemFileTrash.Index = 4
         Me.MenuItemFileTrash.Text = "&Move to trash..."
         '
@@ -5434,7 +5423,7 @@ Partial Class frmMain
         '
         'MenuItemJobTerminate
         '
-        Me.VistaMenu.SetImage(Me.MenuItemJobTerminate, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemJobTerminate, Global.My.Resources.Resources.cross16)
         Me.MenuItemJobTerminate.Index = 0
         Me.MenuItemJobTerminate.Text = "Terminate job"
         '
@@ -5512,11 +5501,6 @@ Partial Class frmMain
         '
         Me.MenuItem53.Index = 1
         Me.MenuItem53.Text = "-"
-        '
-        'MenuItemTaskSelectWindow
-        '
-        Me.MenuItemTaskSelectWindow.Index = 7
-        Me.MenuItemTaskSelectWindow.Text = "Select in ""window tab"""
         '
         'frmMain
         '
@@ -5755,7 +5739,6 @@ Partial Class frmMain
     Friend WithEvents RBNetworkRefresh As System.Windows.Forms.RibbonPanel
     Friend WithEvents butNetworkRefresh As System.Windows.Forms.RibbonButton
     Friend WithEvents timerTrayIcon As System.Windows.Forms.Timer
-    Friend WithEvents butProcessPermuteLvTv As System.Windows.Forms.RibbonButton
     Friend WithEvents RibbonSeparator1 As System.Windows.Forms.RibbonSeparator
     Friend WithEvents panelProcessReport As System.Windows.Forms.RibbonPanel
     Friend WithEvents butSaveProcessReport As System.Windows.Forms.RibbonButton

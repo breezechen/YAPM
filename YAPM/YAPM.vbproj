@@ -34,6 +34,10 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <SignManifests>false</SignManifests>
+    <TargetZone>LocalIntranet</TargetZone>
+    <GenerateManifests>false</GenerateManifests>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -48,10 +52,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <SignManifests>false</SignManifests>
-    <TargetZone>LocalIntranet</TargetZone>
-    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1227,11 +1227,6 @@
     <None Include="Resources\plus_circle.png" />
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
       <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
@@ -1245,11 +1240,6 @@
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
@@ -1274,6 +1264,28 @@
   <ItemGroup>
     <None Include="Misc\locked.gif" />
     <None Include="Misc\target3.gif" />
+    <None Include="Misc\refresh.gif" />
+    <None Include="Misc\save.gif" />
+    <None Include="Misc\window_add.png" />
+    <None Include="Misc\add.gif" />
+    <None Include="Misc\download.gif" />
+    <None Include="Misc\ie7.gif" />
+    <None Include="Misc\magnify.gif" />
+    <None Include="Misc\network32.png" />
+    <None Include="Misc\open.gif" />
+    <None Include="Misc\page_info.gif" />
+    <None Include="Misc\process.gif" />
+    <None Include="Misc\speef.gif" />
+    <None Include="Misc\start2.gif" />
+    <None Include="Misc\warning1.png" />
+    <None Include="Misc\info.gif" />
+    <None Include="Misc\file_info.gif" />
+    <None Include="Misc\network49.png" />
+    <None Include="Misc\paypal.gif" />
+    <None Include="Misc\sf3.gif" />
+    <None Include="Misc\shield.png" />
+    <None Include="Misc\trash.gif" />
+    <None Include="Misc\unlock.gif" />
     <Content Include="process32.ico" />
     <Content Include="process_custom.ico" />
     <None Include="My Project\app.manifest" />

@@ -72,7 +72,7 @@ Partial Class frmSaveReport
         '
         Me.cmdGO.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.cmdGO.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdGO.Image = Global.My.Resources.Resources._096
+        Me.cmdGO.Image = Global.My.Resources.Resources.save16
         Me.cmdGO.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdGO.Location = New System.Drawing.Point(12, 62)
         Me.cmdGO.Name = "cmdGO"

@@ -133,7 +133,7 @@
   <data name="p0" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\p0.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="showDetails" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="monitor32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\display.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="plus_circle" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -148,7 +148,7 @@
   <data name="information_frame" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\information_frame.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cross_circle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="cross_circle16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cross_circle.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="play32" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -160,12 +160,6 @@
   <data name="close" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\close.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="tv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Misc\tv2.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="info" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\info.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="tcp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tcp.txt;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
@@ -175,13 +169,13 @@
   <data name="ok" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\ok.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="shield_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="shield32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\shield_32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="arrow_180_medium" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arrow_180_medium.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ie7_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ie716" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\ie7_16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="folder_info" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -193,16 +187,16 @@
   <data name="taskmgr" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\icon2.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_096" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="save16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\096.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="control" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\control.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="application_blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="application_blue16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\application_blue.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="display16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="monitor16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\display16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="stop32" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -210,9 +204,6 @@
   </data>
   <data name="folder_open_document" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\folder_open_document.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="lv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Misc\lv3.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="thread" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\thread.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -229,7 +220,7 @@
   <data name="control_pause" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\control_pause.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="pause_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="pause32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\pause32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="yapm32" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -238,16 +229,16 @@
   <data name="globe" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\globe.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="monitoring2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="monitoring32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\monitoring2.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="options" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="options32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\options.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="key" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\key.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="dllIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="dllIcon16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\dll.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="udp" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -259,22 +250,19 @@
   <data name="control_stop_square" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\control_stop_square.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="help" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\help.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="p2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\p2.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cross" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="cross16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cross.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="locked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\locked.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="dll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="dll16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\dll.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="OK_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="ok32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\OK_32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="exe" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -292,9 +280,6 @@
   <data name="p6" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\p6.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="application_text_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\application_text_image.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="help16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\help16.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -307,19 +292,82 @@
   <data name="process" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\process1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="magnify16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Misc\magnify16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="copy16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\copy16.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="document_text_image" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\document_text_image.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="delete2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="delete32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\delete2.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="target3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="target32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Misc\target3.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\add.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="download32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\download.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="file_info32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\file_info.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ie732" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\ie7.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\info.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="magnify32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\magnify.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="network16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\network49.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="network32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\network32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="open_folder32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\open.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="page_info32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\page_info.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="paypal_big" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\paypal.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="process32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\process.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="refresh32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\refresh.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="save32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\save.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="shield16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\shield.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="sourceforge_big" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\sf3.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="speed32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\speef.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="start_type32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\start2.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="trash32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\trash.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="unlock32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\unlock.gif;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="warning32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\warning1.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="window_add32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Misc\window_add.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

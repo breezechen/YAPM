@@ -74,7 +74,7 @@ Public Class taskList
         _IMG.ColorDepth = ColorDepth.Depth32Bit
 
         Me.SmallImageList = _IMG
-        _IMG.Images.Add("noIcon", My.Resources.application_blue)
+        _IMG.Images.Add("noIcon", My.Resources.application_blue16)
 
         _first = True
 
@@ -96,7 +96,7 @@ Public Class taskList
         _dicoDel.Clear()
         _dicoNew.Clear()
         _IMG.Images.Clear()
-        _IMG.Images.Add("noIcon", My.Resources.application_blue)
+        _IMG.Images.Add("noIcon", My.Resources.application_blue16)
         Me.Items.Clear()
     End Sub
 

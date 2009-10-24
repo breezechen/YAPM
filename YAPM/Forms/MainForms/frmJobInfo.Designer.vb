@@ -207,7 +207,7 @@ Partial Class frmJobInfo
         '
         'cmdTerminateJob
         '
-        Me.cmdTerminateJob.Image = Global.My.Resources.Resources.cross
+        Me.cmdTerminateJob.Image = Global.My.Resources.Resources.cross16
         Me.cmdTerminateJob.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdTerminateJob.Location = New System.Drawing.Point(5, 0)
         Me.cmdTerminateJob.Name = "cmdTerminateJob"
@@ -1025,7 +1025,7 @@ Partial Class frmJobInfo
         'MenuItemProcKill
         '
         Me.MenuItemProcKill.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemProcKill, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemProcKill, Global.My.Resources.Resources.cross16)
         Me.MenuItemProcKill.Index = 0
         Me.MenuItemProcKill.Text = "Kill"
         '
@@ -1103,7 +1103,7 @@ Partial Class frmJobInfo
         '
         'MenuItemProcSDep
         '
-        Me.VistaMenu.SetImage(Me.MenuItemProcSDep, Global.My.Resources.Resources.dllIcon)
+        Me.VistaMenu.SetImage(Me.MenuItemProcSDep, Global.My.Resources.Resources.dllIcon16)
         Me.MenuItemProcSDep.Index = 13
         Me.MenuItemProcSDep.Text = "View dependencies..."
         '

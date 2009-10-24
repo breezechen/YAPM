@@ -554,7 +554,7 @@ Partial Class frmProcessInfo
         '
         'cmdKill
         '
-        Me.cmdKill.Image = Global.My.Resources.Resources.cross
+        Me.cmdKill.Image = Global.My.Resources.Resources.cross16
         Me.cmdKill.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdKill.Location = New System.Drawing.Point(10, 21)
         Me.cmdKill.Name = "cmdKill"
@@ -789,7 +789,7 @@ Partial Class frmProcessInfo
         '
         'cmdInspectExe
         '
-        Me.cmdInspectExe.Image = Global.My.Resources.Resources.dllIcon
+        Me.cmdInspectExe.Image = Global.My.Resources.Resources.dllIcon16
         Me.cmdInspectExe.Location = New System.Drawing.Point(266, 81)
         Me.cmdInspectExe.Name = "cmdInspectExe"
         Me.cmdInspectExe.Size = New System.Drawing.Size(26, 26)
@@ -2099,7 +2099,7 @@ Partial Class frmProcessInfo
         '
         'cmdProcStringSave
         '
-        Me.cmdProcStringSave.Image = Global.My.Resources.Resources._096
+        Me.cmdProcStringSave.Image = Global.My.Resources.Resources.save16
         Me.cmdProcStringSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdProcStringSave.Location = New System.Drawing.Point(140, 1)
         Me.cmdProcStringSave.Name = "cmdProcStringSave"
@@ -2671,7 +2671,7 @@ Partial Class frmProcessInfo
         'menuCloseTCP
         '
         Me.menuCloseTCP.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.menuCloseTCP, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.menuCloseTCP, Global.My.Resources.Resources.cross16)
         Me.menuCloseTCP.Index = 0
         Me.menuCloseTCP.Text = "Close TCP connection"
         '
@@ -2683,7 +2683,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemPriRemove
         '
-        Me.VistaMenu.SetImage(Me.MenuItemPriRemove, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemPriRemove, Global.My.Resources.Resources.cross16)
         Me.MenuItemPriRemove.Index = 2
         Me.MenuItemPriRemove.Text = "Remove"
         '
@@ -2713,14 +2713,14 @@ Partial Class frmProcessInfo
         '
         'MenuItemModuleDependencies
         '
-        Me.VistaMenu.SetImage(Me.MenuItemModuleDependencies, Global.My.Resources.Resources.dllIcon)
+        Me.VistaMenu.SetImage(Me.MenuItemModuleDependencies, Global.My.Resources.Resources.dllIcon16)
         Me.MenuItemModuleDependencies.Index = 4
         Me.MenuItemModuleDependencies.Text = "View dependencies..."
         '
         'MenuItemUnloadModule
         '
         Me.MenuItemUnloadModule.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemUnloadModule, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemUnloadModule, Global.My.Resources.Resources.cross16)
         Me.MenuItemUnloadModule.Index = 7
         Me.MenuItemUnloadModule.Text = "Unload module"
         '
@@ -2799,7 +2799,7 @@ Partial Class frmProcessInfo
         'MenuItemThTerm
         '
         Me.MenuItemThTerm.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemThTerm, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemThTerm, Global.My.Resources.Resources.cross16)
         Me.MenuItemThTerm.Index = 0
         Me.MenuItemThTerm.Text = "Terminate"
         '
@@ -2860,13 +2860,13 @@ Partial Class frmProcessInfo
         'MenuItemWShow
         '
         Me.MenuItemWShow.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemWShow, Global.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemWShow, Global.My.Resources.Resources.monitor16)
         Me.MenuItemWShow.Index = 0
         Me.MenuItemWShow.Text = "Show"
         '
         'MenuItemWClose
         '
-        Me.VistaMenu.SetImage(Me.MenuItemWClose, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemWClose, Global.My.Resources.Resources.cross16)
         Me.MenuItemWClose.Index = 3
         Me.MenuItemWClose.Text = "Close"
         '
@@ -2986,7 +2986,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemMemoryDump
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMemoryDump, Global.My.Resources.Resources._096)
+        Me.VistaMenu.SetImage(Me.MenuItemMemoryDump, Global.My.Resources.Resources.save16)
         Me.MenuItemMemoryDump.Index = 1
         Me.MenuItemMemoryDump.Text = "Dump..."
         '
@@ -3002,7 +3002,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemMemoryRelease
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMemoryRelease, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemMemoryRelease, Global.My.Resources.Resources.cross16)
         Me.MenuItemMemoryRelease.Index = 4
         Me.MenuItemMemoryRelease.Text = "Release"
         '
@@ -3194,7 +3194,7 @@ Partial Class frmProcessInfo
         'MenuItemHandleDetails
         '
         Me.MenuItemHandleDetails.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemHandleDetails, Global.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemHandleDetails, Global.My.Resources.Resources.monitor16)
         Me.MenuItemHandleDetails.Index = 0
         Me.MenuItemHandleDetails.Text = "Details..."
         '
@@ -3249,7 +3249,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemServDepe
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServDepe, Global.My.Resources.Resources.dllIcon)
+        Me.VistaMenu.SetImage(Me.MenuItemServDepe, Global.My.Resources.Resources.dllIcon16)
         Me.MenuItemServDepe.Index = 7
         Me.MenuItemServDepe.Text = "View dependencies..."
         '
@@ -3266,7 +3266,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemServDelete
         '
-        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.My.Resources.Resources.cross)
+        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.My.Resources.Resources.cross16)
         Me.MenuItemServDelete.Index = 13
         Me.MenuItemServDelete.Text = "Delete"
         '

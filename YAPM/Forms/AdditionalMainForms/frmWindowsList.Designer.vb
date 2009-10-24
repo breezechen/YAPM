@@ -72,7 +72,7 @@ Partial Class frmWindowsList
         'MenuItemShow
         '
         Me.MenuItemShow.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemShow, Global.My.Resources.Resources.display16)
+        Me.VistaMenu.SetImage(Me.MenuItemShow, Global.My.Resources.Resources.monitor16)
         Me.MenuItemShow.Index = 0
         Me.MenuItemShow.Text = "Show"
         '
