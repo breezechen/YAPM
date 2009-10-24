@@ -34,20 +34,8 @@ Public Class cModuleConnection
     Private _instanceId As Integer = 1
     Dim _moduleEnum As asyncCallbackModuleEnumerate
 
-    ' Rights to query infos with a handle
-    Private Shared _minRights As Native.Security.ThreadAccess = Native.Security.ThreadAccess.QueryInformation
-
-    Public Shared ReadOnly Property ThreadMinRights() As Native.Security.ThreadAccess
-        Get
-            Return _minRights
-        End Get
-    End Property
-
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
-        If cEnvironment.SupportsMinRights Then
-            _minRights = Native.Security.ThreadAccess.QueryLimitedInformation
-        End If
         instanceId += 1
         _instanceId = instanceId
         _moduleEnum = New asyncCallbackModuleEnumerate(_control, de, Me, _instanceId)
