@@ -699,7 +699,7 @@ Public Class frmProcessInfo
         reentrance = True
 
         Dim curProc As cProcess = DirectCast(cuProc, cProcess)
-        updateStringPanelEnabledPropImp(False)
+        Async.SplitContainer.ChangeEnabled(Me.SplitContainerStrings, False)
 
         Me.lvProcString.Items.Clear()
         If Me.optProcStringImage.Checked Then
@@ -717,50 +717,12 @@ Public Class frmProcessInfo
             __sRes = sRes
             __lRes = lRes
 
-            updateLvProcStringVirtualSizeImp(sRes.Length)
+            Async.ListView.ChangeVirtualListSize(Me.lvProcString, sRes.Length)
 
         End If
 
         reentrance = False
-        updateStringPanelEnabledPropImp(True)
-    End Sub
-
-   ' Update some properties of a control (thread safe)
-    Private Delegate Sub updatePGBValue(ByVal value As Integer)
-    Private Sub updatePGBValueImp(ByVal value As Integer)
-        If Me.pgbString.InvokeRequired = True Then
-            Dim d As New updatePGBValue(AddressOf updatePGBValueImp)
-            Me.pgbString.Invoke(d, value)
-        Else
-            Me.pgbString.Value = value
-        End If
-    End Sub
-    Private Delegate Sub updatePGBMaxValue(ByVal value As Integer)
-    Private Sub updatePGBMaxValueImp(ByVal value As Integer)
-        If Me.pgbString.InvokeRequired = True Then
-            Dim d As New updatePGBMaxValue(AddressOf updatePGBMaxValueImp)
-            Me.pgbString.Invoke(d, value)
-        Else
-            Me.pgbString.Maximum = value
-        End If
-    End Sub
-    Private Delegate Sub updateLvProcStringVirtualSize(ByVal value As Integer)
-    Private Sub updateLvProcStringVirtualSizeImp(ByVal value As Integer)
-        If Me.lvProcString.InvokeRequired = True Then
-            Dim d As New updateLvProcStringVirtualSize(AddressOf updateLvProcStringVirtualSizeImp)
-            Me.lvProcString.Invoke(d, value)
-        Else
-            Me.lvProcString.VirtualListSize = value
-        End If
-    End Sub
-    Private Delegate Sub updateStringPanelEnabledProp(ByVal value As Boolean)
-    Private Sub updateStringPanelEnabledPropImp(ByVal value As Boolean)
-        If Me.SplitContainerStrings.InvokeRequired = True Then
-            Dim d As New updateStringPanelEnabledProp(AddressOf updateStringPanelEnabledPropImp)
-            Me.SplitContainerStrings.Invoke(d, value)
-        Else
-            Me.SplitContainerStrings.Enabled = value
-        End If
+        Async.SplitContainer.ChangeEnabled(Me.SplitContainerStrings, True)
     End Sub
 
 
@@ -795,15 +757,15 @@ Public Class frmProcessInfo
 
             ' A char is considered as part of a string if its value is between 32 and 122
             lLen = Len(s)
-            updatePGBMaxValueImp(CInt(lLen / 10000 + 2))
-            updatePGBValueImp(0)
+            Async.ProgressBar.ChangeMaximum(Me.pgbString, CInt(lLen / 10000 + 2))
+            Async.ProgressBar.ChangeValue(Me.pgbString, 0)
 
             ' Ok, parse file
             Do Until x >= lLen
 
                 If _stringSearchImmediateStop Then
                     ' Exit
-                    updatePGBValueImp(Me.pgbString.Maximum)
+                    Async.ProgressBar.ChangeValue(Me.pgbString, Me.pgbString.Maximum)
                     Exit Sub
                 End If
 
@@ -828,13 +790,13 @@ Public Class frmProcessInfo
                 End If
 
                 If (x Mod 10000) = 0 Then
-                    updatePGBValueImp(Me.pgbString.Value + 1)
+                    Async.ProgressBar.ChangeValue(Me.pgbString, Me.pgbString.Value + 1)
                 End If
 
                 x += 1
             Loop
 
-            updatePGBValueImp(Me.pgbString.Maximum)
+            Async.ProgressBar.ChangeValue(Me.pgbString, Me.pgbString.Maximum)
 
             ' Last item
             If Len(strCtemp) > SIZE_FOR_STRING Then
@@ -862,7 +824,7 @@ Public Class frmProcessInfo
             __sRes = strRes
             __lRes = lngRes
 
-            updateLvProcStringVirtualSizeImp(tRes.Length - BUF_SIZE + cArraySizeBef - 1)
+            Async.ListView.ChangeVirtualListSize(Me.lvProcString,tRes.Length - BUF_SIZE + cArraySizeBef - 1)
 
         End If
 
@@ -2835,18 +2797,4 @@ Public Class frmProcessInfo
         Call Me.lvHandles_MouseDoubleClick(Nothing, Nothing)
     End Sub
 
-    ' Select an item in one of the listview
-    Private Delegate Sub degSelectItemInAListView(ByVal text As String, ByVal lv As ListView)
-    Public Sub SelectItemInAListView(ByVal text As String, ByVal lv As ListView)
-        If lv.InvokeRequired Then
-            Dim d As New degSelectItemInAListView(AddressOf SelectItemInAListView)
-            Me.lvProcString.Invoke(d, text, lv)
-        Else
-            Dim it As ListViewItem = lv.FindItemWithText(text)
-            If it IsNot Nothing Then
-                it.Selected = True
-                it.EnsureVisible()
-            End If
-        End If
-    End Sub
 End Class

@@ -138,6 +138,21 @@ Public Class cNetwork
         End If
     End Function
 
+    ' Ping (async)
+    Public Function Ping(ByVal lv As ListView) As String
+        Return ""
+    End Function
+
+    ' WhoIs (async)
+    Public Function WhoIs(ByVal lv As ListView) As String
+        Return ""
+    End Function
+
+    ' TraceRoute (async)
+    Public Function TraceRoute(ByVal lv As ListView) As String
+        Return ""
+    End Function
+
 #End Region
 
 #Region "All actions on network (close tcp connection)"

@@ -4083,7 +4083,7 @@ Public Class frmMain
         End While
 
         ' Select the good window
-        pObj.frmProcInfo.SelectItemInAListView(pObj.handle, pObj.frmProcInfo.lvWindows)
+        Async.ListView.EnsureItemVisible(pObj.frmProcInfo.lvWindows, pObj.handle)
     End Sub
 
 #End Region

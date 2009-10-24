@@ -94,7 +94,7 @@ Public Class HThreadProp
         End While
 
         ' Select the good thread
-        pObj.frmProcInfo.SelectItemInAListView(pObj.tid.ToString, pObj.frmProcInfo.lvThreads)
+        Async.ListView.EnsureItemVisible(pObj.frmProcInfo.lvThreads, pObj.tid.ToString)
     End Sub
 
 End Class
