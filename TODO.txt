@@ -10,7 +10,6 @@ BUGS CRITIQUES
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
 - job par remote (et en wmi, désactiver également Restart with priv)
 - searchInfos contains cService/cModule (NOT Serializable -> can not search via server)
-- déconnection du client -> le server doit réinitialiser les dico newProcesses/Services
 - close local process handle -> utiliser DuplicateHandle plutôt que remote thread
 - others highlightings (isTask, wow64...)
 - extend dico et ajout de TryAdd ?
@@ -132,3 +131,4 @@ Temp Change log :
 - fixed job enumeration for windows Seven
 - fixed some bugs when trying to get informations about the ImagePath property of a service
 - fixed bug when trying to display some informations about handles
+- no more need to "Reinitialize" process & services after a connection/deconnection to the remote machine

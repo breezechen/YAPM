@@ -101,6 +101,9 @@ Public Class AsynchronousSocketListener
                 If message.Message = "clientDisconnect" Then
                     ' Oh, the client has disconnected !
                     ServerTalk.ClientToServerQueue.Clear()
+                    ' Let's empty the dictionnary of current processes/services
+                    Native.Objects.Process.ClearNewProcessesDico()
+                    Native.Objects.Service.ClearNewServicesList()
                 Else
                     ClientToHost(message)
                 End If
