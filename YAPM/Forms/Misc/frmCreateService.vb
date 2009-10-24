@@ -78,7 +78,6 @@ Public Class frmCreateService
             End If
         End With
         If Native.Objects.Service.CreateService(params) Then
-            ' MsgBox("Success", MsgBoxStyle.Information, "Create service")
             Me.Close()
         Else
             Misc.ShowMsg("Create service", "Failed to create the service.", "Informations : " & Native.Api.Win32.GetLastError, MessageBoxButtons.OK, TaskDialogIcon.Error)

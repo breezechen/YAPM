@@ -119,9 +119,11 @@
   </resheader>
   <data name="Label1.Text" xml:space="preserve">
     <value>An unhandled exception has occurred in YAPM.
-Please report this bug to the tracker of YAPM, it will help me a lot to fix it.
-You just have to copy the description, create a new artifact with the link below and fill the 'Summary' and 'Description' areas.
-Any additionnal information (how to reproduce the bug if possible would be VERY helpful ^^) is welcome.
+
+Please report this bug to the tracker of YAPM, it will help me A LOT to fix it ASAP :-)
+The only thing you have to do is to click on the "Send the bug report" button. This will ONLY SEND to sourceforge.net the informations which are written below.
+
+You can also add a custom message ; anything you want me to know about the crash. How to reproduce the crash would be sooooooo helpful for me !!!
 
 Thanks for your help, and sorry for this crash :-)</value>
   </data>

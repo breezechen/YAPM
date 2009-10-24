@@ -1056,7 +1056,7 @@ Public Class frmServer
             sock.Disconnect()
         End If
         'Catch ex As Exception
-        '    MsgBox(ex.Message)
+        '    Misc.ShowDebugError(ex)
         'End Try
     End Sub
 

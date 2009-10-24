@@ -129,6 +129,7 @@ Temp Change log :
 - reduced memory usage
 - fixed some icons
 - added embedded help file
+- added "Send bug report to sourceforge.net" feature
 
 * Bug fixed
 - fixed job enumeration for windows Seven

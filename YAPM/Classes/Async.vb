@@ -113,4 +113,20 @@ Namespace Async
 
     End Class
 
+
+    ' Some async and threaf safe functions for the Form control
+    Public Class Form
+
+        Private Delegate Sub degChangeEnabled(ByVal frm As Windows.Forms.Form, ByVal value As Boolean)
+        Public Shared Sub ChangeEnabled(ByVal frm As Windows.Forms.Form, ByVal value As Boolean)
+            If frm.InvokeRequired Then
+                Dim d As New degChangeEnabled(AddressOf ChangeEnabled)
+                frm.Invoke(d, frm, value)
+            Else
+                frm.Enabled = value
+            End If
+        End Sub
+
+    End Class
+
 End Namespace
