@@ -18,4 +18,34 @@ CHANGES FROM 2.2.1
 		<downloadUrl>http://downloads.sourceforge.net/project/yaprocmon/YAPM-beta/YAPM-2.3.0/YAPM-v2.3.0-Setup.exe</downloadUrl>
 		<hash>d078ff095b75a26cad9205c56d681c6b4311803ee01b089c17b74a9a3c64bb9b8df9d60d5669633a4a633726e2741992acf2871222e5068b58e414d7574ebff4</hash>
 	</update>
+	
+	<update type="beta">
+		<version>2.3.1.0</version>
+		<caption>Yet Another (remote) Process Monitor 2.3.1</caption>
+		<description>2.3.1 implements full compatibility with Windows Seven, some new features and some bug fixes.
+
+CHANGES FROM 2.3.0
+
+*NEW / Improvements
+- Added feature #2869164 (text alignment in listviews)
+- Now first node in dependencies form's treeview is automatically selected
+- Now "search string" features are async
+- Added detailed window for handles with useful informations
+- Re-implemented a robust "select in window tab" feature ^^
+- Removed "Navigate..." feature (now useless cause of detailed window for handles)
+- Reduced memory usage
+- Fixed some icons
+- Added embedded help file
+- Added "Send bug report to sourceforge.net" feature
+
+* Bug fixes
+- Fixed job enumeration for windows Seven
+- Fixed some bugs when trying to get informations about the ImagePath property of a service
+- Fixed bug when trying to display some informations about handles
+- No more need to "Reinitialize" process & services after a connection/deconnection to the remote machine
+		</description>
+		<date>24 October 2009</date>
+		<downloadUrl>https://www.ohloh.net/p/yaprocmon/download?filename=YAPM-v2.3.1-Setup.exe</downloadUrl>
+		<hash>0cb6696f3700747429a56c1e942eca6b3014dc812b27813700417f8ab7e9254123c55431f2a3c42c1f02d8baf0b18bc28cf534f3c6c92fad7ce06c38e16277bb</hash>
+	</update>
 </YAPM>
