@@ -22,7 +22,6 @@ Partial Class frmPreferences
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPreferences))
         Dim ListViewItem1 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Suspended thread")
         Dim ListViewItem2 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Relocated module")
         Dim ListViewItem3 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("Process being debugged")
@@ -148,10 +147,10 @@ Partial Class frmPreferences
         Me.TabPage1.Controls.Add(Me.Label6)
         Me.TabPage1.Controls.Add(Me.GroupBox1)
         Me.TabPage1.ImageKey = "(aucun)"
-        Me.TabPage1.Location = New System.Drawing.Point(4, 23)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(461, 279)
+        Me.TabPage1.Size = New System.Drawing.Size(461, 280)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -283,9 +282,9 @@ Partial Class frmPreferences
         Me.TabPage5.Controls.Add(Me.lvHighlightingOther)
         Me.TabPage5.Controls.Add(Me.lvHighlightingProcess)
         Me.TabPage5.ImageKey = "(aucun)"
-        Me.TabPage5.Location = New System.Drawing.Point(4, 23)
+        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Size = New System.Drawing.Size(461, 279)
+        Me.TabPage5.Size = New System.Drawing.Size(461, 280)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Highlighting"
         Me.TabPage5.UseVisualStyleBackColor = True
@@ -293,7 +292,7 @@ Partial Class frmPreferences
         'cmdMoveDownProcess
         '
         Me.cmdMoveDownProcess.Enabled = False
-        Me.cmdMoveDownProcess.Image = CType(resources.GetObject("cmdMoveDownProcess.Image"), System.Drawing.Image)
+        Me.cmdMoveDownProcess.Image = Global.My.Resources.Resources.down16
         Me.cmdMoveDownProcess.Location = New System.Drawing.Point(41, 237)
         Me.cmdMoveDownProcess.Name = "cmdMoveDownProcess"
         Me.cmdMoveDownProcess.Size = New System.Drawing.Size(28, 28)
@@ -303,7 +302,7 @@ Partial Class frmPreferences
         'cmdMoveUpProcess
         '
         Me.cmdMoveUpProcess.Enabled = False
-        Me.cmdMoveUpProcess.Image = CType(resources.GetObject("cmdMoveUpProcess.Image"), System.Drawing.Image)
+        Me.cmdMoveUpProcess.Image = Global.My.Resources.Resources.up16
         Me.cmdMoveUpProcess.Location = New System.Drawing.Point(7, 237)
         Me.cmdMoveUpProcess.Name = "cmdMoveUpProcess"
         Me.cmdMoveUpProcess.Size = New System.Drawing.Size(28, 28)
@@ -371,9 +370,9 @@ Partial Class frmPreferences
         Me.TabPage3.Controls.Add(Me.chkCloseButton)
         Me.TabPage3.Controls.Add(Me.chkTrayIcon)
         Me.TabPage3.ImageKey = "(aucun)"
-        Me.TabPage3.Location = New System.Drawing.Point(4, 23)
+        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(461, 279)
+        Me.TabPage3.Size = New System.Drawing.Size(461, 280)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Display"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -533,9 +532,9 @@ Partial Class frmPreferences
         Me.TabPage4.Controls.Add(Me.Label5)
         Me.TabPage4.Controls.Add(Me.GroupBox2)
         Me.TabPage4.ImageKey = "(aucun)"
-        Me.TabPage4.Location = New System.Drawing.Point(4, 23)
+        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
         Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(461, 279)
+        Me.TabPage4.Size = New System.Drawing.Size(461, 280)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Performances"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -772,10 +771,10 @@ Partial Class frmPreferences
         Me.TabPage2.Controls.Add(Me.chkUpdateAlpha)
         Me.TabPage2.Controls.Add(Me.chkUpdateBeta)
         Me.TabPage2.ImageKey = "(aucun)"
-        Me.TabPage2.Location = New System.Drawing.Point(4, 23)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(461, 279)
+        Me.TabPage2.Size = New System.Drawing.Size(461, 280)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Update"
         Me.TabPage2.UseVisualStyleBackColor = True

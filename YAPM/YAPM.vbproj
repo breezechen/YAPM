@@ -1287,6 +1287,7 @@
     <None Include="Misc\trash.gif" />
     <None Include="Misc\unlock.gif" />
     <None Include="Misc\exe32.png" />
+    <None Include="Misc\up.gif" />
     <Content Include="process32.ico" />
     <Content Include="process_custom.ico" />
     <None Include="My Project\app.manifest" />

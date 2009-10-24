@@ -22,7 +22,6 @@ Partial Class frmChooseColumns
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmChooseColumns))
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
         Me.OK_Button = New System.Windows.Forms.Button
         Me.Cancel_Button = New System.Windows.Forms.Button
@@ -112,7 +111,7 @@ Partial Class frmChooseColumns
         '
         'cmdMoveUp
         '
-        Me.cmdMoveUp.Image = CType(resources.GetObject("cmdMoveUp.Image"), System.Drawing.Image)
+        Me.cmdMoveUp.Image = Global.My.Resources.Resources.up16
         Me.cmdMoveUp.Location = New System.Drawing.Point(264, 227)
         Me.cmdMoveUp.Name = "cmdMoveUp"
         Me.cmdMoveUp.Size = New System.Drawing.Size(28, 28)
@@ -121,7 +120,7 @@ Partial Class frmChooseColumns
         '
         'cmdMoveDown
         '
-        Me.cmdMoveDown.Image = CType(resources.GetObject("cmdMoveDown.Image"), System.Drawing.Image)
+        Me.cmdMoveDown.Image = Global.My.Resources.Resources.down16
         Me.cmdMoveDown.Location = New System.Drawing.Point(293, 227)
         Me.cmdMoveDown.Name = "cmdMoveDown"
         Me.cmdMoveDown.Size = New System.Drawing.Size(28, 28)

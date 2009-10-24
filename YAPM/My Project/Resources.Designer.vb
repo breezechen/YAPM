@@ -179,9 +179,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property down() As System.Drawing.Bitmap
+        Friend ReadOnly Property down16() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("down", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("down16", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -368,9 +368,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property ok() As System.Drawing.Bitmap
+        Friend ReadOnly Property ok16() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("ok", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("ok16", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -515,9 +515,9 @@ Namespace My.Resources
             End Get
         End Property
         
-        Friend ReadOnly Property right() As System.Drawing.Bitmap
+        Friend ReadOnly Property right16() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("right", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("right16", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -666,6 +666,13 @@ Namespace My.Resources
         Friend ReadOnly Property unlock32() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("unlock32", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        Friend ReadOnly Property up16() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("up16", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

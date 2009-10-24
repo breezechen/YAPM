@@ -192,8 +192,8 @@ Public Class frmMain
                 pctFileBig.Image = GetIcon(file, False).ToBitmap
                 pctFileSmall.Image = GetIcon(file, True).ToBitmap
             Catch ex As Exception
-                pctFileSmall.Image = Me.imgProcess.Images("noicon")
-                pctFileBig.Image = Me.imgMain.Images("noicon32")
+                pctFileSmall.Image = My.Resources.exe16
+                pctFileBig.Image = My.Resources.exe32
             End Try
 
 

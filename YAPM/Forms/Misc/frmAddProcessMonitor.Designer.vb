@@ -22,7 +22,6 @@ Partial Class frmAddProcessMonitor
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAddProcessMonitor))
         Me.butAdd = New System.Windows.Forms.Button
         Me.Label2 = New System.Windows.Forms.Label
         Me.txtInterval = New System.Windows.Forms.TextBox
@@ -139,7 +138,7 @@ Partial Class frmAddProcessMonitor
         '
         'cmdSearch
         '
-        Me.cmdSearch.Image = CType(resources.GetObject("cmdSearch.Image"), System.Drawing.Image)
+        Me.cmdSearch.Image = Global.My.Resources.Resources.magnify32
         Me.cmdSearch.ImageAlign = System.Drawing.ContentAlignment.TopCenter
         Me.cmdSearch.Location = New System.Drawing.Point(753, 23)
         Me.cmdSearch.Name = "cmdSearch"

@@ -23,9 +23,9 @@ Partial Class frmServiceInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServiceInfo))
         Dim CConnection1 As cConnection = New cConnection
         Dim CConnection2 As cConnection = New cConnection
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServiceInfo))
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
@@ -101,7 +101,6 @@ Partial Class frmServiceInfo
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.Label9 = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.cmdServDet1 = New System.Windows.Forms.Button
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.Label21 = New System.Windows.Forms.Label
@@ -112,8 +111,6 @@ Partial Class frmServiceInfo
         Me.cmdRefresh = New System.Windows.Forms.Button
         Me.cmdInfosToClipB = New System.Windows.Forms.Button
         Me.rtb = New System.Windows.Forms.RichTextBox
-        Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
-        Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.Timer = New System.Windows.Forms.Timer(Me.components)
         Me.menuCopyPctbig = New System.Windows.Forms.ContextMenu
         Me.MenuItemCopyBig = New System.Windows.Forms.MenuItem
@@ -122,9 +119,9 @@ Partial Class frmServiceInfo
         Me.mainMenu = New System.Windows.Forms.MainMenu(Me.components)
         Me.MenuItem3 = New System.Windows.Forms.MenuItem
         Me.MenuItem4 = New System.Windows.Forms.MenuItem
+        Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
         Me.tv2 = New serviceDependenciesList
         Me.tv = New serviceDependenciesList
-        Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -539,7 +536,7 @@ Partial Class frmServiceInfo
         'cmdGoProcess
         '
         Me.cmdGoProcess.Enabled = False
-        Me.cmdGoProcess.Image = Global.My.Resources.Resources.down
+        Me.cmdGoProcess.Image = Global.My.Resources.Resources.down16
         Me.cmdGoProcess.Location = New System.Drawing.Point(341, 136)
         Me.cmdGoProcess.Name = "cmdGoProcess"
         Me.cmdGoProcess.Size = New System.Drawing.Size(26, 26)
@@ -646,7 +643,7 @@ Partial Class frmServiceInfo
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(647, 297)
+        Me.TabPage2.Size = New System.Drawing.Size(647, 295)
         Me.TabPage2.TabIndex = 8
         Me.TabPage2.Text = "General - 2"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -922,7 +919,7 @@ Partial Class frmServiceInfo
         Me.tabDep.Location = New System.Drawing.Point(4, 22)
         Me.tabDep.Name = "tabDep"
         Me.tabDep.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabDep.Size = New System.Drawing.Size(647, 297)
+        Me.tabDep.Size = New System.Drawing.Size(647, 295)
         Me.tabDep.TabIndex = 7
         Me.tabDep.Text = "Dependencies"
         Me.tabDep.UseVisualStyleBackColor = True
@@ -940,7 +937,7 @@ Partial Class frmServiceInfo
         'SplitContainer.Panel2
         '
         Me.SplitContainer.Panel2.Controls.Add(Me.SplitContainer3)
-        Me.SplitContainer.Size = New System.Drawing.Size(641, 291)
+        Me.SplitContainer.Size = New System.Drawing.Size(641, 289)
         Me.SplitContainer.SplitterDistance = 320
         Me.SplitContainer.TabIndex = 0
         '
@@ -960,7 +957,7 @@ Partial Class frmServiceInfo
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(320, 291)
+        Me.SplitContainer1.Size = New System.Drawing.Size(320, 289)
         Me.SplitContainer1.SplitterDistance = 25
         Me.SplitContainer1.TabIndex = 0
         '
@@ -990,20 +987,9 @@ Partial Class frmServiceInfo
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.cmdServDet1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(320, 262)
-        Me.SplitContainer2.SplitterDistance = 232
+        Me.SplitContainer2.Size = New System.Drawing.Size(320, 260)
+        Me.SplitContainer2.SplitterDistance = 230
         Me.SplitContainer2.TabIndex = 0
-        '
-        'imgServices
-        '
-        Me.imgServices.ImageStream = CType(resources.GetObject("imgServices.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgServices.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgServices.Images.SetKeyName(0, "ok")
-        Me.imgServices.Images.SetKeyName(1, "ko")
-        Me.imgServices.Images.SetKeyName(2, "key")
-        Me.imgServices.Images.SetKeyName(3, "thread")
-        Me.imgServices.Images.SetKeyName(4, "noicon")
-        Me.imgServices.Images.SetKeyName(5, "service")
         '
         'cmdServDet1
         '
@@ -1030,7 +1016,7 @@ Partial Class frmServiceInfo
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.SplitContainer4)
-        Me.SplitContainer3.Size = New System.Drawing.Size(317, 291)
+        Me.SplitContainer3.Size = New System.Drawing.Size(317, 289)
         Me.SplitContainer3.SplitterDistance = 25
         Me.SplitContainer3.TabIndex = 1
         '
@@ -1060,8 +1046,8 @@ Partial Class frmServiceInfo
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.Controls.Add(Me.cmdServDet2)
-        Me.SplitContainer4.Size = New System.Drawing.Size(317, 262)
-        Me.SplitContainer4.SplitterDistance = 232
+        Me.SplitContainer4.Size = New System.Drawing.Size(317, 260)
+        Me.SplitContainer4.SplitterDistance = 230
         Me.SplitContainer4.TabIndex = 0
         '
         'cmdServDet2
@@ -1080,7 +1066,7 @@ Partial Class frmServiceInfo
         Me.TabPage6.Location = New System.Drawing.Point(4, 22)
         Me.TabPage6.Name = "TabPage6"
         Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage6.Size = New System.Drawing.Size(647, 297)
+        Me.TabPage6.Size = New System.Drawing.Size(647, 295)
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Informations"
         Me.TabPage6.UseVisualStyleBackColor = True
@@ -1101,13 +1087,13 @@ Partial Class frmServiceInfo
         'SplitContainerInfoProcess.Panel2
         '
         Me.SplitContainerInfoProcess.Panel2.Controls.Add(Me.rtb)
-        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(641, 291)
+        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(641, 289)
         Me.SplitContainerInfoProcess.SplitterDistance = 25
         Me.SplitContainerInfoProcess.TabIndex = 0
         '
         'cmdRefresh
         '
-        Me.cmdRefresh.Image = CType(resources.GetObject("cmdRefresh.Image"), System.Drawing.Image)
+        Me.cmdRefresh.Image = Global.My.Resources.Resources.refresh16
         Me.cmdRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdRefresh.Location = New System.Drawing.Point(159, 0)
         Me.cmdRefresh.Name = "cmdRefresh"
@@ -1139,21 +1125,9 @@ Partial Class frmServiceInfo
         Me.rtb.Location = New System.Drawing.Point(0, 0)
         Me.rtb.Name = "rtb"
         Me.rtb.ReadOnly = True
-        Me.rtb.Size = New System.Drawing.Size(641, 262)
+        Me.rtb.Size = New System.Drawing.Size(641, 260)
         Me.rtb.TabIndex = 4
         Me.rtb.Text = ""
-        '
-        'imgProcess
-        '
-        Me.imgProcess.ImageStream = CType(resources.GetObject("imgProcess.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgProcess.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgProcess.Images.SetKeyName(0, "noIcon")
-        '
-        'imgMain
-        '
-        Me.imgMain.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
-        Me.imgMain.ImageSize = New System.Drawing.Size(16, 16)
-        Me.imgMain.TransparentColor = System.Drawing.Color.Transparent
         '
         'Timer
         '
@@ -1197,21 +1171,22 @@ Partial Class frmServiceInfo
         Me.MenuItem4.Shortcut = System.Windows.Forms.Shortcut.F5
         Me.MenuItem4.Text = "Refresh"
         '
+        'VistaMenu
+        '
+        Me.VistaMenu.ContainerControl = Me
+        '
         'tv2
         '
         CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.tv2.ConnectionObj = CConnection1
         Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tv2.ImageIndex = 0
-        Me.tv2.ImageList = Me.imgServices
         Me.tv2.InfosToGet = cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
         Me.tv2.IsConnected = False
         Me.tv2.Location = New System.Drawing.Point(0, 0)
         Me.tv2.Name = "tv2"
         Me.tv2.RootService = Nothing
-        Me.tv2.SelectedImageIndex = 2
-        Me.tv2.Size = New System.Drawing.Size(320, 232)
+        Me.tv2.Size = New System.Drawing.Size(320, 230)
         Me.tv2.TabIndex = 16
         '
         'tv
@@ -1220,20 +1195,13 @@ Partial Class frmServiceInfo
         Me.tv.ConnectionObj = CConnection2
         Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tv.ImageIndex = 0
-        Me.tv.ImageList = Me.imgServices
         Me.tv.InfosToGet = cServDepConnection.DependenciesToget.DependenciesOfMe
         Me.tv.IsConnected = False
         Me.tv.Location = New System.Drawing.Point(0, 0)
         Me.tv.Name = "tv"
         Me.tv.RootService = Nothing
-        Me.tv.SelectedImageIndex = 0
-        Me.tv.Size = New System.Drawing.Size(317, 232)
+        Me.tv.Size = New System.Drawing.Size(317, 230)
         Me.tv.TabIndex = 15
-        '
-        'VistaMenu
-        '
-        Me.VistaMenu.ContainerControl = Me
         '
         'frmServiceInfo
         '
@@ -1321,7 +1289,6 @@ Partial Class frmServiceInfo
     Friend WithEvents cmdInfosToClipB As System.Windows.Forms.Button
     Friend WithEvents rtb As System.Windows.Forms.RichTextBox
     Friend WithEvents tabDep As System.Windows.Forms.TabPage
-    Friend WithEvents imgProcess As System.Windows.Forms.ImageList
     Friend WithEvents GroupBox6 As System.Windows.Forms.GroupBox
     Friend WithEvents SplitContainerOnlineInfo As System.Windows.Forms.SplitContainer
     Friend WithEvents lblSecurityRisk As System.Windows.Forms.Label
@@ -1329,7 +1296,6 @@ Partial Class frmServiceInfo
     Friend WithEvents rtbOnlineInfos As System.Windows.Forms.RichTextBox
     Friend WithEvents txtProcess As System.Windows.Forms.TextBox
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents imgMain As System.Windows.Forms.ImageList
     Friend WithEvents cmdRefresh As System.Windows.Forms.Button
     Friend WithEvents GroupBox7 As System.Windows.Forms.GroupBox
     Friend WithEvents cmdStop As System.Windows.Forms.Button
@@ -1377,7 +1343,6 @@ Partial Class frmServiceInfo
     Friend WithEvents Label21 As System.Windows.Forms.Label
     Friend WithEvents tv2 As serviceDependenciesList
     Friend WithEvents tv As serviceDependenciesList
-    Friend WithEvents imgServices As System.Windows.Forms.ImageList
     Friend WithEvents cmdServDet1 As System.Windows.Forms.Button
     Friend WithEvents cmdServDet2 As System.Windows.Forms.Button
     Friend WithEvents txtCommand As System.Windows.Forms.TextBox

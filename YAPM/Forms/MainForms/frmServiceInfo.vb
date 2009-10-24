@@ -204,13 +204,15 @@ Public Class frmServiceInfo
         End Select
 
         ' Icons
+        Me.tv.ImageList = _frmMain.imgServices
+        Me.tv2.ImageList = _frmMain.imgServices
         If pctBigIcon.Image Is Nothing Then
             Try
                 pctBigIcon.Image = GetIcon(Me.txtServicePath.Text, False).ToBitmap
                 pctSmallIcon.Image = GetIcon(Me.txtServicePath.Text, True).ToBitmap
             Catch ex As Exception
-                pctSmallIcon.Image = Me.imgProcess.Images("noicon")
-                pctBigIcon.Image = Me.imgMain.Images("noicon32")
+                pctSmallIcon.Image = My.Resources.exe16
+                pctBigIcon.Image = My.Resources.exe32
             End Try
         End If
 

@@ -27,7 +27,7 @@ Partial Class HKeyProp
         '
         'cmdOpen
         '
-        Me.cmdOpen.Image = Global.My.Resources.Resources.down
+        Me.cmdOpen.Image = Global.My.Resources.Resources.down16
         Me.cmdOpen.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdOpen.Location = New System.Drawing.Point(3, 3)
         Me.cmdOpen.Name = "cmdOpen"

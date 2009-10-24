@@ -45,8 +45,6 @@ Partial Class frmMain
         Dim CConnection8 As cConnection = New cConnection
         Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
-        Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
-        Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
         Me.timerProcess = New System.Windows.Forms.Timer(Me.components)
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.timerServices = New System.Windows.Forms.Timer(Me.components)
@@ -658,19 +656,6 @@ Partial Class frmMain
         CType(Me.sbPanelCpu, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.sbPanelMemory, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'imgMain
-        '
-        Me.imgMain.ImageStream = CType(resources.GetObject("imgMain.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgMain.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgMain.Images.SetKeyName(0, "main_big2.ico")
-        Me.imgMain.Images.SetKeyName(1, "noicon32")
-        '
-        'imgProcess
-        '
-        Me.imgProcess.ImageStream = CType(resources.GetObject("imgProcess.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgProcess.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgProcess.Images.SetKeyName(0, "noIcon")
         '
         'timerProcess
         '
@@ -2896,8 +2881,6 @@ Partial Class frmMain
         '
         Me.tvProc.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tvProc.FullRowSelect = True
-        Me.tvProc.ImageIndex = 0
-        Me.tvProc.ImageList = Me.imgProcess
         Me.tvProc.Location = New System.Drawing.Point(0, 0)
         Me.tvProc.Name = "tvProc"
         TreeNode1.Name = "4"
@@ -2907,7 +2890,6 @@ Partial Class frmMain
         TreeNode2.Tag = "0"
         TreeNode2.Text = "[System process]"
         Me.tvProc.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode2})
-        Me.tvProc.SelectedImageIndex = 0
         Me.tvProc.Size = New System.Drawing.Size(149, 100)
         Me.tvProc.TabIndex = 4
         '
@@ -4332,7 +4314,7 @@ Partial Class frmMain
         '
         'MenuItemMainToTray
         '
-        Me.VistaMenu.SetImage(Me.MenuItemMainToTray, Global.My.Resources.Resources.down)
+        Me.VistaMenu.SetImage(Me.MenuItemMainToTray, Global.My.Resources.Resources.down16)
         Me.MenuItemMainToTray.Index = 1
         Me.MenuItemMainToTray.Text = "Minimize to tray"
         '
@@ -4582,7 +4564,7 @@ Partial Class frmMain
         '
         'MenuItemSystemToTray
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemToTray, Global.My.Resources.Resources.down)
+        Me.VistaMenu.SetImage(Me.MenuItemSystemToTray, Global.My.Resources.Resources.down16)
         Me.MenuItemSystemToTray.Index = 16
         Me.MenuItemSystemToTray.Text = "Minimize to &tray"
         '
@@ -5618,8 +5600,6 @@ Partial Class frmMain
 
     End Sub
     Friend WithEvents timerProcess As System.Windows.Forms.Timer
-    Friend WithEvents imgProcess As System.Windows.Forms.ImageList
-    Friend WithEvents imgMain As System.Windows.Forms.ImageList
     Friend WithEvents timerServices As System.Windows.Forms.Timer
     Friend WithEvents imgServices As System.Windows.Forms.ImageList
     Friend WithEvents Tray As System.Windows.Forms.NotifyIcon

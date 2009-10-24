@@ -480,7 +480,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemPriEnable
         '
-        Me.VistaMenu.SetImage(Me.MenuItemPriEnable, Global.My.Resources.Resources.ok)
+        Me.VistaMenu.SetImage(Me.MenuItemPriEnable, Global.My.Resources.Resources.ok16)
         Me.MenuItemPriEnable.Index = 0
         Me.MenuItemPriEnable.Text = "Enable"
         '
@@ -706,7 +706,7 @@ Partial Class frmProcessInfo
         '
         'MenuItemLogGoto
         '
-        Me.VistaMenu.SetImage(Me.MenuItemLogGoto, Global.My.Resources.Resources.right)
+        Me.VistaMenu.SetImage(Me.MenuItemLogGoto, Global.My.Resources.Resources.right16)
         Me.MenuItemLogGoto.Index = 0
         Me.MenuItemLogGoto.Text = "Go to item"
         '
