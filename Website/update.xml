@@ -1,5 +1,6 @@
 <YAPM>
 	<!-- update possible types are "stable", "beta", "alpha" -->
+	<!-- Remember NOT TO INCLUDE special chars in description, such as commercial AND... -->
 	<update type="stable">
 		<version>2.3.0.0</version>
 		<caption>Yet Another (remote) Process Monitor 2.3.0</caption>
@@ -42,7 +43,7 @@ CHANGES FROM 2.3.0
 - Fixed job enumeration for windows Seven
 - Fixed some bugs when trying to get informations about the ImagePath property of a service
 - Fixed bug when trying to display some informations about handles
-- No more need to "Reinitialize" process & services after a connection/deconnection to the remote machine
+- No more need to "Reinitialize" process and services after a connection/deconnection to the remote machine
 		</description>
 		<date>24 October 2009</date>
 		<downloadUrl>https://www.ohloh.net/p/yaprocmon/download?filename=YAPM-v2.3.1-Setup.exe</downloadUrl>
