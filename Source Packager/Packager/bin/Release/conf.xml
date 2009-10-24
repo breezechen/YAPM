@@ -9,7 +9,6 @@
 		<dir>Aga.Controls</dir>
 	</roots>
 	<included_file>
-		<file>changelog_sf.txt</file>
 		<file>YAPM.sln</file>
 		<file>\YAPM\bin\release\KernelMemory.sys</file>
 		<file>\YAPM\bin\release\System.Windows.Forms.Ribbon.dll</file>

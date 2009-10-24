@@ -121,18 +121,7 @@ Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
 
 * NEW / Improvements
-- now first node in dependencies form's treeview is automatically selected
-- now "search string" features are async
-- added detailed window for handles with useful informations
-- re-implemented a robust "select in window tab" feature ^^
-- removed "Navigate..." feature (now useless cause of detailed window for handles)
-- reduced memory usage
-- fixed some icons
-- added embedded help file
-- added "Send bug report to sourceforge.net" feature
+- 
 
 * Bug fixed
-- fixed job enumeration for windows Seven
-- fixed some bugs when trying to get informations about the ImagePath property of a service
-- fixed bug when trying to display some informations about handles
-- no more need to "Reinitialize" process & services after a connection/deconnection to the remote machine
+- 

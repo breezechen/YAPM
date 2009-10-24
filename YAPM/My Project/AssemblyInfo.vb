@@ -14,7 +14,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Yet Another (remote) Process Monitor")> 
 <Assembly: AssemblyCompany("v_k softwares")> 
 <Assembly: AssemblyProduct("YAPM")> 
-<Assembly: AssemblyCopyright("Copyright ©  2008 by violent_ken")> 
+<Assembly: AssemblyCopyright("Copyright © 2008 by violent_ken")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(True)> 
@@ -33,7 +33,7 @@ Imports System.Runtime.InteropServices
 ' en utilisant '*', comme indiqué ci-dessous :
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2.3.0.0")> 
-<Assembly: AssemblyFileVersion("2.3.0.0")> 
+<Assembly: AssemblyVersion("2.3.1.0")> 
+<Assembly: AssemblyFileVersion("2.3.1.0")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("en-US")> 

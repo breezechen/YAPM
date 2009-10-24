@@ -1,4 +1,4 @@
-Yet Another (remote) Process Monitor (YAPM) v2.3.0 beta
+Yet Another (remote) Process Monitor (YAPM) v2.3.1 beta
 
 
 SUMMARY
@@ -66,7 +66,7 @@ YAPM supports :
 
 REQUIREMENTS
 
-YAPM runs on Windows XP, Windows Vista or even Windows Seven systems. 64 bits support is only experimental for now !
+YAPM runs on Windows XP, Windows Vista or Windows Seven systems. 64 bits support is only experimental for now !
 
 YAPM needs to be elevated (run as Admin) on Windows Vista/Seven if you want to access to all processes/services.
 
