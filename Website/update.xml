@@ -1,24 +1,7 @@
 <YAPM>
 	<!-- update possible types are "stable", "beta", "alpha" -->
 	<!-- Remember NOT TO INCLUDE special chars in description, such as commercial AND... -->
-	<update type="stable">
-		<version>2.3.0.0</version>
-		<caption>Yet Another (remote) Process Monitor 2.3.0</caption>
-		<description>2.3.0 is a major release which makes YAPM only require .Net 2.0 (does not need .Net 3.5 anymore).
-
-CHANGES FROM 2.2.1
-
-*NEW / Improvements
-- YAPM does not require .Net Framework 3.5 anymore (.Net 2.0 is enough)
-- Request #2869164 : Added 'Company' information column for processes
-
-* Bug fixes
-- Somes minor bugs
-		</description>
-		<date>01 October 2009</date>
-		<downloadUrl>http://downloads.sourceforge.net/project/yaprocmon/YAPM-beta/YAPM-2.3.0/YAPM-v2.3.0-Setup.exe</downloadUrl>
-		<hash>d078ff095b75a26cad9205c56d681c6b4311803ee01b089c17b74a9a3c64bb9b8df9d60d5669633a4a633726e2741992acf2871222e5068b58e414d7574ebff4</hash>
-	</update>
+	<!-- Most recent version first -->
 	
 	<update type="beta">
 		<version>2.3.1.0</version>
@@ -49,4 +32,24 @@ CHANGES FROM 2.3.0
 		<downloadUrl>https://www.ohloh.net/p/yaprocmon/download?filename=YAPM-v2.3.1-Setup.exe</downloadUrl>
 		<hash>0cb6696f3700747429a56c1e942eca6b3014dc812b27813700417f8ab7e9254123c55431f2a3c42c1f02d8baf0b18bc28cf534f3c6c92fad7ce06c38e16277bb</hash>
 	</update>
+	
+	<update type="stable">
+		<version>2.3.0.0</version>
+		<caption>Yet Another (remote) Process Monitor 2.3.0</caption>
+		<description>2.3.0 is a major release which makes YAPM only require .Net 2.0 (does not need .Net 3.5 anymore).
+
+CHANGES FROM 2.2.1
+
+*NEW / Improvements
+- YAPM does not require .Net Framework 3.5 anymore (.Net 2.0 is enough)
+- Request #2869164 : Added 'Company' information column for processes
+
+* Bug fixes
+- Somes minor bugs
+		</description>
+		<date>01 October 2009</date>
+		<downloadUrl>http://downloads.sourceforge.net/project/yaprocmon/YAPM-beta/YAPM-2.3.0/YAPM-v2.3.0-Setup.exe</downloadUrl>
+		<hash>d078ff095b75a26cad9205c56d681c6b4311803ee01b089c17b74a9a3c64bb9b8df9d60d5669633a4a633726e2741992acf2871222e5068b58e414d7574ebff4</hash>
+	</update>
+	
 </YAPM>
