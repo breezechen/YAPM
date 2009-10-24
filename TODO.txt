@@ -126,6 +126,8 @@ Temp Change log :
 - added detailed window for handles with useful informations
 - re-implemented a robust "select in window tab" feature ^^
 - removed "Navigate..." feature (now useless cause of detailed window for handles)
+- reduced memory usage
+- fixed some icons
 
 * Bug fixed
 - fixed job enumeration for windows Seven

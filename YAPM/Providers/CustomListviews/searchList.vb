@@ -98,7 +98,7 @@ Public Class searchList
 
         Me.SmallImageList = _IMG
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
-        _IMG.Images.Add("exeFile", My.Resources.exe)
+        _IMG.Images.Add("exeFile", My.Resources.exe16)
         _IMG.Images.Add("handle", My.Resources.handle)
         _IMG.Images.Add("envvar", My.Resources.document_text)
         _IMG.Images.Add("dllIcon", My.Resources.dllIcon16)
@@ -115,7 +115,7 @@ Public Class searchList
         _dico.Clear()
         _IMG.Images.Clear()
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
-        _IMG.Images.Add("exeFile", My.Resources.exe)
+        _IMG.Images.Add("exeFile", My.Resources.exe16)
         _IMG.Images.Add("handle", My.Resources.handle)
         _IMG.Images.Add("envvar", My.Resources.document_text)
         _IMG.Images.Add("dllIcon", My.Resources.dllIcon16)

@@ -325,8 +325,8 @@ Public Class frmProcessInfo
 
             rtb.Rtf = s
 
-            pctSmallIcon.Image = Me.imgProcess.Images("noicon")
-            pctBigIcon.Image = Me.imgMain.Images("noicon32")
+            pctSmallIcon.Image = My.Resources.exe16
+            pctBigIcon.Image = My.Resources.exe32
 
         End Try
     End Sub
@@ -473,8 +473,8 @@ Public Class frmProcessInfo
                 pctBigIcon.Image = GetIcon(curProc.Infos.Path, False).ToBitmap
                 pctSmallIcon.Image = GetIcon(curProc.Infos.Path, True).ToBitmap
             Catch ex As Exception
-                pctSmallIcon.Image = Me.imgProcess.Images("noicon")
-                pctBigIcon.Image = Me.imgMain.Images("noicon32")
+                pctSmallIcon.Image = My.Resources.exe16
+                pctBigIcon.Image = My.Resources.exe32
             End Try
         End If
 

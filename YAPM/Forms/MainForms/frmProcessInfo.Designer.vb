@@ -25,7 +25,6 @@ Partial Class frmProcessInfo
         Me.components = New System.ComponentModel.Container
         Dim CConnection1 As cConnection = New cConnection
         Dim CConnection2 As cConnection = New cConnection
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessInfo))
         Dim CConnection3 As cConnection = New cConnection
         Dim CConnection4 As cConnection = New cConnection
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
@@ -36,219 +35,8 @@ Partial Class frmProcessInfo
         Dim CConnection8 As cConnection = New cConnection
         Dim CConnection9 As cConnection = New cConnection
         Dim CConnection10 As cConnection = New cConnection
-        Me.tabProcess = New System.Windows.Forms.TabControl
-        Me.TabPageGeneral = New System.Windows.Forms.TabPage
-        Me.GroupBox7 = New System.Windows.Forms.GroupBox
-        Me.cmdSet = New System.Windows.Forms.Button
-        Me.cbPriority = New System.Windows.Forms.ComboBox
-        Me.cmdAffinity = New System.Windows.Forms.Button
-        Me.cmdPause = New System.Windows.Forms.Button
-        Me.cmdResume = New System.Windows.Forms.Button
-        Me.cmdKill = New System.Windows.Forms.Button
-        Me.GroupBox6 = New System.Windows.Forms.GroupBox
-        Me.SplitContainerOnlineInfo = New System.Windows.Forms.SplitContainer
-        Me.lblSecurityRisk = New System.Windows.Forms.Label
-        Me.cmdGetOnlineInfos = New System.Windows.Forms.Button
-        Me.rtbOnlineInfos = New System.Windows.Forms.RichTextBox
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.txtRunTime = New System.Windows.Forms.TextBox
-        Me.txtProcessStarted = New System.Windows.Forms.TextBox
-        Me.Label14 = New System.Windows.Forms.Label
-        Me.txtParentProcess = New System.Windows.Forms.TextBox
-        Me.Label15 = New System.Windows.Forms.Label
-        Me.txtPriority = New System.Windows.Forms.TextBox
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.txtCommandLine = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.txtProcessUser = New System.Windows.Forms.TextBox
-        Me.Label17 = New System.Windows.Forms.Label
-        Me.txtProcessId = New System.Windows.Forms.TextBox
-        Me.Label16 = New System.Windows.Forms.Label
-        Me.gpProcGeneralFile = New System.Windows.Forms.GroupBox
-        Me.cmdInspectExe = New System.Windows.Forms.Button
-        Me.cmdShowFileDetails = New System.Windows.Forms.Button
-        Me.cmdShowFileProperties = New System.Windows.Forms.Button
-        Me.cmdOpenDirectory = New System.Windows.Forms.Button
-        Me.txtProcessPath = New System.Windows.Forms.TextBox
-        Me.Label13 = New System.Windows.Forms.Label
-        Me.txtImageVersion = New System.Windows.Forms.TextBox
-        Me.Label12 = New System.Windows.Forms.Label
-        Me.lblCopyright = New System.Windows.Forms.Label
-        Me.lblDescription = New System.Windows.Forms.Label
-        Me.pctSmallIcon = New System.Windows.Forms.PictureBox
-        Me.pctBigIcon = New System.Windows.Forms.PictureBox
-        Me.TabPageStats = New System.Windows.Forms.TabPage
-        Me.GroupBox5 = New System.Windows.Forms.GroupBox
-        Me.lblThreads = New System.Windows.Forms.Label
-        Me.Label44 = New System.Windows.Forms.Label
-        Me.lblUserObjectsCount = New System.Windows.Forms.Label
-        Me.Label37 = New System.Windows.Forms.Label
-        Me.lblGDIcount = New System.Windows.Forms.Label
-        Me.lbl789 = New System.Windows.Forms.Label
-        Me.lblHandles = New System.Windows.Forms.Label
-        Me.Label53 = New System.Windows.Forms.Label
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox
-        Me.lblOthersBD = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.lblOtherD = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.lblWBD = New System.Windows.Forms.Label
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.lblWD = New System.Windows.Forms.Label
-        Me.Label11 = New System.Windows.Forms.Label
-        Me.lblRBD = New System.Windows.Forms.Label
-        Me.Label34 = New System.Windows.Forms.Label
-        Me.lblRD = New System.Windows.Forms.Label
-        Me.Label41 = New System.Windows.Forms.Label
-        Me.lblProcOtherBytes = New System.Windows.Forms.Label
-        Me.Label23 = New System.Windows.Forms.Label
-        Me.lblProcOther = New System.Windows.Forms.Label
-        Me.Label30 = New System.Windows.Forms.Label
-        Me.lblProcWriteBytes = New System.Windows.Forms.Label
-        Me.Label36 = New System.Windows.Forms.Label
-        Me.lblProcWrites = New System.Windows.Forms.Label
-        Me.Label38 = New System.Windows.Forms.Label
-        Me.lblProcReadBytes = New System.Windows.Forms.Label
-        Me.Label40 = New System.Windows.Forms.Label
-        Me.lblProcReads = New System.Windows.Forms.Label
-        Me.Label42 = New System.Windows.Forms.Label
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox
-        Me.lblQuotaNPP = New System.Windows.Forms.Label
-        Me.Label21 = New System.Windows.Forms.Label
-        Me.lblQuotaPNPP = New System.Windows.Forms.Label
-        Me.Label26 = New System.Windows.Forms.Label
-        Me.lblQuotaPP = New System.Windows.Forms.Label
-        Me.Label29 = New System.Windows.Forms.Label
-        Me.lblQuotaPPP = New System.Windows.Forms.Label
-        Me.Label32 = New System.Windows.Forms.Label
-        Me.lblPageFaults = New System.Windows.Forms.Label
-        Me.Label31 = New System.Windows.Forms.Label
-        Me.lblPeakPageFileUsage = New System.Windows.Forms.Label
-        Me.Label33 = New System.Windows.Forms.Label
-        Me.lblPageFileUsage = New System.Windows.Forms.Label
-        Me.Label35 = New System.Windows.Forms.Label
-        Me.lblPeakWorkingSet = New System.Windows.Forms.Label
-        Me.Label25 = New System.Windows.Forms.Label
-        Me.lblWorkingSet = New System.Windows.Forms.Label
-        Me.Label27 = New System.Windows.Forms.Label
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
-        Me.lblAverageCPUusage = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.lblTotalTime = New System.Windows.Forms.Label
-        Me.Label24 = New System.Windows.Forms.Label
-        Me.lblUserTime = New System.Windows.Forms.Label
-        Me.Label22 = New System.Windows.Forms.Label
-        Me.lblKernelTime = New System.Windows.Forms.Label
-        Me.Label20 = New System.Windows.Forms.Label
-        Me.lblPriority = New System.Windows.Forms.Label
-        Me.Label18 = New System.Windows.Forms.Label
-        Me.TabPagePerf = New System.Windows.Forms.TabPage
-        Me.splitPerformances = New System.Windows.Forms.SplitContainer
-        Me.graphCPU = New Graph2
-        Me.splitPerformance2 = New System.Windows.Forms.SplitContainer
-        Me.graphMemory = New Graph2
-        Me.graphIO = New Graph2
-        Me.TabPageToken = New System.Windows.Forms.TabPage
-        Me.tabProcessToken = New System.Windows.Forms.TabControl
-        Me.tabProcessTokenPagePrivileges = New System.Windows.Forms.TabPage
-        Me.lvPrivileges = New privilegeList
-        Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader51 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageMemory = New System.Windows.Forms.TabPage
-        Me.lvProcMem = New memoryList
-        Me.ColumnHeader53 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader54 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader55 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader56 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageInfos = New System.Windows.Forms.TabPage
-        Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
-        Me.cmdRefresh = New System.Windows.Forms.Button
-        Me.cmdInfosToClipB = New System.Windows.Forms.Button
-        Me.rtb = New System.Windows.Forms.RichTextBox
-        Me.TabPageServices = New System.Windows.Forms.TabPage
-        Me.lvProcServices = New serviceList
-        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageNetwork = New System.Windows.Forms.TabPage
-        Me.lvProcNetwork = New networkList
-        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageString = New System.Windows.Forms.TabPage
-        Me.SplitContainerStrings = New System.Windows.Forms.SplitContainer
-        Me.lvProcString = New DoubleBufferedLV
-        Me.ColumnHeader76 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader77 = New System.Windows.Forms.ColumnHeader
-        Me.cmdProcSearchR = New System.Windows.Forms.Button
-        Me.cmdProcSearchL = New System.Windows.Forms.Button
-        Me.pgbString = New System.Windows.Forms.ProgressBar
-        Me.Label28 = New System.Windows.Forms.Label
-        Me.txtSearchProcString = New System.Windows.Forms.TextBox
-        Me.cmdProcStringSave = New System.Windows.Forms.Button
-        Me.optProcStringMemory = New System.Windows.Forms.RadioButton
-        Me.optProcStringImage = New System.Windows.Forms.RadioButton
-        Me.TabPageEnv = New System.Windows.Forms.TabPage
-        Me.lvProcEnv = New envVariableList
-        Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader61 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageModules = New System.Windows.Forms.TabPage
-        Me.lvModules = New moduleList
-        Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader45 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader46 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageThreads = New System.Windows.Forms.TabPage
-        Me.lvThreads = New threadList
-        Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader35 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader36 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader37 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader38 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageWindows = New System.Windows.Forms.TabPage
-        Me.lvWindows = New windowList
-        Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader39 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader40 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader41 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageHandles = New System.Windows.Forms.TabPage
-        Me.lvHandles = New handleList
-        Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader26 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader27 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageLog = New System.Windows.Forms.TabPage
-        Me.SplitContainerLog = New System.Windows.Forms.SplitContainer
-        Me.cmdLogOptions = New System.Windows.Forms.Button
-        Me.cmdSave = New System.Windows.Forms.Button
-        Me.cmdClearLog = New System.Windows.Forms.Button
-        Me.chkLog = New System.Windows.Forms.CheckBox
-        Me.lvLog = New logList
-        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageHistory = New System.Windows.Forms.TabPage
-        Me.containerHistory = New System.Windows.Forms.SplitContainer
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.lstHistoryCat = New System.Windows.Forms.CheckedListBox
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessInfo))
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
-        Me.imgProcess = New System.Windows.Forms.ImageList(Me.components)
-        Me.imgMain = New System.Windows.Forms.ImageList(Me.components)
         Me.timerLog = New System.Windows.Forms.Timer(Me.components)
         Me.mainMenu = New System.Windows.Forms.MainMenu(Me.components)
         Me.MenuItem3 = New System.Windows.Forms.MenuItem
@@ -376,13 +164,227 @@ Partial Class frmProcessInfo
         Me.MenuItem6 = New System.Windows.Forms.MenuItem
         Me.mnuEnv = New System.Windows.Forms.ContextMenu
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
+        Me.RadioButton1 = New System.Windows.Forms.RadioButton
         Me.SplitContainer = New System.Windows.Forms.SplitContainer
+        Me.tabProcess = New System.Windows.Forms.TabControl
+        Me.TabPageGeneral = New System.Windows.Forms.TabPage
+        Me.GroupBox7 = New System.Windows.Forms.GroupBox
+        Me.cmdSet = New System.Windows.Forms.Button
+        Me.cbPriority = New System.Windows.Forms.ComboBox
+        Me.cmdAffinity = New System.Windows.Forms.Button
+        Me.cmdPause = New System.Windows.Forms.Button
+        Me.cmdResume = New System.Windows.Forms.Button
+        Me.cmdKill = New System.Windows.Forms.Button
+        Me.GroupBox6 = New System.Windows.Forms.GroupBox
+        Me.SplitContainerOnlineInfo = New System.Windows.Forms.SplitContainer
+        Me.lblSecurityRisk = New System.Windows.Forms.Label
+        Me.cmdGetOnlineInfos = New System.Windows.Forms.Button
+        Me.rtbOnlineInfos = New System.Windows.Forms.RichTextBox
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.txtRunTime = New System.Windows.Forms.TextBox
+        Me.txtProcessStarted = New System.Windows.Forms.TextBox
+        Me.Label14 = New System.Windows.Forms.Label
+        Me.txtParentProcess = New System.Windows.Forms.TextBox
+        Me.Label15 = New System.Windows.Forms.Label
+        Me.txtPriority = New System.Windows.Forms.TextBox
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.txtCommandLine = New System.Windows.Forms.TextBox
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.txtProcessUser = New System.Windows.Forms.TextBox
+        Me.Label17 = New System.Windows.Forms.Label
+        Me.txtProcessId = New System.Windows.Forms.TextBox
+        Me.Label16 = New System.Windows.Forms.Label
+        Me.gpProcGeneralFile = New System.Windows.Forms.GroupBox
+        Me.cmdInspectExe = New System.Windows.Forms.Button
+        Me.cmdShowFileDetails = New System.Windows.Forms.Button
+        Me.cmdShowFileProperties = New System.Windows.Forms.Button
+        Me.cmdOpenDirectory = New System.Windows.Forms.Button
+        Me.txtProcessPath = New System.Windows.Forms.TextBox
+        Me.Label13 = New System.Windows.Forms.Label
+        Me.txtImageVersion = New System.Windows.Forms.TextBox
+        Me.Label12 = New System.Windows.Forms.Label
+        Me.lblCopyright = New System.Windows.Forms.Label
+        Me.lblDescription = New System.Windows.Forms.Label
+        Me.pctSmallIcon = New System.Windows.Forms.PictureBox
+        Me.pctBigIcon = New System.Windows.Forms.PictureBox
+        Me.TabPageStats = New System.Windows.Forms.TabPage
+        Me.GroupBox5 = New System.Windows.Forms.GroupBox
+        Me.lblThreads = New System.Windows.Forms.Label
+        Me.Label44 = New System.Windows.Forms.Label
+        Me.lblUserObjectsCount = New System.Windows.Forms.Label
+        Me.Label37 = New System.Windows.Forms.Label
+        Me.lblGDIcount = New System.Windows.Forms.Label
+        Me.lbl789 = New System.Windows.Forms.Label
+        Me.lblHandles = New System.Windows.Forms.Label
+        Me.Label53 = New System.Windows.Forms.Label
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox
+        Me.lblOthersBD = New System.Windows.Forms.Label
+        Me.Label5 = New System.Windows.Forms.Label
+        Me.lblOtherD = New System.Windows.Forms.Label
+        Me.Label7 = New System.Windows.Forms.Label
+        Me.lblWBD = New System.Windows.Forms.Label
+        Me.Label9 = New System.Windows.Forms.Label
+        Me.lblWD = New System.Windows.Forms.Label
+        Me.Label11 = New System.Windows.Forms.Label
+        Me.lblRBD = New System.Windows.Forms.Label
+        Me.Label34 = New System.Windows.Forms.Label
+        Me.lblRD = New System.Windows.Forms.Label
+        Me.Label41 = New System.Windows.Forms.Label
+        Me.lblProcOtherBytes = New System.Windows.Forms.Label
+        Me.Label23 = New System.Windows.Forms.Label
+        Me.lblProcOther = New System.Windows.Forms.Label
+        Me.Label30 = New System.Windows.Forms.Label
+        Me.lblProcWriteBytes = New System.Windows.Forms.Label
+        Me.Label36 = New System.Windows.Forms.Label
+        Me.lblProcWrites = New System.Windows.Forms.Label
+        Me.Label38 = New System.Windows.Forms.Label
+        Me.lblProcReadBytes = New System.Windows.Forms.Label
+        Me.Label40 = New System.Windows.Forms.Label
+        Me.lblProcReads = New System.Windows.Forms.Label
+        Me.Label42 = New System.Windows.Forms.Label
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox
+        Me.lblQuotaNPP = New System.Windows.Forms.Label
+        Me.Label21 = New System.Windows.Forms.Label
+        Me.lblQuotaPNPP = New System.Windows.Forms.Label
+        Me.Label26 = New System.Windows.Forms.Label
+        Me.lblQuotaPP = New System.Windows.Forms.Label
+        Me.Label29 = New System.Windows.Forms.Label
+        Me.lblQuotaPPP = New System.Windows.Forms.Label
+        Me.Label32 = New System.Windows.Forms.Label
+        Me.lblPageFaults = New System.Windows.Forms.Label
+        Me.Label31 = New System.Windows.Forms.Label
+        Me.lblPeakPageFileUsage = New System.Windows.Forms.Label
+        Me.Label33 = New System.Windows.Forms.Label
+        Me.lblPageFileUsage = New System.Windows.Forms.Label
+        Me.Label35 = New System.Windows.Forms.Label
+        Me.lblPeakWorkingSet = New System.Windows.Forms.Label
+        Me.Label25 = New System.Windows.Forms.Label
+        Me.lblWorkingSet = New System.Windows.Forms.Label
+        Me.Label27 = New System.Windows.Forms.Label
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox
+        Me.lblAverageCPUusage = New System.Windows.Forms.Label
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.lblTotalTime = New System.Windows.Forms.Label
+        Me.Label24 = New System.Windows.Forms.Label
+        Me.lblUserTime = New System.Windows.Forms.Label
+        Me.Label22 = New System.Windows.Forms.Label
+        Me.lblKernelTime = New System.Windows.Forms.Label
+        Me.Label20 = New System.Windows.Forms.Label
+        Me.lblPriority = New System.Windows.Forms.Label
+        Me.Label18 = New System.Windows.Forms.Label
+        Me.TabPagePerf = New System.Windows.Forms.TabPage
+        Me.splitPerformances = New System.Windows.Forms.SplitContainer
+        Me.splitPerformance2 = New System.Windows.Forms.SplitContainer
+        Me.TabPageToken = New System.Windows.Forms.TabPage
+        Me.tabProcessToken = New System.Windows.Forms.TabControl
+        Me.tabProcessTokenPagePrivileges = New System.Windows.Forms.TabPage
+        Me.TabPageMemory = New System.Windows.Forms.TabPage
+        Me.TabPageInfos = New System.Windows.Forms.TabPage
+        Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
+        Me.cmdRefresh = New System.Windows.Forms.Button
+        Me.cmdInfosToClipB = New System.Windows.Forms.Button
+        Me.rtb = New System.Windows.Forms.RichTextBox
+        Me.TabPageServices = New System.Windows.Forms.TabPage
+        Me.TabPageNetwork = New System.Windows.Forms.TabPage
+        Me.TabPageString = New System.Windows.Forms.TabPage
+        Me.SplitContainerStrings = New System.Windows.Forms.SplitContainer
+        Me.cmdProcSearchR = New System.Windows.Forms.Button
+        Me.cmdProcSearchL = New System.Windows.Forms.Button
+        Me.pgbString = New System.Windows.Forms.ProgressBar
+        Me.Label28 = New System.Windows.Forms.Label
+        Me.txtSearchProcString = New System.Windows.Forms.TextBox
+        Me.cmdProcStringSave = New System.Windows.Forms.Button
+        Me.optProcStringMemory = New System.Windows.Forms.RadioButton
+        Me.optProcStringImage = New System.Windows.Forms.RadioButton
+        Me.TabPageEnv = New System.Windows.Forms.TabPage
+        Me.TabPageModules = New System.Windows.Forms.TabPage
+        Me.TabPageThreads = New System.Windows.Forms.TabPage
+        Me.TabPageWindows = New System.Windows.Forms.TabPage
+        Me.TabPageHandles = New System.Windows.Forms.TabPage
+        Me.TabPageLog = New System.Windows.Forms.TabPage
+        Me.SplitContainerLog = New System.Windows.Forms.SplitContainer
+        Me.cmdLogOptions = New System.Windows.Forms.Button
+        Me.cmdSave = New System.Windows.Forms.Button
+        Me.cmdClearLog = New System.Windows.Forms.Button
+        Me.chkLog = New System.Windows.Forms.CheckBox
+        Me.TabPageHistory = New System.Windows.Forms.TabPage
+        Me.containerHistory = New System.Windows.Forms.SplitContainer
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.lstHistoryCat = New System.Windows.Forms.CheckedListBox
         Me.cmdHideFindPanel = New System.Windows.Forms.Button
         Me.chkFreeze = New System.Windows.Forms.CheckBox
         Me.lblSearchItemCaption = New System.Windows.Forms.Label
         Me.lblResCount = New System.Windows.Forms.Label
         Me.txtSearch = New System.Windows.Forms.TextBox
-        Me.RadioButton1 = New System.Windows.Forms.RadioButton
+        Me.graphCPU = New Graph2
+        Me.graphMemory = New Graph2
+        Me.graphIO = New Graph2
+        Me.lvPrivileges = New privilegeList
+        Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader51 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
+        Me.lvProcMem = New memoryList
+        Me.ColumnHeader53 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader54 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader55 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader56 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
+        Me.lvProcServices = New serviceList
+        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
+        Me.lvProcNetwork = New networkList
+        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
+        Me.lvProcString = New DoubleBufferedLV
+        Me.ColumnHeader76 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader77 = New System.Windows.Forms.ColumnHeader
+        Me.lvProcEnv = New envVariableList
+        Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader61 = New System.Windows.Forms.ColumnHeader
+        Me.lvModules = New moduleList
+        Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader44 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader45 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader46 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.lvThreads = New threadList
+        Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader34 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader35 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader36 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader37 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader38 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
+        Me.lvWindows = New windowList
+        Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader39 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader40 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader41 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
+        Me.lvHandles = New handleList
+        Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader26 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader27 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
+        Me.lvLog = New logList
+        Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer.Panel1.SuspendLayout()
+        Me.SplitContainer.Panel2.SuspendLayout()
+        Me.SplitContainer.SuspendLayout()
         Me.tabProcess.SuspendLayout()
         Me.TabPageGeneral.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -403,12 +405,9 @@ Partial Class frmProcessInfo
         Me.splitPerformances.Panel1.SuspendLayout()
         Me.splitPerformances.Panel2.SuspendLayout()
         Me.splitPerformances.SuspendLayout()
-        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.splitPerformance2.Panel1.SuspendLayout()
         Me.splitPerformance2.Panel2.SuspendLayout()
         Me.splitPerformance2.SuspendLayout()
-        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPageToken.SuspendLayout()
         Me.tabProcessToken.SuspendLayout()
         Me.tabProcessTokenPagePrivileges.SuspendLayout()
@@ -435,11 +434,739 @@ Partial Class frmProcessInfo
         Me.TabPageHistory.SuspendLayout()
         Me.containerHistory.Panel1.SuspendLayout()
         Me.containerHistory.SuspendLayout()
-        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer.Panel1.SuspendLayout()
-        Me.SplitContainer.Panel2.SuspendLayout()
-        Me.SplitContainer.SuspendLayout()
+        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
+        '
+        'timerProcPerf
+        '
+        Me.timerProcPerf.Enabled = True
+        Me.timerProcPerf.Interval = 1000
+        '
+        'timerLog
+        '
+        Me.timerLog.Interval = 1000
+        '
+        'mainMenu
+        '
+        Me.mainMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem3})
+        '
+        'MenuItem3
+        '
+        Me.MenuItem3.Index = 0
+        Me.MenuItem3.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemRefresh})
+        Me.MenuItem3.Text = "main"
+        Me.MenuItem3.Visible = False
+        '
+        'MenuItemRefresh
+        '
+        Me.MenuItemRefresh.DefaultItem = True
+        Me.MenuItemRefresh.Index = 0
+        Me.MenuItemRefresh.Shortcut = System.Windows.Forms.Shortcut.F5
+        Me.MenuItemRefresh.Text = "Refresh"
+        '
+        'MenuItemCopyBig
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyBig, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyBig.Index = 0
+        Me.MenuItemCopyBig.Text = "Copy to clipboard"
+        '
+        'MenuItemCopySmall
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopySmall, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopySmall.Index = 0
+        Me.MenuItemCopySmall.Text = "Copy to clipboard"
+        '
+        'MenuItemPriEnable
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemPriEnable, Global.My.Resources.Resources.ok)
+        Me.MenuItemPriEnable.Index = 0
+        Me.MenuItemPriEnable.Text = "Enable"
+        '
+        'MenuItemViewMemory
+        '
+        Me.MenuItemViewMemory.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.MenuItemViewMemory, Global.My.Resources.Resources.magnifier)
+        Me.MenuItemViewMemory.Index = 0
+        Me.MenuItemViewMemory.Text = "View memory"
+        '
+        'MenuItemCloseHandle
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCloseHandle, Global.My.Resources.Resources.close)
+        Me.MenuItemCloseHandle.Index = 1
+        Me.MenuItemCloseHandle.Text = "Close item"
+        '
+        'menuCloseTCP
+        '
+        Me.menuCloseTCP.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.menuCloseTCP, Global.My.Resources.Resources.cross16)
+        Me.menuCloseTCP.Index = 0
+        Me.menuCloseTCP.Text = "Close TCP connection"
+        '
+        'MenuItemPriDisable
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemPriDisable, Global.My.Resources.Resources.close)
+        Me.MenuItemPriDisable.Index = 1
+        Me.MenuItemPriDisable.Text = "Disable"
+        '
+        'MenuItemPriRemove
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemPriRemove, Global.My.Resources.Resources.cross16)
+        Me.MenuItemPriRemove.Index = 2
+        Me.MenuItemPriRemove.Text = "Remove"
+        '
+        'MenuItemModuleFileProp
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemModuleFileProp, Global.My.Resources.Resources.document_text)
+        Me.MenuItemModuleFileProp.Index = 0
+        Me.MenuItemModuleFileProp.Text = "File properties"
+        '
+        'MenuItemModuleOpenDir
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemModuleOpenDir, Global.My.Resources.Resources.folder_open)
+        Me.MenuItemModuleOpenDir.Index = 1
+        Me.MenuItemModuleOpenDir.Text = "Open directory"
+        '
+        'MenuItemModuleFileDetails
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemModuleFileDetails, Global.My.Resources.Resources.magnifier)
+        Me.MenuItemModuleFileDetails.Index = 2
+        Me.MenuItemModuleFileDetails.Text = "File details"
+        '
+        'MenuItemModuleSearch
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemModuleSearch, Global.My.Resources.Resources.globe)
+        Me.MenuItemModuleSearch.Index = 3
+        Me.MenuItemModuleSearch.Text = "Internet search"
+        '
+        'MenuItemModuleDependencies
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemModuleDependencies, Global.My.Resources.Resources.dllIcon16)
+        Me.MenuItemModuleDependencies.Index = 4
+        Me.MenuItemModuleDependencies.Text = "View dependencies..."
+        '
+        'MenuItemUnloadModule
+        '
+        Me.MenuItemUnloadModule.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.MenuItemUnloadModule, Global.My.Resources.Resources.cross16)
+        Me.MenuItemUnloadModule.Index = 7
+        Me.MenuItemUnloadModule.Text = "Unload module"
+        '
+        'MenuItemViewModuleMemory
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemViewModuleMemory, Global.My.Resources.Resources.magnifier)
+        Me.MenuItemViewModuleMemory.Index = 5
+        Me.MenuItemViewModuleMemory.Text = "View memory"
+        '
+        'MenuItemServSelService
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServSelService, Global.My.Resources.Resources.exe16)
+        Me.MenuItemServSelService.Index = 1
+        Me.MenuItemServSelService.Text = "Select service"
+        '
+        'MenuItemServFileProp
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServFileProp, Global.My.Resources.Resources.document_text)
+        Me.MenuItemServFileProp.Index = 3
+        Me.MenuItemServFileProp.Text = "File properties"
+        '
+        'MenuItemServOpenDir
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServOpenDir, Global.My.Resources.Resources.folder_open)
+        Me.MenuItemServOpenDir.Index = 4
+        Me.MenuItemServOpenDir.Text = "Open directory"
+        '
+        'MenuItemServFileDetails
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServFileDetails, Global.My.Resources.Resources.magnifier)
+        Me.MenuItemServFileDetails.Index = 5
+        Me.MenuItemServFileDetails.Text = "File details"
+        '
+        'MenuItemServSearch
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServSearch, Global.My.Resources.Resources.globe)
+        Me.MenuItemServSearch.Index = 6
+        Me.MenuItemServSearch.Text = "Internet search"
+        '
+        'MenuItemServPause
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServPause, Global.My.Resources.Resources.control_pause)
+        Me.MenuItemServPause.Index = 9
+        Me.MenuItemServPause.Text = "Pause"
+        '
+        'MenuItemServStop
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServStop, Global.My.Resources.Resources.control_stop_square)
+        Me.MenuItemServStop.Index = 10
+        Me.MenuItemServStop.Text = "Stop"
+        '
+        'MenuItemServStart
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServStart, Global.My.Resources.Resources.control)
+        Me.MenuItemServStart.Index = 11
+        Me.MenuItemServStart.Text = "Start"
+        '
+        'MenuItemServAutoStart
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServAutoStart, Global.My.Resources.Resources.p6)
+        Me.MenuItemServAutoStart.Index = 0
+        Me.MenuItemServAutoStart.Text = "Auto start"
+        '
+        'MenuItemServOnDemand
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServOnDemand, Global.My.Resources.Resources.p3)
+        Me.MenuItemServOnDemand.Index = 1
+        Me.MenuItemServOnDemand.Text = "On demand"
+        '
+        'MenuItemServDisabled
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServDisabled, Global.My.Resources.Resources.p0)
+        Me.MenuItemServDisabled.Index = 2
+        Me.MenuItemServDisabled.Text = "Disabled"
+        '
+        'MenuItemThTerm
+        '
+        Me.MenuItemThTerm.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.MenuItemThTerm, Global.My.Resources.Resources.cross16)
+        Me.MenuItemThTerm.Index = 0
+        Me.MenuItemThTerm.Text = "Terminate"
+        '
+        'MenuItemThSuspend
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThSuspend, Global.My.Resources.Resources.control_pause)
+        Me.MenuItemThSuspend.Index = 1
+        Me.MenuItemThSuspend.Text = "Suspend"
+        '
+        'MenuItemThResu
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThResu, Global.My.Resources.Resources.control)
+        Me.MenuItemThResu.Index = 2
+        Me.MenuItemThResu.Text = "Resume"
+        '
+        'MenuItemThIdle
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThIdle, Global.My.Resources.Resources.p0)
+        Me.MenuItemThIdle.Index = 0
+        Me.MenuItemThIdle.Text = "Idle"
+        '
+        'MenuItemThLowest
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThLowest, Global.My.Resources.Resources.p1)
+        Me.MenuItemThLowest.Index = 1
+        Me.MenuItemThLowest.Text = "Lowest"
+        '
+        'MenuItemThBNormal
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThBNormal, Global.My.Resources.Resources.p2)
+        Me.MenuItemThBNormal.Index = 2
+        Me.MenuItemThBNormal.Text = "Below normal"
+        '
+        'MenuItemThNorm
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThNorm, Global.My.Resources.Resources.p3)
+        Me.MenuItemThNorm.Index = 3
+        Me.MenuItemThNorm.Text = "Normal"
+        '
+        'MenuItemThANorm
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThANorm, Global.My.Resources.Resources.p4)
+        Me.MenuItemThANorm.Index = 4
+        Me.MenuItemThANorm.Text = "Above normal"
+        '
+        'MenuItemThHighest
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThHighest, Global.My.Resources.Resources.p5)
+        Me.MenuItemThHighest.Index = 5
+        Me.MenuItemThHighest.Text = "Highest"
+        '
+        'MenuItemThTimeCr
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemThTimeCr, Global.My.Resources.Resources.p6)
+        Me.MenuItemThTimeCr.Index = 6
+        Me.MenuItemThTimeCr.Text = "Time critical"
+        '
+        'MenuItemWShow
+        '
+        Me.MenuItemWShow.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.MenuItemWShow, Global.My.Resources.Resources.monitor16)
+        Me.MenuItemWShow.Index = 0
+        Me.MenuItemWShow.Text = "Show"
+        '
+        'MenuItemWClose
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemWClose, Global.My.Resources.Resources.cross16)
+        Me.MenuItemWClose.Index = 3
+        Me.MenuItemWClose.Text = "Close"
+        '
+        'MenuItemWDisa
+        '
+        Me.MenuItemWDisa.Index = 8
+        Me.MenuItemWDisa.Text = "Disable"
+        '
+        'MenuItemLogGoto
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemLogGoto, Global.My.Resources.Resources.right)
+        Me.MenuItemLogGoto.Index = 0
+        Me.MenuItemLogGoto.Text = "Go to item"
+        '
+        'menuViewMemory
+        '
+        Me.menuViewMemory.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.menuViewMemory, Global.My.Resources.Resources.magnifier)
+        Me.menuViewMemory.Index = 0
+        Me.menuViewMemory.Text = "View memory"
+        '
+        'MenuItemCopyPrivilege
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyPrivilege, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyPrivilege.Index = 4
+        Me.MenuItemCopyPrivilege.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyMemory
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyMemory, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyMemory.Index = 8
+        Me.MenuItemCopyMemory.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyModule
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyModule, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyModule.Index = 9
+        Me.MenuItemCopyModule.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyThread
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyThread, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyThread.Index = 6
+        Me.MenuItemCopyThread.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyWindow
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyWindow, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyWindow.Index = 10
+        Me.MenuItemCopyWindow.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyHandle
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyHandle, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyHandle.Index = 5
+        Me.MenuItemCopyHandle.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyNetwork
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyNetwork, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyNetwork.Index = 2
+        Me.MenuItemCopyNetwork.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyService
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyService, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyService.Index = 17
+        Me.MenuItemCopyService.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyLog
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyLog, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyLog.Index = 2
+        Me.MenuItemCopyLog.Text = "Copy to clipboard"
+        '
+        'MenuItemCopyEnvVariable
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyEnvVariable, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyEnvVariable.Index = 0
+        Me.MenuItemCopyEnvVariable.Text = "Copy to clipboard"
+        '
+        'menuCopyPctbig
+        '
+        Me.menuCopyPctbig.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyBig})
+        '
+        'menuCopyPctSmall
+        '
+        Me.menuCopyPctSmall.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopySmall})
+        '
+        'mnuString
+        '
+        Me.mnuString.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuViewMemory, Me.MenuItem2, Me.MenuItemCopyString})
+        '
+        'MenuItem2
+        '
+        Me.MenuItem2.Index = 1
+        Me.MenuItem2.Text = "-"
+        '
+        'MenuItemCopyString
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemCopyString, Global.My.Resources.Resources.copy16)
+        Me.MenuItemCopyString.Index = 2
+        Me.MenuItemCopyString.Text = "Copy to clipboard"
+        '
+        'mnuPrivileges
+        '
+        Me.mnuPrivileges.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemPriEnable, Me.MenuItemPriDisable, Me.MenuItemPriRemove, Me.MenuItem1, Me.MenuItemCopyPrivilege})
+        '
+        'MenuItem1
+        '
+        Me.MenuItem1.Index = 3
+        Me.MenuItem1.Text = "-"
+        '
+        'mnuProcMem
+        '
+        Me.mnuProcMem.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemViewMemory, Me.MenuItemMemoryDump, Me.MenuItemPEBAddress, Me.MenuItem13, Me.MenuItemMemoryRelease, Me.MenuItemMemoryDecommit, Me.MenuItemMemoryChangeProtection, Me.MenuItem22, Me.MenuItemCopyMemory, Me.MenuItemColumnsMemory})
+        '
+        'MenuItemMemoryDump
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemMemoryDump, Global.My.Resources.Resources.save16)
+        Me.MenuItemMemoryDump.Index = 1
+        Me.MenuItemMemoryDump.Text = "Dump..."
+        '
+        'MenuItemPEBAddress
+        '
+        Me.MenuItemPEBAddress.Index = 2
+        Me.MenuItemPEBAddress.Text = "Jump to PEB address"
+        '
+        'MenuItem13
+        '
+        Me.MenuItem13.Index = 3
+        Me.MenuItem13.Text = "-"
+        '
+        'MenuItemMemoryRelease
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemMemoryRelease, Global.My.Resources.Resources.cross16)
+        Me.MenuItemMemoryRelease.Index = 4
+        Me.MenuItemMemoryRelease.Text = "Release"
+        '
+        'MenuItemMemoryDecommit
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemMemoryDecommit, Global.My.Resources.Resources.close)
+        Me.MenuItemMemoryDecommit.Index = 5
+        Me.MenuItemMemoryDecommit.Text = "Decommit"
+        '
+        'MenuItemMemoryChangeProtection
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemMemoryChangeProtection, Global.My.Resources.Resources.locked)
+        Me.MenuItemMemoryChangeProtection.Index = 6
+        Me.MenuItemMemoryChangeProtection.Text = "Change protection..."
+        '
+        'MenuItem22
+        '
+        Me.MenuItem22.Index = 7
+        Me.MenuItem22.Text = "-"
+        '
+        'MenuItemColumnsMemory
+        '
+        Me.MenuItemColumnsMemory.Index = 9
+        Me.MenuItemColumnsMemory.Text = "Choose columns..."
+        '
+        'mnuModule
+        '
+        Me.mnuModule.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemModuleFileProp, Me.MenuItemModuleOpenDir, Me.MenuItemModuleFileDetails, Me.MenuItemModuleSearch, Me.MenuItemModuleDependencies, Me.MenuItemViewModuleMemory, Me.MenuItem16, Me.MenuItemUnloadModule, Me.MenuItem19, Me.MenuItemCopyModule, Me.MenuItemColumnsModule})
+        '
+        'MenuItem16
+        '
+        Me.MenuItem16.Index = 6
+        Me.MenuItem16.Text = "-"
+        '
+        'MenuItem19
+        '
+        Me.MenuItem19.Index = 8
+        Me.MenuItem19.Text = "-"
+        '
+        'MenuItemColumnsModule
+        '
+        Me.MenuItemColumnsModule.Index = 10
+        Me.MenuItemColumnsModule.Text = "Choose columns..."
+        '
+        'mnuThread
+        '
+        Me.mnuThread.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemThTerm, Me.MenuItemThSuspend, Me.MenuItemThResu, Me.MenuItem8, Me.MenuItemThAffinity, Me.MenuItem15, Me.MenuItemCopyThread, Me.MenuItemThColumns})
+        '
+        'MenuItem8
+        '
+        Me.MenuItem8.Index = 3
+        Me.MenuItem8.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemThIdle, Me.MenuItemThLowest, Me.MenuItemThBNormal, Me.MenuItemThNorm, Me.MenuItemThANorm, Me.MenuItemThHighest, Me.MenuItemThTimeCr})
+        Me.MenuItem8.Text = "Priority"
+        '
+        'MenuItemThAffinity
+        '
+        Me.MenuItemThAffinity.Index = 4
+        Me.MenuItemThAffinity.Text = "Set affinity..."
+        '
+        'MenuItem15
+        '
+        Me.MenuItem15.Index = 5
+        Me.MenuItem15.Text = "-"
+        '
+        'MenuItemThColumns
+        '
+        Me.MenuItemThColumns.Index = 7
+        Me.MenuItemThColumns.Text = "Choose columns..."
+        '
+        'mnuWindow
+        '
+        Me.mnuWindow.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWShow, Me.MenuItemWShowUn, Me.MenuItemWHide, Me.MenuItemWClose, Me.MenuItem9, Me.MenuItem7, Me.MenuItem30, Me.MenuItemWEna, Me.MenuItemWDisa, Me.MenuItem33, Me.MenuItemCopyWindow, Me.MenuItemWColumns})
+        '
+        'MenuItemWShowUn
+        '
+        Me.MenuItemWShowUn.Index = 1
+        Me.MenuItemWShowUn.Text = "Show unnamed"
+        '
+        'MenuItemWHide
+        '
+        Me.MenuItemWHide.Index = 2
+        Me.MenuItemWHide.Text = "Hide"
+        '
+        'MenuItem9
+        '
+        Me.MenuItem9.Index = 4
+        Me.MenuItem9.Text = "-"
+        '
+        'MenuItem7
+        '
+        Me.MenuItem7.Index = 5
+        Me.MenuItem7.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWFront, Me.MenuItemWNotFront, Me.MenuItemWActive, Me.MenuItemWForeground, Me.MenuItem26, Me.MenuItemWMin, Me.MenuItemWMax, Me.MenuItemWPosSize, Me.MenuItem4, Me.MenuItemWFlash, Me.MenuItemWStopFlash, Me.MenuItem21, Me.MenuItemWOpacity, Me.MenuItemWCaption})
+        Me.MenuItem7.Text = "Visibility"
+        '
+        'MenuItemWFront
+        '
+        Me.MenuItemWFront.Index = 0
+        Me.MenuItemWFront.Text = "Bring to front"
+        '
+        'MenuItemWNotFront
+        '
+        Me.MenuItemWNotFront.Index = 1
+        Me.MenuItemWNotFront.Text = "Do not bring to front"
+        '
+        'MenuItemWActive
+        '
+        Me.MenuItemWActive.Index = 2
+        Me.MenuItemWActive.Text = "Set as active window"
+        '
+        'MenuItemWForeground
+        '
+        Me.MenuItemWForeground.Index = 3
+        Me.MenuItemWForeground.Text = "Set as foreground window"
+        '
+        'MenuItem26
+        '
+        Me.MenuItem26.Index = 4
+        Me.MenuItem26.Text = "-"
+        '
+        'MenuItemWMin
+        '
+        Me.MenuItemWMin.Index = 5
+        Me.MenuItemWMin.Text = "Minimize"
+        '
+        'MenuItemWMax
+        '
+        Me.MenuItemWMax.Index = 6
+        Me.MenuItemWMax.Text = "Maximize"
+        '
+        'MenuItemWPosSize
+        '
+        Me.MenuItemWPosSize.Index = 7
+        Me.MenuItemWPosSize.Text = "Position && size"
+        '
+        'MenuItem4
+        '
+        Me.MenuItem4.Index = 8
+        Me.MenuItem4.Text = "-"
+        '
+        'MenuItemWFlash
+        '
+        Me.MenuItemWFlash.Index = 9
+        Me.MenuItemWFlash.Text = "Flash"
+        '
+        'MenuItemWStopFlash
+        '
+        Me.MenuItemWStopFlash.Index = 10
+        Me.MenuItemWStopFlash.Text = "Stop flashing"
+        '
+        'MenuItem21
+        '
+        Me.MenuItem21.Index = 11
+        Me.MenuItem21.Text = "-"
+        '
+        'MenuItemWOpacity
+        '
+        Me.MenuItemWOpacity.Index = 12
+        Me.MenuItemWOpacity.Text = "Change opacity..."
+        '
+        'MenuItemWCaption
+        '
+        Me.MenuItemWCaption.Index = 13
+        Me.MenuItemWCaption.Text = "Change caption..."
+        '
+        'MenuItem30
+        '
+        Me.MenuItem30.Index = 6
+        Me.MenuItem30.Text = "-"
+        '
+        'MenuItemWEna
+        '
+        Me.MenuItemWEna.Index = 7
+        Me.MenuItemWEna.Text = "Enable"
+        '
+        'MenuItem33
+        '
+        Me.MenuItem33.Index = 9
+        Me.MenuItem33.Text = "-"
+        '
+        'MenuItemWColumns
+        '
+        Me.MenuItemWColumns.Index = 11
+        Me.MenuItemWColumns.Text = "Choose columns..."
+        '
+        'mnuHandle
+        '
+        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemHandleDetails, Me.MenuItemCloseHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemCopyHandle, Me.MenuItemChooseColumnsHandle})
+        '
+        'MenuItemHandleDetails
+        '
+        Me.MenuItemHandleDetails.DefaultItem = True
+        Me.VistaMenu.SetImage(Me.MenuItemHandleDetails, Global.My.Resources.Resources.monitor16)
+        Me.MenuItemHandleDetails.Index = 0
+        Me.MenuItemHandleDetails.Text = "Details..."
+        '
+        'MenuItem12
+        '
+        Me.MenuItem12.Index = 2
+        Me.MenuItem12.Text = "-"
+        '
+        'MenuItemShowUnnamedHandles
+        '
+        Me.MenuItemShowUnnamedHandles.Index = 3
+        Me.MenuItemShowUnnamedHandles.Text = "Show unnamed handles"
+        '
+        'MenuItem14
+        '
+        Me.MenuItem14.Index = 4
+        Me.MenuItem14.Text = "-"
+        '
+        'MenuItemChooseColumnsHandle
+        '
+        Me.MenuItemChooseColumnsHandle.Index = 6
+        Me.MenuItemChooseColumnsHandle.Text = "Choose columns..."
+        '
+        'mnuNetwork
+        '
+        Me.mnuNetwork.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuCloseTCP, Me.MenuItem10, Me.MenuItemCopyNetwork, Me.MenuItem11})
+        '
+        'MenuItem10
+        '
+        Me.MenuItem10.Index = 1
+        Me.MenuItem10.Text = "-"
+        '
+        'MenuItem11
+        '
+        Me.MenuItem11.Index = 3
+        Me.MenuItem11.Text = "Choose columns..."
+        '
+        'mnuService
+        '
+        Me.mnuService.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServDetails, Me.MenuItemServSelService, Me.MenuItem5, Me.MenuItemServFileProp, Me.MenuItemServOpenDir, Me.MenuItemServFileDetails, Me.MenuItemServSearch, Me.MenuItemServDepe, Me.MenuItem20, Me.MenuItemServPause, Me.MenuItemServStop, Me.MenuItemServStart, Me.MenuItem17, Me.MenuItemServDelete, Me.MenuItem25, Me.MenuItemServReanalize, Me.MenuItem24, Me.MenuItemCopyService, Me.MenuItemServColumns})
+        '
+        'MenuItemServDetails
+        '
+        Me.MenuItemServDetails.DefaultItem = True
+        Me.MenuItemServDetails.Index = 0
+        Me.MenuItemServDetails.Text = "Service details"
+        '
+        'MenuItem5
+        '
+        Me.MenuItem5.Index = 2
+        Me.MenuItem5.Text = "-"
+        '
+        'MenuItemServDepe
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServDepe, Global.My.Resources.Resources.dllIcon16)
+        Me.MenuItemServDepe.Index = 7
+        Me.MenuItemServDepe.Text = "View dependencies..."
+        '
+        'MenuItem20
+        '
+        Me.MenuItem20.Index = 8
+        Me.MenuItem20.Text = "-"
+        '
+        'MenuItem17
+        '
+        Me.MenuItem17.Index = 12
+        Me.MenuItem17.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServAutoStart, Me.MenuItemServOnDemand, Me.MenuItemServDisabled})
+        Me.MenuItem17.Text = "Start type"
+        '
+        'MenuItemServDelete
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.My.Resources.Resources.cross16)
+        Me.MenuItemServDelete.Index = 13
+        Me.MenuItemServDelete.Text = "Delete"
+        '
+        'MenuItem25
+        '
+        Me.MenuItem25.Index = 14
+        Me.MenuItem25.Text = "-"
+        '
+        'MenuItemServReanalize
+        '
+        Me.MenuItemServReanalize.Index = 15
+        Me.MenuItemServReanalize.Text = "Reanalize"
+        '
+        'MenuItem24
+        '
+        Me.MenuItem24.Index = 16
+        Me.MenuItem24.Text = "-"
+        '
+        'MenuItemServColumns
+        '
+        Me.MenuItemServColumns.Index = 18
+        Me.MenuItemServColumns.Text = "Choose columns..."
+        '
+        'mnuLog
+        '
+        Me.mnuLog.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemLogGoto, Me.MenuItem6, Me.MenuItemCopyLog})
+        '
+        'MenuItem6
+        '
+        Me.MenuItem6.Index = 1
+        Me.MenuItem6.Text = "-"
+        '
+        'mnuEnv
+        '
+        Me.mnuEnv.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyEnvVariable})
+        '
+        'VistaMenu
+        '
+        Me.VistaMenu.ContainerControl = Me
+        '
+        'RadioButton1
+        '
+        Me.RadioButton1.Location = New System.Drawing.Point(0, 0)
+        Me.RadioButton1.Name = "RadioButton1"
+        Me.RadioButton1.Size = New System.Drawing.Size(104, 24)
+        Me.RadioButton1.TabIndex = 0
+        '
+        'SplitContainer
+        '
+        Me.SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SplitContainer.IsSplitterFixed = True
+        Me.SplitContainer.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer.Name = "SplitContainer"
+        Me.SplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer.Panel1
+        '
+        Me.SplitContainer.Panel1.Controls.Add(Me.tabProcess)
+        '
+        'SplitContainer.Panel2
+        '
+        Me.SplitContainer.Panel2.Controls.Add(Me.cmdHideFindPanel)
+        Me.SplitContainer.Panel2.Controls.Add(Me.chkFreeze)
+        Me.SplitContainer.Panel2.Controls.Add(Me.lblSearchItemCaption)
+        Me.SplitContainer.Panel2.Controls.Add(Me.lblResCount)
+        Me.SplitContainer.Panel2.Controls.Add(Me.txtSearch)
+        Me.SplitContainer.Size = New System.Drawing.Size(655, 356)
+        Me.SplitContainer.SplitterDistance = 326
+        Me.SplitContainer.TabIndex = 1
         '
         'tabProcess
         '
@@ -1604,21 +2331,6 @@ Partial Class frmProcessInfo
         Me.splitPerformances.SplitterWidth = 1
         Me.splitPerformances.TabIndex = 3
         '
-        'graphCPU
-        '
-        Me.graphCPU.BackColor = System.Drawing.Color.Black
-        Me.graphCPU.Color2 = System.Drawing.Color.Olive
-        Me.graphCPU.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphCPU.EnableGraph = True
-        Me.graphCPU.Fixedheight = True
-        Me.graphCPU.GridStep = 10
-        Me.graphCPU.Location = New System.Drawing.Point(0, 0)
-        Me.graphCPU.Name = "graphCPU"
-        Me.graphCPU.ShowSecondGraph = True
-        Me.graphCPU.Size = New System.Drawing.Size(641, 76)
-        Me.graphCPU.TabIndex = 1
-        Me.graphCPU.TabStop = False
-        '
         'splitPerformance2
         '
         Me.splitPerformance2.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1638,39 +2350,6 @@ Partial Class frmProcessInfo
         Me.splitPerformance2.SplitterDistance = 85
         Me.splitPerformance2.SplitterWidth = 1
         Me.splitPerformance2.TabIndex = 0
-        '
-        'graphMemory
-        '
-        Me.graphMemory.BackColor = System.Drawing.Color.Black
-        Me.graphMemory.Color = System.Drawing.Color.Red
-        Me.graphMemory.Color2 = System.Drawing.Color.Maroon
-        Me.graphMemory.Color3 = System.Drawing.Color.LightCoral
-        Me.graphMemory.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMemory.EnableGraph = True
-        Me.graphMemory.Fixedheight = False
-        Me.graphMemory.GridStep = 10
-        Me.graphMemory.Location = New System.Drawing.Point(0, 0)
-        Me.graphMemory.Name = "graphMemory"
-        Me.graphMemory.ShowSecondGraph = True
-        Me.graphMemory.Size = New System.Drawing.Size(641, 85)
-        Me.graphMemory.TabIndex = 2
-        Me.graphMemory.TabStop = False
-        '
-        'graphIO
-        '
-        Me.graphIO.BackColor = System.Drawing.Color.Black
-        Me.graphIO.Color = System.Drawing.Color.LimeGreen
-        Me.graphIO.Color2 = System.Drawing.Color.Green
-        Me.graphIO.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphIO.EnableGraph = True
-        Me.graphIO.Fixedheight = False
-        Me.graphIO.GridStep = 10
-        Me.graphIO.Location = New System.Drawing.Point(0, 0)
-        Me.graphIO.Name = "graphIO"
-        Me.graphIO.ShowSecondGraph = False
-        Me.graphIO.Size = New System.Drawing.Size(641, 113)
-        Me.graphIO.TabIndex = 3
-        Me.graphIO.TabStop = False
         '
         'TabPageToken
         '
@@ -1704,44 +2383,6 @@ Partial Class frmProcessInfo
         Me.tabProcessTokenPagePrivileges.Text = "Privileges"
         Me.tabProcessTokenPagePrivileges.UseVisualStyleBackColor = True
         '
-        'lvPrivileges
-        '
-        Me.lvPrivileges.AllowColumnReorder = True
-        Me.lvPrivileges.CatchErrors = False
-        Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
-        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvPrivileges.ConnectionObj = CConnection1
-        Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvPrivileges.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvPrivileges.FullRowSelect = True
-        Me.lvPrivileges.HideSelection = False
-        Me.lvPrivileges.IsConnected = False
-        Me.lvPrivileges.Location = New System.Drawing.Point(3, 3)
-        Me.lvPrivileges.Name = "lvPrivileges"
-        Me.lvPrivileges.OverriddenDoubleBuffered = True
-        Me.lvPrivileges.ProcessId = 0
-        Me.lvPrivileges.ReorganizeColumns = True
-        Me.lvPrivileges.ShowObjectDetailsOnDoubleClick = True
-        Me.lvPrivileges.Size = New System.Drawing.Size(627, 244)
-        Me.lvPrivileges.TabIndex = 13
-        Me.lvPrivileges.UseCompatibleStateImageBehavior = False
-        Me.lvPrivileges.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader50
-        '
-        Me.ColumnHeader50.Text = "Name"
-        Me.ColumnHeader50.Width = 159
-        '
-        'ColumnHeader51
-        '
-        Me.ColumnHeader51.Text = "Status"
-        Me.ColumnHeader51.Width = 100
-        '
-        'ColumnHeader52
-        '
-        Me.ColumnHeader52.Text = "Description"
-        Me.ColumnHeader52.Width = 319
-        '
         'TabPageMemory
         '
         Me.TabPageMemory.Controls.Add(Me.lvProcMem)
@@ -1752,54 +2393,6 @@ Partial Class frmProcessInfo
         Me.TabPageMemory.TabIndex = 4
         Me.TabPageMemory.Text = "Memory"
         Me.TabPageMemory.UseVisualStyleBackColor = True
-        '
-        'lvProcMem
-        '
-        Me.lvProcMem.AllowColumnReorder = True
-        Me.lvProcMem.CatchErrors = False
-        Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56, Me.ColumnHeader13})
-        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcMem.ConnectionObj = CConnection2
-        Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcMem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvProcMem.FullRowSelect = True
-        Me.lvProcMem.HideSelection = False
-        Me.lvProcMem.IsConnected = False
-        Me.lvProcMem.Location = New System.Drawing.Point(3, 3)
-        Me.lvProcMem.Name = "lvProcMem"
-        Me.lvProcMem.OverriddenDoubleBuffered = True
-        Me.lvProcMem.ProcessId = 0
-        Me.lvProcMem.ReorganizeColumns = True
-        Me.lvProcMem.ShowObjectDetailsOnDoubleClick = False
-        Me.lvProcMem.Size = New System.Drawing.Size(641, 276)
-        Me.lvProcMem.TabIndex = 14
-        Me.lvProcMem.UseCompatibleStateImageBehavior = False
-        Me.lvProcMem.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader53
-        '
-        Me.ColumnHeader53.Text = "Name"
-        Me.ColumnHeader53.Width = 170
-        '
-        'ColumnHeader54
-        '
-        Me.ColumnHeader54.Text = "Address"
-        Me.ColumnHeader54.Width = 82
-        '
-        'ColumnHeader55
-        '
-        Me.ColumnHeader55.Text = "Size"
-        Me.ColumnHeader55.Width = 64
-        '
-        'ColumnHeader56
-        '
-        Me.ColumnHeader56.Text = "Protection"
-        Me.ColumnHeader56.Width = 85
-        '
-        'ColumnHeader13
-        '
-        Me.ColumnHeader13.Text = "File"
-        Me.ColumnHeader13.Width = 338
         '
         'TabPageInfos
         '
@@ -1834,7 +2427,7 @@ Partial Class frmProcessInfo
         '
         'cmdRefresh
         '
-        Me.cmdRefresh.Image = CType(resources.GetObject("cmdRefresh.Image"), System.Drawing.Image)
+        Me.cmdRefresh.Image = Global.My.Resources.Resources.refresh16
         Me.cmdRefresh.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.cmdRefresh.Location = New System.Drawing.Point(159, 0)
         Me.cmdRefresh.Name = "cmdRefresh"
@@ -1881,60 +2474,6 @@ Partial Class frmProcessInfo
         Me.TabPageServices.Text = "Services"
         Me.TabPageServices.UseVisualStyleBackColor = True
         '
-        'lvProcServices
-        '
-        Me.lvProcServices.AllowColumnReorder = True
-        Me.lvProcServices.CatchErrors = False
-        Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader19})
-        CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcServices.ConnectionObj = CConnection3
-        Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvProcServices.FullRowSelect = True
-        Me.lvProcServices.HideSelection = False
-        Me.lvProcServices.IsConnected = False
-        Me.lvProcServices.Location = New System.Drawing.Point(3, 3)
-        Me.lvProcServices.Name = "lvProcServices"
-        Me.lvProcServices.OverriddenDoubleBuffered = True
-        Me.lvProcServices.ProcessId = 0
-        Me.lvProcServices.ReorganizeColumns = True
-        Me.lvProcServices.ShowAll = False
-        Me.lvProcServices.ShowObjectDetailsOnDoubleClick = False
-        Me.lvProcServices.Size = New System.Drawing.Size(641, 276)
-        Me.lvProcServices.TabIndex = 2
-        Me.lvProcServices.UseCompatibleStateImageBehavior = False
-        Me.lvProcServices.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader3
-        '
-        Me.ColumnHeader3.Text = "Name"
-        Me.ColumnHeader3.Width = 121
-        '
-        'ColumnHeader7
-        '
-        Me.ColumnHeader7.Text = "DisplayName"
-        Me.ColumnHeader7.Width = 243
-        '
-        'ColumnHeader8
-        '
-        Me.ColumnHeader8.Text = "State"
-        Me.ColumnHeader8.Width = 79
-        '
-        'ColumnHeader9
-        '
-        Me.ColumnHeader9.Text = "StartType"
-        Me.ColumnHeader9.Width = 70
-        '
-        'ColumnHeader10
-        '
-        Me.ColumnHeader10.Text = "ImagePath"
-        Me.ColumnHeader10.Width = 250
-        '
-        'ColumnHeader19
-        '
-        Me.ColumnHeader19.Text = "ServiceType"
-        Me.ColumnHeader19.Width = 100
-        '
         'TabPageNetwork
         '
         Me.TabPageNetwork.Controls.Add(Me.lvProcNetwork)
@@ -1945,50 +2484,6 @@ Partial Class frmProcessInfo
         Me.TabPageNetwork.TabIndex = 7
         Me.TabPageNetwork.Text = "Network"
         Me.TabPageNetwork.UseVisualStyleBackColor = True
-        '
-        'lvProcNetwork
-        '
-        Me.lvProcNetwork.AllowColumnReorder = True
-        Me.lvProcNetwork.CatchErrors = False
-        Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
-        CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcNetwork.ConnectionObj = CConnection4
-        Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvProcNetwork.FullRowSelect = True
-        Me.lvProcNetwork.HideSelection = False
-        Me.lvProcNetwork.IsConnected = False
-        Me.lvProcNetwork.Location = New System.Drawing.Point(3, 3)
-        Me.lvProcNetwork.Name = "lvProcNetwork"
-        Me.lvProcNetwork.OverriddenDoubleBuffered = True
-        Me.lvProcNetwork.ProcessId = Nothing
-        Me.lvProcNetwork.ReorganizeColumns = True
-        Me.lvProcNetwork.ShowAllPid = False
-        Me.lvProcNetwork.ShowConnectionsByProcessesGroup = False
-        Me.lvProcNetwork.ShowObjectDetailsOnDoubleClick = True
-        Me.lvProcNetwork.Size = New System.Drawing.Size(641, 276)
-        Me.lvProcNetwork.TabIndex = 21
-        Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
-        Me.lvProcNetwork.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader49
-        '
-        Me.ColumnHeader49.Text = "Local"
-        Me.ColumnHeader49.Width = 210
-        '
-        'ColumnHeader57
-        '
-        Me.ColumnHeader57.Text = "Remote"
-        Me.ColumnHeader57.Width = 200
-        '
-        'ColumnHeader58
-        '
-        Me.ColumnHeader58.Text = "Protocol"
-        '
-        'ColumnHeader59
-        '
-        Me.ColumnHeader59.Text = "State"
-        Me.ColumnHeader59.Width = 150
         '
         'TabPageString
         '
@@ -2024,37 +2519,6 @@ Partial Class frmProcessInfo
         Me.SplitContainerStrings.Size = New System.Drawing.Size(647, 282)
         Me.SplitContainerStrings.SplitterDistance = 245
         Me.SplitContainerStrings.TabIndex = 0
-        '
-        'lvProcString
-        '
-        Me.lvProcString.AllowColumnReorder = True
-        Me.lvProcString.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader76, Me.ColumnHeader77})
-        Me.lvProcString.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcString.FullRowSelect = True
-        ListViewGroup1.Header = "Strings"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcString.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
-        Me.lvProcString.HideSelection = False
-        Me.lvProcString.Location = New System.Drawing.Point(0, 0)
-        Me.lvProcString.Name = "lvProcString"
-        Me.lvProcString.OverriddenDoubleBuffered = True
-        Me.lvProcString.Size = New System.Drawing.Size(647, 245)
-        Me.lvProcString.TabIndex = 22
-        Me.lvProcString.UseCompatibleStateImageBehavior = False
-        Me.lvProcString.View = System.Windows.Forms.View.Details
-        Me.lvProcString.VirtualMode = True
-        '
-        'ColumnHeader76
-        '
-        Me.ColumnHeader76.Text = "Position"
-        Me.ColumnHeader76.Width = 149
-        '
-        'ColumnHeader77
-        '
-        Me.ColumnHeader77.Text = "String"
-        Me.ColumnHeader77.Width = 447
         '
         'cmdProcSearchR
         '
@@ -2140,6 +2604,477 @@ Partial Class frmProcessInfo
         Me.TabPageEnv.Text = "Environment"
         Me.TabPageEnv.UseVisualStyleBackColor = True
         '
+        'TabPageModules
+        '
+        Me.TabPageModules.Controls.Add(Me.lvModules)
+        Me.TabPageModules.Location = New System.Drawing.Point(4, 40)
+        Me.TabPageModules.Name = "TabPageModules"
+        Me.TabPageModules.Size = New System.Drawing.Size(647, 282)
+        Me.TabPageModules.TabIndex = 10
+        Me.TabPageModules.Text = "Modules"
+        Me.TabPageModules.UseVisualStyleBackColor = True
+        '
+        'TabPageThreads
+        '
+        Me.TabPageThreads.Controls.Add(Me.lvThreads)
+        Me.TabPageThreads.Location = New System.Drawing.Point(4, 40)
+        Me.TabPageThreads.Name = "TabPageThreads"
+        Me.TabPageThreads.Size = New System.Drawing.Size(647, 282)
+        Me.TabPageThreads.TabIndex = 11
+        Me.TabPageThreads.Text = "Threads"
+        Me.TabPageThreads.UseVisualStyleBackColor = True
+        '
+        'TabPageWindows
+        '
+        Me.TabPageWindows.Controls.Add(Me.lvWindows)
+        Me.TabPageWindows.Location = New System.Drawing.Point(4, 40)
+        Me.TabPageWindows.Name = "TabPageWindows"
+        Me.TabPageWindows.Size = New System.Drawing.Size(647, 282)
+        Me.TabPageWindows.TabIndex = 12
+        Me.TabPageWindows.Text = "Windows"
+        Me.TabPageWindows.UseVisualStyleBackColor = True
+        '
+        'TabPageHandles
+        '
+        Me.TabPageHandles.Controls.Add(Me.lvHandles)
+        Me.TabPageHandles.Location = New System.Drawing.Point(4, 40)
+        Me.TabPageHandles.Name = "TabPageHandles"
+        Me.TabPageHandles.Size = New System.Drawing.Size(647, 282)
+        Me.TabPageHandles.TabIndex = 13
+        Me.TabPageHandles.Text = "Handles"
+        Me.TabPageHandles.UseVisualStyleBackColor = True
+        '
+        'TabPageLog
+        '
+        Me.TabPageLog.Controls.Add(Me.SplitContainerLog)
+        Me.TabPageLog.Location = New System.Drawing.Point(4, 40)
+        Me.TabPageLog.Name = "TabPageLog"
+        Me.TabPageLog.Size = New System.Drawing.Size(647, 282)
+        Me.TabPageLog.TabIndex = 14
+        Me.TabPageLog.Text = "Log"
+        Me.TabPageLog.UseVisualStyleBackColor = True
+        '
+        'SplitContainerLog
+        '
+        Me.SplitContainerLog.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainerLog.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainerLog.IsSplitterFixed = True
+        Me.SplitContainerLog.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainerLog.Name = "SplitContainerLog"
+        Me.SplitContainerLog.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainerLog.Panel1
+        '
+        Me.SplitContainerLog.Panel1.Controls.Add(Me.cmdLogOptions)
+        Me.SplitContainerLog.Panel1.Controls.Add(Me.cmdSave)
+        Me.SplitContainerLog.Panel1.Controls.Add(Me.cmdClearLog)
+        Me.SplitContainerLog.Panel1.Controls.Add(Me.chkLog)
+        '
+        'SplitContainerLog.Panel2
+        '
+        Me.SplitContainerLog.Panel2.Controls.Add(Me.lvLog)
+        Me.SplitContainerLog.Size = New System.Drawing.Size(647, 282)
+        Me.SplitContainerLog.SplitterDistance = 25
+        Me.SplitContainerLog.TabIndex = 0
+        '
+        'cmdLogOptions
+        '
+        Me.cmdLogOptions.Location = New System.Drawing.Point(280, 1)
+        Me.cmdLogOptions.Name = "cmdLogOptions"
+        Me.cmdLogOptions.Size = New System.Drawing.Size(75, 23)
+        Me.cmdLogOptions.TabIndex = 5
+        Me.cmdLogOptions.Text = "Options..."
+        Me.cmdLogOptions.UseVisualStyleBackColor = True
+        '
+        'cmdSave
+        '
+        Me.cmdSave.Image = Global.My.Resources.Resources.save16
+        Me.cmdSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdSave.Location = New System.Drawing.Point(181, 1)
+        Me.cmdSave.Name = "cmdSave"
+        Me.cmdSave.Size = New System.Drawing.Size(93, 23)
+        Me.cmdSave.TabIndex = 2
+        Me.cmdSave.Text = "     Save log..."
+        Me.cmdSave.UseVisualStyleBackColor = True
+        '
+        'cmdClearLog
+        '
+        Me.cmdClearLog.Location = New System.Drawing.Point(100, 1)
+        Me.cmdClearLog.Name = "cmdClearLog"
+        Me.cmdClearLog.Size = New System.Drawing.Size(75, 23)
+        Me.cmdClearLog.TabIndex = 1
+        Me.cmdClearLog.Text = "Clear log"
+        Me.cmdClearLog.UseVisualStyleBackColor = True
+        '
+        'chkLog
+        '
+        Me.chkLog.AutoSize = True
+        Me.chkLog.Location = New System.Drawing.Point(8, 4)
+        Me.chkLog.Name = "chkLog"
+        Me.chkLog.Size = New System.Drawing.Size(86, 17)
+        Me.chkLog.TabIndex = 0
+        Me.chkLog.Text = "Activate log"
+        Me.chkLog.UseVisualStyleBackColor = True
+        '
+        'TabPageHistory
+        '
+        Me.TabPageHistory.Controls.Add(Me.containerHistory)
+        Me.TabPageHistory.Controls.Add(Me.lstHistoryCat)
+        Me.TabPageHistory.Location = New System.Drawing.Point(4, 40)
+        Me.TabPageHistory.Name = "TabPageHistory"
+        Me.TabPageHistory.Size = New System.Drawing.Size(647, 282)
+        Me.TabPageHistory.TabIndex = 15
+        Me.TabPageHistory.Text = "History"
+        Me.TabPageHistory.UseVisualStyleBackColor = True
+        '
+        'containerHistory
+        '
+        Me.containerHistory.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.containerHistory.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.containerHistory.IsSplitterFixed = True
+        Me.containerHistory.Location = New System.Drawing.Point(208, 0)
+        Me.containerHistory.Name = "containerHistory"
+        Me.containerHistory.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'containerHistory.Panel1
+        '
+        Me.containerHistory.Panel1.Controls.Add(Me.Label2)
+        Me.containerHistory.Size = New System.Drawing.Size(439, 282)
+        Me.containerHistory.SplitterDistance = 25
+        Me.containerHistory.TabIndex = 1
+        '
+        'Label2
+        '
+        Me.Label2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Label2.Location = New System.Drawing.Point(0, 0)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(439, 25)
+        Me.Label2.TabIndex = 0
+        Me.Label2.Text = "  Check items to see history graph"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lstHistoryCat
+        '
+        Me.lstHistoryCat.Dock = System.Windows.Forms.DockStyle.Left
+        Me.lstHistoryCat.FormattingEnabled = True
+        Me.lstHistoryCat.Items.AddRange(New Object() {"CpuUsage", "AverageCpuUsage", "KernelCpuTime", "UserCpuTime", "TotalCpuTime", "GdiObjects", "UserObjects", "WorkingSet", "PeakWorkingSet", "PageFaultCount", "PagefileUsage", "PeakPagefileUsage", "QuotaPeakPagedPoolUsage", "QuotaPagedPoolUsage", "QuotaPeakNonPagedPoolUsage", "QuotaNonPagedPoolUsage", "ReadOperationCount", "WriteOperationCount", "OtherOperationCount", "ReadTransferCount", "WriteTransferCount", "OtherTransferCount", "ReadOperationCountDelta", "WriteOperationCountDelta", "OtherOperationCountDelta", "ReadTransferCountDelta", "WriteTransferCountDelta", "OtherTransferCountDelta"})
+        Me.lstHistoryCat.Location = New System.Drawing.Point(0, 0)
+        Me.lstHistoryCat.Name = "lstHistoryCat"
+        Me.lstHistoryCat.Size = New System.Drawing.Size(208, 276)
+        Me.lstHistoryCat.TabIndex = 0
+        '
+        'cmdHideFindPanel
+        '
+        Me.cmdHideFindPanel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdHideFindPanel.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.cmdHideFindPanel.Location = New System.Drawing.Point(628, 3)
+        Me.cmdHideFindPanel.Name = "cmdHideFindPanel"
+        Me.cmdHideFindPanel.Size = New System.Drawing.Size(23, 20)
+        Me.cmdHideFindPanel.TabIndex = 18
+        Me.cmdHideFindPanel.Text = "X"
+        Me.cmdHideFindPanel.UseVisualStyleBackColor = True
+        '
+        'chkFreeze
+        '
+        Me.chkFreeze.AutoSize = True
+        Me.chkFreeze.Location = New System.Drawing.Point(479, 5)
+        Me.chkFreeze.Name = "chkFreeze"
+        Me.chkFreeze.Size = New System.Drawing.Size(136, 17)
+        Me.chkFreeze.TabIndex = 17
+        Me.chkFreeze.Text = "Suspend refreshment"
+        Me.chkFreeze.UseVisualStyleBackColor = True
+        '
+        'lblSearchItemCaption
+        '
+        Me.lblSearchItemCaption.AutoSize = True
+        Me.lblSearchItemCaption.Enabled = False
+        Me.lblSearchItemCaption.Location = New System.Drawing.Point(6, 6)
+        Me.lblSearchItemCaption.Name = "lblSearchItemCaption"
+        Me.lblSearchItemCaption.Size = New System.Drawing.Size(66, 13)
+        Me.lblSearchItemCaption.TabIndex = 16
+        Me.lblSearchItemCaption.Text = "Search item"
+        '
+        'lblResCount
+        '
+        Me.lblResCount.AutoSize = True
+        Me.lblResCount.Enabled = False
+        Me.lblResCount.Location = New System.Drawing.Point(396, 6)
+        Me.lblResCount.Name = "lblResCount"
+        Me.lblResCount.Size = New System.Drawing.Size(56, 13)
+        Me.lblResCount.TabIndex = 15
+        Me.lblResCount.Text = "0 result(s)"
+        '
+        'txtSearch
+        '
+        Me.txtSearch.Enabled = False
+        Me.txtSearch.Location = New System.Drawing.Point(75, 1)
+        Me.txtSearch.Name = "txtSearch"
+        Me.txtSearch.Size = New System.Drawing.Size(312, 22)
+        Me.txtSearch.TabIndex = 14
+        '
+        'graphCPU
+        '
+        Me.graphCPU.BackColor = System.Drawing.Color.Black
+        Me.graphCPU.Color2 = System.Drawing.Color.Olive
+        Me.graphCPU.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphCPU.EnableGraph = True
+        Me.graphCPU.Fixedheight = True
+        Me.graphCPU.GridStep = 10
+        Me.graphCPU.Location = New System.Drawing.Point(0, 0)
+        Me.graphCPU.Name = "graphCPU"
+        Me.graphCPU.ShowSecondGraph = True
+        Me.graphCPU.Size = New System.Drawing.Size(641, 76)
+        Me.graphCPU.TabIndex = 1
+        Me.graphCPU.TabStop = False
+        '
+        'graphMemory
+        '
+        Me.graphMemory.BackColor = System.Drawing.Color.Black
+        Me.graphMemory.Color = System.Drawing.Color.Red
+        Me.graphMemory.Color2 = System.Drawing.Color.Maroon
+        Me.graphMemory.Color3 = System.Drawing.Color.LightCoral
+        Me.graphMemory.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMemory.EnableGraph = True
+        Me.graphMemory.Fixedheight = False
+        Me.graphMemory.GridStep = 10
+        Me.graphMemory.Location = New System.Drawing.Point(0, 0)
+        Me.graphMemory.Name = "graphMemory"
+        Me.graphMemory.ShowSecondGraph = True
+        Me.graphMemory.Size = New System.Drawing.Size(641, 85)
+        Me.graphMemory.TabIndex = 2
+        Me.graphMemory.TabStop = False
+        '
+        'graphIO
+        '
+        Me.graphIO.BackColor = System.Drawing.Color.Black
+        Me.graphIO.Color = System.Drawing.Color.LimeGreen
+        Me.graphIO.Color2 = System.Drawing.Color.Green
+        Me.graphIO.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphIO.EnableGraph = True
+        Me.graphIO.Fixedheight = False
+        Me.graphIO.GridStep = 10
+        Me.graphIO.Location = New System.Drawing.Point(0, 0)
+        Me.graphIO.Name = "graphIO"
+        Me.graphIO.ShowSecondGraph = False
+        Me.graphIO.Size = New System.Drawing.Size(641, 113)
+        Me.graphIO.TabIndex = 3
+        Me.graphIO.TabStop = False
+        '
+        'lvPrivileges
+        '
+        Me.lvPrivileges.AllowColumnReorder = True
+        Me.lvPrivileges.CatchErrors = False
+        Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
+        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvPrivileges.ConnectionObj = CConnection1
+        Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvPrivileges.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvPrivileges.FullRowSelect = True
+        Me.lvPrivileges.HideSelection = False
+        Me.lvPrivileges.IsConnected = False
+        Me.lvPrivileges.Location = New System.Drawing.Point(3, 3)
+        Me.lvPrivileges.Name = "lvPrivileges"
+        Me.lvPrivileges.OverriddenDoubleBuffered = True
+        Me.lvPrivileges.ProcessId = 0
+        Me.lvPrivileges.ReorganizeColumns = True
+        Me.lvPrivileges.ShowObjectDetailsOnDoubleClick = True
+        Me.lvPrivileges.Size = New System.Drawing.Size(627, 244)
+        Me.lvPrivileges.TabIndex = 13
+        Me.lvPrivileges.UseCompatibleStateImageBehavior = False
+        Me.lvPrivileges.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader50
+        '
+        Me.ColumnHeader50.Text = "Name"
+        Me.ColumnHeader50.Width = 159
+        '
+        'ColumnHeader51
+        '
+        Me.ColumnHeader51.Text = "Status"
+        Me.ColumnHeader51.Width = 100
+        '
+        'ColumnHeader52
+        '
+        Me.ColumnHeader52.Text = "Description"
+        Me.ColumnHeader52.Width = 319
+        '
+        'lvProcMem
+        '
+        Me.lvProcMem.AllowColumnReorder = True
+        Me.lvProcMem.CatchErrors = False
+        Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56, Me.ColumnHeader13})
+        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcMem.ConnectionObj = CConnection2
+        Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcMem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvProcMem.FullRowSelect = True
+        Me.lvProcMem.HideSelection = False
+        Me.lvProcMem.IsConnected = False
+        Me.lvProcMem.Location = New System.Drawing.Point(3, 3)
+        Me.lvProcMem.Name = "lvProcMem"
+        Me.lvProcMem.OverriddenDoubleBuffered = True
+        Me.lvProcMem.ProcessId = 0
+        Me.lvProcMem.ReorganizeColumns = True
+        Me.lvProcMem.ShowObjectDetailsOnDoubleClick = False
+        Me.lvProcMem.Size = New System.Drawing.Size(641, 276)
+        Me.lvProcMem.TabIndex = 14
+        Me.lvProcMem.UseCompatibleStateImageBehavior = False
+        Me.lvProcMem.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader53
+        '
+        Me.ColumnHeader53.Text = "Name"
+        Me.ColumnHeader53.Width = 170
+        '
+        'ColumnHeader54
+        '
+        Me.ColumnHeader54.Text = "Address"
+        Me.ColumnHeader54.Width = 82
+        '
+        'ColumnHeader55
+        '
+        Me.ColumnHeader55.Text = "Size"
+        Me.ColumnHeader55.Width = 64
+        '
+        'ColumnHeader56
+        '
+        Me.ColumnHeader56.Text = "Protection"
+        Me.ColumnHeader56.Width = 85
+        '
+        'ColumnHeader13
+        '
+        Me.ColumnHeader13.Text = "File"
+        Me.ColumnHeader13.Width = 338
+        '
+        'lvProcServices
+        '
+        Me.lvProcServices.AllowColumnReorder = True
+        Me.lvProcServices.CatchErrors = False
+        Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader19})
+        CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcServices.ConnectionObj = CConnection3
+        Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvProcServices.FullRowSelect = True
+        Me.lvProcServices.HideSelection = False
+        Me.lvProcServices.IsConnected = False
+        Me.lvProcServices.Location = New System.Drawing.Point(3, 3)
+        Me.lvProcServices.Name = "lvProcServices"
+        Me.lvProcServices.OverriddenDoubleBuffered = True
+        Me.lvProcServices.ProcessId = 0
+        Me.lvProcServices.ReorganizeColumns = True
+        Me.lvProcServices.ShowAll = False
+        Me.lvProcServices.ShowObjectDetailsOnDoubleClick = False
+        Me.lvProcServices.Size = New System.Drawing.Size(641, 276)
+        Me.lvProcServices.TabIndex = 2
+        Me.lvProcServices.UseCompatibleStateImageBehavior = False
+        Me.lvProcServices.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Name"
+        Me.ColumnHeader3.Width = 121
+        '
+        'ColumnHeader7
+        '
+        Me.ColumnHeader7.Text = "DisplayName"
+        Me.ColumnHeader7.Width = 243
+        '
+        'ColumnHeader8
+        '
+        Me.ColumnHeader8.Text = "State"
+        Me.ColumnHeader8.Width = 79
+        '
+        'ColumnHeader9
+        '
+        Me.ColumnHeader9.Text = "StartType"
+        Me.ColumnHeader9.Width = 70
+        '
+        'ColumnHeader10
+        '
+        Me.ColumnHeader10.Text = "ImagePath"
+        Me.ColumnHeader10.Width = 250
+        '
+        'ColumnHeader19
+        '
+        Me.ColumnHeader19.Text = "ServiceType"
+        Me.ColumnHeader19.Width = 100
+        '
+        'lvProcNetwork
+        '
+        Me.lvProcNetwork.AllowColumnReorder = True
+        Me.lvProcNetwork.CatchErrors = False
+        Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
+        CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcNetwork.ConnectionObj = CConnection4
+        Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvProcNetwork.FullRowSelect = True
+        Me.lvProcNetwork.HideSelection = False
+        Me.lvProcNetwork.IsConnected = False
+        Me.lvProcNetwork.Location = New System.Drawing.Point(3, 3)
+        Me.lvProcNetwork.Name = "lvProcNetwork"
+        Me.lvProcNetwork.OverriddenDoubleBuffered = True
+        Me.lvProcNetwork.ProcessId = Nothing
+        Me.lvProcNetwork.ReorganizeColumns = True
+        Me.lvProcNetwork.ShowAllPid = False
+        Me.lvProcNetwork.ShowConnectionsByProcessesGroup = False
+        Me.lvProcNetwork.ShowObjectDetailsOnDoubleClick = True
+        Me.lvProcNetwork.Size = New System.Drawing.Size(641, 276)
+        Me.lvProcNetwork.TabIndex = 21
+        Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
+        Me.lvProcNetwork.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader49
+        '
+        Me.ColumnHeader49.Text = "Local"
+        Me.ColumnHeader49.Width = 210
+        '
+        'ColumnHeader57
+        '
+        Me.ColumnHeader57.Text = "Remote"
+        Me.ColumnHeader57.Width = 200
+        '
+        'ColumnHeader58
+        '
+        Me.ColumnHeader58.Text = "Protocol"
+        '
+        'ColumnHeader59
+        '
+        Me.ColumnHeader59.Text = "State"
+        Me.ColumnHeader59.Width = 150
+        '
+        'lvProcString
+        '
+        Me.lvProcString.AllowColumnReorder = True
+        Me.lvProcString.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader76, Me.ColumnHeader77})
+        Me.lvProcString.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcString.FullRowSelect = True
+        ListViewGroup1.Header = "Strings"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcString.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        Me.lvProcString.HideSelection = False
+        Me.lvProcString.Location = New System.Drawing.Point(0, 0)
+        Me.lvProcString.Name = "lvProcString"
+        Me.lvProcString.OverriddenDoubleBuffered = True
+        Me.lvProcString.Size = New System.Drawing.Size(647, 245)
+        Me.lvProcString.TabIndex = 22
+        Me.lvProcString.UseCompatibleStateImageBehavior = False
+        Me.lvProcString.View = System.Windows.Forms.View.Details
+        Me.lvProcString.VirtualMode = True
+        '
+        'ColumnHeader76
+        '
+        Me.ColumnHeader76.Text = "Position"
+        Me.ColumnHeader76.Width = 149
+        '
+        'ColumnHeader77
+        '
+        Me.ColumnHeader77.Text = "String"
+        Me.ColumnHeader77.Width = 447
+        '
         'lvProcEnv
         '
         Me.lvProcEnv.AllowColumnReorder = True
@@ -2173,16 +3108,6 @@ Partial Class frmProcessInfo
         '
         Me.ColumnHeader61.Text = "Value"
         Me.ColumnHeader61.Width = 431
-        '
-        'TabPageModules
-        '
-        Me.TabPageModules.Controls.Add(Me.lvModules)
-        Me.TabPageModules.Location = New System.Drawing.Point(4, 40)
-        Me.TabPageModules.Name = "TabPageModules"
-        Me.TabPageModules.Size = New System.Drawing.Size(647, 282)
-        Me.TabPageModules.TabIndex = 10
-        Me.TabPageModules.Text = "Modules"
-        Me.TabPageModules.UseVisualStyleBackColor = True
         '
         'lvModules
         '
@@ -2241,16 +3166,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader1.DisplayIndex = 1
         Me.ColumnHeader1.Text = "Address"
         Me.ColumnHeader1.Width = 80
-        '
-        'TabPageThreads
-        '
-        Me.TabPageThreads.Controls.Add(Me.lvThreads)
-        Me.TabPageThreads.Location = New System.Drawing.Point(4, 40)
-        Me.TabPageThreads.Name = "TabPageThreads"
-        Me.TabPageThreads.Size = New System.Drawing.Size(647, 282)
-        Me.TabPageThreads.TabIndex = 11
-        Me.TabPageThreads.Text = "Threads"
-        Me.TabPageThreads.UseVisualStyleBackColor = True
         '
         'lvThreads
         '
@@ -2319,16 +3234,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader11.Text = "ContextSwitchCount"
         Me.ColumnHeader11.Width = 200
         '
-        'TabPageWindows
-        '
-        Me.TabPageWindows.Controls.Add(Me.lvWindows)
-        Me.TabPageWindows.Location = New System.Drawing.Point(4, 40)
-        Me.TabPageWindows.Name = "TabPageWindows"
-        Me.TabPageWindows.Size = New System.Drawing.Size(647, 282)
-        Me.TabPageWindows.TabIndex = 12
-        Me.TabPageWindows.Text = "Windows"
-        Me.TabPageWindows.UseVisualStyleBackColor = True
-        '
         'lvWindows
         '
         Me.lvWindows.AllowColumnReorder = True
@@ -2375,16 +3280,6 @@ Partial Class frmProcessInfo
         'ColumnHeader42
         '
         Me.ColumnHeader42.Text = "Visible"
-        '
-        'TabPageHandles
-        '
-        Me.TabPageHandles.Controls.Add(Me.lvHandles)
-        Me.TabPageHandles.Location = New System.Drawing.Point(4, 40)
-        Me.TabPageHandles.Name = "TabPageHandles"
-        Me.TabPageHandles.Size = New System.Drawing.Size(647, 282)
-        Me.TabPageHandles.TabIndex = 13
-        Me.TabPageHandles.Text = "Handles"
-        Me.TabPageHandles.UseVisualStyleBackColor = True
         '
         'lvHandles
         '
@@ -2440,76 +3335,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader15.Text = "Handle"
         Me.ColumnHeader15.Width = 70
         '
-        'TabPageLog
-        '
-        Me.TabPageLog.Controls.Add(Me.SplitContainerLog)
-        Me.TabPageLog.Location = New System.Drawing.Point(4, 40)
-        Me.TabPageLog.Name = "TabPageLog"
-        Me.TabPageLog.Size = New System.Drawing.Size(647, 282)
-        Me.TabPageLog.TabIndex = 14
-        Me.TabPageLog.Text = "Log"
-        Me.TabPageLog.UseVisualStyleBackColor = True
-        '
-        'SplitContainerLog
-        '
-        Me.SplitContainerLog.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainerLog.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainerLog.IsSplitterFixed = True
-        Me.SplitContainerLog.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainerLog.Name = "SplitContainerLog"
-        Me.SplitContainerLog.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainerLog.Panel1
-        '
-        Me.SplitContainerLog.Panel1.Controls.Add(Me.cmdLogOptions)
-        Me.SplitContainerLog.Panel1.Controls.Add(Me.cmdSave)
-        Me.SplitContainerLog.Panel1.Controls.Add(Me.cmdClearLog)
-        Me.SplitContainerLog.Panel1.Controls.Add(Me.chkLog)
-        '
-        'SplitContainerLog.Panel2
-        '
-        Me.SplitContainerLog.Panel2.Controls.Add(Me.lvLog)
-        Me.SplitContainerLog.Size = New System.Drawing.Size(647, 282)
-        Me.SplitContainerLog.SplitterDistance = 25
-        Me.SplitContainerLog.TabIndex = 0
-        '
-        'cmdLogOptions
-        '
-        Me.cmdLogOptions.Location = New System.Drawing.Point(262, 1)
-        Me.cmdLogOptions.Name = "cmdLogOptions"
-        Me.cmdLogOptions.Size = New System.Drawing.Size(75, 23)
-        Me.cmdLogOptions.TabIndex = 5
-        Me.cmdLogOptions.Text = "Options..."
-        Me.cmdLogOptions.UseVisualStyleBackColor = True
-        '
-        'cmdSave
-        '
-        Me.cmdSave.Location = New System.Drawing.Point(181, 1)
-        Me.cmdSave.Name = "cmdSave"
-        Me.cmdSave.Size = New System.Drawing.Size(75, 23)
-        Me.cmdSave.TabIndex = 2
-        Me.cmdSave.Text = "Save log..."
-        Me.cmdSave.UseVisualStyleBackColor = True
-        '
-        'cmdClearLog
-        '
-        Me.cmdClearLog.Location = New System.Drawing.Point(100, 1)
-        Me.cmdClearLog.Name = "cmdClearLog"
-        Me.cmdClearLog.Size = New System.Drawing.Size(75, 23)
-        Me.cmdClearLog.TabIndex = 1
-        Me.cmdClearLog.Text = "Clear log"
-        Me.cmdClearLog.UseVisualStyleBackColor = True
-        '
-        'chkLog
-        '
-        Me.chkLog.AutoSize = True
-        Me.chkLog.Location = New System.Drawing.Point(8, 4)
-        Me.chkLog.Name = "chkLog"
-        Me.chkLog.Size = New System.Drawing.Size(86, 17)
-        Me.chkLog.TabIndex = 0
-        Me.chkLog.Text = "Activate log"
-        Me.chkLog.UseVisualStyleBackColor = True
-        '
         'lvLog
         '
         Me.lvLog.AllowColumnReorder = True
@@ -2551,843 +3376,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader4.Text = "Description"
         Me.ColumnHeader4.Width = 400
         '
-        'TabPageHistory
-        '
-        Me.TabPageHistory.Controls.Add(Me.containerHistory)
-        Me.TabPageHistory.Controls.Add(Me.lstHistoryCat)
-        Me.TabPageHistory.Location = New System.Drawing.Point(4, 40)
-        Me.TabPageHistory.Name = "TabPageHistory"
-        Me.TabPageHistory.Size = New System.Drawing.Size(647, 282)
-        Me.TabPageHistory.TabIndex = 15
-        Me.TabPageHistory.Text = "History"
-        Me.TabPageHistory.UseVisualStyleBackColor = True
-        '
-        'containerHistory
-        '
-        Me.containerHistory.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.containerHistory.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.containerHistory.IsSplitterFixed = True
-        Me.containerHistory.Location = New System.Drawing.Point(208, 0)
-        Me.containerHistory.Name = "containerHistory"
-        Me.containerHistory.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'containerHistory.Panel1
-        '
-        Me.containerHistory.Panel1.Controls.Add(Me.Label2)
-        Me.containerHistory.Size = New System.Drawing.Size(439, 282)
-        Me.containerHistory.SplitterDistance = 25
-        Me.containerHistory.TabIndex = 1
-        '
-        'Label2
-        '
-        Me.Label2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Label2.Location = New System.Drawing.Point(0, 0)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(439, 25)
-        Me.Label2.TabIndex = 0
-        Me.Label2.Text = "  Check items to see history graph"
-        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lstHistoryCat
-        '
-        Me.lstHistoryCat.Dock = System.Windows.Forms.DockStyle.Left
-        Me.lstHistoryCat.FormattingEnabled = True
-        Me.lstHistoryCat.Items.AddRange(New Object() {"CpuUsage", "AverageCpuUsage", "KernelCpuTime", "UserCpuTime", "TotalCpuTime", "GdiObjects", "UserObjects", "WorkingSet", "PeakWorkingSet", "PageFaultCount", "PagefileUsage", "PeakPagefileUsage", "QuotaPeakPagedPoolUsage", "QuotaPagedPoolUsage", "QuotaPeakNonPagedPoolUsage", "QuotaNonPagedPoolUsage", "ReadOperationCount", "WriteOperationCount", "OtherOperationCount", "ReadTransferCount", "WriteTransferCount", "OtherTransferCount", "ReadOperationCountDelta", "WriteOperationCountDelta", "OtherOperationCountDelta", "ReadTransferCountDelta", "WriteTransferCountDelta", "OtherTransferCountDelta"})
-        Me.lstHistoryCat.Location = New System.Drawing.Point(0, 0)
-        Me.lstHistoryCat.Name = "lstHistoryCat"
-        Me.lstHistoryCat.Size = New System.Drawing.Size(208, 276)
-        Me.lstHistoryCat.TabIndex = 0
-        '
-        'timerProcPerf
-        '
-        Me.timerProcPerf.Enabled = True
-        Me.timerProcPerf.Interval = 1000
-        '
-        'imgProcess
-        '
-        Me.imgProcess.ImageStream = CType(resources.GetObject("imgProcess.ImageStream"), System.Windows.Forms.ImageListStreamer)
-        Me.imgProcess.TransparentColor = System.Drawing.Color.Transparent
-        Me.imgProcess.Images.SetKeyName(0, "noIcon")
-        '
-        'imgMain
-        '
-        Me.imgMain.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit
-        Me.imgMain.ImageSize = New System.Drawing.Size(16, 16)
-        Me.imgMain.TransparentColor = System.Drawing.Color.Transparent
-        '
-        'timerLog
-        '
-        Me.timerLog.Interval = 1000
-        '
-        'mainMenu
-        '
-        Me.mainMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem3})
-        '
-        'MenuItem3
-        '
-        Me.MenuItem3.Index = 0
-        Me.MenuItem3.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemRefresh})
-        Me.MenuItem3.Text = "main"
-        Me.MenuItem3.Visible = False
-        '
-        'MenuItemRefresh
-        '
-        Me.MenuItemRefresh.DefaultItem = True
-        Me.MenuItemRefresh.Index = 0
-        Me.MenuItemRefresh.Shortcut = System.Windows.Forms.Shortcut.F5
-        Me.MenuItemRefresh.Text = "Refresh"
-        '
-        'MenuItemCopyBig
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyBig, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyBig.Index = 0
-        Me.MenuItemCopyBig.Text = "Copy to clipboard"
-        '
-        'MenuItemCopySmall
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopySmall, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopySmall.Index = 0
-        Me.MenuItemCopySmall.Text = "Copy to clipboard"
-        '
-        'MenuItemPriEnable
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemPriEnable, Global.My.Resources.Resources.ok)
-        Me.MenuItemPriEnable.Index = 0
-        Me.MenuItemPriEnable.Text = "Enable"
-        '
-        'MenuItemViewMemory
-        '
-        Me.MenuItemViewMemory.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemViewMemory, Global.My.Resources.Resources.magnifier)
-        Me.MenuItemViewMemory.Index = 0
-        Me.MenuItemViewMemory.Text = "View memory"
-        '
-        'MenuItemCloseHandle
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCloseHandle, Global.My.Resources.Resources.close)
-        Me.MenuItemCloseHandle.Index = 1
-        Me.MenuItemCloseHandle.Text = "Close item"
-        '
-        'menuCloseTCP
-        '
-        Me.menuCloseTCP.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.menuCloseTCP, Global.My.Resources.Resources.cross16)
-        Me.menuCloseTCP.Index = 0
-        Me.menuCloseTCP.Text = "Close TCP connection"
-        '
-        'MenuItemPriDisable
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemPriDisable, Global.My.Resources.Resources.close)
-        Me.MenuItemPriDisable.Index = 1
-        Me.MenuItemPriDisable.Text = "Disable"
-        '
-        'MenuItemPriRemove
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemPriRemove, Global.My.Resources.Resources.cross16)
-        Me.MenuItemPriRemove.Index = 2
-        Me.MenuItemPriRemove.Text = "Remove"
-        '
-        'MenuItemModuleFileProp
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemModuleFileProp, Global.My.Resources.Resources.document_text)
-        Me.MenuItemModuleFileProp.Index = 0
-        Me.MenuItemModuleFileProp.Text = "File properties"
-        '
-        'MenuItemModuleOpenDir
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemModuleOpenDir, Global.My.Resources.Resources.folder_open)
-        Me.MenuItemModuleOpenDir.Index = 1
-        Me.MenuItemModuleOpenDir.Text = "Open directory"
-        '
-        'MenuItemModuleFileDetails
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemModuleFileDetails, Global.My.Resources.Resources.magnifier)
-        Me.MenuItemModuleFileDetails.Index = 2
-        Me.MenuItemModuleFileDetails.Text = "File details"
-        '
-        'MenuItemModuleSearch
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemModuleSearch, Global.My.Resources.Resources.globe)
-        Me.MenuItemModuleSearch.Index = 3
-        Me.MenuItemModuleSearch.Text = "Internet search"
-        '
-        'MenuItemModuleDependencies
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemModuleDependencies, Global.My.Resources.Resources.dllIcon16)
-        Me.MenuItemModuleDependencies.Index = 4
-        Me.MenuItemModuleDependencies.Text = "View dependencies..."
-        '
-        'MenuItemUnloadModule
-        '
-        Me.MenuItemUnloadModule.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemUnloadModule, Global.My.Resources.Resources.cross16)
-        Me.MenuItemUnloadModule.Index = 7
-        Me.MenuItemUnloadModule.Text = "Unload module"
-        '
-        'MenuItemViewModuleMemory
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemViewModuleMemory, Global.My.Resources.Resources.magnifier)
-        Me.MenuItemViewModuleMemory.Index = 5
-        Me.MenuItemViewModuleMemory.Text = "View memory"
-        '
-        'MenuItemServSelService
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServSelService, Global.My.Resources.Resources.exe)
-        Me.MenuItemServSelService.Index = 1
-        Me.MenuItemServSelService.Text = "Select service"
-        '
-        'MenuItemServFileProp
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServFileProp, Global.My.Resources.Resources.document_text)
-        Me.MenuItemServFileProp.Index = 3
-        Me.MenuItemServFileProp.Text = "File properties"
-        '
-        'MenuItemServOpenDir
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServOpenDir, Global.My.Resources.Resources.folder_open)
-        Me.MenuItemServOpenDir.Index = 4
-        Me.MenuItemServOpenDir.Text = "Open directory"
-        '
-        'MenuItemServFileDetails
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServFileDetails, Global.My.Resources.Resources.magnifier)
-        Me.MenuItemServFileDetails.Index = 5
-        Me.MenuItemServFileDetails.Text = "File details"
-        '
-        'MenuItemServSearch
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServSearch, Global.My.Resources.Resources.globe)
-        Me.MenuItemServSearch.Index = 6
-        Me.MenuItemServSearch.Text = "Internet search"
-        '
-        'MenuItemServPause
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServPause, Global.My.Resources.Resources.control_pause)
-        Me.MenuItemServPause.Index = 9
-        Me.MenuItemServPause.Text = "Pause"
-        '
-        'MenuItemServStop
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServStop, Global.My.Resources.Resources.control_stop_square)
-        Me.MenuItemServStop.Index = 10
-        Me.MenuItemServStop.Text = "Stop"
-        '
-        'MenuItemServStart
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServStart, Global.My.Resources.Resources.control)
-        Me.MenuItemServStart.Index = 11
-        Me.MenuItemServStart.Text = "Start"
-        '
-        'MenuItemServAutoStart
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServAutoStart, Global.My.Resources.Resources.p6)
-        Me.MenuItemServAutoStart.Index = 0
-        Me.MenuItemServAutoStart.Text = "Auto start"
-        '
-        'MenuItemServOnDemand
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServOnDemand, Global.My.Resources.Resources.p3)
-        Me.MenuItemServOnDemand.Index = 1
-        Me.MenuItemServOnDemand.Text = "On demand"
-        '
-        'MenuItemServDisabled
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServDisabled, Global.My.Resources.Resources.p0)
-        Me.MenuItemServDisabled.Index = 2
-        Me.MenuItemServDisabled.Text = "Disabled"
-        '
-        'MenuItemThTerm
-        '
-        Me.MenuItemThTerm.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemThTerm, Global.My.Resources.Resources.cross16)
-        Me.MenuItemThTerm.Index = 0
-        Me.MenuItemThTerm.Text = "Terminate"
-        '
-        'MenuItemThSuspend
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemThSuspend, Global.My.Resources.Resources.control_pause)
-        Me.MenuItemThSuspend.Index = 1
-        Me.MenuItemThSuspend.Text = "Suspend"
-        '
-        'MenuItemThResu
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemThResu, Global.My.Resources.Resources.control)
-        Me.MenuItemThResu.Index = 2
-        Me.MenuItemThResu.Text = "Resume"
-        '
-        'MenuItemThIdle
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemThIdle, Global.My.Resources.Resources.p0)
-        Me.MenuItemThIdle.Index = 0
-        Me.MenuItemThIdle.Text = "Idle"
-        '
-        'MenuItemThLowest
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemThLowest, Global.My.Resources.Resources.p1)
-        Me.MenuItemThLowest.Index = 1
-        Me.MenuItemThLowest.Text = "Lowest"
-        '
-        'MenuItemThBNormal
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemThBNormal, Global.My.Resources.Resources.p2)
-        Me.MenuItemThBNormal.Index = 2
-        Me.MenuItemThBNormal.Text = "Below normal"
-        '
-        'MenuItemThNorm
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemThNorm, Global.My.Resources.Resources.p3)
-        Me.MenuItemThNorm.Index = 3
-        Me.MenuItemThNorm.Text = "Normal"
-        '
-        'MenuItemThANorm
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemThANorm, Global.My.Resources.Resources.p4)
-        Me.MenuItemThANorm.Index = 4
-        Me.MenuItemThANorm.Text = "Above normal"
-        '
-        'MenuItemThHighest
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemThHighest, Global.My.Resources.Resources.p5)
-        Me.MenuItemThHighest.Index = 5
-        Me.MenuItemThHighest.Text = "Highest"
-        '
-        'MenuItemThTimeCr
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemThTimeCr, Global.My.Resources.Resources.p6)
-        Me.MenuItemThTimeCr.Index = 6
-        Me.MenuItemThTimeCr.Text = "Time critical"
-        '
-        'MenuItemWShow
-        '
-        Me.MenuItemWShow.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemWShow, Global.My.Resources.Resources.monitor16)
-        Me.MenuItemWShow.Index = 0
-        Me.MenuItemWShow.Text = "Show"
-        '
-        'MenuItemWClose
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemWClose, Global.My.Resources.Resources.cross16)
-        Me.MenuItemWClose.Index = 3
-        Me.MenuItemWClose.Text = "Close"
-        '
-        'MenuItemWDisa
-        '
-        Me.MenuItemWDisa.Index = 8
-        Me.MenuItemWDisa.Text = "Disable"
-        '
-        'MenuItemLogGoto
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemLogGoto, Global.My.Resources.Resources.right)
-        Me.MenuItemLogGoto.Index = 0
-        Me.MenuItemLogGoto.Text = "Go to item"
-        '
-        'menuViewMemory
-        '
-        Me.menuViewMemory.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.menuViewMemory, Global.My.Resources.Resources.magnifier)
-        Me.menuViewMemory.Index = 0
-        Me.menuViewMemory.Text = "View memory"
-        '
-        'MenuItemCopyPrivilege
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyPrivilege, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyPrivilege.Index = 4
-        Me.MenuItemCopyPrivilege.Text = "Copy to clipboard"
-        '
-        'MenuItemCopyMemory
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyMemory, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyMemory.Index = 8
-        Me.MenuItemCopyMemory.Text = "Copy to clipboard"
-        '
-        'MenuItemCopyModule
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyModule, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyModule.Index = 9
-        Me.MenuItemCopyModule.Text = "Copy to clipboard"
-        '
-        'MenuItemCopyThread
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyThread, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyThread.Index = 6
-        Me.MenuItemCopyThread.Text = "Copy to clipboard"
-        '
-        'MenuItemCopyWindow
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyWindow, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyWindow.Index = 10
-        Me.MenuItemCopyWindow.Text = "Copy to clipboard"
-        '
-        'MenuItemCopyHandle
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyHandle, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyHandle.Index = 5
-        Me.MenuItemCopyHandle.Text = "Copy to clipboard"
-        '
-        'MenuItemCopyNetwork
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyNetwork, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyNetwork.Index = 2
-        Me.MenuItemCopyNetwork.Text = "Copy to clipboard"
-        '
-        'MenuItemCopyService
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyService, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyService.Index = 17
-        Me.MenuItemCopyService.Text = "Copy to clipboard"
-        '
-        'MenuItemCopyLog
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyLog, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyLog.Index = 2
-        Me.MenuItemCopyLog.Text = "Copy to clipboard"
-        '
-        'MenuItemCopyEnvVariable
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyEnvVariable, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyEnvVariable.Index = 0
-        Me.MenuItemCopyEnvVariable.Text = "Copy to clipboard"
-        '
-        'menuCopyPctbig
-        '
-        Me.menuCopyPctbig.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyBig})
-        '
-        'menuCopyPctSmall
-        '
-        Me.menuCopyPctSmall.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopySmall})
-        '
-        'mnuString
-        '
-        Me.mnuString.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuViewMemory, Me.MenuItem2, Me.MenuItemCopyString})
-        '
-        'MenuItem2
-        '
-        Me.MenuItem2.Index = 1
-        Me.MenuItem2.Text = "-"
-        '
-        'MenuItemCopyString
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemCopyString, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyString.Index = 2
-        Me.MenuItemCopyString.Text = "Copy to clipboard"
-        '
-        'mnuPrivileges
-        '
-        Me.mnuPrivileges.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemPriEnable, Me.MenuItemPriDisable, Me.MenuItemPriRemove, Me.MenuItem1, Me.MenuItemCopyPrivilege})
-        '
-        'MenuItem1
-        '
-        Me.MenuItem1.Index = 3
-        Me.MenuItem1.Text = "-"
-        '
-        'mnuProcMem
-        '
-        Me.mnuProcMem.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemViewMemory, Me.MenuItemMemoryDump, Me.MenuItemPEBAddress, Me.MenuItem13, Me.MenuItemMemoryRelease, Me.MenuItemMemoryDecommit, Me.MenuItemMemoryChangeProtection, Me.MenuItem22, Me.MenuItemCopyMemory, Me.MenuItemColumnsMemory})
-        '
-        'MenuItemMemoryDump
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemMemoryDump, Global.My.Resources.Resources.save16)
-        Me.MenuItemMemoryDump.Index = 1
-        Me.MenuItemMemoryDump.Text = "Dump..."
-        '
-        'MenuItemPEBAddress
-        '
-        Me.MenuItemPEBAddress.Index = 2
-        Me.MenuItemPEBAddress.Text = "Jump to PEB address"
-        '
-        'MenuItem13
-        '
-        Me.MenuItem13.Index = 3
-        Me.MenuItem13.Text = "-"
-        '
-        'MenuItemMemoryRelease
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemMemoryRelease, Global.My.Resources.Resources.cross16)
-        Me.MenuItemMemoryRelease.Index = 4
-        Me.MenuItemMemoryRelease.Text = "Release"
-        '
-        'MenuItemMemoryDecommit
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemMemoryDecommit, Global.My.Resources.Resources.close)
-        Me.MenuItemMemoryDecommit.Index = 5
-        Me.MenuItemMemoryDecommit.Text = "Decommit"
-        '
-        'MenuItemMemoryChangeProtection
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemMemoryChangeProtection, Global.My.Resources.Resources.locked)
-        Me.MenuItemMemoryChangeProtection.Index = 6
-        Me.MenuItemMemoryChangeProtection.Text = "Change protection..."
-        '
-        'MenuItem22
-        '
-        Me.MenuItem22.Index = 7
-        Me.MenuItem22.Text = "-"
-        '
-        'MenuItemColumnsMemory
-        '
-        Me.MenuItemColumnsMemory.Index = 9
-        Me.MenuItemColumnsMemory.Text = "Choose columns..."
-        '
-        'mnuModule
-        '
-        Me.mnuModule.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemModuleFileProp, Me.MenuItemModuleOpenDir, Me.MenuItemModuleFileDetails, Me.MenuItemModuleSearch, Me.MenuItemModuleDependencies, Me.MenuItemViewModuleMemory, Me.MenuItem16, Me.MenuItemUnloadModule, Me.MenuItem19, Me.MenuItemCopyModule, Me.MenuItemColumnsModule})
-        '
-        'MenuItem16
-        '
-        Me.MenuItem16.Index = 6
-        Me.MenuItem16.Text = "-"
-        '
-        'MenuItem19
-        '
-        Me.MenuItem19.Index = 8
-        Me.MenuItem19.Text = "-"
-        '
-        'MenuItemColumnsModule
-        '
-        Me.MenuItemColumnsModule.Index = 10
-        Me.MenuItemColumnsModule.Text = "Choose columns..."
-        '
-        'mnuThread
-        '
-        Me.mnuThread.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemThTerm, Me.MenuItemThSuspend, Me.MenuItemThResu, Me.MenuItem8, Me.MenuItemThAffinity, Me.MenuItem15, Me.MenuItemCopyThread, Me.MenuItemThColumns})
-        '
-        'MenuItem8
-        '
-        Me.MenuItem8.Index = 3
-        Me.MenuItem8.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemThIdle, Me.MenuItemThLowest, Me.MenuItemThBNormal, Me.MenuItemThNorm, Me.MenuItemThANorm, Me.MenuItemThHighest, Me.MenuItemThTimeCr})
-        Me.MenuItem8.Text = "Priority"
-        '
-        'MenuItemThAffinity
-        '
-        Me.MenuItemThAffinity.Index = 4
-        Me.MenuItemThAffinity.Text = "Set affinity..."
-        '
-        'MenuItem15
-        '
-        Me.MenuItem15.Index = 5
-        Me.MenuItem15.Text = "-"
-        '
-        'MenuItemThColumns
-        '
-        Me.MenuItemThColumns.Index = 7
-        Me.MenuItemThColumns.Text = "Choose columns..."
-        '
-        'mnuWindow
-        '
-        Me.mnuWindow.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWShow, Me.MenuItemWShowUn, Me.MenuItemWHide, Me.MenuItemWClose, Me.MenuItem9, Me.MenuItem7, Me.MenuItem30, Me.MenuItemWEna, Me.MenuItemWDisa, Me.MenuItem33, Me.MenuItemCopyWindow, Me.MenuItemWColumns})
-        '
-        'MenuItemWShowUn
-        '
-        Me.MenuItemWShowUn.Index = 1
-        Me.MenuItemWShowUn.Text = "Show unnamed"
-        '
-        'MenuItemWHide
-        '
-        Me.MenuItemWHide.Index = 2
-        Me.MenuItemWHide.Text = "Hide"
-        '
-        'MenuItem9
-        '
-        Me.MenuItem9.Index = 4
-        Me.MenuItem9.Text = "-"
-        '
-        'MenuItem7
-        '
-        Me.MenuItem7.Index = 5
-        Me.MenuItem7.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWFront, Me.MenuItemWNotFront, Me.MenuItemWActive, Me.MenuItemWForeground, Me.MenuItem26, Me.MenuItemWMin, Me.MenuItemWMax, Me.MenuItemWPosSize, Me.MenuItem4, Me.MenuItemWFlash, Me.MenuItemWStopFlash, Me.MenuItem21, Me.MenuItemWOpacity, Me.MenuItemWCaption})
-        Me.MenuItem7.Text = "Visibility"
-        '
-        'MenuItemWFront
-        '
-        Me.MenuItemWFront.Index = 0
-        Me.MenuItemWFront.Text = "Bring to front"
-        '
-        'MenuItemWNotFront
-        '
-        Me.MenuItemWNotFront.Index = 1
-        Me.MenuItemWNotFront.Text = "Do not bring to front"
-        '
-        'MenuItemWActive
-        '
-        Me.MenuItemWActive.Index = 2
-        Me.MenuItemWActive.Text = "Set as active window"
-        '
-        'MenuItemWForeground
-        '
-        Me.MenuItemWForeground.Index = 3
-        Me.MenuItemWForeground.Text = "Set as foreground window"
-        '
-        'MenuItem26
-        '
-        Me.MenuItem26.Index = 4
-        Me.MenuItem26.Text = "-"
-        '
-        'MenuItemWMin
-        '
-        Me.MenuItemWMin.Index = 5
-        Me.MenuItemWMin.Text = "Minimize"
-        '
-        'MenuItemWMax
-        '
-        Me.MenuItemWMax.Index = 6
-        Me.MenuItemWMax.Text = "Maximize"
-        '
-        'MenuItemWPosSize
-        '
-        Me.MenuItemWPosSize.Index = 7
-        Me.MenuItemWPosSize.Text = "Position && size"
-        '
-        'MenuItem4
-        '
-        Me.MenuItem4.Index = 8
-        Me.MenuItem4.Text = "-"
-        '
-        'MenuItemWFlash
-        '
-        Me.MenuItemWFlash.Index = 9
-        Me.MenuItemWFlash.Text = "Flash"
-        '
-        'MenuItemWStopFlash
-        '
-        Me.MenuItemWStopFlash.Index = 10
-        Me.MenuItemWStopFlash.Text = "Stop flashing"
-        '
-        'MenuItem21
-        '
-        Me.MenuItem21.Index = 11
-        Me.MenuItem21.Text = "-"
-        '
-        'MenuItemWOpacity
-        '
-        Me.MenuItemWOpacity.Index = 12
-        Me.MenuItemWOpacity.Text = "Change opacity..."
-        '
-        'MenuItemWCaption
-        '
-        Me.MenuItemWCaption.Index = 13
-        Me.MenuItemWCaption.Text = "Change caption..."
-        '
-        'MenuItem30
-        '
-        Me.MenuItem30.Index = 6
-        Me.MenuItem30.Text = "-"
-        '
-        'MenuItemWEna
-        '
-        Me.MenuItemWEna.Index = 7
-        Me.MenuItemWEna.Text = "Enable"
-        '
-        'MenuItem33
-        '
-        Me.MenuItem33.Index = 9
-        Me.MenuItem33.Text = "-"
-        '
-        'MenuItemWColumns
-        '
-        Me.MenuItemWColumns.Index = 11
-        Me.MenuItemWColumns.Text = "Choose columns..."
-        '
-        'mnuHandle
-        '
-        Me.mnuHandle.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemHandleDetails, Me.MenuItemCloseHandle, Me.MenuItem12, Me.MenuItemShowUnnamedHandles, Me.MenuItem14, Me.MenuItemCopyHandle, Me.MenuItemChooseColumnsHandle})
-        '
-        'MenuItemHandleDetails
-        '
-        Me.MenuItemHandleDetails.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemHandleDetails, Global.My.Resources.Resources.monitor16)
-        Me.MenuItemHandleDetails.Index = 0
-        Me.MenuItemHandleDetails.Text = "Details..."
-        '
-        'MenuItem12
-        '
-        Me.MenuItem12.Index = 2
-        Me.MenuItem12.Text = "-"
-        '
-        'MenuItemShowUnnamedHandles
-        '
-        Me.MenuItemShowUnnamedHandles.Index = 3
-        Me.MenuItemShowUnnamedHandles.Text = "Show unnamed handles"
-        '
-        'MenuItem14
-        '
-        Me.MenuItem14.Index = 4
-        Me.MenuItem14.Text = "-"
-        '
-        'MenuItemChooseColumnsHandle
-        '
-        Me.MenuItemChooseColumnsHandle.Index = 6
-        Me.MenuItemChooseColumnsHandle.Text = "Choose columns..."
-        '
-        'mnuNetwork
-        '
-        Me.mnuNetwork.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuCloseTCP, Me.MenuItem10, Me.MenuItemCopyNetwork, Me.MenuItem11})
-        '
-        'MenuItem10
-        '
-        Me.MenuItem10.Index = 1
-        Me.MenuItem10.Text = "-"
-        '
-        'MenuItem11
-        '
-        Me.MenuItem11.Index = 3
-        Me.MenuItem11.Text = "Choose columns..."
-        '
-        'mnuService
-        '
-        Me.mnuService.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServDetails, Me.MenuItemServSelService, Me.MenuItem5, Me.MenuItemServFileProp, Me.MenuItemServOpenDir, Me.MenuItemServFileDetails, Me.MenuItemServSearch, Me.MenuItemServDepe, Me.MenuItem20, Me.MenuItemServPause, Me.MenuItemServStop, Me.MenuItemServStart, Me.MenuItem17, Me.MenuItemServDelete, Me.MenuItem25, Me.MenuItemServReanalize, Me.MenuItem24, Me.MenuItemCopyService, Me.MenuItemServColumns})
-        '
-        'MenuItemServDetails
-        '
-        Me.MenuItemServDetails.DefaultItem = True
-        Me.MenuItemServDetails.Index = 0
-        Me.MenuItemServDetails.Text = "Service details"
-        '
-        'MenuItem5
-        '
-        Me.MenuItem5.Index = 2
-        Me.MenuItem5.Text = "-"
-        '
-        'MenuItemServDepe
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServDepe, Global.My.Resources.Resources.dllIcon16)
-        Me.MenuItemServDepe.Index = 7
-        Me.MenuItemServDepe.Text = "View dependencies..."
-        '
-        'MenuItem20
-        '
-        Me.MenuItem20.Index = 8
-        Me.MenuItem20.Text = "-"
-        '
-        'MenuItem17
-        '
-        Me.MenuItem17.Index = 12
-        Me.MenuItem17.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemServAutoStart, Me.MenuItemServOnDemand, Me.MenuItemServDisabled})
-        Me.MenuItem17.Text = "Start type"
-        '
-        'MenuItemServDelete
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemServDelete, Global.My.Resources.Resources.cross16)
-        Me.MenuItemServDelete.Index = 13
-        Me.MenuItemServDelete.Text = "Delete"
-        '
-        'MenuItem25
-        '
-        Me.MenuItem25.Index = 14
-        Me.MenuItem25.Text = "-"
-        '
-        'MenuItemServReanalize
-        '
-        Me.MenuItemServReanalize.Index = 15
-        Me.MenuItemServReanalize.Text = "Reanalize"
-        '
-        'MenuItem24
-        '
-        Me.MenuItem24.Index = 16
-        Me.MenuItem24.Text = "-"
-        '
-        'MenuItemServColumns
-        '
-        Me.MenuItemServColumns.Index = 18
-        Me.MenuItemServColumns.Text = "Choose columns..."
-        '
-        'mnuLog
-        '
-        Me.mnuLog.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemLogGoto, Me.MenuItem6, Me.MenuItemCopyLog})
-        '
-        'MenuItem6
-        '
-        Me.MenuItem6.Index = 1
-        Me.MenuItem6.Text = "-"
-        '
-        'mnuEnv
-        '
-        Me.mnuEnv.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemCopyEnvVariable})
-        '
-        'VistaMenu
-        '
-        Me.VistaMenu.ContainerControl = Me
-        '
-        'SplitContainer
-        '
-        Me.SplitContainer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
-        Me.SplitContainer.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SplitContainer.IsSplitterFixed = True
-        Me.SplitContainer.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer.Name = "SplitContainer"
-        Me.SplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer.Panel1
-        '
-        Me.SplitContainer.Panel1.Controls.Add(Me.tabProcess)
-        '
-        'SplitContainer.Panel2
-        '
-        Me.SplitContainer.Panel2.Controls.Add(Me.cmdHideFindPanel)
-        Me.SplitContainer.Panel2.Controls.Add(Me.chkFreeze)
-        Me.SplitContainer.Panel2.Controls.Add(Me.lblSearchItemCaption)
-        Me.SplitContainer.Panel2.Controls.Add(Me.lblResCount)
-        Me.SplitContainer.Panel2.Controls.Add(Me.txtSearch)
-        Me.SplitContainer.Size = New System.Drawing.Size(655, 356)
-        Me.SplitContainer.SplitterDistance = 326
-        Me.SplitContainer.TabIndex = 1
-        '
-        'cmdHideFindPanel
-        '
-        Me.cmdHideFindPanel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdHideFindPanel.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.cmdHideFindPanel.Location = New System.Drawing.Point(628, 3)
-        Me.cmdHideFindPanel.Name = "cmdHideFindPanel"
-        Me.cmdHideFindPanel.Size = New System.Drawing.Size(23, 20)
-        Me.cmdHideFindPanel.TabIndex = 18
-        Me.cmdHideFindPanel.Text = "X"
-        Me.cmdHideFindPanel.UseVisualStyleBackColor = True
-        '
-        'chkFreeze
-        '
-        Me.chkFreeze.AutoSize = True
-        Me.chkFreeze.Location = New System.Drawing.Point(479, 5)
-        Me.chkFreeze.Name = "chkFreeze"
-        Me.chkFreeze.Size = New System.Drawing.Size(136, 17)
-        Me.chkFreeze.TabIndex = 17
-        Me.chkFreeze.Text = "Suspend refreshment"
-        Me.chkFreeze.UseVisualStyleBackColor = True
-        '
-        'lblSearchItemCaption
-        '
-        Me.lblSearchItemCaption.AutoSize = True
-        Me.lblSearchItemCaption.Enabled = False
-        Me.lblSearchItemCaption.Location = New System.Drawing.Point(6, 6)
-        Me.lblSearchItemCaption.Name = "lblSearchItemCaption"
-        Me.lblSearchItemCaption.Size = New System.Drawing.Size(66, 13)
-        Me.lblSearchItemCaption.TabIndex = 16
-        Me.lblSearchItemCaption.Text = "Search item"
-        '
-        'lblResCount
-        '
-        Me.lblResCount.AutoSize = True
-        Me.lblResCount.Enabled = False
-        Me.lblResCount.Location = New System.Drawing.Point(396, 6)
-        Me.lblResCount.Name = "lblResCount"
-        Me.lblResCount.Size = New System.Drawing.Size(56, 13)
-        Me.lblResCount.TabIndex = 15
-        Me.lblResCount.Text = "0 result(s)"
-        '
-        'txtSearch
-        '
-        Me.txtSearch.Enabled = False
-        Me.txtSearch.Location = New System.Drawing.Point(75, 1)
-        Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(312, 22)
-        Me.txtSearch.TabIndex = 14
-        '
-        'RadioButton1
-        '
-        Me.RadioButton1.Location = New System.Drawing.Point(0, 0)
-        Me.RadioButton1.Name = "RadioButton1"
-        Me.RadioButton1.Size = New System.Drawing.Size(104, 24)
-        Me.RadioButton1.TabIndex = 0
-        '
         'frmProcessInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3398,6 +3386,11 @@ Partial Class frmProcessInfo
         Me.MinimumSize = New System.Drawing.Size(660, 392)
         Me.Name = "frmProcessInfo"
         Me.Text = "Process informations"
+        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer.Panel1.ResumeLayout(False)
+        Me.SplitContainer.Panel2.ResumeLayout(False)
+        Me.SplitContainer.Panel2.PerformLayout()
+        Me.SplitContainer.ResumeLayout(False)
         Me.tabProcess.ResumeLayout(False)
         Me.TabPageGeneral.ResumeLayout(False)
         Me.GroupBox7.ResumeLayout(False)
@@ -3425,12 +3418,9 @@ Partial Class frmProcessInfo
         Me.splitPerformances.Panel1.ResumeLayout(False)
         Me.splitPerformances.Panel2.ResumeLayout(False)
         Me.splitPerformances.ResumeLayout(False)
-        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).EndInit()
         Me.splitPerformance2.Panel1.ResumeLayout(False)
         Me.splitPerformance2.Panel2.ResumeLayout(False)
         Me.splitPerformance2.ResumeLayout(False)
-        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPageToken.ResumeLayout(False)
         Me.tabProcessToken.ResumeLayout(False)
         Me.tabProcessTokenPagePrivileges.ResumeLayout(False)
@@ -3459,11 +3449,9 @@ Partial Class frmProcessInfo
         Me.TabPageHistory.ResumeLayout(False)
         Me.containerHistory.Panel1.ResumeLayout(False)
         Me.containerHistory.ResumeLayout(False)
-        CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer.Panel1.ResumeLayout(False)
-        Me.SplitContainer.Panel2.ResumeLayout(False)
-        Me.SplitContainer.Panel2.PerformLayout()
-        Me.SplitContainer.ResumeLayout(False)
+        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -3583,7 +3571,6 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader60 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader61 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerProcPerf As System.Windows.Forms.Timer
-    Friend WithEvents imgProcess As System.Windows.Forms.ImageList
     Friend WithEvents TabPageModules As System.Windows.Forms.TabPage
     Friend WithEvents TabPageThreads As System.Windows.Forms.TabPage
     Friend WithEvents TabPageWindows As System.Windows.Forms.TabPage
@@ -3617,7 +3604,6 @@ Partial Class frmProcessInfo
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents lblAverageCPUusage As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents imgMain As System.Windows.Forms.ImageList
     Friend WithEvents lvProcServices As serviceList
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader

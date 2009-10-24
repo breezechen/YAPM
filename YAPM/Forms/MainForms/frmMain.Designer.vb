@@ -4282,7 +4282,7 @@ Partial Class frmMain
         'MenuItemTaskSelProc
         '
         Me.MenuItemTaskSelProc.Enabled = False
-        Me.VistaMenu.SetImage(Me.MenuItemTaskSelProc, Global.My.Resources.Resources.exe)
+        Me.VistaMenu.SetImage(Me.MenuItemTaskSelProc, Global.My.Resources.Resources.exe16)
         Me.MenuItemTaskSelProc.Index = 6
         Me.MenuItemTaskSelProc.Text = "Select associated process"
         '
@@ -4369,7 +4369,7 @@ Partial Class frmMain
         'MenuItemServSelService
         '
         Me.MenuItemServSelService.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemServSelService, Global.My.Resources.Resources.exe)
+        Me.VistaMenu.SetImage(Me.MenuItemServSelService, Global.My.Resources.Resources.exe16)
         Me.MenuItemServSelService.Index = 0
         Me.MenuItemServSelService.Text = "Show selected process"
         '
@@ -4448,13 +4448,13 @@ Partial Class frmMain
         'MenuItemServSelProc
         '
         Me.MenuItemServSelProc.DefaultItem = True
-        Me.VistaMenu.SetImage(Me.MenuItemServSelProc, Global.My.Resources.Resources.exe)
+        Me.VistaMenu.SetImage(Me.MenuItemServSelProc, Global.My.Resources.Resources.exe16)
         Me.MenuItemServSelProc.Index = 0
         Me.MenuItemServSelProc.Text = "Select associated process"
         '
         'MenuItemSearchSel
         '
-        Me.VistaMenu.SetImage(Me.MenuItemSearchSel, Global.My.Resources.Resources.exe)
+        Me.VistaMenu.SetImage(Me.MenuItemSearchSel, Global.My.Resources.Resources.exe16)
         Me.MenuItemSearchSel.Index = 2
         Me.MenuItemSearchSel.Text = "Select associated process/service"
         '

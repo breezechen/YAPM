@@ -100,7 +100,7 @@ Public Class serviceDependenciesList
 
         Me.ImageList = _IMG
         _IMG.Images.Add("ok", My.Resources.gear)   ' Icon is specific
-        _IMG.Images.Add("ko", My.Resources.exe)
+        _IMG.Images.Add("ko", My.Resources.exe16)
         _IMG.Images.Add("service", My.Resources.gear)
 
 
