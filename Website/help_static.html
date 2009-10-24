@@ -36,10 +36,10 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
 <a href="#DependenciesViewer">Dependency viewer</a><br>
 <a href="#OtherFeatures">Others features &amp; tips</a><br>
 &nbsp;</p>
-    <p>Some of the features of YAPM are not available with remote monitoring. On the help available below, if the name of a&nbsp;command is <b>black</b>, the command is&nbsp;available for all types of connection (local, WMI and server). If it's <font color="#00B050"><b>green</b></font>, it's available for both local and remote via server. If it's <font color="#00B0F0"><b>blue</b></font> it's only available for local machine.</p>
+    <p>Some of the features of YAPM are not available with remote monitoring. On the help file&nbsp;available below, if the name of a&nbsp;command is <b>black</b>, the command is&nbsp;available for all types of connection (local, WMI and server). If it's <font color="#00B050"><b>green</b></font>, it's available for both local and remote via server. If it's <font color="#00B0F0"><b>blue</b></font> it's only available for a local machine.</p>
     <p>&nbsp;</p>
     <h2><a name="Menu"></a>Main menu</h2>
-    <p>Here are the features available in the main&nbsp;menu (click on the Orb) or&nbsp;when you click on&nbsp;the small icons of the ribbon, near the Orb :</p>
+    <p>Here are the features available in the main&nbsp;menu (click on the Orb) or&nbsp;when you click on&nbsp;the small icons on the ribbon, near the Orb :</p>
     <UL>
         <LI><b>Restart with privileges</b> : if YAPM is running on Vista or above and UAC is enabled, this button will cause YAPM to restart with full privileges. This will require an administrator account and will prompt the user to accept the elevation of YAPM. This elevation is required to enable all features of YAPM (job management and control of all processes).</LI>
         <LI><b>Change connection type</b> : changes the type of connection YAPM is using. You can choose&nbsp;&quot;local&quot;, &quot;remote via WMI&quot; or &quot;remote via server&quot;. &quot;Local&quot; should be used to monitor the system on which YAPM is running. &quot;WMI&quot; should be used to monitor a remote machine on the same workgroup. It's a bit limited but does not require anything to be started on the remote machine. &quot;Server&quot; should be used to have full control on the remote machine, but it requires YAPM to be launched on the remote machine as a server.&nbsp;See <a href="help.html#RemoteManagement">Remote monitoring</a>.</LI>
@@ -62,7 +62,8 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <LI><font color="#00B050"><b>Maximize window </b></font>: maximizes the main window of the task.</LI>
         <LI><b><font color="#00B050">Minimize window </font></b>: minimizes the main window of the task.</LI>
         <LI><b><font color="#00B050">End task</font></b> : ends the task. It sends a 'close message' to the process, and tries to end it properly.</LI>
-        <LI><b><font color="#00B050">Select associated process</font></b> : select the owner process in the 'Processes' tab.</LI>
+        <LI><b><font color="#00B050">Select associated process</font></b> : selects the owner process in the 'Processes' tab.</LI>
+        <LI><b><font color="#00B050">Select in &quot;window tab&quot;</font></b> : selects the window in the process' detailed window.</LI>
     </UL>
     <p>Double click on a task will&nbsp;select the associated process.</p>
     <h2><a name="Process"></a>Processes</h2>
@@ -73,14 +74,14 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <LI><b><font color="#00B050">Kill process by method</font></b> : this allows to kill the selected process using non-standard&nbsp;methods, in case of protected processes such as antivirus softwares.</LI>
         <LI><b><font color="#00B050">Stop</font></b> : pauses the selected process. Use &quot;resume&quot; to resume it.</LI>
         <LI><b><font color="#00B050">Resume</font></b> : resumes the selected process after a &quot;stop&quot;.</LI>
-        <LI><b>Change priorit </b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;">: change the priority of the selected process.</span></LI>
+        <LI><b>Change priority </b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;">: changes the priority of the selected process.</span></LI>
         <LI><b>Reanalize</b> : this&nbsp;will refresh the&nbsp;&quot;fixed&quot; informations about a process, for example the path of the executable. It should be used when these informations are not available. For example, if the path or the user name is not displayed, just reanalize the process to get the informations another time.</LI>
         <LI><b><font color="#00B050">Other -&gt; Reduce working set size</font></b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;"> : this will reduce the working set size used by the selected process.</span></LI>
         <LI><b><font color="#00B050">Other -&gt; Set&nbsp;affinity </font></b>: you will be able to select the processor(s) that the process will use.</LI>
-        <LI><b>Other -&gt; Create dump file</b> : creates a custom dump file of the process' memory.</LI>
+        <LI><b><font color="#00B0F0">Other -&gt; Create dump file</font></b> : creates a custom dump file of the process' memory.</LI>
         <LI><b><font color="#00B050">Job -&gt; Add to job</font></b> : adds the selected processes to a job. <a href="#JobManagement">See Jobs</a>.</LI>
         <LI><b><font color="#00B050">Job -&gt; Control job</font></b> : opens a window with detailed informations about the job related to the selected process. <a href="help.html#JobManagement">See Jobs</a>. </LI>
-        <LI><b><font color="#00B0F0">File properties</font></b> : opens the Windows property dialog box about the executable.</LI>
+        <LI><b><font color="#00B0F0">File properties</font></b> : opens the Windows property dialog box about the executable file.</LI>
         <LI><b><font color="#00B0F0">Open directory</font></b> : opens the directory which contains the executable file.</LI>
         <LI><b><font color="#00B0F0">File details</font></b> : shows details of the executable in the 'File' tab.</LI>
         <LI><b>Internet search</b> : searches for the executable name on the Internet.</LI>
@@ -98,9 +99,9 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <p>These features are available in the 'Monitor' tab of the main form. Use the icons on the ribbon, or use the popup menu (right-click on the treeview). This feature allows to use&nbsp;the &quot;performance counters&quot; of Windows available on&nbsp;the system (local system if connection type is local, or&nbsp;remote system if connection type is remote via WMI). Here are the available actions :</p>
     <ul>
         <LI><b>Add</b> : adds a counter. You will have to select a category, a counter and an instance (if required). You have to set the interval of refreshment (1000 ms by default).</LI>
-        <LI><b>Remove selection</b> : remove the counters selected in the tree</LI>
-        <LI><b>Start/Stop</b> : start or stop the counters selected in the tree</LI>
-        <LI><b>Save report</b> : save a report</LI>
+        <LI><b>Remove selection</b> : removes the counters selected in the tree</LI>
+        <LI><b>Start/Stop</b> : starts or stops the counters selected in the tree</LI>
+        <LI><b>Save report</b> : saves a report</LI>
     </ul>
     <p>To see a &quot;performance counter&quot;, select it in the tree. Then the associated graph will be displayed.</p>
     <ul>
@@ -115,12 +116,12 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <LI><b><font color="#00B0F0">File properties</font></b> : opens the Windows property dialog box about the executable.</LI>
         <LI><font color="#00B0F0"><b>Open directory</b></font> : opens the directory which contains the executable file.</LI>
         <LI><b><font color="#00B0F0">File details</font></b> : shows details of the executable in the 'File' tab.</LI>
-        <LI><b><font color="#00B0F0">Internet search</font></b> : searches for the executable name on the Internet.</LI>
+        <LI><b>Internet search</b> : searches for the executable name on the Internet.</LI>
         <LI><b><font color="#00B0F0">Show dependencies</font></b> : opens the <a href="help.html#DependenciesViewer">Dependency viewer</a> to see dependencies of the selected service.</LI>
         <LI><b>Pause/Resume</b> : pauses (or resumes)&nbsp;the selected service.</LI>
         <LI><b>Stop</b> : stops the selected service</LI>
         <LI><b>Start</b> : starts the selected service</LI>
-        <LI><b>Change start type</b> : changes the start type of a service.</LI>
+        <LI><b>Change start type</b> : changes the start type of the selected&nbsp;service.</LI>
         <LI><b><font color="#00B050">Delete</font></b> : deletes the selected service.</LI>
         <LI><b>Reanalyze</b> : refreshes some informations which are not automatically refreshed, for example the 'Start type'</LI>
     </UL>
@@ -128,7 +129,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <p>These features are available in the 'Network' tab of the main form. Use the icons on the ribbon, or use the popup menu (right-click on the listview).&nbsp;All actions are available for the different connections&nbsp;you select in the list. </p>
     <ul>
         <LI><b><font color="#00B050">Select associated process</font></b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;"> </span><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;">: selects the processes associated to the selected network connections.</span></LI>
-        <LI><b><font color="#00B050">Close TCP connection</font></b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;"> : closes the TCP connections which are selected.</span></LI>
+        <LI><b><font color="#00B050">Close TCP connection</font></b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;"> : closes the established&nbsp;TCP connections which are selected.</span></LI>
     </ul>
     <h2><a name="File"></a><b>File features</b></h2>
     <p>These are available in the 'File' tab of the main form. Use the icons on the ribbon, or right-click on the list. The first thing to do before using &quot;file features&quot;&nbsp;is to open the file with 'Open file' icon. Then, some actions will be available. Note that even if the 'File' tab is available for&nbsp;all types of connection, you only can select local files.</p>
@@ -237,7 +238,7 @@ Note that the shortcuts only affect the local machine.</p>
         <LI><b>Modules</b> : displays loaded modules. 'View memory' menu opens the hex editor and shows the memory at&nbsp;the module' base address. </LI>
         <LI><b>Threads</b> : displays threads of the process</LI>
         <LI><b><font color="#00B050">Windows</font></b> : displays windows of the process</LI>
-        <LI><b><font color="#00B050">Handles</font></b> : displays handles opened by the process. &quot;File&quot; handles are only shown if YAPM kernel driver is loaded.</LI>
+        <LI><b><font color="#00B050">Handles</font></b> : displays handles opened by the process. &quot;File&quot; handles are only shown if YAPM kernel driver is loaded. Double-click on a handle to display detailed informations about the handle and some available actions, depending of the type of handle you've selected.</LI>
         <LI><b><font color="#00B050">Log</font></b> : powerful tool to monitor all changes made by/on a process. See <a href="#LogFeature">Log feature</a>.</LI>
         <LI><b>History</b> : display the history of one or more numerical counter(s). Select the desired counters on the left to display the associated graphs on the right. The history of all processes is collected&nbsp;in memory in real time and there is no need to open the detail view of the&nbsp;processes&nbsp;to collect informations, but the size of informations collected&nbsp;is limited. By default, only 100KB of history data are stored by process. You can configure it (or set it as unlimited) in the 'Preferences' window.</LI>
     </ul>
