@@ -33,21 +33,31 @@ Public Class HFileProp
     Public Overrides Sub RefreshInfos()
         Dim bFileExists As Boolean = IO.File.Exists(Me.TheHandle.Infos.Name)
         Dim bDirExists As Boolean = IO.Directory.Exists(Me.TheHandle.Infos.Name)
+        Dim _local As Boolean = (cHandle.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+
+        bFileExists = bFileExists And _local
+        bDirExists = bDirExists And _local
+
         Me.cmdFileDetails.Enabled = bFileExists
         Me.cmdOpenDirectory.Enabled = bDirExists Or bFileExists
         Me.cmdOpen.Enabled = Me.cmdOpenDirectory.Enabled
 
-        If bFileExists Then
-            Me.lblFileExists.ForeColor = Color.DarkGreen
-            Me.lblFileExists.Text = "File exists"
-        Else
-            If bDirExists Then
+        If _local Then
+            If bFileExists Then
                 Me.lblFileExists.ForeColor = Color.DarkGreen
-                Me.lblFileExists.Text = "Directory exists"
+                Me.lblFileExists.Text = "File exists"
             Else
-                Me.lblFileExists.ForeColor = Color.DarkRed
-                Me.lblFileExists.Text = "Unknown file"
+                If bDirExists Then
+                    Me.lblFileExists.ForeColor = Color.DarkGreen
+                    Me.lblFileExists.Text = "Directory exists"
+                Else
+                    Me.lblFileExists.ForeColor = Color.DarkRed
+                    Me.lblFileExists.Text = "Unknown file"
+                End If
             End If
+        Else
+            Me.lblFileExists.ForeColor = Color.Black
+            Me.lblFileExists.Text = "Remote file"
         End If
     End Sub
 
