@@ -2639,6 +2639,8 @@ Public Class frmProcessInfo
             If Me.SplitContainer.Panel2Collapsed Then
                 Call showFindPanel()
             End If
+        ElseIf e.KeyCode = Keys.Enter Then
+            Call Me.lvHeaps_MouseDoubleClick(Nothing, Nothing)
         End If
     End Sub
 
@@ -2852,6 +2854,15 @@ Public Class frmProcessInfo
 
     Private Sub MenuItemHandleDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemHandleDetails.Click
         Call Me.lvHandles_MouseDoubleClick(Nothing, Nothing)
+    End Sub
+
+    Private Sub lvHeaps_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHeaps.MouseDoubleClick
+        Dim heap As cHeap = lvHeaps.GetSelectedItem
+        If heap IsNot Nothing Then
+            Dim frm As New frmHeapBlocks(curProc.Infos.ProcessId, heap.Infos.BaseAddress)
+            frm.TopMost = _frmMain.TopMost
+            frm.Show()
+        End If
     End Sub
 
     Private Sub lvHeaps_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvHeaps.MouseUp

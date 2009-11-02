@@ -1437,6 +1437,7 @@ Namespace Native.Api
 #Region "Declarations used for debugging"
 
         ' http://www.woodmann.com/forum/blog.php?b=151
+        ' http://securityxploded.com/enumheaps.php
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure DebugInformation
             Public SectionHandle As IntPtr
@@ -1484,6 +1485,14 @@ Namespace Native.Api
                     Return Marshal.OffsetOf(GetType(ProcessHeaps), "Heaps").ToInt32
                 End Get
             End Property
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure HeapBlock
+            Public Address As IntPtr
+            Public Size As Integer
+            Public Flags As NativeEnums.HeapBlockFlag
+            Public Reserved As IntPtr
         End Structure
 
 #End Region

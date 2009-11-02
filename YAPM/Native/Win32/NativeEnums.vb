@@ -1453,6 +1453,13 @@ Namespace Native.Api
             Locks = &H20
         End Enum
 
+        <Flags()> _
+        Public Enum HeapBlockFlag As Integer
+            Fixed = &H1
+            Free = &H2
+            Moveable = &H4
+        End Enum
+
 #End Region
 
     End Class

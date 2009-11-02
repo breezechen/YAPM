@@ -129,7 +129,16 @@ Namespace Native.Objects
             If debugInfo.HeapInformation.IsNotNull Then
 
                 Dim heapInfo As New Memory.MemoryAlloc(debugInfo.HeapInformation)
-                Dim heaps As NativeStructs.ProcessHeaps = heapInfo.ReadStruct(Of NativeStructs.ProcessHeaps)()
+
+                Dim heaps As NativeStructs.ProcessHeaps
+                Try
+                    heaps = heapInfo.ReadStruct(Of NativeStructs.ProcessHeaps)()
+                Catch ex As Exception
+                    ' Ok, sometimes heap enumeration fail.
+                    ' Nothing special to do
+                    Misc.ShowDebugError(ex)
+                    Return retDico
+                End Try
 
                 For i As Integer = 0 To heaps.HeapsCount - 1
                     Dim heap As NativeStructs.HeapInformation = heapInfo.ReadStruct(Of NativeStructs.HeapInformation)(NativeStructs.ProcessHeaps.HeapsOffset, i)
@@ -145,12 +154,161 @@ Namespace Native.Objects
 
         End Function
 
+        ' Enumerate heap blocks
+        Public Shared Function EnumerateBlocksByNodeAddress(ByVal pid As Integer, _
+                                     ByVal nodeAddress As IntPtr) As Dictionary(Of String, NativeStructs.HeapBlock)
+
+            Dim res As New Dictionary(Of String, NativeStructs.HeapBlock)
+
+            Dim hb As NativeStructs.HeapBlock
+            With hb
+                .Address = IntPtr.Zero
+                .Flags = 0
+                .Reserved = IntPtr.Zero
+                .Size = 0
+            End With
+
+            Dim buf As New DebugBuffer
+
+            ' Query heaps info
+            buf.Query(pid, NativeEnums.RtlQueryProcessDebugInformationFlags.Heaps Or NativeEnums.RtlQueryProcessDebugInformationFlags.HeapBlocks)
+
+            ' Get debug information
+            Dim debugInfo As NativeStructs.DebugInformation = buf.GetDebugInformation
+            Dim heapInfo As New Memory.MemoryAlloc(debugInfo.HeapInformation)
+            Dim heaps As NativeStructs.ProcessHeaps = heapInfo.ReadStruct(Of NativeStructs.ProcessHeaps)()
+
+            ' Go through each of the heap nodes 
+            For i As Integer = 0 To heaps.HeapsCount
+
+                Dim heap As NativeStructs.HeapInformation = heapInfo.ReadStruct(Of NativeStructs.HeapInformation)(NativeStructs.ProcessHeaps.HeapsOffset, i)
+
+                If heap.BaseAddress = nodeAddress Then
+
+                    ' Now enumerate all blocks within this heap node...
+                    With hb
+                        .Address = IntPtr.Zero
+                        .Flags = 0
+                        .Reserved = IntPtr.Zero
+                        .Size = 0
+                    End With
+
+                    If (GetFirstHeapBlock(heap, hb)) Then
+
+                        For c As Integer = 1 To heap.BlockCount
+                            ' PERFISSUE ?
+                            If res.ContainsKey(hb.Address.ToString) = False Then
+                                res.Add(hb.Address.ToString, hb)
+                            End If
+
+                            ' Get next block
+                            Call GetNextHeapBlock(heap, hb)
+
+                        Next
+                    End If
+                    Exit For
+                End If
+            Next
+
+            ' Clean up the buffer
+            buf.Dispose()
+
+            Return res
+        End Function
+
+
+
 
 
         ' ========================================
         ' Private functions
         ' ========================================
 
+        ' This is directly converted from C++
+        ' http://securityxploded.com/enumheaps.php
+        Private Shared Function GetFirstHeapBlock(ByVal curHeapNode As NativeStructs.HeapInformation, _
+                                ByRef hb As NativeStructs.HeapBlock) As Boolean
+
+            Dim block As IntPtr
+
+            With hb
+                .Reserved = IntPtr.Zero
+                .Address = IntPtr.Zero
+                .Flags = 0
+            End With
+
+            block = curHeapNode.Blocks
+
+            Do While (Marshal.ReadInt32(block.Increment(4 * 1)) And 2) = 2
+                hb.Reserved = hb.Reserved.Increment(4 * 1)
+                hb.Address = New IntPtr(Marshal.ReadInt32(block.Increment(4 * 3)) + curHeapNode.Granularity)
+                block = block.Increment(4 * 4)
+                hb.Size = Marshal.ReadInt32(block, 0)
+            Loop
+
+            ' Update the flags
+            Dim flags As UShort = CUShort(Marshal.ReadInt32(block.Increment(4 * 1)))
+
+            If ((flags And &HF1) <> 0 OrElse (flags And &H200) <> 0) Then
+                hb.Flags = NativeEnums.HeapBlockFlag.Fixed
+            ElseIf ((flags And &H20) <> 0) Then
+                hb.Flags = NativeEnums.HeapBlockFlag.Moveable
+            ElseIf ((flags And &H100) <> 0) Then
+                hb.Flags = NativeEnums.HeapBlockFlag.Free
+            End If
+
+            Return True
+        End Function
+
+        Private Shared Function GetNextHeapBlock(ByVal curHeapNode As NativeStructs.HeapInformation, _
+                            ByRef hb As NativeStructs.HeapBlock) As Boolean
+
+            Dim block As IntPtr
+
+            hb.Reserved = hb.Reserved.Increment(4 * 1)
+            block = curHeapNode.Blocks
+
+            ' Make it point to next block address entry
+            block = block.Increment(hb.Reserved.ToInt32 * &H4)
+
+            If ((Marshal.ReadInt32(block.Increment(4 * 1)) And 2) = 2) Then
+
+                Do While ((Marshal.ReadInt32(block.Increment(4 * 1)) And 2) = 2)
+
+                    ' new address = curBlockAddress + Granularity ;
+                    hb.Address = New IntPtr(Marshal.ReadInt32(block.Increment(4 * 3)) + curHeapNode.Granularity)
+
+                    ' If all the blocks have been enumerated....exit
+                    If (hb.Reserved.ToInt64 > curHeapNode.BlockCount) Then
+                        Return False
+                    End If
+
+                    hb.Reserved = hb.Reserved.Increment(4 * 4)
+
+                    hb.Address = block.Increment(&H4) ' move to next block
+                    hb.Size = Marshal.ReadInt32(block)
+
+                Loop
+
+            Else
+                ' New Address = prev Address + prev block size ;
+                hb.Address = (hb.Address.Increment(hb.Size))
+                hb.Size = Marshal.ReadInt32(block)
+            End If
+
+            ' Update the flags...
+            Dim flags As UShort = CUShort(Marshal.ReadInt32(block.Increment(4 * 1)))
+
+            If ((flags And &HF1) <> 0 OrElse (flags And &H200) <> 0) Then
+                hb.Flags = NativeEnums.HeapBlockFlag.Fixed
+            ElseIf ((flags And &H20) <> 0) Then
+                hb.Flags = NativeEnums.HeapBlockFlag.Moveable
+            ElseIf ((flags And &H100) <> 0) Then
+                hb.Flags = NativeEnums.HeapBlockFlag.Free
+            End If
+
+            Return True
+        End Function
 
     End Class
 
