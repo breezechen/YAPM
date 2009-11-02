@@ -393,6 +393,7 @@ Partial Class frmProcessInfo
         Me.mnuHeaps = New System.Windows.Forms.ContextMenu
         Me.MenuItem11 = New System.Windows.Forms.MenuItem
         Me.MenuItemColumnsHeap = New System.Windows.Forms.MenuItem
+        Me.cmdGoProcess = New System.Windows.Forms.Button
         CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -1376,6 +1377,7 @@ Partial Class frmProcessInfo
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.cmdGoProcess)
         Me.GroupBox1.Controls.Add(Me.txtRunTime)
         Me.GroupBox1.Controls.Add(Me.txtProcessStarted)
         Me.GroupBox1.Controls.Add(Me.Label14)
@@ -1429,7 +1431,7 @@ Partial Class frmProcessInfo
         Me.txtParentProcess.Location = New System.Drawing.Point(89, 43)
         Me.txtParentProcess.Name = "txtParentProcess"
         Me.txtParentProcess.ReadOnly = True
-        Me.txtParentProcess.Size = New System.Drawing.Size(282, 22)
+        Me.txtParentProcess.Size = New System.Drawing.Size(249, 22)
         Me.txtParentProcess.TabIndex = 27
         '
         'Label15
@@ -3469,6 +3471,16 @@ Partial Class frmProcessInfo
         Me.MenuItemColumnsHeap.Index = 2
         Me.MenuItemColumnsHeap.Text = "Choose columns..."
         '
+        'cmdGoProcess
+        '
+        Me.cmdGoProcess.Enabled = False
+        Me.cmdGoProcess.Image = Global.My.Resources.Resources.down16
+        Me.cmdGoProcess.Location = New System.Drawing.Point(344, 43)
+        Me.cmdGoProcess.Name = "cmdGoProcess"
+        Me.cmdGoProcess.Size = New System.Drawing.Size(26, 22)
+        Me.cmdGoProcess.TabIndex = 32
+        Me.cmdGoProcess.UseVisualStyleBackColor = True
+        '
         'frmProcessInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3905,4 +3917,5 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader14 As System.Windows.Forms.ColumnHeader
     Friend WithEvents MenuItem11 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemColumnsHeap As System.Windows.Forms.MenuItem
+    Friend WithEvents cmdGoProcess As System.Windows.Forms.Button
 End Class

@@ -9,7 +9,6 @@ Refactoring bugs
 - se rappeller des tailles/positions des fenêtres
 
 BUGS CRITIQUES
-- add "go to parent process" (affiche la detailed form du process parent)
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
 - job par remote (et en wmi, désactiver également Restart with priv)
 - searchInfos contains cService/cModule (NOT Serializable -> can not search via server)
@@ -125,6 +124,7 @@ Temp Change log :
 
 * NEW / Improvements
 - Added heaps management
+- Added 'go to parent process' feature
 
 * Bug fixed
 - Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)

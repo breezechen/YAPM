@@ -593,6 +593,10 @@ Public Class frmProcessInfo
             gpProcGeneralFile.Text = "Image file (no verification was made)"
         End If
 
+        ' Parent process exists ?
+        Me.cmdGoProcess.Enabled = (cProcess.GetProcessById(curProc.Infos.ParentProcessId) IsNot Nothing)
+
+
         ' Set handler for process termination
         If _local Then
             hProcSync = Native.Objects.Process.GetProcessHandleById(process.Infos.ProcessId, _
@@ -622,6 +626,10 @@ Public Class frmProcessInfo
         Me.graphCPU.Refresh()
         Me.graphIO.Refresh()
         Me.graphMemory.Refresh()
+
+
+        ' Parent process exists ?
+        Me.cmdGoProcess.Enabled = (cProcess.GetProcessById(curProc.Infos.ParentProcessId) IsNot Nothing)
 
 
         ' Refresh informations about process
@@ -2874,5 +2882,16 @@ Public Class frmProcessInfo
 
     Private Sub MenuItemColumnsHeap_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemColumnsHeap.Click
         Me.lvHeaps.ChooseColumns()
+    End Sub
+
+    Private Sub cmdGoProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGoProcess.Click
+        ' Select parent process
+        Dim _t As cProcess = cProcess.GetProcessById(curProc.Infos.ParentProcessId)
+        If _t IsNot Nothing Then
+            Dim frm As New frmProcessInfo
+            frm.SetProcess(_t)
+            frm.TopMost = _frmMain.TopMost
+            frm.Show()
+        End If
     End Sub
 End Class
