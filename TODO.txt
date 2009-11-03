@@ -52,10 +52,8 @@ BUGS NON CRITIQUES
 - déconnexion local puis connexion WMI foireuse puis reconnexion local -> ServiceStartType change et devient foireux
 - find window -> select thread possible
 - creatime time foireux pour les threads
-- virer la form qui gère le drag & drop pour la sélection d'un process
 - inspect structures (PEB...) + possibilité afficher valeurs structs depuis hex editor
 - optmisation NetWorklist -> bytes swap uniquement pour les news items (inutile de faire çà a chaque fois dans l'enum)
-- Click sur 'monitor counters' -> BeginUpdate/EndUpdate du TV et du LV de frmMain
 - monitoring de pleins d'items -> thread spécifique nécessaire pour éviter les bloquages
 - systemInfo pour les pc remote
 - SystemInfos -> afficher graphes en permanence (et pas que quand la form est affichée)
@@ -70,7 +68,6 @@ BUGS NON CRITIQUES
 - ajouter "démarrer en tant que" (runas, cf lien opera)
 - perf counter pour PC distant (+ ajouter gestion remote pour la recherche)
 - path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
-- auto check update option (+ ajouter tooltip sur tray icon)
 - log marche pas toujours (0% d'UC ??)
 - fin d'un process/service dans frmDetail -> afficher 'terminé le xxx' en titre quand le process/service n'existe plus
 - tooltip partout (manque frmPreferences ? et manque frmLogOptions + forms qui viennent des autres projets)

@@ -98,6 +98,9 @@ Public Class frmAddProcessMonitor
         ' Monitor our process
         Dim lstIt As ListViewItem
 
+        _frmMain.tvMonitor.BeginUpdate()
+        _frmMain.lvMonitorReport.BeginUpdate()
+
         For Each lstIt In Me.lstToAdd.Items
 
             Dim obj As monCounter = CType(lstIt.Tag, Global.frmAddProcessMonitor.monCounter)
@@ -118,6 +121,10 @@ Public Class frmAddProcessMonitor
             End With
 
         Next
+
+        _frmMain.UpdateMonitoringLog()
+        _frmMain.tvMonitor.EndUpdate()
+        _frmMain.lvMonitorReport.EndUpdate()
 
         Me.Close()
 

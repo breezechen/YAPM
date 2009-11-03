@@ -1021,7 +1021,6 @@ Public Class frmMain
             nExistingItem.Nodes.Add(ncpu)
         End If
 
-        Call updateMonitoringLog()
     End Sub
 
     Private Sub butMonitorStart_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorStart.Click
@@ -1389,7 +1388,7 @@ Public Class frmMain
     End Sub
 
     ' Update monitoring log
-    Private Sub updateMonitoringLog()
+    Public Sub UpdateMonitoringLog()
         '        Dim s As String
 
         If Me.tvMonitor.Nodes.Item(0).Nodes.Count > 0 Then

@@ -134,7 +134,7 @@ Partial Class frmAddProcessMonitor
         Me.txtHelp.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.txtHelp.Size = New System.Drawing.Size(738, 50)
         Me.txtHelp.TabIndex = 9
-        Me.txtHelp.Text = "Description de l'objet sélectionné"
+        Me.txtHelp.Text = "Description of selected item"
         '
         'cmdSearch
         '
