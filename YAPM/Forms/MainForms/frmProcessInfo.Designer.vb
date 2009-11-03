@@ -23,19 +23,19 @@ Partial Class frmProcessInfo
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim CConnection1 As cConnection = New cConnection
-        Dim CConnection2 As cConnection = New cConnection
-        Dim CConnection3 As cConnection = New cConnection
-        Dim CConnection4 As cConnection = New cConnection
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection5 As cConnection = New cConnection
+        Dim CConnection18 As cConnection = New cConnection
+        Dim CConnection19 As cConnection = New cConnection
+        Dim CConnection20 As cConnection = New cConnection
+        Dim CConnection14 As cConnection = New cConnection
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Strings", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection21 As cConnection = New cConnection
+        Dim CConnection22 As cConnection = New cConnection
+        Dim CConnection16 As cConnection = New cConnection
         Dim CConnection6 As cConnection = New cConnection
         Dim CConnection7 As cConnection = New cConnection
         Dim CConnection8 As cConnection = New cConnection
-        Dim CConnection9 As cConnection = New cConnection
-        Dim CConnection10 As cConnection = New cConnection
-        Dim CConnection11 As cConnection = New cConnection
+        Dim CConnection23 As cConnection = New cConnection
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessInfo))
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
         Me.timerLog = New System.Windows.Forms.Timer(Me.components)
@@ -394,6 +394,10 @@ Partial Class frmProcessInfo
         Me.mnuHeaps = New System.Windows.Forms.ContextMenu
         Me.MenuItem11 = New System.Windows.Forms.MenuItem
         Me.MenuItemColumnsHeap = New System.Windows.Forms.MenuItem
+        Me.MenuItemNetworkTools = New System.Windows.Forms.MenuItem
+        Me.MenuItemNetworkPing = New System.Windows.Forms.MenuItem
+        Me.MenuItemNetworkRoute = New System.Windows.Forms.MenuItem
+        Me.MenuItemNetworkWhoIs = New System.Windows.Forms.MenuItem
         CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -770,7 +774,7 @@ Partial Class frmProcessInfo
         'MenuItemCopyNetwork
         '
         Me.VistaMenu.SetImage(Me.MenuItemCopyNetwork, Global.My.Resources.Resources.copy16)
-        Me.MenuItemCopyNetwork.Index = 2
+        Me.MenuItemCopyNetwork.Index = 3
         Me.MenuItemCopyNetwork.Text = "Copy to clipboard"
         '
         'MenuItemCopyService
@@ -1063,16 +1067,16 @@ Partial Class frmProcessInfo
         '
         'mnuNetwork
         '
-        Me.mnuNetwork.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuCloseTCP, Me.MenuItem10, Me.MenuItemCopyNetwork, Me.MenuItemColumnsNetwork})
+        Me.mnuNetwork.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.menuCloseTCP, Me.MenuItemNetworkTools, Me.MenuItem10, Me.MenuItemCopyNetwork, Me.MenuItemColumnsNetwork})
         '
         'MenuItem10
         '
-        Me.MenuItem10.Index = 1
+        Me.MenuItem10.Index = 2
         Me.MenuItem10.Text = "-"
         '
         'MenuItemColumnsNetwork
         '
-        Me.MenuItemColumnsNetwork.Index = 3
+        Me.MenuItemColumnsNetwork.Index = 4
         Me.MenuItemColumnsNetwork.Text = "Choose columns..."
         '
         'mnuService
@@ -2474,8 +2478,8 @@ Partial Class frmProcessInfo
         Me.lvPrivileges.AllowColumnReorder = True
         Me.lvPrivileges.CatchErrors = False
         Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
-        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvPrivileges.ConnectionObj = CConnection1
+        CConnection18.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvPrivileges.ConnectionObj = CConnection18
         Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvPrivileges.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvPrivileges.FullRowSelect = True
@@ -2523,8 +2527,8 @@ Partial Class frmProcessInfo
         Me.lvProcMem.AllowColumnReorder = True
         Me.lvProcMem.CatchErrors = False
         Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56, Me.ColumnHeader13})
-        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcMem.ConnectionObj = CConnection2
+        CConnection19.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcMem.ConnectionObj = CConnection19
         Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcMem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcMem.FullRowSelect = True
@@ -2651,8 +2655,8 @@ Partial Class frmProcessInfo
         Me.lvProcServices.AllowColumnReorder = True
         Me.lvProcServices.CatchErrors = False
         Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader19})
-        CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcServices.ConnectionObj = CConnection3
+        CConnection20.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcServices.ConnectionObj = CConnection20
         Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcServices.FullRowSelect = True
@@ -2716,8 +2720,8 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.AllowColumnReorder = True
         Me.lvProcNetwork.CatchErrors = False
         Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
-        CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcNetwork.ConnectionObj = CConnection4
+        CConnection14.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcNetwork.ConnectionObj = CConnection14
         Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcNetwork.FullRowSelect = True
@@ -2796,11 +2800,11 @@ Partial Class frmProcessInfo
         Me.lvProcString.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader76, Me.ColumnHeader77})
         Me.lvProcString.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcString.FullRowSelect = True
-        ListViewGroup1.Header = "Strings"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcString.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup5.Header = "Strings"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search result"
+        ListViewGroup6.Name = "gpSearch"
+        Me.lvProcString.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvProcString.HideSelection = False
         Me.lvProcString.Location = New System.Drawing.Point(0, 0)
         Me.lvProcString.Name = "lvProcString"
@@ -2910,8 +2914,8 @@ Partial Class frmProcessInfo
         Me.lvProcEnv.AllowColumnReorder = True
         Me.lvProcEnv.CatchErrors = False
         Me.lvProcEnv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader60, Me.ColumnHeader61})
-        CConnection5.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcEnv.ConnectionObj = CConnection5
+        CConnection21.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcEnv.ConnectionObj = CConnection21
         Me.lvProcEnv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcEnv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcEnv.FullRowSelect = True
@@ -2954,8 +2958,8 @@ Partial Class frmProcessInfo
         Me.lvModules.AllowColumnReorder = True
         Me.lvModules.CatchErrors = False
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader1})
-        CConnection6.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvModules.ConnectionObj = CConnection6
+        CConnection22.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvModules.ConnectionObj = CConnection22
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvModules.FullRowSelect = True
@@ -3022,8 +3026,8 @@ Partial Class frmProcessInfo
         Me.lvThreads.AllowColumnReorder = True
         Me.lvThreads.CatchErrors = False
         Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader12, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader11})
-        CConnection7.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvThreads.ConnectionObj = CConnection7
+        CConnection16.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvThreads.ConnectionObj = CConnection16
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvThreads.FullRowSelect = True
@@ -3099,8 +3103,8 @@ Partial Class frmProcessInfo
         Me.lvWindows.AllowColumnReorder = True
         Me.lvWindows.CatchErrors = False
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
-        CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvWindows.ConnectionObj = CConnection8
+        CConnection6.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvWindows.ConnectionObj = CConnection6
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvWindows.FullRowSelect = True
@@ -3156,8 +3160,8 @@ Partial Class frmProcessInfo
         Me.lvHandles.AllowColumnReorder = True
         Me.lvHandles.CatchErrors = False
         Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15})
-        CConnection9.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvHandles.ConnectionObj = CConnection9
+        CConnection7.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvHandles.ConnectionObj = CConnection7
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvHandles.FullRowSelect = True
@@ -3283,8 +3287,8 @@ Partial Class frmProcessInfo
         Me.lvLog.CaptureItems = asyncCallbackLogEnumerate.LogItemType.AllItems
         Me.lvLog.CatchErrors = False
         Me.lvLog.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2, Me.ColumnHeader5, Me.ColumnHeader4})
-        CConnection10.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvLog.ConnectionObj = CConnection10
+        CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvLog.ConnectionObj = CConnection8
         Me.lvLog.DisplayItems = asyncCallbackLogEnumerate.LogItemType.AllItems
         Me.lvLog.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvLog.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3380,8 +3384,8 @@ Partial Class frmProcessInfo
         Me.lvHeaps.AllowColumnReorder = True
         Me.lvHeaps.CatchErrors = False
         Me.lvHeaps.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader16, Me.ColumnHeader17, Me.ColumnHeader18, Me.ColumnHeader20, Me.ColumnHeader14})
-        CConnection11.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvHeaps.ConnectionObj = CConnection11
+        CConnection23.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvHeaps.ConnectionObj = CConnection23
         Me.lvHeaps.DebugBuffer = Nothing
         Me.lvHeaps.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHeaps.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3486,6 +3490,27 @@ Partial Class frmProcessInfo
         '
         Me.MenuItemColumnsHeap.Index = 2
         Me.MenuItemColumnsHeap.Text = "Choose columns..."
+        '
+        'MenuItemNetworkTools
+        '
+        Me.MenuItemNetworkTools.Index = 1
+        Me.MenuItemNetworkTools.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemNetworkPing, Me.MenuItemNetworkRoute, Me.MenuItemNetworkWhoIs})
+        Me.MenuItemNetworkTools.Text = "Tools"
+        '
+        'MenuItemNetworkPing
+        '
+        Me.MenuItemNetworkPing.Index = 0
+        Me.MenuItemNetworkPing.Text = "Ping"
+        '
+        'MenuItemNetworkRoute
+        '
+        Me.MenuItemNetworkRoute.Index = 1
+        Me.MenuItemNetworkRoute.Text = "TraceRoute"
+        '
+        'MenuItemNetworkWhoIs
+        '
+        Me.MenuItemNetworkWhoIs.Index = 2
+        Me.MenuItemNetworkWhoIs.Text = "WhoIs"
         '
         'frmProcessInfo
         '
@@ -3924,4 +3949,8 @@ Partial Class frmProcessInfo
     Friend WithEvents MenuItem11 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemColumnsHeap As System.Windows.Forms.MenuItem
     Friend WithEvents cmdGoProcess As System.Windows.Forms.Button
+    Friend WithEvents MenuItemNetworkTools As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemNetworkPing As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemNetworkRoute As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemNetworkWhoIs As System.Windows.Forms.MenuItem
 End Class

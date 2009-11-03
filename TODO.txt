@@ -120,6 +120,7 @@ Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
 
 * NEW / Improvements
+- Added Ping/Traceroute/WhoIs functions for TCP connections
 - Added heaps management
 - Improved appearance of graphs
 - Added 'go to parent process' feature

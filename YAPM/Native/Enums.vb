@@ -96,6 +96,12 @@ Namespace Native.Api
             Udp6
         End Enum
 
+        Public Enum ToolType
+            TraceRoute
+            WhoIs
+            Ping
+        End Enum
+
 #End Region
 
         ' OK
@@ -514,7 +520,7 @@ Namespace Native.Api
 #End Region
 
         ' OK
-#Region "Other"
+#Region "Other declarations"
 
         <Flags()> _
         Public Enum GeneralObjectType

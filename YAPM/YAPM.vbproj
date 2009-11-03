@@ -238,6 +238,10 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmNetworkTool.resx">
+      <DependentUpon>frmNetworkTool.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmHeapBlocks.resx">
       <DependentUpon>frmHeapBlocks.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -564,6 +568,12 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForms\frmJobInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmNetworkTool.Designer.vb">
+      <DependentUpon>frmNetworkTool.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmNetworkTool.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmHeapBlocks.Designer.vb">

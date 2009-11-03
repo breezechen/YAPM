@@ -3105,6 +3105,12 @@ Public Class frmMain
             Me.MenuItemServSelProc.Enabled = selectionIsNotNothing
             Me.MenuItemCopyNetwork.Enabled = selectionIsNotNothing
 
+            Dim bTools As Boolean = True
+            If Me.lvNetwork.SelectedItems.Count = 1 Then
+                bTools = (Me.lvNetwork.GetSelectedItem.Infos.Remote IsNot Nothing)
+            End If
+            Me.MenuItemNetworkTools.Enabled = selectionIsNotNothing AndAlso bTools
+
             Me.mnuNetwork.Show(Me.lvNetwork, e.Location)
         End If
     End Sub
@@ -3972,4 +3978,27 @@ Public Class frmMain
 
 #End Region
 
+    Private Sub MenuItemNetworkPing_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemNetworkPing.Click
+        For Each it As cNetwork In Me.lvNetwork.GetSelectedItems
+            Dim frm As New frmNetworkTool(it, Native.Api.Enums.ToolType.Ping)
+            frm.TopMost = _frmMain.TopMost
+            frm.Show()
+        Next
+    End Sub
+
+    Private Sub MenuItemNetworkRoute_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemNetworkRoute.Click
+        For Each it As cNetwork In Me.lvNetwork.GetSelectedItems
+            Dim frm As New frmNetworkTool(it, Native.Api.Enums.ToolType.TraceRoute)
+            frm.TopMost = _frmMain.TopMost
+            frm.Show()
+        Next
+    End Sub
+
+    Private Sub MenuItemNetworkWhoIs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemNetworkWhoIs.Click
+        For Each it As cNetwork In Me.lvNetwork.GetSelectedItems
+            Dim frm As New frmNetworkTool(it, Native.Api.Enums.ToolType.WhoIs)
+            frm.TopMost = _frmMain.TopMost
+            frm.Show()
+        Next
+    End Sub
 End Class

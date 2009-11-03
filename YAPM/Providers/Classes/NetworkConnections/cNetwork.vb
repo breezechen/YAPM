@@ -21,6 +21,7 @@
 Option Strict On
 
 Imports System.Net
+Imports System.Net.NetworkInformation
 
 Public Class cNetwork
     Inherits cGeneralObject
@@ -138,20 +139,95 @@ Public Class cNetwork
         End If
     End Function
 
-    ' Ping (async)
-    Public Function Ping(ByVal lv As ListView) As String
-        Return ""
-    End Function
+    ' Ping (sync)
+    Public Sub Ping(ByVal lv As ListView)
 
-    ' WhoIs (async)
-    Public Function WhoIs(ByVal lv As ListView) As String
-        Return ""
-    End Function
+        If Me.Infos.Remote Is Nothing Then
+            ' No IP address
+            Async.ListView.AddItem(lv, "Could not ping a null address")
+            Exit Sub
+        End If
 
-    ' TraceRoute (async)
-    Public Function TraceRoute(ByVal lv As ListView) As String
-        Return ""
-    End Function
+        ' Create ping objects
+        Dim pinger As New Ping
+        Dim pingOpt As New PingOptions
+        Dim pingRep As PingReply = Nothing
+
+        ' Conf
+        Dim theIp As IPAddress = Me.Infos.Remote.Address
+        Dim pingTimeOut As Integer = 1000
+        Dim pingCount As Integer = 4
+        Dim pingSize As Integer = 32
+        Dim pingBuff(pingSize) As Byte
+
+        ' Results
+        Dim pingSent As Integer = 0
+        Dim pingLost As Integer = 0
+        Dim pingReceived As Integer = 0
+        Dim pingRespMin As Long = Long.MaxValue
+        Dim pingRespMax As Long = Long.MinValue
+        Dim pingRespAvg As Long = 0
+
+        Async.ListView.AddItem(lv, "Pinging [" & theIp.ToString & "] with " & pingSize.ToString & " bytes of data:")
+
+        For pingSent = 0 To pingCount - 1
+            Try
+                ' Send the "ping command"
+                pingRep = pinger.Send(theIp, pingTimeOut, pingBuff, pingOpt)
+            Catch ex As Exception
+                Async.ListView.AddItem(lv, "Ping error : " & ex.Message)
+            End Try
+
+            ' Depending on the rep status...
+            If pingRep.Status = IPStatus.Success Then
+
+                If pingRep.Options Is Nothing Then
+                    ' Sometimes it's nothing (?)
+                    Async.ListView.AddItem(lv, "Reply from " & theIp.ToString & ": bytes=" & pingSize.ToString & " time=" & pingRep.RoundtripTime.ToString & "ms TTL=" & pingOpt.Ttl.ToString & vbNewLine)
+                Else
+                    Async.ListView.AddItem(lv, "Reply from " & theIp.ToString & ": bytes=" & pingSize.ToString & " time=" & pingRep.RoundtripTime.ToString & "ms TTL=" & pingRep.Options.Ttl.ToString & vbNewLine)
+                End If
+
+                If pingRep.RoundtripTime > pingRespMax Then
+                    pingRespMax = pingRep.RoundtripTime
+                End If
+                If pingRep.RoundtripTime < pingRespMin Then
+                    pingRespMin = pingRep.RoundtripTime
+                End If
+                pingRespAvg += pingRep.RoundtripTime
+
+                pingReceived += 1
+            Else
+                ' Failed
+                Async.ListView.AddItem(lv, pingRep.Status.ToString)
+                pingLost += 1
+            End If
+        Next
+
+        ' Average rt
+        pingRespAvg = pingRespAvg \ pingReceived
+
+        Async.ListView.AddItem(lv, "")
+        Async.ListView.AddItem(lv, "Ping statistics for " & theIp.ToString)
+        Async.ListView.AddItem(lv, "   Packets: Sent = " & pingSent.ToString & ", Received = " & pingReceived.ToString & ", Lost = " & pingLost.ToString & "  (" & Misc.GetFormatedPercentage(pingLost / pingSent, 0, True) & "% loss)")
+        If pingReceived > 0 Then
+            Async.ListView.AddItem(lv, "Approximate round trip times in milli-seconds:")
+            Async.ListView.AddItem(lv, "   Minimum = " & pingRespMin.ToString & "ms, Maximum = " & pingRespMax.ToString & "ms, Average = " & pingRespAvg.ToString & "ms")
+        End If
+
+        ' Release ping object
+        pinger.Dispose()
+    End Sub
+
+    ' WhoIs (sync)
+    Public Sub WhoIs(ByVal lv As ListView)
+        Async.ListView.AddItem(lv, "Not yet implemented...")
+    End Sub
+
+    ' TraceRoute (sync)
+    Public Sub TraceRoute(ByVal lv As ListView)
+        Async.ListView.AddItem(lv, "Not yet implemented...")
+    End Sub
 
 #End Region
 

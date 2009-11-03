@@ -80,7 +80,7 @@ Public Class frmHeapBlocks
     Private Sub MenuItemCpAddress_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCpAddress.Click
         Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
         Dim toCopy As String = ""
-        For Each it As ListViewItem In Me.lv.Items
+        For Each it As ListViewItem In Me.lv.SelectedItems
             toCopy &= it.Text
         Next
         If toCopy.Length > 2 Then
@@ -93,7 +93,7 @@ Public Class frmHeapBlocks
     Private Sub MenuItemCpSize_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCpSize.Click
         Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
         Dim toCopy As String = ""
-        For Each it As ListViewItem In Me.lv.Items
+        For Each it As ListViewItem In Me.lv.SelectedItems
             toCopy &= it.SubItems(1).Text
         Next
         If toCopy.Length > 2 Then
@@ -106,7 +106,7 @@ Public Class frmHeapBlocks
     Private Sub MenuItemCpStatus_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemCpStatus.Click
         Dim info As String = CType(sender, System.Windows.Forms.MenuItem).Text
         Dim toCopy As String = ""
-        For Each it As ListViewItem In Me.lv.Items
+        For Each it As ListViewItem In Me.lv.SelectedItems
             toCopy &= it.SubItems(2).Text
         Next
         If toCopy.Length > 2 Then
