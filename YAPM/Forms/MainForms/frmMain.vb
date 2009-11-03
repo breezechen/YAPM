@@ -3506,7 +3506,7 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemSystemHelp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemHelp.Click
-        Me._tab.SelectedIndex = 11    ' Help
+        Me._tab.SelectedTab = Me.pageHelp
     End Sub
 
     Private Sub MenuItemSystemAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemAbout.Click
