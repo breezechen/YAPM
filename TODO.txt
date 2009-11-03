@@ -121,6 +121,7 @@ Temp Change log :
 
 * NEW / Improvements
 - Added heaps management
+- Improved appearance of graphs
 - Added 'go to parent process' feature
 - Now performance graphs are up-to-date when opening process' detailed window
 

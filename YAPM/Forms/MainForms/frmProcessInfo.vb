@@ -615,10 +615,11 @@ Public Class frmProcessInfo
 
         ' IO graph
         _v = curProc.GetHistory("ReadTransferCountDelta")
+        Dim __v() As Double = curProc.GetHistory("OtherTransferCountDelta")
         _v2 = curProc.GetHistory("WriteTransferCountDelta")
         x = 0
         For Each _val2 As Double In _v2
-            Dim z As Double = _v(x)
+            Dim z As Double = _v(x) + __v(x)
             x += 1
             Me.graphIO.Add2Values(z, _val2)
         Next
@@ -645,16 +646,21 @@ Public Class frmProcessInfo
 
         Dim z As Double = curProc.CpuUsage
         Dim z2 As Double = curProc.Infos.AverageCpuUsage
-        If Double.IsNegativeInfinity(z) Then z = 0
+        If Double.IsNegativeInfinity(z) Then
+            z = 0
+        End If
         Me.graphCPU.Add2Values(z * 100, z2 * 100)
+        Me.graphCPU.Refresh()
+        Me.graphCPU.TopText = "Cpu : " & Misc.GetFormatedPercentage(z) & " %"
+
         z = curProc.Infos.MemoryInfos.WorkingSetSize.ToInt64 / 2147483648 * 100
         Me.graphMemory.AddValue(z)
-        Me.graphIO.Add2Values(curProc.IODelta.ReadTransferCount, curProc.IODelta.WriteTransferCount)
-        Trace.WriteLine("w  " & curProc.IODelta.WriteTransferCount)
-        Trace.WriteLine("r  " & curProc.IODelta.ReadTransferCount)
-        Me.graphCPU.Refresh()
-        Me.graphIO.Refresh()
         Me.graphMemory.Refresh()
+        Me.graphMemory.TopText = "WorkingSet : " & GetFormatedSize(curProc.Infos.MemoryInfos.WorkingSetSize.ToInt64)
+
+        Me.graphIO.Add2Values(curProc.IODelta.ReadTransferCount + curProc.IODelta.OtherTransferCount, curProc.IODelta.WriteTransferCount)
+        Me.graphIO.Refresh()
+        Me.graphIO.TopText = "R+O : " & Misc.GetFormatedSizePerSecond(curProc.IODelta.ReadTransferCount + curProc.IODelta.OtherTransferCount) & " , W : " & Misc.GetFormatedSizePerSecond(curProc.IODelta.WriteTransferCount)
 
 
         ' Parent process exists ?
@@ -1316,6 +1322,7 @@ Public Class frmProcessInfo
         For Each ct As Control In Me.containerHistory.Panel2.Controls
             If TypeOf ct Is Graph2 Then
                 ct.Height = CInt((Me.containerHistory.Panel2.Height - _historyGraphNumber) / _historyGraphNumber)
+                CType(ct, Graph2).TopText = ct.Name
             End If
         Next
     End Sub

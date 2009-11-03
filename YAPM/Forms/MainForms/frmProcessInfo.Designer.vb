@@ -183,6 +183,7 @@ Partial Class frmProcessInfo
         Me.cmdGetOnlineInfos = New System.Windows.Forms.Button
         Me.rtbOnlineInfos = New System.Windows.Forms.RichTextBox
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.cmdGoProcess = New System.Windows.Forms.Button
         Me.txtRunTime = New System.Windows.Forms.TextBox
         Me.txtProcessStarted = New System.Windows.Forms.TextBox
         Me.Label14 = New System.Windows.Forms.Label
@@ -393,7 +394,6 @@ Partial Class frmProcessInfo
         Me.mnuHeaps = New System.Windows.Forms.ContextMenu
         Me.MenuItem11 = New System.Windows.Forms.MenuItem
         Me.MenuItemColumnsHeap = New System.Windows.Forms.MenuItem
-        Me.cmdGoProcess = New System.Windows.Forms.Button
         CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -1398,6 +1398,16 @@ Partial Class frmProcessInfo
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Process"
         '
+        'cmdGoProcess
+        '
+        Me.cmdGoProcess.Enabled = False
+        Me.cmdGoProcess.Image = Global.My.Resources.Resources.down16
+        Me.cmdGoProcess.Location = New System.Drawing.Point(344, 43)
+        Me.cmdGoProcess.Name = "cmdGoProcess"
+        Me.cmdGoProcess.Size = New System.Drawing.Size(26, 22)
+        Me.cmdGoProcess.TabIndex = 32
+        Me.cmdGoProcess.UseVisualStyleBackColor = True
+        '
         'txtRunTime
         '
         Me.txtRunTime.BackColor = System.Drawing.Color.WhiteSmoke
@@ -2349,7 +2359,7 @@ Partial Class frmProcessInfo
         '
         Me.splitPerformances.Panel2.Controls.Add(Me.splitPerformance2)
         Me.splitPerformances.Size = New System.Drawing.Size(641, 276)
-        Me.splitPerformances.SplitterDistance = 75
+        Me.splitPerformances.SplitterDistance = 82
         Me.splitPerformances.SplitterWidth = 1
         Me.splitPerformances.TabIndex = 3
         '
@@ -2360,13 +2370,15 @@ Partial Class frmProcessInfo
         Me.graphCPU.Dock = System.Windows.Forms.DockStyle.Fill
         Me.graphCPU.EnableGraph = True
         Me.graphCPU.Fixedheight = True
-        Me.graphCPU.GridStep = 10
+        Me.graphCPU.GridStep = 13
         Me.graphCPU.Location = New System.Drawing.Point(0, 0)
         Me.graphCPU.Name = "graphCPU"
         Me.graphCPU.ShowSecondGraph = True
-        Me.graphCPU.Size = New System.Drawing.Size(641, 75)
+        Me.graphCPU.Size = New System.Drawing.Size(641, 82)
         Me.graphCPU.TabIndex = 1
         Me.graphCPU.TabStop = False
+        Me.graphCPU.TextColor = System.Drawing.Color.Lime
+        Me.graphCPU.TopText = Nothing
         '
         'splitPerformance2
         '
@@ -2383,8 +2395,8 @@ Partial Class frmProcessInfo
         'splitPerformance2.Panel2
         '
         Me.splitPerformance2.Panel2.Controls.Add(Me.graphIO)
-        Me.splitPerformance2.Size = New System.Drawing.Size(641, 200)
-        Me.splitPerformance2.SplitterDistance = 84
+        Me.splitPerformance2.Size = New System.Drawing.Size(641, 193)
+        Me.splitPerformance2.SplitterDistance = 88
         Me.splitPerformance2.SplitterWidth = 1
         Me.splitPerformance2.TabIndex = 0
         '
@@ -2397,13 +2409,15 @@ Partial Class frmProcessInfo
         Me.graphMemory.Dock = System.Windows.Forms.DockStyle.Fill
         Me.graphMemory.EnableGraph = True
         Me.graphMemory.Fixedheight = False
-        Me.graphMemory.GridStep = 10
+        Me.graphMemory.GridStep = 13
         Me.graphMemory.Location = New System.Drawing.Point(0, 0)
         Me.graphMemory.Name = "graphMemory"
         Me.graphMemory.ShowSecondGraph = True
-        Me.graphMemory.Size = New System.Drawing.Size(641, 84)
+        Me.graphMemory.Size = New System.Drawing.Size(641, 88)
         Me.graphMemory.TabIndex = 2
         Me.graphMemory.TabStop = False
+        Me.graphMemory.TextColor = System.Drawing.Color.Lime
+        Me.graphMemory.TopText = Nothing
         '
         'graphIO
         '
@@ -2413,13 +2427,15 @@ Partial Class frmProcessInfo
         Me.graphIO.Dock = System.Windows.Forms.DockStyle.Fill
         Me.graphIO.EnableGraph = True
         Me.graphIO.Fixedheight = False
-        Me.graphIO.GridStep = 10
+        Me.graphIO.GridStep = 13
         Me.graphIO.Location = New System.Drawing.Point(0, 0)
         Me.graphIO.Name = "graphIO"
         Me.graphIO.ShowSecondGraph = False
-        Me.graphIO.Size = New System.Drawing.Size(641, 115)
+        Me.graphIO.Size = New System.Drawing.Size(641, 104)
         Me.graphIO.TabIndex = 3
         Me.graphIO.TabStop = False
+        Me.graphIO.TextColor = System.Drawing.Color.Lime
+        Me.graphIO.TopText = Nothing
         '
         'TabPageToken
         '
@@ -2771,7 +2787,7 @@ Partial Class frmProcessInfo
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringMemory)
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringImage)
         Me.SplitContainerStrings.Size = New System.Drawing.Size(647, 282)
-        Me.SplitContainerStrings.SplitterDistance = 244
+        Me.SplitContainerStrings.SplitterDistance = 243
         Me.SplitContainerStrings.TabIndex = 0
         '
         'lvProcString
@@ -2789,7 +2805,7 @@ Partial Class frmProcessInfo
         Me.lvProcString.Location = New System.Drawing.Point(0, 0)
         Me.lvProcString.Name = "lvProcString"
         Me.lvProcString.OverriddenDoubleBuffered = True
-        Me.lvProcString.Size = New System.Drawing.Size(647, 244)
+        Me.lvProcString.Size = New System.Drawing.Size(647, 243)
         Me.lvProcString.TabIndex = 22
         Me.lvProcString.UseCompatibleStateImageBehavior = False
         Me.lvProcString.View = System.Windows.Forms.View.Details
@@ -3470,16 +3486,6 @@ Partial Class frmProcessInfo
         '
         Me.MenuItemColumnsHeap.Index = 2
         Me.MenuItemColumnsHeap.Text = "Choose columns..."
-        '
-        'cmdGoProcess
-        '
-        Me.cmdGoProcess.Enabled = False
-        Me.cmdGoProcess.Image = Global.My.Resources.Resources.down16
-        Me.cmdGoProcess.Location = New System.Drawing.Point(344, 43)
-        Me.cmdGoProcess.Name = "cmdGoProcess"
-        Me.cmdGoProcess.Size = New System.Drawing.Size(26, 22)
-        Me.cmdGoProcess.TabIndex = 32
-        Me.cmdGoProcess.UseVisualStyleBackColor = True
         '
         'frmProcessInfo
         '

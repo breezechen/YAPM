@@ -29,12 +29,13 @@ Public Class Graph2
     ' ========================================
     ' Private attributes
     ' ========================================
-    Private _gridStep As Integer = 10
+    Private _gridStep As Integer = 13
     Private _values() As Double
     Private _values2() As Double
     Private _colorGrid As System.Drawing.Pen = Pens.DarkGreen
     Private _color As System.Drawing.Pen = Pens.Yellow
     Private _color2 As System.Drawing.Pen = Pens.Yellow
+    Private _textColor As System.Drawing.Pen = Pens.Lime
     Private _color3 As System.Drawing.Pen = Pens.Red
     Private _enableGraph As Boolean
     Private _mouseY As Integer
@@ -44,6 +45,9 @@ Public Class Graph2
     Private nCount As Integer = 0
     Private _fixedH As Boolean = False
     Private _secondV As Boolean = False
+    Private _text As String
+    Private _showToolTip As Boolean
+    Private _mouseLoc As Point
 
     Private numberOfValuesDisplayed As Integer
     Private numberOfValuesHidden As Integer
@@ -76,6 +80,16 @@ Public Class Graph2
         End Get
         Set(ByVal value As Color)
             _colorGrid = New Pen(value)
+        End Set
+    End Property
+    <System.ComponentModel.Category("Configuration"), System.ComponentModel.Description("value"), _
+    System.ComponentModel.Browsable(True), System.ComponentModel.DefaultValue(GetType(Color), "Green")> _
+    Public Property TextColor() As Color
+        Get
+            Return _textColor.Color
+        End Get
+        Set(ByVal value As Color)
+            _textColor = New Pen(value)
         End Set
     End Property
     <System.ComponentModel.Category("Configuration"), System.ComponentModel.Description("value"), _
@@ -132,6 +146,14 @@ Public Class Graph2
             _secondV = value
         End Set
     End Property
+    Public Property TopText() As String
+        Get
+            Return _text
+        End Get
+        Set(ByVal value As String)
+            _text = value
+        End Set
+    End Property
 #End Region
 
 
@@ -154,10 +176,13 @@ Public Class Graph2
                 If _secondV Then
                     DrawValues2(e.Graphics)
                 End If
+                DrawLegend(e.Graphics)
+                If _showToolTip Then
+                    Call ShowToolTip()
+                End If
             Catch ex As Exception
                 Misc.ShowDebugError(ex)
             End Try
-            DrawLegend(e.Graphics)
         End If
     End Sub
     Protected Overrides Sub OnMouseMove(ByVal e As System.Windows.Forms.MouseEventArgs)
@@ -171,6 +196,8 @@ Public Class Graph2
         '    h = Math.Min(_values.Length - 1, h)
         '    _mouseCurrentDate = 10000 * CInt(_values(h))
         'End If
+        _mouseLoc = e.Location
+        Call ShowToolTip()
     End Sub
     Protected Overrides Sub OnResize(ByVal e As System.EventArgs)
         MyBase.OnResize(e)
@@ -178,10 +205,26 @@ Public Class Graph2
         numberOfValuesDisplayed = Me.Width \ 2
         numberOfValuesHidden = CInt(nCount - numberOfValuesDisplayed)
     End Sub
+    Protected Overrides Sub OnMouseLeave(ByVal e As System.EventArgs)
+        MyBase.OnMouseLeave(e)
+        _showToolTip = False
+        Me.toolTip.Hide(Me)
+    End Sub
+    Protected Overrides Sub OnMouseEnter(ByVal e As System.EventArgs)
+        MyBase.OnMouseEnter(e)
+        _showToolTip = True
+        Call ShowToolTip()
+    End Sub
+
 
     ' ========================================
     ' Private methods
     ' ========================================
+
+    ' Show tooltip
+    Private Sub ShowToolTip()
+        ' Me.toolTip.Show(_mouseLoc.X.ToString, Me, _mouseLoc.X - 4, _mouseLoc.Y - 4)
+    End Sub
 
     ' Draw grid
     Private Sub DrawGrid(ByVal g As Graphics)
@@ -205,7 +248,13 @@ Public Class Graph2
 
     ' Draw legend
     Private Sub DrawLegend(ByVal g As Graphics)
-        '
+        ' Background rectangle
+        Dim sz As SizeF = g.MeasureString(_text, Me.Font)
+        Dim textW As Single = sz.Width + 4
+        Dim textH As Single = sz.Height + 4
+        g.FillRectangle(New SolidBrush(Drawing.Color.Black), New Rectangle(0, 0, CInt(textW), CInt(textH)))
+        ' Draw the text
+        TextRenderer.DrawText(g, _text, Me.Font, New Point(2, 2), _textColor.Color)
     End Sub
 
     ' Draw values (second curve)
