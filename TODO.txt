@@ -122,6 +122,7 @@ Temp Change log :
 * NEW / Improvements
 - Added heaps management
 - Added 'go to parent process' feature
+- Now performance graphs are up-to-date when opening process' detailed window
 
 * Bug fixed
 - Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)

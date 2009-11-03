@@ -47,6 +47,8 @@ Public Class Graph2
 
     Private numberOfValuesDisplayed As Integer
     Private numberOfValuesHidden As Integer
+    Private WithEvents toolTip As System.Windows.Forms.ToolTip
+    Private components As System.ComponentModel.IContainer
     Private _yMaxValue As Double = 0
 
 
@@ -139,6 +141,7 @@ Public Class Graph2
     Public Sub New()
         ReDim _values(200)
         ReDim _values2(200)
+        Me.toolTip = New ToolTip
     End Sub
     Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
         MyBase.OnPaint(e)
@@ -408,4 +411,18 @@ Public Class Graph2
         nCount = 0
     End Sub
 
+    Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
+        Me.toolTip = New System.Windows.Forms.ToolTip(Me.components)
+        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'toolTip
+        '
+        Me.toolTip.AutomaticDelay = 0
+        Me.toolTip.ShowAlways = True
+        CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+
+    End Sub
 End Class

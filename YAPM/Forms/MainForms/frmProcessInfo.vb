@@ -478,11 +478,6 @@ Public Class frmProcessInfo
                 Me.tabProcess.SelectedTab = Me.TabPageHeaps
         End Select
 
-        ' Refresh infos
-        Me.graphCPU.ClearValue()
-        Me.graphIO.ClearValue()
-        Me.graphMemory.ClearValue()
-
         ' Icons
         If pctBigIcon.Image Is Nothing Then
             Try
@@ -595,6 +590,40 @@ Public Class frmProcessInfo
 
         ' Parent process exists ?
         Me.cmdGoProcess.Enabled = (cProcess.GetProcessById(curProc.Infos.ParentProcessId) IsNot Nothing)
+
+
+        ' Add values to perf graphs
+        ' Memory usage
+        For Each _val As Double In curProc.GetHistory("WorkingSet")
+            Me.graphMemory.AddValue(_val / 2147483648 * 100)
+        Next
+        Me.graphMemory.Refresh()
+
+        ' CpuUsage
+        Dim _v() As Double = curProc.GetHistory("CpuUsage")
+        Dim _v2() As Double = curProc.GetHistory("AverageCpuUsage")
+        Dim x As Integer = 0
+        For Each _val2 As Double In _v2
+            Dim z As Double = _v(x)
+            x += 1
+            If Double.IsNegativeInfinity(z) Then
+                z = 0
+            End If
+            Me.graphCPU.Add2Values(z, _val2)
+        Next
+        Me.graphCPU.Refresh()
+
+        ' IO graph
+        _v = curProc.GetHistory("ReadTransferCountDelta")
+        _v2 = curProc.GetHistory("WriteTransferCountDelta")
+        x = 0
+        For Each _val2 As Double In _v2
+            Dim z As Double = _v(x)
+            x += 1
+            Me.graphIO.Add2Values(z, _val2)
+        Next
+        Me.graphIO.Refresh()
+
 
 
         ' Set handler for process termination
@@ -1386,7 +1415,7 @@ Public Class frmProcessInfo
             Me.lvHeaps.ConnectionObj = theConnection
             Me.lvProcNetwork.ConnectionObj = theConnection
             theConnection.Connect()
-            Me.timerProcPerf.Interval = CInt(1000 * Program.Connection.RefreshmentCoefficient)
+            Me.timerProcPerf.Interval = CInt(My.Settings.ProcessInterval * Program.Connection.RefreshmentCoefficient)
         Catch ex As Exception
             Misc.ShowError(ex, "Unable to connect")
         End Try
