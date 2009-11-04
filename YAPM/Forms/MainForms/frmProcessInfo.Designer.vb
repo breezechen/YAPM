@@ -3386,7 +3386,6 @@ Partial Class frmProcessInfo
         Me.lvHeaps.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader16, Me.ColumnHeader17, Me.ColumnHeader18, Me.ColumnHeader20, Me.ColumnHeader14})
         CConnection23.ConnectionType = cConnection.TypeOfConnection.LocalConnection
         Me.lvHeaps.ConnectionObj = CConnection23
-        Me.lvHeaps.DebugBuffer = Nothing
         Me.lvHeaps.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHeaps.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvHeaps.FullRowSelect = True

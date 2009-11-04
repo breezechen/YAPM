@@ -42,11 +42,9 @@ Public Class asyncCallbackHeapEnumerate
     Public Structure poolObj
         Public forInstanceId As Integer
         Public pid As Integer
-        Public DebugBuff As Native.Objects.DebugBuffer
-        Public Sub New(ByVal pi As Integer, ByRef dbgBuf As Native.Objects.DebugBuffer, ByVal iid As Integer)
+        Public Sub New(ByVal pi As Integer, ByVal iid As Integer)
             forInstanceId = iid
             pid = pi
-            DebugBuff = dbgBuf
         End Sub
     End Structure
 
@@ -91,7 +89,7 @@ Public Class asyncCallbackHeapEnumerate
             Case Else
                 ' Local
                 Dim _dico As Dictionary(Of String, heapInfos) = _
-                    Native.Objects.Heap.EnumerateHeapsByProcessId(pObj.pid, pObj.DebugBuff)
+                    Native.Objects.Heap.EnumerateHeapsByProcessId(pObj.pid, con.DebugBuffer)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)

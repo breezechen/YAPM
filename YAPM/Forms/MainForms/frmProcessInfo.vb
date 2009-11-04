@@ -1122,11 +1122,6 @@ Public Class frmProcessInfo
     ' Show heaps
     Public Sub ShowHeaps()
 
-        If _dbgBuffer Is Nothing Then
-            _dbgBuffer = New Native.Objects.DebugBuffer
-        End If
-
-        Me.lvHeaps.DebugBuffer = _dbgBuffer
         Me.lvHeaps.ProcessId = curProc.Infos.ProcessId
         Me.lvHeaps.UpdateTheItems()
 

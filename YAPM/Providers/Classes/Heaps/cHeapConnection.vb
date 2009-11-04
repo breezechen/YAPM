@@ -33,14 +33,20 @@ Public Class cHeapConnection
     Friend Shared instanceId As Integer = 1
     Private _instanceId As Integer = 1
     Private _heapEnum As asyncCallbackHeapEnumerate
+    Private _dbgBuffer As New Native.Objects.DebugBuffer
 
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
         instanceId += 1
         _instanceId = instanceId
         _heapEnum = New asyncCallbackHeapEnumerate(_control, de, Me, _instanceId)
-
     End Sub
+
+    Public ReadOnly Property DebugBuffer() As Native.Objects.DebugBuffer
+        Get
+            Return _dbgBuffer
+        End Get
+    End Property
 
 #Region "Events, delegate, invoke..."
 
@@ -105,11 +111,11 @@ Public Class cHeapConnection
 #Region "Enumerate heaps"
 
     ' Enumerate threads
-    Public Function Enumerate(ByRef pid As Integer, ByRef dbgBuf As Native.Objects.DebugBuffer, Optional ByVal forInstanceId As Integer = -1) As Integer
+    Public Function Enumerate(ByRef pid As Integer, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
                 _heapEnum.Process), New  _
-                asyncCallbackHeapEnumerate.poolObj(pid, dbgBuf, forInstanceId))
+                asyncCallbackHeapEnumerate.poolObj(pid, forInstanceId))
     End Function
 
 #End Region
@@ -137,7 +143,7 @@ Public Class cHeapConnection
         End If
 
         If data.Type = cSocketData.DataType.RequestedList AndAlso _
-            data.Order = cSocketData.OrderType.RequestModuleList Then
+            data.Order = cSocketData.OrderType.RequestHeapList Then
             If _instanceId = data.InstanceId Then
                 ' OK it is for me
                 _heapEnum.GotListFromSocket(data.GetList, data.GetKeys)

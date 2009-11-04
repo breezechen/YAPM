@@ -615,7 +615,7 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestHeapList
                         Dim pid As Integer = CInt(cData.Param1)
-                        Call _heapCon.Enumerate(pid, Nothing, _forInstanceId) 'D'OH
+                        Call _heapCon.Enumerate(pid, _forInstanceId) 'D'OH
                         Exit Sub
                 End Select
 
