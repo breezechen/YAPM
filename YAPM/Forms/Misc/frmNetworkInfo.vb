@@ -68,9 +68,6 @@ Public Class frmNetworkInfo
 
 
         ' TCP stats
-        Static _old_RtoMin As UInteger = 0
-        Static _old_RtoMax As UInteger = 0
-        Static _old_MaxConn As UInteger = 0
         Static _old_ActiveOpens As UInteger = 0
         Static _old_PassiveOpens As UInteger = 0
         Static _old_AttemptFails As UInteger = 0
@@ -83,9 +80,6 @@ Public Class frmNetworkInfo
         Static _old_OutRsts As UInteger = 0
         Static _old_NumConns As UInteger = 0
 
-        If _old_RtoMin = 0 Then _old_RtoMin = tcp.RtoMin
-        If _old_RtoMax = 0 Then _old_RtoMax = tcp.RtoMax
-        If _old_MaxConn = 0 Then _old_MaxConn = tcp.MaxConn
         If _old_ActiveOpens = 0 Then _old_ActiveOpens = tcp.ActiveOpens
         If _old_PassiveOpens = 0 Then _old_PassiveOpens = tcp.PassiveOpens
         If _old_AttemptFails = 0 Then _old_AttemptFails = tcp.AttemptFails
@@ -98,7 +92,6 @@ Public Class frmNetworkInfo
         If _old_OutRsts = 0 Then _old_OutRsts = tcp.OutRsts
         If _old_NumConns = 0 Then _old_NumConns = tcp.NumConns
 
-        Dim _diff_MaxConn As UInteger = tcp.MaxConn - _old_MaxConn
         Dim _diff_ActiveOpens As UInteger = tcp.ActiveOpens - _old_ActiveOpens
         Dim _diff_PassiveOpens As UInteger = tcp.PassiveOpens - _old_PassiveOpens
         Dim _diff_AttemptFails As UInteger = tcp.AttemptFails - _old_AttemptFails
@@ -111,9 +104,6 @@ Public Class frmNetworkInfo
         Dim _diff_OutRsts As UInteger = tcp.OutRsts - _old_OutRsts
         Dim _diff_NumConns As UInteger = tcp.NumConns - _old_NumConns
 
-        _old_RtoMin = tcp.RtoMin
-        _old_RtoMax = tcp.RtoMax
-        _old_MaxConn = tcp.MaxConn
         _old_ActiveOpens = tcp.ActiveOpens
         _old_PassiveOpens = tcp.PassiveOpens
         _old_AttemptFails = tcp.AttemptFails
@@ -127,9 +117,9 @@ Public Class frmNetworkInfo
         _old_NumConns = tcp.NumConns
 
         Me.lblRtoAlgo.Text = tcp.RtoAlgorithm.ToString
-        Me.lblRtoMin.Text = _old_RtoMin.ToString
-        Me.lblRtoMax.Text = _old_RtoMax.ToString
-        Me.lblMaxConn.Text = String.Format("{0} ({1})", _old_MaxConn.ToString, _diff_MaxConn)
+        Me.lblRtoMin.Text = tcp.RtoMin.ToString
+        Me.lblRtoMax.Text = tcp.RtoMax.ToString
+        Me.lblMaxConn.Text = tcp.MaxConn.ToString
         Me.lblActiveOpens.Text = String.Format("{0} ({1})", _old_ActiveOpens.ToString, _diff_ActiveOpens)
         Me.lblPassiveOpens.Text = String.Format("{0} ({1})", _old_PassiveOpens.ToString, _diff_PassiveOpens)
         Me.lblAttemptFails.Text = String.Format("{0} ({1})", _old_AttemptFails.ToString, _diff_AttemptFails)
