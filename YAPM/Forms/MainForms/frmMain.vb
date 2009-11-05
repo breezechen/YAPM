@@ -4001,4 +4001,17 @@ Public Class frmMain
             frm.Show()
         Next
     End Sub
+
+    Private Sub MenuItemSystemNetworkInfos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemNetworkInfos.Click
+        Call Me.butNetworkInfos_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub MenuItemMainNetworkInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainNetworkInfo.Click
+        Call Me.butNetworkInfos_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butNetworkInfos_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNetworkInfos.Click
+        frmNetworkInfo.TopMost = _frmMain.TopMost
+        frmNetworkInfo.Show()
+    End Sub
 End Class

@@ -306,6 +306,10 @@
       <DependentUpon>frmInput.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmNetworkInfo.resx">
+      <DependentUpon>frmNetworkInfo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmThreadAffinity.resx">
       <DependentUpon>frmThreadAffinity.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -622,6 +626,12 @@
       <DependentUpon>frmAddToJob.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\Misc\frmAddToJob.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmNetworkInfo.Designer.vb">
+      <DependentUpon>frmNetworkInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmNetworkInfo.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main\YAPMService.Designer.vb">

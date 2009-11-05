@@ -174,7 +174,7 @@ Public Class frmPreferences
         SetToolTip(Me.chkWarn, "Warn user for all (potentially) dangerous actions.")
         SetToolTip(Me.chkHideMinimized, "Hide main form when minimized.")
         SetToolTip(Me.txtTrayInterval, "Set interval (milliseconds) between two refreshments of tray icon.")
-        SetToolTip(Me.txtSysInfoInterval, "Set interval (milliseconds) between two refreshments of system informations.")
+        SetToolTip(Me.txtSysInfoInterval, "Set interval (milliseconds) between two refreshments of system/network informations.")
         SetToolTip(Me.chkHideClosed, "Hide YAPM when user click on 'close' button")
         SetToolTip(Me.chkUnlimitedBuf, "No size limit for history")
         SetToolTip(Me.bufferSize, "Size of the buffer used to save history of statistics of one process (KB). The change of this value will be applied on the next start of YAPM.")

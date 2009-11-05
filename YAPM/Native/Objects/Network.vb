@@ -397,6 +397,20 @@ Namespace Native.Objects
             Return NativeFunctions.CopyFile(localPath, remote & "\" & remoteName, False)
         End Function
 
+        ' Return TCP statistics
+        Public Shared Function GetTcpStatistics() As NativeStructs.MibTcpStats
+            Dim ret As New NativeStructs.MibTcpStats
+            NativeFunctions.GetTcpStatistics(ret)
+            Return ret
+        End Function
+
+        ' Return UDP statistics
+        Public Shared Function GetUdpStatistics() As NativeStructs.MibUdpStats
+            Dim ret As New NativeStructs.MibUdpStats
+            NativeFunctions.GetUdpStatistics(ret)
+            Return ret
+        End Function
+
 
 
         ' ========================================

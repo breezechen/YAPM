@@ -121,6 +121,7 @@ Temp Change log :
 * NEW / Improvements
 - Added Ping/Traceroute/WhoIs functions for TCP connections
 - Added 'TotalIoDelta' counter
+- Added 'network information' window
 - Added heaps management
 - Improved appearance of graphs
 - Improved 'system info' window (added new informations + always on top option + now YAPM remember infos options)

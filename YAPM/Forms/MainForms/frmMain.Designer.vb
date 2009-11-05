@@ -24,27 +24,27 @@ Partial Class frmMain
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Dim CConnection8 As cConnection = New cConnection
-        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("System")
-        Dim TreeNode7 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("[System process]", New System.Windows.Forms.TreeNode() {TreeNode3})
-        Dim CConnection9 As cConnection = New cConnection
-        Dim ListViewGroup11 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup12 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim CConnection1 As cConnection = New cConnection
         Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
         Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim TreeNode8 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Items", 1, 1)
-        Dim CConnection12 As cConnection = New cConnection
-        Dim ListViewGroup15 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup16 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim CConnection10 As cConnection = New cConnection
+        Dim TreeNode1 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("System")
+        Dim TreeNode2 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("[System process]", New System.Windows.Forms.TreeNode() {TreeNode1})
+        Dim CConnection2 As cConnection = New cConnection
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Processes", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection3 As cConnection = New cConnection
+        Dim ListViewGroup5 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Tasks", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup6 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim TreeNode3 As System.Windows.Forms.TreeNode = New System.Windows.Forms.TreeNode("Items", 1, 1)
         Dim CConnection4 As cConnection = New cConnection
+        Dim ListViewGroup7 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Services", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup8 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search result", System.Windows.Forms.HorizontalAlignment.Left)
         Dim CConnection5 As cConnection = New cConnection
-        Dim CConnection13 As cConnection = New cConnection
-        Dim ListViewGroup13 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup14 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim CConnection6 As cConnection = New cConnection
+        Dim CConnection7 As cConnection = New cConnection
+        Dim CConnection8 As cConnection = New cConnection
+        Dim ListViewGroup9 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Results", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup10 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Search results", System.Windows.Forms.HorizontalAlignment.Left)
         Me.timerProcess = New System.Windows.Forms.Timer(Me.components)
         Me.imgServices = New System.Windows.Forms.ImageList(Me.components)
         Me.timerServices = New System.Windows.Forms.Timer(Me.components)
@@ -74,6 +74,7 @@ Partial Class frmMain
         Me.butShowDepViewer = New System.Windows.Forms.RibbonButton
         Me.butShowAllPendingTasks = New System.Windows.Forms.RibbonButton
         Me.butCreateService = New System.Windows.Forms.RibbonButton
+        Me.butNetworkInfos = New System.Windows.Forms.RibbonButton
         Me.TaskTab = New System.Windows.Forms.RibbonTab
         Me.RBTaskDisplay = New System.Windows.Forms.RibbonPanel
         Me.butTaskRefresh = New System.Windows.Forms.RibbonButton
@@ -450,6 +451,7 @@ Partial Class frmMain
         Me.MenuItemMainLock = New System.Windows.Forms.MenuItem
         Me.MenuItem5 = New System.Windows.Forms.MenuItem
         Me.MenuItemMainReport = New System.Windows.Forms.MenuItem
+        Me.MenuItemMainNetworkInfo = New System.Windows.Forms.MenuItem
         Me.MenuItemMainEmergencyH = New System.Windows.Forms.MenuItem
         Me.MenuItemMainSBA = New System.Windows.Forms.MenuItem
         Me.MenuItem15 = New System.Windows.Forms.MenuItem
@@ -501,6 +503,7 @@ Partial Class frmMain
         Me.MenuItem56 = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemReport = New System.Windows.Forms.MenuItem
         Me.MenuItem59 = New System.Windows.Forms.MenuItem
+        Me.MenuItemSystemNetworkInfos = New System.Windows.Forms.MenuItem
         Me.MenuItemShowPendingTasks = New System.Windows.Forms.MenuItem
         Me.MenuItem62 = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemEmergency = New System.Windows.Forms.MenuItem
@@ -748,6 +751,7 @@ Partial Class frmMain
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butShowDepViewer)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butShowAllPendingTasks)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butCreateService)
+        Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butNetworkInfos)
         Me.Ribbon.QuickAcessToolbar.Tag = Nothing
         Me.Ribbon.QuickAcessToolbar.Text = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTip = Nothing
@@ -1057,6 +1061,21 @@ Partial Class frmMain
         Me.butCreateService.ToolTip = "Create service"
         Me.butCreateService.ToolTipImage = Nothing
         Me.butCreateService.ToolTipTitle = Nothing
+        '
+        'butNetworkInfos
+        '
+        Me.butNetworkInfos.AltKey = Nothing
+        Me.butNetworkInfos.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butNetworkInfos.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butNetworkInfos.Image = CType(resources.GetObject("butNetworkInfos.Image"), System.Drawing.Image)
+        Me.butNetworkInfos.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
+        Me.butNetworkInfos.SmallImage = Global.My.Resources.Resources.globe
+        Me.butNetworkInfos.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butNetworkInfos.Tag = Nothing
+        Me.butNetworkInfos.Text = "Show network infos"
+        Me.butNetworkInfos.ToolTip = Nothing
+        Me.butNetworkInfos.ToolTipImage = Nothing
+        Me.butNetworkInfos.ToolTipTitle = Nothing
         '
         'TaskTab
         '
@@ -2738,16 +2757,16 @@ Partial Class frmMain
         Me.lvTask.AllowColumnReorder = True
         Me.lvTask.CatchErrors = False
         Me.lvTask.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader62, Me.ColumnHeader63, Me.ColumnHeader64})
-        CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvTask.ConnectionObj = CConnection8
+        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvTask.ConnectionObj = CConnection1
         Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvTask.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvTask.FullRowSelect = True
-        ListViewGroup9.Header = "Tasks"
-        ListViewGroup9.Name = "gpOther"
-        ListViewGroup10.Header = "Search result"
-        ListViewGroup10.Name = "gpSearch"
-        Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
+        ListViewGroup1.Header = "Tasks"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvTask.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
         Me.lvTask.HideSelection = False
         Me.lvTask.IsConnected = False
         Me.lvTask.Location = New System.Drawing.Point(0, 0)
@@ -2894,13 +2913,13 @@ Partial Class frmMain
         Me.tvProc.FullRowSelect = True
         Me.tvProc.Location = New System.Drawing.Point(0, 0)
         Me.tvProc.Name = "tvProc"
-        TreeNode3.Name = "4"
-        TreeNode3.Tag = "4"
-        TreeNode3.Text = "System"
-        TreeNode7.Name = "0"
-        TreeNode7.Tag = "0"
-        TreeNode7.Text = "[System process]"
-        Me.tvProc.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode7})
+        TreeNode1.Name = "4"
+        TreeNode1.Tag = "4"
+        TreeNode1.Text = "System"
+        TreeNode2.Name = "0"
+        TreeNode2.Tag = "0"
+        TreeNode2.Text = "[System process]"
+        Me.tvProc.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode2})
         Me.tvProc.Size = New System.Drawing.Size(149, 100)
         Me.tvProc.TabIndex = 4
         '
@@ -2909,17 +2928,17 @@ Partial Class frmMain
         Me.lvProcess.AllowColumnReorder = True
         Me.lvProcess.CatchErrors = False
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
-        CConnection9.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcess.ConnectionObj = CConnection9
+        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvProcess.ConnectionObj = CConnection2
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.EnumMethod = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcess.FullRowSelect = True
-        ListViewGroup11.Header = "Processes"
-        ListViewGroup11.Name = "gpOther"
-        ListViewGroup12.Header = "Search result"
-        ListViewGroup12.Name = "gpSearch"
-        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup11, ListViewGroup12})
+        ListViewGroup3.Header = "Processes"
+        ListViewGroup3.Name = "gpOther"
+        ListViewGroup4.Header = "Search result"
+        ListViewGroup4.Name = "gpSearch"
+        Me.lvProcess.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.lvProcess.HideSelection = False
         Me.lvProcess.IsConnected = False
         Me.lvProcess.Location = New System.Drawing.Point(0, 0)
@@ -3013,16 +3032,16 @@ Partial Class frmMain
         Me.lvJob.AllowColumnReorder = True
         Me.lvJob.CatchErrors = False
         Me.lvJob.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader5})
-        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvJob.ConnectionObj = CConnection1
+        CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvJob.ConnectionObj = CConnection3
         Me.lvJob.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJob.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvJob.FullRowSelect = True
-        ListViewGroup1.Header = "Tasks"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvJob.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup5.Header = "Tasks"
+        ListViewGroup5.Name = "gpOther"
+        ListViewGroup6.Header = "Search result"
+        ListViewGroup6.Name = "gpSearch"
+        Me.lvJob.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup5, ListViewGroup6})
         Me.lvJob.HideSelection = False
         Me.lvJob.IsConnected = False
         Me.lvJob.Location = New System.Drawing.Point(0, 0)
@@ -3091,11 +3110,11 @@ Partial Class frmMain
         Me.tvMonitor.ImageList = Me.imgMonitor
         Me.tvMonitor.Location = New System.Drawing.Point(0, 0)
         Me.tvMonitor.Name = "tvMonitor"
-        TreeNode8.ImageIndex = 1
-        TreeNode8.Name = "processes"
-        TreeNode8.SelectedImageIndex = 1
-        TreeNode8.Text = "Items"
-        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode8})
+        TreeNode3.ImageIndex = 1
+        TreeNode3.Name = "processes"
+        TreeNode3.SelectedImageIndex = 1
+        TreeNode3.Text = "Items"
+        Me.tvMonitor.Nodes.AddRange(New System.Windows.Forms.TreeNode() {TreeNode3})
         Me.tvMonitor.SelectedImageIndex = 0
         Me.tvMonitor.Size = New System.Drawing.Size(281, 359)
         Me.tvMonitor.TabIndex = 0
@@ -3395,16 +3414,16 @@ Partial Class frmMain
         Me.lvServices.AllowColumnReorder = True
         Me.lvServices.CatchErrors = False
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader19})
-        CConnection12.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvServices.ConnectionObj = CConnection12
+        CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvServices.ConnectionObj = CConnection4
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvServices.FullRowSelect = True
-        ListViewGroup15.Header = "Services"
-        ListViewGroup15.Name = "gpOther"
-        ListViewGroup16.Header = "Search result"
-        ListViewGroup16.Name = "gpSearch"
-        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup15, ListViewGroup16})
+        ListViewGroup7.Header = "Services"
+        ListViewGroup7.Name = "gpOther"
+        ListViewGroup8.Header = "Search result"
+        ListViewGroup8.Name = "gpSearch"
+        Me.lvServices.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup7, ListViewGroup8})
         Me.lvServices.HideSelection = False
         Me.lvServices.IsConnected = False
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
@@ -3563,8 +3582,8 @@ Partial Class frmMain
         '
         'tv2
         '
-        CConnection10.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.tv2.ConnectionObj = CConnection10
+        CConnection5.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.tv2.ConnectionObj = CConnection5
         Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv2.ImageIndex = 0
@@ -3580,8 +3599,8 @@ Partial Class frmMain
         '
         'tv
         '
-        CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.tv.ConnectionObj = CConnection4
+        CConnection6.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.tv.ConnectionObj = CConnection6
         Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tv.ImageIndex = 0
@@ -3621,8 +3640,8 @@ Partial Class frmMain
         Me.lvNetwork.AllowColumnReorder = True
         Me.lvNetwork.CatchErrors = False
         Me.lvNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader66, Me.ColumnHeader67, Me.ColumnHeader68, Me.ColumnHeader69})
-        CConnection5.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvNetwork.ConnectionObj = CConnection5
+        CConnection7.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvNetwork.ConnectionObj = CConnection7
         Me.lvNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvNetwork.FullRowSelect = True
@@ -4173,16 +4192,16 @@ Partial Class frmMain
         Me.lvSearchResults.CaseSensitive = False
         Me.lvSearchResults.CatchErrors = False
         Me.lvSearchResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14, Me.ColumnHeader17})
-        CConnection13.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvSearchResults.ConnectionObj = CConnection13
+        CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Me.lvSearchResults.ConnectionObj = CConnection8
         Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvSearchResults.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvSearchResults.FullRowSelect = True
-        ListViewGroup13.Header = "Results"
-        ListViewGroup13.Name = "gpResults"
-        ListViewGroup14.Header = "Search results"
-        ListViewGroup14.Name = "gpSearchResults"
-        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup13, ListViewGroup14})
+        ListViewGroup9.Header = "Results"
+        ListViewGroup9.Name = "gpResults"
+        ListViewGroup10.Header = "Search results"
+        ListViewGroup10.Name = "gpSearchResults"
+        Me.lvSearchResults.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup9, ListViewGroup10})
         Me.lvSearchResults.HideSelection = False
         Me.lvSearchResults.Includes = Native.Api.Enums.GeneralObjectType.Process
         Me.lvSearchResults.IsConnected = False
@@ -4344,13 +4363,13 @@ Partial Class frmMain
         'MenuItemMainOpenedW
         '
         Me.VistaMenu.SetImage(Me.MenuItemMainOpenedW, Global.My.Resources.Resources.monitor16)
-        Me.MenuItemMainOpenedW.Index = 12
+        Me.MenuItemMainOpenedW.Index = 13
         Me.MenuItemMainOpenedW.Text = "Opened windows"
         '
         'MenuItemMainExit
         '
         Me.VistaMenu.SetImage(Me.MenuItemMainExit, Global.My.Resources.Resources.cross16)
-        Me.MenuItemMainExit.Index = 20
+        Me.MenuItemMainExit.Index = 21
         Me.MenuItemMainExit.Text = "Exit YAPM"
         '
         'MenuItemMainSysInfo
@@ -4570,19 +4589,19 @@ Partial Class frmMain
         'MenuItemSystemOpenedWindows
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemOpenedWindows, Global.My.Resources.Resources.monitor16)
-        Me.MenuItemSystemOpenedWindows.Index = 9
+        Me.MenuItemSystemOpenedWindows.Index = 10
         Me.MenuItemSystemOpenedWindows.Text = "Opened &windows"
         '
         'MenuItemSystemToTray
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemToTray, Global.My.Resources.Resources.down16)
-        Me.MenuItemSystemToTray.Index = 16
+        Me.MenuItemSystemToTray.Index = 17
         Me.MenuItemSystemToTray.Text = "Minimize to &tray"
         '
         'MenuItemSystemExit
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemExit, Global.My.Resources.Resources.cross16)
-        Me.MenuItemSystemExit.Index = 17
+        Me.MenuItemSystemExit.Index = 18
         Me.MenuItemSystemExit.Shortcut = System.Windows.Forms.Shortcut.AltF4
         Me.MenuItemSystemExit.Text = "E&xit"
         '
@@ -4607,7 +4626,7 @@ Partial Class frmMain
         'MenuItemSystemFindWindow
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemFindWindow, Global.My.Resources.Resources.target16)
-        Me.MenuItemSystemFindWindow.Index = 12
+        Me.MenuItemSystemFindWindow.Index = 13
         Me.MenuItemSystemFindWindow.Text = "&Find a window"
         '
         'MenuItemSystemHelp
@@ -4628,7 +4647,7 @@ Partial Class frmMain
         'MenuItemMainFindWindow
         '
         Me.VistaMenu.SetImage(Me.MenuItemMainFindWindow, Global.My.Resources.Resources.target16)
-        Me.MenuItemMainFindWindow.Index = 14
+        Me.MenuItemMainFindWindow.Index = 15
         Me.MenuItemMainFindWindow.Text = "Find a window"
         '
         'MenuItemCopyTask
@@ -4719,7 +4738,7 @@ Partial Class frmMain
         '
         'mnuMain
         '
-        Me.mnuMain.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemMainShow, Me.MenuItemMainToTray, Me.MenuItemMainAbout, Me.MenuItemMainAlwaysVisible, Me.MenuItem29, Me.MenuItem31, Me.MenuItem2, Me.MenuItem3, Me.MenuItem5, Me.MenuItemMainLog, Me.MenuItemMainReport, Me.MenuItemMainSysInfo, Me.MenuItemMainOpenedW, Me.MenuItemMainEmergencyH, Me.MenuItemMainFindWindow, Me.MenuItemMainSBA, Me.MenuItem15, Me.MenuItemRefProc, Me.MenuItemMainRefServ, Me.MenuItem18, Me.MenuItemMainExit})
+        Me.mnuMain.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemMainShow, Me.MenuItemMainToTray, Me.MenuItemMainAbout, Me.MenuItemMainAlwaysVisible, Me.MenuItem29, Me.MenuItem31, Me.MenuItem2, Me.MenuItem3, Me.MenuItem5, Me.MenuItemMainLog, Me.MenuItemMainReport, Me.MenuItemMainSysInfo, Me.MenuItemMainNetworkInfo, Me.MenuItemMainOpenedW, Me.MenuItemMainEmergencyH, Me.MenuItemMainFindWindow, Me.MenuItemMainSBA, Me.MenuItem15, Me.MenuItemRefProc, Me.MenuItemMainRefServ, Me.MenuItem18, Me.MenuItemMainExit})
         '
         'MenuItemMainAlwaysVisible
         '
@@ -4838,38 +4857,44 @@ Partial Class frmMain
         Me.MenuItemMainReport.Index = 10
         Me.MenuItemMainReport.Text = "Save system report..."
         '
+        'MenuItemMainNetworkInfo
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemMainNetworkInfo, Global.My.Resources.Resources.globe)
+        Me.MenuItemMainNetworkInfo.Index = 12
+        Me.MenuItemMainNetworkInfo.Text = "Network information"
+        '
         'MenuItemMainEmergencyH
         '
-        Me.MenuItemMainEmergencyH.Index = 13
+        Me.MenuItemMainEmergencyH.Index = 14
         Me.MenuItemMainEmergencyH.Text = "Emergency hotkeys..."
         '
         'MenuItemMainSBA
         '
         Me.MenuItemMainSBA.Enabled = False
-        Me.MenuItemMainSBA.Index = 15
+        Me.MenuItemMainSBA.Index = 16
         Me.MenuItemMainSBA.Text = "State based actions..."
         Me.MenuItemMainSBA.Visible = False
         '
         'MenuItem15
         '
-        Me.MenuItem15.Index = 16
+        Me.MenuItem15.Index = 17
         Me.MenuItem15.Text = "-"
         '
         'MenuItemRefProc
         '
         Me.MenuItemRefProc.Checked = True
-        Me.MenuItemRefProc.Index = 17
+        Me.MenuItemRefProc.Index = 18
         Me.MenuItemRefProc.Text = "Refresh process list"
         '
         'MenuItemMainRefServ
         '
         Me.MenuItemMainRefServ.Checked = True
-        Me.MenuItemMainRefServ.Index = 18
+        Me.MenuItemMainRefServ.Index = 19
         Me.MenuItemMainRefServ.Text = "Refresh service list"
         '
         'MenuItem18
         '
-        Me.MenuItem18.Index = 19
+        Me.MenuItem18.Index = 20
         Me.MenuItem18.Text = "-"
         '
         'mnuService
@@ -5067,7 +5092,7 @@ Partial Class frmMain
         'MenuItemSYSTEMFILE
         '
         Me.MenuItemSYSTEMFILE.Index = 0
-        Me.MenuItemSYSTEMFILE.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemRefresh, Me.MenuItem54, Me.MenuItemSystemConnection, Me.MenuItemRunAsAdmin, Me.MenuItem56, Me.MenuItemSystemLog, Me.MenuItemSystemReport, Me.MenuItem59, Me.MenuItemSystemInfos, Me.MenuItemSystemOpenedWindows, Me.MenuItemShowPendingTasks, Me.MenuItem62, Me.MenuItemSystemFindWindow, Me.MenuItemSystemEmergency, Me.MenuItemSystemSBA, Me.MenuItem66, Me.MenuItemSystemToTray, Me.MenuItemSystemExit})
+        Me.MenuItemSYSTEMFILE.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemRefresh, Me.MenuItem54, Me.MenuItemSystemConnection, Me.MenuItemRunAsAdmin, Me.MenuItem56, Me.MenuItemSystemLog, Me.MenuItemSystemReport, Me.MenuItem59, Me.MenuItemSystemInfos, Me.MenuItemSystemNetworkInfos, Me.MenuItemSystemOpenedWindows, Me.MenuItemShowPendingTasks, Me.MenuItem62, Me.MenuItemSystemFindWindow, Me.MenuItemSystemEmergency, Me.MenuItemSystemSBA, Me.MenuItem66, Me.MenuItemSystemToTray, Me.MenuItemSystemExit})
         Me.MenuItemSYSTEMFILE.Text = "&File"
         '
         'MenuItem54
@@ -5100,31 +5125,37 @@ Partial Class frmMain
         Me.MenuItem59.Index = 7
         Me.MenuItem59.Text = "-"
         '
+        'MenuItemSystemNetworkInfos
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemSystemNetworkInfos, Global.My.Resources.Resources.globe)
+        Me.MenuItemSystemNetworkInfos.Index = 9
+        Me.MenuItemSystemNetworkInfos.Text = "&Network infos"
+        '
         'MenuItemShowPendingTasks
         '
-        Me.MenuItemShowPendingTasks.Index = 10
+        Me.MenuItemShowPendingTasks.Index = 11
         Me.MenuItemShowPendingTasks.Text = "&Pending tasks..."
         '
         'MenuItem62
         '
-        Me.MenuItem62.Index = 11
+        Me.MenuItem62.Index = 12
         Me.MenuItem62.Text = "-"
         '
         'MenuItemSystemEmergency
         '
-        Me.MenuItemSystemEmergency.Index = 13
+        Me.MenuItemSystemEmergency.Index = 14
         Me.MenuItemSystemEmergency.Text = "Emergency &hotkeys..."
         '
         'MenuItemSystemSBA
         '
         Me.MenuItemSystemSBA.Enabled = False
-        Me.MenuItemSystemSBA.Index = 14
+        Me.MenuItemSystemSBA.Index = 15
         Me.MenuItemSystemSBA.Text = "State &based actions..."
         Me.MenuItemSystemSBA.Visible = False
         '
         'MenuItem66
         '
-        Me.MenuItem66.Index = 15
+        Me.MenuItem66.Index = 16
         Me.MenuItem66.Text = "-"
         '
         'MenuItemProcesses
@@ -6161,5 +6192,8 @@ Partial Class frmMain
     Friend WithEvents MenuItemNetworkPing As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemNetworkRoute As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemNetworkWhoIs As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemSystemNetworkInfos As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemMainNetworkInfo As System.Windows.Forms.MenuItem
+    Friend WithEvents butNetworkInfos As System.Windows.Forms.RibbonButton
 
 End Class

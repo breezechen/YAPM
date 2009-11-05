@@ -661,11 +661,11 @@ Namespace Native.Api
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure MibUdpStats
-            Public InDatagrams As Integer
-            Public NoPorts As Integer
-            Public InErrors As Integer
-            Public OutDatagrams As Integer
-            Public NumAddrs As Integer
+            Public InDatagrams As UInteger
+            Public NoPorts As UInteger
+            Public InErrors As UInteger
+            Public OutDatagrams As UInteger
+            Public NumAddrs As UInteger
         End Structure
 
 #End Region

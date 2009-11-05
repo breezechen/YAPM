@@ -1268,6 +1268,18 @@ Namespace My
                 Me("SystemInfoOneGraph") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property NetworkInfoTopMost() As Boolean
+            Get
+                Return CType(Me("NetworkInfoTopMost"),Boolean)
+            End Get
+            Set
+                Me("NetworkInfoTopMost") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
