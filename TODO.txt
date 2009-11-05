@@ -131,3 +131,4 @@ Temp Change log :
 - Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)
 - Fixed #2885689 (cannot call BeginInvoke)
 - Help menu not broken anymore
+- Now save column's preferences when exiting using the standard 'close' button

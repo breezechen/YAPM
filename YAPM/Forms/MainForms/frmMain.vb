@@ -285,8 +285,8 @@ Public Class frmMain
             Exit Sub
         End If
         ' This avoid to call ExitYAPM recursively when exiting
-        Me.CallExitWhenExitYAPM = False
         If Me.CallExitWhenExitYAPM Then
+            Me.CallExitWhenExitYAPM = False
             Call ExitYAPM()
         End If
     End Sub
