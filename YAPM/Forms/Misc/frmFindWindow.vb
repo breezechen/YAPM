@@ -276,17 +276,19 @@ Public Class frmFindWindow
         ' Reset the variable
         Myhwnd = IntPtr.Zero
         Me.cmdGoToProcess.Enabled = (SelectedHwnd.IsNotNull)
+        Me.cmdGoToThread.Enabled = Me.cmdGoToProcess.Enabled
     End Sub
 
-    Private Sub Found(ByVal hWnd As IntPtr)
+    Private Sub Found(ByVal hWnd As IntPtr, Optional ByVal selectThread As Boolean = False)
 
         ' Get process ID
         Dim pid As Integer
-        NativeFunctions.GetWindowThreadProcessId(hWnd, pid)
+        Dim tid As Integer = NativeFunctions.GetWindowThreadProcessId(hWnd, pid)
+        Dim cP As cProcess = Nothing
 
         _frmMain.lvProcess.SelectedItems.Clear()
         For Each it As ListViewItem In _frmMain.lvProcess.Items
-            Dim cp As cProcess = _frmMain.lvProcess.GetItemByKey(it.Name)
+            cP = _frmMain.lvProcess.GetItemByKey(it.Name)
             If cp IsNot Nothing AndAlso cp.Infos.ProcessId = pid Then
                 it.Selected = True
                 it.EnsureVisible()
@@ -294,14 +296,51 @@ Public Class frmFindWindow
             End If
         Next
 
+        ' Select 'process' tab in main form
         _frmMain.Ribbon.ActiveTab = _frmMain.ProcessTab
         Call _frmMain.Ribbon_MouseMove(Nothing, Nothing)
         _frmMain.Show()
         _frmMain.lvProcess.Focus()
 
+        If selectThread AndAlso cP IsNot Nothing Then
+            ' Here we select the thread in detailed window
+            Dim frm As New frmProcessInfo
+            frm.SetProcess(cP)
+            frm.TopMost = _frmMain.TopMost
+            frm.Show()
+            frm.tabProcess.SelectedTab = frm.TabPageThreads
+            ' Create a thread which wait for threads to be added in the lvThread
+            ' and then select the good thread
+            Threading.ThreadPool.QueueUserWorkItem(AddressOf selectThreadImp, New contextObj(tid, frm))
+        End If
+
         Me.Close()
 
     End Sub
+
+#Region "Select thread code"
+
+    Private Structure contextObj
+        Public tid As Integer
+        Public frmProcInfo As frmProcessInfo
+        Public Sub New(ByVal threadId As Integer, ByVal form As frmProcessInfo)
+            tid = threadId
+            frmProcInfo = form
+        End Sub
+    End Structure
+    Private Sub selectThreadImp(ByVal context As Object)
+        Dim pObj As contextObj = DirectCast(context, contextObj)
+
+        ' Wait for threads to be added
+        While pObj.frmProcInfo.lvThreads.Items.Count = 0
+            Threading.Thread.Sleep(50)
+        End While
+
+        ' Select the good thread
+        Async.ListView.EnsureItemVisible(pObj.frmProcInfo.lvThreads, pObj.tid.ToString)
+    End Sub
+
+#End Region
 
     Private Sub RefreshInfos(ByVal hWnd As IntPtr)
         ' Get thread & process ID
@@ -323,6 +362,7 @@ Public Class frmFindWindow
     Private Sub frmFindWindow_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         CloseWithEchapKey(Me)
         SetToolTip(Me.cmdGoToProcess, "Select associated process")
+        SetToolTip(Me.cmdGoToThread, "Select associated thread")
     End Sub
 
     Private Sub cmdGoToProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGoToProcess.Click
@@ -334,5 +374,10 @@ Public Class frmFindWindow
         ' Paint an image on our Form (target image)
         Dim g As Graphics = e.Graphics
         g.DrawImage(My.Resources.target32, New PointF(12, 46))
+    End Sub
+
+    Private Sub cmdGoToThread_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGoToThread.Click
+        ' Found our handle
+        Found(SelectedHwnd, True)
     End Sub
 End Class

@@ -28,6 +28,7 @@ Partial Class frmFindWindow
         Me.lblThread = New System.Windows.Forms.Label
         Me.lblProcess = New System.Windows.Forms.Label
         Me.cmdGoToProcess = New System.Windows.Forms.Button
+        Me.cmdGoToThread = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'Label1
@@ -79,18 +80,32 @@ Partial Class frmFindWindow
         Me.cmdGoToProcess.Enabled = False
         Me.cmdGoToProcess.Image = Global.My.Resources.Resources.down16
         Me.cmdGoToProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdGoToProcess.Location = New System.Drawing.Point(166, 79)
+        Me.cmdGoToProcess.Location = New System.Drawing.Point(166, 91)
         Me.cmdGoToProcess.Name = "cmdGoToProcess"
         Me.cmdGoToProcess.Size = New System.Drawing.Size(110, 25)
         Me.cmdGoToProcess.TabIndex = 6
         Me.cmdGoToProcess.Text = "    Go to process"
         Me.cmdGoToProcess.UseVisualStyleBackColor = True
         '
+        'cmdGoToThread
+        '
+        Me.cmdGoToThread.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.cmdGoToThread.Enabled = False
+        Me.cmdGoToThread.Image = Global.My.Resources.Resources.down16
+        Me.cmdGoToThread.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmdGoToThread.Location = New System.Drawing.Point(57, 91)
+        Me.cmdGoToThread.Name = "cmdGoToThread"
+        Me.cmdGoToThread.Size = New System.Drawing.Size(103, 25)
+        Me.cmdGoToThread.TabIndex = 7
+        Me.cmdGoToThread.Text = "     Go to thread"
+        Me.cmdGoToThread.UseVisualStyleBackColor = True
+        '
         'frmFindWindow
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(286, 111)
+        Me.ClientSize = New System.Drawing.Size(286, 123)
+        Me.Controls.Add(Me.cmdGoToThread)
         Me.Controls.Add(Me.cmdGoToProcess)
         Me.Controls.Add(Me.lblThread)
         Me.Controls.Add(Me.lblProcess)
@@ -118,4 +133,5 @@ Partial Class frmFindWindow
     Friend WithEvents lblThread As System.Windows.Forms.Label
     Friend WithEvents lblProcess As System.Windows.Forms.Label
     Friend WithEvents cmdGoToProcess As System.Windows.Forms.Button
+    Friend WithEvents cmdGoToThread As System.Windows.Forms.Button
 End Class

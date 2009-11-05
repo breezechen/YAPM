@@ -50,7 +50,6 @@ BUGS NON CRITIQUES
 - ajouter description des colonnes (dans le chooseColumns)
 - option Kill with specific exitcode
 - déconnexion local puis connexion WMI foireuse puis reconnexion local -> ServiceStartType change et devient foireux
-- find window -> select thread possible
 - creatime time foireux pour les threads
 - inspect structures (PEB...) + possibilité afficher valeurs structs depuis hex editor
 - optmisation NetWorklist -> bytes swap uniquement pour les news items (inutile de faire çà a chaque fois dans l'enum)
@@ -126,6 +125,7 @@ Temp Change log :
 - Improved appearance of graphs
 - Added 'go to parent process' feature
 - Now performance graphs are up-to-date when opening process' detailed window
+- Now can select the thread associated to a window using "find window's process" feature
 
 * Bug fixed
 - Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)
