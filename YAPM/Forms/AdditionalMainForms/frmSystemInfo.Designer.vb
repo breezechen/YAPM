@@ -41,6 +41,10 @@ Partial Class frmSystemInfo
         Me.lblKpp = New System.Windows.Forms.Label
         Me.Label47 = New System.Windows.Forms.Label
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
+        Me.lblCPUUsage = New System.Windows.Forms.Label
+        Me.Label40 = New System.Windows.Forms.Label
+        Me.lblCPUTotalTime = New System.Windows.Forms.Label
+        Me.Label37 = New System.Windows.Forms.Label
         Me.lblCPUdpcTime = New System.Windows.Forms.Label
         Me.Label29 = New System.Windows.Forms.Label
         Me.lblCPUidleTime = New System.Windows.Forms.Label
@@ -119,14 +123,11 @@ Partial Class frmSystemInfo
         Me.Label1 = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.g2 = New Graph2
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
+        Me.chkTopMost = New System.Windows.Forms.CheckBox
+        Me.g2 = New Graph2
         Me.g3 = New Graph2
         Me.g4 = New Graph2
-        Me.lblCPUTotalTime = New System.Windows.Forms.Label
-        Me.Label37 = New System.Windows.Forms.Label
-        Me.lblCPUUsage = New System.Windows.Forms.Label
-        Me.Label40 = New System.Windows.Forms.Label
         Me.mainSplit.Panel1.SuspendLayout()
         Me.mainSplit.Panel2.SuspendLayout()
         Me.mainSplit.SuspendLayout()
@@ -143,10 +144,10 @@ Partial Class frmSystemInfo
         Me.SplitContainer2.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.g2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        CType(Me.g2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.g3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.g4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -166,6 +167,7 @@ Partial Class frmSystemInfo
         '
         'mainSplit.Panel1
         '
+        Me.mainSplit.Panel1.Controls.Add(Me.chkTopMost)
         Me.mainSplit.Panel1.Controls.Add(Me.chkOneGraphPerCpu)
         Me.mainSplit.Panel1.Controls.Add(Me.GroupBox8)
         Me.mainSplit.Panel1.Controls.Add(Me.GroupBox7)
@@ -352,6 +354,42 @@ Partial Class frmSystemInfo
         Me.GroupBox7.TabIndex = 14
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "CPU"
+        '
+        'lblCPUUsage
+        '
+        Me.lblCPUUsage.AutoSize = True
+        Me.lblCPUUsage.Location = New System.Drawing.Point(188, 23)
+        Me.lblCPUUsage.Name = "lblCPUUsage"
+        Me.lblCPUUsage.Size = New System.Drawing.Size(52, 13)
+        Me.lblCPUUsage.TabIndex = 21
+        Me.lblCPUUsage.Text = "00,000 %"
+        '
+        'Label40
+        '
+        Me.Label40.AutoSize = True
+        Me.Label40.Location = New System.Drawing.Point(143, 23)
+        Me.Label40.Name = "Label40"
+        Me.Label40.Size = New System.Drawing.Size(39, 13)
+        Me.Label40.TabIndex = 20
+        Me.Label40.Text = "Usage"
+        '
+        'lblCPUTotalTime
+        '
+        Me.lblCPUTotalTime.AutoSize = True
+        Me.lblCPUTotalTime.Location = New System.Drawing.Point(113, 158)
+        Me.lblCPUTotalTime.Name = "lblCPUTotalTime"
+        Me.lblCPUTotalTime.Size = New System.Drawing.Size(13, 13)
+        Me.lblCPUTotalTime.TabIndex = 19
+        Me.lblCPUTotalTime.Text = "0"
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.Location = New System.Drawing.Point(15, 158)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(57, 13)
+        Me.Label37.TabIndex = 18
+        Me.Label37.Text = "Total time"
         '
         'lblCPUdpcTime
         '
@@ -1123,21 +1161,6 @@ Partial Class frmSystemInfo
         Me.SplitContainer1.SplitterDistance = 119
         Me.SplitContainer1.TabIndex = 1
         '
-        'g2
-        '
-        Me.g2.BackColor = System.Drawing.Color.Black
-        Me.g2.Color2 = System.Drawing.Color.Olive
-        Me.g2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.g2.EnableGraph = True
-        Me.g2.Fixedheight = True
-        Me.g2.GridStep = 10
-        Me.g2.Location = New System.Drawing.Point(0, 0)
-        Me.g2.Name = "g2"
-        Me.g2.ShowSecondGraph = False
-        Me.g2.Size = New System.Drawing.Size(306, 116)
-        Me.g2.TabIndex = 11
-        Me.g2.TabStop = False
-        '
         'SplitContainer3
         '
         Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1157,6 +1180,33 @@ Partial Class frmSystemInfo
         Me.SplitContainer3.SplitterDistance = 117
         Me.SplitContainer3.TabIndex = 0
         '
+        'chkTopMost
+        '
+        Me.chkTopMost.AutoSize = True
+        Me.chkTopMost.Location = New System.Drawing.Point(298, 448)
+        Me.chkTopMost.Name = "chkTopMost"
+        Me.chkTopMost.Size = New System.Drawing.Size(99, 17)
+        Me.chkTopMost.TabIndex = 17
+        Me.chkTopMost.Text = "Always on top"
+        Me.chkTopMost.UseVisualStyleBackColor = True
+        '
+        'g2
+        '
+        Me.g2.BackColor = System.Drawing.Color.Black
+        Me.g2.Color2 = System.Drawing.Color.Olive
+        Me.g2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.g2.EnableGraph = True
+        Me.g2.Fixedheight = True
+        Me.g2.GridStep = 13
+        Me.g2.Location = New System.Drawing.Point(0, 0)
+        Me.g2.Name = "g2"
+        Me.g2.ShowSecondGraph = False
+        Me.g2.Size = New System.Drawing.Size(306, 116)
+        Me.g2.TabIndex = 11
+        Me.g2.TabStop = False
+        Me.g2.TextColor = System.Drawing.Color.Lime
+        Me.g2.TopText = Nothing
+        '
         'g3
         '
         Me.g3.BackColor = System.Drawing.Color.Black
@@ -1165,13 +1215,15 @@ Partial Class frmSystemInfo
         Me.g3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.g3.EnableGraph = True
         Me.g3.Fixedheight = False
-        Me.g3.GridStep = 10
+        Me.g3.GridStep = 13
         Me.g3.Location = New System.Drawing.Point(0, 0)
         Me.g3.Name = "g3"
         Me.g3.ShowSecondGraph = False
         Me.g3.Size = New System.Drawing.Size(306, 117)
         Me.g3.TabIndex = 10
         Me.g3.TabStop = False
+        Me.g3.TextColor = System.Drawing.Color.Lime
+        Me.g3.TopText = Nothing
         '
         'g4
         '
@@ -1181,49 +1233,15 @@ Partial Class frmSystemInfo
         Me.g4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.g4.EnableGraph = True
         Me.g4.Fixedheight = False
-        Me.g4.GridStep = 10
+        Me.g4.GridStep = 13
         Me.g4.Location = New System.Drawing.Point(0, 0)
         Me.g4.Name = "g4"
         Me.g4.ShowSecondGraph = False
         Me.g4.Size = New System.Drawing.Size(306, 113)
         Me.g4.TabIndex = 11
         Me.g4.TabStop = False
-        '
-        'lblCPUTotalTime
-        '
-        Me.lblCPUTotalTime.AutoSize = True
-        Me.lblCPUTotalTime.Location = New System.Drawing.Point(113, 158)
-        Me.lblCPUTotalTime.Name = "lblCPUTotalTime"
-        Me.lblCPUTotalTime.Size = New System.Drawing.Size(13, 13)
-        Me.lblCPUTotalTime.TabIndex = 19
-        Me.lblCPUTotalTime.Text = "0"
-        '
-        'Label37
-        '
-        Me.Label37.AutoSize = True
-        Me.Label37.Location = New System.Drawing.Point(15, 158)
-        Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(57, 13)
-        Me.Label37.TabIndex = 18
-        Me.Label37.Text = "Total time"
-        '
-        'lblCPUUsage
-        '
-        Me.lblCPUUsage.AutoSize = True
-        Me.lblCPUUsage.Location = New System.Drawing.Point(188, 23)
-        Me.lblCPUUsage.Name = "lblCPUUsage"
-        Me.lblCPUUsage.Size = New System.Drawing.Size(52, 13)
-        Me.lblCPUUsage.TabIndex = 21
-        Me.lblCPUUsage.Text = "00,000 %"
-        '
-        'Label40
-        '
-        Me.Label40.AutoSize = True
-        Me.Label40.Location = New System.Drawing.Point(143, 23)
-        Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(39, 13)
-        Me.Label40.TabIndex = 20
-        Me.Label40.Text = "Usage"
+        Me.g4.TextColor = System.Drawing.Color.Lime
+        Me.g4.TopText = Nothing
         '
         'frmSystemInfo
         '
@@ -1262,10 +1280,10 @@ Partial Class frmSystemInfo
         Me.SplitContainer2.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.g2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.g2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.g3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.g4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -1374,4 +1392,5 @@ Partial Class frmSystemInfo
     Friend WithEvents Label37 As System.Windows.Forms.Label
     Friend WithEvents lblCPUUsage As System.Windows.Forms.Label
     Friend WithEvents Label40 As System.Windows.Forms.Label
+    Friend WithEvents chkTopMost As System.Windows.Forms.CheckBox
 End Class

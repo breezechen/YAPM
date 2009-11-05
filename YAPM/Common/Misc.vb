@@ -99,6 +99,9 @@ Namespace Common
 
 
         ' Get a formated value as a string (in Bytes, KB, MB or GB) from an Integer
+        Public Shared Function GetFormatedSize(ByVal size As Double, Optional ByVal digits As Integer = 3) As String
+            Return GetFormatedSize(New Decimal(size), digits)
+        End Function
         Public Shared Function GetFormatedSize(ByVal size As Integer, Optional ByVal digits As Integer = 3) As String
             Return GetFormatedSize(New Decimal(size), digits)
         End Function
@@ -148,6 +151,9 @@ Namespace Common
         End Function
 
         ' Get formated size per second
+        Public Shared Function GetFormatedSizePerSecond(ByVal size As Double, Optional ByVal digits As Integer = 3) As String
+            Return GetFormatedSizePerSecond(New Decimal(size), digits)
+        End Function
         Public Shared Function GetFormatedSizePerSecond(ByVal size As Decimal, Optional ByVal digits As Integer = 3) As String
             Dim t As Decimal = size
             Dim dep As Integer = 0

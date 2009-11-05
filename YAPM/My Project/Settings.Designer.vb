@@ -1244,6 +1244,30 @@ Namespace My
                 Me("COLprocdetail_heaps") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property SystemInfoTopMost() As Boolean
+            Get
+                Return CType(Me("SystemInfoTopMost"),Boolean)
+            End Get
+            Set
+                Me("SystemInfoTopMost") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property SystemInfoOneGraph() As Boolean
+            Get
+                Return CType(Me("SystemInfoOneGraph"),Boolean)
+            End Get
+            Set
+                Me("SystemInfoOneGraph") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

@@ -160,12 +160,13 @@ Public Class frmSystemInfo
             ' g2 (physical memory)
             Dim ggg2 As Double = 100 * (bi.NumberOfPhysicalPages - pi.AvailablePages) / bi.NumberOfPhysicalPages
             Me.g2.AddValue(ggg2)
+            Me.g2.TopText = "Phys. memory : " & Misc.GetFormatedSize(Decimal.Multiply(bi.NumberOfPhysicalPages - pi.AvailablePages, _pagesize))
             Me.g2.Refresh()
 
 
-            ' g3 (I/O read)
+            ' g3 (I/O read+other)
             Static oldIOr As Long = 0
-            Dim newIOr As Long = pi.IoReadTransferCount
+            Dim newIOr As Long = pi.IoReadTransferCount + pi.IoOtherTransferCount
             Dim diffIOr As Long = newIOr - oldIOr
             oldIOr = newIOr
 
@@ -177,6 +178,7 @@ Public Class frmSystemInfo
             End If
 
             Me.g3.AddValue(v3 * 100)
+            Me.g3.TopText = "R+O : " & Misc.GetFormatedSizePerSecond(diffIOr)
             Me.g3.Refresh()
 
 
@@ -194,6 +196,7 @@ Public Class frmSystemInfo
             End If
 
             Me.g4.AddValue(v4 * 100)
+            Me.g4.TopText = "W : " & Misc.GetFormatedSizePerSecond(diffIOw)
             Me.g4.Refresh()
 
         End With
@@ -202,12 +205,18 @@ Public Class frmSystemInfo
     Private Sub frmSystemInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         SetToolTip(Me.chkOneGraphPerCpu, "Display one graph per CPU or one graph for all CPUs")
+        SetToolTip(Me.chkTopMost, "Display window always on top")
         CloseWithEchapKey(Me)
 
         Me.timerRefresh.Interval = My.Settings.SystemInterval
-        Call chkOneGraphPerCpu_CheckedChanged(Nothing, Nothing) ' Add graphs
         Call timerRefresh_Tick(Nothing, Nothing)
         Me.chkOneGraphPerCpu.Enabled = (Program.SystemInfo.ProcessorCount > 1)
+
+        Me.chkTopMost.Checked = My.Settings.SystemInfoTopMost
+        Me.chkOneGraphPerCpu.Checked = Not (My.Settings.SystemInfoOneGraph)
+
+        Call chkOneGraphPerCpu_CheckedChanged(Nothing, Nothing) ' Add graphs
+
     End Sub
 
     Private Sub frmSystemInfo_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
@@ -217,6 +226,16 @@ Public Class frmSystemInfo
     End Sub
 
     Private Sub chkOneGraphPerCpu_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOneGraphPerCpu.CheckedChanged
+
+        If My.Settings.SystemInfoOneGraph <> Not (Me.chkOneGraphPerCpu.Checked) Then
+            My.Settings.SystemInfoOneGraph = Not (Me.chkOneGraphPerCpu.Checked)
+            Try
+                My.Settings.Save()
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            End Try
+        End If
+
         ' Delete graphs
         Me.SplitContainer1.Panel1.Controls.Clear()
 
@@ -286,6 +305,12 @@ Public Class frmSystemInfo
         Static oldProcTime As Long = 0
         Static _old() As Long = Nothing
 
+        If Me.SplitContainer1.Panel1.Controls.Count = 0 Then
+            ' No CPU graph have been added
+            ' So we exit for now
+            Exit Sub
+        End If
+
         If chkOneGraphPerCpu.Checked = False Then
             ' One graph for all CPUs
             _old = Nothing
@@ -304,6 +329,7 @@ Public Class frmSystemInfo
 
             Me.lblCPUUsage.Text = GetFormatedPercentage(v1, 3) & " %"
             _g1.AddValue(v1 * 100)
+            _g1.TopText = "Cpu : " & Misc.GetFormatedPercentage(v1, 3, True) & " %"
             _g1.Refresh()
         Else
             ' One graph per CPU
@@ -337,8 +363,10 @@ Public Class frmSystemInfo
                 If TypeOf ct Is Graph2 Then
                     Dim _g1 As Graph2 = CType(ct, Graph2)
                     Dim _i As Integer = CInt(_g1.Tag)
-                    _g1.AddValue(100 * _diff(_i) / diff.Ticks / _processors)
-                    _totalCpuDiff += _diff(_i) / diff.Ticks / _processors
+                    Dim z As Double = _diff(_i) / diff.Ticks / _processors
+                    _g1.AddValue(100 * z)
+                    _totalCpuDiff += z
+                    _g1.TopText = "Cpu " & _i.ToString & " : " & Misc.GetFormatedPercentage(z, 3, True) & " %"
                     _g1.Refresh()
                 End If
             Next
@@ -349,4 +377,15 @@ Public Class frmSystemInfo
         End If
     End Sub
 
+    Private Sub chkTopMost_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkTopMost.CheckedChanged
+        If Me.chkTopMost.Checked <> My.Settings.SystemInfoTopMost Then
+            My.Settings.SystemInfoTopMost = Me.chkTopMost.Checked
+            Try
+                My.Settings.Save()
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            End Try
+        End If
+        Me.TopMost = Me.chkTopMost.Checked
+    End Sub
 End Class

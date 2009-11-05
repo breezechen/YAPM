@@ -296,5 +296,11 @@
     <Setting Name="COLprocdetail_heaps" Type="System.String" Scope="User">
       <Value Profile="(Default)">Address?101?0$BlockCount?101?1$MemCommitted?117?2$MemAllocated?100?3$Flags?100?4$</Value>
     </Setting>
+    <Setting Name="SystemInfoTopMost" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SystemInfoOneGraph" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

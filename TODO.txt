@@ -123,6 +123,7 @@ Temp Change log :
 - Added 'TotalIoDelta' counter
 - Added heaps management
 - Improved appearance of graphs
+- Improved 'system info' window (added new informations + always on top option + now YAPM remember infos options)
 - Added 'go to parent process' feature
 - Now performance graphs are up-to-date when opening process' detailed window
 - Now can select the thread associated to a window using "find window's process" feature
