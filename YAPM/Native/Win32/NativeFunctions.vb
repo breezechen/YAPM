@@ -554,6 +554,15 @@ Namespace Native.Api
         End Function
 
         <DllImport("iphlpapi.dll", SetLastError:=True)> _
+        Public Shared Function GetTcpStatistics(ByRef stats As NativeStructs.MibTcpStats) As Integer
+        End Function
+
+        <DllImport("iphlpapi.dll", SetLastError:=True)> _
+        Public Shared Function GetUdpStatistics(ByRef stats As NativeStructs.MibUdpStats) As Integer
+        End Function
+
+
+        <DllImport("iphlpapi.dll", SetLastError:=True)> _
         Public Shared Function GetExtendedTcpTable(ByVal Table As IntPtr, _
                                                 ByRef Size As Integer, _
                                                 ByVal Order As Boolean, _

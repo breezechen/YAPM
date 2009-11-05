@@ -639,6 +639,35 @@ Namespace Native.Api
             Public OwningPid As Integer
         End Structure
 
+        ' http://msdn.microsoft.com/en-us/library/aa924123.aspx
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibTcpStats
+            Public RtoAlgorithm As MibTcpRtoAlgorithm
+            Public RtoMin As UInteger
+            Public RtoMax As UInteger
+            Public MaxConn As UInteger
+            Public ActiveOpens As UInteger
+            Public PassiveOpens As UInteger
+            Public AttemptFails As UInteger
+            Public EstabResets As UInteger
+            Public CurrEstab As UInteger
+            Public InSegs As UInteger
+            Public OutSegs As UInteger
+            Public RetransSegs As UInteger
+            Public InErrs As UInteger
+            Public OutRsts As UInteger
+            Public NumConns As UInteger
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibUdpStats
+            Public InDatagrams As Integer
+            Public NoPorts As Integer
+            Public InErrors As Integer
+            Public OutDatagrams As Integer
+            Public NumAddrs As Integer
+        End Structure
+
 #End Region
 
 #Region "Declarations used for files"

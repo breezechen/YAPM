@@ -1355,6 +1355,13 @@ Namespace Native.Api
             ConnectCredReset = &H2000
         End Enum
 
+        Public Enum MibTcpRtoAlgorithm As UInteger
+            [Other] = &H1
+            [ConstantTimeOut] = &H2
+            [MIL_STD_1778_Appendix_B] = &H3
+            [VanJacobson] = &H4
+        End Enum
+
 
         ''' <summary>
         ''' Scope of the enumeration.
