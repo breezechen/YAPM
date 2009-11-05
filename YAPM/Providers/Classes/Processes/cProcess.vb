@@ -734,6 +734,8 @@ Public Class cProcess
                 res = GetFormatedSizePerSecond(_ioDelta.WriteTransferCount)
             Case "OtherTransferCountDelta"
                 res = GetFormatedSizePerSecond(_ioDelta.OtherTransferCount)
+            Case "TotalIoDelta"
+                res = GetFormatedSizePerSecond(_ioDelta.OtherTransferCount + _ioDelta.WriteTransferCount + _ioDelta.ReadTransferCount)
             Case "HandleCount"
                 res = Me.Infos.HandleCount.ToString
             Case "ThreadCount"
@@ -804,6 +806,7 @@ Public Class cProcess
         Static _old_ReadTransferCountDelta As String = ""
         Static _old_WriteTransferCountDelta As String = ""
         Static _old_OtherTransferCountDelta As String = ""
+        Static _old_TotalIoDelta As String = ""
         Static _old_HandleCount As String = ""
         Static _old_ThreadCount As String = ""
         Static _old_InJob As String = ""
@@ -1181,6 +1184,13 @@ Public Class cProcess
                 Else
                     _old_OtherTransferCountDelta = res
                 End If
+            Case "TotalIoDelta"
+                res = GetFormatedSizePerSecond(_ioDelta.OtherTransferCount + _ioDelta.ReadTransferCount + _ioDelta.WriteTransferCount)
+                If res = _old_TotalIoDelta Then
+                    hasChanged = False
+                Else
+                    _old_TotalIoDelta = res
+                End If
             Case "HandleCount"
                 res = Me.Infos.HandleCount.ToString
                 If res = _old_HandleCount Then
@@ -1306,6 +1316,8 @@ Public Class cProcess
                 res = _ioDelta.WriteTransferCount
             Case "OtherTransferCountDelta"
                 res = _ioDelta.OtherTransferCount
+            Case "TotalIoDelta"
+                res = _ioDelta.OtherTransferCount + _ioDelta.WriteTransferCount + _ioDelta.ReadTransferCount
             Case "CpuUsage"
                 res = 100 * Me.CpuUsage
             Case "AverageCpuUsage"
@@ -1637,6 +1649,13 @@ Public Class cProcess
                 Dim x As Integer = 0
                 For Each t As ProcIoInfo In _dicoProcIODelta.Values
                     ret(x) = CLng(t.io.OtherTransferCount)
+                    x += 1
+                Next
+            Case "TotalIoDelta"
+                ReDim ret(_dicoProcIO.Count - 1)
+                Dim x As Integer = 0
+                For Each t As ProcIoInfo In _dicoProcIODelta.Values
+                    ret(x) = CLng(t.io.OtherTransferCount + t.io.ReadTransferCount + t.io.WriteTransferCount)
                     x += 1
                 Next
             Case Else

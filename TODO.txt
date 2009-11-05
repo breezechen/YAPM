@@ -121,6 +121,7 @@ Temp Change log :
 
 * NEW / Improvements
 - Added Ping/Traceroute/WhoIs functions for TCP connections
+- Added 'TotalIoDelta' counter
 - Added heaps management
 - Improved appearance of graphs
 - Added 'go to parent process' feature

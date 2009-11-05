@@ -651,7 +651,7 @@ Public Class frmProcessInfo
         End If
         Me.graphCPU.Add2Values(z * 100, z2 * 100)
         Me.graphCPU.Refresh()
-        Me.graphCPU.TopText = "Cpu : " & Misc.GetFormatedPercentage(z) & " %"
+        Me.graphCPU.TopText = "Cpu : " & Misc.GetFormatedPercentage(z, 3, True) & " %"
 
         z = curProc.Infos.MemoryInfos.WorkingSetSize.ToInt64 / 2147483648 * 100
         Me.graphMemory.AddValue(z)
@@ -1284,7 +1284,7 @@ Public Class frmProcessInfo
             If InStr(_g.Name, "Cpu") > 0 Then
                 _g.Color = Color.LimeGreen
                 _g.Color2 = Color.Green
-            ElseIf InStr(_g.Name, "Transfer") + InStr(_g.Name, "Operation") > 0 Then
+            ElseIf InStr(_g.Name, "Transfer") + InStr(_g.Name, "Operation") + InStr(_g.Name, "Delta") > 0 Then
                 _g.Color = Color.Red
                 _g.Color2 = Color.Maroon
             Else
