@@ -202,11 +202,19 @@ Public Class frmSystemInfo
         End With
     End Sub
 
+    Private Sub frmSystemInfo_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        ' Save position & size
+        Pref.SaveFormPositionAndSize(Me, "PSfrmSystemInfo")
+    End Sub
+
     Private Sub frmSystemInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         SetToolTip(Me.chkOneGraphPerCpu, "Display one graph per CPU or one graph for all CPUs")
         SetToolTip(Me.chkTopMost, "Display window always on top")
         CloseWithEchapKey(Me)
+
+        ' Init position & size
+        Pref.LoadFormPositionAndSize(Me, "PSfrmSystemInfo")
 
         Me.timerRefresh.Interval = My.Settings.SystemInterval
         Call timerRefresh_Tick(Nothing, Nothing)

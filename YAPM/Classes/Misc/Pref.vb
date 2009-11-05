@@ -23,8 +23,37 @@ Option Strict On
 
 Public Class Pref
 
+
+    ' ========================================
+    ' Private constants
+    ' ========================================
+
+
+    ' ========================================
+    ' Private attributes
+    ' ========================================
+
+
+    ' ========================================
+    ' Public properties
+    ' ========================================
+
+
+    ' ========================================
+    ' Other public
+    ' ========================================
+
+    ' Value of 'left property' to hide a form
     Public Const LEFT_POSITION_HIDDEN As Integer = -20000
+
+    ' Message displayed when YAPM starts for the first time
     Public Const MessageFirstStartOfYAPM As String = "This is the first time you run YAPM. Please remember that it is still a beta version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
+
+
+
+    ' ========================================
+    ' Public functions
+    ' ========================================
 
     ' Save
     Public Sub Save()
@@ -199,6 +228,60 @@ Public Class Pref
         My.Settings(name) = s
 
     End Sub
+
+    ' Load position & size of a form
+    Public Shared Sub LoadFormPositionAndSize(ByVal form As Form, ByVal name As String)
+        ' Example : X|Y|W|H
+        If My.Settings.RememberPosAndSize Then
+            Try
+                Dim value As String = CStr(My.Settings(name))
+                Dim b() As String = value.Split(CChar("|"))
+                Dim bb() As Integer = {Integer.Parse(b(0)), _
+                                       Integer.Parse(b(1)), _
+                                       Integer.Parse(b(2)), _
+                                       Integer.Parse(b(3))}
+                If bb(0) + bb(1) + bb(2) + bb(3) = 0 Then
+                    ' Then we center the form !
+                    With form
+                        .Left = (Screen.PrimaryScreen.Bounds.Width - .Width) \ 2
+                        .Top = (Screen.PrimaryScreen.Bounds.Height - .Height) \ 2
+                    End With
+                Else
+                    With form
+                        .Left = Integer.Parse(b(0))
+                        .Top = Integer.Parse(b(1))
+                        .Width = Integer.Parse(b(2))
+                        .Height = Integer.Parse(b(3))
+                    End With
+                End If
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            End Try
+        End If
+    End Sub
+
+    ' Save position & size of a form
+    Public Shared Sub SaveFormPositionAndSize(ByVal form As Form, ByVal name As String)
+        ' Example : X|Y|W|H
+        If My.Settings.RememberPosAndSize Then
+            Try
+                Dim res As String = String.Format("{0}|{1}|{2}|{3}", _
+                                                  form.Left.ToString, _
+                                                  form.Top.ToString, _
+                                                  form.Width.ToString, _
+                                                  form.Height.ToString)
+                My.Settings(name) = res
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            End Try
+        End If
+    End Sub
+
+
+
+    ' ========================================
+    ' Private functions
+    ' ========================================
 
     ' Get current configuration of columns of a listview
     ' (only used for debug)

@@ -305,5 +305,26 @@
     <Setting Name="NetworkInfoTopMost" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="PSfrmMain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0|0|0|0</Value>
+    </Setting>
+    <Setting Name="PSfrmNetworkInfo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0|0|0|0</Value>
+    </Setting>
+    <Setting Name="PSfrmSystemInfo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0|0|0|0</Value>
+    </Setting>
+    <Setting Name="PSfrmJobInfo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0|0|0|0</Value>
+    </Setting>
+    <Setting Name="PSfrmServiceInfo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0|0|0|0</Value>
+    </Setting>
+    <Setting Name="PSfrmProcessInfo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0|0|0|0</Value>
+    </Setting>
+    <Setting Name="RememberPosAndSize" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -126,6 +126,11 @@ Public Class frmJobInfo
         End Select
     End Sub
 
+    Private Sub frmJobInfo_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        ' Save position & size
+        Pref.SaveFormPositionAndSize(Me, "PSfrmJobInfo")
+    End Sub
+
     Private Sub frmServiceInfo_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp
         If e.KeyCode = Keys.F5 Then
             Call tabJob_SelectedIndexChanged(Nothing, Nothing)
@@ -142,7 +147,11 @@ Public Class frmJobInfo
         SetToolTip(Me.cmdTerminateJob, "Terminate the job")
         SetToolTip(Me.cmdSetLimits, "Add a limit to the job")
 
+        ' Load column pref
         Pref.LoadListViewColumns(Me.lvProcess, "COLmain_process")
+
+        ' Init position & size
+        Pref.LoadFormPositionAndSize(Me, "PSfrmJobInfo")
 
         ' Add some submenus (Copy to clipboard)
         For Each ss As String In jobLimitInfos.GetAvailableProperties(True)

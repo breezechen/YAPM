@@ -279,16 +279,25 @@ Public Class frmMain
     End Sub
 
     Private Sub frmMain_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
+
         If My.Settings.HideWhenClosed Then
             Me.Hide()
             e.Cancel = True
             Exit Sub
         End If
-        ' This avoid to call ExitYAPM recursively when exiting
+
         If Me.CallExitWhenExitYAPM Then
+
+            ' This avoid to call ExitYAPM recursively when exiting
             Me.CallExitWhenExitYAPM = False
+
+            ' Save position & size
+            Pref.SaveFormPositionAndSize(Me, "PSfrmMain")
+
+            ' Exit
             Call ExitYAPM()
         End If
+
     End Sub
 
     Private Sub frmMain_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -393,6 +402,8 @@ Public Class frmMain
         Pref.LoadListViewColumns(Me.lvServices, "COLmain_service")
         Pref.LoadListViewColumns(Me.lvNetwork, "COLmain_network")
 
+        ' Init position & size
+        Pref.LoadFormPositionAndSize(Me, "PSfrmMain")
 
         ' Connect to the local machine
         Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection

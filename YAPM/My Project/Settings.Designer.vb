@@ -1280,6 +1280,90 @@ Namespace My
                 Me("NetworkInfoTopMost") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0|0|0|0")>  _
+        Public Property PSfrmMain() As String
+            Get
+                Return CType(Me("PSfrmMain"),String)
+            End Get
+            Set
+                Me("PSfrmMain") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0|0|0|0")>  _
+        Public Property PSfrmNetworkInfo() As String
+            Get
+                Return CType(Me("PSfrmNetworkInfo"),String)
+            End Get
+            Set
+                Me("PSfrmNetworkInfo") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0|0|0|0")>  _
+        Public Property PSfrmSystemInfo() As String
+            Get
+                Return CType(Me("PSfrmSystemInfo"),String)
+            End Get
+            Set
+                Me("PSfrmSystemInfo") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0|0|0|0")>  _
+        Public Property PSfrmJobInfo() As String
+            Get
+                Return CType(Me("PSfrmJobInfo"),String)
+            End Get
+            Set
+                Me("PSfrmJobInfo") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0|0|0|0")>  _
+        Public Property PSfrmServiceInfo() As String
+            Get
+                Return CType(Me("PSfrmServiceInfo"),String)
+            End Get
+            Set
+                Me("PSfrmServiceInfo") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0|0|0|0")>  _
+        Public Property PSfrmProcessInfo() As String
+            Get
+                Return CType(Me("PSfrmProcessInfo"),String)
+            End Get
+            Set
+                Me("PSfrmProcessInfo") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property RememberPosAndSize() As Boolean
+            Get
+                Return CType(Me("RememberPosAndSize"),Boolean)
+            End Get
+            Set
+                Me("RememberPosAndSize") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

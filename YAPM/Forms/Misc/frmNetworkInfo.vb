@@ -150,6 +150,11 @@ Public Class frmNetworkInfo
 
     End Sub
 
+    Private Sub frmNetworkInfo_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        ' Save position & size
+        Pref.SaveFormPositionAndSize(Me, "PSfrmNetworkInfo")
+    End Sub
+
     Private Sub frmSystemInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         SetToolTip(Me.chkTopMost, "Display window always on top")
@@ -175,6 +180,9 @@ Public Class frmNetworkInfo
         SetToolTip(Me.lblNumConns, "The cumulative number of connections")
 
         CloseWithEchapKey(Me)
+
+        ' Init position & size
+        Pref.LoadFormPositionAndSize(Me, "PSfrmNetworkInfo")
 
         Me.timerRefresh.Interval = My.Settings.SystemInterval
         Call timerRefresh_Tick(Nothing, Nothing)

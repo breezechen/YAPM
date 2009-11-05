@@ -348,6 +348,9 @@ Public Class frmProcessInfo
         Pref.SaveListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
         Pref.SaveListViewColumns(Me.lvHeaps, "COLprocdetail_heaps")
 
+        ' Save position & size
+        Pref.SaveFormPositionAndSize(Me, "PSfrmProcessInfo")
+
         ' Close handles opened
         If _local AndAlso hProcSync.IsNotNull Then
             Native.Objects.General.CloseHandle(hProcSync)
@@ -440,6 +443,9 @@ Public Class frmProcessInfo
         Pref.LoadListViewColumns(Me.lvProcEnv, "COLprocdetail_envvariable")
         Pref.LoadListViewColumns(Me.lvLog, "COLprocdetail_log")
         Pref.LoadListViewColumns(Me.lvHeaps, "COLprocdetail_heaps")
+
+        ' Init position & size
+        Pref.LoadFormPositionAndSize(Me, "PSfrmProcessInfo")
 
         Select Case My.Settings.ProcSelectedTab
             Case "Token"

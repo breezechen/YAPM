@@ -6,7 +6,6 @@ Refactoring bugs
 - virer PtrToStructure et n'utiliser que MemoryAlloc
 
 - continuer heaps (remote -> régler pb du DebugBuffer, show blocks en bas de la form...)
-- se rappeller des tailles/positions des fenêtres
 
 BUGS CRITIQUES
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
@@ -31,6 +30,7 @@ BUGS CRITIQUES
 	!!! reports des modules/threads/handles/windows (depuis que les maintab sont plus là) ?
 	
 BUGS NON CRITIQUES
+- columns lvHeap
 - outils network connection (ping, trace, whois...)
 - implémenter le dump...
 - elevation pour create service
@@ -128,6 +128,7 @@ Temp Change log :
 - Added 'go to parent process' feature
 - Now performance graphs are up-to-date when opening process' detailed window
 - Now can select the thread associated to a window using "find window's process" feature
+- Now YAPM remember positions and sizes of the main windows
 
 * Bug fixed
 - Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)

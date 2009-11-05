@@ -102,6 +102,7 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
+        Me.chkRemember = New System.Windows.Forms.CheckBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -358,6 +359,7 @@ Partial Class frmPreferences
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.chkRemember)
         Me.TabPage3.Controls.Add(Me.chkClassicMsgbox)
         Me.TabPage3.Controls.Add(Me.cbShownTab)
         Me.TabPage3.Controls.Add(Me.chkFixedTab)
@@ -867,6 +869,16 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
+        'chkRemember
+        '
+        Me.chkRemember.AutoSize = True
+        Me.chkRemember.Location = New System.Drawing.Point(181, 192)
+        Me.chkRemember.Name = "chkRemember"
+        Me.chkRemember.Size = New System.Drawing.Size(181, 17)
+        Me.chkRemember.TabIndex = 15
+        Me.chkRemember.Text = "Remember positions and sizes"
+        Me.chkRemember.UseVisualStyleBackColor = True
+        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -987,4 +999,5 @@ Partial Class frmPreferences
     Friend WithEvents chkClassicMsgbox As System.Windows.Forms.CheckBox
     Friend WithEvents valCoefRemote As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label14 As System.Windows.Forms.Label
+    Friend WithEvents chkRemember As System.Windows.Forms.CheckBox
 End Class
