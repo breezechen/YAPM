@@ -4025,4 +4025,14 @@ Public Class frmMain
         frmNetworkInfo.TopMost = _frmMain.TopMost
         frmNetworkInfo.Show()
     End Sub
+
+    Private Sub MenuItemSystemScripting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemScripting.Click
+        Call Me.butScripting_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butScripting_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butScripting.Click
+        Dim frm As New frmScripting
+        frm.TopMost = _frmMain.TopMost
+        frm.Show()
+    End Sub
 End Class

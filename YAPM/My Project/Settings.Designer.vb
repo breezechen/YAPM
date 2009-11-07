@@ -1364,6 +1364,18 @@ Namespace My
                 Me("RememberPosAndSize") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0|0|0|0")>  _
+        Public Property PSfrmScripting() As String
+            Get
+                Return CType(Me("PSfrmScripting"),String)
+            End Get
+            Set
+                Me("PSfrmScripting") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

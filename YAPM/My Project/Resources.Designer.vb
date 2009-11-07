@@ -536,6 +536,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property scripting16() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("scripting16", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property shield16() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("shield16", resourceCulture)

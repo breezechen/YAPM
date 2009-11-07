@@ -75,6 +75,7 @@ Partial Class frmMain
         Me.butShowAllPendingTasks = New System.Windows.Forms.RibbonButton
         Me.butCreateService = New System.Windows.Forms.RibbonButton
         Me.butNetworkInfos = New System.Windows.Forms.RibbonButton
+        Me.butScripting = New System.Windows.Forms.RibbonButton
         Me.TaskTab = New System.Windows.Forms.RibbonTab
         Me.RBTaskDisplay = New System.Windows.Forms.RibbonPanel
         Me.butTaskRefresh = New System.Windows.Forms.RibbonButton
@@ -505,6 +506,7 @@ Partial Class frmMain
         Me.MenuItem59 = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemNetworkInfos = New System.Windows.Forms.MenuItem
         Me.MenuItemShowPendingTasks = New System.Windows.Forms.MenuItem
+        Me.MenuItemSystemScripting = New System.Windows.Forms.MenuItem
         Me.MenuItem62 = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemEmergency = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemSBA = New System.Windows.Forms.MenuItem
@@ -733,7 +735,6 @@ Partial Class frmMain
         Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
         Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 345)
         Me.Ribbon.OrbDropDown.TabIndex = 0
-        Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
         Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
         '
         '
@@ -752,6 +753,7 @@ Partial Class frmMain
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butShowAllPendingTasks)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butCreateService)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butNetworkInfos)
+        Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butScripting)
         Me.Ribbon.QuickAcessToolbar.Tag = Nothing
         Me.Ribbon.QuickAcessToolbar.Text = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTip = Nothing
@@ -1076,6 +1078,21 @@ Partial Class frmMain
         Me.butNetworkInfos.ToolTip = Nothing
         Me.butNetworkInfos.ToolTipImage = Nothing
         Me.butNetworkInfos.ToolTipTitle = Nothing
+        '
+        'butScripting
+        '
+        Me.butScripting.AltKey = Nothing
+        Me.butScripting.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butScripting.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butScripting.Image = CType(resources.GetObject("butScripting.Image"), System.Drawing.Image)
+        Me.butScripting.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
+        Me.butScripting.SmallImage = Global.My.Resources.Resources.scripting16
+        Me.butScripting.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butScripting.Tag = Nothing
+        Me.butScripting.Text = "Scripting"
+        Me.butScripting.ToolTip = Nothing
+        Me.butScripting.ToolTipImage = Nothing
+        Me.butScripting.ToolTipTitle = Nothing
         '
         'TaskTab
         '
@@ -4595,13 +4612,13 @@ Partial Class frmMain
         'MenuItemSystemToTray
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemToTray, Global.My.Resources.Resources.down16)
-        Me.MenuItemSystemToTray.Index = 17
+        Me.MenuItemSystemToTray.Index = 18
         Me.MenuItemSystemToTray.Text = "Minimize to &tray"
         '
         'MenuItemSystemExit
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemExit, Global.My.Resources.Resources.cross16)
-        Me.MenuItemSystemExit.Index = 18
+        Me.MenuItemSystemExit.Index = 19
         Me.MenuItemSystemExit.Shortcut = System.Windows.Forms.Shortcut.AltF4
         Me.MenuItemSystemExit.Text = "E&xit"
         '
@@ -4626,7 +4643,7 @@ Partial Class frmMain
         'MenuItemSystemFindWindow
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemFindWindow, Global.My.Resources.Resources.target16)
-        Me.MenuItemSystemFindWindow.Index = 13
+        Me.MenuItemSystemFindWindow.Index = 14
         Me.MenuItemSystemFindWindow.Text = "&Find a window"
         '
         'MenuItemSystemHelp
@@ -5092,7 +5109,7 @@ Partial Class frmMain
         'MenuItemSYSTEMFILE
         '
         Me.MenuItemSYSTEMFILE.Index = 0
-        Me.MenuItemSYSTEMFILE.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemRefresh, Me.MenuItem54, Me.MenuItemSystemConnection, Me.MenuItemRunAsAdmin, Me.MenuItem56, Me.MenuItemSystemLog, Me.MenuItemSystemReport, Me.MenuItem59, Me.MenuItemSystemInfos, Me.MenuItemSystemNetworkInfos, Me.MenuItemSystemOpenedWindows, Me.MenuItemShowPendingTasks, Me.MenuItem62, Me.MenuItemSystemFindWindow, Me.MenuItemSystemEmergency, Me.MenuItemSystemSBA, Me.MenuItem66, Me.MenuItemSystemToTray, Me.MenuItemSystemExit})
+        Me.MenuItemSYSTEMFILE.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemRefresh, Me.MenuItem54, Me.MenuItemSystemConnection, Me.MenuItemRunAsAdmin, Me.MenuItem56, Me.MenuItemSystemLog, Me.MenuItemSystemReport, Me.MenuItem59, Me.MenuItemSystemInfos, Me.MenuItemSystemNetworkInfos, Me.MenuItemSystemOpenedWindows, Me.MenuItemShowPendingTasks, Me.MenuItemSystemScripting, Me.MenuItem62, Me.MenuItemSystemFindWindow, Me.MenuItemSystemEmergency, Me.MenuItemSystemSBA, Me.MenuItem66, Me.MenuItemSystemToTray, Me.MenuItemSystemExit})
         Me.MenuItemSYSTEMFILE.Text = "&File"
         '
         'MenuItem54
@@ -5136,26 +5153,32 @@ Partial Class frmMain
         Me.MenuItemShowPendingTasks.Index = 11
         Me.MenuItemShowPendingTasks.Text = "&Pending tasks..."
         '
+        'MenuItemSystemScripting
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemSystemScripting, Global.My.Resources.Resources.scripting16)
+        Me.MenuItemSystemScripting.Index = 12
+        Me.MenuItemSystemScripting.Text = "&Scripting..."
+        '
         'MenuItem62
         '
-        Me.MenuItem62.Index = 12
+        Me.MenuItem62.Index = 13
         Me.MenuItem62.Text = "-"
         '
         'MenuItemSystemEmergency
         '
-        Me.MenuItemSystemEmergency.Index = 14
+        Me.MenuItemSystemEmergency.Index = 15
         Me.MenuItemSystemEmergency.Text = "Emergency &hotkeys..."
         '
         'MenuItemSystemSBA
         '
         Me.MenuItemSystemSBA.Enabled = False
-        Me.MenuItemSystemSBA.Index = 15
+        Me.MenuItemSystemSBA.Index = 16
         Me.MenuItemSystemSBA.Text = "State &based actions..."
         Me.MenuItemSystemSBA.Visible = False
         '
         'MenuItem66
         '
-        Me.MenuItem66.Index = 16
+        Me.MenuItem66.Index = 17
         Me.MenuItem66.Text = "-"
         '
         'MenuItemProcesses
@@ -6195,5 +6218,7 @@ Partial Class frmMain
     Friend WithEvents MenuItemSystemNetworkInfos As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemMainNetworkInfo As System.Windows.Forms.MenuItem
     Friend WithEvents butNetworkInfos As System.Windows.Forms.RibbonButton
+    Friend WithEvents MenuItemSystemScripting As System.Windows.Forms.MenuItem
+    Friend WithEvents butScripting As System.Windows.Forms.RibbonButton
 
 End Class

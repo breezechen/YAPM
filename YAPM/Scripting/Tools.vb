@@ -20,13 +20,9 @@
 
 Option Strict On
 
-Imports System.Runtime.InteropServices
-Imports Native.Api
+Namespace Scripting.Items
 
-Namespace Native.Objects
-
-    Public Class General
-
+    Public Class Tools
 
         ' ========================================
         ' Private constants
@@ -42,19 +38,20 @@ Namespace Native.Objects
         ' Public properties
         ' ========================================
 
-        ' ========================================
-        ' Other public
-        ' ========================================
-
 
         ' ========================================
         ' Public functions
         ' ========================================
 
-        ' Close a handle
-        Public Shared Sub CloseHandle(ByVal handle As IntPtr)
-            Native.Api.NativeFunctions.CloseHandle(handle)
-        End Sub
+        ' Remove spaces/tabs from a string
+        Public Shared Function RemoveSpaces(ByVal s As String) As String
+            If s IsNot Nothing Then
+                Return s.Trim
+            Else
+                Return Nothing
+            End If
+        End Function
+
 
         ' ========================================
         ' Private functions
