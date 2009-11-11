@@ -353,7 +353,7 @@ Public Class frmSetJobLimits
             Return Windows.Forms.DialogResult.Cancel
         End If
 
-        Dim job As cJob = _frmMain.lvJob.GetItemByKey(_jobName)
+        Dim job As cJob = cJob.GetJobByName(_jobName)
         If job IsNot Nothing Then
             job.SetLimits(struct1, struct2)
         End If

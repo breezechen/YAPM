@@ -205,7 +205,9 @@ Public Class cNetwork
         Next
 
         ' Average rt
-        pingRespAvg = pingRespAvg \ pingReceived
+        If pingReceived <> 0 Then
+            pingRespAvg = pingRespAvg \ pingReceived
+        End If
 
         Async.ListView.AddItem(lv, "")
         Async.ListView.AddItem(lv, "Ping statistics for " & theIp.ToString)

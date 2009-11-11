@@ -8,6 +8,7 @@ Refactoring bugs
 - continuer heaps (remote -> régler pb du DebugBuffer, show blocks en bas de la form...)
 
 BUGS CRITIQUES
+- hide when close marche plus
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
 - job par remote (et en wmi, désactiver également Restart with priv)
 - searchInfos contains cService/cModule (NOT Serializable -> can not search via server)
@@ -129,9 +130,11 @@ Temp Change log :
 - Now performance graphs are up-to-date when opening process' detailed window
 - Now can select the thread associated to a window using "find window's process" feature
 - Now YAPM remember positions and sizes of the main windows
+- No more need to display job list before being able to set job limit (using Control process job)
 
 * Bug fixed
 - Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)
 - Fixed #2885689 (cannot call BeginInvoke)
 - Help menu not broken anymore
 - Now save column's preferences when exiting using the standard 'close' button
+- Fixed #2894305 (zero division)
