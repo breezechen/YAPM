@@ -53,6 +53,7 @@ Partial Class frmPreferences
         Me.lvHighlightingProcess = New System.Windows.Forms.ListView
         Me.Header = New System.Windows.Forms.ColumnHeader
         Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.chkRemember = New System.Windows.Forms.CheckBox
         Me.chkClassicMsgbox = New System.Windows.Forms.CheckBox
         Me.cbShownTab = New System.Windows.Forms.ComboBox
         Me.chkFixedTab = New System.Windows.Forms.CheckBox
@@ -66,7 +67,6 @@ Partial Class frmPreferences
         Me.Label8 = New System.Windows.Forms.Label
         Me.pctNewitems = New System.Windows.Forms.PictureBox
         Me.Label7 = New System.Windows.Forms.Label
-        Me.chkCloseButton = New System.Windows.Forms.CheckBox
         Me.chkTrayIcon = New System.Windows.Forms.CheckBox
         Me.TabPage4 = New System.Windows.Forms.TabPage
         Me.chkUnlimitedBuf = New System.Windows.Forms.CheckBox
@@ -102,7 +102,6 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.chkRemember = New System.Windows.Forms.CheckBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -369,7 +368,6 @@ Partial Class frmPreferences
         Me.TabPage3.Controls.Add(Me.chkHideMinimized)
         Me.TabPage3.Controls.Add(Me.chkRibbon)
         Me.TabPage3.Controls.Add(Me.GroupBox3)
-        Me.TabPage3.Controls.Add(Me.chkCloseButton)
         Me.TabPage3.Controls.Add(Me.chkTrayIcon)
         Me.TabPage3.ImageKey = "(aucun)"
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
@@ -379,10 +377,20 @@ Partial Class frmPreferences
         Me.TabPage3.Text = "Display"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'chkRemember
+        '
+        Me.chkRemember.AutoSize = True
+        Me.chkRemember.Location = New System.Drawing.Point(15, 240)
+        Me.chkRemember.Name = "chkRemember"
+        Me.chkRemember.Size = New System.Drawing.Size(181, 17)
+        Me.chkRemember.TabIndex = 15
+        Me.chkRemember.Text = "Remember positions and sizes"
+        Me.chkRemember.UseVisualStyleBackColor = True
+        '
         'chkClassicMsgbox
         '
         Me.chkClassicMsgbox.AutoSize = True
-        Me.chkClassicMsgbox.Location = New System.Drawing.Point(181, 169)
+        Me.chkClassicMsgbox.Location = New System.Drawing.Point(181, 148)
         Me.chkClassicMsgbox.Name = "chkClassicMsgbox"
         Me.chkClassicMsgbox.Size = New System.Drawing.Size(167, 17)
         Me.chkClassicMsgbox.TabIndex = 14
@@ -393,7 +401,7 @@ Partial Class frmPreferences
         '
         Me.cbShownTab.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbShownTab.FormattingEnabled = True
-        Me.cbShownTab.Location = New System.Drawing.Point(293, 144)
+        Me.cbShownTab.Location = New System.Drawing.Point(293, 123)
         Me.cbShownTab.Name = "cbShownTab"
         Me.cbShownTab.Size = New System.Drawing.Size(150, 21)
         Me.cbShownTab.TabIndex = 13
@@ -401,7 +409,7 @@ Partial Class frmPreferences
         'chkFixedTab
         '
         Me.chkFixedTab.AutoSize = True
-        Me.chkFixedTab.Location = New System.Drawing.Point(182, 146)
+        Me.chkFixedTab.Location = New System.Drawing.Point(182, 125)
         Me.chkFixedTab.Name = "chkFixedTab"
         Me.chkFixedTab.Size = New System.Drawing.Size(105, 17)
         Me.chkFixedTab.TabIndex = 12
@@ -411,7 +419,7 @@ Partial Class frmPreferences
         'chkStatusBar
         '
         Me.chkStatusBar.AutoSize = True
-        Me.chkStatusBar.Location = New System.Drawing.Point(15, 238)
+        Me.chkStatusBar.Location = New System.Drawing.Point(15, 217)
         Me.chkStatusBar.Name = "chkStatusBar"
         Me.chkStatusBar.Size = New System.Drawing.Size(106, 17)
         Me.chkStatusBar.TabIndex = 11
@@ -421,7 +429,7 @@ Partial Class frmPreferences
         'chkUserGroup
         '
         Me.chkUserGroup.AutoSize = True
-        Me.chkUserGroup.Location = New System.Drawing.Point(15, 215)
+        Me.chkUserGroup.Location = New System.Drawing.Point(15, 194)
         Me.chkUserGroup.Name = "chkUserGroup"
         Me.chkUserGroup.Size = New System.Drawing.Size(158, 17)
         Me.chkUserGroup.TabIndex = 10
@@ -431,7 +439,7 @@ Partial Class frmPreferences
         'chkHideClosed
         '
         Me.chkHideClosed.AutoSize = True
-        Me.chkHideClosed.Location = New System.Drawing.Point(15, 192)
+        Me.chkHideClosed.Location = New System.Drawing.Point(15, 171)
         Me.chkHideClosed.Name = "chkHideClosed"
         Me.chkHideClosed.Size = New System.Drawing.Size(118, 17)
         Me.chkHideClosed.TabIndex = 9
@@ -441,7 +449,7 @@ Partial Class frmPreferences
         'chkHideMinimized
         '
         Me.chkHideMinimized.AutoSize = True
-        Me.chkHideMinimized.Location = New System.Drawing.Point(15, 169)
+        Me.chkHideMinimized.Location = New System.Drawing.Point(15, 148)
         Me.chkHideMinimized.Name = "chkHideMinimized"
         Me.chkHideMinimized.Size = New System.Drawing.Size(137, 17)
         Me.chkHideMinimized.TabIndex = 3
@@ -451,7 +459,7 @@ Partial Class frmPreferences
         'chkRibbon
         '
         Me.chkRibbon.AutoSize = True
-        Me.chkRibbon.Location = New System.Drawing.Point(15, 146)
+        Me.chkRibbon.Location = New System.Drawing.Point(15, 125)
         Me.chkRibbon.Name = "chkRibbon"
         Me.chkRibbon.Size = New System.Drawing.Size(127, 17)
         Me.chkRibbon.TabIndex = 2
@@ -464,7 +472,7 @@ Partial Class frmPreferences
         Me.GroupBox3.Controls.Add(Me.Label8)
         Me.GroupBox3.Controls.Add(Me.pctNewitems)
         Me.GroupBox3.Controls.Add(Me.Label7)
-        Me.GroupBox3.Location = New System.Drawing.Point(15, 60)
+        Me.GroupBox3.Location = New System.Drawing.Point(15, 37)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Size = New System.Drawing.Size(428, 77)
         Me.GroupBox3.TabIndex = 8
@@ -504,16 +512,6 @@ Partial Class frmPreferences
         Me.Label7.Size = New System.Drawing.Size(60, 13)
         Me.Label7.TabIndex = 0
         Me.Label7.Text = "New items"
-        '
-        'chkCloseButton
-        '
-        Me.chkCloseButton.AutoSize = True
-        Me.chkCloseButton.Location = New System.Drawing.Point(15, 37)
-        Me.chkCloseButton.Name = "chkCloseButton"
-        Me.chkCloseButton.Size = New System.Drawing.Size(179, 17)
-        Me.chkCloseButton.TabIndex = 1
-        Me.chkCloseButton.Text = "Close YAPM with close button"
-        Me.chkCloseButton.UseVisualStyleBackColor = True
         '
         'chkTrayIcon
         '
@@ -869,16 +867,6 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
-        'chkRemember
-        '
-        Me.chkRemember.AutoSize = True
-        Me.chkRemember.Location = New System.Drawing.Point(181, 192)
-        Me.chkRemember.Name = "chkRemember"
-        Me.chkRemember.Size = New System.Drawing.Size(181, 17)
-        Me.chkRemember.TabIndex = 15
-        Me.chkRemember.Text = "Remember positions and sizes"
-        Me.chkRemember.UseVisualStyleBackColor = True
-        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -953,7 +941,6 @@ Partial Class frmPreferences
     Friend WithEvents chkWarn As System.Windows.Forms.CheckBox
     Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
     Friend WithEvents Label7 As System.Windows.Forms.Label
-    Friend WithEvents chkCloseButton As System.Windows.Forms.CheckBox
     Friend WithEvents chkTrayIcon As System.Windows.Forms.CheckBox
     Friend WithEvents pctDeletedItems As System.Windows.Forms.PictureBox
     Friend WithEvents Label8 As System.Windows.Forms.Label

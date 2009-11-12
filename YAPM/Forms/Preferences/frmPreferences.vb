@@ -57,7 +57,6 @@ Public Class frmPreferences
         My.Settings.JobInterval = CInt(Val(Me.txtJobInterval.Text))
         My.Settings.UseRibbonStyle = Me.chkRibbon.Checked
         My.Settings.SearchEngine = Me.txtSearchEngine.Text
-        My.Settings.CloseYAPMWithCloseButton = Me.chkCloseButton.Checked
         My.Settings.WarnDangerousActions = Me.chkWarn.Checked
         My.Settings.HideWhenMinimized = Me.chkHideMinimized.Checked
         My.Settings.TrayInterval = CInt(Val(Me.txtTrayInterval.Text))
@@ -171,7 +170,6 @@ Public Class frmPreferences
         SetToolTip(Me.txtJobInterval, "Set interval (milliseconds) between two refreshments of job list.")
         SetToolTip(Me.chkRibbon, "Show ribbon style menu.")
         SetToolTip(Me.txtSearchEngine, "Search engine for 'Internet search'. Use the keyword ITEM to specify the item name to search.")
-        SetToolTip(Me.chkCloseButton, "Close YAPM when close button is pressed (minimize to tray if not checked).")
         SetToolTip(Me.chkWarn, "Warn user for all (potentially) dangerous actions.")
         SetToolTip(Me.chkHideMinimized, "Hide main form when minimized.")
         SetToolTip(Me.txtTrayInterval, "Set interval (milliseconds) between two refreshments of tray icon.")
@@ -215,7 +213,6 @@ Public Class frmPreferences
         Me.txtNetworkInterval.Text = My.Settings.NetworkInterval.ToString
         Me.chkRibbon.Checked = My.Settings.UseRibbonStyle
         Me.txtSearchEngine.Text = My.Settings.SearchEngine
-        Me.chkCloseButton.Checked = My.Settings.CloseYAPMWithCloseButton
         Me.chkWarn.Checked = My.Settings.WarnDangerousActions
         Me.chkHideMinimized.Checked = My.Settings.HideWhenMinimized
         Me.txtTrayInterval.Text = My.Settings.TrayInterval.ToString
@@ -334,7 +331,6 @@ Public Class frmPreferences
         Me.txtSysInfoInterval.Value = 1000
         Me.chkRibbon.Checked = True
         Me.txtSearchEngine.Text = "http://www.google.com/search?hl=en&q=ITEM"
-        Me.chkCloseButton.Checked = True
         Me.chkWarn.Checked = True
         Me.chkHideClosed.Checked = False
         Me.chkUnlimitedBuf.Checked = False

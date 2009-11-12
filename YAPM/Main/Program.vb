@@ -145,6 +145,7 @@ Public Module Program
     Private _ConnectionForm As frmConnection
     Private _time As Integer
     Private _isElevated As Boolean
+    Private _mustCloseWithCloseButton As Boolean = False
 
     Public ReadOnly Property Parameters() As ProgramParameters
         Get
@@ -205,6 +206,14 @@ Public Module Program
         Get
             Return _updater
         End Get
+    End Property
+    Public Property MustCloseWithCloseButton() As Boolean
+        Get
+            Return _mustCloseWithCloseButton
+        End Get
+        Set(ByVal value As Boolean)
+            _mustCloseWithCloseButton = value
+        End Set
     End Property
 
 
@@ -434,7 +443,7 @@ Public Module Program
         End Try
 
         ' Close forms & exit
-        My.Settings.HideWhenClosed = False
+        Program.MustCloseWithCloseButton = True
         If _frmMain IsNot Nothing Then
             _frmMain.Close()
         End If

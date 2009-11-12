@@ -221,19 +221,7 @@ Namespace My
                 Me("DeletedItemColor") = value
             End Set
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property CloseYAPMWithCloseButton() As Boolean
-            Get
-                Return CType(Me("CloseYAPMWithCloseButton"),Boolean)
-            End Get
-            Set
-                Me("CloseYAPMWithCloseButton") = value
-            End Set
-        End Property
-        
+
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
