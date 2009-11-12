@@ -138,3 +138,4 @@ Temp Change log :
 - Help menu not broken anymore
 - Now save column's preferences when exiting using the standard 'close' button
 - Fixed #2894305 (zero division)
+- Fixed "hide when close" option
