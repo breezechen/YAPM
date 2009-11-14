@@ -88,6 +88,33 @@ Public Class asyncCallbackNetworkEnumerate
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot
+
+                Dim _dico As New Dictionary(Of String, networkInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    If pObj.all Then
+                        ' All connections
+                        _dico = snap.NetworkConnections
+                    Else
+                        ' For some processes only
+                        For Each pid As Integer In pObj.pid
+                            Dim _connections As Dictionary(Of String, networkInfos) = snap.NetworkConnectionsByProcessId(pid)
+                            If _connections IsNot Nothing Then
+                                For Each pair As System.Collections.Generic.KeyValuePair(Of String, networkInfos) In _connections
+                                    _dico.Add(pair.Key, pair.Value)
+                                Next
+                            End If
+                        Next
+                    End If
+                End If
+                Try
+                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
 
             Case Else
                 ' Local
@@ -105,5 +132,15 @@ Public Class asyncCallbackNetworkEnumerate
         sem.Release()
 
     End Sub
+
+
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, networkInfos)
+        Dim _dico As New Dictionary(Of String, networkInfos)
+
+         Native.Objects.Network.EnumerateTcpUdpConnections(_dico, pObj.all, pObj.pid)
+
+        Return _dico
+    End Function
 
 End Class

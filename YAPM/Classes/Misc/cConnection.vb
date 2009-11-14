@@ -35,6 +35,7 @@ Public Class cConnection
         [LocalConnection]
         [RemoteConnectionViaSocket]
         [RemoteConnectionViaWMI]
+        [SnapshotFile]
     End Enum
 
     ' Parameters for a socket connection
@@ -62,17 +63,41 @@ Public Class cConnection
     End Structure
 
     Private WithEvents _sock As AsynchronousClient
+    Private _snap As New cSnapshot
     Private _conType As TypeOfConnection
     Private _conSocket As SocketConnectionParameters
     Private _conWMI As WMIConnectionParameters
     Private _isConnected As Boolean
+    Private _ssFile As String
 
+    ' Snapshot file
+    Public Property SnapshotFile() As String
+        Get
+            Return _ssFile
+        End Get
+        Set(ByVal value As String)
+            _ssFile = value
+        End Set
+    End Property
+
+    ' Snaphot object
+    Public Property Snapshot() As cSnapshot
+        Get
+            Return _snap
+        End Get
+        Set(ByVal value As cSnapshot)
+            _snap = value
+        End Set
+    End Property
+
+    ' Socket
     Public ReadOnly Property Socket() As AsynchronousClient
         Get
             Return _sock
         End Get
     End Property
 
+    ' Type of connection
     Public Property ConnectionType() As TypeOfConnection
         Get
             Return _conType
@@ -82,6 +107,7 @@ Public Class cConnection
         End Set
     End Property
 
+    ' Parameters for the socket
     Public Property SocketParameters() As SocketConnectionParameters
         Get
             Return _conSocket
@@ -93,6 +119,7 @@ Public Class cConnection
         End Set
     End Property
 
+    ' Parameters for WMI connection
     Public Property WmiParameters() As WMIConnectionParameters
         Get
             Return _conWMI
@@ -104,12 +131,14 @@ Public Class cConnection
         End Set
     End Property
 
+    ' Is connected ?
     Public ReadOnly Property IsConnected() As Boolean
         Get
             Return _isConnected
         End Get
     End Property
 
+    ' ToString overriden
     Public Overrides Function ToString() As String
         Select Case _conType
             Case TypeOfConnection.LocalConnection
@@ -122,11 +151,14 @@ Public Class cConnection
                 End If
             Case TypeOfConnection.RemoteConnectionViaWMI
                 Return _conWMI.serverName & " (WMI)"
+            Case TypeOfConnection.SnapshotFile
+                Return _snap.InformationsAboutSnapshot
             Case Else
                 Return "Unknown"
         End Select
     End Function
 
+    ' Coef of refreshment for intervals
     Public ReadOnly Property RefreshmentCoefficient() As Double
         Get
             Return CDbl(If(_conType = TypeOfConnection.LocalConnection, 1, My.Settings.CoefTimeMul / 100))
@@ -141,12 +173,14 @@ Public Class cConnection
         _conSocket = ccon.SocketParameters
         _conType = ccon.ConnectionType
         _conWMI = ccon.WmiParameters
+        _snap = ccon.Snapshot
     End Sub
 
     Public Sub CopyFromInstance(ByRef ccon As cConnection)
         _conType = ccon.ConnectionType
         _conSocket = ccon.SocketParameters
         _conWMI = ccon.WmiParameters
+        _snap = ccon.Snapshot
     End Sub
 
     ' BAD WAY (because of withevents, this is raised JUST WHEN Program.Connection.Connect
@@ -161,6 +195,12 @@ Public Class cConnection
                 _isConnected = True
                 RaiseEvent Connected()
             End If
+        ElseIf Me.ConnectionType = TypeOfConnection.SnapshotFile Then
+            If _isConnected = False Then
+                _snap = New cSnapshot(Me.SnapshotFile)
+                _isConnected = True
+            End If
+            RaiseEvent Connected()
         Else
             _isConnected = True
             RaiseEvent Connected()

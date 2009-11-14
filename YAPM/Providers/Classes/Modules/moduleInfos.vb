@@ -103,6 +103,9 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
+    Public Sub New()
+        '
+    End Sub
     Public Sub New(ByRef data As Native.Api.NativeStructs.LdrDataTableEntry, ByVal pid As Integer, _
                    ByVal path As String, ByVal dllName As String, _
                    Optional ByVal noFileInfo As Boolean = False)

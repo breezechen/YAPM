@@ -49,12 +49,19 @@ Partial Class frmConnection
         Me.cbShutdown = New System.Windows.Forms.ComboBox
         Me.chkForceShutdown = New System.Windows.Forms.CheckBox
         Me.cmdTerminal = New System.Windows.Forms.Button
+        Me.optSnapshot = New System.Windows.Forms.RadioButton
+        Me.gpSnapshot = New System.Windows.Forms.GroupBox
+        Me.cmdBrowseSSFile = New System.Windows.Forms.Button
+        Me.txtSSFile = New System.Windows.Forms.TextBox
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.openFile = New System.Windows.Forms.OpenFileDialog
         Me.lvData = New DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.gpServer.SuspendLayout()
         Me.gpWMI.SuspendLayout()
         Me.gpShutdown.SuspendLayout()
+        Me.gpSnapshot.SuspendLayout()
         Me.SuspendLayout()
         '
         'optLocal
@@ -91,7 +98,8 @@ Partial Class frmConnection
         '
         'txtDesc
         '
-        Me.txtDesc.Location = New System.Drawing.Point(11, 35)
+        Me.txtDesc.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.txtDesc.Location = New System.Drawing.Point(11, 66)
         Me.txtDesc.Multiline = True
         Me.txtDesc.Name = "txtDesc"
         Me.txtDesc.ReadOnly = True
@@ -103,7 +111,7 @@ Partial Class frmConnection
         '
         Me.cmdConnect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.cmdConnect.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdConnect.Location = New System.Drawing.Point(43, 262)
+        Me.cmdConnect.Location = New System.Drawing.Point(43, 293)
         Me.cmdConnect.Name = "cmdConnect"
         Me.cmdConnect.Size = New System.Drawing.Size(103, 28)
         Me.cmdConnect.TabIndex = 4
@@ -116,7 +124,7 @@ Partial Class frmConnection
         Me.cmdCancel.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cmdCancel.Image = Global.My.Resources.Resources.down16
         Me.cmdCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.cmdCancel.Location = New System.Drawing.Point(189, 262)
+        Me.cmdCancel.Location = New System.Drawing.Point(189, 293)
         Me.cmdCancel.Name = "cmdCancel"
         Me.cmdCancel.Size = New System.Drawing.Size(107, 28)
         Me.cmdCancel.TabIndex = 5
@@ -131,7 +139,7 @@ Partial Class frmConnection
         Me.gpServer.Controls.Add(Me.Label1)
         Me.gpServer.Controls.Add(Me.txtServerIP)
         Me.gpServer.Controls.Add(Me.Label17)
-        Me.gpServer.Location = New System.Drawing.Point(13, 181)
+        Me.gpServer.Location = New System.Drawing.Point(13, 212)
         Me.gpServer.Name = "gpServer"
         Me.gpServer.Size = New System.Drawing.Size(314, 73)
         Me.gpServer.TabIndex = 6
@@ -187,7 +195,7 @@ Partial Class frmConnection
         Me.gpWMI.Controls.Add(Me.Label13)
         Me.gpWMI.Controls.Add(Me.txtServerMachine)
         Me.gpWMI.Controls.Add(Me.Label12)
-        Me.gpWMI.Location = New System.Drawing.Point(13, 181)
+        Me.gpWMI.Location = New System.Drawing.Point(13, 212)
         Me.gpWMI.Name = "gpWMI"
         Me.gpWMI.Size = New System.Drawing.Size(314, 73)
         Me.gpWMI.TabIndex = 7
@@ -250,10 +258,11 @@ Partial Class frmConnection
         '
         'gpShutdown
         '
+        Me.gpShutdown.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.gpShutdown.Controls.Add(Me.cmdShutdown)
         Me.gpShutdown.Controls.Add(Me.cbShutdown)
         Me.gpShutdown.Controls.Add(Me.chkForceShutdown)
-        Me.gpShutdown.Location = New System.Drawing.Point(13, 122)
+        Me.gpShutdown.Location = New System.Drawing.Point(13, 153)
         Me.gpShutdown.Name = "gpShutdown"
         Me.gpShutdown.Size = New System.Drawing.Size(308, 53)
         Me.gpShutdown.TabIndex = 8
@@ -292,21 +301,79 @@ Partial Class frmConnection
         '
         'cmdTerminal
         '
-        Me.cmdTerminal.Location = New System.Drawing.Point(172, 197)
+        Me.cmdTerminal.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.cmdTerminal.Location = New System.Drawing.Point(172, 228)
         Me.cmdTerminal.Name = "cmdTerminal"
         Me.cmdTerminal.Size = New System.Drawing.Size(146, 23)
         Me.cmdTerminal.TabIndex = 16
         Me.cmdTerminal.Text = "Terminal Services Client"
         Me.cmdTerminal.UseVisualStyleBackColor = True
         '
+        'optSnapshot
+        '
+        Me.optSnapshot.AutoSize = True
+        Me.optSnapshot.Location = New System.Drawing.Point(11, 35)
+        Me.optSnapshot.Name = "optSnapshot"
+        Me.optSnapshot.Size = New System.Drawing.Size(130, 17)
+        Me.optSnapshot.TabIndex = 3
+        Me.optSnapshot.Text = "System snapshot file"
+        Me.optSnapshot.UseVisualStyleBackColor = True
+        '
+        'gpSnapshot
+        '
+        Me.gpSnapshot.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.gpSnapshot.Controls.Add(Me.cmdBrowseSSFile)
+        Me.gpSnapshot.Controls.Add(Me.txtSSFile)
+        Me.gpSnapshot.Controls.Add(Me.Label4)
+        Me.gpSnapshot.Location = New System.Drawing.Point(13, 219)
+        Me.gpSnapshot.Name = "gpSnapshot"
+        Me.gpSnapshot.Size = New System.Drawing.Size(314, 51)
+        Me.gpSnapshot.TabIndex = 18
+        Me.gpSnapshot.TabStop = False
+        Me.gpSnapshot.Visible = False
+        '
+        'cmdBrowseSSFile
+        '
+        Me.cmdBrowseSSFile.Location = New System.Drawing.Point(276, 15)
+        Me.cmdBrowseSSFile.Name = "cmdBrowseSSFile"
+        Me.cmdBrowseSSFile.Size = New System.Drawing.Size(27, 23)
+        Me.cmdBrowseSSFile.TabIndex = 12
+        Me.cmdBrowseSSFile.Text = "..."
+        Me.cmdBrowseSSFile.UseVisualStyleBackColor = True
+        '
+        'txtSSFile
+        '
+        Me.txtSSFile.Location = New System.Drawing.Point(128, 17)
+        Me.txtSSFile.Name = "txtSSFile"
+        Me.txtSSFile.Size = New System.Drawing.Size(142, 22)
+        Me.txtSSFile.TabIndex = 11
+        Me.txtSSFile.Text = "C:\Users\Admin\Desktop\01.ssf"
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(7, 20)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(115, 13)
+        Me.Label4.TabIndex = 10
+        Me.Label4.Text = "System Snapshot File"
+        '
+        'openFile
+        '
+        Me.openFile.Filter = "System Snapshot File (*.ssf)|*.ssf|All Files (*.*)|*.*"
+        Me.openFile.RestoreDirectory = True
+        Me.openFile.SupportMultiDottedExtensions = True
+        Me.openFile.Title = "Choose System Snapshot File to open"
+        '
         'lvData
         '
+        Me.lvData.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lvData.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
         Me.lvData.FullRowSelect = True
-        Me.lvData.Location = New System.Drawing.Point(345, 12)
+        Me.lvData.Location = New System.Drawing.Point(345, 3)
         Me.lvData.Name = "lvData"
         Me.lvData.OverriddenDoubleBuffered = True
-        Me.lvData.Size = New System.Drawing.Size(289, 286)
+        Me.lvData.Size = New System.Drawing.Size(289, 326)
         Me.lvData.TabIndex = 17
         Me.lvData.UseCompatibleStateImageBehavior = False
         Me.lvData.View = System.Windows.Forms.View.Details
@@ -325,7 +392,9 @@ Partial Class frmConnection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(341, 299)
+        Me.ClientSize = New System.Drawing.Size(338, 330)
+        Me.Controls.Add(Me.gpSnapshot)
+        Me.Controls.Add(Me.optSnapshot)
         Me.Controls.Add(Me.lvData)
         Me.Controls.Add(Me.cmdTerminal)
         Me.Controls.Add(Me.gpShutdown)
@@ -350,6 +419,8 @@ Partial Class frmConnection
         Me.gpWMI.PerformLayout()
         Me.gpShutdown.ResumeLayout(False)
         Me.gpShutdown.PerformLayout()
+        Me.gpSnapshot.ResumeLayout(False)
+        Me.gpSnapshot.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -382,4 +453,10 @@ Partial Class frmConnection
     Friend WithEvents lvData As DoubleBufferedLV
     Friend WithEvents ColumnHeader1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader2 As System.Windows.Forms.ColumnHeader
+    Friend WithEvents optSnapshot As System.Windows.Forms.RadioButton
+    Friend WithEvents gpSnapshot As System.Windows.Forms.GroupBox
+    Friend WithEvents cmdBrowseSSFile As System.Windows.Forms.Button
+    Friend WithEvents txtSSFile As System.Windows.Forms.TextBox
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents openFile As System.Windows.Forms.OpenFileDialog
 End Class

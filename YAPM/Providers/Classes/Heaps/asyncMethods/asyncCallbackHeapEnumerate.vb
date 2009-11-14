@@ -86,6 +86,21 @@ Public Class asyncCallbackHeapEnumerate
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 ' Not supported
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot
+
+                Dim _dico As New Dictionary(Of String, heapInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    _dico = snap.HeapsByProcessId(pObj.pid)
+                End If
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
             Case Else
                 ' Local
                 Dim _dico As Dictionary(Of String, heapInfos) = _

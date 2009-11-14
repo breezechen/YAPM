@@ -85,16 +85,26 @@ Public Class asyncCallbackPrivilegesEnumerate
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot
+
+                Dim _dico As New Dictionary(Of String, privilegeInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    ' For some processes only
+                    _dico = snap.PrivilegesByProcessId(pObj.pid)
+                End If
+                Try
+                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
             Case Else
                 ' Local
-                Dim _dico As New Dictionary(Of String, privilegeInfos)
-
-                Dim ret As Native.Api.NativeStructs.PrivilegeInfo() = _
-                    Native.Objects.Token.GetPrivilegesListByProcessId(pObj.pid)
-
-                For Each tmp As Native.Api.NativeStructs.PrivilegeInfo In ret
-                    _dico.Add(tmp.Name, New privilegeInfos(tmp.Name, pObj.pid, tmp.Status))
-                Next
+                Dim _dico As Dictionary(Of String, privilegeInfos) = _
+                SharedLocalSyncEnumerate(pObj)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
@@ -104,5 +114,19 @@ Public Class asyncCallbackPrivilegesEnumerate
         sem.Release()
 
     End Sub
+
+
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, privilegeInfos)
+        Dim _dico As New Dictionary(Of String, privilegeInfos)
+
+        Dim ret As Native.Api.NativeStructs.PrivilegeInfo() = _
+            Native.Objects.Token.GetPrivilegesListByProcessId(pObj.pid)
+
+        For Each tmp As Native.Api.NativeStructs.PrivilegeInfo In ret
+            _dico.Add(tmp.Name, New privilegeInfos(tmp.Name, pObj.pid, tmp.Status))
+        Next
+        Return _dico
+    End Function
 
 End Class

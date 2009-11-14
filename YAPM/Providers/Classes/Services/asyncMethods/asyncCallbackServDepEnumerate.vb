@@ -93,7 +93,20 @@ Public Class asyncCallbackServDepEnumerate
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
-              
+
+            Case cConnection.TypeOfConnection.SnapshotFile
+                '' Snapshot file
+                'Dim _dico As New Dictionary(Of String, serviceInfos)
+                'Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                'If snap IsNot Nothing Then
+                '    _dico = snap.Services
+                'End If
+                'Try
+                '    'If deg IsNot Nothing AndAlso ctrl.Created Then _
+                '    ctrl.Invoke(deg, True, _dico, Nothing, pObj.forInstanceId, pObj.type)
+                'Catch ex As Exception
+
+                'End Try
 
             Case Else
                 ' Local
@@ -104,7 +117,6 @@ Public Class asyncCallbackServDepEnumerate
                     recursiveAddDep2(pObj.name, pObj.name, _dico)
                 End If
                 Try
-
                     'If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId, pObj.type)
                 Catch ex As Exception

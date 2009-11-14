@@ -146,6 +146,9 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
+    Public Sub New()
+        '
+    End Sub
     Public Sub New(ByRef Thr As Native.Api.NativeStructs.SystemThreadInformation)
 
         With Thr

@@ -129,6 +129,9 @@ Imports System.Runtime.InteropServices
     ' ========================================
     ' Public
     ' ========================================
+    Public Sub New()
+        '
+    End Sub
     Public Sub New(ByRef window As windowInfos)
         With window
             _processId = .ProcessId

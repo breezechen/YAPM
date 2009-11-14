@@ -87,19 +87,26 @@ Public Class asyncCallbackEnvVariableEnumerate
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot
+
+                Dim _dico As New Dictionary(Of String, envVariableInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    _dico = snap.EnvironnementVariablesByProcessId(pObj.pid)
+                End If
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
+
             Case Else
                 ' Local
-                Dim _dico As New Dictionary(Of String, envVariableInfos)
-
-                Dim var() As String = Nothing
-                Dim val() As String = Nothing
-                Native.Objects.EnvVariable.GetEnvironmentVariables(pObj.peb, pObj.pid, var, val)
-
-                For x As Integer = 0 To var.Length - 1
-                    If _dico.ContainsKey(var(x)) = False Then
-                        _dico.Add(var(x), New envVariableInfos(var(x), val(x), pObj.pid))
-                    End If
-                Next
+                Dim _dico As Dictionary(Of String, envVariableInfos) = _
+                    SharedLocalSyncEnumerate(pObj)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
@@ -109,5 +116,23 @@ Public Class asyncCallbackEnvVariableEnumerate
         sem.Release()
 
     End Sub
+
+
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, envVariableInfos)
+        Dim _dico As New Dictionary(Of String, envVariableInfos)
+
+        Dim var() As String = Nothing
+        Dim val() As String = Nothing
+        Native.Objects.EnvVariable.GetEnvironmentVariables(pObj.peb, pObj.pid, var, val)
+
+        For x As Integer = 0 To var.Length - 1
+            If _dico.ContainsKey(var(x)) = False Then
+                _dico.Add(var(x), New envVariableInfos(var(x), val(x), pObj.pid))
+            End If
+        Next
+
+        Return _dico
+    End Function
 
 End Class

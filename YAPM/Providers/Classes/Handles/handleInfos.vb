@@ -142,6 +142,9 @@ Imports Native.Api
     ' ========================================
 
     ' Merge an old and a new instance
+    Public Sub New()
+        '
+    End Sub
     Public Sub Merge(ByRef newI As handleInfos)
         With newI
             _Handle = .Handle

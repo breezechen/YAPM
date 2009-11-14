@@ -58,6 +58,11 @@ Public Class serviceList
             _connectionObject = value
         End Set
     End Property
+    Public ReadOnly Property ServiceConnection() As cServiceConnection
+        Get
+            Return _serviceConnection
+        End Get
+    End Property
     Public Property ProcessId() As Integer
         Get
             Return _pid

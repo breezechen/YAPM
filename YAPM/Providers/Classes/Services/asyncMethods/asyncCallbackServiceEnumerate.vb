@@ -118,6 +118,27 @@ Public Class asyncCallbackServiceEnumerate
                     Misc.ShowDebugError(ex)
                 End Try
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot file
+
+                Dim _dico As New Dictionary(Of String, serviceInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    If pObj.all Then
+                        ' All services
+                        _dico = snap.Services
+                    Else
+                        ' For one process only
+                        _dico = snap.ServicesByProcessId(pObj.pid)
+                    End If
+                End If
+                Try
+                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
             Case Else
                 ' Local
 
@@ -139,5 +160,15 @@ Public Class asyncCallbackServiceEnumerate
 
     End Sub
 
-    
+
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj, ByVal con As cServiceConnection) As Dictionary(Of String, serviceInfos)
+        Dim _dico As New Dictionary(Of String, serviceInfos)
+
+        Native.Objects.Service.EnumerateServices(con.SCManagerLocalHandle, _dico, pObj.all, _
+                                                 pObj.complete, pObj.pid)
+
+        Return _dico
+    End Function
+
 End Class

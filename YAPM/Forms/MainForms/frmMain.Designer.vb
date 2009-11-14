@@ -579,6 +579,8 @@ Partial Class frmMain
         Me.timerJobs = New System.Windows.Forms.Timer(Me.components)
         Me.mnuJob = New System.Windows.Forms.ContextMenu
         Me.MenuItem53 = New System.Windows.Forms.MenuItem
+        Me.MenuItemSystemSaveSSFile = New System.Windows.Forms.MenuItem
+        Me.butSaveSystemSnaphotFile = New System.Windows.Forms.RibbonButton
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -735,6 +737,7 @@ Partial Class frmMain
         Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
         Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 345)
         Me.Ribbon.OrbDropDown.TabIndex = 0
+        Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
         Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
         '
         '
@@ -754,6 +757,7 @@ Partial Class frmMain
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butCreateService)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butNetworkInfos)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butScripting)
+        Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butSaveSystemSnaphotFile)
         Me.Ribbon.QuickAcessToolbar.Tag = Nothing
         Me.Ribbon.QuickAcessToolbar.Text = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTip = Nothing
@@ -2775,6 +2779,7 @@ Partial Class frmMain
         Me.lvTask.CatchErrors = False
         Me.lvTask.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader62, Me.ColumnHeader63, Me.ColumnHeader64})
         CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection1.Snapshot = Nothing
         Me.lvTask.ConnectionObj = CConnection1
         Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvTask.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2946,6 +2951,7 @@ Partial Class frmMain
         Me.lvProcess.CatchErrors = False
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
         CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection2.Snapshot = Nothing
         Me.lvProcess.ConnectionObj = CConnection2
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcess.EnumMethod = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
@@ -3050,6 +3056,7 @@ Partial Class frmMain
         Me.lvJob.CatchErrors = False
         Me.lvJob.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader5})
         CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection3.Snapshot = Nothing
         Me.lvJob.ConnectionObj = CConnection3
         Me.lvJob.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJob.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3432,6 +3439,7 @@ Partial Class frmMain
         Me.lvServices.CatchErrors = False
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader19})
         CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection4.Snapshot = Nothing
         Me.lvServices.ConnectionObj = CConnection4
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3600,6 +3608,7 @@ Partial Class frmMain
         'tv2
         '
         CConnection5.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection5.Snapshot = Nothing
         Me.tv2.ConnectionObj = CConnection5
         Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3617,6 +3626,7 @@ Partial Class frmMain
         'tv
         '
         CConnection6.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection6.Snapshot = Nothing
         Me.tv.ConnectionObj = CConnection6
         Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3658,6 +3668,7 @@ Partial Class frmMain
         Me.lvNetwork.CatchErrors = False
         Me.lvNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader66, Me.ColumnHeader67, Me.ColumnHeader68, Me.ColumnHeader69})
         CConnection7.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection7.Snapshot = Nothing
         Me.lvNetwork.ConnectionObj = CConnection7
         Me.lvNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -4210,6 +4221,7 @@ Partial Class frmMain
         Me.lvSearchResults.CatchErrors = False
         Me.lvSearchResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14, Me.ColumnHeader17})
         CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection8.Snapshot = Nothing
         Me.lvSearchResults.ConnectionObj = CConnection8
         Me.lvSearchResults.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvSearchResults.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -4612,13 +4624,13 @@ Partial Class frmMain
         'MenuItemSystemToTray
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemToTray, Global.My.Resources.Resources.down16)
-        Me.MenuItemSystemToTray.Index = 18
+        Me.MenuItemSystemToTray.Index = 19
         Me.MenuItemSystemToTray.Text = "Minimize to &tray"
         '
         'MenuItemSystemExit
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemExit, Global.My.Resources.Resources.cross16)
-        Me.MenuItemSystemExit.Index = 19
+        Me.MenuItemSystemExit.Index = 20
         Me.MenuItemSystemExit.Shortcut = System.Windows.Forms.Shortcut.AltF4
         Me.MenuItemSystemExit.Text = "E&xit"
         '
@@ -4643,7 +4655,7 @@ Partial Class frmMain
         'MenuItemSystemFindWindow
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemFindWindow, Global.My.Resources.Resources.target16)
-        Me.MenuItemSystemFindWindow.Index = 14
+        Me.MenuItemSystemFindWindow.Index = 15
         Me.MenuItemSystemFindWindow.Text = "&Find a window"
         '
         'MenuItemSystemHelp
@@ -5109,7 +5121,7 @@ Partial Class frmMain
         'MenuItemSYSTEMFILE
         '
         Me.MenuItemSYSTEMFILE.Index = 0
-        Me.MenuItemSYSTEMFILE.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemRefresh, Me.MenuItem54, Me.MenuItemSystemConnection, Me.MenuItemRunAsAdmin, Me.MenuItem56, Me.MenuItemSystemLog, Me.MenuItemSystemReport, Me.MenuItem59, Me.MenuItemSystemInfos, Me.MenuItemSystemNetworkInfos, Me.MenuItemSystemOpenedWindows, Me.MenuItemShowPendingTasks, Me.MenuItemSystemScripting, Me.MenuItem62, Me.MenuItemSystemFindWindow, Me.MenuItemSystemEmergency, Me.MenuItemSystemSBA, Me.MenuItem66, Me.MenuItemSystemToTray, Me.MenuItemSystemExit})
+        Me.MenuItemSYSTEMFILE.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemRefresh, Me.MenuItem54, Me.MenuItemSystemConnection, Me.MenuItemRunAsAdmin, Me.MenuItem56, Me.MenuItemSystemLog, Me.MenuItemSystemReport, Me.MenuItem59, Me.MenuItemSystemInfos, Me.MenuItemSystemNetworkInfos, Me.MenuItemSystemOpenedWindows, Me.MenuItemShowPendingTasks, Me.MenuItemSystemScripting, Me.MenuItemSystemSaveSSFile, Me.MenuItem62, Me.MenuItemSystemFindWindow, Me.MenuItemSystemEmergency, Me.MenuItemSystemSBA, Me.MenuItem66, Me.MenuItemSystemToTray, Me.MenuItemSystemExit})
         Me.MenuItemSYSTEMFILE.Text = "&File"
         '
         'MenuItem54
@@ -5161,24 +5173,24 @@ Partial Class frmMain
         '
         'MenuItem62
         '
-        Me.MenuItem62.Index = 13
+        Me.MenuItem62.Index = 14
         Me.MenuItem62.Text = "-"
         '
         'MenuItemSystemEmergency
         '
-        Me.MenuItemSystemEmergency.Index = 15
+        Me.MenuItemSystemEmergency.Index = 16
         Me.MenuItemSystemEmergency.Text = "Emergency &hotkeys..."
         '
         'MenuItemSystemSBA
         '
         Me.MenuItemSystemSBA.Enabled = False
-        Me.MenuItemSystemSBA.Index = 16
+        Me.MenuItemSystemSBA.Index = 17
         Me.MenuItemSystemSBA.Text = "State &based actions..."
         Me.MenuItemSystemSBA.Visible = False
         '
         'MenuItem66
         '
-        Me.MenuItem66.Index = 17
+        Me.MenuItem66.Index = 18
         Me.MenuItem66.Text = "-"
         '
         'MenuItemProcesses
@@ -5569,6 +5581,26 @@ Partial Class frmMain
         '
         Me.MenuItem53.Index = 1
         Me.MenuItem53.Text = "-"
+        '
+        'MenuItemSystemSaveSSFile
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemSystemSaveSSFile, Global.My.Resources.Resources.save16)
+        Me.MenuItemSystemSaveSSFile.Index = 13
+        Me.MenuItemSystemSaveSSFile.Text = "&Save System Snapshot File..."
+        '
+        'butSaveSystemSnaphotFile
+        '
+        Me.butSaveSystemSnaphotFile.AltKey = Nothing
+        Me.butSaveSystemSnaphotFile.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butSaveSystemSnaphotFile.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butSaveSystemSnaphotFile.Image = CType(resources.GetObject("butSaveSystemSnaphotFile.Image"), System.Drawing.Image)
+        Me.butSaveSystemSnaphotFile.SmallImage = Global.My.Resources.Resources.save16
+        Me.butSaveSystemSnaphotFile.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butSaveSystemSnaphotFile.Tag = Nothing
+        Me.butSaveSystemSnaphotFile.Text = "Save System Snapshot File"
+        Me.butSaveSystemSnaphotFile.ToolTip = Nothing
+        Me.butSaveSystemSnaphotFile.ToolTipImage = Nothing
+        Me.butSaveSystemSnaphotFile.ToolTipTitle = Nothing
         '
         'frmMain
         '
@@ -6220,5 +6252,7 @@ Partial Class frmMain
     Friend WithEvents butNetworkInfos As System.Windows.Forms.RibbonButton
     Friend WithEvents MenuItemSystemScripting As System.Windows.Forms.MenuItem
     Friend WithEvents butScripting As System.Windows.Forms.RibbonButton
+    Friend WithEvents butSaveSystemSnaphotFile As System.Windows.Forms.RibbonButton
+    Friend WithEvents MenuItemSystemSaveSSFile As System.Windows.Forms.MenuItem
 
 End Class

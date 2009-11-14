@@ -3651,6 +3651,10 @@ Public Class frmMain
             Me.sbPanelProcesses.Text = Me.lvProcess.Items.Count & " processes"
             Me.sbPanelServices.Text = Me.lvServices.Items.Count & " services"
 
+            ' We disable some buttons on the main form
+            Me.butSaveSystemSnaphotFile.Enabled = Program.Connection.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile
+            Me.MenuItemSystemSaveSSFile.Enabled = Program.Connection.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile
+
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         End Try
@@ -4034,5 +4038,15 @@ Public Class frmMain
         Dim frm As New frmScripting
         frm.TopMost = _frmMain.TopMost
         frm.Show()
+    End Sub
+
+    Private Sub MenuItemSystemSaveSSFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemSaveSSFile.Click
+        Call Me.MenuItemSystemSaveSSFile_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butSaveSystemSnaphotFile_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSaveSystemSnaphotFile.Click
+        ' Save System Snapshot File
+        Dim frm As New frmSaveSystemSnapshot
+        frm.ShowDialog()
     End Sub
 End Class

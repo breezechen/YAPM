@@ -21,6 +21,8 @@
 Imports Microsoft.Win32
 Imports System.Windows.Forms
 Imports System.Runtime.InteropServices
+Imports System.IO
+Imports System.IO.Compression
 
 Namespace Common
 

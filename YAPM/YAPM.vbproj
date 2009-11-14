@@ -242,6 +242,10 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmSaveSystemSnapshot.resx">
+      <DependentUpon>frmSaveSystemSnapshot.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmNetworkTool.resx">
       <DependentUpon>frmNetworkTool.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -582,6 +586,12 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForms\frmJobInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmSaveSystemSnapshot.Designer.vb">
+      <DependentUpon>frmSaveSystemSnapshot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmSaveSystemSnapshot.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmNetworkTool.Designer.vb">
@@ -978,6 +988,7 @@
     <Compile Include="Scripting\Enums.vb" />
     <Compile Include="Scripting\Machine.vb" />
     <Compile Include="Scripting\Tools.vb" />
+    <Compile Include="Snapshot\cSnapshot.vb" />
     <Compile Include="UserControls\HandleProps\HJobProp.Designer.vb">
       <DependentUpon>HJobProp.vb</DependentUpon>
     </Compile>

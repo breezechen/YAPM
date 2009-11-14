@@ -85,6 +85,21 @@ Public Class asyncCallbackJobEnumerate
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot
+
+                Dim _dico As New Dictionary(Of String, jobInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    _dico = snap.Jobs
+                End If
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
             Case Else
                 ' Local
 
@@ -99,5 +114,12 @@ Public Class asyncCallbackJobEnumerate
         sem.Release()
 
     End Sub
+
+
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate() As Dictionary(Of String, jobInfos)
+        Dim _dico As Dictionary(Of String, jobInfos) = Native.Objects.Job.EnumerateJobs
+        Return _dico
+    End Function
 
 End Class

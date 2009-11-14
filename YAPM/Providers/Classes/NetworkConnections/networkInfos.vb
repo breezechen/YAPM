@@ -119,6 +119,9 @@ Imports System.Net
     ' ========================================
 
     ' Constructor of this class
+    Public Sub New()
+        '
+    End Sub
     Public Sub New(ByRef lc As Native.Api.Structs.LightConnection)
 
         _pid = lc.dwOwningPid

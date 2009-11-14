@@ -66,6 +66,9 @@ Imports System.Net
     ' ========================================
 
     ' Constructor of this class
+    Public Sub New()
+        '
+    End Sub
     Public Sub New(ByVal name As String, ByVal desc As String, ByVal value As String, ByVal valObj As Object)
         _name = name
         _desc = desc

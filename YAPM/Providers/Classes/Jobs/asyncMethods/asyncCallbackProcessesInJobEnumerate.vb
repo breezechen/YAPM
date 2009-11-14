@@ -87,6 +87,10 @@ Public Class asyncCallbackProcessesInJobEnumerate
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot
+
+
             Case Else
                 ' Local
 

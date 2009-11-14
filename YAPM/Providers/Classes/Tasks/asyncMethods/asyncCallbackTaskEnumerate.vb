@@ -83,41 +83,24 @@ Public Class asyncCallbackTaskEnumerate
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
-            Case Else
-                ' Local
-                Dim currWnd As IntPtr
-                Dim cpt As Integer
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot file
 
                 Dim _dico As New Dictionary(Of String, windowInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    _dico = snap.Tasks
+                End If
+                Try
+                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
 
-                currWnd = Window.GetWindow(Window.GetDesktopWindow, _
-                                            Native.Api.NativeEnums.GetWindowCmd.GW_CHILD)
-                cpt = 0
-                Do While currWnd.IsNotNull
-
-                    If Window.IsWindowATask(currWnd) Then
-                        Dim pid As Integer = Window.GetProcessIdFromWindowHandle(currWnd)
-                        Dim tid As Integer = Window.GetThreadIdFromWindowHandle(currWnd)
-                        Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
-
-                        If _dico.ContainsKey(key) = False Then
-                            If Program.Parameters.ModeServer Then
-                                ' Then we need to retrieve all informations
-                                ' (this is server mode)
-                                Dim wInfo As windowInfos
-                                wInfo = New windowInfos(pid, tid, currWnd, Window.GetWindowCaption(currWnd))
-                                wInfo.SetNonFixedInfos(asyncCallbackWindowGetNonFixedInfos.ProcessAndReturnLocal(currWnd))
-                                _dico.Add(key, wInfo)
-                            Else
-                                _dico.Add(key, New windowInfos(pid, tid, currWnd, Window.GetWindowCaption(currWnd)))
-                            End If
-                        End If
-
-                    End If
-
-                    currWnd = Window.GetWindow(currWnd, _
-                                            Native.Api.NativeEnums.GetWindowCmd.GW_HWNDNEXT)
-                Loop
+            Case Else
+                ' Local
+                Dim _dico As Dictionary(Of String, windowInfos) = SharedLocalSyncEnumerate()
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
@@ -127,5 +110,45 @@ Public Class asyncCallbackTaskEnumerate
         sem.Release()
 
     End Sub
+
+
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate() As Dictionary(Of String, windowInfos)
+        Dim currWnd As IntPtr
+        Dim cpt As Integer
+
+        Dim _dico As New Dictionary(Of String, windowInfos)
+
+        currWnd = Window.GetWindow(Window.GetDesktopWindow, _
+                                    Native.Api.NativeEnums.GetWindowCmd.GW_CHILD)
+        cpt = 0
+        Do While currWnd.IsNotNull
+
+            If Window.IsWindowATask(currWnd) Then
+                Dim pid As Integer = Window.GetProcessIdFromWindowHandle(currWnd)
+                Dim tid As Integer = Window.GetThreadIdFromWindowHandle(currWnd)
+                Dim key As String = pid.ToString & "-" & tid.ToString & "-" & currWnd.ToString
+
+                If _dico.ContainsKey(key) = False Then
+                    If Program.Parameters.ModeServer Then
+                        ' Then we need to retrieve all informations
+                        ' (this is server mode)
+                        Dim wInfo As windowInfos
+                        wInfo = New windowInfos(pid, tid, currWnd, Window.GetWindowCaption(currWnd))
+                        wInfo.SetNonFixedInfos(asyncCallbackWindowGetNonFixedInfos.ProcessAndReturnLocal(currWnd))
+                        _dico.Add(key, wInfo)
+                    Else
+                        _dico.Add(key, New windowInfos(pid, tid, currWnd, Window.GetWindowCaption(currWnd)))
+                    End If
+                End If
+
+            End If
+
+            currWnd = Window.GetWindow(currWnd, _
+                                    Native.Api.NativeEnums.GetWindowCmd.GW_HWNDNEXT)
+        Loop
+
+        Return _dico
+    End Function
 
 End Class

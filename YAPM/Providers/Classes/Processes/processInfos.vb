@@ -51,6 +51,7 @@ Imports System.Runtime.InteropServices
     Private _Pid As Integer
     Private _AffinityMask As IntPtr
     Private _PebAddress As IntPtr
+    <NonSerialized()> Private _fileInfo As FileVersionInfo
     Private _ParentProcessId As Integer
     Private _IOValues As Native.Api.NativeStructs.IoCounters
     Private _Path As String
@@ -63,7 +64,6 @@ Imports System.Runtime.InteropServices
     Private _HandleCount As Integer
     Private _StartTime As Long
     Private _Priority As ProcessPriorityClass
-    <NonSerialized()> Private _fileInfo As FileVersionInfo
     Private _gdiObjects As Integer
     Private _userObjects As Integer
     Private _threadCount As Integer
@@ -254,6 +254,9 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
+    Public Sub New()
+        '
+    End Sub
     Public Sub New(ByRef Proc As Native.Api.NativeStructs.SystemProcessInformation, Optional ByVal ProcessName As String = Nothing)
         _PebAddress = IntPtr.Zero
 

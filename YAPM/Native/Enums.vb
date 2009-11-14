@@ -542,6 +542,24 @@ Namespace Native.Api
             [Heap] = &H8000
         End Enum
 
+        <Flags()> _
+        Public Enum SnapshotObject
+            [Windows] = &H1
+            [Services] = &H4
+            [Handles] = &H8
+            [EnvironmentVariables] = &H10
+            [Modules] = &H20
+            [JobLimits] = &H40
+            [Jobs] = &H80
+            [MemoryRegions] = &H200
+            [NetworkConnections] = &H400
+            [Privileges] = &H800
+            [Tasks] = &H2000
+            [Threads] = &H4000
+            [Heaps] = &H8000
+            [All] = [Windows] Or [Services] Or [Handles] Or [EnvironmentVariables] Or [Modules] Or [JobLimits] Or [Jobs] Or [MemoryRegions] Or [NetworkConnections] Or [Privileges] Or [Tasks] Or [Threads] Or [Heaps]
+        End Enum
+
 #End Region
 
     End Class

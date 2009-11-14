@@ -7,8 +7,9 @@ Refactoring bugs
 
 - continuer heaps (remote -> régler pb du DebugBuffer, show blocks en bas de la form...)
 
+- snapshot -> serviceDep et processesInJob + blinder IHM + désactiver times + gestion historiques + gestion infos du type FileInfo, Path, UserName
+
 BUGS CRITIQUES
-- hide when close marche plus
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
 - job par remote (et en wmi, désactiver également Restart with priv)
 - searchInfos contains cService/cModule (NOT Serializable -> can not search via server)
@@ -120,6 +121,7 @@ Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
 
 * NEW / Improvements
+- Added unique and powerful "System Snapshot" feature !
 - Added Ping/Traceroute/WhoIs functions for TCP connections
 - Added 'TotalIoDelta' counter
 - Added 'network information' window

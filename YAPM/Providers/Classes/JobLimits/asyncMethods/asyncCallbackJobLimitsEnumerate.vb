@@ -87,6 +87,21 @@ Public Class asyncCallbackJobLimitsEnumerate
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 ' TODO
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot
+
+                Dim _dico As New Dictionary(Of String, jobLimitInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    _dico = snap.JobLimitsByJobName(pObj.JobName)
+                End If
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
             Case Else
                 ' Local
 
@@ -101,5 +116,13 @@ Public Class asyncCallbackJobLimitsEnumerate
         sem.Release()
 
     End Sub
+
+
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, jobLimitInfos)
+        Dim _dico As Dictionary(Of String, jobLimitInfos) = _
+                        Native.Objects.Job.EnumerateJobLimitsByJobName(pObj.JobName)
+        Return _dico
+    End Function
 
 End Class

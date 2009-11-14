@@ -95,6 +95,29 @@ Public Class asyncCallbackThreadEnumerate
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot
+
+                Dim _dico As New Dictionary(Of String, threadInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    ' For some processes only
+                    For Each pid As Integer In pObj.pid
+                        Dim _threads As Dictionary(Of String, threadInfos) = snap.ThreadsByProcessId(pid)
+                        If _threads IsNot Nothing Then
+                            For Each pair As System.Collections.Generic.KeyValuePair(Of String, threadInfos) In _threads
+                                _dico.Add(pair.Key, pair.Value)
+                            Next
+                        End If
+                    Next
+                End If
+                Try
+                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
             Case Else
                 ' Local
                 Dim _dico As New Dictionary(Of String, threadInfos)
@@ -109,5 +132,13 @@ Public Class asyncCallbackThreadEnumerate
         sem.Release()
 
     End Sub
+
+
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, threadInfos)
+        Dim _dico As New Dictionary(Of String, threadInfos)
+        Native.Objects.Thread.EnumerateThreadsByProcessId(_dico, pObj.pid)
+        Return _dico
+    End Function
 
 End Class

@@ -96,6 +96,29 @@ Public Class asyncCallbackModuleEnumerate
 
                 ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot
+
+                Dim _dico As New Dictionary(Of String, moduleInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    ' For some processes only
+                    For Each pid As Integer In pObj.pid
+                        Dim _modules As Dictionary(Of String, moduleInfos) = snap.ModulesByProcessId(pid)
+                        If _modules IsNot Nothing Then
+                            For Each pair As System.Collections.Generic.KeyValuePair(Of String, moduleInfos) In _modules
+                                _dico.Add(pair.Key, pair.Value)
+                            Next
+                        End If
+                    Next
+                End If
+                Try
+                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
             Case Else
                 ' Local
                 Dim _dico As Dictionary(Of String, moduleInfos) = _
@@ -110,5 +133,13 @@ Public Class asyncCallbackModuleEnumerate
         sem.Release()
 
     End Sub
+
+
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, moduleInfos)
+        Dim _dico As Dictionary(Of String, moduleInfos) = _
+            Native.Objects.Module.EnumerateModulesByProcessIds(pObj.pid, False)
+        Return _dico
+    End Function
 
 End Class

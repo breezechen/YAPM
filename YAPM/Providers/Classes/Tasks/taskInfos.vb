@@ -32,6 +32,9 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
+    Public Sub New()
+        '
+    End Sub
     Public Sub New(ByRef window As windowInfos)
         MyBase.New(window)
     End Sub

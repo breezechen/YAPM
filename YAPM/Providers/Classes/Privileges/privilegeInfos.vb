@@ -66,6 +66,9 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
+    Public Sub New()
+        '
+    End Sub
     Public Sub New(ByRef name As String, ByVal pid As Integer, ByVal status As Native.Api.NativeEnums.SePrivilegeAttributes)
 
         _procId = pid

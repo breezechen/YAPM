@@ -28,7 +28,7 @@ Imports System.Runtime.Serialization.Formatters.Binary
 Public Class cSerialization
 
     ' Return byte array from data class
-    Public Shared Function GetSerializedObject(ByVal obj As cSocketData) As Byte()
+    Public Shared Function GetSerializedObject(ByVal obj As Object) As Byte()
         Dim formatter As System.Runtime.Serialization.IFormatter = New System.Runtime.Serialization.Formatters.Binary.BinaryFormatter()
         Using ms As New MemoryStream()
             formatter.Serialize(ms, obj)
@@ -42,6 +42,17 @@ Public Class cSerialization
             Dim formatter As System.Runtime.Serialization.IFormatter = New System.Runtime.Serialization.Formatters.Binary.BinaryFormatter()
             Using ms As New MemoryStream(DeCompressByteArray(dataBytes))
                 Return DirectCast(formatter.Deserialize(ms), cSocketData)
+            End Using
+        Catch ex As Exception
+            Trace.WriteLine("Error during serialization : " & ex.Message)
+            Return Nothing
+        End Try
+    End Function
+    Public Shared Function DeserializeObject(Of T)(ByVal dataBytes As Byte()) As T
+        Try
+            Dim formatter As System.Runtime.Serialization.IFormatter = New System.Runtime.Serialization.Formatters.Binary.BinaryFormatter()
+            Using ms As New MemoryStream(DeCompressByteArray(dataBytes))
+                Return DirectCast(formatter.Deserialize(ms), T)
             End Using
         Catch ex As Exception
             Trace.WriteLine("Error during serialization : " & ex.Message)

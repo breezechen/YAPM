@@ -90,6 +90,9 @@ Imports System.Runtime.InteropServices
     ' ========================================
 
     ' Constructor of this class
+    Public Sub New()
+        '
+    End Sub
     Public Sub New(ByRef data As Native.Api.NativeStructs.HeapInformation)
         With data
             _baseAddress = .BaseAddress

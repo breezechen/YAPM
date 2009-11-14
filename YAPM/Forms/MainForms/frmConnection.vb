@@ -33,6 +33,7 @@ Public Class frmConnection
     Private _localDesc As String = "Local connection monitors all processes and services running on the local machine."
     Private _wmiDesc As String = "Remote connection via WMI monitors all processes and services running on a remote machine. You will need a username and password of the remote machine, WMI needs to be installed on both machines (your machine and the remote machine), and your firewall have to accept the connection. Furthermore, not all informations and actions on your processes are available. If possible, you should use 'remote via YAPM server' instead."
     Private _serverDes As String = "Remote connection via WMI YAPM server monitors all processes and services running on a remote machine. You will need the IP address of the remote machine, and the associated port must be available (you might need to configure your firewall). You will also need to run yapmserv.exe on the remote machine. This is the best way, if possible, to monitor a remote machine."
+    Private _snapshotDesc As String = "System Snapshot File allows to display informations about all processes and services which were running when the snapshot file has been saved."
 
     Public Sub New(ByRef connection As cConnection)
         InitializeComponent()
@@ -70,6 +71,9 @@ Public Class frmConnection
         SetToolTip(Me.txtPort, "Port to use to connect to remote machine")
         SetToolTip(Me.cmdTerminal, "Start Microsoft terminal service client")
         SetToolTip(Me.cmdShowDatas, "Show/hide list of data received from remote machine")
+        SetToolTip(Me.optSnapshot, "Use a 'system snaphost file' to display informations")
+        SetToolTip(Me.txtSSFile, "Path of the System Snapshot File.")
+        SetToolTip(Me.cmdBrowseSSFile, "Select the System Snapshot File.")
 
         Me.txtPort.Text = CStr(My.Settings.RemotePort)
         Me.txtServerMachine.Text = My.Settings.RemoteMachineNameW
@@ -92,12 +96,16 @@ Public Class frmConnection
         Me.gpServer.Visible = optServer.Checked
         Me.lvData.Enabled = Me.optServer.Checked
         Me.gpWMI.Visible = optWMI.Checked
+        Me.gpSnapshot.Visible = optSnapshot.Checked
         If optLocal.Checked Then
             Me.txtDesc.Text = _localDesc
             Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
         ElseIf optServer.Checked Then
             Me.txtDesc.Text = _serverDes
             Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaSocket)
+        ElseIf optSnapshot.Checked Then
+            Me.txtDesc.Text = _snapshotDesc
+            Me.gpShutdown.Enabled = False
         Else
             Me.txtDesc.Text = _wmiDesc
             Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI)
@@ -130,6 +138,8 @@ Public Class frmConnection
             Me.txtDesc.Text = _serverDes
             Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaSocket)
             _oldType = cConnection.TypeOfConnection.RemoteConnectionViaSocket
+        ElseIf optSnapshot.Checked Then
+            ' Nothing updated here
         Else
             If _formConnectionReference IsNot Nothing AndAlso (_oldType <> _formConnectionReference.ConnectionType OrElse _formConnectionReference.IsConnected <> _oldConnected) Then
                 Me.cbShutdown.Items.Clear()
@@ -168,6 +178,8 @@ Public Class frmConnection
             _connType = cConnection.TypeOfConnection.LocalConnection
         ElseIf optServer.Checked Then
             _connType = cConnection.TypeOfConnection.RemoteConnectionViaSocket
+        ElseIf optSnapshot.Checked Then
+            _connType = cConnection.TypeOfConnection.SnapshotFile
         Else
             _connType = cConnection.TypeOfConnection.RemoteConnectionViaWMI
         End If
@@ -202,6 +214,8 @@ Public Class frmConnection
                     .SocketParameters = New cConnection.SocketConnectionParameters(Me.txtServerIP.Text, REMOTE_PORT, clientIp)
                 ElseIf _connType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
                     .WmiParameters = New cConnection.WMIConnectionParameters(Me.txtServerMachine.Text, Me.txtServerUser.Text, Me.txtServerPassword.SecureText)
+                ElseIf _connType = cConnection.TypeOfConnection.SnapshotFile Then
+                    .SnapshotFile = Me.txtSSFile.Text
                 End If
             End With
             Me.Text = "Connecting to machine..."
@@ -341,5 +355,12 @@ Public Class frmConnection
         Dim it As New ListViewItem(Date.Now.ToLongDateString & " - " & Date.Now.ToLongTimeString)
         it.SubItems.Add(dat.ToString)
         Me.lvData.Items.Add(it)
+    End Sub
+
+    Private Sub cmdBrowseSSFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdBrowseSSFile.Click
+        Dim ret As DialogResult = Me.openFile.ShowDialog
+        If ret = Windows.Forms.DialogResult.OK Then
+            Me.txtSSFile.Text = Me.openFile.FileName
+        End If
     End Sub
 End Class

@@ -88,6 +88,31 @@ Public Class asyncCallbackHandleEnumerate
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
+
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot
+
+                Dim _dico As New Dictionary(Of String, handleInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    ' For some processes only
+                    For Each pid As Integer In pObj.pid
+                        Dim _handles As Dictionary(Of String, handleInfos) = snap.HandlesByProcessId(pid)
+                        If _handles IsNot Nothing Then
+                            For Each pair As System.Collections.Generic.KeyValuePair(Of String, handleInfos) In _handles
+                                _dico.Add(pair.Key, pair.Value)
+                            Next
+                        End If
+                    Next
+                End If
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
+
             Case Else
                 ' Local
                 Dim _dico As New Dictionary(Of String, handleInfos)
@@ -102,5 +127,13 @@ Public Class asyncCallbackHandleEnumerate
         sem.Release()
 
     End Sub
+
+
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, handleInfos)
+        Dim _dico As New Dictionary(Of String, handleInfos)
+        Native.Objects.Handle.EnumerateHandleByProcessIds(pObj.pid, pObj.unNamed, _dico)
+        Return _dico
+    End Function
 
 End Class

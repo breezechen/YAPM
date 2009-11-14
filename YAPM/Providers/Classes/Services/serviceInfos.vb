@@ -210,6 +210,9 @@ Imports System.Text
     ' ========================================
 
     ' Constructor of this class
+    Public Sub New()
+        '
+    End Sub
     Public Sub New(ByRef Thr As Native.Api.NativeStructs.EnumServiceStatusProcess, _
                    Optional ByVal allInfos As Boolean = False)
         With Thr

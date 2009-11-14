@@ -176,6 +176,21 @@ Public Class asyncCallbackProcEnumerate
                     Misc.ShowDebugError(ex)
                 End Try
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Snapshot
+
+                Dim _dico As New Dictionary(Of String, processInfos)
+                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                If snap IsNot Nothing Then
+                    _dico = snap.Processes
+                End If
+                Try
+                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
             Case Else
                 ' Local
                 Dim _dico As Dictionary(Of String, processInfos)
@@ -201,5 +216,21 @@ Public Class asyncCallbackProcEnumerate
         sem.Release()
 
     End Sub
+
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, processInfos)
+        Dim _dico As Dictionary(Of String, processInfos)
+
+        Select Case pObj.method
+            Case ProcessEnumMethode.BruteForce
+                _dico = Native.Objects.Process.EnumerateHiddenProcessesBruteForce
+            Case ProcessEnumMethode.HandleMethod
+                _dico = Native.Objects.Process.EnumerateHiddenProcessesHandleMethod
+            Case Else
+                _dico = Native.Objects.Process.EnumerateVisibleProcesses
+        End Select
+
+        Return _dico
+    End Function
 
 End Class
