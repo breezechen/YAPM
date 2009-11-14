@@ -210,7 +210,7 @@ Public Class cSnapshot
             If _modules.ContainsKey(processId) Then
                 Return _modules(processId)
             Else
-                Return Nothing
+                Return New Dictionary(Of String, moduleInfos)
             End If
         End Get
         Set(ByVal value As Dictionary(Of String, moduleInfos))
@@ -228,7 +228,7 @@ Public Class cSnapshot
             If _windows.ContainsKey(processId) Then
                 Return _windows(processId)
             Else
-                Return Nothing
+                Return New Dictionary(Of String, windowInfos)
             End If
         End Get
         Set(ByVal value As Dictionary(Of String, windowInfos))
@@ -246,7 +246,7 @@ Public Class cSnapshot
             If _threads.ContainsKey(processId) Then
                 Return _threads(processId)
             Else
-                Return Nothing
+                Return New Dictionary(Of String, threadInfos)
             End If
         End Get
         Set(ByVal value As Dictionary(Of String, threadInfos))
@@ -264,7 +264,7 @@ Public Class cSnapshot
             If _privileges.ContainsKey(processId) Then
                 Return _privileges(processId)
             Else
-                Return Nothing
+                Return New Dictionary(Of String, privilegeInfos)
             End If
         End Get
         Set(ByVal value As Dictionary(Of String, privilegeInfos))
@@ -282,7 +282,7 @@ Public Class cSnapshot
             If _memRegions.ContainsKey(processId) Then
                 Return _memRegions(processId)
             Else
-                Return Nothing
+                Return New Dictionary(Of String, memRegionInfos)
             End If
         End Get
         Set(ByVal value As Dictionary(Of String, memRegionInfos))
@@ -300,7 +300,7 @@ Public Class cSnapshot
             If _jobLimits.ContainsKey(jobName) Then
                 Return _jobLimits(jobName)
             Else
-                Return Nothing
+                Return New Dictionary(Of String, jobLimitInfos)
             End If
         End Get
         Set(ByVal value As Dictionary(Of String, jobLimitInfos))
@@ -318,7 +318,7 @@ Public Class cSnapshot
             If _heaps.ContainsKey(processId) Then
                 Return _heaps(processId)
             Else
-                Return Nothing
+                Return New Dictionary(Of String, heapInfos)
             End If
         End Get
         Set(ByVal value As Dictionary(Of String, heapInfos))
@@ -336,7 +336,7 @@ Public Class cSnapshot
             If _handles.ContainsKey(processId) Then
                 Return _handles(processId)
             Else
-                Return Nothing
+                Return New Dictionary(Of String, handleInfos)
             End If
         End Get
         Set(ByVal value As Dictionary(Of String, handleInfos))
@@ -354,7 +354,7 @@ Public Class cSnapshot
             If _envV.ContainsKey(processId) Then
                 Return _envV(processId)
             Else
-                Return Nothing
+                Return New Dictionary(Of String, envVariableInfos)
             End If
         End Get
         Set(ByVal value As Dictionary(Of String, envVariableInfos))

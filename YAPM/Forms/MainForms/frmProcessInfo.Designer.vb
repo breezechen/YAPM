@@ -24,6 +24,7 @@ Partial Class frmProcessInfo
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim CConnection1 As cConnection = New cConnection
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessInfo))
         Dim CConnection2 As cConnection = New cConnection
         Dim CConnection3 As cConnection = New cConnection
         Dim CConnection4 As cConnection = New cConnection
@@ -36,7 +37,6 @@ Partial Class frmProcessInfo
         Dim CConnection9 As cConnection = New cConnection
         Dim CConnection10 As cConnection = New cConnection
         Dim CConnection11 As cConnection = New cConnection
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessInfo))
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
         Me.timerLog = New System.Windows.Forms.Timer(Me.components)
         Me.mainMenu = New System.Windows.Forms.MainMenu(Me.components)
@@ -122,7 +122,7 @@ Partial Class frmProcessInfo
         Me.MenuItemWShowUn = New System.Windows.Forms.MenuItem
         Me.MenuItemWHide = New System.Windows.Forms.MenuItem
         Me.MenuItem9 = New System.Windows.Forms.MenuItem
-        Me.MenuItem7 = New System.Windows.Forms.MenuItem
+        Me.MenuItemWVisiblity = New System.Windows.Forms.MenuItem
         Me.MenuItemWFront = New System.Windows.Forms.MenuItem
         Me.MenuItemWNotFront = New System.Windows.Forms.MenuItem
         Me.MenuItemWActive = New System.Windows.Forms.MenuItem
@@ -921,7 +921,7 @@ Partial Class frmProcessInfo
         '
         'mnuWindow
         '
-        Me.mnuWindow.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWShow, Me.MenuItemWShowUn, Me.MenuItemWHide, Me.MenuItemWClose, Me.MenuItem9, Me.MenuItem7, Me.MenuItem30, Me.MenuItemWEna, Me.MenuItemWDisa, Me.MenuItem33, Me.MenuItemCopyWindow, Me.MenuItemWColumns})
+        Me.mnuWindow.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWShow, Me.MenuItemWShowUn, Me.MenuItemWHide, Me.MenuItemWClose, Me.MenuItem9, Me.MenuItemWVisiblity, Me.MenuItem30, Me.MenuItemWEna, Me.MenuItemWDisa, Me.MenuItem33, Me.MenuItemCopyWindow, Me.MenuItemWColumns})
         '
         'MenuItemWShowUn
         '
@@ -938,11 +938,11 @@ Partial Class frmProcessInfo
         Me.MenuItem9.Index = 4
         Me.MenuItem9.Text = "-"
         '
-        'MenuItem7
+        'MenuItemWVisiblity
         '
-        Me.MenuItem7.Index = 5
-        Me.MenuItem7.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWFront, Me.MenuItemWNotFront, Me.MenuItemWActive, Me.MenuItemWForeground, Me.MenuItem26, Me.MenuItemWMin, Me.MenuItemWMax, Me.MenuItemWPosSize, Me.MenuItem4, Me.MenuItemWFlash, Me.MenuItemWStopFlash, Me.MenuItem21, Me.MenuItemWOpacity, Me.MenuItemWCaption})
-        Me.MenuItem7.Text = "Visibility"
+        Me.MenuItemWVisiblity.Index = 5
+        Me.MenuItemWVisiblity.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemWFront, Me.MenuItemWNotFront, Me.MenuItemWActive, Me.MenuItemWForeground, Me.MenuItem26, Me.MenuItemWMin, Me.MenuItemWMax, Me.MenuItemWPosSize, Me.MenuItem4, Me.MenuItemWFlash, Me.MenuItemWStopFlash, Me.MenuItem21, Me.MenuItemWOpacity, Me.MenuItemWCaption})
+        Me.MenuItemWVisiblity.Text = "Visibility"
         '
         'MenuItemWFront
         '
@@ -2500,6 +2500,8 @@ Partial Class frmProcessInfo
         Me.lvPrivileges.CatchErrors = False
         Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
         CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection1.Snapshot = CType(resources.GetObject("CConnection1.Snapshot"), cSnapshot)
+        CConnection1.SnapshotFile = Nothing
         Me.lvPrivileges.ConnectionObj = CConnection1
         Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvPrivileges.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2549,6 +2551,8 @@ Partial Class frmProcessInfo
         Me.lvProcMem.CatchErrors = False
         Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56, Me.ColumnHeader13})
         CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection2.Snapshot = CType(resources.GetObject("CConnection2.Snapshot"), cSnapshot)
+        CConnection2.SnapshotFile = Nothing
         Me.lvProcMem.ConnectionObj = CConnection2
         Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcMem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2677,6 +2681,8 @@ Partial Class frmProcessInfo
         Me.lvProcServices.CatchErrors = False
         Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader19})
         CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection3.Snapshot = CType(resources.GetObject("CConnection3.Snapshot"), cSnapshot)
+        CConnection3.SnapshotFile = Nothing
         Me.lvProcServices.ConnectionObj = CConnection3
         Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2742,6 +2748,8 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.CatchErrors = False
         Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
         CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection4.Snapshot = CType(resources.GetObject("CConnection4.Snapshot"), cSnapshot)
+        CConnection4.SnapshotFile = Nothing
         Me.lvProcNetwork.ConnectionObj = CConnection4
         Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2936,6 +2944,8 @@ Partial Class frmProcessInfo
         Me.lvProcEnv.CatchErrors = False
         Me.lvProcEnv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader60, Me.ColumnHeader61})
         CConnection5.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection5.Snapshot = CType(resources.GetObject("CConnection5.Snapshot"), cSnapshot)
+        CConnection5.SnapshotFile = Nothing
         Me.lvProcEnv.ConnectionObj = CConnection5
         Me.lvProcEnv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcEnv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2980,6 +2990,8 @@ Partial Class frmProcessInfo
         Me.lvModules.CatchErrors = False
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader1})
         CConnection6.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection6.Snapshot = CType(resources.GetObject("CConnection6.Snapshot"), cSnapshot)
+        CConnection6.SnapshotFile = Nothing
         Me.lvModules.ConnectionObj = CConnection6
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3048,6 +3060,8 @@ Partial Class frmProcessInfo
         Me.lvThreads.CatchErrors = False
         Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader12, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader11})
         CConnection7.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection7.Snapshot = CType(resources.GetObject("CConnection7.Snapshot"), cSnapshot)
+        CConnection7.SnapshotFile = Nothing
         Me.lvThreads.ConnectionObj = CConnection7
         Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3125,6 +3139,8 @@ Partial Class frmProcessInfo
         Me.lvWindows.CatchErrors = False
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
         CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection8.Snapshot = CType(resources.GetObject("CConnection8.Snapshot"), cSnapshot)
+        CConnection8.SnapshotFile = Nothing
         Me.lvWindows.ConnectionObj = CConnection8
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3182,6 +3198,8 @@ Partial Class frmProcessInfo
         Me.lvHandles.CatchErrors = False
         Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15})
         CConnection9.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection9.Snapshot = CType(resources.GetObject("CConnection9.Snapshot"), cSnapshot)
+        CConnection9.SnapshotFile = Nothing
         Me.lvHandles.ConnectionObj = CConnection9
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3309,6 +3327,8 @@ Partial Class frmProcessInfo
         Me.lvLog.CatchErrors = False
         Me.lvLog.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2, Me.ColumnHeader5, Me.ColumnHeader4})
         CConnection10.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection10.Snapshot = CType(resources.GetObject("CConnection10.Snapshot"), cSnapshot)
+        CConnection10.SnapshotFile = Nothing
         Me.lvLog.ConnectionObj = CConnection10
         Me.lvLog.DisplayItems = asyncCallbackLogEnumerate.LogItemType.AllItems
         Me.lvLog.Dock = System.Windows.Forms.DockStyle.Fill
@@ -3406,6 +3426,8 @@ Partial Class frmProcessInfo
         Me.lvHeaps.CatchErrors = False
         Me.lvHeaps.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader16, Me.ColumnHeader17, Me.ColumnHeader18, Me.ColumnHeader20, Me.ColumnHeader14})
         CConnection11.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection11.Snapshot = CType(resources.GetObject("CConnection11.Snapshot"), cSnapshot)
+        CConnection11.SnapshotFile = Nothing
         Me.lvHeaps.ConnectionObj = CConnection11
         Me.lvHeaps.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHeaps.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3920,7 +3942,7 @@ Partial Class frmProcessInfo
     Friend WithEvents MenuItemMemoryDecommit As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemMemoryChangeProtection As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem22 As System.Windows.Forms.MenuItem
-    Friend WithEvents MenuItem7 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemWVisiblity As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem4 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemWFlash As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItemWStopFlash As System.Windows.Forms.MenuItem
