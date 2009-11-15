@@ -263,17 +263,21 @@ Public Class Pref
     ' Save position & size of a form
     Public Shared Sub SaveFormPositionAndSize(ByVal form As Form, ByVal name As String)
         ' Example : X|Y|W|H
-        If My.Settings.RememberPosAndSize Then
-            Try
-                Dim res As String = String.Format("{0}|{1}|{2}|{3}", _
-                                                  form.Left.ToString, _
-                                                  form.Top.ToString, _
-                                                  form.Width.ToString, _
-                                                  form.Height.ToString)
-                My.Settings(name) = res
-            Catch ex As Exception
-                Misc.ShowDebugError(ex)
-            End Try
+        If form IsNot Nothing Then
+            If form.WindowState <> FormWindowState.Minimized Then
+                If My.Settings.RememberPosAndSize Then
+                    Try
+                        Dim res As String = String.Format("{0}|{1}|{2}|{3}", _
+                                                          form.Left.ToString, _
+                                                          form.Top.ToString, _
+                                                          form.Width.ToString, _
+                                                          form.Height.ToString)
+                        My.Settings(name) = res
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
+                End If
+            End If
         End If
     End Sub
 
