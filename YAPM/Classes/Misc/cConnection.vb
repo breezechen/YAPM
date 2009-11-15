@@ -63,7 +63,7 @@ Public Class cConnection
     End Structure
 
     Private WithEvents _sock As AsynchronousClient
-    Private _snap As New cSnapshot
+    Private _snap As cSnapshot
     Private _conType As TypeOfConnection
     Private _conSocket As SocketConnectionParameters
     Private _conWMI As WMIConnectionParameters
@@ -167,7 +167,7 @@ Public Class cConnection
 
 
     Public Sub New()
-        '
+        _snap = New cSnapshot
     End Sub
     Public Sub New(ByRef ccon As cConnection)
         _conSocket = ccon.SocketParameters
