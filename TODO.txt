@@ -7,7 +7,7 @@ Refactoring bugs
 
 - continuer heaps (remote -> régler pb du DebugBuffer, show blocks en bas de la form...)
 
-- snapshot -> serviceDep et processesInJob + blinder IHM + désactiver times + gestion historiques + gestion infos du type FileInfo, Path, UserName
+- snapshot -> serviceDep et processesInJob + blinder IHM + désactiver times + gestion historiques + gestion infos du type FileInfo, Path, UserName + recherche (pb de dico)
 
 BUGS CRITIQUES
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')

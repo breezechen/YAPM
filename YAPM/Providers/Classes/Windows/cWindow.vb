@@ -140,7 +140,12 @@ Public Class cWindow
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 ' Not supported
 
-            Case Else
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Nothing here !!
+                ' We retrieve ALL informations about a window when
+                ' we are reading the ssfile
+
+            Case cConnection.TypeOfConnection.LocalConnection
                 ' Local and sync
                 Me.Infos.SetNonFixedInfos(asyncCallbackWindowGetNonFixedInfos.ProcessAndReturnLocal(Me.Infos.Handle))
         End Select
