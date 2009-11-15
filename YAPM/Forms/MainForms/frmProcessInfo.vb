@@ -558,6 +558,9 @@ Public Class frmProcessInfo
         Me.cmdAffinity.Enabled = _notWMI And _notSnapshotMode
         Me.cmdPause.Enabled = _notWMI And _notSnapshotMode
         Me.cmdResume.Enabled = _notWMI And _notSnapshotMode
+        Me.cmdKill.Enabled = _notSnapshotMode
+        Me.cbPriority.Enabled = _notSnapshotMode
+        Me.cmdSet.Enabled = _notSnapshotMode
         Me.lvModules.CatchErrors = Not (_local)
         Me.timerProcPerf.Enabled = True
         Me.lvPrivileges.Enabled = _notWMI
