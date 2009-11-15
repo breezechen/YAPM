@@ -44,7 +44,7 @@ Public Class Pref
     ' ========================================
 
     ' Value of 'left property' to hide a form
-    Public Const LEFT_POSITION_HIDDEN As Integer = -20000
+    Public Const LEFT_POSITION_HIDDEN As Integer = -200
 
     ' Message displayed when YAPM starts for the first time
     Public Const MessageFirstStartOfYAPM As String = "This is the first time you run YAPM. Please remember that it is still a beta version so there are some bugs and some missing functionnalities :-)" & vbNewLine & vbNewLine & "You should run YAPM as an administrator in order to fully control your processes. Please take care using this YAPM because you will be able to do some irreversible things if you kill or modify some system processes... Use it at your own risks !" & vbNewLine & vbNewLine & "Please let me know any of your ideas of improvement or new functionnalities in YAPM's sourceforge.net project page ('Help' pannel) :-)" & vbNewLine & vbNewLine & "This message won't be shown anymore :-)"
