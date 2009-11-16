@@ -96,8 +96,7 @@ Namespace Native.Objects
         ' ========================================
 
         ' Enumerate heaps
-        Public Shared Function EnumerateHeapsByProcessIds(ByVal pid() As Integer, _
-                                                          ByRef buf As DebugBuffer) _
+        Public Shared Function EnumerateHeapsByProcessIds(ByVal pid() As Integer) _
                     As Dictionary(Of String, heapInfos)
 
             Dim _dico As New Dictionary(Of String, heapInfos)
@@ -108,7 +107,7 @@ Namespace Native.Objects
 
             For Each id As Integer In pid
                 Dim _md As New Dictionary(Of String, heapInfos)
-                _md = EnumerateHeapsByProcessId(id, buf)
+                _md = EnumerateHeapsByProcessId(id)
                 For Each pair As System.Collections.Generic.KeyValuePair(Of String, heapInfos) In _md
                     _dico.Add(pair.Key, pair.Value)
                 Next
@@ -117,16 +116,17 @@ Namespace Native.Objects
         End Function
 
         ' Enumerate modules
-        Public Shared Function EnumerateHeapsByProcessId(ByVal pid As Integer, _
-                                                        ByRef buf As DebugBuffer) As Dictionary(Of String, heapInfos)
+        Public Shared Function EnumerateHeapsByProcessId(ByVal pid As Integer) As Dictionary(Of String, heapInfos)
 
             Dim retDico As New Dictionary(Of String, heapInfos)
 
+            Dim buf2 As New DebugBuffer
+
             ' Query heaps info
-            buf.Query(pid, NativeEnums.RtlQueryProcessDebugInformationFlags.Heaps Or NativeEnums.RtlQueryProcessDebugInformationFlags.HeapBlocks)
+            buf2.Query(pid, NativeEnums.RtlQueryProcessDebugInformationFlags.Heaps Or NativeEnums.RtlQueryProcessDebugInformationFlags.HeapBlocks)
 
             ' Get debug information
-            Dim debugInfo As NativeStructs.DebugInformation = buf.GetDebugInformation
+            Dim debugInfo As NativeStructs.DebugInformation = buf2.GetDebugInformation
 
             If debugInfo.HeapInformation.IsNotNull Then
 
@@ -151,6 +151,8 @@ Namespace Native.Objects
                     End If
                 Next
             End If
+
+            buf2.Dispose()
 
             Return retDico
 

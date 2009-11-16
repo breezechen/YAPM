@@ -1876,11 +1876,6 @@ Public Class frmMain
         ElseIf e.KeyCode = Keys.Enter And Me.lvProcess.SelectedItems.Count > 0 Then
             Call Me.butProcessDisplayDetails_Click(Nothing, Nothing)
         End If
-
-        Dim buf As New Native.Objects.DebugBuffer
-        Dim _dico As Dictionary(Of String, heapInfos) = _
-            Native.Objects.Heap.EnumerateHeapsByProcessId(Process.GetCurrentProcess.Id, buf)
-        _dico = _dico
     End Sub
 
     Private Sub lvProcess_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDoubleClick

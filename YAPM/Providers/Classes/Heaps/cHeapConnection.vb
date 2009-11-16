@@ -33,7 +33,6 @@ Public Class cHeapConnection
     Friend Shared instanceId As Integer = 1
     Private _instanceId As Integer = 1
     Private _heapEnum As asyncCallbackHeapEnumerate
-    Private _dbgBuffer As New Native.Objects.DebugBuffer
 
     Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
         MyBase.New(ControlWhichGetInvoked, Conn)
@@ -42,11 +41,6 @@ Public Class cHeapConnection
         _heapEnum = New asyncCallbackHeapEnumerate(_control, de, Me, _instanceId)
     End Sub
 
-    Public ReadOnly Property DebugBuffer() As Native.Objects.DebugBuffer
-        Get
-            Return _dbgBuffer
-        End Get
-    End Property
 
 #Region "Events, delegate, invoke..."
 
