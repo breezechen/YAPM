@@ -31,6 +31,7 @@ Public Class frmJobInfo
     Private WithEvents theConnection As cConnection
     Private _local As Boolean = True
     Private _notWMI As Boolean
+    Private _notSnapshotMode As Boolean = True
 
 
     ' Refresh current tab
@@ -210,12 +211,14 @@ Public Class frmJobInfo
 
         curJob = job
 
-        _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
-        _notWMI = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _local = (cJob.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (cJob.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _notSnapshotMode = (cJob.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile)
 
         Me.Timer.Enabled = True
         Me.TimerLimits.Enabled = True
-        Me.cmdSetLimits.Enabled = _notWMI
+        Me.cmdSetLimits.Enabled = _notWMI AndAlso _notSnapshotMode
+        Me.cmdTerminateJob.Enabled = _notSnapshotMode
 
     End Sub
 
@@ -336,24 +339,24 @@ Public Class frmJobInfo
             Me.MenuItemProcPRT.Checked = (p = ProcessPriorityClass.RealTime)
 
             Dim selectionIsNotNothing As Boolean = (Me.lvProcess.SelectedItems IsNot Nothing AndAlso Me.lvProcess.SelectedItems.Count > 0)
-            Me.MenuItem35.Enabled = selectionIsNotNothing
-            Me.MenuItemProcKill.Enabled = selectionIsNotNothing
-            Me.MenuItemProcPriority.Enabled = selectionIsNotNothing
-            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcKillT.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcStop.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItem35.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
+            Me.MenuItemProcKill.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
+            Me.MenuItemProcPriority.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
+            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
+            Me.MenuItemProcKillT.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
+            Me.MenuItemProcStop.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
+            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
             Me.MenuItemProcSFileDetails.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcSFileProp.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcSOpenDir.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcSSearch.Enabled = selectionIsNotNothing
             Me.MenuItemProcSDep.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemCopyProcess.Enabled = selectionIsNotNothing
-            Me.MenuItemProcSFileDetails.Enabled = (selectionIsNotNothing AndAlso Me.lvProcess.SelectedItems.Count = 1)
+            Me.MenuItemProcSFileDetails.Enabled = (selectionIsNotNothing AndAlso Me.lvProcess.SelectedItems.Count = 1 AndAlso _local)
             Me.MenuItemProcDump.Enabled = selectionIsNotNothing AndAlso _local
-            Me.MenuItemProcAff.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcWSS.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcKillByMethod.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcAff.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
+            Me.MenuItemProcWSS.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
+            Me.MenuItemProcKillByMethod.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
 
             Me.mnuProcess.Show(Me.lvProcess, e.Location)
         End If

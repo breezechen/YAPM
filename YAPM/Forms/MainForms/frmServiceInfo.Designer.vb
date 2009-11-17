@@ -24,8 +24,8 @@ Partial Class frmServiceInfo
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim CConnection1 As cConnection = New cConnection
-        Dim CConnection2 As cConnection = New cConnection
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmServiceInfo))
+        Dim CConnection2 As cConnection = New cConnection
         Me.tabProcess = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
         Me.GroupBox7 = New System.Windows.Forms.GroupBox
@@ -101,10 +101,12 @@ Partial Class frmServiceInfo
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.Label9 = New System.Windows.Forms.Label
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
+        Me.tv2 = New serviceDependenciesList
         Me.cmdServDet1 = New System.Windows.Forms.Button
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.Label21 = New System.Windows.Forms.Label
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer
+        Me.tv = New serviceDependenciesList
         Me.cmdServDet2 = New System.Windows.Forms.Button
         Me.TabPage6 = New System.Windows.Forms.TabPage
         Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
@@ -120,8 +122,6 @@ Partial Class frmServiceInfo
         Me.MenuItem3 = New System.Windows.Forms.MenuItem
         Me.MenuItem4 = New System.Windows.Forms.MenuItem
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
-        Me.tv2 = New serviceDependenciesList
-        Me.tv = New serviceDependenciesList
         Me.tabProcess.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -991,6 +991,24 @@ Partial Class frmServiceInfo
         Me.SplitContainer2.SplitterDistance = 230
         Me.SplitContainer2.TabIndex = 0
         '
+        'tv2
+        '
+        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection1.Snapshot = CType(resources.GetObject("CConnection1.Snapshot"), cSnapshot)
+        CConnection1.SnapshotFile = Nothing
+        Me.tv2.ConnectionObj = CConnection1
+        Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tv2.ImageIndex = 0
+        Me.tv2.InfosToGet = cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
+        Me.tv2.IsConnected = False
+        Me.tv2.Location = New System.Drawing.Point(0, 0)
+        Me.tv2.Name = "tv2"
+        Me.tv2.RootService = Nothing
+        Me.tv2.SelectedImageIndex = 0
+        Me.tv2.Size = New System.Drawing.Size(320, 230)
+        Me.tv2.TabIndex = 16
+        '
         'cmdServDet1
         '
         Me.cmdServDet1.Location = New System.Drawing.Point(90, 2)
@@ -1049,6 +1067,24 @@ Partial Class frmServiceInfo
         Me.SplitContainer4.Size = New System.Drawing.Size(317, 260)
         Me.SplitContainer4.SplitterDistance = 230
         Me.SplitContainer4.TabIndex = 0
+        '
+        'tv
+        '
+        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection2.Snapshot = CType(resources.GetObject("CConnection2.Snapshot"), cSnapshot)
+        CConnection2.SnapshotFile = Nothing
+        Me.tv.ConnectionObj = CConnection2
+        Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tv.ImageIndex = 0
+        Me.tv.InfosToGet = cServDepConnection.DependenciesToget.DependenciesOfMe
+        Me.tv.IsConnected = False
+        Me.tv.Location = New System.Drawing.Point(0, 0)
+        Me.tv.Name = "tv"
+        Me.tv.RootService = Nothing
+        Me.tv.SelectedImageIndex = 0
+        Me.tv.Size = New System.Drawing.Size(317, 230)
+        Me.tv.TabIndex = 15
         '
         'cmdServDet2
         '
@@ -1174,34 +1210,6 @@ Partial Class frmServiceInfo
         'VistaMenu
         '
         Me.VistaMenu.ContainerControl = Me
-        '
-        'tv2
-        '
-        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.tv2.ConnectionObj = CConnection1
-        Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tv2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tv2.InfosToGet = cServDepConnection.DependenciesToget.ServiceWhichDependsFromMe
-        Me.tv2.IsConnected = False
-        Me.tv2.Location = New System.Drawing.Point(0, 0)
-        Me.tv2.Name = "tv2"
-        Me.tv2.RootService = Nothing
-        Me.tv2.Size = New System.Drawing.Size(320, 230)
-        Me.tv2.TabIndex = 16
-        '
-        'tv
-        '
-        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.tv.ConnectionObj = CConnection2
-        Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.tv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tv.InfosToGet = cServDepConnection.DependenciesToget.DependenciesOfMe
-        Me.tv.IsConnected = False
-        Me.tv.Location = New System.Drawing.Point(0, 0)
-        Me.tv.Name = "tv"
-        Me.tv.RootService = Nothing
-        Me.tv.Size = New System.Drawing.Size(317, 230)
-        Me.tv.TabIndex = 15
         '
         'frmServiceInfo
         '

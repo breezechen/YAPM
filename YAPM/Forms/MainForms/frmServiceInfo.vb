@@ -33,6 +33,7 @@ Public Class frmServiceInfo
     Private WithEvents theConnection As cConnection
     Private _local As Boolean = True
     Private _notWMI As Boolean
+    Private _notSnapshotMode As Boolean = True
 
 
     ' Refresh current tab
@@ -64,9 +65,9 @@ Public Class frmServiceInfo
                 Me.txtState.Text = curServ.Infos.State.ToString
                 Me.txtType.Text = curServ.Infos.ServiceType.ToString
                 Me.cmdGoProcess.Enabled = (Me.curServ.Infos.ProcessId > 0)
-                Me.cmdPause.Enabled = ((Me.curServ.Infos.AcceptedControl And Native.Api.NativeEnums.ServiceAccept.PauseContinue) = Native.Api.NativeEnums.ServiceAccept.PauseContinue)
-                Me.cmdStop.Enabled = ((Me.curServ.Infos.AcceptedControl And Native.Api.NativeEnums.ServiceAccept.Stop) = Native.Api.NativeEnums.ServiceAccept.Stop)
-                Me.cmdStart.Enabled = (Me.curServ.Infos.State = Native.Api.NativeEnums.ServiceState.Stopped)
+                Me.cmdPause.Enabled = _notSnapshotMode AndAlso ((Me.curServ.Infos.AcceptedControl And Native.Api.NativeEnums.ServiceAccept.PauseContinue) = Native.Api.NativeEnums.ServiceAccept.PauseContinue)
+                Me.cmdStop.Enabled = _notSnapshotMode AndAlso ((Me.curServ.Infos.AcceptedControl And Native.Api.NativeEnums.ServiceAccept.Stop) = Native.Api.NativeEnums.ServiceAccept.Stop)
+                Me.cmdStart.Enabled = _notSnapshotMode AndAlso (Me.curServ.Infos.State = Native.Api.NativeEnums.ServiceState.Stopped)
 
 
             Case "General - 2"
@@ -240,8 +241,9 @@ Public Class frmServiceInfo
 
         Me.Text = curServ.Infos.Name & " (" & curServ.Infos.DisplayName & ")"
 
-        _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
-        _notWMI = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _local = (cService.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (cService.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _notSnapshotMode = (cService.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile)
 
         Me.cmdShowFileDetails.Enabled = _local
         Me.cmdShowFileProperties.Enabled = _local
@@ -250,6 +252,13 @@ Public Class frmServiceInfo
 
         Me.txtServicePath.Text = GetPathFromCommand(curServ.GetInformation("ImagePath"))
         Me.cbStart.Text = curServ.Infos.StartType.ToString
+
+        Me.cmdDelete.Enabled = _notSnapshotMode AndAlso _notWMI
+        Me.cmdPause.Enabled = _notSnapshotMode
+        Me.cmdResume.Enabled = _notSnapshotMode
+        Me.cmdSetStartType.Enabled = _notSnapshotMode
+        Me.cbStart.Enabled = _notSnapshotMode
+        Me.cmdStop.Enabled = _notSnapshotMode
 
         Me.Timer.Enabled = True ' _local
 

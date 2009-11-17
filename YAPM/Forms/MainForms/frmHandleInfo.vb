@@ -31,6 +31,7 @@ Public Class frmHandleInfo
     Private WithEvents theConnection As cConnection
     Private _local As Boolean = True
     Private _notWMI As Boolean
+    Private _notSnapshotMode As Boolean = True
 
     ' Detailed informations' usercontrol
     Private _ctrlDetails As HXXXProp
@@ -92,8 +93,9 @@ Public Class frmHandleInfo
 
         Me.Text = "Handle " & curHandle.Infos.Handle.ToString
 
-        _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
-        _notWMI = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _local = (cHandle.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (cHandle.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _notSnapshotMode = (cHandle.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile)
 
         ' Add a custom usercontrol to our form depending of the handle type
         Select Case handle.Infos.Type
