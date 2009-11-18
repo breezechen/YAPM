@@ -61,7 +61,7 @@ Partial Class frmDownload
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(256, 13)
         Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Currently downloading last update available to :"
+        Me.Label1.Text = "Currently downloading last update available to :"
         '
         'txtPath
         '
