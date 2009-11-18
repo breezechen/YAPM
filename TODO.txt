@@ -7,7 +7,7 @@ Refactoring bugs
 
 - continuer heaps (remote -> régler pb du DebugBuffer, show blocks en bas de la form...)
 
-- snapshot -> serviceDep et processesInJob + blinder IHM + désactiver times + gestion historiques + gestion infos du type FileInfo, Path, UserName + recherche (pb de dico)
+- snapshot -> serviceDep et processesInJob + désactiver times + gestion historiques + gestion infos du type FileInfo, Path, UserName + recherche (pb de dico)
 
 BUGS CRITIQUES
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
@@ -141,3 +141,4 @@ Temp Change log :
 - Now save column's preferences when exiting using the standard 'close' button
 - Fixed #2894305 (zero division)
 - Fixed "hide when close" option
+- Fixed a bug when enumerating processes in a job

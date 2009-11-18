@@ -34,6 +34,7 @@ Public Class frmMain
     Private _ribbonStyle As Boolean = True
     Private _local As Boolean = True
     Private _notWMI As Boolean = True
+    Private _notSnapshotMode As Boolean = True
     Private _callExitWhenExitYAPM As Boolean = True
     Private handlesToRefresh() As Integer
     Private threadsToRefresh() As Integer
@@ -1659,37 +1660,51 @@ Public Class frmMain
             Dim selectionIsNotNothing As Boolean = (Me.lvServices.SelectedItems IsNot Nothing _
                     AndAlso Me.lvServices.SelectedItems.Count > 0)
 
-            If lvServices.SelectedItems.Count = 1 Then
-                Dim cSe As cService = Me.lvServices.GetSelectedItem
-                Dim start As Native.Api.NativeEnums.ServiceStartType = cSe.Infos.StartType
-                Dim state As Native.Api.NativeEnums.ServiceState = cSe.Infos.State
-                Dim acc As Native.Api.NativeEnums.ServiceAccept = cSe.Infos.AcceptedControl
+            If _notSnapshotMode Then
+                If lvServices.SelectedItems.Count = 1 Then
+                    Dim cSe As cService = Me.lvServices.GetSelectedItem
+                    Dim start As Native.Api.NativeEnums.ServiceStartType = cSe.Infos.StartType
+                    Dim state As Native.Api.NativeEnums.ServiceState = cSe.Infos.State
+                    Dim acc As Native.Api.NativeEnums.ServiceAccept = cSe.Infos.AcceptedControl
 
-                Me.MenuItemServPause.Text = IIf(state = Native.Api.NativeEnums.ServiceState.Running, "Pause", "Resume").ToString
-                MenuItemServPause.Enabled = (acc And Native.Api.NativeEnums.ServiceAccept.PauseContinue) = Native.Api.NativeEnums.ServiceAccept.PauseContinue
-                MenuItemServStart.Enabled = Not (state = Native.Api.NativeEnums.ServiceState.Running)
-                Me.MenuItemServStop.Enabled = (acc And Native.Api.NativeEnums.ServiceAccept.Stop) = Native.Api.NativeEnums.ServiceAccept.Stop
+                    Me.MenuItemServPause.Text = IIf(state = Native.Api.NativeEnums.ServiceState.Running, "Pause", "Resume").ToString
+                    MenuItemServPause.Enabled = (acc And Native.Api.NativeEnums.ServiceAccept.PauseContinue) = Native.Api.NativeEnums.ServiceAccept.PauseContinue
+                    MenuItemServStart.Enabled = Not (state = Native.Api.NativeEnums.ServiceState.Running)
+                    Me.MenuItemServStop.Enabled = (acc And Native.Api.NativeEnums.ServiceAccept.Stop) = Native.Api.NativeEnums.ServiceAccept.Stop
 
-                Me.MenuItemServDisabled.Checked = (start = Native.Api.NativeEnums.ServiceStartType.StartDisabled)
-                MenuItemServDisabled.Enabled = Not (MenuItemServDisabled.Checked)
-                MenuItemServAutoStart.Checked = (start = Native.Api.NativeEnums.ServiceStartType.AutoStart)
-                MenuItemServAutoStart.Enabled = Not (MenuItemServAutoStart.Checked)
-                MenuItemServOnDemand.Checked = (start = Native.Api.NativeEnums.ServiceStartType.DemandStart)
-                MenuItemServOnDemand.Enabled = Not (MenuItemServOnDemand.Checked)
-                MenuItem8.Enabled = True
-            ElseIf lvServices.SelectedItems.Count > 1 Then
-                MenuItemServPause.Text = "Pause"
-                MenuItemServPause.Enabled = True
-                MenuItemServStart.Enabled = True
-                MenuItemServStop.Enabled = True
-                MenuItemServDisabled.Checked = True
-                MenuItemServDisabled.Enabled = True
-                MenuItemServAutoStart.Checked = True
-                MenuItemServAutoStart.Enabled = True
-                MenuItemServOnDemand.Checked = True
-                MenuItemServOnDemand.Enabled = True
-                MenuItem8.Enabled = True
-            ElseIf lvServices.SelectedItems.Count = 0 Then
+                    Me.MenuItemServDisabled.Checked = (start = Native.Api.NativeEnums.ServiceStartType.StartDisabled)
+                    MenuItemServDisabled.Enabled = Not (MenuItemServDisabled.Checked)
+                    MenuItemServAutoStart.Checked = (start = Native.Api.NativeEnums.ServiceStartType.AutoStart)
+                    MenuItemServAutoStart.Enabled = Not (MenuItemServAutoStart.Checked)
+                    MenuItemServOnDemand.Checked = (start = Native.Api.NativeEnums.ServiceStartType.DemandStart)
+                    MenuItemServOnDemand.Enabled = Not (MenuItemServOnDemand.Checked)
+                    MenuItemServStartType.Enabled = True
+                ElseIf lvServices.SelectedItems.Count > 1 Then
+                    MenuItemServPause.Text = "Pause"
+                    MenuItemServPause.Enabled = True
+                    MenuItemServStart.Enabled = True
+                    MenuItemServStop.Enabled = True
+                    MenuItemServDisabled.Checked = True
+                    MenuItemServDisabled.Enabled = True
+                    MenuItemServAutoStart.Checked = True
+                    MenuItemServAutoStart.Enabled = True
+                    MenuItemServOnDemand.Checked = True
+                    MenuItemServOnDemand.Enabled = True
+                    MenuItemServStartType.Enabled = True
+                ElseIf lvServices.SelectedItems.Count = 0 Then
+                    MenuItemServPause.Text = "Pause"
+                    MenuItemServPause.Enabled = False
+                    MenuItemServStart.Enabled = False
+                    MenuItemServStop.Enabled = False
+                    MenuItemServDisabled.Checked = False
+                    MenuItemServDisabled.Enabled = False
+                    MenuItemServAutoStart.Checked = False
+                    MenuItemServAutoStart.Enabled = False
+                    MenuItemServOnDemand.Checked = False
+                    MenuItemServOnDemand.Enabled = False
+                    MenuItemServStartType.Enabled = False
+                End If
+            Else
                 MenuItemServPause.Text = "Pause"
                 MenuItemServPause.Enabled = False
                 MenuItemServStart.Enabled = False
@@ -1700,7 +1715,7 @@ Public Class frmMain
                 MenuItemServAutoStart.Enabled = False
                 MenuItemServOnDemand.Checked = False
                 MenuItemServOnDemand.Enabled = False
-                MenuItem8.Enabled = False
+                MenuItemServStartType.Enabled = False
             End If
 
             Me.MenuItemServFileDetails.Enabled = selectionIsNotNothing AndAlso _local AndAlso Me.lvServices.SelectedItems.Count = 1
@@ -1709,9 +1724,9 @@ Public Class frmMain
             Me.MenuItemServSearch.Enabled = selectionIsNotNothing
             Me.MenuItemServDepe.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemServSelService.Enabled = selectionIsNotNothing AndAlso _local
-            Me.MenuItemServReanalize.Enabled = selectionIsNotNothing
+            Me.MenuItemServReanalize.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
             Me.MenuItemCopyService.Enabled = selectionIsNotNothing
-            Me.MenuItemServDelete.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemServDelete.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
 
             Me.mnuService.Show(Me.lvServices, e.Location)
         End If
@@ -1912,14 +1927,14 @@ Public Class frmMain
             Me.MenuItemProcPRT.Checked = (p = ProcessPriorityClass.RealTime)
 
             Dim selectionIsNotNothing As Boolean = (Me.lvProcess.SelectedItems IsNot Nothing AndAlso Me.lvProcess.SelectedItems.Count > 0)
-            Me.MenuItem35.Enabled = selectionIsNotNothing
-            Me.MenuItemProcKill.Enabled = selectionIsNotNothing
-            Me.MenuItemProcPriority.Enabled = selectionIsNotNothing
-            Me.MenuItemProcReanalize.Enabled = selectionIsNotNothing
-            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcKillT.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcStop.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcOther.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
+            Me.MenuItemProcKill.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
+            Me.MenuItemProcPriority.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
+            Me.MenuItemProcReanalize.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
+            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
+            Me.MenuItemProcKillT.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
+            Me.MenuItemProcStop.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
+            Me.MenuItemProcResume.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
             Me.MenuItemProcSFileProp.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcSOpenDir.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemProcSSearch.Enabled = selectionIsNotNothing
@@ -1927,12 +1942,12 @@ Public Class frmMain
             Me.MenuItemCopyProcess.Enabled = selectionIsNotNothing
             Me.MenuItemProcSFileDetails.Enabled = (selectionIsNotNothing AndAlso _local AndAlso Me.lvProcess.SelectedItems.Count = 1)
             Me.MenuItemProcDump.Enabled = selectionIsNotNothing AndAlso _local
-            Me.MenuItemProcAff.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcWSS.Enabled = selectionIsNotNothing AndAlso _notWMI
-            Me.MenuItemProcKillByMethod.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcAff.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
+            Me.MenuItemProcWSS.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
+            Me.MenuItemProcKillByMethod.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
 
             ' Job menuitems
-            Me.MenuItemProcJob.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemProcJob.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
             If Me.lvProcess.SelectedItems.Count <> 1 Then
                 Me.MenuItemJobMng.Enabled = True
             Else
@@ -2487,6 +2502,7 @@ Public Class frmMain
 
         _local = (Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
         _notWMI = (Program.Connection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _notSnapshotMode = (Program.Connection.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile)
 
         ' Disable all refreshments
         Me.timerProcess.Enabled = False
@@ -2527,15 +2543,15 @@ Public Class frmMain
         Me.butServiceFileDetails.Enabled = _local
         Me.butServiceFileProp.Enabled = _local
         Me.butServiceOpenDir.Enabled = _local
-        Me.butDeleteService.Enabled = Me._notWMI
-        Me.butResumeProcess.Enabled = Me._notWMI
-        Me.butStopProcess.Enabled = Me._notWMI
-        Me.butProcessAffinity.Enabled = Me._notWMI
-        Me.butProcessAffinity.Enabled = Me._notWMI
-        Me.butStopProcess.Enabled = Me._notWMI
-        Me.butResumeProcess.Enabled = Me._notWMI
+        Me.butDeleteService.Enabled = Me._notWMI AndAlso _notSnapshotMode
+        Me.butResumeProcess.Enabled = Me._notWMI AndAlso _notSnapshotMode
+        Me.butStopProcess.Enabled = Me._notWMI AndAlso _notSnapshotMode
+        Me.butProcessAffinity.Enabled = Me._notWMI AndAlso _notSnapshotMode
+        Me.butProcessAffinity.Enabled = Me._notWMI AndAlso _notSnapshotMode
+        Me.butStopProcess.Enabled = Me._notWMI AndAlso _notSnapshotMode
+        Me.butResumeProcess.Enabled = Me._notWMI AndAlso _notSnapshotMode
         Me.pageJobs.Enabled = (_local And (cEnvironment.HasYAPMDebugPrivilege)) OrElse Not (_local)
-        Me.RBJobActions.Enabled = Me.pageJobs.Enabled
+        Me.RBJobActions.Enabled = Me.pageJobs.Enabled AndAlso _notSnapshotMode
         Me.RBJobDisplay.Enabled = Me.pageJobs.Enabled
         Me.RBJobPrivileges.Enabled = _local AndAlso Not (cEnvironment.HasYAPMDebugPrivilege)
         Me.pageNetwork.Enabled = _notWMI
@@ -2543,10 +2559,15 @@ Public Class frmMain
         Me.pageSearch.Enabled = _notWMI
         Me.RBNetworkRefresh.Enabled = _notWMI
         Me.RBSearchMain.Enabled = _notWMI
-        Me.RBTaskActions.Enabled = _notWMI
+        Me.RBTaskActions.Enabled = _notWMI AndAlso _notSnapshotMode
         Me.RBTaskDisplay.Enabled = _notWMI
         Me.RBServiceFile.Enabled = _notWMI
-        Me.butProcessOtherActions.Enabled = _notWMI
+        Me.butProcessOtherActions.Enabled = _notWMI AndAlso _notSnapshotMode
+        Me.RBProcessActions.Enabled = _notSnapshotMode
+        Me.RBProcessPriority.Enabled = _notSnapshotMode
+        Me.RBServiceAction.Enabled = _notSnapshotMode
+        Me.RBServiceStartType.Enabled = _notSnapshotMode
+        Me.RBServiceFile.Enabled = _notSnapshotMode
 
         Me.lvProcess.CatchErrors = Not (_local)
         Me.lvServices.CatchErrors = Not (_local)
@@ -2733,14 +2754,13 @@ Public Class frmMain
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Dim selectionIsNotNothing As Boolean = (Me.lvTask.SelectedItems IsNot Nothing _
                                                     AndAlso Me.lvTask.SelectedItems.Count > 0)
-            Me.MenuItemTaskEnd.Enabled = selectionIsNotNothing
+            Me.MenuItemTaskEnd.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
             Me.MenuItemTaskSelProc.Enabled = selectionIsNotNothing AndAlso Me.lvProcess.Items.Count > 0
-            Me.MenuItemTaskShow.Enabled = selectionIsNotNothing
-            Me.MenuItemTaskMax.Enabled = selectionIsNotNothing
-            Me.MenuItemTaskMin.Enabled = selectionIsNotNothing
+            Me.MenuItemTaskShow.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
+            Me.MenuItemTaskMax.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
+            Me.MenuItemTaskMin.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
             Me.MenuItemTaskSelectWindow.Enabled = selectionIsNotNothing
 
-            Me.MenuItemTaskMin.Enabled = selectionIsNotNothing
             Me.MenuItemCopyTask.Enabled = selectionIsNotNothing
             Me.mnuTask.Show(Me.lvTask, e.Location)
         End If
@@ -3107,7 +3127,7 @@ Public Class frmMain
                     End If
                 End If
             Next
-            Me.MenuItemNetworkClose.Enabled = enable
+            Me.MenuItemNetworkClose.Enabled = enable AndAlso _notSnapshotMode AndAlso _notWMI
             Me.MenuItemServSelProc.Enabled = selectionIsNotNothing
             Me.MenuItemCopyNetwork.Enabled = selectionIsNotNothing
 
@@ -3828,7 +3848,7 @@ Public Class frmMain
         If e.Button = Windows.Forms.MouseButtons.Right Then
             Dim selectionIsNotNothing As Boolean = (Me.lvJob.SelectedItems IsNot Nothing _
                                         AndAlso Me.lvJob.SelectedItems.Count > 0)
-            Me.MenuItemJobTerminate.Enabled = selectionIsNotNothing AndAlso _notWMI
+            Me.MenuItemJobTerminate.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode
             Me.MenuItemCopyJob.Enabled = selectionIsNotNothing
             Me.mnuJob.Show(Me.lvJob, e.Location)
         End If

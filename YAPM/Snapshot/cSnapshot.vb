@@ -135,7 +135,6 @@ Public Class cSnapshot
         End Get
         Set(ByVal value As Dictionary(Of String, processInfos))
             _processes = value
-            Beep()
         End Set
     End Property
 
