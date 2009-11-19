@@ -532,7 +532,7 @@ Public Class cSnapshot
         Try
             ' Processes
             ' We HAVE to get the list cause some other informations depend on it
-            Me.Processes = asyncCallbackProcEnumerate.SharedLocalSyncEnumerate(New asyncCallbackProcEnumerate.poolObj(0, asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses))
+            Me.Processes = asyncCallbackProcEnumerate.SharedLocalSyncEnumerate(True, New asyncCallbackProcEnumerate.poolObj(0, asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses))
 
             ' Services
             If (options And Native.Api.Enums.SnapshotObject.[Services]) = Native.Api.Enums.SnapshotObject.[Services] Then

@@ -617,7 +617,7 @@ Namespace Native.Objects
         ''' Enumerate processes
         ''' MUST BE protected by _semNewProcesses
         ''' </summary>
-        Public Shared Function EnumerateVisibleProcesses() As Dictionary(Of String, processInfos)
+        Public Shared Function EnumerateVisibleProcesses(Optional ByVal forceAllInfos As Boolean = False) As Dictionary(Of String, processInfos)
 
             ' Refresh list of drives
             Common.Misc.RefreshLogicalDrives()
@@ -643,7 +643,7 @@ Namespace Native.Objects
 
 
                 ' Do we have to get fixed infos ?
-                If dicoNewProcesses.ContainsKey(obj.ProcessId) = False Then
+                If forceAllInfos OrElse dicoNewProcesses.ContainsKey(obj.ProcessId) = False Then
 
                     Dim _path As String = GetProcessPathById(obj.ProcessId)
                     Dim _domain As String = Nothing
@@ -673,7 +673,11 @@ Namespace Native.Objects
                         .HasReanalize = True
                     End With
 
-                    dicoNewProcesses.Add(obj.ProcessId, False)
+                    ' Have to check if key already exists if we force retrieving
+                    ' of all informations, else it has already be done before
+                    If forceAllInfos = False OrElse dicoNewProcesses.ContainsKey(obj.ProcessId) = False Then
+                        dicoNewProcesses.Add(obj.ProcessId, False)
+                    End If
 
                     Trace.WriteLine("Got fixed infos for id = " & obj.ProcessId.ToString)
                 End If

@@ -201,7 +201,7 @@ Public Class asyncCallbackProcEnumerate
                     Case ProcessEnumMethode.HandleMethod
                         _dico = Native.Objects.Process.EnumerateHiddenProcessesHandleMethod
                     Case Else
-                        _dico = Native.Objects.Process.EnumerateVisibleProcesses
+                        _dico = Native.Objects.Process.EnumerateVisibleProcesses(False)
                 End Select
 
                 Try
@@ -218,7 +218,7 @@ Public Class asyncCallbackProcEnumerate
     End Sub
 
     ' Shared, local and sync enumeration
-    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, processInfos)
+    Public Shared Function SharedLocalSyncEnumerate(ByVal forceAllInfos As Boolean, ByVal pObj As poolObj) As Dictionary(Of String, processInfos)
         Dim _dico As Dictionary(Of String, processInfos)
 
         Select Case pObj.method
@@ -227,7 +227,7 @@ Public Class asyncCallbackProcEnumerate
             Case ProcessEnumMethode.HandleMethod
                 _dico = Native.Objects.Process.EnumerateHiddenProcessesHandleMethod
             Case Else
-                _dico = Native.Objects.Process.EnumerateVisibleProcesses
+                _dico = Native.Objects.Process.EnumerateVisibleProcesses(forceAllInfos)
         End Select
 
         Return _dico
