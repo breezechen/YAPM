@@ -172,7 +172,11 @@ Public Class frmProcessInfo
                 Me.txtCommandLine.Text = curProc.Infos.CommandLine
                 Dim sp As TimeSpan = New TimeSpan(curProc.Infos.StartTime)
                 Dim d As Date = Date.Now.Subtract(sp)
-                Me.txtRunTime.Text = d.ToLongTimeString
+                If _notSnapshotMode Then
+                    Me.txtRunTime.Text = d.ToLongTimeString
+                Else
+                    Me.txtRunTime.Text = NO_INFO_RETRIEVED
+                End If
                 Me.txtPriority.Text = curProc.Infos.Priority.ToString
                 If curProc.Infos.FileInfo IsNot Nothing Then
                     Me.txtImageVersion.Text = curProc.Infos.FileInfo.FileVersion
@@ -562,7 +566,7 @@ Public Class frmProcessInfo
         Me.cbPriority.Enabled = _notSnapshotMode
         Me.cmdSet.Enabled = _notSnapshotMode
         Me.lvModules.CatchErrors = Not (_local)
-        Me.timerProcPerf.Enabled = True
+        Me.timerProcPerf.Enabled = _notSnapshotMode
         Me.lvPrivileges.Enabled = _notWMI
         Me.lvHandles.Enabled = _notWMI
         Me.lvLog.Enabled = _notWMI And _notSnapshotMode
@@ -578,7 +582,12 @@ Public Class frmProcessInfo
         Me.cmdInspectExe.Enabled = _local
         Me.cmdShowFileProperties.Enabled = _local
         Me.cmdOpenDirectory.Enabled = _local
-
+        Me.txtRunTime.Enabled = _notSnapshotMode
+        Me.containerHistory.Enabled = _notSnapshotMode
+        Me.lstHistoryCat.Enabled = _notSnapshotMode
+        Me.graphCPU.Enabled = _notSnapshotMode
+        Me.graphIO.Enabled = _notSnapshotMode
+        Me.graphMemory.Enabled = _notSnapshotMode
         Me.TabPageString.Enabled = _local
 
         Me.timerLog.Enabled = Me.timerLog.Enabled And _notWMI And _notSnapshotMode

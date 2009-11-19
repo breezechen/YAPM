@@ -132,6 +132,7 @@ Temp Change log :
 - Now performance graphs are up-to-date when opening process' detailed window
 - Now can select the thread associated to a window using "find window's process" feature
 - Now YAPM remember positions and sizes of the main windows
+- Now information about an image file (eg version, companyName, copyright...) is retrieved when monitoring a remote machine using the "server method"
 - No more need to display job list before being able to set job limit (using Control process job)
 
 * Bug fixed

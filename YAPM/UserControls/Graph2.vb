@@ -35,8 +35,8 @@ Public Class Graph2
     Private _colorGrid As System.Drawing.Pen = Pens.DarkGreen
     Private _color As System.Drawing.Pen = Pens.Yellow
     Private _color2 As System.Drawing.Pen = Pens.Yellow
-    Private _textColor As System.Drawing.Pen = Pens.Lime
     Private _color3 As System.Drawing.Pen = Pens.Red
+    Private _textColor As System.Drawing.Pen = Pens.Lime
     Private _enableGraph As Boolean
     Private _mouseY As Integer
     Private _mouseX As Integer
@@ -55,11 +55,41 @@ Public Class Graph2
     Private components As System.ComponentModel.IContainer
     Private _yMaxValue As Double = 0
 
+    Private _colorGridEn As System.Drawing.Pen = Pens.DarkGreen
+    Private _colorEn As System.Drawing.Pen = Pens.Yellow
+    Private _color2En As System.Drawing.Pen = Pens.Yellow
+    Private _color3En As System.Drawing.Pen = Pens.Red
 
     ' ========================================
     ' Properties
     ' ========================================
 #Region "Properties"
+    Public Overloads Property Enabled() As Boolean
+        Get
+            Return MyBase.Enabled
+        End Get
+        Set(ByVal value As Boolean)
+            MyBase.Enabled = value
+            If value = False Then
+                _colorGridEn = _colorGrid
+                _colorEn = _color
+                _color2En = _color2
+                _color3En = _color3
+                _color = Pens.Gray
+                _color2 = Pens.Gray
+                _color3 = Pens.Gray
+                _colorGrid = Pens.DarkGray
+                _textColor = Pens.DarkGray
+                Me.BackColor = Drawing.Color.Gray
+            Else
+                _colorGrid = _colorGridEn
+                _color = _colorEn
+                _color2 = _color2En
+                _color3 = _color3En
+                Me.BackColor = Drawing.Color.Black
+            End If
+        End Set
+    End Property
     <System.ComponentModel.Category("Configuration"), System.ComponentModel.Description("value"), _
     System.ComponentModel.Browsable(True), System.ComponentModel.DefaultValue(20)> _
     Public Property GridStep() As Integer
@@ -249,12 +279,14 @@ Public Class Graph2
     ' Draw legend
     Private Sub DrawLegend(ByVal g As Graphics)
         ' Background rectangle
-        Dim sz As SizeF = g.MeasureString(_text, Me.Font)
-        Dim textW As Single = sz.Width + 4
-        Dim textH As Single = sz.Height + 4
-        g.FillRectangle(New SolidBrush(Drawing.Color.Black), New Rectangle(0, 0, CInt(textW), CInt(textH)))
-        ' Draw the text
-        TextRenderer.DrawText(g, _text, Me.Font, New Point(2, 2), _textColor.Color)
+        If Me.Enabled Then
+            Dim sz As SizeF = g.MeasureString(_text, Me.Font)
+            Dim textW As Single = sz.Width + 4
+            Dim textH As Single = sz.Height + 4
+            g.FillRectangle(New SolidBrush(Drawing.Color.Black), New Rectangle(0, 0, CInt(textW), CInt(textH)))
+            ' Draw the text
+            TextRenderer.DrawText(g, _text, Me.Font, New Point(2, 2), _textColor.Color)
+        End If
     End Sub
 
     ' Draw values (second curve)

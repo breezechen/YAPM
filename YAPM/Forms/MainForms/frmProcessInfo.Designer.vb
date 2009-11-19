@@ -24,7 +24,6 @@ Partial Class frmProcessInfo
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
         Dim CConnection1 As cConnection = New cConnection
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessInfo))
         Dim CConnection2 As cConnection = New cConnection
         Dim CConnection3 As cConnection = New cConnection
         Dim CConnection4 As cConnection = New cConnection
@@ -37,6 +36,7 @@ Partial Class frmProcessInfo
         Dim CConnection9 As cConnection = New cConnection
         Dim CConnection10 As cConnection = New cConnection
         Dim CConnection11 As cConnection = New cConnection
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProcessInfo))
         Me.timerProcPerf = New System.Windows.Forms.Timer(Me.components)
         Me.timerLog = New System.Windows.Forms.Timer(Me.components)
         Me.mainMenu = New System.Windows.Forms.MainMenu(Me.components)
@@ -281,48 +281,20 @@ Partial Class frmProcessInfo
         Me.Label18 = New System.Windows.Forms.Label
         Me.TabPagePerf = New System.Windows.Forms.TabPage
         Me.splitPerformances = New System.Windows.Forms.SplitContainer
-        Me.graphCPU = New Graph2
         Me.splitPerformance2 = New System.Windows.Forms.SplitContainer
-        Me.graphMemory = New Graph2
-        Me.graphIO = New Graph2
         Me.TabPageToken = New System.Windows.Forms.TabPage
         Me.tabProcessToken = New System.Windows.Forms.TabControl
         Me.tabProcessTokenPagePrivileges = New System.Windows.Forms.TabPage
-        Me.lvPrivileges = New privilegeList
-        Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader51 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
         Me.TabPageMemory = New System.Windows.Forms.TabPage
-        Me.lvProcMem = New memoryList
-        Me.ColumnHeader53 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader54 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader55 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader56 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
         Me.TabPageInfos = New System.Windows.Forms.TabPage
         Me.SplitContainerInfoProcess = New System.Windows.Forms.SplitContainer
         Me.cmdRefresh = New System.Windows.Forms.Button
         Me.cmdInfosToClipB = New System.Windows.Forms.Button
         Me.rtb = New System.Windows.Forms.RichTextBox
         Me.TabPageServices = New System.Windows.Forms.TabPage
-        Me.lvProcServices = New serviceList
-        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
         Me.TabPageNetwork = New System.Windows.Forms.TabPage
-        Me.lvProcNetwork = New networkList
-        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
         Me.TabPageString = New System.Windows.Forms.TabPage
         Me.SplitContainerStrings = New System.Windows.Forms.SplitContainer
-        Me.lvProcString = New DoubleBufferedLV
-        Me.ColumnHeader76 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader77 = New System.Windows.Forms.ColumnHeader
         Me.cmdProcSearchR = New System.Windows.Forms.Button
         Me.cmdProcSearchL = New System.Windows.Forms.Button
         Me.pgbString = New System.Windows.Forms.ProgressBar
@@ -332,10 +304,60 @@ Partial Class frmProcessInfo
         Me.optProcStringMemory = New System.Windows.Forms.RadioButton
         Me.optProcStringImage = New System.Windows.Forms.RadioButton
         Me.TabPageEnv = New System.Windows.Forms.TabPage
+        Me.TabPageModules = New System.Windows.Forms.TabPage
+        Me.TabPageThreads = New System.Windows.Forms.TabPage
+        Me.TabPageWindows = New System.Windows.Forms.TabPage
+        Me.TabPageHandles = New System.Windows.Forms.TabPage
+        Me.TabPageLog = New System.Windows.Forms.TabPage
+        Me.SplitContainerLog = New System.Windows.Forms.SplitContainer
+        Me.cmdLogOptions = New System.Windows.Forms.Button
+        Me.cmdSave = New System.Windows.Forms.Button
+        Me.cmdClearLog = New System.Windows.Forms.Button
+        Me.chkLog = New System.Windows.Forms.CheckBox
+        Me.TabPageHistory = New System.Windows.Forms.TabPage
+        Me.containerHistory = New System.Windows.Forms.SplitContainer
+        Me.Label2 = New System.Windows.Forms.Label
+        Me.lstHistoryCat = New System.Windows.Forms.CheckedListBox
+        Me.TabPageHeaps = New System.Windows.Forms.TabPage
+        Me.cmdHideFindPanel = New System.Windows.Forms.Button
+        Me.chkFreeze = New System.Windows.Forms.CheckBox
+        Me.lblSearchItemCaption = New System.Windows.Forms.Label
+        Me.lblResCount = New System.Windows.Forms.Label
+        Me.txtSearch = New System.Windows.Forms.TextBox
+        Me.mnuHeaps = New System.Windows.Forms.ContextMenu
+        Me.MenuItem11 = New System.Windows.Forms.MenuItem
+        Me.MenuItemColumnsHeap = New System.Windows.Forms.MenuItem
+        Me.graphCPU = New Graph2
+        Me.graphMemory = New Graph2
+        Me.graphIO = New Graph2
+        Me.lvPrivileges = New privilegeList
+        Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader51 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
+        Me.lvProcMem = New memoryList
+        Me.ColumnHeader53 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader54 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader55 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader56 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader13 = New System.Windows.Forms.ColumnHeader
+        Me.lvProcServices = New serviceList
+        Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader9 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
+        Me.lvProcNetwork = New networkList
+        Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader59 = New System.Windows.Forms.ColumnHeader
+        Me.lvProcString = New DoubleBufferedLV
+        Me.ColumnHeader76 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader77 = New System.Windows.Forms.ColumnHeader
         Me.lvProcEnv = New envVariableList
         Me.ColumnHeader60 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader61 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageModules = New System.Windows.Forms.TabPage
         Me.lvModules = New moduleList
         Me.ColumnHeader29 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader43 = New System.Windows.Forms.ColumnHeader
@@ -343,7 +365,6 @@ Partial Class frmProcessInfo
         Me.ColumnHeader45 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader46 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageThreads = New System.Windows.Forms.TabPage
         Me.lvThreads = New threadList
         Me.ColumnHeader32 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader12 = New System.Windows.Forms.ColumnHeader
@@ -354,14 +375,12 @@ Partial Class frmProcessInfo
         Me.ColumnHeader38 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader6 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader11 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageWindows = New System.Windows.Forms.TabPage
         Me.lvWindows = New windowList
         Me.ColumnHeader30 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader39 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader40 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader41 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader42 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageHandles = New System.Windows.Forms.TabPage
         Me.lvHandles = New handleList
         Me.ColumnHeader24 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader25 = New System.Windows.Forms.ColumnHeader
@@ -369,35 +388,16 @@ Partial Class frmProcessInfo
         Me.ColumnHeader27 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader28 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader15 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageLog = New System.Windows.Forms.TabPage
-        Me.SplitContainerLog = New System.Windows.Forms.SplitContainer
-        Me.cmdLogOptions = New System.Windows.Forms.Button
-        Me.cmdSave = New System.Windows.Forms.Button
-        Me.cmdClearLog = New System.Windows.Forms.Button
-        Me.chkLog = New System.Windows.Forms.CheckBox
         Me.lvLog = New logList
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader4 = New System.Windows.Forms.ColumnHeader
-        Me.TabPageHistory = New System.Windows.Forms.TabPage
-        Me.containerHistory = New System.Windows.Forms.SplitContainer
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.lstHistoryCat = New System.Windows.Forms.CheckedListBox
-        Me.TabPageHeaps = New System.Windows.Forms.TabPage
         Me.lvHeaps = New heapList
         Me.ColumnHeader16 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader17 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader18 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader14 = New System.Windows.Forms.ColumnHeader
-        Me.cmdHideFindPanel = New System.Windows.Forms.Button
-        Me.chkFreeze = New System.Windows.Forms.CheckBox
-        Me.lblSearchItemCaption = New System.Windows.Forms.Label
-        Me.lblResCount = New System.Windows.Forms.Label
-        Me.txtSearch = New System.Windows.Forms.TextBox
-        Me.mnuHeaps = New System.Windows.Forms.ContextMenu
-        Me.MenuItem11 = New System.Windows.Forms.MenuItem
-        Me.MenuItemColumnsHeap = New System.Windows.Forms.MenuItem
         CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -422,12 +422,9 @@ Partial Class frmProcessInfo
         Me.splitPerformances.Panel1.SuspendLayout()
         Me.splitPerformances.Panel2.SuspendLayout()
         Me.splitPerformances.SuspendLayout()
-        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.splitPerformance2.Panel1.SuspendLayout()
         Me.splitPerformance2.Panel2.SuspendLayout()
         Me.splitPerformance2.SuspendLayout()
-        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPageToken.SuspendLayout()
         Me.tabProcessToken.SuspendLayout()
         Me.tabProcessTokenPagePrivileges.SuspendLayout()
@@ -455,6 +452,9 @@ Partial Class frmProcessInfo
         Me.containerHistory.Panel1.SuspendLayout()
         Me.containerHistory.SuspendLayout()
         Me.TabPageHeaps.SuspendLayout()
+        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'timerProcPerf
@@ -2388,23 +2388,6 @@ Partial Class frmProcessInfo
         Me.splitPerformances.SplitterWidth = 1
         Me.splitPerformances.TabIndex = 3
         '
-        'graphCPU
-        '
-        Me.graphCPU.BackColor = System.Drawing.Color.Black
-        Me.graphCPU.Color2 = System.Drawing.Color.Olive
-        Me.graphCPU.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphCPU.EnableGraph = True
-        Me.graphCPU.Fixedheight = True
-        Me.graphCPU.GridStep = 13
-        Me.graphCPU.Location = New System.Drawing.Point(0, 0)
-        Me.graphCPU.Name = "graphCPU"
-        Me.graphCPU.ShowSecondGraph = True
-        Me.graphCPU.Size = New System.Drawing.Size(641, 82)
-        Me.graphCPU.TabIndex = 1
-        Me.graphCPU.TabStop = False
-        Me.graphCPU.TextColor = System.Drawing.Color.Lime
-        Me.graphCPU.TopText = Nothing
-        '
         'splitPerformance2
         '
         Me.splitPerformance2.Dock = System.Windows.Forms.DockStyle.Fill
@@ -2425,43 +2408,6 @@ Partial Class frmProcessInfo
         Me.splitPerformance2.SplitterWidth = 1
         Me.splitPerformance2.TabIndex = 0
         '
-        'graphMemory
-        '
-        Me.graphMemory.BackColor = System.Drawing.Color.Black
-        Me.graphMemory.Color = System.Drawing.Color.Red
-        Me.graphMemory.Color2 = System.Drawing.Color.Maroon
-        Me.graphMemory.Color3 = System.Drawing.Color.LightCoral
-        Me.graphMemory.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphMemory.EnableGraph = True
-        Me.graphMemory.Fixedheight = False
-        Me.graphMemory.GridStep = 13
-        Me.graphMemory.Location = New System.Drawing.Point(0, 0)
-        Me.graphMemory.Name = "graphMemory"
-        Me.graphMemory.ShowSecondGraph = True
-        Me.graphMemory.Size = New System.Drawing.Size(641, 88)
-        Me.graphMemory.TabIndex = 2
-        Me.graphMemory.TabStop = False
-        Me.graphMemory.TextColor = System.Drawing.Color.Lime
-        Me.graphMemory.TopText = Nothing
-        '
-        'graphIO
-        '
-        Me.graphIO.BackColor = System.Drawing.Color.Black
-        Me.graphIO.Color = System.Drawing.Color.LimeGreen
-        Me.graphIO.Color2 = System.Drawing.Color.Green
-        Me.graphIO.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.graphIO.EnableGraph = True
-        Me.graphIO.Fixedheight = False
-        Me.graphIO.GridStep = 13
-        Me.graphIO.Location = New System.Drawing.Point(0, 0)
-        Me.graphIO.Name = "graphIO"
-        Me.graphIO.ShowSecondGraph = False
-        Me.graphIO.Size = New System.Drawing.Size(641, 104)
-        Me.graphIO.TabIndex = 3
-        Me.graphIO.TabStop = False
-        Me.graphIO.TextColor = System.Drawing.Color.Lime
-        Me.graphIO.TopText = Nothing
-        '
         'TabPageToken
         '
         Me.TabPageToken.Controls.Add(Me.tabProcessToken)
@@ -2480,7 +2426,7 @@ Partial Class frmProcessInfo
         Me.tabProcessToken.Location = New System.Drawing.Point(3, 3)
         Me.tabProcessToken.Name = "tabProcessToken"
         Me.tabProcessToken.SelectedIndex = 0
-        Me.tabProcessToken.Size = New System.Drawing.Size(641, 276)
+        Me.tabProcessToken.Size = New System.Drawing.Size(641, 294)
         Me.tabProcessToken.TabIndex = 0
         '
         'tabProcessTokenPagePrivileges
@@ -2489,50 +2435,10 @@ Partial Class frmProcessInfo
         Me.tabProcessTokenPagePrivileges.Location = New System.Drawing.Point(4, 22)
         Me.tabProcessTokenPagePrivileges.Name = "tabProcessTokenPagePrivileges"
         Me.tabProcessTokenPagePrivileges.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(633, 250)
+        Me.tabProcessTokenPagePrivileges.Size = New System.Drawing.Size(633, 268)
         Me.tabProcessTokenPagePrivileges.TabIndex = 0
         Me.tabProcessTokenPagePrivileges.Text = "Privileges"
         Me.tabProcessTokenPagePrivileges.UseVisualStyleBackColor = True
-        '
-        'lvPrivileges
-        '
-        Me.lvPrivileges.AllowColumnReorder = True
-        Me.lvPrivileges.CatchErrors = False
-        Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
-        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        CConnection1.Snapshot = CType(resources.GetObject("CConnection1.Snapshot"), cSnapshot)
-        CConnection1.SnapshotFile = Nothing
-        Me.lvPrivileges.ConnectionObj = CConnection1
-        Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvPrivileges.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvPrivileges.FullRowSelect = True
-        Me.lvPrivileges.HideSelection = False
-        Me.lvPrivileges.IsConnected = False
-        Me.lvPrivileges.Location = New System.Drawing.Point(3, 3)
-        Me.lvPrivileges.Name = "lvPrivileges"
-        Me.lvPrivileges.OverriddenDoubleBuffered = True
-        Me.lvPrivileges.ProcessId = 0
-        Me.lvPrivileges.ReorganizeColumns = True
-        Me.lvPrivileges.ShowObjectDetailsOnDoubleClick = True
-        Me.lvPrivileges.Size = New System.Drawing.Size(627, 244)
-        Me.lvPrivileges.TabIndex = 13
-        Me.lvPrivileges.UseCompatibleStateImageBehavior = False
-        Me.lvPrivileges.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader50
-        '
-        Me.ColumnHeader50.Text = "Name"
-        Me.ColumnHeader50.Width = 159
-        '
-        'ColumnHeader51
-        '
-        Me.ColumnHeader51.Text = "Status"
-        Me.ColumnHeader51.Width = 100
-        '
-        'ColumnHeader52
-        '
-        Me.ColumnHeader52.Text = "Description"
-        Me.ColumnHeader52.Width = 319
         '
         'TabPageMemory
         '
@@ -2544,56 +2450,6 @@ Partial Class frmProcessInfo
         Me.TabPageMemory.TabIndex = 4
         Me.TabPageMemory.Text = "Memory"
         Me.TabPageMemory.UseVisualStyleBackColor = True
-        '
-        'lvProcMem
-        '
-        Me.lvProcMem.AllowColumnReorder = True
-        Me.lvProcMem.CatchErrors = False
-        Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56, Me.ColumnHeader13})
-        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        CConnection2.Snapshot = CType(resources.GetObject("CConnection2.Snapshot"), cSnapshot)
-        CConnection2.SnapshotFile = Nothing
-        Me.lvProcMem.ConnectionObj = CConnection2
-        Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcMem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvProcMem.FullRowSelect = True
-        Me.lvProcMem.HideSelection = False
-        Me.lvProcMem.IsConnected = False
-        Me.lvProcMem.Location = New System.Drawing.Point(3, 3)
-        Me.lvProcMem.Name = "lvProcMem"
-        Me.lvProcMem.OverriddenDoubleBuffered = True
-        Me.lvProcMem.ProcessId = 0
-        Me.lvProcMem.ReorganizeColumns = True
-        Me.lvProcMem.ShowObjectDetailsOnDoubleClick = False
-        Me.lvProcMem.Size = New System.Drawing.Size(641, 276)
-        Me.lvProcMem.TabIndex = 14
-        Me.lvProcMem.UseCompatibleStateImageBehavior = False
-        Me.lvProcMem.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader53
-        '
-        Me.ColumnHeader53.Text = "Name"
-        Me.ColumnHeader53.Width = 170
-        '
-        'ColumnHeader54
-        '
-        Me.ColumnHeader54.Text = "Address"
-        Me.ColumnHeader54.Width = 82
-        '
-        'ColumnHeader55
-        '
-        Me.ColumnHeader55.Text = "Size"
-        Me.ColumnHeader55.Width = 64
-        '
-        'ColumnHeader56
-        '
-        Me.ColumnHeader56.Text = "Protection"
-        Me.ColumnHeader56.Width = 85
-        '
-        'ColumnHeader13
-        '
-        Me.ColumnHeader13.Text = "File"
-        Me.ColumnHeader13.Width = 338
         '
         'TabPageInfos
         '
@@ -2622,7 +2478,7 @@ Partial Class frmProcessInfo
         'SplitContainerInfoProcess.Panel2
         '
         Me.SplitContainerInfoProcess.Panel2.Controls.Add(Me.rtb)
-        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(641, 276)
+        Me.SplitContainerInfoProcess.Size = New System.Drawing.Size(641, 294)
         Me.SplitContainerInfoProcess.SplitterDistance = 25
         Me.SplitContainerInfoProcess.TabIndex = 0
         '
@@ -2660,7 +2516,7 @@ Partial Class frmProcessInfo
         Me.rtb.Location = New System.Drawing.Point(0, 0)
         Me.rtb.Name = "rtb"
         Me.rtb.ReadOnly = True
-        Me.rtb.Size = New System.Drawing.Size(641, 247)
+        Me.rtb.Size = New System.Drawing.Size(641, 265)
         Me.rtb.TabIndex = 4
         Me.rtb.Text = ""
         '
@@ -2675,62 +2531,6 @@ Partial Class frmProcessInfo
         Me.TabPageServices.Text = "Services"
         Me.TabPageServices.UseVisualStyleBackColor = True
         '
-        'lvProcServices
-        '
-        Me.lvProcServices.AllowColumnReorder = True
-        Me.lvProcServices.CatchErrors = False
-        Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader19})
-        CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        CConnection3.Snapshot = CType(resources.GetObject("CConnection3.Snapshot"), cSnapshot)
-        CConnection3.SnapshotFile = Nothing
-        Me.lvProcServices.ConnectionObj = CConnection3
-        Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvProcServices.FullRowSelect = True
-        Me.lvProcServices.HideSelection = False
-        Me.lvProcServices.IsConnected = False
-        Me.lvProcServices.Location = New System.Drawing.Point(3, 3)
-        Me.lvProcServices.Name = "lvProcServices"
-        Me.lvProcServices.OverriddenDoubleBuffered = True
-        Me.lvProcServices.ProcessId = 0
-        Me.lvProcServices.ReorganizeColumns = True
-        Me.lvProcServices.ShowAll = False
-        Me.lvProcServices.ShowObjectDetailsOnDoubleClick = False
-        Me.lvProcServices.Size = New System.Drawing.Size(641, 276)
-        Me.lvProcServices.TabIndex = 2
-        Me.lvProcServices.UseCompatibleStateImageBehavior = False
-        Me.lvProcServices.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader3
-        '
-        Me.ColumnHeader3.Text = "Name"
-        Me.ColumnHeader3.Width = 121
-        '
-        'ColumnHeader7
-        '
-        Me.ColumnHeader7.Text = "DisplayName"
-        Me.ColumnHeader7.Width = 243
-        '
-        'ColumnHeader8
-        '
-        Me.ColumnHeader8.Text = "State"
-        Me.ColumnHeader8.Width = 79
-        '
-        'ColumnHeader9
-        '
-        Me.ColumnHeader9.Text = "StartType"
-        Me.ColumnHeader9.Width = 70
-        '
-        'ColumnHeader10
-        '
-        Me.ColumnHeader10.Text = "ImagePath"
-        Me.ColumnHeader10.Width = 250
-        '
-        'ColumnHeader19
-        '
-        Me.ColumnHeader19.Text = "ServiceType"
-        Me.ColumnHeader19.Width = 100
-        '
         'TabPageNetwork
         '
         Me.TabPageNetwork.Controls.Add(Me.lvProcNetwork)
@@ -2741,52 +2541,6 @@ Partial Class frmProcessInfo
         Me.TabPageNetwork.TabIndex = 7
         Me.TabPageNetwork.Text = "Network"
         Me.TabPageNetwork.UseVisualStyleBackColor = True
-        '
-        'lvProcNetwork
-        '
-        Me.lvProcNetwork.AllowColumnReorder = True
-        Me.lvProcNetwork.CatchErrors = False
-        Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
-        CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        CConnection4.Snapshot = CType(resources.GetObject("CConnection4.Snapshot"), cSnapshot)
-        CConnection4.SnapshotFile = Nothing
-        Me.lvProcNetwork.ConnectionObj = CConnection4
-        Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvProcNetwork.FullRowSelect = True
-        Me.lvProcNetwork.HideSelection = False
-        Me.lvProcNetwork.IsConnected = False
-        Me.lvProcNetwork.Location = New System.Drawing.Point(3, 3)
-        Me.lvProcNetwork.Name = "lvProcNetwork"
-        Me.lvProcNetwork.OverriddenDoubleBuffered = True
-        Me.lvProcNetwork.ProcessId = Nothing
-        Me.lvProcNetwork.ReorganizeColumns = True
-        Me.lvProcNetwork.ShowAllPid = False
-        Me.lvProcNetwork.ShowConnectionsByProcessesGroup = False
-        Me.lvProcNetwork.ShowObjectDetailsOnDoubleClick = True
-        Me.lvProcNetwork.Size = New System.Drawing.Size(641, 276)
-        Me.lvProcNetwork.TabIndex = 21
-        Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
-        Me.lvProcNetwork.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader49
-        '
-        Me.ColumnHeader49.Text = "Local"
-        Me.ColumnHeader49.Width = 210
-        '
-        'ColumnHeader57
-        '
-        Me.ColumnHeader57.Text = "Remote"
-        Me.ColumnHeader57.Width = 200
-        '
-        'ColumnHeader58
-        '
-        Me.ColumnHeader58.Text = "Protocol"
-        '
-        'ColumnHeader59
-        '
-        Me.ColumnHeader59.Text = "State"
-        Me.ColumnHeader59.Width = 150
         '
         'TabPageString
         '
@@ -2819,40 +2573,9 @@ Partial Class frmProcessInfo
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.cmdProcStringSave)
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringMemory)
         Me.SplitContainerStrings.Panel2.Controls.Add(Me.optProcStringImage)
-        Me.SplitContainerStrings.Size = New System.Drawing.Size(647, 282)
-        Me.SplitContainerStrings.SplitterDistance = 243
+        Me.SplitContainerStrings.Size = New System.Drawing.Size(647, 300)
+        Me.SplitContainerStrings.SplitterDistance = 258
         Me.SplitContainerStrings.TabIndex = 0
-        '
-        'lvProcString
-        '
-        Me.lvProcString.AllowColumnReorder = True
-        Me.lvProcString.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader76, Me.ColumnHeader77})
-        Me.lvProcString.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcString.FullRowSelect = True
-        ListViewGroup1.Header = "Strings"
-        ListViewGroup1.Name = "gpOther"
-        ListViewGroup2.Header = "Search result"
-        ListViewGroup2.Name = "gpSearch"
-        Me.lvProcString.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
-        Me.lvProcString.HideSelection = False
-        Me.lvProcString.Location = New System.Drawing.Point(0, 0)
-        Me.lvProcString.Name = "lvProcString"
-        Me.lvProcString.OverriddenDoubleBuffered = True
-        Me.lvProcString.Size = New System.Drawing.Size(647, 243)
-        Me.lvProcString.TabIndex = 22
-        Me.lvProcString.UseCompatibleStateImageBehavior = False
-        Me.lvProcString.View = System.Windows.Forms.View.Details
-        Me.lvProcString.VirtualMode = True
-        '
-        'ColumnHeader76
-        '
-        Me.ColumnHeader76.Text = "Position"
-        Me.ColumnHeader76.Width = 149
-        '
-        'ColumnHeader77
-        '
-        Me.ColumnHeader77.Text = "String"
-        Me.ColumnHeader77.Width = 447
         '
         'cmdProcSearchR
         '
@@ -2938,42 +2661,6 @@ Partial Class frmProcessInfo
         Me.TabPageEnv.Text = "Environment"
         Me.TabPageEnv.UseVisualStyleBackColor = True
         '
-        'lvProcEnv
-        '
-        Me.lvProcEnv.AllowColumnReorder = True
-        Me.lvProcEnv.CatchErrors = False
-        Me.lvProcEnv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader60, Me.ColumnHeader61})
-        CConnection5.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        CConnection5.Snapshot = CType(resources.GetObject("CConnection5.Snapshot"), cSnapshot)
-        CConnection5.SnapshotFile = Nothing
-        Me.lvProcEnv.ConnectionObj = CConnection5
-        Me.lvProcEnv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcEnv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvProcEnv.FullRowSelect = True
-        Me.lvProcEnv.HideSelection = False
-        Me.lvProcEnv.IsConnected = False
-        Me.lvProcEnv.Location = New System.Drawing.Point(0, 0)
-        Me.lvProcEnv.Name = "lvProcEnv"
-        Me.lvProcEnv.OverriddenDoubleBuffered = True
-        'TODO: La génération de code pour 'Me.lvProcEnv.Peb' a échoué en raison de l'exception 'Type Primitive non valide : System.IntPtr. Si possible, utilisez CodeObjectCreateExpression à la place.'.
-        Me.lvProcEnv.ProcessId = 0
-        Me.lvProcEnv.ReorganizeColumns = True
-        Me.lvProcEnv.ShowObjectDetailsOnDoubleClick = True
-        Me.lvProcEnv.Size = New System.Drawing.Size(647, 282)
-        Me.lvProcEnv.TabIndex = 30
-        Me.lvProcEnv.UseCompatibleStateImageBehavior = False
-        Me.lvProcEnv.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader60
-        '
-        Me.ColumnHeader60.Text = "Variable"
-        Me.ColumnHeader60.Width = 169
-        '
-        'ColumnHeader61
-        '
-        Me.ColumnHeader61.Text = "Value"
-        Me.ColumnHeader61.Width = 431
-        '
         'TabPageModules
         '
         Me.TabPageModules.Controls.Add(Me.lvModules)
@@ -2983,66 +2670,6 @@ Partial Class frmProcessInfo
         Me.TabPageModules.TabIndex = 10
         Me.TabPageModules.Text = "Modules"
         Me.TabPageModules.UseVisualStyleBackColor = True
-        '
-        'lvModules
-        '
-        Me.lvModules.AllowColumnReorder = True
-        Me.lvModules.CatchErrors = False
-        Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader1})
-        CConnection6.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        CConnection6.Snapshot = CType(resources.GetObject("CConnection6.Snapshot"), cSnapshot)
-        CConnection6.SnapshotFile = Nothing
-        Me.lvModules.ConnectionObj = CConnection6
-        Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvModules.FullRowSelect = True
-        Me.lvModules.HideSelection = False
-        Me.lvModules.IsConnected = False
-        Me.lvModules.Location = New System.Drawing.Point(0, 0)
-        Me.lvModules.Name = "lvModules"
-        Me.lvModules.OverriddenDoubleBuffered = True
-        Me.lvModules.ProcessId = Nothing
-        Me.lvModules.ReorganizeColumns = True
-        Me.lvModules.ShowObjectDetailsOnDoubleClick = True
-        Me.lvModules.Size = New System.Drawing.Size(647, 282)
-        Me.lvModules.TabIndex = 31
-        Me.lvModules.UseCompatibleStateImageBehavior = False
-        Me.lvModules.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader29
-        '
-        Me.ColumnHeader29.Text = "Name"
-        Me.ColumnHeader29.Width = 90
-        '
-        'ColumnHeader43
-        '
-        Me.ColumnHeader43.DisplayIndex = 2
-        Me.ColumnHeader43.Text = "Version"
-        Me.ColumnHeader43.Width = 85
-        '
-        'ColumnHeader44
-        '
-        Me.ColumnHeader44.DisplayIndex = 3
-        Me.ColumnHeader44.Text = "Description"
-        Me.ColumnHeader44.Width = 210
-        '
-        'ColumnHeader45
-        '
-        Me.ColumnHeader45.DisplayIndex = 4
-        Me.ColumnHeader45.Text = "CompanyName"
-        Me.ColumnHeader45.Width = 150
-        '
-        'ColumnHeader46
-        '
-        Me.ColumnHeader46.DisplayIndex = 5
-        Me.ColumnHeader46.Text = "Path"
-        Me.ColumnHeader46.Width = 300
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.DisplayIndex = 1
-        Me.ColumnHeader1.Text = "Address"
-        Me.ColumnHeader1.Width = 80
         '
         'TabPageThreads
         '
@@ -3054,75 +2681,6 @@ Partial Class frmProcessInfo
         Me.TabPageThreads.Text = "Threads"
         Me.TabPageThreads.UseVisualStyleBackColor = True
         '
-        'lvThreads
-        '
-        Me.lvThreads.AllowColumnReorder = True
-        Me.lvThreads.CatchErrors = False
-        Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader12, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader11})
-        CConnection7.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        CConnection7.Snapshot = CType(resources.GetObject("CConnection7.Snapshot"), cSnapshot)
-        CConnection7.SnapshotFile = Nothing
-        Me.lvThreads.ConnectionObj = CConnection7
-        Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvThreads.FullRowSelect = True
-        Me.lvThreads.HideSelection = False
-        Me.lvThreads.IsConnected = False
-        Me.lvThreads.Location = New System.Drawing.Point(0, 0)
-        Me.lvThreads.Name = "lvThreads"
-        Me.lvThreads.OverriddenDoubleBuffered = True
-        Me.lvThreads.ProcessId = Nothing
-        Me.lvThreads.ReorganizeColumns = True
-        Me.lvThreads.ShowObjectDetailsOnDoubleClick = True
-        Me.lvThreads.Size = New System.Drawing.Size(647, 282)
-        Me.lvThreads.TabIndex = 4
-        Me.lvThreads.UseCompatibleStateImageBehavior = False
-        Me.lvThreads.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader32
-        '
-        Me.ColumnHeader32.Text = "Id"
-        '
-        'ColumnHeader12
-        '
-        Me.ColumnHeader12.Text = "ContextSwitchDelta"
-        Me.ColumnHeader12.Width = 118
-        '
-        'ColumnHeader34
-        '
-        Me.ColumnHeader34.Text = "Priority"
-        Me.ColumnHeader34.Width = 100
-        '
-        'ColumnHeader35
-        '
-        Me.ColumnHeader35.Text = "State"
-        Me.ColumnHeader35.Width = 70
-        '
-        'ColumnHeader36
-        '
-        Me.ColumnHeader36.Text = "WaitReason"
-        Me.ColumnHeader36.Width = 100
-        '
-        'ColumnHeader37
-        '
-        Me.ColumnHeader37.Text = "CreateTime"
-        Me.ColumnHeader37.Width = 119
-        '
-        'ColumnHeader38
-        '
-        Me.ColumnHeader38.Text = "TotalTime"
-        Me.ColumnHeader38.Width = 200
-        '
-        'ColumnHeader6
-        '
-        Me.ColumnHeader6.Text = "StartAddress"
-        Me.ColumnHeader6.Width = 100
-        '
-        'ColumnHeader11
-        '
-        Me.ColumnHeader11.Text = "ContextSwitchCount"
-        Me.ColumnHeader11.Width = 200
-        '
         'TabPageWindows
         '
         Me.TabPageWindows.Controls.Add(Me.lvWindows)
@@ -3133,55 +2691,6 @@ Partial Class frmProcessInfo
         Me.TabPageWindows.Text = "Windows"
         Me.TabPageWindows.UseVisualStyleBackColor = True
         '
-        'lvWindows
-        '
-        Me.lvWindows.AllowColumnReorder = True
-        Me.lvWindows.CatchErrors = False
-        Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
-        CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        CConnection8.Snapshot = CType(resources.GetObject("CConnection8.Snapshot"), cSnapshot)
-        CConnection8.SnapshotFile = Nothing
-        Me.lvWindows.ConnectionObj = CConnection8
-        Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvWindows.FullRowSelect = True
-        Me.lvWindows.HideSelection = False
-        Me.lvWindows.IsConnected = False
-        Me.lvWindows.Location = New System.Drawing.Point(0, 0)
-        Me.lvWindows.Name = "lvWindows"
-        Me.lvWindows.OverriddenDoubleBuffered = True
-        Me.lvWindows.ProcessId = Nothing
-        Me.lvWindows.ReorganizeColumns = True
-        Me.lvWindows.ShowAllPid = False
-        Me.lvWindows.ShowObjectDetailsOnDoubleClick = True
-        Me.lvWindows.ShowUnNamed = False
-        Me.lvWindows.Size = New System.Drawing.Size(647, 282)
-        Me.lvWindows.TabIndex = 33
-        Me.lvWindows.UseCompatibleStateImageBehavior = False
-        Me.lvWindows.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader30
-        '
-        Me.ColumnHeader30.Text = "Id"
-        Me.ColumnHeader30.Width = 100
-        '
-        'ColumnHeader39
-        '
-        Me.ColumnHeader39.Text = "Caption"
-        Me.ColumnHeader39.Width = 350
-        '
-        'ColumnHeader40
-        '
-        Me.ColumnHeader40.Text = "IsTask"
-        '
-        'ColumnHeader41
-        '
-        Me.ColumnHeader41.Text = "Enabled"
-        '
-        'ColumnHeader42
-        '
-        Me.ColumnHeader42.Text = "Visible"
-        '
         'TabPageHandles
         '
         Me.TabPageHandles.Controls.Add(Me.lvHandles)
@@ -3191,62 +2700,6 @@ Partial Class frmProcessInfo
         Me.TabPageHandles.TabIndex = 13
         Me.TabPageHandles.Text = "Handles"
         Me.TabPageHandles.UseVisualStyleBackColor = True
-        '
-        'lvHandles
-        '
-        Me.lvHandles.AllowColumnReorder = True
-        Me.lvHandles.CatchErrors = False
-        Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15})
-        CConnection9.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        CConnection9.Snapshot = CType(resources.GetObject("CConnection9.Snapshot"), cSnapshot)
-        CConnection9.SnapshotFile = Nothing
-        Me.lvHandles.ConnectionObj = CConnection9
-        Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvHandles.FullRowSelect = True
-        Me.lvHandles.HideSelection = False
-        Me.lvHandles.IsConnected = False
-        Me.lvHandles.Location = New System.Drawing.Point(0, 0)
-        Me.lvHandles.Name = "lvHandles"
-        Me.lvHandles.OverriddenDoubleBuffered = True
-        Me.lvHandles.ProcessId = Nothing
-        Me.lvHandles.ReorganizeColumns = True
-        Me.lvHandles.ShowObjectDetailsOnDoubleClick = False
-        Me.lvHandles.ShowUnnamed = False
-        Me.lvHandles.Size = New System.Drawing.Size(647, 282)
-        Me.lvHandles.TabIndex = 34
-        Me.lvHandles.UseCompatibleStateImageBehavior = False
-        Me.lvHandles.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader24
-        '
-        Me.ColumnHeader24.Text = "Type"
-        Me.ColumnHeader24.Width = 80
-        '
-        'ColumnHeader25
-        '
-        Me.ColumnHeader25.Text = "Name"
-        Me.ColumnHeader25.Width = 400
-        '
-        'ColumnHeader26
-        '
-        Me.ColumnHeader26.Text = "HandleCount"
-        Me.ColumnHeader26.Width = 70
-        '
-        'ColumnHeader27
-        '
-        Me.ColumnHeader27.Text = "PointerCount"
-        Me.ColumnHeader27.Width = 70
-        '
-        'ColumnHeader28
-        '
-        Me.ColumnHeader28.Text = "ObjectCount"
-        Me.ColumnHeader28.Width = 70
-        '
-        'ColumnHeader15
-        '
-        Me.ColumnHeader15.Text = "Handle"
-        Me.ColumnHeader15.Width = 70
         '
         'TabPageLog
         '
@@ -3320,49 +2773,6 @@ Partial Class frmProcessInfo
         Me.chkLog.Text = "Activate log"
         Me.chkLog.UseVisualStyleBackColor = True
         '
-        'lvLog
-        '
-        Me.lvLog.AllowColumnReorder = True
-        Me.lvLog.CaptureItems = asyncCallbackLogEnumerate.LogItemType.AllItems
-        Me.lvLog.CatchErrors = False
-        Me.lvLog.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2, Me.ColumnHeader5, Me.ColumnHeader4})
-        CConnection10.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        CConnection10.Snapshot = CType(resources.GetObject("CConnection10.Snapshot"), cSnapshot)
-        CConnection10.SnapshotFile = Nothing
-        Me.lvLog.ConnectionObj = CConnection10
-        Me.lvLog.DisplayItems = asyncCallbackLogEnumerate.LogItemType.AllItems
-        Me.lvLog.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvLog.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvLog.FullRowSelect = True
-        Me.lvLog.HideSelection = False
-        Me.lvLog.IsConnected = False
-        Me.lvLog.Location = New System.Drawing.Point(0, 0)
-        Me.lvLog.MultiSelect = False
-        Me.lvLog.Name = "lvLog"
-        Me.lvLog.OverriddenDoubleBuffered = True
-        Me.lvLog.ProcessId = 0
-        Me.lvLog.ReorganizeColumns = True
-        Me.lvLog.ShowObjectDetailsOnDoubleClick = True
-        Me.lvLog.Size = New System.Drawing.Size(647, 253)
-        Me.lvLog.TabIndex = 24
-        Me.lvLog.UseCompatibleStateImageBehavior = False
-        Me.lvLog.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader2
-        '
-        Me.ColumnHeader2.Text = "Date & Time"
-        Me.ColumnHeader2.Width = 172
-        '
-        'ColumnHeader5
-        '
-        Me.ColumnHeader5.Text = "Type"
-        Me.ColumnHeader5.Width = 69
-        '
-        'ColumnHeader4
-        '
-        Me.ColumnHeader4.Text = "Description"
-        Me.ColumnHeader4.Width = 400
-        '
         'TabPageHistory
         '
         Me.TabPageHistory.Controls.Add(Me.containerHistory)
@@ -3419,56 +2829,6 @@ Partial Class frmProcessInfo
         Me.TabPageHeaps.TabIndex = 16
         Me.TabPageHeaps.Text = "Heaps"
         Me.TabPageHeaps.UseVisualStyleBackColor = True
-        '
-        'lvHeaps
-        '
-        Me.lvHeaps.AllowColumnReorder = True
-        Me.lvHeaps.CatchErrors = False
-        Me.lvHeaps.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader16, Me.ColumnHeader17, Me.ColumnHeader18, Me.ColumnHeader20, Me.ColumnHeader14})
-        CConnection11.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        CConnection11.Snapshot = CType(resources.GetObject("CConnection11.Snapshot"), cSnapshot)
-        CConnection11.SnapshotFile = Nothing
-        Me.lvHeaps.ConnectionObj = CConnection11
-        Me.lvHeaps.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvHeaps.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lvHeaps.FullRowSelect = True
-        Me.lvHeaps.HideSelection = False
-        Me.lvHeaps.IsConnected = False
-        Me.lvHeaps.Location = New System.Drawing.Point(0, 0)
-        Me.lvHeaps.Name = "lvHeaps"
-        Me.lvHeaps.OverriddenDoubleBuffered = True
-        Me.lvHeaps.ProcessId = 0
-        Me.lvHeaps.ReorganizeColumns = True
-        Me.lvHeaps.ShowObjectDetailsOnDoubleClick = False
-        Me.lvHeaps.Size = New System.Drawing.Size(647, 282)
-        Me.lvHeaps.TabIndex = 15
-        Me.lvHeaps.UseCompatibleStateImageBehavior = False
-        Me.lvHeaps.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader16
-        '
-        Me.ColumnHeader16.Text = "Address"
-        Me.ColumnHeader16.Width = 101
-        '
-        'ColumnHeader17
-        '
-        Me.ColumnHeader17.Text = "BlockCount"
-        Me.ColumnHeader17.Width = 101
-        '
-        'ColumnHeader18
-        '
-        Me.ColumnHeader18.Text = "MemCommitted"
-        Me.ColumnHeader18.Width = 117
-        '
-        'ColumnHeader20
-        '
-        Me.ColumnHeader20.Text = "MemAllocated"
-        Me.ColumnHeader20.Width = 100
-        '
-        'ColumnHeader14
-        '
-        Me.ColumnHeader14.Text = "Flags"
-        Me.ColumnHeader14.Width = 100
         '
         'cmdHideFindPanel
         '
@@ -3533,6 +2893,646 @@ Partial Class frmProcessInfo
         Me.MenuItemColumnsHeap.Index = 2
         Me.MenuItemColumnsHeap.Text = "Choose columns..."
         '
+        'graphCPU
+        '
+        Me.graphCPU.BackColor = System.Drawing.Color.Black
+        Me.graphCPU.Color2 = System.Drawing.Color.Olive
+        Me.graphCPU.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphCPU.EnableGraph = True
+        Me.graphCPU.Fixedheight = True
+        Me.graphCPU.GridStep = 13
+        Me.graphCPU.Location = New System.Drawing.Point(0, 0)
+        Me.graphCPU.Name = "graphCPU"
+        Me.graphCPU.ShowSecondGraph = True
+        Me.graphCPU.Size = New System.Drawing.Size(641, 82)
+        Me.graphCPU.TabIndex = 1
+        Me.graphCPU.TabStop = False
+        Me.graphCPU.TextColor = System.Drawing.Color.Lime
+        Me.graphCPU.TopText = Nothing
+        '
+        'graphMemory
+        '
+        Me.graphMemory.BackColor = System.Drawing.Color.Black
+        Me.graphMemory.Color = System.Drawing.Color.Red
+        Me.graphMemory.Color2 = System.Drawing.Color.Maroon
+        Me.graphMemory.Color3 = System.Drawing.Color.LightCoral
+        Me.graphMemory.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphMemory.EnableGraph = True
+        Me.graphMemory.Fixedheight = False
+        Me.graphMemory.GridStep = 13
+        Me.graphMemory.Location = New System.Drawing.Point(0, 0)
+        Me.graphMemory.Name = "graphMemory"
+        Me.graphMemory.ShowSecondGraph = True
+        Me.graphMemory.Size = New System.Drawing.Size(641, 88)
+        Me.graphMemory.TabIndex = 2
+        Me.graphMemory.TabStop = False
+        Me.graphMemory.TextColor = System.Drawing.Color.Lime
+        Me.graphMemory.TopText = Nothing
+        '
+        'graphIO
+        '
+        Me.graphIO.BackColor = System.Drawing.Color.Black
+        Me.graphIO.Color = System.Drawing.Color.LimeGreen
+        Me.graphIO.Color2 = System.Drawing.Color.Green
+        Me.graphIO.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.graphIO.EnableGraph = True
+        Me.graphIO.Fixedheight = False
+        Me.graphIO.GridStep = 13
+        Me.graphIO.Location = New System.Drawing.Point(0, 0)
+        Me.graphIO.Name = "graphIO"
+        Me.graphIO.ShowSecondGraph = False
+        Me.graphIO.Size = New System.Drawing.Size(641, 104)
+        Me.graphIO.TabIndex = 3
+        Me.graphIO.TabStop = False
+        Me.graphIO.TextColor = System.Drawing.Color.Lime
+        Me.graphIO.TopText = Nothing
+        '
+        'lvPrivileges
+        '
+        Me.lvPrivileges.AllowColumnReorder = True
+        Me.lvPrivileges.CatchErrors = False
+        Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
+        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection1.Snapshot = Nothing
+        CConnection1.SnapshotFile = Nothing
+        Me.lvPrivileges.ConnectionObj = CConnection1
+        Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvPrivileges.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvPrivileges.FullRowSelect = True
+        Me.lvPrivileges.HideSelection = False
+        Me.lvPrivileges.IsConnected = False
+        Me.lvPrivileges.Location = New System.Drawing.Point(3, 3)
+        Me.lvPrivileges.Name = "lvPrivileges"
+        Me.lvPrivileges.OverriddenDoubleBuffered = True
+        Me.lvPrivileges.ProcessId = 0
+        Me.lvPrivileges.ReorganizeColumns = True
+        Me.lvPrivileges.ShowObjectDetailsOnDoubleClick = True
+        Me.lvPrivileges.Size = New System.Drawing.Size(627, 262)
+        Me.lvPrivileges.TabIndex = 13
+        Me.lvPrivileges.UseCompatibleStateImageBehavior = False
+        Me.lvPrivileges.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader50
+        '
+        Me.ColumnHeader50.Text = "Name"
+        Me.ColumnHeader50.Width = 159
+        '
+        'ColumnHeader51
+        '
+        Me.ColumnHeader51.Text = "Status"
+        Me.ColumnHeader51.Width = 100
+        '
+        'ColumnHeader52
+        '
+        Me.ColumnHeader52.Text = "Description"
+        Me.ColumnHeader52.Width = 319
+        '
+        'lvProcMem
+        '
+        Me.lvProcMem.AllowColumnReorder = True
+        Me.lvProcMem.CatchErrors = False
+        Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56, Me.ColumnHeader13})
+        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection2.Snapshot = Nothing
+        CConnection2.SnapshotFile = Nothing
+        Me.lvProcMem.ConnectionObj = CConnection2
+        Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcMem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvProcMem.FullRowSelect = True
+        Me.lvProcMem.HideSelection = False
+        Me.lvProcMem.IsConnected = False
+        Me.lvProcMem.Location = New System.Drawing.Point(3, 3)
+        Me.lvProcMem.Name = "lvProcMem"
+        Me.lvProcMem.OverriddenDoubleBuffered = True
+        Me.lvProcMem.ProcessId = 0
+        Me.lvProcMem.ReorganizeColumns = True
+        Me.lvProcMem.ShowObjectDetailsOnDoubleClick = False
+        Me.lvProcMem.Size = New System.Drawing.Size(641, 294)
+        Me.lvProcMem.TabIndex = 14
+        Me.lvProcMem.UseCompatibleStateImageBehavior = False
+        Me.lvProcMem.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader53
+        '
+        Me.ColumnHeader53.Text = "Name"
+        Me.ColumnHeader53.Width = 170
+        '
+        'ColumnHeader54
+        '
+        Me.ColumnHeader54.Text = "Address"
+        Me.ColumnHeader54.Width = 82
+        '
+        'ColumnHeader55
+        '
+        Me.ColumnHeader55.Text = "Size"
+        Me.ColumnHeader55.Width = 64
+        '
+        'ColumnHeader56
+        '
+        Me.ColumnHeader56.Text = "Protection"
+        Me.ColumnHeader56.Width = 85
+        '
+        'ColumnHeader13
+        '
+        Me.ColumnHeader13.Text = "File"
+        Me.ColumnHeader13.Width = 338
+        '
+        'lvProcServices
+        '
+        Me.lvProcServices.AllowColumnReorder = True
+        Me.lvProcServices.CatchErrors = False
+        Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader19})
+        CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection3.Snapshot = Nothing
+        CConnection3.SnapshotFile = Nothing
+        Me.lvProcServices.ConnectionObj = CConnection3
+        Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvProcServices.FullRowSelect = True
+        Me.lvProcServices.HideSelection = False
+        Me.lvProcServices.IsConnected = False
+        Me.lvProcServices.Location = New System.Drawing.Point(3, 3)
+        Me.lvProcServices.Name = "lvProcServices"
+        Me.lvProcServices.OverriddenDoubleBuffered = True
+        Me.lvProcServices.ProcessId = 0
+        Me.lvProcServices.ReorganizeColumns = True
+        Me.lvProcServices.ShowAll = False
+        Me.lvProcServices.ShowObjectDetailsOnDoubleClick = False
+        Me.lvProcServices.Size = New System.Drawing.Size(641, 294)
+        Me.lvProcServices.TabIndex = 2
+        Me.lvProcServices.UseCompatibleStateImageBehavior = False
+        Me.lvProcServices.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader3
+        '
+        Me.ColumnHeader3.Text = "Name"
+        Me.ColumnHeader3.Width = 121
+        '
+        'ColumnHeader7
+        '
+        Me.ColumnHeader7.Text = "DisplayName"
+        Me.ColumnHeader7.Width = 243
+        '
+        'ColumnHeader8
+        '
+        Me.ColumnHeader8.Text = "State"
+        Me.ColumnHeader8.Width = 79
+        '
+        'ColumnHeader9
+        '
+        Me.ColumnHeader9.Text = "StartType"
+        Me.ColumnHeader9.Width = 70
+        '
+        'ColumnHeader10
+        '
+        Me.ColumnHeader10.Text = "ImagePath"
+        Me.ColumnHeader10.Width = 250
+        '
+        'ColumnHeader19
+        '
+        Me.ColumnHeader19.Text = "ServiceType"
+        Me.ColumnHeader19.Width = 100
+        '
+        'lvProcNetwork
+        '
+        Me.lvProcNetwork.AllowColumnReorder = True
+        Me.lvProcNetwork.CatchErrors = False
+        Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
+        CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection4.Snapshot = Nothing
+        CConnection4.SnapshotFile = Nothing
+        Me.lvProcNetwork.ConnectionObj = CConnection4
+        Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvProcNetwork.FullRowSelect = True
+        Me.lvProcNetwork.HideSelection = False
+        Me.lvProcNetwork.IsConnected = False
+        Me.lvProcNetwork.Location = New System.Drawing.Point(3, 3)
+        Me.lvProcNetwork.Name = "lvProcNetwork"
+        Me.lvProcNetwork.OverriddenDoubleBuffered = True
+        Me.lvProcNetwork.ProcessId = Nothing
+        Me.lvProcNetwork.ReorganizeColumns = True
+        Me.lvProcNetwork.ShowAllPid = False
+        Me.lvProcNetwork.ShowConnectionsByProcessesGroup = False
+        Me.lvProcNetwork.ShowObjectDetailsOnDoubleClick = True
+        Me.lvProcNetwork.Size = New System.Drawing.Size(641, 294)
+        Me.lvProcNetwork.TabIndex = 21
+        Me.lvProcNetwork.UseCompatibleStateImageBehavior = False
+        Me.lvProcNetwork.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader49
+        '
+        Me.ColumnHeader49.Text = "Local"
+        Me.ColumnHeader49.Width = 210
+        '
+        'ColumnHeader57
+        '
+        Me.ColumnHeader57.Text = "Remote"
+        Me.ColumnHeader57.Width = 200
+        '
+        'ColumnHeader58
+        '
+        Me.ColumnHeader58.Text = "Protocol"
+        '
+        'ColumnHeader59
+        '
+        Me.ColumnHeader59.Text = "State"
+        Me.ColumnHeader59.Width = 150
+        '
+        'lvProcString
+        '
+        Me.lvProcString.AllowColumnReorder = True
+        Me.lvProcString.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader76, Me.ColumnHeader77})
+        Me.lvProcString.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcString.FullRowSelect = True
+        ListViewGroup1.Header = "Strings"
+        ListViewGroup1.Name = "gpOther"
+        ListViewGroup2.Header = "Search result"
+        ListViewGroup2.Name = "gpSearch"
+        Me.lvProcString.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        Me.lvProcString.HideSelection = False
+        Me.lvProcString.Location = New System.Drawing.Point(0, 0)
+        Me.lvProcString.Name = "lvProcString"
+        Me.lvProcString.OverriddenDoubleBuffered = True
+        Me.lvProcString.Size = New System.Drawing.Size(647, 258)
+        Me.lvProcString.TabIndex = 22
+        Me.lvProcString.UseCompatibleStateImageBehavior = False
+        Me.lvProcString.View = System.Windows.Forms.View.Details
+        Me.lvProcString.VirtualMode = True
+        '
+        'ColumnHeader76
+        '
+        Me.ColumnHeader76.Text = "Position"
+        Me.ColumnHeader76.Width = 149
+        '
+        'ColumnHeader77
+        '
+        Me.ColumnHeader77.Text = "String"
+        Me.ColumnHeader77.Width = 447
+        '
+        'lvProcEnv
+        '
+        Me.lvProcEnv.AllowColumnReorder = True
+        Me.lvProcEnv.CatchErrors = False
+        Me.lvProcEnv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader60, Me.ColumnHeader61})
+        CConnection5.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection5.Snapshot = Nothing
+        CConnection5.SnapshotFile = Nothing
+        Me.lvProcEnv.ConnectionObj = CConnection5
+        Me.lvProcEnv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvProcEnv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvProcEnv.FullRowSelect = True
+        Me.lvProcEnv.HideSelection = False
+        Me.lvProcEnv.IsConnected = False
+        Me.lvProcEnv.Location = New System.Drawing.Point(0, 0)
+        Me.lvProcEnv.Name = "lvProcEnv"
+        Me.lvProcEnv.OverriddenDoubleBuffered = True
+        'TODO: La génération de code pour 'Me.lvProcEnv.Peb' a échoué en raison de l'exception 'Type Primitive non valide : System.IntPtr. Si possible, utilisez CodeObjectCreateExpression à la place.'.
+        Me.lvProcEnv.ProcessId = 0
+        Me.lvProcEnv.ReorganizeColumns = True
+        Me.lvProcEnv.ShowObjectDetailsOnDoubleClick = True
+        Me.lvProcEnv.Size = New System.Drawing.Size(647, 300)
+        Me.lvProcEnv.TabIndex = 30
+        Me.lvProcEnv.UseCompatibleStateImageBehavior = False
+        Me.lvProcEnv.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader60
+        '
+        Me.ColumnHeader60.Text = "Variable"
+        Me.ColumnHeader60.Width = 169
+        '
+        'ColumnHeader61
+        '
+        Me.ColumnHeader61.Text = "Value"
+        Me.ColumnHeader61.Width = 431
+        '
+        'lvModules
+        '
+        Me.lvModules.AllowColumnReorder = True
+        Me.lvModules.CatchErrors = False
+        Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader1})
+        CConnection6.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection6.Snapshot = Nothing
+        CConnection6.SnapshotFile = Nothing
+        Me.lvModules.ConnectionObj = CConnection6
+        Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvModules.FullRowSelect = True
+        Me.lvModules.HideSelection = False
+        Me.lvModules.IsConnected = False
+        Me.lvModules.Location = New System.Drawing.Point(0, 0)
+        Me.lvModules.Name = "lvModules"
+        Me.lvModules.OverriddenDoubleBuffered = True
+        Me.lvModules.ProcessId = Nothing
+        Me.lvModules.ReorganizeColumns = True
+        Me.lvModules.ShowObjectDetailsOnDoubleClick = True
+        Me.lvModules.Size = New System.Drawing.Size(647, 282)
+        Me.lvModules.TabIndex = 31
+        Me.lvModules.UseCompatibleStateImageBehavior = False
+        Me.lvModules.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader29
+        '
+        Me.ColumnHeader29.Text = "Name"
+        Me.ColumnHeader29.Width = 90
+        '
+        'ColumnHeader43
+        '
+        Me.ColumnHeader43.DisplayIndex = 2
+        Me.ColumnHeader43.Text = "Version"
+        Me.ColumnHeader43.Width = 85
+        '
+        'ColumnHeader44
+        '
+        Me.ColumnHeader44.DisplayIndex = 3
+        Me.ColumnHeader44.Text = "Description"
+        Me.ColumnHeader44.Width = 210
+        '
+        'ColumnHeader45
+        '
+        Me.ColumnHeader45.DisplayIndex = 4
+        Me.ColumnHeader45.Text = "CompanyName"
+        Me.ColumnHeader45.Width = 150
+        '
+        'ColumnHeader46
+        '
+        Me.ColumnHeader46.DisplayIndex = 5
+        Me.ColumnHeader46.Text = "Path"
+        Me.ColumnHeader46.Width = 300
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.DisplayIndex = 1
+        Me.ColumnHeader1.Text = "Address"
+        Me.ColumnHeader1.Width = 80
+        '
+        'lvThreads
+        '
+        Me.lvThreads.AllowColumnReorder = True
+        Me.lvThreads.CatchErrors = False
+        Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader12, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader11})
+        CConnection7.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection7.Snapshot = Nothing
+        CConnection7.SnapshotFile = Nothing
+        Me.lvThreads.ConnectionObj = CConnection7
+        Me.lvThreads.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvThreads.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvThreads.FullRowSelect = True
+        Me.lvThreads.HideSelection = False
+        Me.lvThreads.IsConnected = False
+        Me.lvThreads.Location = New System.Drawing.Point(0, 0)
+        Me.lvThreads.Name = "lvThreads"
+        Me.lvThreads.OverriddenDoubleBuffered = True
+        Me.lvThreads.ProcessId = Nothing
+        Me.lvThreads.ReorganizeColumns = True
+        Me.lvThreads.ShowObjectDetailsOnDoubleClick = True
+        Me.lvThreads.Size = New System.Drawing.Size(647, 282)
+        Me.lvThreads.TabIndex = 4
+        Me.lvThreads.UseCompatibleStateImageBehavior = False
+        Me.lvThreads.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader32
+        '
+        Me.ColumnHeader32.Text = "Id"
+        '
+        'ColumnHeader12
+        '
+        Me.ColumnHeader12.Text = "ContextSwitchDelta"
+        Me.ColumnHeader12.Width = 118
+        '
+        'ColumnHeader34
+        '
+        Me.ColumnHeader34.Text = "Priority"
+        Me.ColumnHeader34.Width = 100
+        '
+        'ColumnHeader35
+        '
+        Me.ColumnHeader35.Text = "State"
+        Me.ColumnHeader35.Width = 70
+        '
+        'ColumnHeader36
+        '
+        Me.ColumnHeader36.Text = "WaitReason"
+        Me.ColumnHeader36.Width = 100
+        '
+        'ColumnHeader37
+        '
+        Me.ColumnHeader37.Text = "CreateTime"
+        Me.ColumnHeader37.Width = 119
+        '
+        'ColumnHeader38
+        '
+        Me.ColumnHeader38.Text = "TotalTime"
+        Me.ColumnHeader38.Width = 200
+        '
+        'ColumnHeader6
+        '
+        Me.ColumnHeader6.Text = "StartAddress"
+        Me.ColumnHeader6.Width = 100
+        '
+        'ColumnHeader11
+        '
+        Me.ColumnHeader11.Text = "ContextSwitchCount"
+        Me.ColumnHeader11.Width = 200
+        '
+        'lvWindows
+        '
+        Me.lvWindows.AllowColumnReorder = True
+        Me.lvWindows.CatchErrors = False
+        Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
+        CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection8.Snapshot = Nothing
+        CConnection8.SnapshotFile = Nothing
+        Me.lvWindows.ConnectionObj = CConnection8
+        Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvWindows.FullRowSelect = True
+        Me.lvWindows.HideSelection = False
+        Me.lvWindows.IsConnected = False
+        Me.lvWindows.Location = New System.Drawing.Point(0, 0)
+        Me.lvWindows.Name = "lvWindows"
+        Me.lvWindows.OverriddenDoubleBuffered = True
+        Me.lvWindows.ProcessId = Nothing
+        Me.lvWindows.ReorganizeColumns = True
+        Me.lvWindows.ShowAllPid = False
+        Me.lvWindows.ShowObjectDetailsOnDoubleClick = True
+        Me.lvWindows.ShowUnNamed = False
+        Me.lvWindows.Size = New System.Drawing.Size(647, 282)
+        Me.lvWindows.TabIndex = 33
+        Me.lvWindows.UseCompatibleStateImageBehavior = False
+        Me.lvWindows.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader30
+        '
+        Me.ColumnHeader30.Text = "Id"
+        Me.ColumnHeader30.Width = 100
+        '
+        'ColumnHeader39
+        '
+        Me.ColumnHeader39.Text = "Caption"
+        Me.ColumnHeader39.Width = 350
+        '
+        'ColumnHeader40
+        '
+        Me.ColumnHeader40.Text = "IsTask"
+        '
+        'ColumnHeader41
+        '
+        Me.ColumnHeader41.Text = "Enabled"
+        '
+        'ColumnHeader42
+        '
+        Me.ColumnHeader42.Text = "Visible"
+        '
+        'lvHandles
+        '
+        Me.lvHandles.AllowColumnReorder = True
+        Me.lvHandles.CatchErrors = False
+        Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15})
+        CConnection9.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection9.Snapshot = Nothing
+        CConnection9.SnapshotFile = Nothing
+        Me.lvHandles.ConnectionObj = CConnection9
+        Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvHandles.FullRowSelect = True
+        Me.lvHandles.HideSelection = False
+        Me.lvHandles.IsConnected = False
+        Me.lvHandles.Location = New System.Drawing.Point(0, 0)
+        Me.lvHandles.Name = "lvHandles"
+        Me.lvHandles.OverriddenDoubleBuffered = True
+        Me.lvHandles.ProcessId = Nothing
+        Me.lvHandles.ReorganizeColumns = True
+        Me.lvHandles.ShowObjectDetailsOnDoubleClick = False
+        Me.lvHandles.ShowUnnamed = False
+        Me.lvHandles.Size = New System.Drawing.Size(647, 282)
+        Me.lvHandles.TabIndex = 34
+        Me.lvHandles.UseCompatibleStateImageBehavior = False
+        Me.lvHandles.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader24
+        '
+        Me.ColumnHeader24.Text = "Type"
+        Me.ColumnHeader24.Width = 80
+        '
+        'ColumnHeader25
+        '
+        Me.ColumnHeader25.Text = "Name"
+        Me.ColumnHeader25.Width = 400
+        '
+        'ColumnHeader26
+        '
+        Me.ColumnHeader26.Text = "HandleCount"
+        Me.ColumnHeader26.Width = 70
+        '
+        'ColumnHeader27
+        '
+        Me.ColumnHeader27.Text = "PointerCount"
+        Me.ColumnHeader27.Width = 70
+        '
+        'ColumnHeader28
+        '
+        Me.ColumnHeader28.Text = "ObjectCount"
+        Me.ColumnHeader28.Width = 70
+        '
+        'ColumnHeader15
+        '
+        Me.ColumnHeader15.Text = "Handle"
+        Me.ColumnHeader15.Width = 70
+        '
+        'lvLog
+        '
+        Me.lvLog.AllowColumnReorder = True
+        Me.lvLog.CaptureItems = asyncCallbackLogEnumerate.LogItemType.AllItems
+        Me.lvLog.CatchErrors = False
+        Me.lvLog.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2, Me.ColumnHeader5, Me.ColumnHeader4})
+        CConnection10.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection10.Snapshot = Nothing
+        CConnection10.SnapshotFile = Nothing
+        Me.lvLog.ConnectionObj = CConnection10
+        Me.lvLog.DisplayItems = asyncCallbackLogEnumerate.LogItemType.AllItems
+        Me.lvLog.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvLog.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvLog.FullRowSelect = True
+        Me.lvLog.HideSelection = False
+        Me.lvLog.IsConnected = False
+        Me.lvLog.Location = New System.Drawing.Point(0, 0)
+        Me.lvLog.MultiSelect = False
+        Me.lvLog.Name = "lvLog"
+        Me.lvLog.OverriddenDoubleBuffered = True
+        Me.lvLog.ProcessId = 0
+        Me.lvLog.ReorganizeColumns = True
+        Me.lvLog.ShowObjectDetailsOnDoubleClick = True
+        Me.lvLog.Size = New System.Drawing.Size(647, 253)
+        Me.lvLog.TabIndex = 24
+        Me.lvLog.UseCompatibleStateImageBehavior = False
+        Me.lvLog.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader2
+        '
+        Me.ColumnHeader2.Text = "Date & Time"
+        Me.ColumnHeader2.Width = 172
+        '
+        'ColumnHeader5
+        '
+        Me.ColumnHeader5.Text = "Type"
+        Me.ColumnHeader5.Width = 69
+        '
+        'ColumnHeader4
+        '
+        Me.ColumnHeader4.Text = "Description"
+        Me.ColumnHeader4.Width = 400
+        '
+        'lvHeaps
+        '
+        Me.lvHeaps.AllowColumnReorder = True
+        Me.lvHeaps.CatchErrors = False
+        Me.lvHeaps.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader16, Me.ColumnHeader17, Me.ColumnHeader18, Me.ColumnHeader20, Me.ColumnHeader14})
+        CConnection11.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection11.Snapshot = Nothing
+        CConnection11.SnapshotFile = Nothing
+        Me.lvHeaps.ConnectionObj = CConnection11
+        Me.lvHeaps.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvHeaps.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lvHeaps.FullRowSelect = True
+        Me.lvHeaps.HideSelection = False
+        Me.lvHeaps.IsConnected = False
+        Me.lvHeaps.Location = New System.Drawing.Point(0, 0)
+        Me.lvHeaps.Name = "lvHeaps"
+        Me.lvHeaps.OverriddenDoubleBuffered = True
+        Me.lvHeaps.ProcessId = 0
+        Me.lvHeaps.ReorganizeColumns = True
+        Me.lvHeaps.ShowObjectDetailsOnDoubleClick = False
+        Me.lvHeaps.Size = New System.Drawing.Size(647, 282)
+        Me.lvHeaps.TabIndex = 15
+        Me.lvHeaps.UseCompatibleStateImageBehavior = False
+        Me.lvHeaps.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader16
+        '
+        Me.ColumnHeader16.Text = "Address"
+        Me.ColumnHeader16.Width = 101
+        '
+        'ColumnHeader17
+        '
+        Me.ColumnHeader17.Text = "BlockCount"
+        Me.ColumnHeader17.Width = 101
+        '
+        'ColumnHeader18
+        '
+        Me.ColumnHeader18.Text = "MemCommitted"
+        Me.ColumnHeader18.Width = 117
+        '
+        'ColumnHeader20
+        '
+        Me.ColumnHeader20.Text = "MemAllocated"
+        Me.ColumnHeader20.Width = 100
+        '
+        'ColumnHeader14
+        '
+        Me.ColumnHeader14.Text = "Flags"
+        Me.ColumnHeader14.Width = 100
+        '
         'frmProcessInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3575,12 +3575,9 @@ Partial Class frmProcessInfo
         Me.splitPerformances.Panel1.ResumeLayout(False)
         Me.splitPerformances.Panel2.ResumeLayout(False)
         Me.splitPerformances.ResumeLayout(False)
-        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).EndInit()
         Me.splitPerformance2.Panel1.ResumeLayout(False)
         Me.splitPerformance2.Panel2.ResumeLayout(False)
         Me.splitPerformance2.ResumeLayout(False)
-        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPageToken.ResumeLayout(False)
         Me.tabProcessToken.ResumeLayout(False)
         Me.tabProcessTokenPagePrivileges.ResumeLayout(False)
@@ -3610,6 +3607,9 @@ Partial Class frmProcessInfo
         Me.containerHistory.Panel1.ResumeLayout(False)
         Me.containerHistory.ResumeLayout(False)
         Me.TabPageHeaps.ResumeLayout(False)
+        CType(Me.graphCPU, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.graphMemory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.graphIO, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
