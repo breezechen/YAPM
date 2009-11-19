@@ -30,7 +30,7 @@ Public Class cFile
     ' Private attributes
     ' ========================================
 #Region "Attributes"
-    Private _tFileVersion As System.Diagnostics.FileVersionInfo
+    Private _tFileVersion As SerializableFileVersionInfo
     Private _isArchive As Boolean
     Private _isCompressed As Boolean
     Private _isDevice As Boolean
@@ -79,7 +79,7 @@ Public Class cFile
     ' Getter & setter
     ' ========================================
 #Region "Getter & setter"
-    Public ReadOnly Property FileVersion() As System.Diagnostics.FileVersionInfo
+    Public ReadOnly Property FileVersion() As SerializableFileVersionInfo
         Get
             Return _tFileVersion
         End Get
@@ -358,7 +358,7 @@ Public Class cFile
         End If
 
         ' Infos about dll/exe
-        _tFileVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(_Path)
+        _tFileVersion = New SerializableFileVersionInfo(System.Diagnostics.FileVersionInfo.GetVersionInfo(_Path))
 
         sb2 = Nothing
         sb3 = Nothing

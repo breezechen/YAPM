@@ -51,7 +51,7 @@ Imports System.Runtime.InteropServices
     Private _Pid As Integer
     Private _AffinityMask As IntPtr
     Private _PebAddress As IntPtr
-    <NonSerialized()> Private _fileInfo As FileVersionInfo
+    Private _fileInfo As SerializableFileVersionInfo
     Private _ParentProcessId As Integer
     Private _IOValues As Native.Api.NativeStructs.IoCounters
     Private _Path As String
@@ -176,11 +176,11 @@ Imports System.Runtime.InteropServices
             _PebAddress = value
         End Set
     End Property
-    Public Property FileInfo() As FileVersionInfo
+    Public Property FileInfo() As SerializableFileVersionInfo
         Get
             Return _fileInfo
         End Get
-        Set(ByVal value As FileVersionInfo)
+        Set(ByVal value As SerializableFileVersionInfo)
             _fileInfo = value
         End Set
     End Property

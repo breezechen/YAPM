@@ -35,7 +35,7 @@ Imports System.Runtime.InteropServices
     Private _entryPoint As IntPtr
     Private _processId As Integer
     Private _flags As Native.Api.NativeEnums.LdrpDataTableEntryFlags
-    <NonSerialized()> Private _fileInfo As FileVersionInfo
+    Private _fileInfo As SerializableFileVersionInfo
 
     Private _manufacturer As String
     Private _version As String
@@ -79,7 +79,7 @@ Imports System.Runtime.InteropServices
             Return _size
         End Get
     End Property
-    Public ReadOnly Property FileInfo() As FileVersionInfo
+    Public ReadOnly Property FileInfo() As SerializableFileVersionInfo
         Get
             Return _fileInfo
         End Get
@@ -138,7 +138,7 @@ Imports System.Runtime.InteropServices
             asyncCallbackModuleEnumerate.semDicoFileInfos.WaitOne()
             If asyncCallbackModuleEnumerate.fileInformations.ContainsKey(_path) = False Then
                 Try
-                    _fileInfo = FileVersionInfo.GetVersionInfo(path)
+                    _fileInfo = New SerializableFileVersionInfo(FileVersionInfo.GetVersionInfo(path))
                 Catch ex As Exception
                     _fileInfo = Nothing
                 End Try
@@ -168,7 +168,7 @@ Imports System.Runtime.InteropServices
         _path = Common.Misc.GetRealPath(path)
         _name = cFile.GetFileName(_path)
         _manufacturer = manufacturer
-        _version = Version
+        _version = version
     End Sub
 
     ' Merge an old and a new instance

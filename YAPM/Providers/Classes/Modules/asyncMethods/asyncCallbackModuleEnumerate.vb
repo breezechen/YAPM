@@ -29,7 +29,7 @@ Imports System.Management
 Public Class asyncCallbackModuleEnumerate
 
     ' Some material to retrieve infos about files ONCE
-    Friend Shared fileInformations As New Dictionary(Of String, FileVersionInfo)
+    Friend Shared fileInformations As New Dictionary(Of String, SerializableFileVersionInfo)
     Friend Shared semDicoFileInfos As New System.Threading.Semaphore(1, 1)
 
     Private ctrl As Control

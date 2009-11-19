@@ -265,7 +265,7 @@ Public Class frmServiceInfo
         If _local Then
             Try
                 If IO.File.Exists(Me.txtServicePath.Text) AndAlso curServ.Infos.FileInfo Is Nothing Then
-                    curServ.Infos.FileInfo = FileVersionInfo.GetVersionInfo(Me.txtServicePath.Text)
+                    curServ.Infos.FileInfo = New SerializableFileVersionInfo(FileVersionInfo.GetVersionInfo(Me.txtServicePath.Text))
                 End If
             Catch ex As Exception
                 Misc.ShowDebugError(ex)

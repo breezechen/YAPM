@@ -60,7 +60,7 @@ Imports System.Text
     Private _objName As String
     Private _acceptedCtrls As Native.Api.NativeEnums.ServiceAccept
     Private _name As String
-    <NonSerialized()> Private _fileInfo As FileVersionInfo
+    Private _fileInfo As SerializableFileVersionInfo
 
     Private _tag As Boolean = False
     Private _Dependencies As String()
@@ -194,11 +194,11 @@ Imports System.Text
             Return _Win32ExitCode
         End Get
     End Property
-    Public Property FileInfo() As FileVersionInfo
+    Public Property FileInfo() As SerializableFileVersionInfo
         Get
             Return _fileInfo
         End Get
-        Set(ByVal value As FileVersionInfo)
+        Set(ByVal value As SerializableFileVersionInfo)
             _fileInfo = value
         End Set
     End Property

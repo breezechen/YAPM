@@ -121,8 +121,7 @@ Public Class cModule
             Case "Name"
                 res = Me.Infos.Name
             Case "Version"
-                If Me.Infos.Version Is Nothing Then
-                    If Me.Infos.FileInfo IsNot Nothing Then _
+                If Me.Infos.FileInfo IsNot Nothing Then
                     res = Me.Infos.FileInfo.FileVersion
                 Else
                     res = Me.Infos.Version
@@ -300,8 +299,7 @@ Public Class cModule
                     _old_Name = res
                 End If
             Case "Version"
-                If Me.Infos.Version Is Nothing Then
-                    If Me.Infos.FileInfo IsNot Nothing Then _
+                If Me.Infos.FileInfo IsNot Nothing Then
                     res = Me.Infos.FileInfo.FileVersion
                 Else
                     res = Me.Infos.Version

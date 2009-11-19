@@ -654,10 +654,10 @@ Namespace Native.Objects
                     If _peb.IsNotNull Then
                         _command = GetProcessCommandLineById(obj.ProcessId, _peb.ToInt64)
                     End If
-                    Dim _finfo As FileVersionInfo = Nothing
+                    Dim _finfo As SerializableFileVersionInfo = Nothing
                     If IO.File.Exists(_path) Then
                         Try
-                            _finfo = FileVersionInfo.GetVersionInfo(_path)
+                            _finfo = New SerializableFileVersionInfo(FileVersionInfo.GetVersionInfo(_path))
                         Catch ex As Exception
                             ' File not available or ?
                         End Try
