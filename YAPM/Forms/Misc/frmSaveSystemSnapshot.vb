@@ -46,6 +46,12 @@ Public Class frmSaveSystemSnapshot
         ' Check all items in lstOptions
         For i As Integer = 0 To Me.lstOptions.Items.Count - 1
             Me.lstOptions.SetItemChecked(i, True)
+            ' Do not check "mem region" by default cause it requires a lot a
+            ' memory to save into a file (~1MB)
+            Dim s As String = CStr(Me.lstOptions.Items(i))
+            If s = "MemoryRegions" OrElse s = "Heaps" Then
+                Me.lstOptions.SetItemChecked(i, False)
+            End If
         Next
     End Sub
 

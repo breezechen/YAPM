@@ -4064,4 +4064,14 @@ Public Class frmMain
         Dim frm As New frmSaveSystemSnapshot
         frm.ShowDialog()
     End Sub
+
+    Private Sub MenuItemSystemExploreSSFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemExploreSSFile.Click
+        Call Me.butExploreSSFile_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butExploreSSFile_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butExploreSSFile.Click
+        Dim frm As New frmSnapshotInfos
+        frm.TopMost = _frmMain.TopMost
+        frm.Show()
+    End Sub
 End Class

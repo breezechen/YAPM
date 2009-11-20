@@ -53,20 +53,24 @@ Public Class cThread
         _connection = Connection
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Thread
         ' Get a handle if local
-        If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            _handleQueryInfo = Native.Objects.Thread.GetThreadHandle(infos.Id,Native.Security.ThreadAccess.QueryInformation)
-            If getPriorityInfo Then
-                ' Here we get priority (used when YAPM is used as a server)
-                Call infos.SetPriority(Native.Objects.Thread.GetThreadPriorityByHandle(_handleQueryInfo))
+        If _connection IsNot Nothing Then
+            If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+                _handleQueryInfo = Native.Objects.Thread.GetThreadHandle(infos.Id, Native.Security.ThreadAccess.QueryInformation)
+                If getPriorityInfo Then
+                    ' Here we get priority (used when YAPM is used as a server)
+                    Call infos.SetPriority(Native.Objects.Thread.GetThreadPriorityByHandle(_handleQueryInfo))
+                End If
             End If
         End If
     End Sub
 
     Protected Overrides Sub Finalize()
         ' Close a handle if local
-        If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If _handleQueryInfo .IsNotNull Then
-                Native.Objects.General.CloseHandle(_handleQueryInfo)
+        If _connection IsNot Nothing Then
+            If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+                If _handleQueryInfo.IsNotNull Then
+                    Native.Objects.General.CloseHandle(_handleQueryInfo)
+                End If
             End If
         End If
     End Sub

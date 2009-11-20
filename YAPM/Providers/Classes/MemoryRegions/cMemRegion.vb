@@ -49,12 +49,14 @@ Public Class cMemRegion
         _connection = Connection
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.MemoryRegion
 
-        If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If infos.Type = Native.Api.NativeEnums.MemoryType.Image Then
-                _moduleFileName = getModuleName(infos.BaseAddress)
-            ElseIf infos.Type = Native.Api.NativeEnums.MemoryType.Mapped Then
-                If infos.State = Native.Api.NativeEnums.MemoryState.Commit Then
+        If _connection IsNot Nothing Then
+            If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+                If infos.Type = Native.Api.NativeEnums.MemoryType.Image Then
                     _moduleFileName = getModuleName(infos.BaseAddress)
+                ElseIf infos.Type = Native.Api.NativeEnums.MemoryType.Mapped Then
+                    If infos.State = Native.Api.NativeEnums.MemoryState.Commit Then
+                        _moduleFileName = getModuleName(infos.BaseAddress)
+                    End If
                 End If
             End If
         End If

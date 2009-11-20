@@ -128,17 +128,21 @@ Public Class cProcess
         _processors = cProcessConnection.ProcessorCount
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Process
         ' Get a handle if local
-        If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            _handleQueryInfo = Native.Objects.Process.GetProcessHandleById(infos.ProcessId, Native.Objects.Process.ProcessQueryMinRights)
-            _tokenHandle = Native.Objects.Token.GetProcessTokenHandleByProcessHandle(_handleQueryInfo, Native.Security.TokenAccess.Query)
+        If _connection IsNot Nothing Then
+            If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+                _handleQueryInfo = Native.Objects.Process.GetProcessHandleById(infos.ProcessId, Native.Objects.Process.ProcessQueryMinRights)
+                _tokenHandle = Native.Objects.Token.GetProcessTokenHandleByProcessHandle(_handleQueryInfo, Native.Security.TokenAccess.Query)
+            End If
         End If
     End Sub
 
     Protected Overrides Sub Finalize()
         ' Close a handle if local
-        If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If _handleQueryInfo.IsNotNull Then
-                Native.Objects.General.CloseHandle(_handleQueryInfo)
+        If _connection IsNot Nothing Then
+            If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+                If _handleQueryInfo.IsNotNull Then
+                    Native.Objects.General.CloseHandle(_handleQueryInfo)
+                End If
             End If
         End If
     End Sub
