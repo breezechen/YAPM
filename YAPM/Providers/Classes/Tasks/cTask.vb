@@ -130,6 +130,16 @@ Public Class cTask
 
         Return hasChanged
     End Function
+    Public Overrides Function GetInformation(ByVal info As String) As String
+
+        Select Case info
+            Case "CpuUsage"
+                Return Common.Misc.GetFormatedPercentage(Me.CpuUsage)
+            Case Else
+                Return MyBase.GetInformation(info)
+        End Select
+
+    End Function
 
 #End Region
 
