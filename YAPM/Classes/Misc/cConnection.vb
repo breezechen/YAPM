@@ -152,7 +152,7 @@ Public Class cConnection
             Case TypeOfConnection.RemoteConnectionViaWMI
                 Return _conWMI.serverName & " (WMI)"
             Case TypeOfConnection.SnapshotFile
-                Return _snap.InformationsAboutSnapshot
+                Return _snap.ToString
             Case Else
                 Return "Unknown"
         End Select

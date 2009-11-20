@@ -71,8 +71,14 @@ Public Class cSnapshot
     ' List of handles (PID <-> Dico)
     Private _handles As New Dictionary(Of Integer, Dictionary(Of String, handleInfos))
 
-    ' Informations about the snapshot
-    Private _snapInfos As String
+    ' Version of file type
+    Private _fileVersion As String
+
+    ' Date of snapshot
+    Private _date As Date
+
+    ' System infos
+    Private _infos As SnapshotSystemInfo
 
 #End Region
 
@@ -102,6 +108,9 @@ Public Class cSnapshot
                 Me.Heaps = .Heaps
                 Me.EnvironnementVariables = .EnvironnementVariables
                 Me.Handles = .Handles
+                Me.FileVersion = .FileVersion
+                Me.Date = .Date
+                Me.SystemInformation = .SystemInformation
             End With
         Catch ex As Exception
             ' Failed !
@@ -114,19 +123,47 @@ Public Class cSnapshot
         ' Empty snapshot file
     End Sub
 
+    Public Overrides Function ToString() As String
+        Return "Snapshot, computer : " & Me.SystemInformation.ComputerName & ", date : " & Me.Date.ToLongDateString & "-" & Me.Date.ToLongTimeString
+    End Function
+
 #End Region
 
-#Region "Normal properties"
+#Region "Properties about the snapshot"
 
-    ' Informations about the snapshot
-    Public Property InformationsAboutSnapshot() As String
+    ' File type version
+    Public Property FileVersion() As String
         Get
-            Return _snapInfos
+            Return _fileVersion
         End Get
         Set(ByVal value As String)
-            _snapInfos = value
+            _fileVersion = value
         End Set
     End Property
+
+    ' System info
+    Public Property SystemInformation() As SnapshotSystemInfo
+        Get
+            Return _infos
+        End Get
+        Set(ByVal value As SnapshotSystemInfo)
+            _infos = value
+        End Set
+    End Property
+
+    ' File date
+    Public Property [Date]() As Date
+        Get
+            Return _date
+        End Get
+        Set(ByVal value As Date)
+            _date = value
+        End Set
+    End Property
+
+#End Region
+
+#Region "Other properties"
 
     ' List of processes
     Public Property Processes() As Dictionary(Of String, processInfos)
@@ -517,8 +554,6 @@ Public Class cSnapshot
                 ' Nothing here
         End Select
 
-        Me.InformationsAboutSnapshot = "Date : " & Date.Now.ToShortDateString & " - " & Date.Now.ToShortTimeString & ", Machine : " & connection.ToString
-
         Return b
     End Function
 
@@ -530,6 +565,13 @@ Public Class cSnapshot
     Private Function LocalBuild(ByRef msg As String, ByVal options As Native.Api.Enums.SnapshotObject) As Boolean
 
         Try
+
+            ' Informations about system & ssfile
+            Me.Date = System.DateTime.Now
+            Me.FileVersion = My.Application.Info.Version.ToString
+            Me.SystemInformation = New SnapshotSystemInfo(Program.Connection)
+
+
             ' Processes
             ' We HAVE to get the list cause some other informations depend on it
             Me.Processes = asyncCallbackProcEnumerate.SharedLocalSyncEnumerate(True, New asyncCallbackProcEnumerate.poolObj(0, asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses))

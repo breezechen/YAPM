@@ -990,6 +990,7 @@
     <Compile Include="Scripting\Machine.vb" />
     <Compile Include="Scripting\Tools.vb" />
     <Compile Include="Snapshot\cSnapshot.vb" />
+    <Compile Include="Snapshot\SnapshotSystemInfo.vb" />
     <Compile Include="UserControls\HandleProps\HJobProp.Designer.vb">
       <DependentUpon>HJobProp.vb</DependentUpon>
     </Compile>
