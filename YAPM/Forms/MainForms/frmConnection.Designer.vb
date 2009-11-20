@@ -58,6 +58,7 @@ Partial Class frmConnection
         Me.lvData = New DoubleBufferedLV
         Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader2 = New System.Windows.Forms.ColumnHeader
+        Me.cmdSSFileInfos = New System.Windows.Forms.Button
         Me.gpServer.SuspendLayout()
         Me.gpWMI.SuspendLayout()
         Me.gpShutdown.SuspendLayout()
@@ -322,6 +323,7 @@ Partial Class frmConnection
         'gpSnapshot
         '
         Me.gpSnapshot.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.gpSnapshot.Controls.Add(Me.cmdSSFileInfos)
         Me.gpSnapshot.Controls.Add(Me.cmdBrowseSSFile)
         Me.gpSnapshot.Controls.Add(Me.txtSSFile)
         Me.gpSnapshot.Controls.Add(Me.Label4)
@@ -334,9 +336,9 @@ Partial Class frmConnection
         '
         'cmdBrowseSSFile
         '
-        Me.cmdBrowseSSFile.Location = New System.Drawing.Point(276, 15)
+        Me.cmdBrowseSSFile.Location = New System.Drawing.Point(252, 15)
         Me.cmdBrowseSSFile.Name = "cmdBrowseSSFile"
-        Me.cmdBrowseSSFile.Size = New System.Drawing.Size(27, 23)
+        Me.cmdBrowseSSFile.Size = New System.Drawing.Size(25, 23)
         Me.cmdBrowseSSFile.TabIndex = 12
         Me.cmdBrowseSSFile.Text = "..."
         Me.cmdBrowseSSFile.UseVisualStyleBackColor = True
@@ -345,7 +347,7 @@ Partial Class frmConnection
         '
         Me.txtSSFile.Location = New System.Drawing.Point(128, 17)
         Me.txtSSFile.Name = "txtSSFile"
-        Me.txtSSFile.Size = New System.Drawing.Size(142, 22)
+        Me.txtSSFile.Size = New System.Drawing.Size(118, 22)
         Me.txtSSFile.TabIndex = 11
         Me.txtSSFile.Text = "C:\Users\Admin\Desktop\01.ssf"
         '
@@ -387,6 +389,15 @@ Partial Class frmConnection
         '
         Me.ColumnHeader2.Text = "Command received"
         Me.ColumnHeader2.Width = 349
+        '
+        'cmdSSFileInfos
+        '
+        Me.cmdSSFileInfos.Image = Global.My.Resources.Resources.information_frame
+        Me.cmdSSFileInfos.Location = New System.Drawing.Point(283, 14)
+        Me.cmdSSFileInfos.Name = "cmdSSFileInfos"
+        Me.cmdSSFileInfos.Size = New System.Drawing.Size(25, 25)
+        Me.cmdSSFileInfos.TabIndex = 13
+        Me.cmdSSFileInfos.UseVisualStyleBackColor = True
         '
         'frmConnection
         '
@@ -459,4 +470,5 @@ Partial Class frmConnection
     Friend WithEvents txtSSFile As System.Windows.Forms.TextBox
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents openFile As System.Windows.Forms.OpenFileDialog
+    Friend WithEvents cmdSSFileInfos As System.Windows.Forms.Button
 End Class

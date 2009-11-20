@@ -74,6 +74,7 @@ Public Class frmConnection
         SetToolTip(Me.optSnapshot, "Use a 'system snaphost file' to display informations")
         SetToolTip(Me.txtSSFile, "Path of the System Snapshot File.")
         SetToolTip(Me.cmdBrowseSSFile, "Select the System Snapshot File.")
+        SetToolTip(Me.cmdSSFileInfos, "Show information about the System Snapshot File.")
 
         Me.txtPort.Text = CStr(My.Settings.RemotePort)
         Me.txtServerMachine.Text = My.Settings.RemoteMachineNameW
@@ -97,6 +98,8 @@ Public Class frmConnection
         Me.lvData.Enabled = Me.optServer.Checked
         Me.gpWMI.Visible = optWMI.Checked
         Me.gpSnapshot.Visible = optSnapshot.Checked
+        Me.cmdSSFileInfos.Enabled = Program.Connection.ConnectionType = cConnection.TypeOfConnection.SnapshotFile AndAlso Program.Connection.IsConnected
+
         If optLocal.Checked Then
             Me.txtDesc.Text = _localDesc
             Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
@@ -361,6 +364,31 @@ Public Class frmConnection
         Dim ret As DialogResult = Me.openFile.ShowDialog
         If ret = Windows.Forms.DialogResult.OK Then
             Me.txtSSFile.Text = Me.openFile.FileName
+        End If
+    End Sub
+
+    Private Sub cmdSSFileInfos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSSFileInfos.Click
+        ' Display informations about the snapshot
+        Dim snap As cSnapshot = Program.Connection.Snapshot
+        If snap IsNot Nothing Then
+            Dim s As String = vbNewLine & "FILE INFO" & vbNewLine & vbNewLine & _
+                    "Date : " & snap.Date & vbNewLine & _
+                    "FileVersion : " & snap.FileVersion & vbNewLine & vbNewLine
+            If snap.SystemInformation IsNot Nothing Then
+                s &= "SYSTEM INFO" & vbNewLine & vbNewLine & _
+                    "ComputerName : " & snap.SystemInformation.ComputerName & vbNewLine & _
+                    "UserName : " & snap.SystemInformation.UserName & vbNewLine & _
+                    "Culture : " & snap.SystemInformation.Culture.ToString & vbNewLine & _
+                    "IntPtrSize : " & snap.SystemInformation.IntPtrSize & vbNewLine & _
+                    "OSFullName : " & snap.SystemInformation.OSFullName & vbNewLine & _
+                    "OSPlatform : " & snap.SystemInformation.OSPlatform & vbNewLine & _
+                    "OSVersion : " & snap.SystemInformation.OSVersion & vbNewLine & _
+                    "AvailablePhysicalMemory : " & snap.SystemInformation.AvailablePhysicalMemory & vbNewLine & _
+                    "AvailableVirtualMemory : " & snap.SystemInformation.AvailableVirtualMemory & vbNewLine & _
+                    "TotalPhysicalMemory : " & snap.SystemInformation.TotalPhysicalMemory & vbNewLine & _
+                    "TotalVirtualMemory : " & snap.SystemInformation.TotalVirtualMemory
+            End If
+            Misc.ShowMsg("System Snapshot File information", "Informations about the file " & Program.Connection.SnapshotFile, s, MessageBoxButtons.OK)
         End If
     End Sub
 End Class
