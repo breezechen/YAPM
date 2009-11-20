@@ -320,6 +320,10 @@ Public Class frmMain
         
         ' For now, SBA is removed from menu...
         Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbMenuSBA)
+        ' For now, scripting is removed from menu...
+        Me.Ribbon.QuickAcessToolbar.Items.Remove(Me.butScripting)
+        Me.MenuItemSYSTEMFILE.MenuItems.Remove(Me.MenuItemSystemScripting)
+
 
         ' Disable 'start as admin' if we are not on Vista or above
         If cEnvironment.SupportsUac = False _
@@ -4056,7 +4060,7 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemSystemSaveSSFile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemSaveSSFile.Click
-        Call Me.MenuItemSystemSaveSSFile_Click(Nothing, Nothing)
+        Call Me.butSaveSystemSnaphotFile_Click(Nothing, Nothing)
     End Sub
 
     Private Sub butSaveSystemSnaphotFile_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSaveSystemSnaphotFile.Click
