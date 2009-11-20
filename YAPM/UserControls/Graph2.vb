@@ -55,10 +55,11 @@ Public Class Graph2
     Private components As System.ComponentModel.IContainer
     Private _yMaxValue As Double = 0
 
-    Private _colorGridEn As System.Drawing.Pen = Pens.DarkGreen
-    Private _colorEn As System.Drawing.Pen = Pens.Yellow
-    Private _color2En As System.Drawing.Pen = Pens.Yellow
-    Private _color3En As System.Drawing.Pen = Pens.Red
+    Private _colorGridEn As System.Drawing.Pen = _colorGrid
+    Private _colorEn As System.Drawing.Pen = _color
+    Private _color2En As System.Drawing.Pen = _color2
+    Private _color3En As System.Drawing.Pen = _color3
+    Private _textColorEn As System.Drawing.Pen = _textColor
 
     ' ========================================
     ' Properties
@@ -82,10 +83,11 @@ Public Class Graph2
                 _textColor = Pens.DarkGray
                 Me.BackColor = Drawing.Color.Gray
             Else
-                _colorGrid = _colorGridEn
                 _color = _colorEn
                 _color2 = _color2En
                 _color3 = _color3En
+                _textColor = _textColorEn
+                _colorGrid = _colorGridEn
                 Me.BackColor = Drawing.Color.Black
             End If
         End Set
@@ -110,6 +112,7 @@ Public Class Graph2
         End Get
         Set(ByVal value As Color)
             _colorGrid = New Pen(value)
+            _colorGridEn = _colorGrid
         End Set
     End Property
     <System.ComponentModel.Category("Configuration"), System.ComponentModel.Description("value"), _
@@ -120,6 +123,7 @@ Public Class Graph2
         End Get
         Set(ByVal value As Color)
             _textColor = New Pen(value)
+            _textColorEn = _textColor
         End Set
     End Property
     <System.ComponentModel.Category("Configuration"), System.ComponentModel.Description("value"), _
@@ -130,6 +134,7 @@ Public Class Graph2
         End Get
         Set(ByVal value As Color)
             _color = New Pen(value)
+            _colorEn = _color
         End Set
     End Property
     <System.ComponentModel.Category("Configuration"), System.ComponentModel.Description("value"), _
@@ -140,6 +145,7 @@ Public Class Graph2
         End Get
         Set(ByVal value As Color)
             _color2 = New Pen(value)
+            _color2En = _color2
         End Set
     End Property
     <System.ComponentModel.Category("Configuration"), System.ComponentModel.Description("value"), _
@@ -150,6 +156,7 @@ Public Class Graph2
         End Get
         Set(ByVal value As Color)
             _color3 = New Pen(value)
+            _color3En = _color3
         End Set
     End Property
     Public Property EnableGraph() As Boolean
