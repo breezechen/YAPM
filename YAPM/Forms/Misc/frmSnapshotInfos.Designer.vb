@@ -24,11 +24,11 @@ Partial Class frmSnapshotInfos
     Private Sub InitializeComponent()
         Me.SplitContainer = New System.Windows.Forms.SplitContainer
         Me.tv = New System.Windows.Forms.TreeView
-        Me.cmdOK = New System.Windows.Forms.Button
+        Me.cmdGo = New System.Windows.Forms.Button
         Me.cmdBrowseSSFile = New System.Windows.Forms.Button
         Me.txtSSFile = New System.Windows.Forms.TextBox
         Me.Label4 = New System.Windows.Forms.Label
-        Me.cmdGo = New System.Windows.Forms.Button
+        Me.cmdOK = New System.Windows.Forms.Button
         Me.openFile = New System.Windows.Forms.OpenFileDialog
         Me.SplitContainer.Panel1.SuspendLayout()
         Me.SplitContainer.Panel2.SuspendLayout()
@@ -63,20 +63,21 @@ Partial Class frmSnapshotInfos
         '
         Me.tv.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.tv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.tv.FullRowSelect = True
         Me.tv.Location = New System.Drawing.Point(0, 0)
         Me.tv.Name = "tv"
         Me.tv.Size = New System.Drawing.Size(481, 327)
         Me.tv.TabIndex = 0
         '
-        'cmdOK
+        'cmdGo
         '
-        Me.cmdOK.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cmdOK.Location = New System.Drawing.Point(415, 1)
-        Me.cmdOK.Name = "cmdOK"
-        Me.cmdOK.Size = New System.Drawing.Size(54, 23)
-        Me.cmdOK.TabIndex = 1
-        Me.cmdOK.Text = "Exit"
-        Me.cmdOK.UseVisualStyleBackColor = True
+        Me.cmdGo.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdGo.Location = New System.Drawing.Point(314, 2)
+        Me.cmdGo.Name = "cmdGo"
+        Me.cmdGo.Size = New System.Drawing.Size(77, 23)
+        Me.cmdGo.TabIndex = 16
+        Me.cmdGo.Text = "Explore"
+        Me.cmdGo.UseVisualStyleBackColor = True
         '
         'cmdBrowseSSFile
         '
@@ -104,15 +105,15 @@ Partial Class frmSnapshotInfos
         Me.Label4.TabIndex = 13
         Me.Label4.Text = "System Snapshot File"
         '
-        'cmdGo
+        'cmdOK
         '
-        Me.cmdGo.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmdGo.Location = New System.Drawing.Point(314, 2)
-        Me.cmdGo.Name = "cmdGo"
-        Me.cmdGo.Size = New System.Drawing.Size(77, 23)
-        Me.cmdGo.TabIndex = 16
-        Me.cmdGo.Text = "Explore"
-        Me.cmdGo.UseVisualStyleBackColor = True
+        Me.cmdOK.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.cmdOK.Location = New System.Drawing.Point(415, 1)
+        Me.cmdOK.Name = "cmdOK"
+        Me.cmdOK.Size = New System.Drawing.Size(54, 23)
+        Me.cmdOK.TabIndex = 1
+        Me.cmdOK.Text = "Exit"
+        Me.cmdOK.UseVisualStyleBackColor = True
         '
         'openFile
         '
@@ -131,7 +132,6 @@ Partial Class frmSnapshotInfos
         Me.MinimumSize = New System.Drawing.Size(497, 397)
         Me.Name = "frmSnapshotInfos"
         Me.ShowIcon = False
-        Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "System Snapshot File information"
         Me.SplitContainer.Panel1.ResumeLayout(False)
