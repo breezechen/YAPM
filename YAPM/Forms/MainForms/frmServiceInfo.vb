@@ -215,14 +215,19 @@ Public Class frmServiceInfo
         ' Icons
         Me.tv.ImageList = _frmMain.imgServices
         Me.tv2.ImageList = _frmMain.imgServices
-        If pctBigIcon.Image Is Nothing Then
-            Try
-                pctBigIcon.Image = GetIcon(Me.txtServicePath.Text, False).ToBitmap
-                pctSmallIcon.Image = GetIcon(Me.txtServicePath.Text, True).ToBitmap
-            Catch ex As Exception
-                pctSmallIcon.Image = My.Resources.exe16
-                pctBigIcon.Image = My.Resources.exe32
-            End Try
+        If cService.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            If pctBigIcon.Image Is Nothing Then
+                Try
+                    pctBigIcon.Image = GetIcon(Me.txtServicePath.Text, False).ToBitmap
+                    pctSmallIcon.Image = GetIcon(Me.txtServicePath.Text, True).ToBitmap
+                Catch ex As Exception
+                    pctSmallIcon.Image = My.Resources.exe16
+                    pctBigIcon.Image = My.Resources.exe32
+                End Try
+            End If
+        Else
+            pctSmallIcon.Image = My.Resources.exe16
+            pctBigIcon.Image = My.Resources.exe32
         End If
 
         Call Connect()

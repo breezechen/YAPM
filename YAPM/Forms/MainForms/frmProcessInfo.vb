@@ -336,9 +336,6 @@ Public Class frmProcessInfo
 
             rtb.Rtf = s
 
-            pctSmallIcon.Image = My.Resources.exe16
-            pctBigIcon.Image = My.Resources.exe32
-
         End Try
     End Sub
 
@@ -490,14 +487,19 @@ Public Class frmProcessInfo
         End Select
 
         ' Icons
-        If pctBigIcon.Image Is Nothing Then
-            Try
-                pctBigIcon.Image = GetIcon(curProc.Infos.Path, False).ToBitmap
-                pctSmallIcon.Image = GetIcon(curProc.Infos.Path, True).ToBitmap
-            Catch ex As Exception
-                pctSmallIcon.Image = My.Resources.exe16
-                pctBigIcon.Image = My.Resources.exe32
-            End Try
+        If cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            If pctBigIcon.Image Is Nothing Then
+                Try
+                    pctBigIcon.Image = GetIcon(curProc.Infos.Path, False).ToBitmap
+                    pctSmallIcon.Image = GetIcon(curProc.Infos.Path, True).ToBitmap
+                Catch ex As Exception
+                    pctSmallIcon.Image = My.Resources.exe16
+                    pctBigIcon.Image = My.Resources.exe32
+                End Try
+            End If
+        Else
+            pctSmallIcon.Image = My.Resources.exe16
+            pctBigIcon.Image = My.Resources.exe32
         End If
 
         Call Connect()
