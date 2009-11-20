@@ -383,10 +383,10 @@ Public Class frmConnection
                     "OSFullName : " & snap.SystemInformation.OSFullName & vbNewLine & _
                     "OSPlatform : " & snap.SystemInformation.OSPlatform & vbNewLine & _
                     "OSVersion : " & snap.SystemInformation.OSVersion & vbNewLine & _
-                    "AvailablePhysicalMemory : " & snap.SystemInformation.AvailablePhysicalMemory & vbNewLine & _
-                    "AvailableVirtualMemory : " & snap.SystemInformation.AvailableVirtualMemory & vbNewLine & _
-                    "TotalPhysicalMemory : " & snap.SystemInformation.TotalPhysicalMemory & vbNewLine & _
-                    "TotalVirtualMemory : " & snap.SystemInformation.TotalVirtualMemory
+                    "AvailablePhysicalMemory : " & GetFormatedSize(snap.SystemInformation.AvailablePhysicalMemory) & vbNewLine & _
+                    "AvailableVirtualMemory : " & GetFormatedSize(snap.SystemInformation.AvailableVirtualMemory) & vbNewLine & _
+                    "TotalPhysicalMemory : " & GetFormatedSize(snap.SystemInformation.TotalPhysicalMemory) & vbNewLine & _
+                    "TotalVirtualMemory : " & GetFormatedSize(snap.SystemInformation.TotalVirtualMemory)
             End If
             Misc.ShowMsg("System Snapshot File information", "Informations about the file " & Program.Connection.SnapshotFile, s, MessageBoxButtons.OK)
         End If
