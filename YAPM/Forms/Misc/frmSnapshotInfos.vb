@@ -41,10 +41,15 @@ Public Class frmSnapshotInfos
     Private Sub cmdGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGo.Click
         If System.IO.File.Exists(Me.txtSSFile.Text) Then
             Me.Text = "System Snapshot File information - Exploring file..."
-            Dim snap As New cSnapshot(Me.txtSSFile.Text)
-            Me.Text = "System Snapshot File information - Building tree..."
-            Call Me.BuildTree(snap)
-            Me.Text = "System Snapshot File information"
+            Try
+                Dim snap As New cSnapshot(Me.txtSSFile.Text)
+                Me.Text = "System Snapshot File information - Building tree..."
+                Call Me.BuildTree(snap)
+                Me.Text = "System Snapshot File information"
+            Catch ex As Exception
+                Misc.ShowError(ex, "Could not explore file !")
+                Me.Text = "System Snapshot File information - Failed to explore file"
+            End Try
         End If
     End Sub
 

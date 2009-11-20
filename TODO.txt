@@ -5,9 +5,9 @@ Refactoring bugs
 
 - virer PtrToStructure et n'utiliser que MemoryAlloc
 
-- continuer heaps (remote -> régler pb du DebugBuffer, show blocks en bas de la form...)
+- continuer heaps (show blocks en bas de la form...)
 
-- snapshot -> serviceDep et processesInJob + désactiver times + gestion historiques + gestion infos du type FileInfo, Path, UserName + recherche (pb de dico)
+- snapshot -> serviceDep et processesInJob + désactiver times + gestion historiques + recherche (pb de dico)
 
 BUGS CRITIQUES
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
@@ -15,7 +15,6 @@ BUGS CRITIQUES
 - searchInfos contains cService/cModule (NOT Serializable -> can not search via server)
 - close local process handle -> utiliser DuplicateHandle plutôt que remote thread
 - others highlightings (isTask, wow64...)
-- extend dico et ajout de TryAdd ?
 - refermer les handles quand les processes meurent !
 - problème icones menu principal cachées (Vista seulement)
 - reports à faire (vérifier l'utilisation de GetAvailbleProperties)
@@ -33,20 +32,19 @@ BUGS CRITIQUES
 	
 BUGS NON CRITIQUES
 - columns lvHeap
-- outils network connection (ping, trace, whois...)
+- outils network connection (trace, whois...)
 - implémenter le dump...
 - elevation pour create service
 - déconnexion remote quand recherche non terminée -> lvSearch disabled
 - timer dans jobInfos doit avoir le même temps que dans frmMain
 - ajouter nouvelles infos pour les handles (cf struct récupérée)
 - is remote debugger present marche pas (cf _WIN32_WINNT)
-- say thanks to developerfusion.com && pinvoke.net
 - l'organisation des colonnes des threads n'est pas rechargée (ou bien sauvée ?) dans la form détail. Voir si c'est pareil pour les autres lv de la form
 - highlightings en remote
 - OK dans chooseColumns -> devrait sauvegarder les préférences de suite
-- recup username foireux
+- recup username foireux quelques fois
 - pending task pour remote (le _deg n'est pas appelé en remote)
-- goto item dans le log bon oopas ?
+- goto item dans le log bon, mais impossible si liste pas encore actualisée (donc soit griser go to item, soit créer un thread qui remplit la liste et sélectionne l'item (comme pour 'select window in windows tab'))
 - résolutions d'adresses -> stocker correspondance IP:port <-> nom resolu dans un dico ?
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - ajouter description des colonnes (dans le chooseColumns)
@@ -65,28 +63,23 @@ BUGS NON CRITIQUES
 - priorité des highlightings à prendre en compte
 - ajouter bouton Default dans ChooseColumns
 - ajouter infos token (elevation, domain, user name, SID...)
-- choix font
 - ajouter "démarrer en tant que" (runas, cf lien opera)
-- perf counter pour PC distant (+ ajouter gestion remote pour la recherche)
+- perf counter pour PC distant : ajouter gestion remote pour la recherche
 - path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
-- log marche pas toujours (0% d'UC ??)
-- fin d'un process/service dans frmDetail -> afficher 'terminé le xxx' en titre quand le process/service n'existe plus
+- fin d'un service dans frmDetail -> afficher 'terminé le xxx' en titre quand le service n'existe plus
 - tooltip partout (manque frmPreferences ? et manque frmLogOptions + forms qui viennent des autres projets)
-- images PNG uniquement + virer img inutiles
 - certaines icones moches (yes/no dans lvPrivileges, refresh, find window, )
 - get online infos pour les services (changer de provider !!)
 - graph monitoring -> refresh l'affichage de la valeur survolée également quand la souris se déplace
 - vérifier pourquoi cpu usage de Idle dépasse les 100% ; le cas échéant limiter la valeur à 100%
 - find hidden processes utilisable pour les PCs distants ? + ajouter Terminate dans le menu popup + éventuellement 'go to process' pour aller dans lvProcess
 - déconnexion WMI après longue inactivité -> calculer temps dernière requete et lancer une requete pour éviter la déconnexion si t>MAX ?
-- double récupération des strings en mémoire/image dans frmDetail ???
 - dependencies -> PE.filename doit changer SystemRoot en X:\Wind....
 - refresh double des services en WMI ??
 
 - affinity process/thread (socket)
-- refresh services trop rapide -> impossible de récupérer des infos par socket après (checker semaphore)
 - TODO, TOCHANGE, TODO_, TOCHECK, ISNEEDED, TOREMOVE, PERFISSUE
-- replace taskmgr sous 7 ?
+- replace taskmgr sous 7/Vista à checker et corriger
 - pending task : caption -> object.tostring (surcharger chaque cXXXX)
 - setLIMITEDinfo dans les access comme pour QueryLIMITEDinfo (thread & process)
 
@@ -94,7 +87,6 @@ BUGS NON CRITIQUES
 - probablement des bugs de 'collection modifiée' vis à vis du log
 - transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
 - getmappedimage... pour socket
-- Exception non gérée à 0x71fb5108 dans YAPM.exe : 0xC0000005: Violation d'accès lors de la lecture de l'emplacement 0x00000004. (lors de création/destruction de process -> tester avec les 20000)
 - messages Vista like partout
 - rapport monitoring
 - one graph per CPU -> conserver historique
@@ -132,8 +124,8 @@ Temp Change log :
 - Now performance graphs are up-to-date when opening process' detailed window
 - Now can select the thread associated to a window using "find window's process" feature
 - Now YAPM remember positions and sizes of the main windows
-- Now information about an image file (eg version, companyName, copyright...) is retrieved when monitoring a remote machine using the "server method"
-- No more need to display job list before being able to set job limit (using Control process job)
+- Now informations about an image file (eg version, companyName, copyright...) are retrieved when monitoring a remote machine using the "server method"
+- No more need to display job list before being able to set a job limit (using Control process job)
 
 * Bug fixed
 - Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)

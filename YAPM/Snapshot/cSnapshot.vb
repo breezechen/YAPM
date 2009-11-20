@@ -88,34 +88,29 @@ Public Class cSnapshot
         ' Build from file
 
         ' Serialization part :
-        Try
-            Dim b() As Byte = System.IO.File.ReadAllBytes(ssFile)
-            Dim newObj As cSnapshot = cSerialization.DeserializeObject(Of cSnapshot)(b)
+        Dim b() As Byte = System.IO.File.ReadAllBytes(ssFile)
+        Dim newObj As cSnapshot = cSerialization.DeserializeObject(Of cSnapshot)(b)
 
-            ' Set objects
-            With newObj
-                Me.Processes = .Processes
-                Me.Services = .Services
-                Me.NetworkConnections = .NetworkConnections
-                Me.Jobs = .Jobs
-                Me.Tasks = .Tasks
-                Me.Modules = .Modules
-                Me.Windows = .Windows
-                Me.Threads = .Threads
-                Me.Privileges = .Privileges
-                Me.MemoryRegions = .MemoryRegions
-                Me.JobLimits = .JobLimits
-                Me.Heaps = .Heaps
-                Me.EnvironnementVariables = .EnvironnementVariables
-                Me.Handles = .Handles
-                Me.FileVersion = .FileVersion
-                Me.Date = .Date
-                Me.SystemInformation = .SystemInformation
-            End With
-        Catch ex As Exception
-            ' Failed !
-            Misc.ShowDebugError(ex)
-        End Try
+        ' Set objects
+        With newObj
+            Me.Processes = .Processes
+            Me.Services = .Services
+            Me.NetworkConnections = .NetworkConnections
+            Me.Jobs = .Jobs
+            Me.Tasks = .Tasks
+            Me.Modules = .Modules
+            Me.Windows = .Windows
+            Me.Threads = .Threads
+            Me.Privileges = .Privileges
+            Me.MemoryRegions = .MemoryRegions
+            Me.JobLimits = .JobLimits
+            Me.Heaps = .Heaps
+            Me.EnvironnementVariables = .EnvironnementVariables
+            Me.Handles = .Handles
+            Me.FileVersion = .FileVersion
+            Me.Date = .Date
+            Me.SystemInformation = .SystemInformation
+        End With
 
     End Sub
 
