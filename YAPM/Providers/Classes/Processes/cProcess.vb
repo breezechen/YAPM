@@ -1717,9 +1717,9 @@ Public Class cProcess
                 .OtherOperationCount = CULng(ioDiff.OtherOperationCount)
                 .OtherTransferCount = CULng((10000000 / diff) * ioDiff.OtherTransferCount)
                 .ReadOperationCount = CULng(ioDiff.ReadOperationCount)
-                .ReadTransferCount = CULng((10000000 / diff) * ioDiff.ReadTransferCount / diff)
+                .ReadTransferCount = CULng((10000000 / diff) * ioDiff.ReadTransferCount)
                 .WriteOperationCount = CULng(ioDiff.WriteOperationCount)
-                .WriteTransferCount = CULng((10000000 / diff) * ioDiff.WriteTransferCount / diff)
+                .WriteTransferCount = CULng((10000000 / diff) * ioDiff.WriteTransferCount)
             End With
         Else
             With _ioDelta

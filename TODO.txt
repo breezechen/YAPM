@@ -128,6 +128,7 @@ Temp Change log :
 - No more need to display job list before being able to set a job limit (using Control process job)
 
 * Bug fixed
+- Fixed bad I/O transfer values
 - Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)
 - Fixed #2885689 (cannot call BeginInvoke)
 - Help menu not broken anymore
