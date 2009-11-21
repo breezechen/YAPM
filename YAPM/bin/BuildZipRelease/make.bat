@@ -48,10 +48,10 @@ rem     Create zip file
 ..\..\..\Tools\7za\7za.exe a -tzip -y ..\..\..\RELEASE\YAPM-vx.x.x-binaries.zip -r .\Bin\* -x!.svn
 
 rem     Create 7z file
-rem ..\..\..\Tools\7za\7za.exe a -t7z -y ..\..\..\RELEASE\YAPM-vx.x.x-binaries.7z -r .\Bin\* -x!.svn
+ ..\..\..\Tools\7za\7za.exe a -t7z -y ..\..\..\RELEASE\YAPM-vx.x.x-binaries.7z -r .\Bin\* -x!.svn
 
 rem     Build setup
 "C:\Program Files\Inno Setup 5\Compil32.exe" /cc ..\..\..\Setup\ISS\main.iss
 
 rem	Build source package
-rem "..\..\..\Source Packager\Packager\bin\Release\Packager.exe" -auto ..\..\..\..\RELEASE\YAPM-vx.x.x-source.zip
+ "..\..\..\Source Packager\Packager\bin\Release\Packager.exe" -auto ..\..\..\..\RELEASE\YAPM-vx.x.x-source.zip

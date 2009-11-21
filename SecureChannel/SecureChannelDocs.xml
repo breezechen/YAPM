@@ -4,31 +4,6 @@
         <name>SecureChannel</name>
     </assembly>
     <members>
-        <member name="T:MsdnMag.Remoting.SecureRemotingException">
-            <summary>The exception that is thrown when something goes wrong in the secure remoting channel.</summary>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor">
-            <summary>Initializes a new instance of the SecureRemotingException class with default properties.</summary>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor(System.String)">
-            <summary>Initializes a new instance of the SecureRemotingException class with the given message.</summary>
-            <param name="message">The error message that explains why the exception occurred.</param>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor(System.String,System.Exception)">
-            <summary>Initializes a new instance of the SecureRemotingException class with the specified properties.</summary>
-            <param name="message">The error message that explains why the exception occurred.</param>
-            <param name="innerException">The exception that is the cause of the current exception.</param>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>Initializes the exception with serialized information.</summary>
-            <param name="info">Serialization information.</param>
-            <param name="context">Streaming context.</param>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureRemotingException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>Provides serialization functionality.</summary>
-            <param name="info">Serialization information.</param>
-            <param name="context">Streaming context.</param>
-        </member>
         <member name="T:MsdnMag.Remoting.SecureServerChannelSink">
             <summary>
             Server channel sink that, in conjunction with SecureClientChannelSink, provides an 
@@ -148,6 +123,31 @@
         </member>
         <member name="P:MsdnMag.Remoting.SecureServerChannelSink.NextChannelSink">
             <summary>Gets the next server channel sink in the server sink chain.</summary>
+        </member>
+        <member name="T:MsdnMag.Remoting.SecureRemotingException">
+            <summary>The exception that is thrown when something goes wrong in the secure remoting channel.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor">
+            <summary>Initializes a new instance of the SecureRemotingException class with default properties.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor(System.String)">
+            <summary>Initializes a new instance of the SecureRemotingException class with the given message.</summary>
+            <param name="message">The error message that explains why the exception occurred.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor(System.String,System.Exception)">
+            <summary>Initializes a new instance of the SecureRemotingException class with the specified properties.</summary>
+            <param name="message">The error message that explains why the exception occurred.</param>
+            <param name="innerException">The exception that is the cause of the current exception.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureRemotingException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>Initializes the exception with serialized information.</summary>
+            <param name="info">Serialization information.</param>
+            <param name="context">Streaming context.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureRemotingException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>Provides serialization functionality.</summary>
+            <param name="info">Serialization information.</param>
+            <param name="context">Streaming context.</param>
         </member>
         <member name="T:MsdnMag.Remoting.SecureClientChannelSink">
             <summary>
@@ -361,83 +361,6 @@
             <param name="provider">The cryptographic provider to use for encrypting.</param>
             <returns>Plaintext stream ready to be read.</returns>
         </member>
-        <member name="T:MsdnMag.Remoting.SecureServerChannelSinkProvider">
-            <summary>Used to create a secure server channel sink.</summary>
-        </member>
-        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._next">
-            <summary>The next sink provider in the sink provider chain.</summary>
-        </member>
-        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._algorithm">
-            <summary>The name of the symmetric algorithm to use.</summary>
-        </member>
-        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._oaep">
-            <summary>Whether OAEP padding should be used.</summary>
-        </member>
-        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._requireSecurity">
-            <summary>Whether the server requires the client to use the secure client sink.</summary>
-        </member>
-        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._connectionAgeLimit">
-            <summary>The minimum amount of time (s) information about a client connection should be retained.</summary>
-        </member>
-        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._sweepFrequency">
-            <summary>How often (s) the connection sweeper should run.</summary>
-        </member>
-        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._securityExemptionList">
-            <summary>List of client IP's that should have the opposite security requirement.</summary>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.#ctor">
-            <summary>Initializes the sink provider.</summary>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.#ctor(System.Collections.IDictionary,System.Collections.ICollection)">
-            <summary>Initializes the sink provider.</summary>
-            <param name="properties">Parameters specified in the config file.</param>
-            <param name="providerData">Sink provider data.</param>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.CreateSink(System.Runtime.Remoting.Channels.IChannelReceiver)">
-            <summary>Creates the channel sink.</summary>
-            <param name="channel">The channel for which to create the channel sink chain.</param>
-            <returns>The new channel sink.</returns>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.GetChannelData(System.Runtime.Remoting.Channels.IChannelDataStore)">
-            <summary>Returns the channel data for the channel that the current sink is associated with.</summary>
-            <param name="channelData">An IChannelDataStore object in which the channel data is to be returned.</param>
-        </member>
-        <member name="P:MsdnMag.Remoting.SecureServerChannelSinkProvider.Next">
-            <summary>Gets or sets the next sink provider in the channel sink provider chain.</summary>
-        </member>
-        <member name="T:MsdnMag.Remoting.SecureClientChannelSinkProvider">
-            <summary>Used to create a secure client channel sink.</summary>
-        </member>
-        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._next">
-            <summary>Reference to the next sink provider in the provider chain.</summary>
-        </member>
-        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._algorithm">
-            <summary>The name of the symmetric algorithm to use.</summary>
-        </member>
-        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._oaep">
-            <summary>Whether OAEP padding should be used.</summary>
-        </member>
-        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._maxAttempts">
-            <summary>The maximum number of times we should attempt to process a message.</summary>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureClientChannelSinkProvider.#ctor">
-            <summary>Initialize the sink provider.</summary>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureClientChannelSinkProvider.#ctor(System.Collections.IDictionary,System.Collections.ICollection)">
-            <summary>Initialize the sink provider.</summary>
-            <param name="properties">Parameters specified in the config file.</param>
-            <param name="providerData">Sink provider data.</param>
-        </member>
-        <member name="M:MsdnMag.Remoting.SecureClientChannelSinkProvider.CreateSink(System.Runtime.Remoting.Channels.IChannelSender,System.String,System.Object)">
-            <summary>Creates a sink chain.</summary>
-            <param name="channel">Channel for which the current sink chain is being constructed.</param>
-            <param name="url">The URL of the object to connect to.</param>
-            <param name="remoteChannelData">A channel data object describing a channel on the remote server.</param>
-            <returns>A reference to the new sink, or null if it could not be created.</returns>
-        </member>
-        <member name="P:MsdnMag.Remoting.SecureClientChannelSinkProvider.Next">
-            <summary>Gets or sets the next sink provider in the channel sink provider chain.</summary>
-        </member>
         <member name="T:MsdnMag.Remoting.CommonHeaders">
             <summary>Names of transport headers used by client and server.</summary>
         </member>
@@ -536,6 +459,83 @@
         </member>
         <member name="P:MsdnMag.Remoting.ClientConnectionInfo.LastUsed">
             <summary>Gets the timestamp for the last communication with this client.</summary>
+        </member>
+        <member name="T:MsdnMag.Remoting.SecureServerChannelSinkProvider">
+            <summary>Used to create a secure server channel sink.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._next">
+            <summary>The next sink provider in the sink provider chain.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._algorithm">
+            <summary>The name of the symmetric algorithm to use.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._oaep">
+            <summary>Whether OAEP padding should be used.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._requireSecurity">
+            <summary>Whether the server requires the client to use the secure client sink.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._connectionAgeLimit">
+            <summary>The minimum amount of time (s) information about a client connection should be retained.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._sweepFrequency">
+            <summary>How often (s) the connection sweeper should run.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureServerChannelSinkProvider._securityExemptionList">
+            <summary>List of client IP's that should have the opposite security requirement.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.#ctor">
+            <summary>Initializes the sink provider.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.#ctor(System.Collections.IDictionary,System.Collections.ICollection)">
+            <summary>Initializes the sink provider.</summary>
+            <param name="properties">Parameters specified in the config file.</param>
+            <param name="providerData">Sink provider data.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.CreateSink(System.Runtime.Remoting.Channels.IChannelReceiver)">
+            <summary>Creates the channel sink.</summary>
+            <param name="channel">The channel for which to create the channel sink chain.</param>
+            <returns>The new channel sink.</returns>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureServerChannelSinkProvider.GetChannelData(System.Runtime.Remoting.Channels.IChannelDataStore)">
+            <summary>Returns the channel data for the channel that the current sink is associated with.</summary>
+            <param name="channelData">An IChannelDataStore object in which the channel data is to be returned.</param>
+        </member>
+        <member name="P:MsdnMag.Remoting.SecureServerChannelSinkProvider.Next">
+            <summary>Gets or sets the next sink provider in the channel sink provider chain.</summary>
+        </member>
+        <member name="T:MsdnMag.Remoting.SecureClientChannelSinkProvider">
+            <summary>Used to create a secure client channel sink.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._next">
+            <summary>Reference to the next sink provider in the provider chain.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._algorithm">
+            <summary>The name of the symmetric algorithm to use.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._oaep">
+            <summary>Whether OAEP padding should be used.</summary>
+        </member>
+        <member name="F:MsdnMag.Remoting.SecureClientChannelSinkProvider._maxAttempts">
+            <summary>The maximum number of times we should attempt to process a message.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSinkProvider.#ctor">
+            <summary>Initialize the sink provider.</summary>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSinkProvider.#ctor(System.Collections.IDictionary,System.Collections.ICollection)">
+            <summary>Initialize the sink provider.</summary>
+            <param name="properties">Parameters specified in the config file.</param>
+            <param name="providerData">Sink provider data.</param>
+        </member>
+        <member name="M:MsdnMag.Remoting.SecureClientChannelSinkProvider.CreateSink(System.Runtime.Remoting.Channels.IChannelSender,System.String,System.Object)">
+            <summary>Creates a sink chain.</summary>
+            <param name="channel">Channel for which the current sink chain is being constructed.</param>
+            <param name="url">The URL of the object to connect to.</param>
+            <param name="remoteChannelData">A channel data object describing a channel on the remote server.</param>
+            <returns>A reference to the new sink, or null if it could not be created.</returns>
+        </member>
+        <member name="P:MsdnMag.Remoting.SecureClientChannelSinkProvider.Next">
+            <summary>Gets or sets the next sink provider in the channel sink provider chain.</summary>
         </member>
     </members>
 </doc>
