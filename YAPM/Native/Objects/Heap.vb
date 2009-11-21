@@ -120,6 +120,28 @@ Namespace Native.Objects
 
             Dim retDico As New Dictionary(Of String, heapInfos)
 
+            '' SLOW BUT ALWAYS WORKS (but some information about heap nodes couldn't be retrieved...)
+            '' Create snapshot
+            'Dim snap As IntPtr = NativeFunctions.CreateToolhelp32Snapshot(NativeEnums.Toolhelp32SnapshotFlags.HeapList, pid)
+            ''Dim heap As New NativeStructs.HeapEntry32
+            'Dim list As New NativeStructs.HeapList32
+
+            'list.Size = Marshal.SizeOf(list)
+            ''heap.Size = Marshal.SizeOf(heap)
+
+            'If snap.IsNotNull Then
+            '    If NativeFunctions.Heap32ListFirst(snap, list) Then
+            '        Do
+            '            ' Too much time to count the blocks....
+            '            'NativeFunctions.Heap32First(heap, list.ProcessID, list.HeapID)
+            '            retDico.Add(list.HeapID.ToString, New heapInfos(list))
+            '        Loop While NativeFunctions.Heap32ListNext(snap, list)
+            '    End If
+            'End If
+
+
+
+            ' FAST BUT SOMETIMES BUGGY SOLUTION
             Dim buf2 As New DebugBuffer
 
             ' Query heaps info
@@ -136,8 +158,9 @@ Namespace Native.Objects
                 Try
                     heaps = heapInfo.ReadStruct(Of NativeStructs.ProcessHeaps)()
                 Catch ex As Exception
-                    ' Ok, sometimes heap enumeration fail.
-                    ' Nothing special to do
+                    ' Unfortunately, System.ExecutionEngineException cannot
+                    ' be catched....
+                    ' ReadStruct sometimes fails and causes YAPM to crash -___-
                     Misc.ShowDebugError(ex)
                     Return retDico
                 End Try

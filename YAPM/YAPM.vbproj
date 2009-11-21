@@ -1371,6 +1371,7 @@
     <None Include="Misc\exe32.png" />
     <None Include="Misc\up.gif" />
     <None Include="Misc\scripting16.png" />
+    <None Include="Misc\warning16.png" />
     <Content Include="process32.ico" />
     <Content Include="process_custom.ico" />
     <None Include="Resources\help_static.html" />

@@ -279,6 +279,31 @@ Namespace Native.Api
                 <Out()> <MarshalAs(UnmanagedType.Bool)> ByRef Permanent As Boolean) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function Heap32ListFirst(<[In]()> ByVal hSnapshot As IntPtr, _
+                                                ByRef lphl As HeapList32) As Boolean
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function Heap32ListNext(ByVal hSnapshot As IntPtr, _
+                                            ByRef lphl As HeapList32) As Boolean
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function Heap32First(ByRef lphe As HeapEntry32, _
+                                           ByVal th32ProcessID As Integer, _
+                                           ByVal th32HeapID As IntPtr) As Boolean
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function Heap32Next(ByRef lphe As HeapEntry32) As Integer
+        End Function
+
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function CreateToolhelp32Snapshot(ByVal dwFlags As Toolhelp32SnapshotFlags, _
+                                        ByVal th32ProcessID As Integer) As IntPtr
+        End Function
+
 #End Region
 
         ' OK

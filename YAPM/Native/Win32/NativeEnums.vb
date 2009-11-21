@@ -242,6 +242,17 @@ Namespace Native.Api
             UserObjects = &H1
         End Enum
 
+        <Flags()> _
+        Public Enum Toolhelp32SnapshotFlags As UInteger
+            HeapList = &H1
+            Process = &H2
+            Thread = &H4
+            [Module] = &H8
+            Module32 = &H10
+            Inherit = &H80000000
+            All = HeapList Or [Module] Or Process Or Thread
+        End Enum
+
 #End Region
 
         ' OK
@@ -1465,6 +1476,11 @@ Namespace Native.Api
             Fixed = &H1
             Free = &H2
             Moveable = &H4
+        End Enum
+
+        <Flags()> _
+        Public Enum HeapListEntryFlags As Integer
+            [Default] = &H1
         End Enum
 
 #End Region

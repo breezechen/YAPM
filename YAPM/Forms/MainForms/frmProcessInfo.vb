@@ -432,6 +432,7 @@ Public Class frmProcessInfo
         SetToolTip(Me.lblResCount, "Number of results. Click on the number to view results")
         SetToolTip(Me.txtSearch, "Enter text here to search an item")
         SetToolTip(Me.cmdHideFindPanel, "Hide 'find panel'")
+        SetToolTip(Me.cmdActivateHeapEnumeration, "The enumeration of heaps can fail and cause a crash of YAPM. This will be fixed soon. You must then manually enable this feature for now.")
 
         ' Init columns
         Pref.LoadListViewColumns(Me.lvPrivileges, "COLprocdetail_privilege")
@@ -545,6 +546,9 @@ Public Class frmProcessInfo
         Next
         Me.MenuItemCopyString.MenuItems.Add("Position", AddressOf MenuItemCopyString_Click)
         Me.MenuItemCopyString.MenuItems.Add("String", AddressOf MenuItemCopyString_Click)
+
+        ' TOREMOVE
+        Me.lvHeaps.Enabled = False
 
     End Sub
 
@@ -3012,5 +3016,12 @@ Public Class frmProcessInfo
             frm.TopMost = _frmMain.TopMost
             frm.Show()
         Next
+    End Sub
+
+    Private Sub cmdActivateHeapEnumeration_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdActivateHeapEnumeration.Click
+        ' TOREMOVE
+        ' This function activate heap enumeration
+        Me.lvHeaps.Enabled = True
+        Me.TabPageHeaps.Controls.Remove(Me.cmdActivateHeapEnumeration)
     End Sub
 End Class

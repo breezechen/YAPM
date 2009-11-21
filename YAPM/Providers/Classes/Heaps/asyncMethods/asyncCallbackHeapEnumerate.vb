@@ -116,4 +116,9 @@ Public Class asyncCallbackHeapEnumerate
 
     End Sub
 
+    ' Shared, local and sync enumeration
+    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, heapInfos)
+        Return Native.Objects.Heap.EnumerateHeapsByProcessId(pObj.pid)
+    End Function
+
 End Class

@@ -99,15 +99,19 @@ Public Class heapList
     ' Call this to update items in listview
     Public Overrides Sub UpdateItems()
 
-        ' Create a buffer of subitems if necessary
-        If _columnsName Is Nothing Then
-            Call CreateSubItemsBuffer()
-        End If
+        If Me.Enabled Then
 
-        If _heapConnection.IsConnected Then
+            ' Create a buffer of subitems if necessary
+            If _columnsName Is Nothing Then
+                Call CreateSubItemsBuffer()
+            End If
 
-            ' Now enumerate items
-            _heapConnection.Enumerate(_pid)
+            If _heapConnection.IsConnected Then
+
+                ' Now enumerate items
+                _heapConnection.Enumerate(_pid)
+
+            End If
 
         End If
 

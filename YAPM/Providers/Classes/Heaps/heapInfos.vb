@@ -105,6 +105,18 @@ Imports System.Runtime.InteropServices
             _tags = .Tags
         End With
     End Sub
+    Public Sub New(ByRef data As Native.Api.NativeStructs.HeapList32)
+        With data
+            _baseAddress = .HeapID
+            '_blockCount = ?
+            _flags = .Flags
+            '_granularity = ?
+            '_memAllocated = ?
+            '_memCommitted = ?
+            '_tagCount = ?
+            '_tags = ?
+        End With
+    End Sub
 
     ' Merge an old and a new instance
     Public Sub Merge(ByRef newI As heapInfos)

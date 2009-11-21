@@ -1506,6 +1506,19 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
+        Public Structure HeapEntry32
+            Public Size As Integer
+            Public Handle As IntPtr
+            Public Address As IntPtr
+            Public BlockSize As Integer
+            Public Flags As HeapBlockFlag
+            Public LockCount As Integer
+            Public Reserved As Integer
+            Public ProcessID As Integer
+            Public HeapID As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure ProcessHeaps
             Public HeapsCount As Integer
             Public Heaps As HeapInformation
@@ -1514,6 +1527,14 @@ Namespace Native.Api
                     Return Marshal.OffsetOf(GetType(ProcessHeaps), "Heaps").ToInt32
                 End Get
             End Property
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure HeapList32
+            Public Size As Integer
+            Public ProcessID As Integer
+            Public HeapID As IntPtr
+            Public Flags As HeapListEntryFlags
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _

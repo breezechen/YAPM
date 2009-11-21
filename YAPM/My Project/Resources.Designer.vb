@@ -684,6 +684,13 @@ Namespace My.Resources
             End Get
         End Property
         
+        Friend ReadOnly Property warning16() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("warning16", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
         Friend ReadOnly Property warning32() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("warning32", resourceCulture)

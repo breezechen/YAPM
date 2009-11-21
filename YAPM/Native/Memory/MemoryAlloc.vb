@@ -54,7 +54,7 @@ Namespace Native.Memory
         ' Constructors
         ' ========================================
         Public Sub New()
-            ' Invalid pointer which sould be manually be set
+            ' Invalid pointer which should manually be set
         End Sub
         Public Sub New(ByVal ptr As IntPtr)
             Me.New(ptr, 0)
