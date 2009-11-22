@@ -4,7 +4,7 @@ CHANGES FROM 2.3.1
 
 * NEW / Improvements
 - Added unique and powerful "System Snapshot" feature !
-- Added Ping/Traceroute/WhoIs functions for TCP connections
+- Added Ping functions for TCP connections
 - Added 'TotalIoDelta' counter
 - Added 'network information' window
 - Added heaps management

@@ -21,6 +21,57 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <DIV>
         <H2>&nbsp;</H2>
         <H2>Changelog</H2>
+        <h3 style="margin-top:0; margin-bottom:0;">CHANGES FROM 2.3.1</h3>
+        <h3 style="margin-top:0; margin-bottom:0;">&nbsp;</h3>
+        <h3 style="margin-top:0; margin-bottom:0;">* NEW / Improvements</h3>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- <font color="red">Added unique and powerful &quot;System Snapshot&quot; feature !</font></p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- Added Ping function for TCP connections</p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- Added 'TotalIoDelta' counter</p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- Added 'network information' window</p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- <font color="red">Added heaps management</font></p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- Improved appearance of graphs</p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- Improved 'system info' window (added new informations + always on top option + now YAPM remember infos options)</p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- Added 'go to parent process' feature</p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- Now performance graphs are up-to-date when opening process' detailed window</p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- Now can select the thread associated to a window using &quot;find window's process&quot; feature</p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- Now YAPM remember positions and sizes of the main windows</p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- Now informations about an image file (eg version, companyName, copyright...) are retrieved when monitoring a remote machine using the &quot;server method&quot;</p>
+        <p style="margin-top:0; margin-bottom:0; margin-left:1;">- No more need to display job list before being able to set a job limit (using Control process job)</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <h3 style="margin-top:0; margin-bottom:0;">* Bug fixes</h3>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed bad I/O transfer values</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now &quot;check updates&quot; check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed #2885689 (cannot call BeginInvoke)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Help menu not broken anymore</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now save column's preferences when exiting using the standard 'close' button</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed #2894305 (zero division)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed &quot;hide when close&quot; option</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed a bug when enumerating processes in a job</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <h3 style="margin-top:0; margin-bottom:0;">CHANGES FROM 2.3.0</h3>
+        <h3 style="margin-top:0; margin-bottom:0;">&nbsp;</h3>
+        <h3 style="margin-top:0; margin-bottom:0;">* NEW / Improvements</h3>
+        <p style="margin-top:0; margin-bottom:0;">- Added feature #2869164 (text alignment in listviews)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now first node in dependencies form's treeview is automatically selected</p>
+        <p style="margin-top:0; margin-bottom:0;">- Now &quot;search string&quot; features are async</p>
+        <p style="margin-top:0; margin-bottom:0;">- Added detailed window for handles with useful informations</p>
+        <p style="margin-top:0; margin-bottom:0;">- Re-implemented a robust &quot;select in window tab&quot; feature ^^</p>
+        <p style="margin-top:0; margin-bottom:0;">- Removed &quot;Navigate...&quot; feature (now useless cause of detailed window for handles)</p>
+        <p style="margin-top:0; margin-bottom:0;">- Reduced memory usage</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed some icons</p>
+        <p style="margin-top:0; margin-bottom:0;">- Added embedded help file</p>
+        <p style="margin-top:0; margin-bottom:0;">- Added &quot;Send bug report to sourceforge.net&quot; feature</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <h3 style="margin-top:0; margin-bottom:0;">* Bug fixes</h3>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed job enumeration for windows Seven</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed some bugs when trying to get informations about the ImagePath property of a service</p>
+        <p style="margin-top:0; margin-bottom:0;">- Fixed bug when trying to display some informations about handles</p>
+        <p style="margin-top:0; margin-bottom:0;">- No more need to &quot;Reinitialize&quot; process &amp; services after a connection/deconnection to the remote machine</p>
+        <p style="line-height:0; margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="line-height:0; margin-top:0; margin-bottom:0;">&nbsp;</p>
+        <p style="margin-top:0; margin-bottom:0;">&nbsp;</p>
         <h3 style="margin-top:0; margin-bottom:0;">CHANGES FROM 2.2.1</h3>
         <h3 style="margin-top:0; margin-bottom:0;">&nbsp;</h3>
         <h3 style="margin-top:0; margin-bottom:0;">* NEW / Improvements</h3>
@@ -400,7 +451,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <p>&nbsp;</p>
         <DIV>
             <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-            <P><i>Last update of this page : 2009-02-10&nbsp;23:50</i></P>
+            <P><i>Last update of this page : 2009-22-11&nbsp;01:00</i></P>
         </DIV>
         <P></P>
         <p>

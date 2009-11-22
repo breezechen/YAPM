@@ -3,53 +3,40 @@
 	<!-- Remember NOT TO INCLUDE special chars in description, such as commercial AND... -->
 	<!-- Most recent version first -->
 	
-	<update type="beta">
-		<version>2.3.1.0</version>
-		<caption>Yet Another (remote) Process Monitor 2.3.1</caption>
-		<description>2.3.1 implements full compatibility with Windows Seven, some new features and some bug fixes.
-
-CHANGES FROM 2.3.0
-
-*NEW / Improvements
-- Added feature #2869164 (text alignment in listviews)
-- Now first node in dependencies form's treeview is automatically selected
-- Now "search string" features are async
-- Added detailed window for handles with useful informations
-- Re-implemented a robust "select in window tab" feature ^^
-- Removed "Navigate..." feature (now useless cause of detailed window for handles)
-- Reduced memory usage
-- Fixed some icons
-- Added embedded help file
-- Added "Send bug report to sourceforge.net" feature
-
-* Bug fixes
-- Fixed job enumeration for windows Seven
-- Fixed some bugs when trying to get informations about the ImagePath property of a service
-- Fixed bug when trying to display some informations about handles
-- No more need to "Reinitialize" process and services after a connection/deconnection to the remote machine
-		</description>
-		<date>24 October 2009</date>
-		<downloadUrl>https://www.ohloh.net/p/yaprocmon/download?filename=YAPM-v2.3.1-Setup.exe</downloadUrl>
-		<hash>0cb6696f3700747429a56c1e942eca6b3014dc812b27813700417f8ab7e9254123c55431f2a3c42c1f02d8baf0b18bc28cf534f3c6c92fad7ce06c38e16277bb</hash>
-	</update>
-	
 	<update type="stable">
-		<version>2.3.0.0</version>
-		<caption>Yet Another (remote) Process Monitor 2.3.0</caption>
-		<description>2.3.0 is a major release which makes YAPM only require .Net 2.0 (does not need .Net 3.5 anymore).
+		<version>2.4.0.0</version>
+		<caption>Yet Another (remote) Process Monitor 2.4.0</caption>
+		<description>2.4.0 implements a major new feature : System Snapshot Feature (useful for remote assistance).
 
-CHANGES FROM 2.2.1
+CHANGES FROM 2.3.1
 
-*NEW / Improvements
-- YAPM does not require .Net Framework 3.5 anymore (.Net 2.0 is enough)
-- Request #2869164 : Added 'Company' information column for processes
+* NEW / Improvements
+- Added unique and powerful "System Snapshot" feature !
+- Added Ping functions for TCP connections
+- Added 'TotalIoDelta' counter
+- Added 'network information' window
+- Added heaps management
+- Improved appearance of graphs
+- Improved 'system info' window (added new informations + always on top option + now YAPM remember infos options)
+- Added 'go to parent process' feature
+- Now performance graphs are up-to-date when opening process' detailed window
+- Now can select the thread associated to a window using "find window's process" feature
+- Now YAPM remember positions and sizes of the main windows
+- Now informations about an image file (eg version, companyName, copyright...) are retrieved when monitoring a remote machine using the "server method"
+- No more need to display job list before being able to set a job limit (using Control process job)
 
-* Bug fixes
-- Somes minor bugs
+* Bug fixed
+- Fixed bad I/O transfer values
+- Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)
+- Fixed #2885689 (cannot call BeginInvoke)
+- Help menu not broken anymore
+- Now save column's preferences when exiting using the standard 'close' button
+- Fixed #2894305 (zero division)
+- Fixed "hide when close" option
+- Fixed a bug when enumerating processes in a job
 		</description>
-		<date>01 October 2009</date>
-		<downloadUrl>http://downloads.sourceforge.net/project/yaprocmon/YAPM-beta/YAPM-2.3.0/YAPM-v2.3.0-Setup.exe</downloadUrl>
-		<hash>d078ff095b75a26cad9205c56d681c6b4311803ee01b089c17b74a9a3c64bb9b8df9d60d5669633a4a633726e2741992acf2871222e5068b58e414d7574ebff4</hash>
+		<date>22 November 2009</date>
+		<downloadUrl>https://www.ohloh.net/p/yaprocmon/download?filename=YAPM-v2.4.0-Setup.exe</downloadUrl>
+		<hash>d0c32aad276791c5c8d2f801e75b9a6799997dd3a41cc75ad5c916faf2764dc765f6a1456351771d58bf51ab9f69b68a352c03b84ff511dc6d8ba6d0ee4c3ace</hash>
 	</update>
-	
 </YAPM>

@@ -54,4 +54,4 @@ rem     Build setup
 "C:\Program Files\Inno Setup 5\Compil32.exe" /cc ..\..\..\Setup\ISS\main.iss
 
 rem	Build source package
- "..\..\..\Source Packager\Packager\bin\Release\Packager.exe" -auto ..\..\..\..\RELEASE\YAPM-vx.x.x-source.zip
+rem "..\..\..\Source Packager\Packager\bin\Release\Packager.exe" -auto ..\..\..\..\RELEASE\YAPM-vx.x.x-source.zip

@@ -11,14 +11,13 @@
 	</HEAD>
 	<BODY>
 <DIV id=header>
-    <H1 align="center"><span style="background-color:white;"><font color="#602826"><img class=yapmicon src="Images/icon.png" width="48" height="48" border="0" alt="Yet Another Process Monitor" hspace="0"></font></span><font color="#602826"><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt; background-color:white;"> &nbsp;</span></font><span style="background-color:white;"><font color="#602826">Yet Another (remote)</font></span><font color="#602826"><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif;
+    <H1 align="center"><font color="#602826"><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt; background-color:white;"> &nbsp;</span></font><span style="background-color:white;"><font color="#602826">Yet Another (remote)</font></span><font color="#602826"><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif;
 font-size:13pt; background-color:white;"> </span></font><span style="background-color:white;"><font color="#602826">Process </font></span><span style="background-color:white;"><font color="#602826">Monitor</font></span><font color="#602826"><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; background-color:white;"> Help File</span></font></H1>
 </DIV>
 <DIV id=content>
 			
     <H2>&nbsp;</H2>
     <H2>Introduction</H2>
-    <p><b><font color="red">Note : this help file describes the last version of YAPM :&nbsp;v2.3.1.</font></b></p>
     <p><a href="#Menu">Main menu</a><br>
 <a href="#Task">Tasks</a><br>
 <a href="#Process">Processes</a><br>
@@ -34,6 +33,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
 <a href="#DetailedViewJobs">Detailed view for jobs</a><br>
 <a href="#LogFeature">Log feature</a><br>
 <a href="#DependenciesViewer">Dependency viewer</a><br>
+<span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt; color:rgb(112,39,21); text-decoration:none;"><a href="#SystemSnapshotFeature">System Snapshot feature</a></span><br>
 <a href="#OtherFeatures">Others features &amp; tips</a><br>
 &nbsp;</p>
     <p>Some of the features of YAPM are not available with remote monitoring. On the help file&nbsp;available below, if the name of a&nbsp;command is <b>black</b>, the command is&nbsp;available for all types of connection (local, WMI and server). If it's <font color="#00B050"><b>green</b></font>, it's available for both local and remote via server. If it's <font color="#00B0F0"><b>blue</b></font> it's only available for a local machine.</p>
@@ -54,6 +54,9 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <LI><b>Dependency viewer</b> : shows dependencies of a process/dll/driver... <a href="#DependenciesViewer">See Dependency Viewer</a></LI>
         <LI><b>Pending tasks</b> : displays the list of pending tasks (e.g. the action launched by the user which are not yet completed)</LI>
         <LI><b>Create service</b> : allows to create a new service. <a href="#CreateService">See Create Service</a>.</LI>
+        <LI><b>Network statistics</b> : displays statistics about TCP/UDP traffic on the local machine.</LI>
+        <LI><b><a name="SaveSSFile"></a>Save System Snapshot File</b> : saves a snapshot of the local system. <a href="#SystemSnapshotFeature">See System Snapshot Feature</a>.</LI>
+        <LI><b><a name="ExploreSSFile"></a>Explore System Snapshot File</b> : allows to explore a snapshot file. <a href="help_static.html#SystemSnapshotFeature">See System Snapshot Feature</a>. </LI>
     </UL>
     <h2><a name="Task"></a><font color="#00B050">Tasks</font></h2>
     <p>These features are available in the 'Tasks' tab of the main form. Use the icons on the ribbon, or use the popup menu (right-click on the listview). All actions are available for the different tasks&nbsp;you select in the list.</p>
@@ -130,6 +133,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <ul>
         <LI><b><font color="#00B050">Select associated process</font></b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;"> </span><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;">: selects the processes associated to the selected network connections.</span></LI>
         <LI><b><font color="#00B050">Close TCP connection</font></b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;"> : closes the established&nbsp;TCP connections which are selected.</span></LI>
+        <LI><b><font color="#00B050">Tools -&gt; Ping</font></b> : ping on an established TCP connection</LI>
     </ul>
     <h2><a name="File"></a><b>File features</b></h2>
     <p>These are available in the 'File' tab of the main form. Use the icons on the ribbon, or right-click on the list. The first thing to do before using &quot;file features&quot;&nbsp;is to open the file with 'Open file' icon. Then, some actions will be available. Note that even if the 'File' tab is available for&nbsp;all types of connection, you only can select local files.</p>
@@ -178,7 +182,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
     <ul>
         <ol>
             <LI>The server should always work (even if WMI is not installed for example), this is not the case of&nbsp;WMI</LI>
-            <LI>WMI might be easiest to use</LI>
+            <LI>WMI might be easiest to use (nothing to start manually on the remote machine)</LI>
         </ol>
     </ul>
     <h3>WMI method</h3>
@@ -188,7 +192,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <LI>disconnect YAPM from the local machine</LI>
         <LI>choose 'WMI connection'</LI>
         <LI>enter the name of the remote machine</LI>
-        <LI>enter your username and your password (empty password are NOT allowed)</LI>
+        <LI>enter your username and your password (empty passwords are NOT allowed)</LI>
         <LI>connect to remote machine ('Connect' button)</LI>
     </ul>
     <p>WMI is a nice way to monitor remote computers, but it is really&nbsp;limited. Only some informations/features are available :</p>
@@ -201,7 +205,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
         <LI>Some actions&nbsp;on services (start, stop, pause...)</LI>
     </ul>
     <h3>Client-server method</h3>
-    <p>Client-server method is more complex than WMI and it requires to run something (the server) on the remote machine. But it allows to monitor&nbsp;the processes/services/modules/... and all related objects just as if you were monitoring a local machine : all features/informations are available (except performance counters).</p>
+    <p>Client-server method is more complex than WMI and it requires to run something (YAPM as a&nbsp;server) on the remote machine. But it allows to monitor&nbsp;the processes/services/modules/... and all related objects just as if you were monitoring a local machine : all features/informations are available (except performance counters).</p>
     <p>Here are the steps&nbsp;you should follow to&nbsp;connect YAPM&nbsp;to the remote machine :</p>
     <ul>
         <LI>start the remote machine and launch YAPM on the local machine</LI>
@@ -240,7 +244,8 @@ Note that the shortcuts only affect the local machine.</p>
         <LI><b><font color="#00B050">Windows</font></b> : displays windows of the process</LI>
         <LI><b><font color="#00B050">Handles</font></b> : displays handles opened by the process. &quot;File&quot; handles are only shown if YAPM kernel driver is loaded. Double-click on a handle to display detailed informations about the handle and some available actions, depending of the type of handle you've selected.</LI>
         <LI><b><font color="#00B050">Log</font></b> : powerful tool to monitor all changes made by/on a process. See <a href="#LogFeature">Log feature</a>.</LI>
-        <LI><b>History</b> : display the history of one or more numerical counter(s). Select the desired counters on the left to display the associated graphs on the right. The history of all processes is collected&nbsp;in memory in real time and there is no need to open the detail view of the&nbsp;processes&nbsp;to collect informations, but the size of informations collected&nbsp;is limited. By default, only 100KB of history data are stored by process. You can configure it (or set it as unlimited) in the 'Preferences' window.</LI>
+        <LI><b>History</b> : displays the history of one or more numerical counter(s). Select the desired counters on the left to display the associated graphs on the right. The history of all processes is collected&nbsp;in memory in real time and there is no need to open the detail view of the&nbsp;processes&nbsp;to collect informations, but the size of informations collected&nbsp;is limited. By default, only 100KB of history data are stored by process. You can configure it (or set it as unlimited) in the 'Preferences' window.</LI>
+        <LI><b><font color="#00B050">Heaps</font></b> : displays the list of heap nodes of the process. You will have to unlock this feature using the specific button on the listview. Please note that for now, YAPM could crash when trying to enumerate heaps of some specific processes. When heap nodes are displayed, you can view associated blocks by double-clicking on a&nbsp;heap node. You can then view the memory of the process (using the hex-editor) by double-clicking on a&nbsp;heap block.</LI>
     </ul>
     <h2><a name="DetailedViewForService"></a>Detailed view for services</h2>
     <p>When you double-click on a service (list of the services on the main form), it opens a form which shows all available informations about the service. There are 4 tabs :</p>
@@ -269,6 +274,21 @@ Click on 'Options' and choose the desired options :</p>
     <h2><a name="DependenciesViewer"></a><font color="#00B0F0">Dependency viewer</font></h2>
     <p>This feature allows to view dependencies of an executable/*.dll/*.sys. If the Dependency viewer is shown with Module-&gt;Show dependencies or Process-&gt;Show dependency, there is no need to select the file, otherwise you will have to use 'Open...' menu.</p>
     <p>Once your file is opened, you will see the import/export tables and all informations available in a classical&nbsp;Dependency viewer.</p>
+    <h2><a name="SystemSnapshotFeature"></a><font color="#00B0F0">System Snapshot Feature</font></h2>
+    <p><b>This feature is designed for remote assistance</b> (for example on an Internet forum). Here is how you should use it :</p>
+    <ul>
+        <LI>you have a problem on your computer (for example it's slow, or buggy, or you don't know how to remove a malware)</LI>
+        <LI>you download YAPM and install it</LI>
+        <LI>you start YAPM and save a snapshot of your system <a href="#SaveSSFile">using the associated menu</a></LI>
+        <LI>you &nbsp;upload your System Snapshot File on a website such as <a href="http://megaupload.com/">http://megaupload.com/</a></LI>
+        <LI>you post a message on a computer&nbsp;Internet forum explaining what is your problem, and you give a link to download your System Snapshot File</LI>
+        <LI>anyone&nbsp;who has YAPM installed on his computer can download your System Snapshot File and use it to determine what is the problem of your system :</LI>
+        <ul>
+            <LI>first step is to connect YAPM&nbsp;to the System Snapshot File (using Change connection type -&gt; Snapshot -&gt; Select the System Snapshot File -&gt; Connect)</LI>
+            <LI><b>then it is possible to analyze the system as if the user is&nbsp;running YAPM to analyze&nbsp;a local machine</b>, and it's easy to&nbsp;determine what is the problem of the system</LI>
+        </ul>
+    </ul>
+    <p>It is also possible to explore a System Snapshot File to see which data are stored in it by using the <a href="#ExploreSSFile">Explore System Snapshot File menu.</a></p>
     <h2><a name="OtherFeatures"></a>Other features &amp;&nbsp;tips</h2>
     <p>Here are some other features and tips you should know when using YAPM&nbsp;:</p>
     <ul>
@@ -281,7 +301,7 @@ Click on 'Options' and choose the desired options :</p>
     </ul>
     <p>&nbsp;</p>
     <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-    <P><i>Last update of this page : 2009-21-09&nbsp;23:00</i></P>
+    <P><i>Last update of this page : 2009-22-11&nbsp;01:00</i></P>
 </DIV>
 		<P></P>
 		

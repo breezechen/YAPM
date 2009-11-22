@@ -323,6 +323,9 @@ Public Class frmMain
         ' For now, scripting is removed from menu...
         Me.Ribbon.QuickAcessToolbar.Items.Remove(Me.butScripting)
         Me.MenuItemSYSTEMFILE.MenuItems.Remove(Me.MenuItemSystemScripting)
+        ' For now, remove Tracert/WhoIs menus
+        Me.MenuItemNetworkTools.MenuItems.Remove(Me.MenuItemNetworkRoute)
+        Me.MenuItemNetworkTools.MenuItems.Remove(Me.MenuItemNetworkWhoIs)
 
 
         ' Disable 'start as admin' if we are not on Vista or above
