@@ -186,6 +186,19 @@ Public Class processList
         Return res.Values
     End Function
 
+    ' Get checked items
+    Public Shadows Function GetCheckedItems() As Dictionary(Of String, cProcess).ValueCollection
+        Dim res As New Dictionary(Of String, cProcess)
+
+        generalLvSemaphore.WaitOne()
+        For Each it As ListViewItem In Me.CheckedItems
+            res.Add(it.Name, _dico.Item(it.Name))
+        Next
+        generalLvSemaphore.Release()
+
+        Return res.Values
+    End Function
+
 
     ' ========================================
     ' Private properties

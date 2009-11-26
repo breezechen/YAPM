@@ -48,9 +48,11 @@ Public Module Program
         Private isHidden As Boolean = False
         Private requestReplaceTaskMgr As Boolean = False
         Private replaceTaskMgrValue As Boolean = False
+        Private ssFileModeValue As String
         Private oneInstance As Boolean = True
         Private useDriver As Boolean = True
         Private serviceMode As Boolean = False
+        Private ssFileMode As Boolean = False
         Public ReadOnly Property ModeServer() As Boolean
             Get
                 Return isServerMode
@@ -86,6 +88,11 @@ Public Module Program
                 Return replaceTaskMgrValue
             End Get
         End Property
+        Public ReadOnly Property ValueCreateSSFile() As String
+            Get
+                Return ssFileModeValue
+            End Get
+        End Property
         Public ReadOnly Property OnlyOneInstance() As Boolean
             Get
                 Return oneInstance
@@ -94,6 +101,11 @@ Public Module Program
         Public ReadOnly Property UseKernelDriver() As Boolean
             Get
                 Return useDriver
+            End Get
+        End Property
+        Public ReadOnly Property ModeSnapshotFileCreation() As Boolean
+            Get
+                Return ssFileMode
             End Get
         End Property
         Public Sub New(ByRef parameters As String())
@@ -120,6 +132,11 @@ Public Module Program
                     oneInstance = False
                 ElseIf parameters(i).ToUpperInvariant = "-NODRIVER" Then
                     useDriver = False
+                ElseIf parameters(i).ToUpperInvariant = "-SSFILE" Then
+                    If parameters.Length - 1 >= i + 1 Then
+                        ssFileModeValue = parameters(i + 1)
+                        ssFileMode = True
+                    End If
                 ElseIf parameters(i).ToUpperInvariant = "-SERVERSERVICE" Then
                     serviceMode = True
                 End If
@@ -274,6 +291,35 @@ Public Module Program
         ' ======= We replace Taskmgr if needed. This will end YAPM
         If _progParameters.ModeRequestReplaceTaskMgr Then
             Call safeReplaceTaskMgr(_progParameters.ValueReplaceTaskMgr)
+        End If
+
+
+        ' ======= We create a snapshot file
+        If _progParameters.ModeSnapshotFileCreation Then
+
+            ' Request debug privilege (if possible)
+            cEnvironment.RequestPrivilege(cEnvironment.PrivilegeToRequest.DebugPrivilege)
+
+            ' New connection
+            theConnection = New cConnection
+
+            ' Used for service enumeration. Snapshot enumeration of services
+            ' need a cServiceConnection, retrieved as a property in
+            ' _frmMain.lvServices
+            _frmMain = New frmMain
+            _frmMain.lvServices.ConnectionObj = theConnection
+
+            ' This initializes the Handle Enumeration Class (needed to enumerate
+            ' handles)
+            Native.Objects.Handle.HandleEnumerationClass = _
+                    New Native.Objects.HandleEnumeration(_progParameters.UseKernelDriver And _
+                                                 cEnvironment.Is32Bits)
+
+            ' Connect to the local machine
+            theConnection.Connect()
+
+            Call createSSFile(_progParameters.ValueCreateSSFile)
+            Exit Sub
         End If
 
 
@@ -455,6 +501,41 @@ Public Module Program
         ' Clear list of processes (used to get ParentProcess name)
         Call cProcess.ClearProcessDico()
     End Sub
+
+    ' Create a snapshot file
+    Private Function createSSFile(ByVal file As String) As Boolean
+
+        Try
+            Dim res As String = Nothing
+
+            ' Create empty snapshot file
+            Dim snap As New cSnapshot
+
+            ' Get options
+            Dim options As Native.Api.Enums.SnapshotObject = Native.Api.Enums.SnapshotObject.All
+
+            ' Build it
+            If snap.CreateSnapshot(Program.Connection, options, res) = False Then
+                ' Failed
+                'Misc.ShowMsg("Snapshot creation", "Could not build snapshot.", res, MessageBoxButtons.OK, TaskDialogIcon.Error)
+                Return False
+            End If
+
+            ' Save it
+            If snap.SaveSnapshot(file, res) = False Then
+                ' Failed
+                'Misc.ShowMsg("Snapshot creation", "Could not save snapshot.", res, MessageBoxButtons.OK, TaskDialogIcon.Error)
+                Return False
+            End If
+
+            Return True
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+            Return False
+        End Try
+
+    End Function
 
     ' Replace taskmgr
     ' This function will end YAPM with a specific ExitCode (if fail or not)

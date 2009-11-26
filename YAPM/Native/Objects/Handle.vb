@@ -101,6 +101,11 @@ Namespace Native.Objects
                                                      ByVal showUnNamed As Boolean, _
                                                      ByRef _dico As Dictionary(Of String, handleInfos))
 
+            ' Handle enumeration class not initialized...
+            If hEnum Is Nothing Then
+                Exit Sub
+            End If
+
             ' Protection !
             semProtectEnum.WaitOne()
 
@@ -131,14 +136,18 @@ Namespace Native.Objects
         ' Return all local handles (protected by semaphore)
         Public Shared Function EnumerateCurrentLocalHandles(Optional ByVal all As Boolean = True) As Dictionary(Of String, cHandle)
 
+            Dim _dico As New Dictionary(Of String, cHandle)
+
+            ' Handle enumeration class not initialized...
+            If hEnum Is Nothing Then
+                Return _dico
+            End If
+
             ' Protection !
             semProtectEnum.WaitOne()
 
-            Dim _dico As New Dictionary(Of String, cHandle)
-
             ' Refresh handles
             Call hEnum.Refresh(-1)    ' Refresh all
-
 
             For i As Integer = 0 To hEnum.Count - 1
                 If hEnum.IsNotNull(i) AndAlso hEnum.GetHandle(i).IsNotNull Then

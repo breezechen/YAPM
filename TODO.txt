@@ -8,6 +8,7 @@ Refactoring bugs
 - continuer heaps (show blocks en bas de la form...)
 
 - snapshot -> serviceDep et processesInJob + désactiver times + gestion historiques + recherche (pb de dico)
+- revoir remote address des connections
 
 BUGS CRITIQUES
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
@@ -113,26 +114,7 @@ Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
 
 * NEW / Improvements
-- Added unique and powerful "System Snapshot" feature !
-- Added Ping/Traceroute/WhoIs functions for TCP connections
-- Added 'TotalIoDelta' counter
-- Added 'network information' window
-- Added heaps management
-- Improved appearance of graphs
-- Improved 'system info' window (added new informations + always on top option + now YAPM remember infos options)
-- Added 'go to parent process' feature
-- Now performance graphs are up-to-date when opening process' detailed window
-- Now can select the thread associated to a window using "find window's process" feature
-- Now YAPM remember positions and sizes of the main windows
-- Now informations about an image file (eg version, companyName, copyright...) are retrieved when monitoring a remote machine using the "server method"
-- No more need to display job list before being able to set a job limit (using Control process job)
+- Now can create snapshot file from command line (-ssfile "FILE_PATH")
 
 * Bug fixed
-- Fixed bad I/O transfer values
-- Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)
-- Fixed #2885689 (cannot call BeginInvoke)
-- Help menu not broken anymore
-- Now save column's preferences when exiting using the standard 'close' button
-- Fixed #2894305 (zero division)
-- Fixed "hide when close" option
-- Fixed a bug when enumerating processes in a job
+- 
