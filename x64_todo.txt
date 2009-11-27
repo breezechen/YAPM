@@ -7,3 +7,4 @@
 - afficher x*32 pour les processus Wow64
 - tester "add to job"
 - checker "New IntPtr("
+- Windows 7 x64 -> récupérer la version du TypeObject des Jobs (et coder çà en dur pour le moment)

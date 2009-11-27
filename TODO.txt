@@ -33,7 +33,6 @@ BUGS CRITIQUES
 	!!! reports des modules/threads/handles/windows (depuis que les maintab sont plus là) ?
 	
 BUGS NON CRITIQUES
-- rewrite GetServiceDependenciesAsStringArrayFromPtr
 - columns lvHeap
 - outils network connection (trace, whois...)
 - implémenter le dump...
@@ -118,6 +117,7 @@ Temp Change log :
 * NEW / Improvements
 - Added massive signature check feature
 - Now can create snapshot file from command line (-ssfile "FILE_PATH")
+- Optimized Service enumeration
 
 * Bug fixed
 - TCP/UDP connections : only display 'remote' column values if remote is not nothing
