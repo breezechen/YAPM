@@ -104,73 +104,74 @@ Namespace Native.Objects
             Dim loaderDatePtr As IntPtr
 
             ' Open a reader to access memory !
-            Dim reader As New ProcessMemReader(pid)
-            hProc = reader.ProcessHandle
+            Using reader As New ProcessMemReader(pid)
+                hProc = reader.ProcessHandle
 
-            If hProc.IsNotNull Then
+                If hProc.IsNotNull Then
 
-                peb = reader.GetPebAddress
+                    peb = reader.GetPebAddress
 
-                ' PEB struct documented here
-                ' http://undocumented.ntinternals.net/UserMode/Undocumented%20Functions/NT%20Objects/Process/PEB.html
+                    ' PEB struct documented here
+                    ' http://undocumented.ntinternals.net/UserMode/Undocumented%20Functions/NT%20Objects/Process/PEB.html
 
-                ' Get address of LoaderData pointer
-                peb = peb.Increment(NativeStructs.Peb_LoaderDataOffset)
-                loaderDatePtr = reader.ReadIntPtr(peb)
+                    ' Get address of LoaderData pointer
+                    peb = peb.Increment(NativeStructs.Peb_LoaderDataOffset)
+                    loaderDatePtr = reader.ReadIntPtr(peb)
 
-                ' PEB_LDR_DATA documented here
-                ' http://msdn.microsoft.com/en-us/library/aa813708(VS.85).aspx
-                Dim ldrData As New Native.Api.NativeStructs.PebLdrData
-                ldrData = CType(reader.ReadStruct(Of Native.Api.NativeStructs.PebLdrData)(loaderDatePtr),  _
-                            Native.Api.NativeStructs.PebLdrData)
+                    ' PEB_LDR_DATA documented here
+                    ' http://msdn.microsoft.com/en-us/library/aa813708(VS.85).aspx
+                    Dim ldrData As New Native.Api.NativeStructs.PebLdrData
+                    ldrData = CType(reader.ReadStruct(Of Native.Api.NativeStructs.PebLdrData)(loaderDatePtr),  _
+                                Native.Api.NativeStructs.PebLdrData)
 
-                ' Now navigate into structure
-                Dim curObj As IntPtr = ldrData.InLoadOrderModuleList.Flink
-                Dim firstObj As IntPtr = curObj
-                Dim dllName As String
-                Dim dllPath As String
-                Dim curEntry As Native.Api.NativeStructs.LdrDataTableEntry
-                Dim i As Integer = 0
+                    ' Now navigate into structure
+                    Dim curObj As IntPtr = ldrData.InLoadOrderModuleList.Flink
+                    Dim firstObj As IntPtr = curObj
+                    Dim dllName As String
+                    Dim dllPath As String
+                    Dim curEntry As Native.Api.NativeStructs.LdrDataTableEntry
+                    Dim i As Integer = 0
 
-                Do While curObj.IsNotNull
+                    Do While curObj.IsNotNull
 
-                    If (i > 0 AndAlso curObj = firstObj) Then
-                        Exit Do
-                    End If
-
-                    ' Read LoaderData entry
-                    curEntry = CType(reader.ReadStruct(Of Native.Api.NativeStructs.LdrDataTableEntry)(curObj),  _
-                                    Native.Api.NativeStructs.LdrDataTableEntry)
-
-                    If (curEntry.DllBase.IsNotNull) Then
-
-                        ' Retrive the path/name of the dll
-                        dllPath = reader.ReadUnicodeString(curEntry.FullDllName)
-                        If dllPath Is Nothing Then
-                            dllPath = NO_INFO_RETRIEVED
-                        End If
-                        dllName = reader.ReadUnicodeString(curEntry.BaseDllName)
-                        If dllName Is Nothing Then
-                            dllName = NO_INFO_RETRIEVED
+                        If (i > 0 AndAlso curObj = firstObj) Then
+                            Exit Do
                         End If
 
-                        ' Add to dico
-                        ' Key is path-pid-baseAddress
-                        Dim _key As String = dllPath.ToString & "-" & pid.ToString & "-" & curEntry.DllBase.ToString
-                        If retDico.ContainsKey(_key) = False Then
-                            retDico.Add(_key, New moduleInfos(curEntry, pid, dllPath, dllName, noFileInfo))
+                        ' Read LoaderData entry
+                        curEntry = CType(reader.ReadStruct(Of Native.Api.NativeStructs.LdrDataTableEntry)(curObj),  _
+                                        Native.Api.NativeStructs.LdrDataTableEntry)
+
+                        If (curEntry.DllBase.IsNotNull) Then
+
+                            ' Retrive the path/name of the dll
+                            dllPath = reader.ReadUnicodeString(curEntry.FullDllName)
+                            If dllPath Is Nothing Then
+                                dllPath = NO_INFO_RETRIEVED
+                            End If
+                            dllName = reader.ReadUnicodeString(curEntry.BaseDllName)
+                            If dllName Is Nothing Then
+                                dllName = NO_INFO_RETRIEVED
+                            End If
+
+                            ' Add to dico
+                            ' Key is path-pid-baseAddress
+                            Dim _key As String = dllPath.ToString & "-" & pid.ToString & "-" & curEntry.DllBase.ToString
+                            If retDico.ContainsKey(_key) = False Then
+                                retDico.Add(_key, New moduleInfos(curEntry, pid, dllPath, dllName, noFileInfo))
+                            End If
+
                         End If
 
-                    End If
+                        ' Next entry
+                        curObj = curEntry.InLoadOrderLinks.Flink
+                        i += 1
+                    Loop
 
-                    ' Next entry
-                    curObj = curEntry.InLoadOrderLinks.Flink
-                    i += 1
-                Loop
+                End If
 
-            End If
+            End Using
 
-            reader.Dispose()
             Return retDico
 
         End Function

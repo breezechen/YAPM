@@ -530,30 +530,31 @@ Namespace Native.Objects
                 End If
 
                 ' Create a reader class to read in memory
-                Dim memReader As New ProcessMemReader(pid)
+                Using memReader As New ProcessMemReader(pid)
 
-                If memReader.ProcessHandle.IsNull Then
-                    Return NO_INFO_RETRIEVED           ' Couldn't open a handle
-                End If
+                    If memReader.ProcessHandle.IsNull Then
+                        Return NO_INFO_RETRIEVED           ' Couldn't open a handle
+                    End If
 
-                ' Retrieve process parameters block address
-                Dim __procParamAd As IntPtr = memReader.ReadIntPtr(__pebAd.Increment(NativeStructs.Peb_ProcessParametersOffset))
+                    ' Retrieve process parameters block address
+                    Dim __procParamAd As IntPtr = memReader.ReadIntPtr(__pebAd.Increment(NativeStructs.Peb_ProcessParametersOffset))
 
+                    ' Get unicode string adress
+                    Dim cmdLine As NativeStructs.UnicodeString
 
-                ' Get unicode string adress
-                Dim cmdLine As NativeStructs.UnicodeString
+                    ' Read length of the unicode string
+                    Dim cmdLineOffset As IntPtr = __procParamAd.Increment(NativeStructs.ProcParamBlock_CommandLineOffset)
+                    cmdLine.Length = CUShort(memReader.ReadInt32(cmdLineOffset))
+                    cmdLine.MaximumLength = CUShort(cmdLine.Length + 2) ' Not used, but...
 
-                ' Read length of the unicode string
-                Dim cmdLineOffset As IntPtr = __procParamAd.Increment(NativeStructs.ProcParamBlock_CommandLineOffset)
-                cmdLine.Length = CUShort(memReader.ReadInt32(cmdLineOffset))
-                cmdLine.MaximumLength = CUShort(cmdLine.Length + 2) ' Not used, but...
+                    ' Read pointer to the string
+                    ' offset = cmdLineOffset + sizeof(IntPtr.Size) for unicode_string.size
+                    cmdLine.Buffer = memReader.ReadIntPtr(cmdLineOffset.Increment(IntPtr.Size))
 
-                ' Read pointer to the string
-                ' offset = cmdLineOffset + sizeof(IntPtr.Size) for unicode_string.size
-                cmdLine.Buffer = memReader.ReadIntPtr(cmdLineOffset.Increment(IntPtr.Size))
+                    ' Read the string
+                    res = memReader.ReadUnicodeString(cmdLine)
 
-                ' Read the string
-                res = memReader.ReadUnicodeString(cmdLine)
+                End Using
 
                 Return res
 
