@@ -168,11 +168,16 @@ Public Class cProcessConnection
 #Region "Enumerate processes"
 
     ' Enumerate processes
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, Optional ByVal forInstanceId As Integer = -1, Optional ByVal enumMethod As asyncCallbackProcEnumerate.ProcessEnumMethode = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses) As Integer
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, _
+                    Optional ByVal forInstanceId As Integer = -1, _
+                    Optional ByVal enumMethod As asyncCallbackProcEnumerate.ProcessEnumMethode = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses, _
+                    Optional ByVal forceAllInfos As Boolean = False) As Integer
+
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
                 _procEnum.Process), New  _
-                asyncCallbackProcEnumerate.poolObj(forInstanceId, _enumMethod))
+                asyncCallbackProcEnumerate.poolObj(forInstanceId, _enumMethod, forceAllInfos))
+
     End Function
 
 #End Region

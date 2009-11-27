@@ -242,6 +242,10 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmCheckSignatures.resx">
+      <DependentUpon>frmCheckSignatures.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmSnapshotInfos.resx">
       <DependentUpon>frmSnapshotInfos.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -591,6 +595,12 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForms\frmJobInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmCheckSignatures.Designer.vb">
+      <DependentUpon>frmCheckSignatures.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmCheckSignatures.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmSnapshotInfos.Designer.vb">

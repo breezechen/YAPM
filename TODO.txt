@@ -6,9 +6,11 @@ Refactoring bugs
 - virer PtrToStructure et n'utiliser que MemoryAlloc
 
 - continuer heaps (show blocks en bas de la form...)
+- fix signature check (buggy...)
 
 - snapshot -> serviceDep et processesInJob + désactiver times + gestion historiques + recherche (pb de dico)
 - revoir remote address des connections
+- commandline dans l'aide
 
 BUGS CRITIQUES
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
@@ -114,6 +116,7 @@ Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
 
 * NEW / Improvements
+- Added massive signature check feature
 - Now can create snapshot file from command line (-ssfile "FILE_PATH")
 
 * Bug fixed

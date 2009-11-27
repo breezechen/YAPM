@@ -349,7 +349,7 @@ Partial Class frmConnection
         Me.txtSSFile.Name = "txtSSFile"
         Me.txtSSFile.Size = New System.Drawing.Size(118, 22)
         Me.txtSSFile.TabIndex = 11
-        Me.txtSSFile.Text = "C:\Users\Admin\Desktop\01.ssf"
+        Me.txtSSFile.Text = ""
         '
         'Label4
         '

@@ -149,6 +149,21 @@ Public Class processList
         End If
 
     End Sub
+    Public Sub UpdateItemsAllInfos()
+
+        ' Create a buffer of subitems if necessary
+        If _columnsName Is Nothing Then
+            Call CreateSubItemsBuffer()
+        End If
+
+        If _processConnection.IsConnected Then
+
+            ' Now enumerate items
+            _processConnection.Enumerate(_first, enumMethod:=_enumMethod, forceAllInfos:=True)
+
+        End If
+
+    End Sub
 
     ' Get all items (associated to listviewitems)
     Public Function GetAllItems() As Dictionary(Of String, cProcess).ValueCollection

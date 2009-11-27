@@ -23,6 +23,7 @@
 
 Option Strict On
 
+Imports System
 Imports System.Runtime.InteropServices
 
 Namespace Security.WinTrust
@@ -137,15 +138,30 @@ Namespace Security.WinTrust
 #End Region
 
     Enum WinVerifyTrustResult As Integer
-        Success = 0
+        Trusted = 0
         ProviderUnknown = &H800B0001
-        ' The trust provider is not recognized on this system
         ActionUnknown = &H800B0002
-        ' The trust provider does not support the specified action
         SubjectFormUnknown = &H800B0003
-        ' The trust provider does not support the form specified for the subject
         SubjectNotTrusted = &H800B0004
-        ' The subject failed the specified verification action
+        NoSignature = &H800B0100
+        Expired = &H800B0101
+        ValidityPeriodNesting = &H800B0102
+        Role = &H800B0103
+        PathLenConst = &H800B0104
+        Critical = &H800B0105
+        Purpose = &H800B0106
+        IssuerChaining = &H800B0107
+        Malformed = &H800B0108
+        UntrustedRoot = &H800B0109
+        Chaining = &H800B010A
+        Revoked = &H800B010C
+        UntrustedTestRoot = &H800B010D
+        RevocationFailure = &H800B010E
+        CNNotMatch = &H800B010F
+        WrongUsage = &H800B0110
+        ExplicitDistrust = &H800B0111
+        UntrustedCA = &H800B0112
+        SecuritySettings = &H80092026
     End Enum
 
     NotInheritable Class WinTrust
@@ -162,8 +178,15 @@ Namespace Security.WinTrust
             Dim wtd As New WinTrustData(fileName)
             Dim guidAction As New Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2)
             Dim result As WinVerifyTrustResult = WinVerifyTrust(INVALID_HANDLE_VALUE, guidAction, wtd)
-            Dim ret As Boolean = (result = WinVerifyTrustResult.Success)
+            Dim ret As Boolean = (result = WinVerifyTrustResult.Trusted)
             Return ret
+        End Function
+        Public Shared Function VerifyEmbeddedSignature2(ByVal fileName As String) As WinVerifyTrustResult
+            Dim wtd As New WinTrustData(fileName)
+            Dim guidAction As New Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2)
+            Dim result As WinVerifyTrustResult = WinVerifyTrust(INVALID_HANDLE_VALUE, guidAction, wtd)
+            Dim ret As Boolean = (result = WinVerifyTrustResult.Trusted)
+            Return result
         End Function
         Private Sub New()
         End Sub

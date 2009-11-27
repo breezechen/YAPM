@@ -107,9 +107,11 @@ Public Class asyncCallbackProcEnumerate
     Public Structure poolObj
         Public method As ProcessEnumMethode
         Public forInstanceId As Integer
-        Public Sub New(ByVal iid As Integer, Optional ByVal tmethod As ProcessEnumMethode = ProcessEnumMethode.VisibleProcesses)
+        Public force As Boolean
+        Public Sub New(ByVal iid As Integer, Optional ByVal tmethod As ProcessEnumMethode = ProcessEnumMethode.VisibleProcesses, Optional ByVal forceAllInfos As Boolean = False)
             forInstanceId = iid
             method = tmethod
+            force = forceAllInfos
         End Sub
     End Structure
     Public Enum ProcessEnumMethode As Integer
@@ -201,7 +203,7 @@ Public Class asyncCallbackProcEnumerate
                     Case ProcessEnumMethode.HandleMethod
                         _dico = Native.Objects.Process.EnumerateHiddenProcessesHandleMethod
                     Case Else
-                        _dico = Native.Objects.Process.EnumerateVisibleProcesses(False)
+                        _dico = Native.Objects.Process.EnumerateVisibleProcesses(pObj.force)
                 End Select
 
                 Try

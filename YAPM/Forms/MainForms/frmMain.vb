@@ -327,7 +327,6 @@ Public Class frmMain
         Me.MenuItemNetworkTools.MenuItems.Remove(Me.MenuItemNetworkRoute)
         Me.MenuItemNetworkTools.MenuItems.Remove(Me.MenuItemNetworkWhoIs)
 
-
         ' Disable 'start as admin' if we are not on Vista or above
         If cEnvironment.SupportsUac = False _
                 OrElse cEnvironment.GetElevationType <> Native.Api.Enums.ElevationType.Limited Then
@@ -2575,6 +2574,7 @@ Public Class frmMain
         Me.RBServiceAction.Enabled = _notSnapshotMode
         Me.RBServiceStartType.Enabled = _notSnapshotMode
         Me.RBServiceFile.Enabled = _notSnapshotMode
+        Me.butCheckSignatures.Enabled = _local
 
         Me.lvProcess.CatchErrors = Not (_local)
         Me.lvServices.CatchErrors = Not (_local)
@@ -4078,6 +4078,16 @@ Public Class frmMain
 
     Private Sub butExploreSSFile_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butExploreSSFile.Click
         Dim frm As New frmSnapshotInfos
+        frm.TopMost = _frmMain.TopMost
+        frm.Show()
+    End Sub
+
+    Private Sub MenuItemSystemCheckSignatures_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemCheckSignatures.Click
+        Call Me.butCheckSignatures_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub butCheckSignatures_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butCheckSignatures.Click
+        Dim frm As New frmCheckSignatures
         frm.TopMost = _frmMain.TopMost
         frm.Show()
     End Sub

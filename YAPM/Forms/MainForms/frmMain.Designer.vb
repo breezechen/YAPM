@@ -582,6 +582,8 @@ Partial Class frmMain
         Me.timerJobs = New System.Windows.Forms.Timer(Me.components)
         Me.mnuJob = New System.Windows.Forms.ContextMenu
         Me.MenuItem53 = New System.Windows.Forms.MenuItem
+        Me.butCheckSignatures = New System.Windows.Forms.RibbonButton
+        Me.MenuItemSystemCheckSignatures = New System.Windows.Forms.MenuItem
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -760,6 +762,7 @@ Partial Class frmMain
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butScripting)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butSaveSystemSnaphotFile)
         Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butExploreSSFile)
+        Me.Ribbon.QuickAcessToolbar.Items.Add(Me.butCheckSignatures)
         Me.Ribbon.QuickAcessToolbar.Tag = Nothing
         Me.Ribbon.QuickAcessToolbar.Text = Nothing
         Me.Ribbon.QuickAcessToolbar.ToolTip = Nothing
@@ -4658,13 +4661,13 @@ Partial Class frmMain
         'MenuItemSystemToTray
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemToTray, Global.My.Resources.Resources.down16)
-        Me.MenuItemSystemToTray.Index = 20
+        Me.MenuItemSystemToTray.Index = 21
         Me.MenuItemSystemToTray.Text = "Minimize to &tray"
         '
         'MenuItemSystemExit
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemExit, Global.My.Resources.Resources.cross16)
-        Me.MenuItemSystemExit.Index = 21
+        Me.MenuItemSystemExit.Index = 22
         Me.MenuItemSystemExit.Shortcut = System.Windows.Forms.Shortcut.AltF4
         Me.MenuItemSystemExit.Text = "E&xit"
         '
@@ -4689,7 +4692,7 @@ Partial Class frmMain
         'MenuItemSystemFindWindow
         '
         Me.VistaMenu.SetImage(Me.MenuItemSystemFindWindow, Global.My.Resources.Resources.target16)
-        Me.MenuItemSystemFindWindow.Index = 16
+        Me.MenuItemSystemFindWindow.Index = 17
         Me.MenuItemSystemFindWindow.Text = "&Find a window"
         '
         'MenuItemSystemHelp
@@ -5155,7 +5158,7 @@ Partial Class frmMain
         'MenuItemSYSTEMFILE
         '
         Me.MenuItemSYSTEMFILE.Index = 0
-        Me.MenuItemSYSTEMFILE.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemRefresh, Me.MenuItem54, Me.MenuItemSystemConnection, Me.MenuItemRunAsAdmin, Me.MenuItem56, Me.MenuItemSystemLog, Me.MenuItemSystemReport, Me.MenuItem59, Me.MenuItemSystemInfos, Me.MenuItemSystemNetworkInfos, Me.MenuItemSystemOpenedWindows, Me.MenuItemShowPendingTasks, Me.MenuItemSystemScripting, Me.MenuItemSystemSaveSSFile, Me.MenuItemSystemExploreSSFile, Me.MenuItem62, Me.MenuItemSystemFindWindow, Me.MenuItemSystemEmergency, Me.MenuItemSystemSBA, Me.MenuItem66, Me.MenuItemSystemToTray, Me.MenuItemSystemExit})
+        Me.MenuItemSYSTEMFILE.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItemSystemRefresh, Me.MenuItem54, Me.MenuItemSystemConnection, Me.MenuItemRunAsAdmin, Me.MenuItem56, Me.MenuItemSystemLog, Me.MenuItemSystemReport, Me.MenuItem59, Me.MenuItemSystemInfos, Me.MenuItemSystemNetworkInfos, Me.MenuItemSystemOpenedWindows, Me.MenuItemShowPendingTasks, Me.MenuItemSystemScripting, Me.MenuItemSystemSaveSSFile, Me.MenuItemSystemExploreSSFile, Me.MenuItemSystemCheckSignatures, Me.MenuItem62, Me.MenuItemSystemFindWindow, Me.MenuItemSystemEmergency, Me.MenuItemSystemSBA, Me.MenuItem66, Me.MenuItemSystemToTray, Me.MenuItemSystemExit})
         Me.MenuItemSYSTEMFILE.Text = "&File"
         '
         'MenuItem54
@@ -5219,24 +5222,24 @@ Partial Class frmMain
         '
         'MenuItem62
         '
-        Me.MenuItem62.Index = 15
+        Me.MenuItem62.Index = 16
         Me.MenuItem62.Text = "-"
         '
         'MenuItemSystemEmergency
         '
-        Me.MenuItemSystemEmergency.Index = 17
+        Me.MenuItemSystemEmergency.Index = 18
         Me.MenuItemSystemEmergency.Text = "Emergency &hotkeys..."
         '
         'MenuItemSystemSBA
         '
         Me.MenuItemSystemSBA.Enabled = False
-        Me.MenuItemSystemSBA.Index = 18
+        Me.MenuItemSystemSBA.Index = 19
         Me.MenuItemSystemSBA.Text = "State &based actions..."
         Me.MenuItemSystemSBA.Visible = False
         '
         'MenuItem66
         '
-        Me.MenuItem66.Index = 19
+        Me.MenuItem66.Index = 20
         Me.MenuItem66.Text = "-"
         '
         'MenuItemProcesses
@@ -5627,6 +5630,26 @@ Partial Class frmMain
         '
         Me.MenuItem53.Index = 1
         Me.MenuItem53.Text = "-"
+        '
+        'butCheckSignatures
+        '
+        Me.butCheckSignatures.AltKey = Nothing
+        Me.butCheckSignatures.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butCheckSignatures.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butCheckSignatures.Image = CType(resources.GetObject("butCheckSignatures.Image"), System.Drawing.Image)
+        Me.butCheckSignatures.SmallImage = Global.My.Resources.Resources.ok16
+        Me.butCheckSignatures.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butCheckSignatures.Tag = Nothing
+        Me.butCheckSignatures.Text = "RibbonButton1"
+        Me.butCheckSignatures.ToolTip = Nothing
+        Me.butCheckSignatures.ToolTipImage = Nothing
+        Me.butCheckSignatures.ToolTipTitle = Nothing
+        '
+        'MenuItemSystemCheckSignatures
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemSystemCheckSignatures, Global.My.Resources.Resources.ok16)
+        Me.MenuItemSystemCheckSignatures.Index = 15
+        Me.MenuItemSystemCheckSignatures.Text = "Check file signatures..."
         '
         'frmMain
         '
@@ -6281,5 +6304,7 @@ Partial Class frmMain
     Friend WithEvents MenuItemSystemSaveSSFile As System.Windows.Forms.MenuItem
     Friend WithEvents butExploreSSFile As System.Windows.Forms.RibbonButton
     Friend WithEvents MenuItemSystemExploreSSFile As System.Windows.Forms.MenuItem
+    Friend WithEvents butCheckSignatures As System.Windows.Forms.RibbonButton
+    Friend WithEvents MenuItemSystemCheckSignatures As System.Windows.Forms.MenuItem
 
 End Class

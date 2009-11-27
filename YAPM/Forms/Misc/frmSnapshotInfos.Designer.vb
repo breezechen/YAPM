@@ -94,7 +94,7 @@ Partial Class frmSnapshotInfos
         Me.txtSSFile.Name = "txtSSFile"
         Me.txtSSFile.Size = New System.Drawing.Size(142, 22)
         Me.txtSSFile.TabIndex = 14
-        Me.txtSSFile.Text = "C:\Users\Admin\Desktop\01.ssf"
+        Me.txtSSFile.Text = ""
         '
         'Label4
         '

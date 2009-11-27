@@ -49,7 +49,7 @@ Partial Class frmSaveSystemSnapshot
         Me.txtSSFile.Name = "txtSSFile"
         Me.txtSSFile.Size = New System.Drawing.Size(182, 22)
         Me.txtSSFile.TabIndex = 1
-        Me.txtSSFile.Text = "C:\Users\Admin\Desktop\01.ssf"
+        Me.txtSSFile.Text = ""
         '
         'Label1
         '
