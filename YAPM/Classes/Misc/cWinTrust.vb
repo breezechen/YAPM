@@ -32,12 +32,7 @@ Namespace Security.WinTrust
     Public Class WinTrust
 
         ' GUID of the action to perform
-        Private Shared wagvGuid As Guid = New Guid(NativeConstants.WintrustActionGenericVerify2)
-        Public Shared ReadOnly Property GuidVerifyAction() As Guid
-            Get
-                Return wagvGuid
-            End Get
-        End Property
+        Private Shared GuidVerifyAction As Guid = New Guid(NativeConstants.WintrustActionGenericVerify2)
 
         ' Check file signature
         Public Shared Function VerifyEmbeddedSignature(ByVal fileName As String) As Boolean
