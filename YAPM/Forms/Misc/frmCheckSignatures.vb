@@ -102,7 +102,7 @@ Public Class frmCheckSignatures
         ' Check if files are trusted
 
         ' Path <-> trust result
-        Dim _dicoTrusted As New Dictionary(Of String, Security.WinTrust.WinVerifyTrustResult)
+        Dim _dicoTrusted As New Dictionary(Of String, Native.Api.NativeEnums.WinVerifyTrustResult)
 
         Me.pgb.Minimum = 0
         Me.pgb.Value = 0
@@ -136,14 +136,14 @@ Public Class frmCheckSignatures
 
         Me.lvResult.BeginUpdate()
         Me.lvResult.Items.Clear()
-        For Each pair As Generic.KeyValuePair(Of String, Security.WinTrust.WinVerifyTrustResult) In _dicoTrusted
+        For Each pair As Generic.KeyValuePair(Of String, Native.Api.NativeEnums.WinVerifyTrustResult) In _dicoTrusted
             Dim it As ListViewItem = Me.lvResult.Items.Add(pair.Key)
             it.SubItems.Add(pair.Value.ToString)
             Select Case pair.Value
-                Case Security.WinTrust.WinVerifyTrustResult.SubjectNotTrusted, Security.WinTrust.WinVerifyTrustResult.ExplicitDistrust, Security.WinTrust.WinVerifyTrustResult.Expired, Security.WinTrust.WinVerifyTrustResult.Revoked
+                Case Native.Api.NativeEnums.WinVerifyTrustResult.Critical Or Native.Api.NativeEnums.WinVerifyTrustResult.Expired Or Native.Api.NativeEnums.WinVerifyTrustResult.ExplicitDistrust Or Native.Api.NativeEnums.WinVerifyTrustResult.Malformed Or Native.Api.NativeEnums.WinVerifyTrustResult.RevocationFailure Or Native.Api.NativeEnums.WinVerifyTrustResult.Revoked Or Native.Api.NativeEnums.WinVerifyTrustResult.SubjectNotTrusted Or Native.Api.NativeEnums.WinVerifyTrustResult.UntrustedCA Or Native.Api.NativeEnums.WinVerifyTrustResult.UntrustedRoot Or Native.Api.NativeEnums.WinVerifyTrustResult.UntrustedTestRoot Or Native.Api.NativeEnums.WinVerifyTrustResult.ValidityPeriodNesting
                     _failed += 1
                     it.ForeColor = Color.Red
-                Case Security.WinTrust.WinVerifyTrustResult.Trusted
+                Case Native.Api.NativeEnums.WinVerifyTrustResult.Trusted
                     _success += 1
                     it.ForeColor = Color.Green
                 Case Else

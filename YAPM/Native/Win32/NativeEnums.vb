@@ -1485,6 +1485,87 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
+#Region "Declarations used for wintrust verification"
+
+        Public Enum WinVerifyTrustResult As Integer
+            Trusted = 0
+            ProviderUnknown = &H800B0001
+            ActionUnknown = &H800B0002
+            SubjectFormUnknown = &H800B0003
+            SubjectNotTrusted = &H800B0004
+            NoSignature = &H800B0100
+            Expired = &H800B0101
+            ValidityPeriodNesting = &H800B0102
+            Role = &H800B0103
+            PathLenConst = &H800B0104
+            Critical = &H800B0105
+            Purpose = &H800B0106
+            IssuerChaining = &H800B0107
+            Malformed = &H800B0108
+            UntrustedRoot = &H800B0109
+            Chaining = &H800B010A
+            Revoked = &H800B010C
+            UntrustedTestRoot = &H800B010D
+            RevocationFailure = &H800B010E
+            CNNotMatch = &H800B010F
+            WrongUsage = &H800B0110
+            ExplicitDistrust = &H800B0111
+            UntrustedCA = &H800B0112
+            SecuritySettings = &H80092026
+        End Enum
+
+        Public Enum WinTrustDataUIChoice As UInteger
+            All = 1
+            None = 2
+            NoBad = 3
+            NoGood = 4
+        End Enum
+
+        Public Enum WinTrustDataRevocationChecks As UInteger
+            None = &H0
+            WholeChain = &H1
+        End Enum
+
+        Public Enum WinTrustDataChoice As UInteger
+            File = 1
+            Catalog = 2
+            Blob = 3
+            Signer = 4
+            Certificate = 5
+        End Enum
+
+        Public Enum WinTrustDataStateAction As UInteger
+            Ignore = &H0
+            Verify = &H1
+            Close = &H2
+            AutoCache = &H3
+            AutoCacheFlush = &H4
+        End Enum
+
+        <FlagsAttribute()> _
+       Public Enum WinTrustDataProvFlags As UInteger
+            UseIe4TrustFlag = &H1
+            NoIe4ChainFlag = &H2
+            NoPolicyUsageFlag = &H4
+            RevocationCheckNone = &H10
+            RevocationCheckEndCert = &H20
+            RevocationCheckChain = &H40
+            RevocationCheckChainExcludeRoot = &H80
+            SaferFlag = &H100
+            HashOnlyFlag = &H200
+            UseDefaultOsverCheck = &H400
+            LifetimeSigningFlag = &H800
+            CacheOnlyUrlRetrieval = &H1000
+        End Enum
+
+        Public Enum WinTrustDataUIContext As UInteger
+            Execute = 0
+            Install = 1
+        End Enum
+
+#End Region
+
     End Class
 
 End Namespace

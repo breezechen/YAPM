@@ -179,7 +179,7 @@ Partial Class frmCheckSignatures
         Me.lvResult.FullRowSelect = True
         Me.lvResult.Location = New System.Drawing.Point(0, 0)
         Me.lvResult.Name = "lvResult"
-        Me.lvResult.OverriddenDoubleBuffered = False
+        Me.lvResult.OverriddenDoubleBuffered = True
         Me.lvResult.Size = New System.Drawing.Size(253, 352)
         Me.lvResult.TabIndex = 0
         Me.lvResult.UseCompatibleStateImageBehavior = False

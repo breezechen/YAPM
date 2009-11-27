@@ -1547,6 +1547,65 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
+#Region "Declarations used for wintrust verification"
+
+        <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
+       Public Class WinTrustFileInfo
+            Private StructSize As Integer = DirectCast(Marshal.SizeOf(GetType(WinTrustFileInfo)), Integer)
+            Private pszFilePath As IntPtr
+            ' required, file name to be verified
+            Private hFile As IntPtr = IntPtr.Zero
+            ' optional, open handle to FilePath
+            Private pgKnownSubject As IntPtr = IntPtr.Zero
+            ' optional, subject type if it is known
+            Public Sub New(ByVal _filePath As String)
+                pszFilePath = Marshal.StringToCoTaskMemAuto(_filePath)
+            End Sub
+            Protected Overrides Sub Finalize()
+                Try
+                    Marshal.FreeCoTaskMem(pszFilePath)
+                Finally
+                    MyBase.Finalize()
+                End Try
+            End Sub
+        End Class
+
+        <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
+        Public Class WinTrustData
+            Private StructSize As Integer = DirectCast(Marshal.SizeOf(GetType(WinTrustData)), Integer)
+            Private PolicyCallbackData As IntPtr = IntPtr.Zero
+            Private SIPClientData As IntPtr = IntPtr.Zero
+            ' required: UI choice
+            Private UIChoice As WinTrustDataUIChoice = WinTrustDataUIChoice.None
+            ' required: certificate revocation check options
+            Private RevocationChecks As WinTrustDataRevocationChecks = WinTrustDataRevocationChecks.None
+            ' required: which structure is being passed in?
+            Private UnionChoice As WinTrustDataChoice = WinTrustDataChoice.File
+            ' individual file
+            Private FileInfoPtr As IntPtr
+            Private StateAction As WinTrustDataStateAction = WinTrustDataStateAction.Ignore
+            Private StateData As IntPtr = IntPtr.Zero
+            Private URLReference As String = Nothing
+            Private ProvFlags As WinTrustDataProvFlags = WinTrustDataProvFlags.SaferFlag
+            Private UIContext As WinTrustDataUIContext = WinTrustDataUIContext.Execute
+
+            ' constructor for silent WinTrustDataChoice.File check
+            Public Sub New(ByVal _fileName As String)
+                Dim wtfiData As New WinTrustFileInfo(_fileName)
+                FileInfoPtr = Marshal.AllocCoTaskMem(Marshal.SizeOf(GetType(WinTrustFileInfo)))
+                Marshal.StructureToPtr(wtfiData, FileInfoPtr, False)
+            End Sub
+            Protected Overrides Sub Finalize()
+                Try
+                    Marshal.FreeCoTaskMem(FileInfoPtr)
+                Finally
+                    MyBase.Finalize()
+                End Try
+            End Sub
+        End Class
+
+#End Region
     End Class
 
 End Namespace

@@ -190,6 +190,14 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
+#Region "Guids"
+
+        ' For wintrust verifications
+        Public Const WintrustActionGenericVerify2 As String = "{00AAC56B-CD44-11d0-8CC2-00C04FC295EE}"
+
+#End Region
+
     End Class
 
 End Namespace
