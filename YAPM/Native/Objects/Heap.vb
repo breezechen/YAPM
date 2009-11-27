@@ -271,15 +271,15 @@ Namespace Native.Objects
 
             block = curHeapNode.Blocks
 
-            Do While (Marshal.ReadInt32(block.Increment(4 * 1)) And 2) = 2
-                hb.Reserved = hb.Reserved.Increment(4 * 1)
-                hb.Address = New IntPtr(Marshal.ReadInt32(block.Increment(4 * 3)) + curHeapNode.Granularity)
-                block = block.Increment(4 * 4)
+            Do While (Marshal.ReadInt32(block.Increment(IntPtr.Size * 1)) And 2) = 2
+                hb.Reserved = hb.Reserved.Increment(IntPtr.Size * 1)
+                hb.Address = Marshal.ReadIntPtr(block.Increment(IntPtr.Size * 3)).Increment(curHeapNode.Granularity)
+                block = block.Increment(IntPtr.Size * 4)
                 hb.Size = Marshal.ReadInt32(block, 0)
             Loop
 
             ' Update the flags
-            Dim flags As UShort = CUShort(Marshal.ReadInt32(block.Increment(4 * 1)))
+            Dim flags As UShort = CUShort(Marshal.ReadInt32(block.Increment(IntPtr.Size * 1)))
 
             If ((flags And &HF1) <> 0 OrElse (flags And &H200) <> 0) Then
                 hb.Flags = NativeEnums.HeapBlockFlag.Fixed
@@ -297,27 +297,27 @@ Namespace Native.Objects
 
             Dim block As IntPtr
 
-            hb.Reserved = hb.Reserved.Increment(4 * 1)
+            hb.Reserved = hb.Reserved.Increment(IntPtr.Size * 1)
             block = curHeapNode.Blocks
 
             ' Make it point to next block address entry
-            block = block.Increment(hb.Reserved.ToInt32 * &H4)
+            block = block.Increment(hb.Reserved.ToInt32 * 4)
 
-            If ((Marshal.ReadInt32(block.Increment(4 * 1)) And 2) = 2) Then
+            If ((Marshal.ReadInt32(block.Increment(IntPtr.Size * 1)) And 2) = 2) Then
 
-                Do While ((Marshal.ReadInt32(block.Increment(4 * 1)) And 2) = 2)
+                Do While ((Marshal.ReadInt32(block.Increment(IntPtr.Size * 1)) And 2) = 2)
 
                     ' new address = curBlockAddress + Granularity ;
-                    hb.Address = New IntPtr(Marshal.ReadInt32(block.Increment(4 * 3)) + curHeapNode.Granularity)
+                    hb.Address = Marshal.ReadIntPtr(block.Increment(IntPtr.Size * 3)).Increment(curHeapNode.Granularity)
 
                     ' If all the blocks have been enumerated....exit
                     If (hb.Reserved.ToInt64 > curHeapNode.BlockCount) Then
                         Return False
                     End If
 
-                    hb.Reserved = hb.Reserved.Increment(4 * 4)
+                    hb.Reserved = hb.Reserved.Increment(IntPtr.Size * 4)
 
-                    hb.Address = block.Increment(&H4) ' move to next block
+                    hb.Address = block.Increment(IntPtr.Size) ' move to next block
                     hb.Size = Marshal.ReadInt32(block)
 
                 Loop
@@ -329,7 +329,7 @@ Namespace Native.Objects
             End If
 
             ' Update the flags...
-            Dim flags As UShort = CUShort(Marshal.ReadInt32(block.Increment(4 * 1)))
+            Dim flags As UShort = CUShort(Marshal.ReadInt32(block.Increment(&H4 * 1)))
 
             If ((flags And &HF1) <> 0 OrElse (flags And &H200) <> 0) Then
                 hb.Flags = NativeEnums.HeapBlockFlag.Fixed
