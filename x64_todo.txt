@@ -1,0 +1,10 @@
+- ajouter IsWow64 counter en mode 64 bits
+- enumeration de modules en Wow64 foireux (affiche que les modules WoW)
+- crash dans Job Enumeration
+- heaps -> node size/status failed
+- jobs -> limits foireuses
+- dependecy viewer marche pas (pas x64 compatible)
+- display name/objectname des services foireux
+- dependencies des services foireuses
+- process -> commandline marche pas
+- afficher x*32 pour les processus Wow64

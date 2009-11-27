@@ -1,7 +1,6 @@
 TODO LIST
 
 Refactoring bugs
-- 64TODO
 
 - virer PtrToStructure et n'utiliser que MemoryAlloc
 
@@ -120,4 +119,4 @@ Temp Change log :
 - Now can create snapshot file from command line (-ssfile "FILE_PATH")
 
 * Bug fixed
-- 
+- TCP/UDP connections : only display 'remote' column values if remote is not nothing
