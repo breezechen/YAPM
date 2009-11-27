@@ -4,6 +4,6 @@
 - heaps -> node size/status failed
 - jobs -> limits foireuses
 - dependecy viewer marche pas (pas x64 compatible)
-- display name/objectname des services foireux
-- dependencies des services foireuses
 - afficher x*32 pour les processus Wow64
+- tester "add to job"
+- checker "New IntPtr("

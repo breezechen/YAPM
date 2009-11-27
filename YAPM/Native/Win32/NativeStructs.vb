@@ -1287,7 +1287,7 @@ Namespace Native.Api
             <MarshalAs(UnmanagedType.LPTStr)> Public BinaryPathName As String
             <MarshalAs(UnmanagedType.LPTStr)> Public LoadOrderGroup As String
             Public TagID As Integer
-            Public Dependencies As Integer
+            Public Dependencies As IntPtr
             <MarshalAs(UnmanagedType.LPTStr)> Public ServiceStartName As String
             <MarshalAs(UnmanagedType.LPTStr)> Public DisplayName As String
         End Structure

@@ -498,7 +498,7 @@ Namespace Native.Objects
         End Sub
 
         ' Return dependencies of a service (as a string array)
-        Public Shared Function GetServiceDependenciesAsStringArrayFromPtr(ByVal thePtr As Integer) As String()
+        Public Shared Function GetServiceDependenciesAsStringArrayFromPtr(ByVal thePtr As IntPtr) As String()
 
 
             'If thePtr > 0 Then
@@ -516,7 +516,7 @@ Namespace Native.Objects
             'End If
 
             ' === Get dependencies of service
-            If thePtr > 0 Then
+            If thePtr.IsNotNull Then
 
                 ' Get a short array from memory
                 ' Delimited by 2 null chars (e.g 4 zero byte as it is unicode)
@@ -530,7 +530,7 @@ Namespace Native.Objects
                 Do While Not (b1 = 0 And b2 = 0)
                     size += 1
                     ReDim res(size - 1)
-                    Marshal.Copy(New IntPtr(thePtr), res, 0, res.Length)
+                    Marshal.Copy(thePtr, res, 0, res.Length)
                     b1 = res(size - 2)
                     b2 = res(size - 1)
                 Loop
