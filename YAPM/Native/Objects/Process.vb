@@ -549,8 +549,8 @@ Namespace Native.Objects
                 cmdLine.MaximumLength = CUShort(cmdLine.Length + 2) ' Not used, but...
 
                 ' Read pointer to the string
-                ' offset = cmdLineOffset + &h4 (sizeof(int) for unicode_string.size)
-                cmdLine.Buffer = memReader.ReadIntPtr(cmdLineOffset.Increment(&H4))
+                ' offset = cmdLineOffset + sizeof(IntPtr.Size) for unicode_string.size
+                cmdLine.Buffer = memReader.ReadIntPtr(cmdLineOffset.Increment(IntPtr.Size))
 
                 ' Read the string
                 res = memReader.ReadUnicodeString(cmdLine)

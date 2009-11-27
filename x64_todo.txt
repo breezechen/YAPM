@@ -6,5 +6,4 @@
 - dependecy viewer marche pas (pas x64 compatible)
 - display name/objectname des services foireux
 - dependencies des services foireuses
-- process -> commandline marche pas
 - afficher x*32 pour les processus Wow64

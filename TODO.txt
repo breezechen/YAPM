@@ -120,3 +120,4 @@ Temp Change log :
 
 * Bug fixed
 - TCP/UDP connections : only display 'remote' column values if remote is not nothing
+- x64 systems : fixed bad CommandLine informations

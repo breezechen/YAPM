@@ -269,13 +269,6 @@ Public Module Program
 
 
 
-        ' ======= Check if system is 32 bits
-        If cEnvironment.Is32Bits = False Then
-            Misc.ShowMsg("Warning !", "YAPM starts on a x64 system.", "x64 support is still experimental !", MessageBoxButtons.OK, TaskDialogIcon.ShieldWarning, , True)
-        End If
-
-
-
         ' ======= Other init
         _isVistaOrAbove = cEnvironment.IsWindowsVistaOrAbove
         _isAdmin = cEnvironment.IsAdmin
