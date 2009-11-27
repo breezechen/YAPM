@@ -173,6 +173,9 @@ Namespace Native.Objects
                         retDico.Add(key, New heapInfos(heap))
                     End If
                 Next
+
+                ' heapInfo.Free()
+
             End If
 
             buf2.Dispose()
@@ -236,6 +239,8 @@ Namespace Native.Objects
                     Exit For
                 End If
             Next
+
+            'heapInfo.Free()
 
             ' Clean up the buffer
             buf.Dispose()

@@ -57,8 +57,8 @@ Namespace Native.Objects
         Private Shared colJobs As New Dictionary(Of String, cJob)
 
         ' Some mem allocations
-        Private Shared memAllocJobs As New Native.Memory.MemoryAlloc(&H100)
-        Private Shared BufferObjNameJob As New Native.Memory.MemoryAlloc(512)
+        Private Shared memAllocJobs As New Native.Memory.MemoryAlloc(&H100)     ' NOTE : never unallocated
+        Private Shared BufferObjNameJob As New Native.Memory.MemoryAlloc(512)   ' NOTE : never unallocated
 
 
         ' ========================================
@@ -339,29 +339,29 @@ Namespace Native.Objects
 
             If hJob.IsNotNull Then
 
-                Dim memAlloc As New Memory.MemoryAlloc(&H1000)
+                Using memAlloc As New Memory.MemoryAlloc(&H1000)
 
-                NativeFunctions.QueryInformationJobObject(hJob, _
-                                NativeEnums.JobObjectInformationClass.JobObjectBasicProcessIdList, _
-                                memAlloc.Pointer, memAlloc.Size, ret)
+                    NativeFunctions.QueryInformationJobObject(hJob, _
+                                    NativeEnums.JobObjectInformationClass.JobObjectBasicProcessIdList, _
+                                    memAlloc.Pointer, memAlloc.Size, ret)
 
-                If ret > 0 Then
-                    Dim list As NativeStructs.JobObjectBasicProcessIdList = _
-                        memAlloc.ReadStruct(Of NativeStructs.JobObjectBasicProcessIdList)()
-                    Debug.WriteLine(list.ProcessIdsCount.ToString)
-                    For i As Integer = 0 To list.ProcessIdsCount - 1
-                        Dim pid As Integer = memAlloc.ReadInt32(&H8, i)      ' &h8 cause of two first Int32
-                        Dim proc As cProcess = cProcess.GetProcessById(pid)
-                        ' /!\ We HAVE to check that the cProcess we retrieve
-                        ' is NOT null, as it may has just been created and is not
-                        ' yet available in list of cProcesses
-                        If proc IsNot Nothing Then
-                            procs.Add(pid.ToString, proc.Infos)
-                        End If
-                    Next
-                End If
+                    If ret > 0 Then
+                        Dim list As NativeStructs.JobObjectBasicProcessIdList = _
+                            memAlloc.ReadStruct(Of NativeStructs.JobObjectBasicProcessIdList)()
+                        Debug.WriteLine(list.ProcessIdsCount.ToString)
+                        For i As Integer = 0 To list.ProcessIdsCount - 1
+                            Dim pid As Integer = memAlloc.ReadInt32(&H8, i)      ' &h8 cause of two first Int32
+                            Dim proc As cProcess = cProcess.GetProcessById(pid)
+                            ' /!\ We HAVE to check that the cProcess we retrieve
+                            ' is NOT null, as it may has just been created and is not
+                            ' yet available in list of cProcesses
+                            If proc IsNot Nothing Then
+                                procs.Add(pid.ToString, proc.Infos)
+                            End If
+                        Next
+                    End If
 
-                memAlloc.Free()
+                End Using
 
             End If
 
@@ -640,21 +640,21 @@ Namespace Native.Objects
 
             If handle.IsNotNull Then
 
-                Dim memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
+                Using memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
 
-                If Not NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
-                                                                 memAlloc.Size, ret) Then
-                    ' Need a greater mem alloc
-                    memAlloc.Resize(ret)
+                    If Not NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
+                                                                     memAlloc.Size, ret) Then
+                        ' Need a greater mem alloc
+                        memAlloc.Resize(ret)
 
-                    NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
-                                                              memAlloc.Size, ret)
-                End If
+                        NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
+                                                                  memAlloc.Size, ret)
+                    End If
 
-                Dim struct As T = memAlloc.ReadStruct(Of T)()
-                memAlloc.Free()
+                    retStruct = memAlloc.ReadStruct(Of T)()
 
-                retStruct = struct
+                End Using
+
             End If
 
             ' End using handle
@@ -670,21 +670,20 @@ Namespace Native.Objects
 
             If handle.IsNotNull Then
 
-                Dim memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
+                Using memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
 
-                If Not NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
-                                                                 memAlloc.Size, ret) Then
-                    ' Need a greater mem alloc
-                    memAlloc.Resize(ret)
+                    If Not NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
+                                                                     memAlloc.Size, ret) Then
+                        ' Need a greater mem alloc
+                        memAlloc.Resize(ret)
 
-                    NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
-                                                              memAlloc.Size, ret)
-                End If
+                        NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
+                                                                  memAlloc.Size, ret)
+                    End If
 
-                Dim struct As T = memAlloc.ReadStruct(Of T)()
-                memAlloc.Free()
+                    retStruct = memAlloc.ReadStruct(Of T)()
+                End Using
 
-                retStruct = struct
             End If
 
             Return retStruct
@@ -702,11 +701,11 @@ Namespace Native.Objects
             Dim ret As Boolean
 
             If handle.IsNotNull Then
-                Dim memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
-                memAlloc.WriteStruct(Of T)(limit)
-                ret = NativeFunctions.SetInformationJobObject(handle, info, memAlloc.Pointer, _
-                                                        memAlloc.Size)
-                memAlloc.Free()
+                Using memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
+                    memAlloc.WriteStruct(Of T)(limit)
+                    ret = NativeFunctions.SetInformationJobObject(handle, info, memAlloc.Pointer, _
+                                                            memAlloc.Size)
+                End Using
             End If
 
             ' End using handle
@@ -723,11 +722,11 @@ Namespace Native.Objects
             Dim ret As Boolean
 
             If handle.IsNotNull Then
-                Dim memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
-                memAlloc.WriteStruct(Of T)(limit)
-                ret = NativeFunctions.SetInformationJobObject(handle, info, memAlloc.Pointer, _
-                                                        memAlloc.Size)
-                memAlloc.Free()
+                Using memAlloc As New Memory.MemoryAlloc(Marshal.SizeOf(GetType(T)))
+                    memAlloc.WriteStruct(Of T)(limit)
+                    ret = NativeFunctions.SetInformationJobObject(handle, info, memAlloc.Pointer, _
+                                                            memAlloc.Size)
+                End Using
             End If
 
             Return ret
@@ -743,48 +742,48 @@ Namespace Native.Objects
             Dim strType As String
 
             ' Request size for types informations
-            Dim memAlloc As New Memory.MemoryAlloc(&H100)
-            NativeFunctions.NtQueryObject(IntPtr.Zero, NativeEnums.ObjectInformationClass.ObjectTypesInformation, memAlloc.Pointer, memAlloc.Size, cbReqLength)
-            memAlloc.Resize(cbReqLength)
+            Using memAlloc As New Memory.MemoryAlloc(&H100)
+                NativeFunctions.NtQueryObject(IntPtr.Zero, NativeEnums.ObjectInformationClass.ObjectTypesInformation, memAlloc.Pointer, memAlloc.Size, cbReqLength)
+                memAlloc.Resize(cbReqLength)
 
-            ' Retrive list of types
-            NativeFunctions.NtQueryObject(IntPtr.Zero, _
-                            NativeEnums.ObjectInformationClass.ObjectTypesInformation, _
-                            memAlloc.Pointer, cbReqLength, cbReqLength)
+                ' Retrive list of types
+                NativeFunctions.NtQueryObject(IntPtr.Zero, _
+                                NativeEnums.ObjectInformationClass.ObjectTypesInformation, _
+                                memAlloc.Pointer, cbReqLength, cbReqLength)
 
-            ' Get number of struct to read
-            cTypeCount = memAlloc.ReadStruct(Of NativeStructs.ObjectTypesInformation).ObjectTypesCount
+                ' Get number of struct to read
+                cTypeCount = memAlloc.ReadStruct(Of NativeStructs.ObjectTypesInformation).ObjectTypesCount
 
-            Dim offset As Integer = NativeStructs.ObjectTypesInformation.ObjectTypeInformationOffset
+                Dim offset As Integer = NativeStructs.ObjectTypesInformation.ObjectTypeInformationOffset
 
-            For x = 0 To cTypeCount - 1
-                ' Retrieve name of type
-                TypeInfo = memAlloc.ReadStruct(Of NativeStructs.ObjectTypeInformation)(offset, x)
-                strType = Common.Misc.ReadUnicodeString(TypeInfo.Name)
-                If typeName = strType Then
-                    Return x + 1
-                End If
+                For x = 0 To cTypeCount - 1
+                    ' Retrieve name of type
+                    TypeInfo = memAlloc.ReadStruct(Of NativeStructs.ObjectTypeInformation)(offset, x)
+                    strType = Common.Misc.ReadUnicodeString(TypeInfo.Name)
+                    If typeName = strType Then
+                        Return x + 1
+                    End If
 
-                ' Find the position of the next element in the structure.
-                ' The format of the structure is:
-                '  -------------------
-                ' | Type1 Information | [sizeof(OBJECT_TYPE_INFORMATION)]
-                ' | Type1 Type Name   | [OBJECT_TYPE_INFORMATION.TypeName.MaximumLength]
-                ' | Alignement        | [0-3 Bytes for 32-bits, 0-7 bytes for 64-bits]
-                ' | Type2 Information | 
-                '
-                ' | TypeN Information |
-                ' | TypeN Type Name   |
-                '  -------------------
-                ' The beginning of each type is aligned on IntPtr.size bytes boudary.
-                '
-                ' Find the offset(aligned) to the next item
-                ' Magic operation :
-                offset += TypeInfo.Name.MaximumLength + _
-                                (IntPtr.Size - 1) And _
-                                Not (IntPtr.Size - 1)
-            Next
-            memAlloc.Free()
+                    ' Find the position of the next element in the structure.
+                    ' The format of the structure is:
+                    '  -------------------
+                    ' | Type1 Information | [sizeof(OBJECT_TYPE_INFORMATION)]
+                    ' | Type1 Type Name   | [OBJECT_TYPE_INFORMATION.TypeName.MaximumLength]
+                    ' | Alignement        | [0-3 Bytes for 32-bits, 0-7 bytes for 64-bits]
+                    ' | Type2 Information | 
+                    '
+                    ' | TypeN Information |
+                    ' | TypeN Type Name   |
+                    '  -------------------
+                    ' The beginning of each type is aligned on IntPtr.size bytes boudary.
+                    '
+                    ' Find the offset(aligned) to the next item
+                    ' Magic operation :
+                    offset += TypeInfo.Name.MaximumLength + _
+                                    (IntPtr.Size - 1) And _
+                                    Not (IntPtr.Size - 1)
+                Next
+            End Using
 
             If typeName = "Driver" Then
                 Return 24

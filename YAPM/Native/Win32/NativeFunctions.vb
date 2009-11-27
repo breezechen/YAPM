@@ -719,8 +719,8 @@ Namespace Native.Api
 
         <DllImport("wintrust.dll", ExactSpelling:=True, SetLastError:=False, CharSet:=CharSet.Unicode)> _
         Public Shared Function WinVerifyTrust(<[In]()> ByVal hwnd As IntPtr, _
-           <[In]()> <MarshalAs(UnmanagedType.LPStruct)> ByVal pgActionID As Guid, _
-           <[In]()> ByVal pWVTData As WinTrustData) As WinVerifyTrustResult
+            <[In]()> <MarshalAs(UnmanagedType.LPStruct)> ByVal pgActionID As Guid, _
+            <[In]()> ByVal pWVTData As WinTrustData) As WinVerifyTrustResult
         End Function
 
 #End Region

@@ -256,14 +256,14 @@ Public Class cSystemInfo
             ReDim _ppi(_processors - 1)
             Dim __size As Integer = _processors * Marshal.SizeOf(_ppi(0))
             ' PERFISSUE : WE MUST NOT ALLOCATE EACH TIME
-            Dim memAlloc As New Native.Memory.MemoryAlloc(__size)
-            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessorPerformanceInformation, memAlloc.Pointer, __size, ret)
+            Using memAlloc As New Native.Memory.MemoryAlloc(__size)
+                NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessorPerformanceInformation, memAlloc.Pointer, __size, ret)
 
-            ' Conversion from unmanaged memory to valid array
-            For x As Integer = 0 To _processors - 1
-                _ppi(x) = memAlloc.ReadStruct(Of NativeStructs.SystemProcessorPerformanceInformation)(0, x)
-            Next
-            memAlloc.Free()
+                ' Conversion from unmanaged memory to valid array
+                For x As Integer = 0 To _processors - 1
+                    _ppi(x) = memAlloc.ReadStruct(Of NativeStructs.SystemProcessorPerformanceInformation)(0, x)
+                Next
+            End Using
 
             'Dim dest() As Long
             'ReDim dest(11)

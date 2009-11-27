@@ -48,7 +48,7 @@ Namespace Native.Objects
         Private Shared _currentServices As Dictionary(Of String, cService)
 
         ' Used for memory operations
-        Private Shared _memBufferEnumServics As New Native.Memory.MemoryAlloc(&H1000)
+        Private Shared _memBufferEnumServics As New Native.Memory.MemoryAlloc(&H1000)   ' NOTE : never unallocated
 
         ' Used to protect currentServices dico
         Private Shared _semCurrentServ As New System.Threading.Semaphore(1, 1)

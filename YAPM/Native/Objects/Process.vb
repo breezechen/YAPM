@@ -38,16 +38,16 @@ Namespace Native.Objects
         ' ========================================
 
         ' Used to enumerate visible processes (simplified)
-        Private Shared memAllocForVSProcesses As New Native.Memory.MemoryAlloc(&H1000)
+        Private Shared memAllocForVSProcesses As New Native.Memory.MemoryAlloc(&H1000)  ' NOTE : never unallocated
 
         ' Memory alloc for thread enumeration (kill by method)
-        Private Shared memAllocForThreadEnum As New Native.Memory.MemoryAlloc(&H1000)
+        Private Shared memAllocForThreadEnum As New Native.Memory.MemoryAlloc(&H1000)   ' NOTE : never unallocated
 
         ' Used to enumerate visible processes (full)
-        Private Shared memAllocForVProcesses As New Native.Memory.MemoryAlloc(&H1000)
+        Private Shared memAllocForVProcesses As New Native.Memory.MemoryAlloc(&H1000)   ' NOTE : never unallocated
 
         ' Mem alloc for handle enumeration
-        Private Shared memAllocPIDs As New Native.Memory.MemoryAlloc(&H100)
+        Private Shared memAllocPIDs As New Native.Memory.MemoryAlloc(&H100)             ' NOTE : never unallocated
 
         ' Protection for _currentProcesses
         Private Shared _semCurrentProcesses As New System.Threading.Semaphore(1, 1)
@@ -986,25 +986,25 @@ Namespace Native.Objects
             Const STATUS_INFO_LENGTH_MISMATCH As UInteger = &HC0000004
 
             Dim size As Integer = &H400
-            Dim memAlloc As New Memory.MemoryAlloc(size)
+            Using memAlloc As New Memory.MemoryAlloc(size)
 
-            While CUInt(NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, memAlloc.Pointer, size, retLen)) = STATUS_INFO_LENGTH_MISMATCH
-                size *= 2
-                memAlloc.Resize(size)
-            End While
+                While CUInt(NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, memAlloc.Pointer, size, retLen)) = STATUS_INFO_LENGTH_MISMATCH
+                    size *= 2
+                    memAlloc.Resize(size)
+                End While
 
-            handleCount = memAlloc.ReadStruct(Of NativeStructs.SystemHandleInformation).HandleCount
-            _handles = New NativeStructs.SystemHandleEntry(handleCount - 1) {}
-            Dim handlesOffset As Integer = NativeStructs.SystemHandleInformation.HandlesOffset
+                handleCount = memAlloc.ReadStruct(Of NativeStructs.SystemHandleInformation).HandleCount
+                _handles = New NativeStructs.SystemHandleEntry(handleCount - 1) {}
+                Dim handlesOffset As Integer = NativeStructs.SystemHandleInformation.HandlesOffset
 
-            For x As Integer = 0 To handleCount - 1
-                Dim temp As NativeStructs.SystemHandleEntry = _
-                    memAlloc.ReadStruct(Of NativeStructs.SystemHandleEntry)(handlesOffset, x)
+                For x As Integer = 0 To handleCount - 1
+                    Dim temp As NativeStructs.SystemHandleEntry = _
+                        memAlloc.ReadStruct(Of NativeStructs.SystemHandleEntry)(handlesOffset, x)
 
-                _handles(x) = temp
-            Next
+                    _handles(x) = temp
+                Next
 
-            memAlloc.Free()
+            End Using
 
             Return _handles
 

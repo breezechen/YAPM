@@ -37,7 +37,7 @@ Namespace Native.Objects
         ' ========================================
 
         ' Memory alloc for thread enumeration
-        Private Shared memAllocForThreadEnum As New Native.Memory.MemoryAlloc(&H1000)
+        Private Shared memAllocForThreadEnum As New Native.Memory.MemoryAlloc(&H1000)   ' NOTE : never unallocated
 
 
         ' ========================================

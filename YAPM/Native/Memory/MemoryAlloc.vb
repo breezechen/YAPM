@@ -27,7 +27,7 @@ Imports System.Text
 Namespace Native.Memory
 
     Public Class MemoryAlloc
-
+        Implements IDisposable
 
         ' ========================================
         ' Private
@@ -44,6 +44,10 @@ Namespace Native.Memory
             Return memory.Pointer.ToInt32()
         End Operator
 
+        Public Shared Widening Operator CType(ByVal memory As MemoryAlloc) As Long
+            Return memory.Pointer.ToInt64()
+        End Operator
+
         Public Shared Widening Operator CType(ByVal memory As MemoryAlloc) As IntPtr
             Return memory.Pointer
         End Operator
@@ -51,7 +55,7 @@ Namespace Native.Memory
 
 
         ' ========================================
-        ' Constructors
+        ' Constructors / destructors
         ' ========================================
         Public Sub New()
             ' Invalid pointer which should manually be set
@@ -67,6 +71,9 @@ Namespace Native.Memory
         Public Sub New(ByVal size As Integer)
             _ptr = Marshal.AllocHGlobal(size)
             _size = size
+        End Sub
+        Public Sub Dispose() Implements IDisposable.Dispose
+            Me.Free()
         End Sub
 
 
@@ -99,7 +106,9 @@ Namespace Native.Memory
 
         ' Free memory
         Public Sub Free()
-            Marshal.FreeHGlobal(Me)
+            If Me.Pointer <> IntPtr.Zero Then
+                Marshal.FreeHGlobal(Me.Pointer)
+            End If
         End Sub
 
         ' Read functions

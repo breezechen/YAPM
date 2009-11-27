@@ -159,39 +159,39 @@ Namespace Native.Objects
                     NativeFunctions.GetTokenInformation(hProcessToken, NativeEnums.TokenInformationClass.TokenPrivileges, IntPtr.Zero, 0, RetLen)
 
                     'PERFISSUE (do not alloc each time)
-                    Dim memAlloc As New Native.Memory.MemoryAlloc(RetLen)
+                    Using memAlloc As New Native.Memory.MemoryAlloc(RetLen)
 
-                    ' Get token information
-                    NativeFunctions.GetTokenInformation(hProcessToken, NativeEnums.TokenInformationClass.TokenPrivileges, memAlloc.Pointer, memAlloc.Size, RetLen)
+                        ' Get token information
+                        NativeFunctions.GetTokenInformation(hProcessToken, NativeEnums.TokenInformationClass.TokenPrivileges, memAlloc.Pointer, memAlloc.Size, RetLen)
 
-                    ' Get number of privileges
-                    Dim count As Integer = CInt(memAlloc.ReadUInt32(0))
-                    ReDim ListPrivileges(count - 1)
+                        ' Get number of privileges
+                        Dim count As Integer = CInt(memAlloc.ReadUInt32(0))
+                        ReDim ListPrivileges(count - 1)
 
-                    ' Retrieve list of privileges
-                    For i As Integer = 0 To count - 1
-                        Dim struct As NativeStructs.LuidAndAttributes = _
-                            memAlloc.ReadStruct(Of NativeStructs.LuidAndAttributes)(4, i)   ' 4 first bytes are used for the size
-                        ListPrivileges(i) = New NativeStructs.PrivilegeInfo
-                        With ListPrivileges(i)
-                            .pLuid = struct.pLuid
-                            .Status = struct.Attributes
-                            ' Get name
-                            Dim sb As New StringBuilder
-                            Dim size As Integer = 0
-                            ' Get size required for name
-                            If NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size) = False Then
-                                ' Redim capacity
-                                sb.EnsureCapacity(size)
-                                NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size)
-                            End If
-                            .Name = sb.ToString
+                        ' Retrieve list of privileges
+                        For i As Integer = 0 To count - 1
+                            Dim struct As NativeStructs.LuidAndAttributes = _
+                                memAlloc.ReadStruct(Of NativeStructs.LuidAndAttributes)(4, i)   ' 4 first bytes are used for the size
+                            ListPrivileges(i) = New NativeStructs.PrivilegeInfo
+                            With ListPrivileges(i)
+                                .pLuid = struct.pLuid
+                                .Status = struct.Attributes
+                                ' Get name
+                                Dim sb As New StringBuilder
+                                Dim size As Integer = 0
+                                ' Get size required for name
+                                If NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size) = False Then
+                                    ' Redim capacity
+                                    sb.EnsureCapacity(size)
+                                    NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size)
+                                End If
+                                .Name = sb.ToString
 
-                        End With
+                            End With
 
-                    Next
+                        Next
 
-                    memAlloc.Free()
+                    End Using
                     NativeFunctions.CloseHandle(hProcessToken)
 
                 End If
@@ -231,40 +231,40 @@ Namespace Native.Objects
                                         IntPtr.Zero, 0, retLen)
 
                     'PERFISSUE (do not alloc each time)
-                    Dim memAlloc As New Native.Memory.MemoryAlloc(retLen)
+                    Using memAlloc As New Native.Memory.MemoryAlloc(retLen)
 
-                    ' Get token information
-                    NativeFunctions.GetTokenInformation(lngToken, _
-                                        NativeEnums.TokenInformationClass.TokenPrivileges, _
-                                        memAlloc.Pointer, memAlloc.Size, retLen)
+                        ' Get token information
+                        NativeFunctions.GetTokenInformation(lngToken, _
+                                            NativeEnums.TokenInformationClass.TokenPrivileges, _
+                                            memAlloc.Pointer, memAlloc.Size, retLen)
 
-                    ' Get number of privileges
-                    Dim count As Integer = CInt(memAlloc.ReadUInt32(0))
+                        ' Get number of privileges
+                        Dim count As Integer = CInt(memAlloc.ReadUInt32(0))
 
-                    ' Retrieve list of privileges
-                    For i As Integer = 0 To count - 1
-                        Dim struct As NativeStructs.LuidAndAttributes = _
-                            memAlloc.ReadStruct(Of NativeStructs.LuidAndAttributes)(4, i)   ' 4 first bytes are used for the size
+                        ' Retrieve list of privileges
+                        For i As Integer = 0 To count - 1
+                            Dim struct As NativeStructs.LuidAndAttributes = _
+                                memAlloc.ReadStruct(Of NativeStructs.LuidAndAttributes)(4, i)   ' 4 first bytes are used for the size
 
-                        ' Get name of this privilege
-                        Dim sb As New StringBuilder
-                        Dim size As Integer = 0
+                            ' Get name of this privilege
+                            Dim sb As New StringBuilder
+                            Dim size As Integer = 0
 
-                        ' Get size required for name
-                        If NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size) = False Then
-                            ' Redim capacity
-                            sb.EnsureCapacity(size)
-                            NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size)
-                        End If
+                            ' Get size required for name
+                            If NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size) = False Then
+                                ' Redim capacity
+                                sb.EnsureCapacity(size)
+                                NativeFunctions.LookupPrivilegeName("", struct.pLuid, sb, size)
+                            End If
 
-                        If seName = sb.ToString Then
-                            seStatus = struct.Attributes
-                            Exit For
-                        End If
+                            If seName = sb.ToString Then
+                                seStatus = struct.Attributes
+                                Exit For
+                            End If
 
-                    Next
+                        Next
 
-                    memAlloc.Free()
+                    End Using
 
                     NativeFunctions.CloseHandle(lngToken)
                 End If
