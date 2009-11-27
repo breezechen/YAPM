@@ -421,10 +421,14 @@ Public Class cNetwork
                     Else
                         res = Me.Infos.Remote.ToString
                     End If
-                End If
-                If res = _old_Remote Then
-                    hasChanged = False
+                    If res = _old_Remote Then
+                        hasChanged = False
+                    Else
+                        _old_Remote = res
+                    End If
                 Else
+                    res = ""
+                    hasChanged = (res <> _old_Remote)
                     _old_Remote = res
                 End If
             Case "Protocol"
