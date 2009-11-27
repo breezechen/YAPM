@@ -167,7 +167,13 @@ Namespace Security.WinTrust
     NotInheritable Class WinTrust
         Private Shared ReadOnly INVALID_HANDLE_VALUE As New IntPtr(-1)
         ' GUID of the action to perform
-        Private Const WINTRUST_ACTION_GENERIC_VERIFY_V2 As String = "{00AAC56B-CD44-11d0-8CC2-00C04FC295EE}"
+        Private Const WintrustActionGenericVerify2 As String = "{00AAC56B-CD44-11d0-8CC2-00C04FC295EE}"
+        Private Shared wagvGuid As Guid = New Guid(WintrustActionGenericVerify2)
+        Public Shared ReadOnly Property GuidVerifyAction() As Guid
+            Get
+                Return wagvGuid
+            End Get
+        End Property
 
         <DllImport("wintrust.dll", ExactSpelling:=True, SetLastError:=False, CharSet:=CharSet.Unicode)> _
         Private Shared Function WinVerifyTrust(<[In]()> ByVal hwnd As IntPtr, <[In]()> <MarshalAs(UnmanagedType.LPStruct)> ByVal pgActionID As Guid, <[In]()> ByVal pWVTData As WinTrustData) As WinVerifyTrustResult
@@ -176,15 +182,13 @@ Namespace Security.WinTrust
         ' call WinTrust.WinVerifyTrust() to check embedded file signature
         Public Shared Function VerifyEmbeddedSignature(ByVal fileName As String) As Boolean
             Dim wtd As New WinTrustData(fileName)
-            Dim guidAction As New Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2)
-            Dim result As WinVerifyTrustResult = WinVerifyTrust(INVALID_HANDLE_VALUE, guidAction, wtd)
+            Dim result As WinVerifyTrustResult = WinVerifyTrust(INVALID_HANDLE_VALUE, GuidVerifyAction, wtd)
             Dim ret As Boolean = (result = WinVerifyTrustResult.Trusted)
             Return ret
         End Function
         Public Shared Function VerifyEmbeddedSignature2(ByVal fileName As String) As WinVerifyTrustResult
             Dim wtd As New WinTrustData(fileName)
-            Dim guidAction As New Guid(WINTRUST_ACTION_GENERIC_VERIFY_V2)
-            Dim result As WinVerifyTrustResult = WinVerifyTrust(INVALID_HANDLE_VALUE, guidAction, wtd)
+            Dim result As WinVerifyTrustResult = WinVerifyTrust(INVALID_HANDLE_VALUE, GuidVerifyAction, wtd)
             Dim ret As Boolean = (result = WinVerifyTrustResult.Trusted)
             Return result
         End Function
