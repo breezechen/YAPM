@@ -355,8 +355,11 @@ Namespace Native.Objects
                             ' /!\ We HAVE to check that the cProcess we retrieve
                             ' is NOT null, as it may has just been created and is not
                             ' yet available in list of cProcesses
-                            If proc IsNot Nothing Then
-                                procs.Add(pid.ToString, proc.Infos)
+                            If proc IsNot Nothing AndAlso pid > 0 Then
+                                ' PERFISSUE ?
+                                If procs.ContainsKey(pid.ToString) = False Then
+                                    procs.Add(pid.ToString, proc.Infos)
+                                End If
                             End If
                         Next
                     End If
@@ -452,10 +455,12 @@ Namespace Native.Objects
                 ' Windows 7 : ObjectTypeNumber for Jobs handles is 6 but
                 ' that is not what is retrieved using ObjectTypesInformation...
                 ' So, for now, we have to hardcode the value for Windows 7
+                ' In fact, there is a difference of 1 for all object types between
+                ' the value returned by GetObjectTypeNumberByName and the real
+                ' value.
+                jobTypeNumber = GetObjectTypeNumberByName("Job")
                 If cEnvironment.IsWindows7 Then
-                    jobTypeNumber = 6
-                Else
-                    jobTypeNumber = GetObjectTypeNumberByName("Job")
+                    jobTypeNumber += 1
                 End If
             End If
 

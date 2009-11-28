@@ -438,6 +438,7 @@ Namespace Native.Objects
                 ._ProcessID = Handle.ProcessId
                 ._Unknown = ObjType.MaintainHandleCount
                 ._ValidAccess = ObjType.ValidAccess
+                ._ObjectTypeNumber = Handle.ObjectTypeNumber
             End With
 
             Return h

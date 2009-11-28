@@ -119,8 +119,12 @@ Public Class asyncCallbackHandleEnumerate
 
                 Native.Objects.Handle.EnumerateHandleByProcessIds(pObj.pid, pObj.unNamed, _dico)
 
-                If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
 
         End Select
 

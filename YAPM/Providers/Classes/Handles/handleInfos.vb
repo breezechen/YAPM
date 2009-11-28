@@ -36,6 +36,7 @@ Imports Native.Api
     Friend _Flags As NativeEnums.HandleFlags  ' 0x01 = PROTECT_FROM_CLOSE, 0x02 = INHERIT
     Friend _Handle As IntPtr  'valeur du handle
     Friend _ObjectName As String 'nom de l'objet
+    Friend _ObjectTypeNumber As Integer ' type de l'objet (number)
     Friend _NameInformation As String 'type de l'ojet
     Friend _ObjectAddress As IntPtr  'adresse de l'objet
     Friend _GrantedAccess As Native.Security.StandardRights  'accès autorisés à l'objet
@@ -133,6 +134,11 @@ Imports Native.Api
             Return _NonPagedPoolUsage
         End Get
     End Property
+    Public ReadOnly Property ObjectTypeNumber() As Integer
+        Get
+            Return _ObjectTypeNumber
+        End Get
+    End Property
 
 #End Region
 
@@ -154,12 +160,13 @@ Imports Native.Api
             _PointerCount = .PointerCount
             _ProcessID = .ProcessId
             _NameInformation = .Type
+            _ObjectTypeNumber = .ObjectTypeNumber
         End With
     End Sub
 
     ' Retrieve all information's names availables
     Public Shared  Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
-        Dim s(10) As String
+        Dim s(11) As String
 
         s(0) = "Name"
         s(1) = "HandleCount"
@@ -172,6 +179,7 @@ Imports Native.Api
         s(8) = "CreateTime"
         s(9) = "PagedPoolUsage"
         s(10) = "NonPagedPoolUsage"
+        s(11) = "ObjectTypeNumber"
 
         If includeFirstProp Then
             Dim s2(s.Length) As String

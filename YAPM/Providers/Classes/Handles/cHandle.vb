@@ -135,6 +135,8 @@ Public Class cHandle
                 res = Me.Infos.PagedPoolUsage.ToString
             Case "NonPagedPoolUsage"
                 res = Me.Infos.NonPagedPoolUsage.ToString
+            Case "ObjectTypeNumber"
+                res = Me.Infos.ObjectTypeNumber.ToString
         End Select
 
         Return res
@@ -157,6 +159,7 @@ Public Class cHandle
         Static _old_CreateTime As String = ""
         Static _old_PagedPoolUsage As String = ""
         Static _old_NonPagedPoolUsage As String = ""
+        Static _old_ObjectTypeNumber As String = ""
 
         Dim hasChanged As Boolean = True
 
@@ -270,6 +273,13 @@ Public Class cHandle
                     hasChanged = False
                 Else
                     _old_NonPagedPoolUsage = res
+                End If
+            Case "ObjectTypeNumber"
+                res = Me.Infos.ObjectTypeNumber.ToString
+                If res = _old_ObjectTypeNumber Then
+                    hasChanged = False
+                Else
+                    _old_ObjectTypeNumber = res
                 End If
         End Select
 
