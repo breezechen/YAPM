@@ -1,9 +1,6 @@
-- ajouter IsWow64 counter en mode 64 bits
 - enumeration de modules en Wow64 foireux (affiche que les modules WoW)
 - crash dans Job Enumeration (Windows 7 x64 bug ?)
 - heaps -> node size/status failed
 - jobs -> limits foireuses
-- afficher x*32 pour les processus Wow64
-- checker "New IntPtr("
 
 - dependecy viewer marche pas (pas x64 compatible)

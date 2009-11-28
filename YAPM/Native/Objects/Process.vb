@@ -139,9 +139,20 @@ Namespace Native.Objects
         ' Debugger present ?
         Public Shared ReadOnly Property IsDebuggerPresent(ByVal handle As IntPtr) As Boolean
             Get
-                Dim res As Boolean
-                NativeFunctions.CheckRemoteDebuggerPresent(handle, res)
-                Return res
+                Dim value As IntPtr
+                Dim retLen As UInteger
+                NativeFunctions.NtQueryInformationProcess(handle, NativeEnums.ProcessInformationClass.ProcessDebugPort, value, IntPtr.Size, retLen)
+                Return value.IsNotNull
+            End Get
+        End Property
+
+        ' Is Wow64 ?
+        Public Shared ReadOnly Property IsWow64Process(ByVal handle As IntPtr) As Boolean
+            Get
+                Dim value As IntPtr
+                Dim retLen As UInteger
+                NativeFunctions.NtQueryInformationProcess(handle, NativeEnums.ProcessInformationClass.ProcessWow64Information, value, IntPtr.Size, retLen)
+                Return value.IsNotNull
             End Get
         End Property
 

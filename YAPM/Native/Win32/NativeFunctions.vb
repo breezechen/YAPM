@@ -106,6 +106,14 @@ Namespace Native.Api
         <DllImport("ntdll.dll")> _
         Public Shared Function NtQueryInformationProcess(<[In]()> ByVal ProcessHandle As IntPtr, _
                 <[In]()> ByVal ProcessInformationClass As ProcessInformationClass, _
+                <Out()> ByRef ProcessInformation As IntPtr, _
+                <[In]()> ByVal ProcessInformationLength As Integer, _
+                <Out()> <[Optional]()> ByRef ReturnLength As UInteger) As UInteger
+        End Function
+
+        <DllImport("ntdll.dll")> _
+        Public Shared Function NtQueryInformationProcess(<[In]()> ByVal ProcessHandle As IntPtr, _
+                <[In]()> ByVal ProcessInformationClass As ProcessInformationClass, _
                 <Out()> ByRef ProcessInformation As ProcessBasicInformation, _
                 <[In]()> ByVal ProcessInformationLength As Integer, _
                 <Out()> <[Optional]()> ByRef ReturnLength As Integer) As UInteger

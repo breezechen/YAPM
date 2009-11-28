@@ -12,6 +12,7 @@ Refactoring bugs
 - commandline dans l'aide
 
 BUGS CRITIQUES
+- wow64 information en remote ??
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
 - job par remote (et en wmi, désactiver également Restart with priv)
 - searchInfos contains cService/cModule (NOT Serializable -> can not search via server)
@@ -118,10 +119,12 @@ Temp Change log :
 - Added massive signature check feature
 - Now can create snapshot file from command line (-ssfile "FILE_PATH")
 - Optimized Service enumeration
+- x64 systems : added "IsWow64" information (and displays "* 32")
 
 * Bug fixed
 - TCP/UDP connections : only display 'remote' column values if remote is not nothing
 - Fixed #2848713 (Index and length must refer to a location within the string)
+- Fixed "IsDebuggerPresent" information
 - x64 systems : fixed bad CommandLine information
 - x64 systems : fixed bad DisplayName/ObjectName/Depedencies information
 - x64 systems : fixed #2891421 (enumeration of processes in job which fail)

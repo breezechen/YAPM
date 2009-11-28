@@ -69,6 +69,7 @@ Public Class cProcess
     Private _isBeingDebugged As Boolean
     Private _isCritical As Boolean
     Private _isBoostEnabled As Boolean
+    Private _isWow64Process As Boolean
 
     Private Shared _hlProcessBeingDebugged As Boolean
     Private Shared _hlProcessInJob As Boolean
@@ -223,7 +224,13 @@ Public Class cProcess
 
     Public ReadOnly Property IsServiceProcess() As Boolean
         Get
+            'TODO
+        End Get
+    End Property
 
+    Public ReadOnly Property IsWow64Process() As Boolean
+        Get
+            Return _isWow64Process
         End Get
     End Property
 
@@ -256,11 +263,12 @@ Public Class cProcess
             Call Native.Objects.Token.GetProcessElevationTypeByTokenHandle(_tokenHandle, _elevation)   ' Elevation type
             _isInJob = Native.Objects.Process.IsProcessInJob(_handleQueryInfo)
             _isBeingDebugged = Native.Objects.Process.IsDebuggerPresent(_handleQueryInfo)
+            _isWow64Process = Native.Objects.Process.IsWow64Process(_handleQueryInfo)
         End If
 
         'Private _isCritical As Boolean
         'Private _isBoostEnabled As Boolean
-        'Service ??
+        'IsService ??
 
         ' Refresh numerical infos
         Call refreshCpuUsage()
@@ -758,6 +766,8 @@ Public Class cProcess
                 res = Me.IsServiceProcess.ToString
             Case "CriticalProcess"
                 res = Me.IsCriticalProcess.ToString
+            Case "IsWow64"
+                res = Me.IsWow64Process.ToString
         End Select
 
         Return res
@@ -820,6 +830,7 @@ Public Class cProcess
         Static _old_SystemProcess As String = ""
         Static _old_ServiceProcess As String = ""
         Static _old_CriticalProcess As String = ""
+        Static _old_IsWow64Process As String = ""
 
         Dim hasChanged As Boolean = True
 
@@ -1053,6 +1064,9 @@ Public Class cProcess
                 End If
             Case "Name"
                 res = Me.Infos.Name
+                If Me.IsWow64Process Then
+                    res &= " * 32"
+                End If
                 If res = _old_Name Then
                     hasChanged = False
                 Else
@@ -1257,6 +1271,13 @@ Public Class cProcess
                     hasChanged = False
                 Else
                     _old_CriticalProcess = res
+                End If
+            Case "IsWow64"
+                res = Me.IsWow64Process.ToString
+                If res = _old_IsWow64Process Then
+                    hasChanged = False
+                Else
+                    _old_IsWow64Process = res
                 End If
         End Select
 
