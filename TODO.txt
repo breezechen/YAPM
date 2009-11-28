@@ -119,7 +119,9 @@ Temp Change log :
 - Added massive signature check feature
 - Now can create snapshot file from command line (-ssfile "FILE_PATH")
 - Optimized Service enumeration
+- Added LoadCount information for modules
 - x64 systems : added "IsWow64" information (and displays "* 32")
+- x64 systems : now module enumeration for Wow64 processes is OK
 
 * Bug fixed
 - TCP/UDP connections : only display 'remote' column values if remote is not nothing

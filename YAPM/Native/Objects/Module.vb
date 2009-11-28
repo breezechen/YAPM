@@ -93,6 +93,43 @@ Namespace Native.Objects
         End Function
 
         ' Enumerate modules
+        Public Shared Function EnumerateModulesWow64ByProcessId(ByVal pid As Integer, _
+                Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
+
+            Dim retDico As New Dictionary(Of String, moduleInfos)
+            Dim buf2 As New DebugBuffer
+
+            ' Query modules info
+            buf2.Query(pid, NativeEnums.RtlQueryProcessDebugInformationFlags.Modules Or NativeEnums.RtlQueryProcessDebugInformationFlags.Modules32)
+
+            ' Get debug information
+            Dim debugInfo As NativeStructs.DebugInformation = buf2.GetDebugInformation
+
+            If debugInfo.ModuleInformation.IsNotNull Then
+
+                Dim modInfo As New Memory.MemoryAlloc(debugInfo.ModuleInformation)
+                Dim mods As NativeStructs.RtlProcessModules = modInfo.ReadStruct(Of NativeStructs.RtlProcessModules)()
+
+                For i As Integer = 0 To mods.NumberOfModules - 1
+                    Dim modu As NativeStructs.RtlProcessModuleInformation = modInfo.ReadStruct(Of NativeStructs.RtlProcessModuleInformation)(NativeStructs.RtlProcessModules.ModulesOffset, i)
+                    Dim key As String = modu.ImageBase.ToString
+                    ' PERFISSUE ??
+                    If retDico.ContainsKey(key) = False Then
+                        retDico.Add(key, New moduleInfos(modu, pid, noFileInfo))
+                    End If
+                Next
+
+                ' modInfo.Free()
+
+            End If
+
+            buf2.Dispose()
+
+            Return retDico
+
+        End Function
+
+        ' Enumerate modules
         Public Shared Function EnumerateModulesByProcessId(ByVal pid As Integer, _
                 Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
 

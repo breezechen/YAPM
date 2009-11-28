@@ -1,5 +1,5 @@
-- enumeration de modules en Wow64 foireux (affiche que les modules WoW)
 - crash dans Job Enumeration (Windows 7 x64 bug ?)
+- modules Wow64 en WMI ?
 - heaps -> node size/status failed
 - jobs -> limits foireuses
 

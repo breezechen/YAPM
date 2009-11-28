@@ -120,6 +120,8 @@ Public Class cModule
                 res = Me.Infos.Size.ToString
             Case "Name"
                 res = Me.Infos.Name
+            Case "LoadCount"
+                res = Me.Infos.LoadCount.ToString
             Case "Version"
                 If Me.Infos.FileInfo IsNot Nothing Then
                     res = Me.Infos.FileInfo.FileVersion
@@ -255,6 +257,7 @@ Public Class cModule
         Static _old_SpecialBuild As String = ""
         Static _old_ProcessId As String = ""
         Static _old_Flags As String = ""
+        Static _old_LoadCount As String = ""
 
         Dim hasChanged As Boolean = True
 
@@ -290,6 +293,13 @@ Public Class cModule
                     hasChanged = False
                 Else
                     _old_Size = res
+                End If
+            Case "LoadCount"
+                res = Me.Infos.LoadCount.ToString
+                If res = _old_LoadCount Then
+                    hasChanged = True
+                Else
+                    _old_LoadCount = res
                 End If
             Case "Name"
                 res = Me.Infos.Name

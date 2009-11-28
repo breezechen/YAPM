@@ -201,7 +201,7 @@ Namespace Native.Api
             Public FullDllName As UnicodeString
             Public BaseDllName As UnicodeString
             Public Flags As LdrpDataTableEntryFlags
-            Public LoadCount As Short
+            Public LoadCount As UShort
             Public TlsIndex As Short
             Public HashTableEntry As ListEntry
             Public TimeDateStamp As Integer
@@ -1465,8 +1465,37 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for debugging"
 
+        ' http://virtualkd.sysprogs.org/dox/a00098.html
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure RtlProcessModuleInformation
+            Public Section As IntPtr
+            Public MappedBase As IntPtr
+            Public ImageBase As IntPtr
+            Public ImageSize As Integer
+            Public Flags As LdrpDataTableEntryFlags
+            Public LoadOrderIndex As UShort
+            Public InitOrderIndex As UShort
+            Public LoadCount As UShort
+            Public OffsetToFileName As UShort
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=256)> _
+            Public FullPathName() As Char
+        End Structure
+
+        ' http://virtualkd.sysprogs.org/dox/a00098.html
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure RtlProcessModules
+            Public NumberOfModules As Integer
+            Public Modules As RtlProcessModuleInformation
+            Public Shared ReadOnly Property ModulesOffset() As Integer
+                Get
+                    Return Marshal.OffsetOf(GetType(RtlProcessModules), "Modules").ToInt32
+                End Get
+            End Property
+        End Structure
+
         ' http://www.woodmann.com/forum/blog.php?b=151
         ' http://securityxploded.com/enumheaps.php
+        ' http://virtualkd.sysprogs.org/dox/a00098.html
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure DebugInformation
             Public SectionHandle As IntPtr
@@ -1485,7 +1514,9 @@ Namespace Native.Api
             Public BackTraceInformation As IntPtr
             Public HeapInformation As IntPtr
             Public LockInformation As IntPtr
-            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=8)> _
+            Public SpecificHeap As IntPtr
+            Public TargetProcessHandle As IntPtr
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=6)> _
             Public Reserved As IntPtr()
         End Structure
 
@@ -1606,6 +1637,7 @@ Namespace Native.Api
         End Class
 
 #End Region
+
     End Class
 
 End Namespace

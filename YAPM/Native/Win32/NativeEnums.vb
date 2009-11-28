@@ -1469,6 +1469,7 @@ Namespace Native.Api
             HeapTags = &H8
             HeapBlocks = &H10
             Locks = &H20
+            Modules32 = &H40
         End Enum
 
         <Flags()> _

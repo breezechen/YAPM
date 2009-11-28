@@ -122,7 +122,7 @@ Public Class asyncCallbackModuleEnumerate
             Case Else
                 ' Local
                 Dim _dico As Dictionary(Of String, moduleInfos) = _
-                    Native.Objects.Module.EnumerateModulesByProcessIds(pObj.pid, False)
+                                            SharedLocalSyncEnumerate(pObj)
 
                 If deg IsNot Nothing AndAlso ctrl.Created Then _
                     ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
@@ -137,8 +137,17 @@ Public Class asyncCallbackModuleEnumerate
 
     ' Shared, local and sync enumeration
     Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, moduleInfos)
-        Dim _dico As Dictionary(Of String, moduleInfos) = _
-            Native.Objects.Module.EnumerateModulesByProcessIds(pObj.pid, False)
+        Dim _dico As Dictionary(Of String, moduleInfos)
+
+        ' If it's a Wow64 process, module enumeration is made using debug functions
+        Dim cProc As cProcess = cProcess.GetProcessById(pObj.pid(0))
+        If cProc IsNot Nothing AndAlso cProc.IsWow64Process Then
+            _dico = Native.Objects.Module.EnumerateModulesWow64ByProcessId(pObj.pid(0), False)
+        Else
+            ' Normal native enumeration
+            _dico = Native.Objects.Module.EnumerateModulesByProcessIds(pObj.pid, False)
+        End If
+
         Return _dico
     End Function
 

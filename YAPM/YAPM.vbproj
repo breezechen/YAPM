@@ -687,6 +687,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Native\Driver\DriverCtrl.vb" />
+    <Compile Include="Native\Objects\DebugBuffer.vb" />
     <Compile Include="Native\Objects\Heap.vb" />
     <Compile Include="Native\Objects\HandleEnumeration.vb" />
     <Compile Include="Classes\Hotkeys\cHotkeys.vb" />
