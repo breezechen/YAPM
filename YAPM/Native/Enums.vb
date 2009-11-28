@@ -116,6 +116,10 @@ Namespace Native.Api
             InvalidParameter = 21
         End Enum
 
+        Public Enum WMI_INFO_JOB
+            CollectionID
+        End Enum
+
         Public Enum WMI_INFO_SERVICE
             AcceptPause
             AcceptStop

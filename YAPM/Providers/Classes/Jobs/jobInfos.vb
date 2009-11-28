@@ -79,6 +79,7 @@ Imports System.Net
     End Sub
 
     ' Refresh infos
+    ' Only called for local enumeration (so we do not need to check ConnectionType)
     Public Sub Refresh()
         ' Here we refreh all informations about the job
         Dim _dico As Dictionary(Of String, processInfos) = Native.Objects.Job.GetProcessesInJobByName(Name)

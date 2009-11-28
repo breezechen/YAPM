@@ -123,6 +123,7 @@ Temp Change log :
 - Now can create snapshot file from command line (-ssfile "FILE_PATH")
 - Optimized Service enumeration
 - Added LoadCount information for modules
+- Added Job Enumeration when using WMI connection
 - x64 systems : added "IsWow64" information (and displays "* 32")
 - x64 systems : now module enumeration for Wow64 processes is OK
 

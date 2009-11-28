@@ -84,6 +84,18 @@ Public Class asyncCallbackJobEnumerate
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
+                ' Save current collection
+                Dim _dico As New Dictionary(Of String, jobInfos)
+                Dim res As Boolean
+                Dim msg As String = ""
+
+                res = Wmi.Objects.Job.EnumerateJobs(con.wmiSearcher, _dico, msg)
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, res, _dico, msg, 0)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
 
             Case cConnection.TypeOfConnection.SnapshotFile
                 ' Snapshot

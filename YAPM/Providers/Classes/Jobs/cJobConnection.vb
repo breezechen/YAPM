@@ -77,6 +77,19 @@ Public Class cJobConnection
                 _connected = True
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
+                Dim __con As New ConnectionOptions
+                __con.Impersonation = ImpersonationLevel.Impersonate
+                __con.Password = Common.Misc.SecureStringToCharArray(_conObj.WmiParameters.password)
+                __con.Username = _conObj.WmiParameters.userName
+
+                Try
+                    wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_NamedJobObject")
+                    wmiSearcher.Scope = New Management.ManagementScope("\\" & _conObj.WmiParameters.serverName & "\root\cimv2", __con)
+                    _connected = True
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
             Case Else
                 ' Local
                 _connected = True
