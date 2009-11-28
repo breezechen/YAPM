@@ -103,7 +103,7 @@ Public Class cEnvVariableConnection
     ' Enumerate threads
     Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, ByVal peb As IntPtr, Optional ByVal forInstanceId As Integer = -1) As Integer
         Dim _pe As IntPtr = peb
-        If _pe = New IntPtr(-1) Then
+        If _pe = Native.Api.NativeConstants.InvalidHandleValue Then
             Native.Objects.Process.SemCurrentProcesses.WaitOne()
             _pe = Native.Objects.Process.CurrentProcesses(pid.ToString).Infos.PebAddress
             Native.Objects.Process.SemCurrentProcesses.Release()

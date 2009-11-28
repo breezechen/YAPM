@@ -43,7 +43,7 @@ Public Class asyncCallbackThreadSetAffinity
         Public pid As Integer
         Public Sub New(ByVal _id As Integer, _
                         ByVal _level As Integer, _
-                       ByVal action As Integer, Optional ByVal procId As Integer = 0)
+                        ByVal action As Integer, Optional ByVal procId As Integer = 0)
             newAction = action
             id = _id
             level = New IntPtr(_level)

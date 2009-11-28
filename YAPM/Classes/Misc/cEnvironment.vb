@@ -22,6 +22,7 @@
 Option Strict On
 
 Imports System.Runtime.InteropServices
+Imports Native.Api
 
 Public Class cEnvironment
 
@@ -42,11 +43,11 @@ Public Class cEnvironment
             Const FILE_NAME As String = "YAPM-instanceCheck"
 
             '# Nous tentons ici d'acceder au mappage (précedemment créé ?)
-            hMap = Native.Api.NativeFunctions.OpenFileMapping(Native.Api.NativeConstants.FILE_MAP_READ, False, FILE_NAME)
-            If hMap .IsNotNull Then
+            hMap = NativeFunctions.OpenFileMapping(NativeConstants.FILE_MAP_READ, False, FILE_NAME)
+            If hMap.IsNotNull Then
                 '# L'application est déjà lancée.
-                pMem = Native.Api.NativeFunctions.MapViewOfFile(hMap, Native.Api.NativeEnums.FileMapAccess.FileMapRead, 0, 0, 0)
-                If pMem .IsNotNull Then
+                pMem = NativeFunctions.MapViewOfFile(hMap, NativeEnums.FileMapAccess.FileMapRead, 0, 0, 0)
+                If pMem.IsNotNull Then
                     '# On récupère le handle vers la précédente fenêtre
                     hPid = Marshal.ReadInt32(pMem, 0)
                     If hPid <> 0 Then
@@ -57,23 +58,23 @@ Public Class cEnvironment
                             Misc.ShowDebugError(ex)
                         End Try
                     End If
-                    Native.Api.NativeFunctions.UnmapViewOfFile(pMem)
+                    NativeFunctions.UnmapViewOfFile(pMem)
                 End If
                 '# On libère le handle hmap
-                Native.Api.NativeFunctions.CloseHandle(hMap)
+                NativeFunctions.CloseHandle(hMap)
                 '# et on prévient l'appelant que l'application avait dejà été lancée.
                 Return True
             Else
                 '# Nous sommes dans la première instance de l'application.
                 '# Nous allons laisser une marque en mémoire, pour l'indiquer
-                hMap = Native.Api.NativeFunctions.CreateFileMapping(New IntPtr(-1), IntPtr.Zero, Native.Api.NativeEnums.FileMapProtection.PageReadWrite, 0, 4, FILE_NAME)
-                If hMap .IsNotNull Then
+                hMap = NativeFunctions.CreateFileMapping(NativeConstants.InvalidHandleValue, IntPtr.Zero, NativeEnums.FileMapProtection.PageReadWrite, 0, 4, FILE_NAME)
+                If hMap.IsNotNull Then
                     '# On ouvre le 'fichier' en écriture
-                    pMem = Native.Api.NativeFunctions.MapViewOfFile(hMap, Native.Api.NativeEnums.FileMapAccess.FileMapWrite, 0, 0, 0)
-                    If pMem .IsNotNull Then
+                    pMem = NativeFunctions.MapViewOfFile(hMap, NativeEnums.FileMapAccess.FileMapWrite, 0, 0, 0)
+                    If pMem.IsNotNull Then
                         '# On y écrit l'ID du process courant
-                        Marshal.WriteInt32(pMem, 0, Native.Api.NativeFunctions.GetCurrentProcessId)
-                        Native.Api.NativeFunctions.UnmapViewOfFile(pMem)
+                        Marshal.WriteInt32(pMem, 0, NativeFunctions.GetCurrentProcessId)
+                        NativeFunctions.UnmapViewOfFile(pMem)
                     End If
                     '# Pas de CloseHandle hMap ici, sous peine de détruire le mappage lui-même...
                 End If
@@ -155,10 +156,10 @@ Public Class cEnvironment
 #End Region
 
     ' Retrieve elevation type
-    Public Shared ReadOnly Property GetElevationType() As Native.Api.Enums.ElevationType
+    Public Shared ReadOnly Property GetElevationType() As Enums.ElevationType
         Get
             Static retrieved As Boolean = False
-            Static valRetrieved As Native.Api.Enums.ElevationType
+            Static valRetrieved As Enums.ElevationType
 
             If retrieved Then
                 Return valRetrieved
@@ -170,29 +171,29 @@ Public Class cEnvironment
                 If hProc.IsNotNull Then
                     ' ?
                 End If
-                Call Native.Api.NativeFunctions.OpenProcessToken(hProc, Native.Security.TokenAccess.Query, hTok)
-                Native.Api.NativeFunctions.CloseHandle(hProc)
+                Call NativeFunctions.OpenProcessToken(hProc, Native.Security.TokenAccess.Query, hTok)
+                NativeFunctions.CloseHandle(hProc)
 
                 Dim value As Integer
                 Dim ret As Integer
 
                 ' Get tokeninfo length
-                Native.Api.NativeFunctions.GetTokenInformation(hTok, Native.Api.NativeEnums.TokenInformationClass.TokenElevationType, IntPtr.Zero, 0, ret)
+                NativeFunctions.GetTokenInformation(hTok, NativeEnums.TokenInformationClass.TokenElevationType, IntPtr.Zero, 0, ret)
                 Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(ret)
                 ' Get token information
-                Native.Api.NativeFunctions.GetTokenInformation(hTok, Native.Api.NativeEnums.TokenInformationClass.TokenElevationType, TokenInformation, ret, 0)
+                NativeFunctions.GetTokenInformation(hTok, NativeEnums.TokenInformationClass.TokenElevationType, TokenInformation, ret, 0)
                 ' Get a valid structure
                 value = Marshal.ReadInt32(TokenInformation, 0)
                 Marshal.FreeHGlobal(TokenInformation)
-                valRetrieved = CType(value, Native.Api.Enums.ElevationType)
+                valRetrieved = CType(value, Enums.ElevationType)
 
-                Native.Api.NativeFunctions.CloseHandle(hTok)
+                NativeFunctions.CloseHandle(hTok)
 
-                If valRetrieved = Native.Api.Enums.ElevationType.Default Then
+                If valRetrieved = Enums.ElevationType.Default Then
                     If cEnvironment.IsAdmin = False Then
-                        valRetrieved = Native.Api.Enums.ElevationType.Limited
+                        valRetrieved = Enums.ElevationType.Limited
                     Else
-                        valRetrieved = Native.Api.Enums.ElevationType.Full
+                        valRetrieved = Enums.ElevationType.Full
                     End If
                 End If
 
@@ -204,9 +205,9 @@ Public Class cEnvironment
 
     ' Has YAPM SeDebugPrivilege ?
     Public Shared Function HasYAPMDebugPrivilege() As Boolean
-        Dim res As Native.Api.NativeEnums.SePrivilegeAttributes
+        Dim res As NativeEnums.SePrivilegeAttributes
         Native.Objects.Token.GetPrivilegeStatusByProcessId(Process.GetCurrentProcess.Id, "SeDebugPrivilege", res)
-        Return (res = Native.Api.NativeEnums.SePrivilegeAttributes.Enabled)
+        Return (res = NativeEnums.SePrivilegeAttributes.Enabled)
     End Function
 
     ' Request a privilege
@@ -214,33 +215,33 @@ Public Class cEnvironment
         'TOCHANGE : should be more generic
         Select Case privilege
             Case PrivilegeToRequest.DebugPrivilege
-                Native.Objects.Token.SetPrivilegeStatusByProcessId(System.Diagnostics.Process.GetCurrentProcess.Id, "SeDebugPrivilege", Native.Api.NativeEnums.SePrivilegeAttributes.Enabled)
+                Native.Objects.Token.SetPrivilegeStatusByProcessId(System.Diagnostics.Process.GetCurrentProcess.Id, "SeDebugPrivilege", NativeEnums.SePrivilegeAttributes.Enabled)
             Case PrivilegeToRequest.ShutdownPrivilege
-                Native.Objects.Token.SetPrivilegeStatusByProcessId(System.Diagnostics.Process.GetCurrentProcess.Id, "SeShutdownPrivilege", Native.Api.NativeEnums.SePrivilegeAttributes.Enabled)
+                Native.Objects.Token.SetPrivilegeStatusByProcessId(System.Diagnostics.Process.GetCurrentProcess.Id, "SeShutdownPrivilege", NativeEnums.SePrivilegeAttributes.Enabled)
         End Select
     End Sub
 
     ' Restart YAPM elevated
     Public Shared Sub RestartElevated()
 
-        Dim startInfo As New Native.Api.NativeStructs.ShellExecuteInfo
+        Dim startInfo As New NativeStructs.ShellExecuteInfo
         With startInfo
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(startInfo)
             .hwnd = _frmMain.Handle
             .lpFile = Application.ExecutablePath
             .lpParameters = PARAM_DO_NOT_CHECK_PREV_INSTANCE
             .lpVerb = "runas"
-            .nShow = Native.Api.NativeEnums.ShowWindowType.ShowNormal
+            .nShow = NativeEnums.ShowWindowType.ShowNormal
         End With
 
         Try
-            If Native.Api.NativeFunctions.ShellExecuteEx(startInfo) Then
+            If NativeFunctions.ShellExecuteEx(startInfo) Then
                 ' Then the new process has started -> 
                 '   - we hide tray icon
                 '   - we brutaly terminate this instance
                 '   - new instance will start
                 _frmMain.Tray.Visible = False
-                Native.Api.NativeFunctions.ExitProcess(0)
+                NativeFunctions.ExitProcess(0)
             End If
         Catch ex As Exception
             Misc.ShowDebugError(ex)
@@ -256,7 +257,7 @@ Public Class cEnvironment
         Const BCM_SETSHIELD As Int32 = &H160C
 
         btn.FlatStyle = Windows.Forms.FlatStyle.System
-        Native.Api.NativeFunctions.SendMessage(btn.Handle, BCM_SETSHIELD, IntPtr.Zero, New IntPtr(1))
+        NativeFunctions.SendMessage(btn.Handle, BCM_SETSHIELD, IntPtr.Zero, NativeConstants.InvalidHandleValue)
     End Sub
     Public Shared Function GetUacShieldImage() As Bitmap
         Static shield_bm As Bitmap = Nothing

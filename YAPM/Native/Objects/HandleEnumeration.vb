@@ -334,7 +334,7 @@ Namespace Native.Objects
 
             ' Duplicate the handle in our process with same access
             NativeFunctions.DuplicateHandle(hProcess, New IntPtr(Handle.Handle), _
-                                            New IntPtr(NativeFunctions.GetCurrentProcess), _
+                                            NativeFunctions.GetCurrentProcess, _
                                             hHandle, 0, False, _
                                             NativeEnums.DuplicateOptions.SameAccess)
 
@@ -358,7 +358,7 @@ Namespace Native.Objects
             m_ObjectTypeName = Marshal.PtrToStringUni(ObjType.Name.Buffer)
 
 
-            NativeFunctions.ZeroMemory(BufferObjName, New IntPtr(512))
+            NativeFunctions.ZeroMemory(BufferObjName, New IntPtr(&H200))
 
             ' Get the name of the object
             If m_ObjectTypeName = "File" Then

@@ -259,7 +259,7 @@ Namespace Native.Api
         End Function
 
         <DllImport("kernel32.dll", SetLastError:=True)> _
-        Public Shared Function GetCurrentProcess() As Integer
+        Public Shared Function GetCurrentProcess() As IntPtr
         End Function
 
         <DllImport("kernel32.dll", SetLastError:=True)> _

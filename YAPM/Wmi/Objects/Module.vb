@@ -96,8 +96,8 @@ Namespace Wmi.Objects
                         With obj
                             ' Get base address from dico
                             ' TOCHANGE
-                            .DllBase = New IntPtr(0)
-                            .EntryPoint = New IntPtr(0)
+                            .DllBase = IntPtr.Zero
+                            .EntryPoint = IntPtr.Zero
                             .SizeOfImage = 0
                         End With
 

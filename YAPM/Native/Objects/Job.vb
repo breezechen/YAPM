@@ -531,7 +531,7 @@ Namespace Native.Objects
 
                         If targetHandle.IsNotNull Then
 
-                            NativeFunctions.ZeroMemory(BufferObjNameJob, New IntPtr(512))
+                            NativeFunctions.ZeroMemory(BufferObjNameJob, New IntPtr(&H200))
                             NativeFunctions.NtQueryObject(targetHandle, _
                                             NativeEnums.ObjectInformationClass.ObjectNameInformation, _
                                             BufferObjNameJob.Pointer, BufferObjNameJob.Size, ret)
@@ -561,7 +561,7 @@ Namespace Native.Objects
 
                             ' Duplicate the handle in our process with same access
                             NativeFunctions.DuplicateHandle(hProcess, New IntPtr(Handle.Handle), _
-                                                            New IntPtr(NativeFunctions.GetCurrentProcess), _
+                                                            NativeFunctions.GetCurrentProcess, _
                                                             targetHandle, Security.JobAccess.All, False, _
                                                             0)
                             ' Close process' handle
@@ -569,7 +569,7 @@ Namespace Native.Objects
 
                             If targetHandle.IsNotNull Then
 
-                                NativeFunctions.ZeroMemory(BufferObjNameJob, New IntPtr(512))
+                                NativeFunctions.ZeroMemory(BufferObjNameJob, New IntPtr(&H200))
                                 NativeFunctions.NtQueryObject(targetHandle, _
                                                 NativeEnums.ObjectInformationClass.ObjectNameInformation, _
                                                 BufferObjNameJob.Pointer, BufferObjNameJob.Size, ret)

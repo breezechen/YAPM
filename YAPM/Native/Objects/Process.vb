@@ -326,7 +326,8 @@ Namespace Native.Objects
                                             Security.ProcessAccess.SetQuota)
             If hProc.IsNotNull Then
                 Dim ret As Boolean = NativeFunctions.SetProcessWorkingSetSize(hProc, _
-                                                    New IntPtr(-1), New IntPtr(-1))
+                                            NativeConstants.InvalidHandleValue, _
+                                            NativeConstants.InvalidHandleValue)
                 NativeFunctions.CloseHandle(hProc)
                 Return ret
             Else
@@ -513,19 +514,17 @@ Namespace Native.Objects
         End Function
 
         ' Return the command line
-        Public Shared Function GetProcessCommandLineById(ByVal pid As Integer, Optional ByVal pebAddress As Long = 0) As String
+        ' Second parameter is optional
+        Public Shared Function GetProcessCommandLineById(ByVal pid As Integer, ByVal pebAddress As IntPtr) As String
 
             Try
                 Dim res As String = ""
 
-                ' Get PEB address of process
-                Dim __pebAd As IntPtr
-                If pebAddress > 0 Then
-                    __pebAd = New IntPtr(pebAddress)
-                Else
-                    __pebAd = GetProcessPebAddressById(pid)
+                ' Get PEB address of process (from parameter or using GetProcessPebAddressById) 
+                If pebAddress.IsNull Then
+                    pebAddress = GetProcessPebAddressById(pid)
                 End If
-                If __pebAd.IsNull Then
+                If pebAddress.IsNull Then
                     Return ""
                 End If
 
@@ -537,7 +536,7 @@ Namespace Native.Objects
                     End If
 
                     ' Retrieve process parameters block address
-                    Dim __procParamAd As IntPtr = memReader.ReadIntPtr(__pebAd.Increment(NativeStructs.Peb_ProcessParametersOffset))
+                    Dim __procParamAd As IntPtr = memReader.ReadIntPtr(pebAddress.Increment(NativeStructs.Peb_ProcessParametersOffset))
 
                     ' Get unicode string adress
                     Dim cmdLine As NativeStructs.UnicodeString
@@ -653,7 +652,7 @@ Namespace Native.Objects
                     Dim _command As String = NO_INFO_RETRIEVED
                     Dim _peb As IntPtr = GetProcessPebAddressById(obj.ProcessId)
                     If _peb.IsNotNull Then
-                        _command = GetProcessCommandLineById(obj.ProcessId, _peb.ToInt64)
+                        _command = GetProcessCommandLineById(obj.ProcessId, _peb)
                     End If
                     Dim _finfo As SerializableFileVersionInfo = Nothing
                     If IO.File.Exists(_path) Then

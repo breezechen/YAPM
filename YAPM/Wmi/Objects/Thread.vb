@@ -79,7 +79,7 @@ Namespace Wmi.Objects
                         Try
                             .StartAddress = CType(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.StartAddress.ToString), IntPtr)
                         Catch ex0 As Exception
-                            .StartAddress = New IntPtr(-1)
+                            .StartAddress = NativeConstants.InvalidHandleValue
                         End Try
                         .State = CType(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ThreadState.ToString), ThreadState)
                         .UserTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.UserModeTime.ToString))
