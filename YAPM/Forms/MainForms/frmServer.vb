@@ -532,7 +532,7 @@ Public Class frmServer
                         Call _procCon.Enumerate(True, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestNetworkConnectionList
-                        Dim pid() As Integer = CType(cData.Param1, Integer())
+                        Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim all As Boolean = CBool(cData.Param2)
                         Call _networkCon.Enumerate(True, pid, all, _forInstanceId)
                         Exit Sub
@@ -553,20 +553,20 @@ Public Class frmServer
                         Call _serviceCon.Enumerate(True, pid, True, all, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestModuleList
-                        Dim pid() As Integer = CType(cData.Param1, Integer())
+                        Dim pid As Integer = CType(cData.Param1, Integer)
                         Call _moduleCon.Enumerate(True, pid, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestThreadList
-                        Dim pid() As Integer = CType(cData.Param1, Integer())
+                        Dim pid As Integer = CType(cData.Param1, Integer)
                         Call _threadCon.Enumerate(True, pid, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestHandleList
-                        Dim pid() As Integer = CType(cData.Param1, Integer())
+                        Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim unn As Boolean = CBool(cData.Param2)
                         Call _handleCon.Enumerate(True, pid, unn, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestWindowList
-                        Dim pid() As Integer = CType(cData.Param1, Integer())
+                        Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim all As Boolean = CBool(cData.Param3)
                         Dim unn As Boolean = CBool(cData.Param2)
                         Call _windowCon.Enumerate(True, pid, unn, all, _forInstanceId)

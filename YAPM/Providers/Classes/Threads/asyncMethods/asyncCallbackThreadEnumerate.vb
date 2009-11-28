@@ -40,9 +40,9 @@ Public Class asyncCallbackThreadEnumerate
     End Sub
 
     Public Structure poolObj
-        Public pid() As Integer
+        Public pid As Integer
         Public forInstanceId As Integer
-        Public Sub New(ByVal pi() As Integer, ByVal iid As Integer)
+        Public Sub New(ByVal pi As Integer, ByVal iid As Integer)
             forInstanceId = iid
             pid = pi
         End Sub
@@ -104,15 +104,7 @@ Public Class asyncCallbackThreadEnumerate
                 Dim _dico As New Dictionary(Of String, threadInfos)
                 Dim snap As cSnapshot = con.ConnectionObj.Snapshot
                 If snap IsNot Nothing Then
-                    ' For some processes only
-                    For Each pid As Integer In pObj.pid
-                        Dim _threads As Dictionary(Of String, threadInfos) = snap.ThreadsByProcessId(pid)
-                        If _threads IsNot Nothing Then
-                            For Each pair As System.Collections.Generic.KeyValuePair(Of String, threadInfos) In _threads
-                                _dico.Add(pair.Key, pair.Value)
-                            Next
-                        End If
-                    Next
+                    _dico = snap.ThreadsByProcessId(pObj.pid)
                 End If
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then _

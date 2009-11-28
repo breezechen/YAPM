@@ -36,7 +36,7 @@ Public Class moduleList
     ' ========================================
     ' Private
     ' ========================================
-    Private _pid As Integer()
+    Private _pid As Integer
     Private _first As Boolean
     Private _dicoNew As New Dictionary(Of String, cModule)
     Private _dicoDel As New Dictionary(Of String, cModule)
@@ -58,11 +58,11 @@ Public Class moduleList
             _connectionObject = value
         End Set
     End Property
-    Public Property ProcessId() As Integer()
+    Public Property ProcessId() As Integer
         Get
             Return _pid
         End Get
-        Set(ByVal value As Integer())
+        Set(ByVal value As Integer)
             _pid = value
         End Set
     End Property

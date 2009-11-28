@@ -35,7 +35,7 @@ Public Class threadList
     ' ========================================
     ' Private
     ' ========================================
-    Private _pid As Integer()
+    Private _pid As Integer
     Private _first As Boolean
     Private _dicoNew As New Dictionary(Of String, cThread)
     Private _dicoDel As New Dictionary(Of String, cThread)
@@ -57,11 +57,11 @@ Public Class threadList
             _connectionObject = value
         End Set
     End Property
-    Public Property ProcessId() As Integer()
+    Public Property ProcessId() As Integer
         Get
             Return _pid
         End Get
-        Set(ByVal value As Integer())
+        Set(ByVal value As Integer)
             _pid = value
         End Set
     End Property

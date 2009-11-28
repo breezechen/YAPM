@@ -40,11 +40,11 @@ Public Class asyncCallbackWindowEnumerate
     End Sub
 
     Public Structure poolObj
-        Public pid() As Integer
+        Public pid As Integer
         Public all As Boolean
         Public forInstanceId As Integer
         Public unnamed As Boolean
-        Public Sub New(ByRef pi() As Integer, ByVal al As Boolean, ByVal unn As Boolean, ByVal ii As Integer)
+        Public Sub New(ByRef pi As Integer, ByVal al As Boolean, ByVal unn As Boolean, ByVal ii As Integer)
             forInstanceId = ii
             pid = pi
             all = al
@@ -97,15 +97,7 @@ Public Class asyncCallbackWindowEnumerate
                 Dim _dico As New Dictionary(Of String, windowInfos)
                 Dim snap As cSnapshot = con.ConnectionObj.Snapshot
                 If snap IsNot Nothing Then
-                    ' For some processes only
-                    For Each pid As Integer In pObj.pid
-                        Dim _windows As Dictionary(Of String, windowInfos) = snap.WindowsByProcessId(pid)
-                        If _windows IsNot Nothing Then
-                            For Each pair As System.Collections.Generic.KeyValuePair(Of String, windowInfos) In _windows
-                                _dico.Add(pair.Key, pair.Value)
-                            Next
-                        End If
-                    Next
+                    _dico = snap.WindowsByProcessId(pObj.pid)
                 End If
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then _

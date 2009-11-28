@@ -41,10 +41,10 @@ Public Class asyncCallbackNetworkEnumerate
     End Sub
 
     Public Structure poolObj
-        Public pid() As Integer
+        Public pid As Integer
         Public all As Boolean
         Public forInstanceId As Integer
-        Public Sub New(ByRef pi() As Integer, ByVal al As Boolean, ByVal ii As Integer)
+        Public Sub New(ByRef pi As Integer, ByVal al As Boolean, ByVal ii As Integer)
             forInstanceId = ii
             pid = pi
             all = al
@@ -98,15 +98,8 @@ Public Class asyncCallbackNetworkEnumerate
                         ' All connections
                         _dico = snap.NetworkConnections
                     Else
-                        ' For some processes only
-                        For Each pid As Integer In pObj.pid
-                            Dim _connections As Dictionary(Of String, networkInfos) = snap.NetworkConnectionsByProcessId(pid)
-                            If _connections IsNot Nothing Then
-                                For Each pair As System.Collections.Generic.KeyValuePair(Of String, networkInfos) In _connections
-                                    _dico.Add(pair.Key, pair.Value)
-                                Next
-                            End If
-                        Next
+                        ' For one process only
+                        _dico = snap.NetworkConnectionsByProcessId(pObj.pid)
                     End If
                 End If
                 Try

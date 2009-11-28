@@ -101,7 +101,7 @@ Public Class cHandleConnection
 #Region "Enumerate threads"
 
     ' Enumerate threads
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer, ByVal showUnnamed As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, ByVal showUnnamed As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
                 System.Threading.WaitCallback(AddressOf _
                 _handleEnum.Process), New  _

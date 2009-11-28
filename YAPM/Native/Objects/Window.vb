@@ -78,17 +78,13 @@ Namespace Native.Objects
         End Function
 
         ' Enumerate windows (local)
-        Public Shared Sub EnumerateWindowsByProcessId(ByVal processId() As Integer, _
+        Public Shared Sub EnumerateWindowsByProcessId(ByVal processId As Integer, _
                                       ByVal allProcesses As Boolean, _
                                       ByVal showUnnamed As Boolean, _
                                       ByRef _dico As Dictionary(Of String, windowInfos), _
                                       ByVal refreshAllInfos As Boolean)
             Dim currWnd As IntPtr
             Dim cpt As Integer
-
-            If processId Is Nothing Then
-                Exit Sub
-            End If
 
             currWnd = NativeFunctions.GetWindow(NativeFunctions.GetDesktopWindow(), _
                                                 NativeEnums.GetWindowCmd.GW_CHILD)
@@ -97,7 +93,7 @@ Namespace Native.Objects
 
                 ' Get procId from hwnd
                 Dim pid As Integer = GetProcessIdFromWindowHandle(currWnd)
-                If allProcesses OrElse Array.IndexOf(processId, pid) >= 0 Then
+                If allProcesses OrElse pid = processId Then
                     ' Then this window belongs to one of our processes
                     Dim sCap As String = GetWindowCaption(currWnd)
                     If showUnnamed OrElse sCap.Length > 0 Then

@@ -109,11 +109,9 @@ Public Class frmCheckSignatures
         Me.pgb.Maximum = Me.lvProcess.CheckedIndices.Count
 
         For Each proc As cProcess In Me.lvProcess.GetCheckedItems
-            Dim pid(0) As Integer
-            pid(0) = proc.Infos.ProcessId
 
             ' Get list of modules
-            Dim _modules As Dictionary(Of String, moduleInfos) = asyncCallbackModuleEnumerate.SharedLocalSyncEnumerate(New asyncCallbackModuleEnumerate.poolObj(pid, 0))
+            Dim _modules As Dictionary(Of String, moduleInfos) = asyncCallbackModuleEnumerate.SharedLocalSyncEnumerate(New asyncCallbackModuleEnumerate.poolObj(proc.Infos.ProcessId, 0))
 
             ' For each module
             If _modules IsNot Nothing Then

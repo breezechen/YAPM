@@ -104,7 +104,7 @@ Public Class asyncCallbackPrivilegesEnumerate
             Case Else
                 ' Local
                 Dim _dico As Dictionary(Of String, privilegeInfos) = _
-                SharedLocalSyncEnumerate(pObj)
+                        SharedLocalSyncEnumerate(pObj)
 
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then _

@@ -45,8 +45,8 @@ Public Class asyncCallbackModuleEnumerate
 
     Public Structure poolObj
         Public forInstanceId As Integer
-        Public pid() As Integer
-        Public Sub New(ByVal pi() As Integer, ByVal iid As Integer)
+        Public pid As Integer
+        Public Sub New(ByVal pi As Integer, ByVal iid As Integer)
             forInstanceId = iid
             pid = pi
         End Sub
@@ -91,7 +91,7 @@ Public Class asyncCallbackModuleEnumerate
                 Dim _dico As New Dictionary(Of String, moduleInfos)
                 Dim msg As String = ""
                 Dim res As Boolean = _
-                        Wmi.Objects.Module.EnumerateModuleByIds(pObj.pid, con.wmiSearcher, _
+                        Wmi.Objects.Module.EnumerateModuleById(pObj.pid, con.wmiSearcher, _
                                                                 _dico, msg)
 
                 Try
@@ -108,14 +108,7 @@ Public Class asyncCallbackModuleEnumerate
                 Dim snap As cSnapshot = con.ConnectionObj.Snapshot
                 If snap IsNot Nothing Then
                     ' For some processes only
-                    For Each pid As Integer In pObj.pid
-                        Dim _modules As Dictionary(Of String, moduleInfos) = snap.ModulesByProcessId(pid)
-                        If _modules IsNot Nothing Then
-                            For Each pair As System.Collections.Generic.KeyValuePair(Of String, moduleInfos) In _modules
-                                _dico.Add(pair.Key, pair.Value)
-                            Next
-                        End If
-                    Next
+                    _dico = snap.ModulesByProcessId(pObj.pid)
                 End If
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then _
@@ -149,12 +142,12 @@ Public Class asyncCallbackModuleEnumerate
         Dim _dico As Dictionary(Of String, moduleInfos)
 
         ' If it's a Wow64 process, module enumeration is made using debug functions
-        Dim cProc As cProcess = cProcess.GetProcessById(pObj.pid(0))
+        Dim cProc As cProcess = cProcess.GetProcessById(pObj.pid)
         If cProc IsNot Nothing AndAlso cProc.IsWow64Process Then
-            _dico = Native.Objects.Module.EnumerateModulesWow64ByProcessId(pObj.pid(0), False)
+            _dico = Native.Objects.Module.EnumerateModulesWow64ByProcessId(pObj.pid, False)
         Else
             ' Normal native enumeration
-            _dico = Native.Objects.Module.EnumerateModulesByProcessIds(pObj.pid, False)
+            _dico = Native.Objects.Module.EnumerateModulesByProcessId(pObj.pid, False)
         End If
 
         Return _dico

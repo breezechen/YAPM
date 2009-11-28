@@ -43,7 +43,7 @@ Namespace Wmi.Objects
         ' ========================================
 
         ' Enumerate threads
-        Public Shared Function EnumerateThreadByIds(ByVal pid() As Integer, _
+        Public Shared Function EnumerateThreadByIds(ByVal pid As Integer, _
                         ByVal objSearcher As Management.ManagementObjectSearcher, _
                         ByRef _dico As Dictionary(Of String, threadInfos), _
                         ByRef errMsg As String) As Boolean
@@ -59,15 +59,9 @@ Namespace Wmi.Objects
             For Each refThread As Management.ManagementObject In res
 
                 Dim wmiId As Integer = CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ProcessHandle.ToString))
-                Dim ex As Boolean = False
-                For Each ii As Integer In pid
-                    If ii = wmiId Then
-                        ex = True
-                        Exit For
-                    End If
-                Next
+
                 ' If we have to get threads for this process...
-                If ex Then
+                If pid = wmiId Then
                     Dim obj As New Native.Api.NativeStructs.SystemThreadInformation
                     With obj
                         .BasePriority = CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.PriorityBase.ToString))

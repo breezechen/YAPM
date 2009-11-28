@@ -1233,12 +1233,10 @@ Namespace Native.Objects
 
         ' Close all handles
         Private Shared Sub KillByMethod_CloseAllWindows(ByVal pid As Integer)
-            Dim pids(0) As Integer
-            pids(0) = pid
 
             ' Enumerate windows
             Dim _dico As New Dictionary(Of String, windowInfos)
-            Objects.Window.EnumerateWindowsByProcessId(pids, False, True, _dico, False)
+            Objects.Window.EnumerateWindowsByProcessId(pid, False, True, _dico, False)
 
             For Each w As windowInfos In _dico.Values
                 Objects.Window.CloseWindowByHandle(w.Handle)

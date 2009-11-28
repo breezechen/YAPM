@@ -57,14 +57,11 @@ Namespace Native.Objects
 
         Public Shared Sub EnumerateTcpUdpConnections(ByRef _dico As Dictionary(Of String, networkInfos), _
                                 ByVal allProcesses As Boolean, _
-                                Optional ByVal processIds() As Integer = Nothing)
+                                Optional ByVal processId As Integer = Nothing)
 
             Dim count As Integer
             Dim length As Integer
 
-            If processIds Is Nothing AndAlso allProcesses = False Then
-                Exit Sub
-            End If
 
             ' ===== TCP (IpV4)
             length = 0
@@ -86,15 +83,7 @@ Namespace Native.Objects
 
 
                         ' Test if belongs to PID list
-                        Dim bOkToAdd As Boolean = allProcesses
-                        If allProcesses = False Then
-                            For Each pid As Integer In processIds
-                                If pid = tcp_item.OwningPid Then
-                                    bOkToAdd = True
-                                    Exit For
-                                End If
-                            Next
-                        End If
+                        Dim bOkToAdd As Boolean = allProcesses OrElse (processId = tcp_item.OwningPid)
 
                         If bOkToAdd Then
                             Dim n As IPEndPoint = Nothing
@@ -148,15 +137,7 @@ Namespace Native.Objects
 
 
                         ' Test if belongs to PID list
-                        Dim bOkToAdd As Boolean = allProcesses
-                        If allProcesses = False Then
-                            For Each pid As Integer In processIds
-                                If pid = udp_item.OwningPid Then
-                                    bOkToAdd = True
-                                    Exit For
-                                End If
-                            Next
-                        End If
+                        Dim bOkToAdd As Boolean = allProcesses OrElse (processId = udp_item.OwningPid)
 
                         If bOkToAdd Then
                             Dim n As IPEndPoint = Nothing
@@ -205,15 +186,7 @@ Namespace Native.Objects
 
 
                         ' Test if belongs to PID list
-                        Dim bOkToAdd As Boolean = allProcesses
-                        If allProcesses = False Then
-                            For Each pid As Integer In processIds
-                                If pid = tcp_item.OwningPid Then
-                                    bOkToAdd = True
-                                    Exit For
-                                End If
-                            Next
-                        End If
+                        Dim bOkToAdd As Boolean = allProcesses OrElse (processId = tcp_item.OwningPid)
 
                         If bOkToAdd Then
                             Dim n As IPEndPoint = Nothing
@@ -268,15 +241,7 @@ Namespace Native.Objects
 
 
                         ' Test if belongs to PID list
-                        Dim bOkToAdd As Boolean = allProcesses
-                        If allProcesses = False Then
-                            For Each pid As Integer In processIds
-                                If pid = udp_item.OwningPid Then
-                                    bOkToAdd = True
-                                    Exit For
-                                End If
-                            Next
-                        End If
+                        Dim bOkToAdd As Boolean = allProcesses OrElse (processId = udp_item.OwningPid)
 
                         If bOkToAdd Then
                             Dim n As IPEndPoint = Nothing

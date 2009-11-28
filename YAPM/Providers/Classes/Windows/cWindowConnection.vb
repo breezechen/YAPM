@@ -102,7 +102,7 @@ Public Class cWindowConnection
 #Region "Enumerate threads"
 
     ' Enumerate threads
-    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid() As Integer, ByVal unNamed As Boolean, ByVal all As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
+    Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, ByVal unNamed As Boolean, ByVal all As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
         Call Threading.ThreadPool.QueueUserWorkItem(New  _
             System.Threading.WaitCallback(AddressOf _
             _windowEnum.Process), New  _

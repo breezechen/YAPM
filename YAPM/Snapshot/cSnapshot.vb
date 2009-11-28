@@ -594,30 +594,24 @@ Public Class cSnapshot
             ' Modules
             If (options And Native.Api.Enums.SnapshotObject.[Modules]) = Native.Api.Enums.SnapshotObject.[Modules] Then
                 For Each proc As processInfos In Me.Processes.Values
-                    Dim pid(0) As Integer
-                    pid(0) = proc.ProcessId
-                    Dim _dico As Dictionary(Of String, moduleInfos) = asyncCallbackModuleEnumerate.SharedLocalSyncEnumerate(New asyncCallbackModuleEnumerate.poolObj(pid, 0))
-                    Me.ModulesByProcessId(pid(0)) = _dico
+                    Dim _dico As Dictionary(Of String, moduleInfos) = asyncCallbackModuleEnumerate.SharedLocalSyncEnumerate(New asyncCallbackModuleEnumerate.poolObj(proc.ProcessId, 0))
+                    Me.ModulesByProcessId(proc.ProcessId) = _dico
                 Next
             End If
 
             ' Windows
             If (options And Native.Api.Enums.SnapshotObject.[Windows]) = Native.Api.Enums.SnapshotObject.[Windows] Then
                 For Each proc As processInfos In Me.Processes.Values
-                    Dim pid(0) As Integer
-                    pid(0) = proc.ProcessId
-                    Dim _dico As Dictionary(Of String, windowInfos) = asyncCallbackWindowEnumerate.SharedLocalSyncEnumerate(New asyncCallbackWindowEnumerate.poolObj(pid, False, True, 0))
-                    Me.WindowsByProcessId(pid(0)) = _dico
+                    Dim _dico As Dictionary(Of String, windowInfos) = asyncCallbackWindowEnumerate.SharedLocalSyncEnumerate(New asyncCallbackWindowEnumerate.poolObj(proc.ProcessId, False, True, 0))
+                    Me.WindowsByProcessId(proc.ProcessId) = _dico
                 Next
             End If
 
             ' Threads
             If (options And Native.Api.Enums.SnapshotObject.[Threads]) = Native.Api.Enums.SnapshotObject.[Threads] Then
                 For Each proc As processInfos In Me.Processes.Values
-                    Dim pid(0) As Integer
-                    pid(0) = proc.ProcessId
-                    Dim _dico As Dictionary(Of String, threadInfos) = asyncCallbackThreadEnumerate.SharedLocalSyncEnumerate(New asyncCallbackThreadEnumerate.poolObj(pid, 0))
-                    Me.ThreadsByProcessId(pid(0)) = _dico
+                    Dim _dico As Dictionary(Of String, threadInfos) = asyncCallbackThreadEnumerate.SharedLocalSyncEnumerate(New asyncCallbackThreadEnumerate.poolObj(proc.ProcessId, 0))
+                    Me.ThreadsByProcessId(proc.ProcessId) = _dico
                 Next
             End If
 
@@ -675,10 +669,8 @@ Public Class cSnapshot
             ' Handles
             If (options And Native.Api.Enums.SnapshotObject.[Handles]) = Native.Api.Enums.SnapshotObject.[Handles] Then
                 For Each proc As processInfos In Me.Processes.Values
-                    Dim pid(0) As Integer
-                    pid(0) = proc.ProcessId
-                    Dim _dico As Dictionary(Of String, handleInfos) = asyncCallbackHandleEnumerate.SharedLocalSyncEnumerate(New asyncCallbackHandleEnumerate.poolObj(pid, True, 0))
-                    Me.HandlesByProcessId(pid(0)) = _dico
+                    Dim _dico As Dictionary(Of String, handleInfos) = asyncCallbackHandleEnumerate.SharedLocalSyncEnumerate(New asyncCallbackHandleEnumerate.poolObj(proc.ProcessId, True, 0))
+                    Me.HandlesByProcessId(proc.ProcessId) = _dico
                 Next
             End If
 

@@ -181,11 +181,7 @@ Namespace Native.Objects
         End Function
 
         ' Enumerate threads
-        Public Shared Sub EnumerateThreadsByProcessId(ByRef _dico As Dictionary(Of String, threadInfos), ByVal pid() As Integer)
-
-            If pid Is Nothing Then
-                Exit Sub
-            End If
+        Public Shared Sub EnumerateThreadsByProcessId(ByRef _dico As Dictionary(Of String, threadInfos), ByVal pid As Integer)
 
             Dim deltaOff As Integer = Marshal.SizeOf(GetType(Native.Api.NativeStructs.SystemProcessInformation))
 
@@ -206,16 +202,8 @@ Namespace Native.Objects
                 Dim obj As Native.Api.NativeStructs.SystemProcessInformation = _
                         memAllocForThreadEnum.ReadStructOffset(Of Native.Api.NativeStructs.SystemProcessInformation)(offset)
 
-                ' Do we have do get threads for this process ?
-                Dim bHaveToGetThreads As Boolean = False
-                For Each tPid As Integer In pid
-                    If tPid = obj.ProcessId Then
-                        bHaveToGetThreads = True
-                        Exit For
-                    End If
-                Next
-
-                If bHaveToGetThreads Then
+                ' If this is the desired process...
+                If obj.ProcessId = pid Then
                     For j As Integer = 0 To obj.NumberOfThreads - 1
 
                         Dim thread As Native.Api.NativeStructs.SystemThreadInformation = _

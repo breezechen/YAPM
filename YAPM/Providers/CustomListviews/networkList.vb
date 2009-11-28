@@ -44,7 +44,7 @@ Public Class networkList
     Private WithEvents _networkConnection As New cNetworkConnection(Me, _connectionObject, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
     Private _all As Boolean = False
     Private _showGroups As Boolean = False
-    Private _pid As Integer()
+    Private _pid As Integer
 
 
 #Region "Properties"
@@ -60,11 +60,11 @@ Public Class networkList
             _connectionObject = value
         End Set
     End Property
-    Public Property ProcessId() As Integer()
+    Public Property ProcessId() As Integer
         Get
             Return _pid
         End Get
-        Set(ByVal value As Integer())
+        Set(ByVal value As Integer)
             _pid = value
         End Set
     End Property

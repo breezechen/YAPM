@@ -97,7 +97,7 @@ Namespace Native.Objects
         End Function
 
         ' Return handles of some processes
-        Public Shared Sub EnumerateHandleByProcessIds(ByVal pid() As Integer, _
+        Public Shared Sub EnumerateHandleByProcessId(ByVal pid As Integer, _
                                                      ByVal showUnNamed As Boolean, _
                                                      ByRef _dico As Dictionary(Of String, handleInfos))
 

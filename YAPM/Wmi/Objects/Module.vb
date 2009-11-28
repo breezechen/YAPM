@@ -43,7 +43,7 @@ Namespace Wmi.Objects
         ' ========================================
 
         ' Enumerate modules
-        Public Shared Function EnumerateModuleByIds(ByVal pid() As Integer, _
+        Public Shared Function EnumerateModuleById(ByVal pid As Integer, _
                         ByVal objSearcher As Management.ManagementObjectSearcher, _
                         ByRef _dico As Dictionary(Of String, moduleInfos), _
                         ByRef errMsg As String) As Boolean
@@ -77,16 +77,9 @@ Namespace Wmi.Objects
             For Each refProcess As Management.ManagementObject In res
 
                 Dim aPid As Integer = CInt(refProcess.GetPropertyValue(Native.Api.Enums.WMI_INFO_PROCESS.ProcessId.ToString))
-                Dim ex As Boolean = False
-                For Each _iii As Integer In pid
-                    If aPid = _iii Then
-                        ex = True
-                        Exit For
-                    End If
-                Next
 
-                ' If ex -> OK, we get modules for this process
-                If ex Then
+                ' OK, we get modules for this process
+                If pid = aPid Then
 
                     Dim colModule As ManagementObjectCollection = refProcess.GetRelated("CIM_DataFile")
                     For Each refModule As ManagementObject In colModule

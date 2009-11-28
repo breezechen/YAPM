@@ -11,6 +11,9 @@ Refactoring bugs
 - revoir remote address des connections
 - commandline dans l'aide
 
+- icones de partout (windows, fileHandle...) -> SEULEMENT pour le local
+- search et log -> enumeration des modules prend pas en compte les wow64
+
 BUGS CRITIQUES
 - wow64 information en remote ??
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')

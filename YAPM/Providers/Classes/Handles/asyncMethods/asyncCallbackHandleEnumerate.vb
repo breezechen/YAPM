@@ -40,10 +40,10 @@ Public Class asyncCallbackHandleEnumerate
     End Sub
 
     Public Structure poolObj
-        Public pid() As Integer
+        Public pid As Integer
         Public unNamed As Boolean
         Public forInstanceId As Integer
-        Public Sub New(ByVal pi() As Integer, _
+        Public Sub New(ByVal pi As Integer, _
                        ByVal unN As Boolean, ByVal iid As Integer)
             forInstanceId = iid
             pid = pi
@@ -96,14 +96,7 @@ Public Class asyncCallbackHandleEnumerate
                 Dim snap As cSnapshot = con.ConnectionObj.Snapshot
                 If snap IsNot Nothing Then
                     ' For some processes only
-                    For Each pid As Integer In pObj.pid
-                        Dim _handles As Dictionary(Of String, handleInfos) = snap.HandlesByProcessId(pid)
-                        If _handles IsNot Nothing Then
-                            For Each pair As System.Collections.Generic.KeyValuePair(Of String, handleInfos) In _handles
-                                _dico.Add(pair.Key, pair.Value)
-                            Next
-                        End If
-                    Next
+                    _dico = snap.HandlesByProcessId(pObj.pid)
                 End If
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then _
@@ -117,7 +110,7 @@ Public Class asyncCallbackHandleEnumerate
                 ' Local
                 Dim _dico As New Dictionary(Of String, handleInfos)
 
-                Native.Objects.Handle.EnumerateHandleByProcessIds(pObj.pid, pObj.unNamed, _dico)
+                Native.Objects.Handle.EnumerateHandleByProcessId(pObj.pid, pObj.unNamed, _dico)
 
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then _
@@ -136,7 +129,7 @@ Public Class asyncCallbackHandleEnumerate
     ' Shared, local and sync enumeration
     Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As poolObj) As Dictionary(Of String, handleInfos)
         Dim _dico As New Dictionary(Of String, handleInfos)
-        Native.Objects.Handle.EnumerateHandleByProcessIds(pObj.pid, pObj.unNamed, _dico)
+        Native.Objects.Handle.EnumerateHandleByProcessId(pObj.pid, pObj.unNamed, _dico)
         Return _dico
     End Function
 

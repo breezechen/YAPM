@@ -1113,10 +1113,7 @@ Public Class frmProcessInfo
     ' Show modules
     Public Sub ShowModules()
 
-        Dim pid() As Integer
-        ReDim pid(0)
-        pid(0) = curProc.Infos.ProcessId
-        lvModules.ProcessId = pid
+        lvModules.ProcessId = curProc.Infos.ProcessId
         lvModules.UpdateTheItems()
 
     End Sub
@@ -1141,10 +1138,7 @@ Public Class frmProcessInfo
     ' Show threads
     Public Sub ShowThreads()
 
-        Dim pid() As Integer
-        ReDim pid(0)
-        pid(0) = curProc.Infos.ProcessId
-        Me.lvThreads.ProcessId = pid
+        Me.lvThreads.ProcessId = curProc.Infos.ProcessId
         Me.lvThreads.UpdateTheItems()
 
     End Sub
@@ -1160,10 +1154,8 @@ Public Class frmProcessInfo
     ' Show network connections
     Public Sub ShowNetwork()
 
-        Dim pid(0) As Integer
-        pid(0) = curProc.Infos.ProcessId
         Me.lvProcNetwork.ShowAllPid = False
-        Me.lvProcNetwork.ProcessId = pid
+        Me.lvProcNetwork.ProcessId = curProc.Infos.ProcessId
         Me.lvProcNetwork.UpdateTheItems()
 
     End Sub
@@ -1179,9 +1171,7 @@ Public Class frmProcessInfo
     ' Show threads
     Public Sub ShowWindows()
 
-        Dim pid(0) As Integer
-        pid(0) = curProc.Infos.ProcessId
-        Me.lvWindows.ProcessId = pid
+        Me.lvWindows.ProcessId = curProc.Infos.ProcessId
         Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowUnNamed = Me.MenuItemWShowUn.Checked
         Me.lvWindows.UpdateTheItems()
@@ -1192,9 +1182,7 @@ Public Class frmProcessInfo
     Private Sub ShowHandles()
 
         Me.lvHandles.ShowUnnamed = Me.MenuItemShowUnnamedHandles.Checked
-        Dim pids(0) As Integer
-        pids(0) = curProc.Infos.ProcessId
-        Me.lvHandles.ProcessId = pids
+        Me.lvHandles.ProcessId = curProc.Infos.ProcessId
         Me.lvHandles.UpdateTheItems()
 
     End Sub

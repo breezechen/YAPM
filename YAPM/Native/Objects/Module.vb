@@ -73,26 +73,6 @@ Namespace Native.Objects
         End Function
 
         ' Enumerate modules
-        Public Shared Function EnumerateModulesByProcessIds(ByVal pid() As Integer, _
-                Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
-
-            Dim _dico As New Dictionary(Of String, moduleInfos)
-
-            If pid Is Nothing Then
-                Return _dico
-            End If
-
-            For Each id As Integer In pid
-                Dim _md As New Dictionary(Of String, moduleInfos)
-                _md = EnumerateModulesByProcessId(id, noFileInfo)
-                For Each pair As System.Collections.Generic.KeyValuePair(Of String, moduleInfos) In _md
-                    _dico.Add(pair.Key, pair.Value)
-                Next
-            Next
-            Return _dico
-        End Function
-
-        ' Enumerate modules
         Public Shared Function EnumerateModulesWow64ByProcessId(ByVal pid As Integer, _
                 Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
 

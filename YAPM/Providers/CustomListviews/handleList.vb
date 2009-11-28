@@ -36,7 +36,7 @@ Public Class handleList
     ' Private
     ' ========================================
     Private _unnamed As Boolean = False
-    Private _pid As Integer()
+    Private _pid As Integer
     Private _first As Boolean
     Private _dicoNew As New Dictionary(Of String, cHandle)
     Private _dicoDel As New Dictionary(Of String, cHandle)
@@ -58,11 +58,11 @@ Public Class handleList
             _connectionObject = value
         End Set
     End Property
-    Public Property ProcessId() As Integer()
+    Public Property ProcessId() As Integer
         Get
             Return _pid
         End Get
-        Set(ByVal value As Integer())
+        Set(ByVal value As Integer)
             _pid = value
         End Set
     End Property

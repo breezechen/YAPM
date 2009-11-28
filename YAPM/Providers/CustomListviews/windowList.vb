@@ -35,7 +35,7 @@ Public Class windowList
     ' ========================================
     ' Private
     ' ========================================
-    Private _pid As Integer()
+    Private _pid As Integer
     Private _allPid As Boolean
     Private _unNamed As Boolean
     Private _first As Boolean
@@ -59,11 +59,11 @@ Public Class windowList
             _connectionObject = value
         End Set
     End Property
-    Public Property ProcessId() As Integer()
+    Public Property ProcessId() As Integer
         Get
             Return _pid
         End Get
-        Set(ByVal value As Integer())
+        Set(ByVal value As Integer)
             _pid = value
         End Set
     End Property

@@ -140,9 +140,7 @@ Public Class asyncCallbackLogEnumerate
                 If (pObj.infos And LogItemType.NetworkItem) = LogItemType.NetworkItem Then
 
                     ' Get list
-                    Dim pid(0) As Integer
-                    pid(0) = pObj.pid
-                    Native.Objects.Network.EnumerateTcpUdpConnections(__dicoNetwork, False, pid)
+                    Native.Objects.Network.EnumerateTcpUdpConnections(__dicoNetwork, False, pObj.pid)
 
                     ' Store in static dico if it is first refresh
                     If firstNetwork Then
@@ -187,9 +185,7 @@ Public Class asyncCallbackLogEnumerate
                 If (pObj.infos And LogItemType.HandleItem) = LogItemType.HandleItem Then
 
                     ' Get list
-                    Dim pid(0) As Integer
-                    pid(0) = pObj.pid
-                    Native.Objects.Handle.EnumerateHandleByProcessIds(pid, True, __dicoHandles)
+                    Native.Objects.Handle.EnumerateHandleByProcessId(pObj.pid, True, __dicoHandles)
 
                     ' Store in static dico if it is first refresh
                     If firstHandles Then
@@ -281,9 +277,7 @@ Public Class asyncCallbackLogEnumerate
                 If (pObj.infos And LogItemType.ModuleItem) = LogItemType.ModuleItem Then
 
                     ' Get list
-                    Dim pid(0) As Integer
-                    pid(0) = pObj.pid
-                    __dicoModules = Native.Objects.Module.EnumerateModulesByProcessIds(pid, True)
+                    __dicoModules = Native.Objects.Module.EnumerateModulesByProcessId(pObj.pid, True)
 
                     ' Store in static dico if it is first refresh
                     If firstModules Then
@@ -375,9 +369,7 @@ Public Class asyncCallbackLogEnumerate
                 If (pObj.infos And LogItemType.ThreadItem) = LogItemType.ThreadItem Then
 
                     ' Get list
-                    Dim pid(0) As Integer
-                    pid(0) = pObj.pid
-                    Native.Objects.Thread.EnumerateThreadsByProcessId(__dicoThreads, pid)
+                    Native.Objects.Thread.EnumerateThreadsByProcessId(__dicoThreads, pObj.pid)
 
                     ' Store in static dico if it is first refresh
                     If firstThreads Then
@@ -422,9 +414,7 @@ Public Class asyncCallbackLogEnumerate
                 If (pObj.infos And LogItemType.WindowItem) = LogItemType.WindowItem Then
 
                     ' Get list
-                    Dim pid(0) As Integer
-                    pid(0) = pObj.pid
-                    Native.Objects.Window.EnumerateWindowsByProcessId(pid, False, True, __dicoWindows, False)
+                    Native.Objects.Window.EnumerateWindowsByProcessId(pObj.pid, False, True, __dicoWindows, False)
 
                     ' Store in static dico if it is first refresh
                     If firstWindows Then
