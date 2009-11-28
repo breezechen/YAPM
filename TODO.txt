@@ -129,4 +129,5 @@ Temp Change log :
 - Fixed "IsDebuggerPresent" information
 - x64 systems : fixed bad CommandLine information
 - x64 systems : fixed bad DisplayName/ObjectName/Depedencies information
+- x64 systems : fixed Set/Get JobLimits feature
 - x64 systems : fixed #2891421 (enumeration of processes in job which fail)

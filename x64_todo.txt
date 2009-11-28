@@ -1,5 +1,7 @@
-- crash dans Job Enumeration (Windows 7 x64 bug ?)
 - heaps -> node size/status failed
-- jobs -> limits foireuses
 
 - dependecy viewer marche pas (pas x64 compatible)
+
+
+        '    ' 144 is OK on x64
+        '    ' 112 is OK on x86

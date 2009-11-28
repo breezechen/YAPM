@@ -92,7 +92,7 @@ Partial Class frmSetJobLimits
         'cmdExit
         '
         Me.cmdExit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.cmdExit.Location = New System.Drawing.Point(396, 392)
+        Me.cmdExit.Location = New System.Drawing.Point(438, 392)
         Me.cmdExit.Name = "cmdExit"
         Me.cmdExit.Size = New System.Drawing.Size(75, 23)
         Me.cmdExit.TabIndex = 33
@@ -230,7 +230,7 @@ Partial Class frmSetJobLimits
         Me.GroupBox2.Controls.Add(Me.chkBreakawayOK)
         Me.GroupBox2.Location = New System.Drawing.Point(185, 12)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(286, 374)
+        Me.GroupBox2.Size = New System.Drawing.Size(328, 374)
         Me.GroupBox2.TabIndex = 32
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "UI restrictions"
@@ -249,18 +249,18 @@ Partial Class frmSetJobLimits
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(251, 298)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(23, 13)
+        Me.Label6.Size = New System.Drawing.Size(72, 13)
         Me.Label6.TabIndex = 60
-        Me.Label6.Text = "sec"
+        Me.Label6.Text = "100-nanosec"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(251, 253)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(23, 13)
+        Me.Label5.Size = New System.Drawing.Size(72, 13)
         Me.Label5.TabIndex = 59
-        Me.Label5.Text = "sec"
+        Me.Label5.Text = "100-nanosec"
         '
         'Label4
         '
@@ -525,7 +525,7 @@ Partial Class frmSetJobLimits
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(483, 427)
+        Me.ClientSize = New System.Drawing.Size(525, 427)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.cmdExit)

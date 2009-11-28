@@ -138,11 +138,12 @@ Public Class frmSetJobLimits
             End If
             If pair.Key = "JobMemory" Then
                 Me.chkCommittedMemPerJ.Checked = True
-                Me.valMemJ.Value = CInt(CInt(pair.Value.Infos.ValueObject) / 1024)
+                Dim value As IntPtr = CType(pair.Value.Infos.ValueObject, IntPtr)
+                Me.valMemJ.Value = CDec(value.ToInt64 / 1024)
             End If
             If pair.Key = "JobTime" Then
                 Me.chkUserModePerJ.Checked = True
-                Me.valUsertimeJ.Value = CInt(CInt(pair.Value.Infos.ValueObject) / 10)
+                Me.valUsertimeJ.Value = CInt(CLng(pair.Value.Infos.ValueObject) / 10)
             End If
             If pair.Key = "KillOnJobClose" Then
                 Me.chkKillOnJobClose.Checked = True
@@ -156,7 +157,8 @@ Public Class frmSetJobLimits
             End If
             If pair.Key = "ProcessMemory" Then
                 Me.chkCommittedMemPerP.Checked = True
-                Me.valMemP.Value = CInt(CInt(pair.Value.Infos.ValueObject) / 1024)
+                Dim value As IntPtr = CType(pair.Value.Infos.ValueObject, IntPtr)
+                Me.valMemP.Value = CDec(value.ToInt64 / 1024)
             End If
             If pair.Key = "ProcessTime" Then
                 Me.chkUserModePerJ.Checked = True
@@ -171,11 +173,13 @@ Public Class frmSetJobLimits
             End If
             If pair.Key = "WorkingSetMin" Then
                 Me.chkMinMaxWS.Checked = True
-                Me.valMinWS.Value = CInt(CInt(pair.Value.Infos.ValueObject) / 1024)
+                Dim value As IntPtr = CType(pair.Value.Infos.ValueObject, IntPtr)
+                Me.valMinWS.Value = CDec(value.ToInt64 / 1024)
             End If
             If pair.Key = "WorkingSetMax" Then
                 Me.chkMinMaxWS.Checked = True
-                Me.valMaxWS.Value = CInt(CInt(pair.Value.Infos.ValueObject) / 1024)
+                Dim value As IntPtr = CType(pair.Value.Infos.ValueObject, IntPtr)
+                Me.valMaxWS.Value = CDec(value.ToInt64 / 1024)
             End If
         Next
 
@@ -310,7 +314,7 @@ Public Class frmSetJobLimits
         End If
         If Me.chkCommittedMemPerJ.Checked = True Then
             flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.JobMemory
-            struct2.JobMemoryLimit = CInt(1024 * Me.valMemJ.Value)
+            struct2.JobMemoryLimit = New IntPtr(CInt(1024 * Me.valMemJ.Value))
         End If
         If Me.chkSilentBAOK.Checked = True Then
             flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.SilentBreakawayOk
@@ -331,7 +335,7 @@ Public Class frmSetJobLimits
         End If
         If Me.chkCommittedMemPerP.Checked = True Then
             flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.ProcessMemory
-            struct2.ProcessMemoryLimit = CInt(1024 * Me.valMemP.Value)
+            struct2.ProcessMemoryLimit = New IntPtr(CInt(1024 * Me.valMemP.Value))
         End If
         If Me.chkUserModePerJ.Checked = True Then
             flag2 = flag2 Or NativeEnums.JobObjectLimitFlags.ProcessTime

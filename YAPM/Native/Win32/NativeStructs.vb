@@ -87,20 +87,6 @@ Namespace Native.Api
             Public IoInfo As IoCounters
         End Structure
 
-        ' http://msdn.microsoft.com/en-us/library/ms684147(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential), Serializable()> _
-        Public Structure JobObjectBasicLimitInformation
-            Public PerProcessUserTimeLimit As Long
-            Public PerJobUserTimeLimit As Long
-            Public LimitFlags As JobObjectLimitFlags
-            Public MinimumWorkingSetSize As IntPtr
-            Public MaximumWorkingSetSize As IntPtr
-            Public ActiveProcessLimit As Integer
-            Public Affinity As IntPtr
-            Public PriorityClass As Integer
-            Public SchedulingClass As Integer
-        End Structure
-
         ' http://msdn.microsoft.com/en-us/library/ms684150(VS.85).aspx
         <StructLayout(LayoutKind.Sequential), Serializable()> _
         Public Structure JobObjectBasicProcessIdList
@@ -116,22 +102,37 @@ Namespace Native.Api
             Public UIRestrictionsClass As NativeEnums.JobObjectBasicUiRestrictions
         End Structure
 
-        ' http://msdn.microsoft.com/en-us/library/ms684156(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential), Serializable()> _
-        Public Structure JobObjectExtendedLimitInformation
-            Public BasicLimitInformation As JobObjectBasicLimitInformation
-            Public IoInfo As IoCounters
-            Public ProcessMemoryLimit As Integer
-            Public JobMemoryLimit As Integer
-            Public PeakProcessMemoryUsed As Integer
-            Public PeakJobMemoryUsed As Integer
-        End Structure
-
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure SecurityAttributes
             Public nLength As Integer
             Public lpSecurityDescriptor As IntPtr
             Public bInheritHandle As Boolean
+        End Structure
+
+        ' http://msdn.microsoft.com/en-us/library/ms684147(VS.85).aspx
+        ' 48 bytes on x86, 64 bytes on x64 with alignment
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
+        Public Structure JobObjectBasicLimitInformation
+            Public PerProcessUserTimeLimit As Long      ' 8 bytes
+            Public PerJobUserTimeLimit As Long          ' 8 bytes
+            Public LimitFlags As JobObjectLimitFlags    ' 4 bytes
+            Public MinimumWorkingSetSize As IntPtr      ' non-fixed bytes
+            Public MaximumWorkingSetSize As IntPtr      ' non-fixed bytes
+            Public ActiveProcessLimit As Integer        ' 4 bytes
+            Public Affinity As IntPtr                   ' non-fixed bytes
+            Public PriorityClass As Integer             ' 4 bytes
+            Public SchedulingClass As Integer           ' 4 bytes
+        End Structure
+
+        ' http://msdn.microsoft.com/en-us/library/ms684156(VS.85).aspx
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
+        Public Structure JobObjectExtendedLimitInformation
+            Public BasicLimitInformation As JobObjectBasicLimitInformation
+            Public IoInfo As IoCounters             ' 48 bytes
+            Public ProcessMemoryLimit As IntPtr     ' non-fixed bytes
+            Public JobMemoryLimit As IntPtr         ' non-fixed bytes
+            Public PeakProcessMemoryUsed As IntPtr  ' non-fixed bytes
+            Public PeakJobMemoryUsed As IntPtr      ' non-fixed bytes
         End Structure
 
 #End Region
