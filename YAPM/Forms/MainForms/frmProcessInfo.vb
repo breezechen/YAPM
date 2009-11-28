@@ -617,6 +617,10 @@ Public Class frmProcessInfo
         ' Parent process exists ?
         Me.cmdGoProcess.Enabled = (cProcess.GetProcessById(curProc.Infos.ParentProcessId) IsNot Nothing)
 
+        ' Wow64 process ?
+        If curProc.IsWow64Process Then
+            Me.GroupBoxProcessInfos.Text = "Wow64 process"
+        End If
 
         ' Add values to perf graphs
         ' Memory usage

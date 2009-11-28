@@ -189,7 +189,7 @@ Partial Class frmProcessInfo
         Me.lblSecurityRisk = New System.Windows.Forms.Label
         Me.cmdGetOnlineInfos = New System.Windows.Forms.Button
         Me.rtbOnlineInfos = New System.Windows.Forms.RichTextBox
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.GroupBoxProcessInfos = New System.Windows.Forms.GroupBox
         Me.cmdGoProcess = New System.Windows.Forms.Button
         Me.txtRunTime = New System.Windows.Forms.TextBox
         Me.txtProcessStarted = New System.Windows.Forms.TextBox
@@ -410,7 +410,7 @@ Partial Class frmProcessInfo
         Me.SplitContainerOnlineInfo.Panel1.SuspendLayout()
         Me.SplitContainerOnlineInfo.Panel2.SuspendLayout()
         Me.SplitContainerOnlineInfo.SuspendLayout()
-        Me.GroupBox1.SuspendLayout()
+        Me.GroupBoxProcessInfos.SuspendLayout()
         Me.gpProcGeneralFile.SuspendLayout()
         CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pctBigIcon, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1260,7 +1260,7 @@ Partial Class frmProcessInfo
         '
         Me.TabPageGeneral.Controls.Add(Me.GroupBox7)
         Me.TabPageGeneral.Controls.Add(Me.GroupBox6)
-        Me.TabPageGeneral.Controls.Add(Me.GroupBox1)
+        Me.TabPageGeneral.Controls.Add(Me.GroupBoxProcessInfos)
         Me.TabPageGeneral.Controls.Add(Me.gpProcGeneralFile)
         Me.TabPageGeneral.Location = New System.Drawing.Point(4, 40)
         Me.TabPageGeneral.Name = "TabPageGeneral"
@@ -1415,28 +1415,28 @@ Partial Class frmProcessInfo
         Me.rtbOnlineInfos.TabIndex = 12
         Me.rtbOnlineInfos.Text = ""
         '
-        'GroupBox1
+        'GroupBoxProcessInfos
         '
-        Me.GroupBox1.Controls.Add(Me.cmdGoProcess)
-        Me.GroupBox1.Controls.Add(Me.txtRunTime)
-        Me.GroupBox1.Controls.Add(Me.txtProcessStarted)
-        Me.GroupBox1.Controls.Add(Me.Label14)
-        Me.GroupBox1.Controls.Add(Me.txtParentProcess)
-        Me.GroupBox1.Controls.Add(Me.Label15)
-        Me.GroupBox1.Controls.Add(Me.txtPriority)
-        Me.GroupBox1.Controls.Add(Me.Label4)
-        Me.GroupBox1.Controls.Add(Me.txtCommandLine)
-        Me.GroupBox1.Controls.Add(Me.Label1)
-        Me.GroupBox1.Controls.Add(Me.txtProcessUser)
-        Me.GroupBox1.Controls.Add(Me.Label17)
-        Me.GroupBox1.Controls.Add(Me.txtProcessId)
-        Me.GroupBox1.Controls.Add(Me.Label16)
-        Me.GroupBox1.Location = New System.Drawing.Point(6, 129)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(376, 142)
-        Me.GroupBox1.TabIndex = 16
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Process"
+        Me.GroupBoxProcessInfos.Controls.Add(Me.cmdGoProcess)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.txtRunTime)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.txtProcessStarted)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.Label14)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.txtParentProcess)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.Label15)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.txtPriority)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.Label4)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.txtCommandLine)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.Label1)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.txtProcessUser)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.Label17)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.txtProcessId)
+        Me.GroupBoxProcessInfos.Controls.Add(Me.Label16)
+        Me.GroupBoxProcessInfos.Location = New System.Drawing.Point(6, 129)
+        Me.GroupBoxProcessInfos.Name = "GroupBoxProcessInfos"
+        Me.GroupBoxProcessInfos.Size = New System.Drawing.Size(376, 142)
+        Me.GroupBoxProcessInfos.TabIndex = 16
+        Me.GroupBoxProcessInfos.TabStop = False
+        Me.GroupBoxProcessInfos.Text = "Process"
         '
         'cmdGoProcess
         '
@@ -3569,8 +3569,8 @@ Partial Class frmProcessInfo
         Me.SplitContainerOnlineInfo.Panel1.PerformLayout()
         Me.SplitContainerOnlineInfo.Panel2.ResumeLayout(False)
         Me.SplitContainerOnlineInfo.ResumeLayout(False)
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
+        Me.GroupBoxProcessInfos.ResumeLayout(False)
+        Me.GroupBoxProcessInfos.PerformLayout()
         Me.gpProcGeneralFile.ResumeLayout(False)
         Me.gpProcGeneralFile.PerformLayout()
         CType(Me.pctSmallIcon, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3628,7 +3628,7 @@ Partial Class frmProcessInfo
     End Sub
     Friend WithEvents tabProcess As System.Windows.Forms.TabControl
     Friend WithEvents TabPageGeneral As System.Windows.Forms.TabPage
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBoxProcessInfos As System.Windows.Forms.GroupBox
     Friend WithEvents txtProcessUser As System.Windows.Forms.TextBox
     Friend WithEvents Label17 As System.Windows.Forms.Label
     Friend WithEvents txtProcessId As System.Windows.Forms.TextBox

@@ -95,7 +95,7 @@ BUGS NON CRITIQUES
 - one graph per CPU -> conserver historique
 - performances (_currentServices et _currentProcesses remplis 2 fois au démarrage -> customLV qui créé des cObject, et asyncEnum aussi)
 - upload virus total
-
+- modules Wow64 en WMI ?
 
 2) Plus tard
 - SBA a réimplémenter
