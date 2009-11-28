@@ -73,8 +73,8 @@ Public Class asyncCallbackServiceEnumerate
         End If
 
         Try
-            'If deg IsNot Nothing AndAlso ctrl.Created Then _
-            ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+            If deg IsNot Nothing AndAlso ctrl.Created Then _
+                ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         End Try
@@ -113,7 +113,8 @@ Public Class asyncCallbackServiceEnumerate
                 res = Wmi.Objects.Service.EnumerateProcesses(pObj.pid, pObj.all, _
                                                              con.wmiSearcher, _dico, msg)
                 Try
-                    ctrl.Invoke(deg, res, _dico, msg, 0)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, res, _dico, msg, 0)
                 Catch ex As Exception
                     Misc.ShowDebugError(ex)
                 End Try
@@ -133,8 +134,8 @@ Public Class asyncCallbackServiceEnumerate
                     End If
                 End If
                 Try
-                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
                 Catch ex As Exception
                     Misc.ShowDebugError(ex)
                 End Try
@@ -148,8 +149,8 @@ Public Class asyncCallbackServiceEnumerate
                                                  pObj.complete, pObj.pid)
 
                 Try
-                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
                 Catch ex As Exception
                     Misc.ShowDebugError(ex)
                 End Try

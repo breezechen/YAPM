@@ -108,8 +108,8 @@ Public Class asyncCallbackWindowEnumerate
                     Next
                 End If
                 Try
-                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
                 Catch ex As Exception
                     Misc.ShowDebugError(ex)
                 End Try
@@ -121,8 +121,12 @@ Public Class asyncCallbackWindowEnumerate
 
                 Native.Objects.Window.EnumerateWindowsByProcessId(pObj.pid, pObj.all, pObj.unnamed, _dico, Program.Parameters.ModeServer)
 
-                If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
 
         End Select
 

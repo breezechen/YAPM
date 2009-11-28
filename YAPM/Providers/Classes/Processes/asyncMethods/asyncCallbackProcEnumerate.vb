@@ -133,8 +133,8 @@ Public Class asyncCallbackProcEnumerate
             Next
         End If
         Try
-            'If deg IsNot Nothing AndAlso ctrl.Created Then _
-            ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+            If deg IsNot Nothing AndAlso ctrl.Created Then _
+                ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         End Try
@@ -172,8 +172,8 @@ Public Class asyncCallbackProcEnumerate
                     Wmi.Objects.Process.EnumerateProcesses(con.wmiSearcher, _dico, msg)
                 
                 Try
-                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
                 Catch ex As Exception
                     Misc.ShowDebugError(ex)
                 End Try
@@ -187,8 +187,8 @@ Public Class asyncCallbackProcEnumerate
                     _dico = snap.Processes
                 End If
                 Try
-                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
                 Catch ex As Exception
                     Misc.ShowDebugError(ex)
                 End Try
@@ -207,8 +207,8 @@ Public Class asyncCallbackProcEnumerate
                 End Select
 
                 Try
-                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
                 Catch ex As Exception
                     Misc.ShowDebugError(ex)
                 End Try

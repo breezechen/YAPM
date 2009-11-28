@@ -62,8 +62,8 @@ Public Class asyncCallbackServDepEnumerate
             Next
         End If
         Try
-            'If deg IsNot Nothing AndAlso ctrl.Created Then _
-            ctrl.Invoke(deg, True, dico, Nothing, _instanceId, type)
+            If deg IsNot Nothing AndAlso ctrl.Created Then _
+                ctrl.Invoke(deg, True, dico, Nothing, _instanceId, type)
         Catch ex As Exception
 
         End Try
@@ -117,11 +117,12 @@ Public Class asyncCallbackServDepEnumerate
                     recursiveAddDep2(pObj.name, pObj.name, _dico)
                 End If
                 Try
-                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId, pObj.type)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId, pObj.type)
                 Catch ex As Exception
-
+                    Misc.ShowDebugError(ex)
                 End Try
+
         End Select
 
         sem.Release()

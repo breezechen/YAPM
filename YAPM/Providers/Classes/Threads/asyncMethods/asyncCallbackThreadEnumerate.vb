@@ -91,9 +91,12 @@ Public Class asyncCallbackThreadEnumerate
                 Dim res As Boolean = _
                         Wmi.Objects.Thread.EnumerateThreadByIds(pObj.pid, con.wmiSearcher, _
                                                                 _dico, msg)
-
-                If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
 
             Case cConnection.TypeOfConnection.SnapshotFile
                 ' Snapshot
@@ -112,8 +115,8 @@ Public Class asyncCallbackThreadEnumerate
                     Next
                 End If
                 Try
-                    'If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
                 Catch ex As Exception
                     Misc.ShowDebugError(ex)
                 End Try
@@ -124,8 +127,12 @@ Public Class asyncCallbackThreadEnumerate
 
                 Native.Objects.Thread.EnumerateThreadsByProcessId(_dico, pObj.pid)
 
-                If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
 
         End Select
 

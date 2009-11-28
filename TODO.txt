@@ -131,3 +131,4 @@ Temp Change log :
 - x64 systems : fixed bad DisplayName/ObjectName/Depedencies information
 - x64 systems : fixed Set/Get JobLimits feature
 - x64 systems : fixed #2891421 (enumeration of processes in job which fail)
+- Say good bye to those damned "Cannot call Invoke or BeginInvoke..." crashes !

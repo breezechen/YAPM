@@ -108,8 +108,12 @@ Public Class asyncCallbackEnvVariableEnumerate
                 Dim _dico As Dictionary(Of String, envVariableInfos) = _
                     SharedLocalSyncEnumerate(pObj)
 
-                If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
 
         End Select
 

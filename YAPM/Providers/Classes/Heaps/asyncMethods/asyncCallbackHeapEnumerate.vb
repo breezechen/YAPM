@@ -106,8 +106,12 @@ Public Class asyncCallbackHeapEnumerate
                 Dim _dico As Dictionary(Of String, heapInfos) = _
                     Native.Objects.Heap.EnumerateHeapsByProcessId(pObj.pid)
 
-                If deg IsNot Nothing AndAlso ctrl.Created Then _
-                    ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Try
+                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
 
         End Select
 
