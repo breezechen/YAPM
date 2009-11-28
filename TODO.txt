@@ -121,6 +121,7 @@ Temp Change log :
 
 * Bug fixed
 - TCP/UDP connections : only display 'remote' column values if remote is not nothing
+- Fixed #2848713 (Index and length must refer to a location within the string)
 - x64 systems : fixed bad CommandLine information
 - x64 systems : fixed bad DisplayName/ObjectName/Depedencies information
 - x64 systems : fixed #2891421 (enumeration of processes in job which fail)
