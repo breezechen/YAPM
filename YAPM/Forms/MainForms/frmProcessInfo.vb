@@ -595,6 +595,7 @@ Public Class frmProcessInfo
         Me.graphIO.Enabled = _notSnapshotMode
         Me.graphMemory.Enabled = _notSnapshotMode
         Me.TabPageString.Enabled = _local
+        Me.cmdActivateHeapEnumeration.Enabled = _notWMI
 
         Me.timerLog.Enabled = Me.timerLog.Enabled And _notWMI And _notSnapshotMode
 
