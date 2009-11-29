@@ -171,10 +171,6 @@
       <HintPath>bin\Release\System.Windows.Forms.Ribbon.dll</HintPath>
     </Reference>
     <Reference Include="System.XML" />
-    <Reference Include="TaskDialog, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\Dll\TaskDialog.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Common" />
@@ -1349,6 +1345,10 @@
     <ProjectReference Include="..\SecurePasswordTextBox\SecurePasswordTextBox.csproj">
       <Project>{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}</Project>
       <Name>SecurePasswordTextBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskDialog\TaskDialog.csproj">
+      <Project>{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}</Project>
+      <Name>TaskDialog</Name>
     </ProjectReference>
     <ProjectReference Include="..\VistaMenu\Control\VistaMenu.csproj">
       <Project>{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}</Project>

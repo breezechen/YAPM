@@ -4,8 +4,7 @@ Refactoring bugs
 
 - virer PtrToStructure et n'utiliser que MemoryAlloc
 
-- continuer heaps (show blocks en bas de la form...)
-- fix signature check (buggy...)
+- jobList affiché en premier puis processes -> fixedInfos pas récupérées (en effet, le dicoProcesses est rempli mais la liste n'est pas mise à jour car processList pas initialiée -> une fois initialisée, ce n'est plus le premier processRefresh. Idem pour services ???)
 
 - snapshot -> serviceDep et processesInJob + désactiver times + gestion historiques + recherche (pb de dico)
 - revoir remote address des connections
