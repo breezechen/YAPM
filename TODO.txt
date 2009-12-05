@@ -2,6 +2,10 @@ TODO LIST
 
 Refactoring bugs
 
+- job enumeration can work even if not admin (xp)
+- cannot enumerate strings in a file on a network dir (works in File but not in Processes->Strings)
+- crash first time I displayed help (IE component failure)
+
 - virer PtrToStructure et n'utiliser que MemoryAlloc
 
 - jobList affiché en premier puis processes -> fixedInfos pas récupérées (en effet, le dicoProcesses est rempli mais la liste n'est pas mise à jour car processList pas initialiée -> une fois initialisée, ce n'est plus le premier processRefresh. Idem pour services ???)
@@ -14,6 +18,7 @@ Refactoring bugs
 - search et log -> enumeration des modules prend pas en compte les wow64
 
 BUGS CRITIQUES
+- memory leak (+5Mo en ouvrant/fermant un fenêtre process/serviceDetails)
 - wow64 information en remote ??
 - add to existing job foireux (extraire le nom du job de la chaine entiere via '\')
 - job par remote (et en wmi, désactiver également Restart with priv)

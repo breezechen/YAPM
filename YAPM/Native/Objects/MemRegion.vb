@@ -95,7 +95,7 @@ Namespace Native.Objects
                                     ByRef _dico As Dictionary(Of String, memRegionInfos))
             Dim lHandle As IntPtr
             Dim lPosMem As IntPtr
-            Dim mbi As Native.Api.NativeStructs.MemoryBasicInformation
+            Dim mbi As New Native.Api.NativeStructs.MemoryBasicInformation
             Dim mbiSize As Integer = Marshal.SizeOf(mbi)
 
             lHandle = Native.Objects.Process.GetProcessHandleById(pid, Security.ProcessAccess.QueryInformation Or _
@@ -103,16 +103,11 @@ Namespace Native.Objects
 
             If lHandle.IsNotNull Then
                 ' We'll exit when VirtualQueryEx will fail
-                Do While True
-                    If Native.Api.NativeFunctions.VirtualQueryEx(lHandle, lPosMem, mbi, mbiSize) > 0 Then
+                Do While Native.Api.NativeFunctions.VirtualQueryEx(lHandle, lPosMem, mbi, mbiSize) <> 0
+                    _dico.Add(mbi.BaseAddress.ToString, _
+                              New memRegionInfos(mbi, pid))
 
-                        _dico.Add(mbi.BaseAddress.ToString, _
-                                  New memRegionInfos(mbi, pid))
-
-                        lPosMem = lPosMem.Increment(mbi.RegionSize)
-                    Else
-                        Exit Do
-                    End If
+                    lPosMem = lPosMem.Increment(mbi.RegionSize)
                 Loop
                 Native.Api.NativeFunctions.CloseHandle(lHandle)
             End If
