@@ -340,6 +340,9 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub frmProcessInfo_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+
+        Me.Visible = False
+
         ' Save columns infos before closing
         Pref.SaveListViewColumns(Me.lvLog, "COLprocdetail_log")
         Pref.SaveListViewColumns(Me.lvHandles, "COLprocdetail_handle")
@@ -362,6 +365,38 @@ Public Class frmProcessInfo
         If _dbgBuffer IsNot Nothing Then
             _dbgBuffer.Dispose()
         End If
+
+        ' Dispose other objects
+        If cRW IsNot Nothing Then
+            cRW.Dispose()
+        End If
+        If _asyncDlThread IsNot Nothing Then
+            _asyncDlThread.Abort()
+        End If
+
+        If Me.pctBigIcon.Image IsNot Nothing Then
+            Me.pctBigIcon.Image.Dispose()
+        End If
+        If Me.pctSmallIcon.Image IsNot Nothing Then
+            Me.pctSmallIcon.Image.Dispose()
+        End If
+
+        Me.lvHandles.ClearItems()
+        Me.lvHeaps.ClearItems()
+        Me.lvLog.ClearItems()
+        Me.lvModules.ClearItems()
+        Me.lvPrivileges.ClearItems()
+        Me.lvProcEnv.ClearItems()
+        Me.lvProcMem.ClearItems()
+        Me.lvProcNetwork.ClearItems()
+        Me.lvProcServices.ClearItems()
+        Me.lvProcString.Clear()
+        Me.lvThreads.ClearItems()
+        Me.lvWindows.ClearItems()
+        Me._logDico.Clear()
+        ReDim __lRes(0)
+        ReDim __sRes(0)
+
     End Sub
 
     Private Sub frmProcessInfo_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp

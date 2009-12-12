@@ -24,7 +24,7 @@ Imports System.Windows.Forms
 Imports Native.Api
 
 Public Class ProcessRW
-
+    Implements IDisposable
 
     Private Const SIZE_FOR_STRING As Integer = 5
 
@@ -68,7 +68,9 @@ Public Class ProcessRW
         MyBase.Finalize()
         Native.Objects.General.CloseHandle(_handle)
     End Sub
-
+    Public Sub Dispose() Implements IDisposable.Dispose
+        MyBase.Finalize()
+    End Sub
 
     ' Read in memory
     Public Function ReadInt32Array(ByVal offset As IntPtr, _

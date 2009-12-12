@@ -26,6 +26,7 @@ Imports Native.Api.Structs
 
 Public Class cProcess
     Inherits cGeneralObject
+    Implements IDisposable
 
 #Region "History structure"
 
@@ -135,6 +136,9 @@ Public Class cProcess
                 _tokenHandle = Native.Objects.Token.GetProcessTokenHandleByProcessHandle(_handleQueryInfo, Native.Security.TokenAccess.Query)
             End If
         End If
+    End Sub
+    Public Sub Dispose() Implements IDisposable.Dispose
+        MyBase.Finalize()
     End Sub
 
     Protected Overrides Sub Finalize()
@@ -1769,10 +1773,10 @@ Public Class cProcess
         _hlProcessService = service
         _hlProcessSystem = system
     End Sub
-    Public Shared Sub SetHighlightingsColor(ByVal debug As color, ByVal job As color, _
-                                       ByVal elev As color, ByVal critic As color, _
-                                       ByVal owned As color, ByVal system As color, _
-                                       ByVal service As color)
+    Public Shared Sub SetHighlightingsColor(ByVal debug As Color, ByVal job As Color, _
+                                       ByVal elev As Color, ByVal critic As Color, _
+                                       ByVal owned As Color, ByVal system As Color, _
+                                       ByVal service As Color)
         _hlProcessBeingDebuggedColor = debug
         _hlProcessCriticalColor = critic
         _hlProcessElevatedColor = elev

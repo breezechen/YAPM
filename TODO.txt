@@ -123,20 +123,6 @@ Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
 
 * NEW / Improvements
-- Added massive signature check feature
-- Now can create snapshot file from command line (-ssfile "FILE_PATH")
-- Optimized Service enumeration
 - Added LoadCount information for modules
-- Added Job Enumeration when using WMI connection
-- x64 systems : added "IsWow64" information (and displays "* 32")
-- x64 systems : now module enumeration for Wow64 processes is OK
 
 * Bug fixed
-- TCP/UDP connections : only display 'remote' column values if remote is not nothing
-- Fixed #2848713 (Index and length must refer to a location within the string)
-- Fixed "IsDebuggerPresent" information
-- x64 systems : fixed bad CommandLine information
-- x64 systems : fixed bad DisplayName/ObjectName/Depedencies information
-- x64 systems : fixed Set/Get JobLimits feature
-- x64 systems : fixed #2891421 (enumeration of processes in job which fail)
-- Say good bye to those damned "Cannot call Invoke or BeginInvoke..." crashes !

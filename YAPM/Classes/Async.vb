@@ -18,11 +18,6 @@
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
 
-' This code is based on a work from marcel heeremans : 
-' http://www.codeproject.com/KB/IP/TwoWayRemoting.aspx?msg=3199726#xx3199726xx
-' which is under the Code Project Open License (CPOL) 1.02
-' Please refer to license.rtf for details about this license.
-
 Option Strict On
 
 Namespace Async
