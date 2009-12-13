@@ -2,6 +2,8 @@ TODO LIST
 
 Refactoring bugs
 
+- WMI (au moins) : création de processus : inversion du message d'erreur (affiché quand OK et pas quand KO)
+
 - job enumeration can work even if not admin (xp)
 - cannot enumerate strings in a file on a network dir (works in File but not in Processes->Strings)
 - crash first time I displayed help (IE component failure)

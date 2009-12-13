@@ -50,9 +50,7 @@ Source: ..\..\YAPM\bin\BuildZipRelease\Bin\launch server.bat; DestDir: {app}; Fl
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\license.rtf; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\README.txt; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\YAPM\bin\BuildZipRelease\Bin\{#MyAppExeName}; DestDir: {app}; Flags: ignoreversion
-Source: ..\..\Website\help_static.html; DestDir: {app}\Help\; Flags: ignoreversion
-Source: ..\..\Website\styles.css; DestDir: {app}\Help\; Flags: ignoreversion
-Source: ..\..\Website\Images\icon.png; DestDir: {app}\Help\Images\; Flags: ignoreversion
+Source: ..\..\YAPM\bin\BuildZipRelease\Bin\Help\*; DestDir: {app}\Help\; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -116,13 +114,13 @@ begin
 		else
 		begin
 			Result := False;
-			ShellExec('open', 'http://download.microsoft.com/download/7/0/3/703455ee-a747-4cc8-bd3e-98a615c3aedb/dotNetFx35setup.exe', '', '', SW_SHOWNORMAL, ewNoWait, errRes);
+			ShellExec('open', 'http://download.microsoft.com/download/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe', '', '', SW_SHOWNORMAL, ewNoWait, errRes);
 		end;
 	end;
 end;
 
 [CustomMessages]
-noDotNetInstalled =YAPM {#MyAppVer} requires Microsoft .Net Framework 3.5 to work. Please install .Net Framework 3.5 and then try to install YAPM again. Would you like to download .Net Framework 3.5 now ?
+noDotNetInstalled =YAPM {#MyAppVer} requires Microsoft .Net Framework 2.0 to work. Please install .Net Framework 2.0 and then try to install YAPM again. Would you like to download .Net Framework 2.0 now ?
 OtherTasks =Other tasks
 RestoreTaskmgr =Restore Windows task manager
 ReplaceTaskmgr =Replace Windows task manager
