@@ -48,30 +48,30 @@ Namespace Wmi.Objects
                         ByRef msgError As String) As Boolean
 
             Try
-                Dim res As WBEMSTATUS
-                Dim param As WMI_SHUTDOWN_VALUES
+                Dim res As WBEMStatus
+                Dim param As WmiShutdownValues
                 If force Then
-                    param = param Or WMI_SHUTDOWN_VALUES.Force
+                    param = param Or WmiShutdownValues.Force
                 End If
                 Select Case type
                     Case ShutdownType.Logoff
-                        param = param Or WMI_SHUTDOWN_VALUES.LogOff
+                        param = param Or WmiShutdownValues.LogOff
                     Case ShutdownType.Poweroff
-                        param = param Or WMI_SHUTDOWN_VALUES.PowerOff
+                        param = param Or WmiShutdownValues.PowerOff
                     Case ShutdownType.Restart
-                        param = param Or WMI_SHUTDOWN_VALUES.Reboot
+                        param = param Or WmiShutdownValues.Reboot
                     Case ShutdownType.Shutdown
-                        param = param Or WMI_SHUTDOWN_VALUES.Shutdown
+                        param = param Or WmiShutdownValues.Shutdown
                 End Select
                 Dim obj(0) As Object
                 obj(0) = CObj(param)
                 For Each osObj As ManagementObject In objSearcher.Get
-                    res = CType(osObj.InvokeMethod("Win32Shutdown", obj), WBEMSTATUS)
+                    res = CType(osObj.InvokeMethod("Win32Shutdown", obj), WBEMStatus)
                     Exit For
                 Next
 
                 msgError = res.ToString
-                Return (res = WBEMSTATUS.WBEM_NO_ERROR)
+                Return (res = WBEMStatus.WBEM_NO_ERROR)
             Catch ex As Exception
                 msgError = ex.Message
                 Return False

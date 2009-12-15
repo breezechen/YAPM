@@ -38,16 +38,16 @@ Public Class cRegMonitor
 
     Private _hEvent As IntPtr
     Private _hKey As IntPtr
-    Private _type As Native.Api.NativeEnums.KEY_MONITORING_TYPE
+    Private _type As Native.Api.NativeEnums.KeyMonitoringType
     Private _keys() As String
     Private _ss() As String
     Private _path As String
-    Private _kt As Native.Api.NativeEnums.KEY_TYPE
+    Private _kt As Native.Api.NativeEnums.KeyType
     Public _t As Thread
 
     ' Constructor
-    Public Sub New(ByVal KeyType As Native.Api.NativeEnums.KEY_TYPE, ByVal path As String, ByVal monType As  _
-            Native.Api.NativeEnums.KEY_MONITORING_TYPE)
+    Public Sub New(ByVal KeyType As Native.Api.NativeEnums.KeyType, ByVal path As String, ByVal monType As  _
+            Native.Api.NativeEnums.KeyMonitoringType)
 
         ' Launch event waiting
         _kt = KeyType
@@ -83,7 +83,7 @@ Public Class cRegMonitor
 
             ' Wait for modification
             If Native.Api.NativeFunctions.WaitForSingleObject(_hEvent, Native.Api.NativeConstants.WAIT_INFINITE) = _
-                    Native.Api.NativeEnums.WaitResult.WAIT_FAILED Then
+                    Native.Api.NativeEnums.WaitResult.Failed Then
                 ' Buggy
             Else
                 ' Changed

@@ -309,7 +309,7 @@ Namespace Native.Objects
 
             Dim Net As New Api.NativeStructs.NetResource
             With Net
-                .dwType = NativeEnums.NetResourceType.RESOURCETYPE_ANY
+                .dwType = NativeEnums.NetResourceType.Any
                 .lpProvider = Nothing
                 .lpLocalName = Nothing
                 .lpRemoteName = "\\" & machineName & "\IPC$"

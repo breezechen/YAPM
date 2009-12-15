@@ -57,38 +57,38 @@ Namespace Wmi.Objects
 
                     Dim obj As New Native.Api.NativeStructs.SystemProcessInformation
                     With obj
-                        .BasePriority = CInt(refProcess.Item(WMI_INFO_PROCESS.Priority.ToString))
-                        .HandleCount = CInt(refProcess.Item(WMI_INFO_PROCESS.HandleCount.ToString))
-                        .InheritedFromProcessId = CInt(refProcess.Item(WMI_INFO_PROCESS.ParentProcessId.ToString))
+                        .BasePriority = CInt(refProcess.Item(WmiInfoProcess.Priority.ToString))
+                        .HandleCount = CInt(refProcess.Item(WmiInfoProcess.HandleCount.ToString))
+                        .InheritedFromProcessId = CInt(refProcess.Item(WmiInfoProcess.ParentProcessId.ToString))
                         Dim _IO As New Native.Api.NativeStructs.IoCounters
                         With _IO
-                            .OtherOperationCount = CULng(refProcess.Item(WMI_INFO_PROCESS.OtherOperationCount.ToString))
-                            .OtherTransferCount = CULng(refProcess.Item(WMI_INFO_PROCESS.OtherTransferCount.ToString))
-                            .ReadOperationCount = CULng(refProcess.Item(WMI_INFO_PROCESS.ReadOperationCount.ToString))
-                            .ReadTransferCount = CULng(refProcess.Item(WMI_INFO_PROCESS.ReadTransferCount.ToString))
-                            .WriteOperationCount = CULng(refProcess.Item(WMI_INFO_PROCESS.WriteOperationCount.ToString))
-                            .WriteTransferCount = CULng(refProcess.Item(WMI_INFO_PROCESS.WriteTransferCount.ToString))
+                            .OtherOperationCount = CULng(refProcess.Item(WmiInfoProcess.OtherOperationCount.ToString))
+                            .OtherTransferCount = CULng(refProcess.Item(WmiInfoProcess.OtherTransferCount.ToString))
+                            .ReadOperationCount = CULng(refProcess.Item(WmiInfoProcess.ReadOperationCount.ToString))
+                            .ReadTransferCount = CULng(refProcess.Item(WmiInfoProcess.ReadTransferCount.ToString))
+                            .WriteOperationCount = CULng(refProcess.Item(WmiInfoProcess.WriteOperationCount.ToString))
+                            .WriteTransferCount = CULng(refProcess.Item(WmiInfoProcess.WriteTransferCount.ToString))
                         End With
                         .IoCounters = _IO
-                        .KernelTime = CLng(refProcess.Item(WMI_INFO_PROCESS.KernelModeTime.ToString))
-                        .NumberOfThreads = CInt(refProcess.Item(WMI_INFO_PROCESS.ThreadCount.ToString))
-                        .ProcessId = CInt(refProcess.Item(WMI_INFO_PROCESS.ProcessId.ToString))
+                        .KernelTime = CLng(refProcess.Item(WmiInfoProcess.KernelModeTime.ToString))
+                        .NumberOfThreads = CInt(refProcess.Item(WmiInfoProcess.ThreadCount.ToString))
+                        .ProcessId = CInt(refProcess.Item(WmiInfoProcess.ProcessId.ToString))
                         '.SessionId                 ' NOT IMPLEMENTED
-                        .UserTime = CLng(refProcess.Item(WMI_INFO_PROCESS.UserModeTime.ToString))
+                        .UserTime = CLng(refProcess.Item(WmiInfoProcess.UserModeTime.ToString))
                         Dim _VM As New Native.Api.NativeStructs.VmCountersEx
                         With _VM
-                            .PageFaultCount = CInt(refProcess.Item(WMI_INFO_PROCESS.PageFaults.ToString))
-                            .PagefileUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.PageFileUsage.ToString)))
-                            .PeakPagefileUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.PeakPageFileUsage.ToString)))
-                            .PeakVirtualSize = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.PeakVirtualSize.ToString)))
-                            .PeakWorkingSetSize = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.PeakWorkingSetSize.ToString)))
-                            .PrivateBytes = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.PrivatePageCount.ToString)))
-                            .QuotaNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.QuotaNonPagedPoolUsage.ToString)))
-                            .QuotaPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.QuotaPagedPoolUsage.ToString)))
-                            .QuotaPeakNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.QuotaPeakNonPagedPoolUsage.ToString)))
-                            .QuotaPeakPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.QuotaPeakPagedPoolUsage.ToString)))
-                            .VirtualSize = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.VirtualSize.ToString)))
-                            .WorkingSetSize = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.WorkingSetSize.ToString)))
+                            .PageFaultCount = CInt(refProcess.Item(WmiInfoProcess.PageFaults.ToString))
+                            .PagefileUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PageFileUsage.ToString)))
+                            .PeakPagefileUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakPageFileUsage.ToString)))
+                            .PeakVirtualSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakVirtualSize.ToString)))
+                            .PeakWorkingSetSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakWorkingSetSize.ToString)))
+                            .PrivateBytes = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PrivatePageCount.ToString)))
+                            .QuotaNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaNonPagedPoolUsage.ToString)))
+                            .QuotaPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPagedPoolUsage.ToString)))
+                            .QuotaPeakNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPeakNonPagedPoolUsage.ToString)))
+                            .QuotaPeakPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPeakPagedPoolUsage.ToString)))
+                            .VirtualSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.VirtualSize.ToString)))
+                            .WorkingSetSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.WorkingSetSize.ToString)))
                         End With
                         .VirtualMemoryCounters = _VM
                     End With
@@ -98,7 +98,7 @@ Namespace Wmi.Objects
                     Dim _procInfos As New processInfos(obj, CStr(refProcess.Item("Name")))
                     If Native.Objects.Process.NewProcesses.ContainsKey(obj.ProcessId) = False Then
                         With _procInfos
-                            .Path = CStr(refProcess.Item(WMI_INFO_PROCESS.ExecutablePath.ToString))
+                            .Path = CStr(refProcess.Item(WmiInfoProcess.ExecutablePath.ToString))
 
                             Dim s1(1) As String
                             Try
@@ -159,7 +159,7 @@ Namespace Wmi.Objects
             Try
                 ' Enumerate processes and find current process
                 For Each tmpMngObj As Management.ManagementObject In objSearcher.Get
-                    If pid = CInt(tmpMngObj.GetPropertyValue(WMI_INFO_PROCESS.ProcessId.ToString)) Then
+                    If pid = CInt(tmpMngObj.GetPropertyValue(WmiInfoProcess.ProcessId.ToString)) Then
                         refProcess = tmpMngObj
                         Exit For
                     End If
@@ -174,38 +174,38 @@ Namespace Wmi.Objects
             If refProcess IsNot Nothing Then
 
                 With _newInfos
-                    .BasePriority = CInt(refProcess.Item(WMI_INFO_PROCESS.Priority.ToString))
-                    .HandleCount = CInt(refProcess.Item(WMI_INFO_PROCESS.HandleCount.ToString))
+                    .BasePriority = CInt(refProcess.Item(WmiInfoProcess.Priority.ToString))
+                    .HandleCount = CInt(refProcess.Item(WmiInfoProcess.HandleCount.ToString))
                     '.InheritedFromProcessId = CInt(refProcess.Item(API.WMI_INFO.ParentProcessId.ToString))
                     Dim _IO As New Native.Api.NativeStructs.IoCounters
                     With _IO
-                        .OtherOperationCount = CULng(refProcess.Item(WMI_INFO_PROCESS.OtherOperationCount.ToString))
-                        .OtherTransferCount = CULng(refProcess.Item(WMI_INFO_PROCESS.OtherTransferCount.ToString))
-                        .ReadOperationCount = CULng(refProcess.Item(WMI_INFO_PROCESS.ReadOperationCount.ToString))
-                        .ReadTransferCount = CULng(refProcess.Item(WMI_INFO_PROCESS.ReadTransferCount.ToString))
-                        .WriteOperationCount = CULng(refProcess.Item(WMI_INFO_PROCESS.WriteOperationCount.ToString))
-                        .WriteTransferCount = CULng(refProcess.Item(WMI_INFO_PROCESS.WriteTransferCount.ToString))
+                        .OtherOperationCount = CULng(refProcess.Item(WmiInfoProcess.OtherOperationCount.ToString))
+                        .OtherTransferCount = CULng(refProcess.Item(WmiInfoProcess.OtherTransferCount.ToString))
+                        .ReadOperationCount = CULng(refProcess.Item(WmiInfoProcess.ReadOperationCount.ToString))
+                        .ReadTransferCount = CULng(refProcess.Item(WmiInfoProcess.ReadTransferCount.ToString))
+                        .WriteOperationCount = CULng(refProcess.Item(WmiInfoProcess.WriteOperationCount.ToString))
+                        .WriteTransferCount = CULng(refProcess.Item(WmiInfoProcess.WriteTransferCount.ToString))
                     End With
                     .IoCounters = _IO
-                    .KernelTime = CLng(refProcess.Item(WMI_INFO_PROCESS.KernelModeTime.ToString))
-                    .NumberOfThreads = CInt(refProcess.Item(WMI_INFO_PROCESS.ThreadCount.ToString))
+                    .KernelTime = CLng(refProcess.Item(WmiInfoProcess.KernelModeTime.ToString))
+                    .NumberOfThreads = CInt(refProcess.Item(WmiInfoProcess.ThreadCount.ToString))
                     '.ProcessId = CInt(refProcess.Item(API.WMI_INFO.ProcessId.ToString))
                     '.SessionId                 ' NOT IMPLEMENTED
-                    .UserTime = CLng(refProcess.Item(WMI_INFO_PROCESS.UserModeTime.ToString))
+                    .UserTime = CLng(refProcess.Item(WmiInfoProcess.UserModeTime.ToString))
                     Dim _VM As New Native.Api.NativeStructs.VmCountersEx
                     With _VM
-                        .PageFaultCount = CInt(refProcess.Item(WMI_INFO_PROCESS.PageFaults.ToString))
-                        .PagefileUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.PageFileUsage.ToString)))
-                        .PeakPagefileUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.PeakPageFileUsage.ToString)))
-                        .PeakVirtualSize = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.PeakVirtualSize.ToString)))
-                        .PeakWorkingSetSize = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.PeakWorkingSetSize.ToString)))
-                        .PrivateBytes = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.PrivatePageCount.ToString)))
-                        .QuotaNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.QuotaNonPagedPoolUsage.ToString)))
-                        .QuotaPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.QuotaPagedPoolUsage.ToString)))
-                        .QuotaPeakNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.QuotaPeakNonPagedPoolUsage.ToString)))
-                        .QuotaPeakPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.QuotaPeakPagedPoolUsage.ToString)))
-                        .VirtualSize = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.VirtualSize.ToString)))
-                        .WorkingSetSize = New IntPtr(CInt(refProcess.Item(WMI_INFO_PROCESS.WorkingSetSize.ToString)))
+                        .PageFaultCount = CInt(refProcess.Item(WmiInfoProcess.PageFaults.ToString))
+                        .PagefileUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PageFileUsage.ToString)))
+                        .PeakPagefileUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakPageFileUsage.ToString)))
+                        .PeakVirtualSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakVirtualSize.ToString)))
+                        .PeakWorkingSetSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakWorkingSetSize.ToString)))
+                        .PrivateBytes = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PrivatePageCount.ToString)))
+                        .QuotaNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaNonPagedPoolUsage.ToString)))
+                        .QuotaPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPagedPoolUsage.ToString)))
+                        .QuotaPeakNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPeakNonPagedPoolUsage.ToString)))
+                        .QuotaPeakPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPeakPagedPoolUsage.ToString)))
+                        .VirtualSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.VirtualSize.ToString)))
+                        .WorkingSetSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.WorkingSetSize.ToString)))
                     End With
                     .VirtualMemoryCounters = _VM
                 End With
@@ -278,7 +278,7 @@ Namespace Wmi.Objects
             Try
                 Dim res As WmiProcessReturnCode
                 For Each srv As ManagementObject In objSearcher.Get
-                    If CInt(srv.GetPropertyValue(WMI_INFO_PROCESS.ProcessId.ToString)) = pid Then
+                    If CInt(srv.GetPropertyValue(WmiInfoProcess.ProcessId.ToString)) = pid Then
                         Dim inParams As ManagementBaseObject = srv.GetMethodParameters("SetPriority")
                         inParams("Priority") = lvl
                         Dim outParams As ManagementBaseObject = srv.InvokeMethod("SetPriority", inParams, Nothing)

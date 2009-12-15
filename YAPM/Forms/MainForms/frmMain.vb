@@ -353,8 +353,8 @@ Public Class frmMain
 
         PROCESSOR_COUNT = Program.SystemInfo.ProcessorCount
 
-        creg = New cRegMonitor(Native.Api.NativeEnums.KEY_TYPE.HKEY_LOCAL_MACHINE, "SYSTEM\CurrentControlSet\Services", _
-                Native.Api.NativeEnums.KEY_MONITORING_TYPE.REG_NOTIFY_CHANGE_NAME)
+        creg = New cRegMonitor(Native.Api.NativeEnums.KeyType.LocalMachine, "SYSTEM\CurrentControlSet\Services", _
+                Native.Api.NativeEnums.KeyMonitoringType.ChangeName)
 
         With Me.graphMonitor
             .ColorMemory1 = Color.Yellow

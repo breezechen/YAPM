@@ -56,9 +56,9 @@ Namespace Native.Functions
 
         ' Set a listview as 'double buffered'
         Public Shared Sub SetListViewAsDoubleBuffered(ByRef lv As ListView)
-            Dim styles As IntPtr = Native.Api.NativeFunctions.SendMessage(lv.Handle, Native.Api.NativeEnums.LVM.LVM_GETEXTENDEDLISTVIEWSTYLE, IntPtr.Zero, IntPtr.Zero)
-            styles = CType(styles.ToInt32 Or Native.Api.NativeEnums.LvsEx.LVS_EX_DOUBLEBUFFER Or Native.Api.NativeEnums.LvsEx.LVS_EX_BORDERSELECT, IntPtr)
-            Native.Api.NativeFunctions.SendMessage(lv.Handle, Native.Api.NativeEnums.LVM.LVM_SETEXTENDEDLISTVIEWSTYLE, IntPtr.Zero, styles)
+            Dim styles As IntPtr = Native.Api.NativeFunctions.SendMessage(lv.Handle, Native.Api.NativeEnums.LVM.GetExtendedListviewStyle, IntPtr.Zero, IntPtr.Zero)
+            styles = CType(styles.ToInt32 Or Native.Api.NativeEnums.LvsEx.DoubleBuffer Or Native.Api.NativeEnums.LvsEx.BorderSelect, IntPtr)
+            Native.Api.NativeFunctions.SendMessage(lv.Handle, Native.Api.NativeEnums.LVM.SetExtendedListviewStyle, IntPtr.Zero, styles)
         End Sub
 
 

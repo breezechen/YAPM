@@ -124,7 +124,7 @@ Public Class asyncCallbackTaskEnumerate
         Dim _dico As New Dictionary(Of String, windowInfos)
 
         currWnd = Window.GetWindow(Window.GetDesktopWindow, _
-                                    Native.Api.NativeEnums.GetWindowCmd.GW_CHILD)
+                                    Native.Api.NativeEnums.GetWindowCmd.Child)
         cpt = 0
         Do While currWnd.IsNotNull
 
@@ -149,7 +149,7 @@ Public Class asyncCallbackTaskEnumerate
             End If
 
             currWnd = Window.GetWindow(currWnd, _
-                                    Native.Api.NativeEnums.GetWindowCmd.GW_HWNDNEXT)
+                                    Native.Api.NativeEnums.GetWindowCmd.[Next])
         Loop
 
         Return _dico

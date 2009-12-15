@@ -1345,7 +1345,7 @@ Namespace Native.Api
         Public Structure KBDLLHOOKSTRUCT
             Public vkCode As Integer
             Public scanCode As Integer
-            Public flags As KBDLLHOOKSTRUCTFlags
+            Public flags As KBDLLHookStructFlags
             Public time As Integer
             Public dwExtraInfo As IntPtr
         End Structure

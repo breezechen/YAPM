@@ -27,28 +27,7 @@ Namespace Native.Api
 
 #Region "Declarations used for processes"
 
-        Public Const DUPLICATE_SAME_ACCESS As Integer = &H2
-
         Public Const STILL_ACTIVE As Integer = 259
-
-        Public Const PROCESS_SET_INFORMATION As Integer = &H200
-        Public Const PROCESS_SUSPEND_RESUME As Integer = &H800
-        Public Const PROCESS_QUERY_INFORMATION As Integer = &H400
-        Public Const PROCESS_TERMINATE As Integer = &H1
-        Public Const PROCESS_SET_QUOTA As Integer = &H100
-        Public Const PROCESS_CREATE_THREAD As Integer = &H2
-        Public Const PROCESS_VM_OPERATION As Integer = &H8
-        Public Const PROCESS_VM_READ As Integer = &H10
-        Public Const PROCESS_VM_WRITE As Integer = &H20
-
-#End Region
-
-#Region "Declarations used for tokens & privileges"
-
-        Public Const SE_PRIVILEGE_ENABLED As Integer = &H2
-        Public Const SE_PRIVILEGE_ENABLED_BY_DEFAULT As Integer = &H1
-        Public Const SE_PRIVILEGE_DISBALED As Integer = &H0
-        Public Const SE_PRIVILEGE_REMOVED As Integer = &H4
 
 #End Region
 
@@ -59,10 +38,6 @@ Namespace Native.Api
         Public Const PAGE_READWRITE As Integer = &H4
         Public Const SECTION_MAP_READ As Integer = &H4
         Public Const SECTION_MAP_WRITE As Integer = &H2
-
-        Public Const SEE_MASK_INVOKEIDLIST As Integer = &HC
-        Public Const SEE_MASK_NOCLOSEPROCESS As Integer = &H40
-        Public Const SEE_MASK_FLAG_NO_UI As Integer = &H400
 
         Public Const SHGFI_ICON As Integer = &H100
         Public Const SHGFI_SMALLICON As Integer = &H1
@@ -104,39 +79,6 @@ Namespace Native.Api
         Public Const WS_EX_LAYERED As Integer = &H80000
         Public Const LWA_COLORKEY As Integer = &H1
         Public Const LWA_ALPHA As Integer = &H2
-
-#End Region
-
-        ' OK
-#Region "Declarations used for services"
-
-        Public Const SERVICE_NO_CHANGE As Integer = &HFFFFFFFF
-
-        Public Const ERROR_MORE_DATA As Integer = 234
-        Public Const SC_ENUM_PROCESS_INFO As Integer = &H0
-        Public Const SC_MANAGER_ENUMERATE_SERVICE As Integer = &H4
-
-        Public Const SC_STATUS_PROCESS_INFO As Integer = 0
-        Public Const SERVICE_ACTIVE As Integer = &H1
-        Public Const SERVICE_INACTIVE As Integer = &H2
-        Public Const SERVICE_STATE_ALL As Integer = (SERVICE_ACTIVE Or SERVICE_INACTIVE)
-        Public Const SERVICE_ADAPTER As Integer = &H4
-        Public Const SERVICE_WIN32_OWN_PROCESS As Integer = &H10
-        Public Const SERVICE_WIN32_SHARE_PROCESS As Integer = &H20
-        Public Const SERVICE_WIN32 As Integer = SERVICE_WIN32_OWN_PROCESS + SERVICE_WIN32_SHARE_PROCESS
-
-        Public Const SERVICE_DRIVER As Integer = &HB
-        Public Const SERVICE_INTERACTIVE_PROCESS As Integer = &H100
-        Public Const SERVICE_ALL As Integer = SERVICE_DRIVER Or SERVICE_WIN32_OWN_PROCESS Or _
-                SERVICE_WIN32_SHARE_PROCESS Or SERVICE_WIN32 Or SERVICE_INTERACTIVE_PROCESS
-
-        Public Const STANDARD_RIGHTS_REQUIRED As Integer = &HF0000
-        Public Const SC_MANAGER_CONNECT As Integer = &H1
-        Public Const SC_MANAGER_CREATE_SERVICE As Integer = &H2
-        Public Const SC_MANAGER_LOCK As Integer = &H8
-        Public Const SC_MANAGER_QUERY_LOCK_STATUS As Integer = &H10
-        Public Const SC_MANAGER_MODIFY_BOOT_CONFIG As Integer = &H20
-        Public Const SC_MANAGER_ALL_ACCESS As Integer = (STANDARD_RIGHTS_REQUIRED + SC_MANAGER_CONNECT + SC_MANAGER_CREATE_SERVICE + SC_MANAGER_ENUMERATE_SERVICE + SC_MANAGER_LOCK + SC_MANAGER_QUERY_LOCK_STATUS + SC_MANAGER_MODIFY_BOOT_CONFIG)
 
 #End Region
 

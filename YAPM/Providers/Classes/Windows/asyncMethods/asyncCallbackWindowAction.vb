@@ -141,7 +141,7 @@ Public Class asyncCallbackWindowAction
                     Case AsyncWindowAction.Close
                         res = Window.CloseWindowByHandle(pObj.handle)
                     Case AsyncWindowAction.Flash
-                        res = Window.FlashWindowByHandle(pObj.handle, Native.Api.NativeEnums.FlashWInfoFlags.FLASHW_ALL)
+                        res = Window.FlashWindowByHandle(pObj.handle, Native.Api.NativeEnums.FlashWInfoFlags.All)
                     Case AsyncWindowAction.Hide
                         res = Window.HideWindowByHandle(pObj.handle)
                     Case AsyncWindowAction.Maximize
@@ -161,7 +161,7 @@ Public Class asyncCallbackWindowAction
                     Case AsyncWindowAction.Show
                         res = Window.ShowWindowByHandle(pObj.handle)
                     Case AsyncWindowAction.StopFlashing
-                        res = Window.FlashWindowByHandle(pObj.handle, Native.Api.NativeEnums.FlashWInfoFlags.FLASHW_STOP, 0)
+                        res = Window.FlashWindowByHandle(pObj.handle, Native.Api.NativeEnums.FlashWInfoFlags.[Stop], 0)
                     Case AsyncWindowAction.SetPosition
                         res = Window.SetWindowPositionAndSizeByHandle(pObj.handle, pObj.r)
                     Case AsyncWindowAction.SetCaption

@@ -116,11 +116,11 @@ Namespace Native.Api
             InvalidParameter = 21
         End Enum
 
-        Public Enum WMI_INFO_JOB
+        Public Enum WmiInfoJob
             CollectionID
         End Enum
 
-        Public Enum WMI_INFO_SERVICE
+        Public Enum WmiInfoService
             AcceptPause
             AcceptStop
             CheckPoint
@@ -143,7 +143,7 @@ Namespace Native.Api
             WaitHint
         End Enum
 
-        Public Enum SERVICE_RETURN_CODE_WMI
+        Public Enum WmiServiceReturnCode
             Success = 0
             NotSupported = 1
             AccessDenied = 2
@@ -171,7 +171,7 @@ Namespace Native.Api
             ServiceAlreadyPaused = 24
         End Enum
 
-        Public Enum WMI_SHUTDOWN_VALUES As Integer
+        Public Enum WmiShutdownValues As Integer
             [LogOff] = 0
             [Shutdown] = 1
             [Reboot] = 2
@@ -179,7 +179,7 @@ Namespace Native.Api
             [Force] = 4
         End Enum
 
-        Public Enum WBEMSTATUS
+        Public Enum WBEMStatus
             WBEM_NO_ERROR = 0
             WBEM_S_NO_ERROR = 0
             WBEM_S_SAME = 0
@@ -375,7 +375,7 @@ Namespace Native.Api
             WBEMMOF_E_INVALID_DELETECLASS_SYNTAX = &H80044031
         End Enum
 
-        Public Enum WMI_INFO_PROCESS
+        Public Enum WmiInfoProcess
             'Caption
             CommandLine
             'CreationClassName
@@ -423,7 +423,7 @@ Namespace Native.Api
             WriteTransferCount
         End Enum
 
-        Public Enum WMI_INFO_THREAD
+        Public Enum WmiInfoThread
             ElapsedTime
             ExecutionState
             Handle

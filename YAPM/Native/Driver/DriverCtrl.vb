@@ -130,10 +130,10 @@ Namespace Native.Driver
         ' Get a handle to our driver
         Public Function OpenDriver() As IntPtr
             Return NativeFunctions.CreateFile("\\.\" & mvarServiceName, _
-                             NativeEnums.EFileAccess._GenericRead Or NativeEnums.EFileAccess._GenericWrite, _
-                             NativeEnums.EFileShare._Read Or NativeEnums.EFileShare._Write, _
+                             NativeEnums.EFileAccess.GenericRead Or NativeEnums.EFileAccess.GenericWrite, _
+                             NativeEnums.EFileShare.Read Or NativeEnums.EFileShare.Write, _
                              IntPtr.Zero, _
-                             NativeEnums.ECreationDisposition._OpenExisting, _
+                             NativeEnums.ECreationDisposition.OpenExisting, _
                             0, _
                              IntPtr.Zero)
         End Function

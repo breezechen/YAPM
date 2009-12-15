@@ -58,28 +58,28 @@ Namespace Wmi.Objects
 
             For Each refThread As Management.ManagementObject In res
 
-                Dim wmiId As Integer = CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ProcessHandle.ToString))
+                Dim wmiId As Integer = CInt(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.ProcessHandle.ToString))
 
                 ' If we have to get threads for this process...
                 If pid = wmiId Then
                     Dim obj As New Native.Api.NativeStructs.SystemThreadInformation
                     With obj
-                        .BasePriority = CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.PriorityBase.ToString))
+                        .BasePriority = CInt(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.PriorityBase.ToString))
                         .CreateTime = 0
                         .ClientId = New Native.Api.NativeStructs.ClientId(wmiId, _
-                                                      CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.Handle.ToString)))
-                        .KernelTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.KernelModeTime.ToString))
-                        .Priority = CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.Priority.ToString))
+                                                      CInt(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.Handle.ToString)))
+                        .KernelTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.KernelModeTime.ToString))
+                        .Priority = CInt(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.Priority.ToString))
                         Try
-                            .StartAddress = CType(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.StartAddress.ToString), IntPtr)
+                            .StartAddress = CType(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.StartAddress.ToString), IntPtr)
                         Catch ex0 As Exception
                             .StartAddress = NativeConstants.InvalidHandleValue
                         End Try
-                        .State = CType(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ThreadState.ToString), ThreadState)
-                        .UserTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.UserModeTime.ToString))
-                        .WaitReason = CType(CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ThreadWaitReason.ToString)), Native.Api.NativeEnums.KwaitReason)
+                        .State = CType(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.ThreadState.ToString), ThreadState)
+                        .UserTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.UserModeTime.ToString))
+                        .WaitReason = CType(CInt(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.ThreadWaitReason.ToString)), Native.Api.NativeEnums.KwaitReason)
                         Try
-                            .WaitTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WMI_INFO_THREAD.ElapsedTime.ToString))
+                            .WaitTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.ElapsedTime.ToString))
                         Catch ex1 As Exception
                             '
                         End Try

@@ -277,8 +277,8 @@ Public Class cFile
     Public Sub Refresh()
 
         ' Get a handle
-        Dim ptr As IntPtr = Native.Api.NativeFunctions.CreateFile(_Path, Native.Api.NativeEnums.EFileAccess._GenericRead, Native.Api.NativeEnums.EFileShare._Read Or _
-             Native.Api.NativeEnums.EFileShare._Write, IntPtr.Zero, Native.Api.NativeEnums.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptr As IntPtr = Native.Api.NativeFunctions.CreateFile(_Path, Native.Api.NativeEnums.EFileAccess.GenericRead, Native.Api.NativeEnums.EFileShare.Read Or _
+             Native.Api.NativeEnums.EFileShare.Write, IntPtr.Zero, Native.Api.NativeEnums.ECreationDisposition.OpenExisting, 0, IntPtr.Zero)
 
         If ptr = CType(-1, IntPtr) Then Exit Sub
 
@@ -341,17 +341,17 @@ Public Class cFile
         _ShortName = Replace(sb2.ToString, "\", "\\")
         _ShortPath = Replace(sb3.ToString, "\", "\\")
 
-        Dim ptrR As IntPtr = Native.Api.NativeFunctions.CreateFile(_Path, Native.Api.NativeEnums.EFileAccess._GenericRead, _
-                     Native.Api.NativeEnums.EFileShare._Read Or Native.Api.NativeEnums.EFileShare._Write, IntPtr.Zero, _
-                     Native.Api.NativeEnums.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptrR As IntPtr = Native.Api.NativeFunctions.CreateFile(_Path, Native.Api.NativeEnums.EFileAccess.GenericRead, _
+                     Native.Api.NativeEnums.EFileShare.Read Or Native.Api.NativeEnums.EFileShare.Write, IntPtr.Zero, _
+                     Native.Api.NativeEnums.ECreationDisposition.OpenExisting, 0, IntPtr.Zero)
         If ptrR.IsNotNull Then
             Native.Api.NativeFunctions.CloseHandle(ptrR)
             _FileAvailableForRead = True
         End If
 
-        Dim ptrW As IntPtr = Native.Api.NativeFunctions.CreateFile(_Path, Native.Api.NativeEnums.EFileAccess._GenericWrite, _
-                    Native.Api.NativeEnums.EFileShare._Read Or Native.Api.NativeEnums.EFileShare._Write, IntPtr.Zero, _
-                     Native.Api.NativeEnums.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptrW As IntPtr = Native.Api.NativeFunctions.CreateFile(_Path, Native.Api.NativeEnums.EFileAccess.GenericWrite, _
+                    Native.Api.NativeEnums.EFileShare.Read Or Native.Api.NativeEnums.EFileShare.Write, IntPtr.Zero, _
+                     Native.Api.NativeEnums.ECreationDisposition.OpenExisting, 0, IntPtr.Zero)
         If ptrW.IsNotNull Then
             Native.Api.NativeFunctions.CloseHandle(ptrW)
             _FileAvailableForWrite = True
@@ -370,9 +370,9 @@ Public Class cFile
     Public Function ShowFileProperty(ByVal handle As IntPtr) As Boolean
         Dim SEI As Native.Api.NativeStructs.ShellExecuteInfo = Nothing
         With SEI
-            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_FLAG_NO_UI Or _
-                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _
-                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_NOCLOSEPROCESS
+            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.NoUI Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.InvokeIdList Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.NoCloseProcess
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle
             .lpVerb = "properties"
@@ -412,9 +412,9 @@ Public Class cFile
     Public Function ShellOpenFile(ByVal handle As IntPtr) As Boolean
         Dim SEI As Native.Api.NativeStructs.ShellExecuteInfo = Nothing
         With SEI
-            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_FLAG_NO_UI Or _
-                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _
-                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_NOCLOSEPROCESS
+            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.NoUI Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.InvokeIdList Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.NoCloseProcess
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle
             .lpVerb = vbNullChar
@@ -577,9 +577,9 @@ Public Class cFile
     Public Shared Function GetFileSize(ByVal filePath As String) As Long
         Dim ret As Long
 
-        Dim ptr As IntPtr = Native.Api.NativeFunctions.CreateFile(filePath, Native.Api.NativeEnums.EFileAccess._GenericRead, _
-             Native.Api.NativeEnums.EFileShare._Read Or Native.Api.NativeEnums.EFileShare._Write, IntPtr.Zero, _
-             Native.Api.NativeEnums.ECreationDisposition._OpenExisting, 0, IntPtr.Zero)
+        Dim ptr As IntPtr = Native.Api.NativeFunctions.CreateFile(filePath, Native.Api.NativeEnums.EFileAccess.GenericRead, _
+             Native.Api.NativeEnums.EFileShare.Read Or Native.Api.NativeEnums.EFileShare.Write, IntPtr.Zero, _
+             Native.Api.NativeEnums.ECreationDisposition.OpenExisting, 0, IntPtr.Zero)
 
         If ptr = CType(-1, IntPtr) Then Return -1
 
@@ -596,9 +596,9 @@ Public Class cFile
     Public Shared Function ShellOpenFile(ByVal filePath As String, ByVal handle As IntPtr) As Boolean
         Dim SEI As Native.Api.NativeStructs.ShellExecuteInfo = Nothing
         With SEI
-            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_NOCLOSEPROCESS Or _
-                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _
-                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_FLAG_NO_UI
+            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.NoCloseProcess Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.InvokeIdList Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.NoUI
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle
             .lpVerb = vbNullChar
@@ -617,9 +617,9 @@ Public Class cFile
     Public Shared Function ShowFileProperty(ByVal filePath As String, ByVal handle As IntPtr) As Boolean
         Dim SEI As Native.Api.NativeStructs.ShellExecuteInfo = Nothing
         With SEI
-            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_FLAG_NO_UI Or _
-                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_INVOKEIDLIST Or _
-                    Native.Api.NativeEnums.ShellExecuteInfoMask.SEE_MASK_NOCLOSEPROCESS
+            .fMask = Native.Api.NativeEnums.ShellExecuteInfoMask.NoUI Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.InvokeIdList Or _
+                    Native.Api.NativeEnums.ShellExecuteInfoMask.NoCloseProcess
 
             .cbSize = System.Runtime.InteropServices.Marshal.SizeOf(SEI)
             .hwnd = handle

@@ -59,7 +59,7 @@ Namespace Native.Objects
 
             Dim _dico As New Dictionary(Of String, cWindow)
 
-            currWnd = GetWindow(GetDesktopWindow(), NativeEnums.GetWindowCmd.GW_CHILD)
+            currWnd = GetWindow(GetDesktopWindow(), NativeEnums.GetWindowCmd.Child)
             cpt = 0
             Do While currWnd.IsNotNull
 
@@ -71,7 +71,7 @@ Namespace Native.Objects
                     _dico.Add(key, New cWindow(New windowInfos(pid, tid, currWnd, GetWindowCaption(currWnd))))
                 End If
 
-                currWnd = NativeFunctions.GetWindow(currWnd, NativeEnums.GetWindowCmd.GW_HWNDNEXT)
+                currWnd = NativeFunctions.GetWindow(currWnd, NativeEnums.GetWindowCmd.[Next])
             Loop
 
             Return _dico
@@ -87,7 +87,7 @@ Namespace Native.Objects
             Dim cpt As Integer
 
             currWnd = NativeFunctions.GetWindow(NativeFunctions.GetDesktopWindow(), _
-                                                NativeEnums.GetWindowCmd.GW_CHILD)
+                                                NativeEnums.GetWindowCmd.Child)
             cpt = 0
             Do While currWnd.IsNotNull
 
@@ -114,7 +114,7 @@ Namespace Native.Objects
                     End If
                 End If
 
-                currWnd = NativeFunctions.GetWindow(currWnd, NativeEnums.GetWindowCmd.GW_HWNDNEXT)
+                currWnd = NativeFunctions.GetWindow(currWnd, NativeEnums.GetWindowCmd.[Next])
             Loop
         End Sub
 
@@ -226,8 +226,8 @@ Namespace Native.Objects
             Const WaitingTime As Integer = 50
 
             res = NativeFunctions.SendMessageTimeout(handle, NativeEnums.WindowMessage.GetIcon, _
-                                         New IntPtr(NativeEnums.IconSize.ICON_SMALL), IntPtr.Zero, _
-                                         NativeEnums.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, WaitingTime, out)
+                                         New IntPtr(NativeEnums.IconSize.Small), IntPtr.Zero, _
+                                         NativeEnums.SendMessageTimeoutFlags.AbortIfHung, WaitingTime, out)
 
             If out.IsNull Then
                 out = NativeFunctions.GetClassLongPtr(handle, NativeConstants.GCL_HICONSM)
@@ -237,8 +237,8 @@ Namespace Native.Objects
                 res = NativeFunctions.SendMessageTimeout(NativeFunctions.GetWindowLongPtr(handle, _
                                       NativeEnums.GetWindowLongOffset.HwndParent), _
                                       NativeEnums.WindowMessage.GetIcon, _
-                                      New IntPtr(NativeEnums.IconSize.ICON_SMALL), IntPtr.Zero, _
-                                      NativeEnums.SendMessageTimeoutFlags.SMTO_ABORTIFHUNG, WaitingTime, out)
+                                      New IntPtr(NativeEnums.IconSize.Small), IntPtr.Zero, _
+                                      NativeEnums.SendMessageTimeoutFlags.AbortIfHung, WaitingTime, out)
             End If
 
             Return out

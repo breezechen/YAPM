@@ -76,7 +76,7 @@ Namespace Wmi.Objects
 
             For Each refProcess As Management.ManagementObject In res
 
-                Dim aPid As Integer = CInt(refProcess.GetPropertyValue(Native.Api.Enums.WMI_INFO_PROCESS.ProcessId.ToString))
+                Dim aPid As Integer = CInt(refProcess.GetPropertyValue(Native.Api.Enums.WmiInfoProcess.ProcessId.ToString))
 
                 ' OK, we get modules for this process
                 If pid = aPid Then

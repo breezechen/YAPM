@@ -61,28 +61,28 @@ Namespace Wmi.Objects
             For Each refService As Management.ManagementObject In res
 
                 Dim obj As New Native.Api.NativeStructs.EnumServiceStatusProcess
-                Dim theId As Integer = CInt(refService.GetPropertyValue(WMI_INFO_SERVICE.ProcessId.ToString))
+                Dim theId As Integer = CInt(refService.GetPropertyValue(WmiInfoService.ProcessId.ToString))
 
                 If all OrElse pid = theId Then
 
                     With obj
-                        .DisplayName = CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.DisplayName.ToString))
-                        .ServiceName = CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.Name.ToString))
+                        .DisplayName = CStr(refService.GetPropertyValue(WmiInfoService.DisplayName.ToString))
+                        .ServiceName = CStr(refService.GetPropertyValue(WmiInfoService.Name.ToString))
                         With .ServiceStatusProcess
-                            .CheckPoint = CInt(refService.GetPropertyValue(WMI_INFO_SERVICE.CheckPoint.ToString))
-                            If CBool(refService.GetPropertyValue(WMI_INFO_SERVICE.AcceptPause.ToString)) Then
+                            .CheckPoint = CInt(refService.GetPropertyValue(WmiInfoService.CheckPoint.ToString))
+                            If CBool(refService.GetPropertyValue(WmiInfoService.AcceptPause.ToString)) Then
                                 .ControlsAccepted = .ControlsAccepted Or Native.Api.NativeEnums.ServiceAccept.PauseContinue
                             End If
-                            If CBool(refService.GetPropertyValue(WMI_INFO_SERVICE.AcceptStop.ToString)) Then
+                            If CBool(refService.GetPropertyValue(WmiInfoService.AcceptStop.ToString)) Then
                                 .ControlsAccepted = .ControlsAccepted Or Native.Api.NativeEnums.ServiceAccept.Stop
                             End If
-                            .CurrentState = Native.Functions.Service.GetServiceStateFromStringH(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.State.ToString)))
+                            .CurrentState = Native.Functions.Service.GetServiceStateFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.State.ToString)))
                             .ProcessID = theId
                             '.ServiceFlags
-                            .ServiceSpecificExitCode = CInt(refService.GetPropertyValue(WMI_INFO_SERVICE.ServiceSpecificExitCode.ToString))
-                            .ServiceType = Native.Functions.Service.GetServiceTypeFromStringH(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.ServiceType.ToString)))
-                            .WaitHint = CInt(refService.GetPropertyValue(WMI_INFO_SERVICE.WaitHint.ToString))
-                            .Win32ExitCode = CInt(refService.GetPropertyValue(WMI_INFO_SERVICE.ExitCode.ToString))
+                            .ServiceSpecificExitCode = CInt(refService.GetPropertyValue(WmiInfoService.ServiceSpecificExitCode.ToString))
+                            .ServiceType = Native.Functions.Service.GetServiceTypeFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.ServiceType.ToString)))
+                            .WaitHint = CInt(refService.GetPropertyValue(WmiInfoService.WaitHint.ToString))
+                            .Win32ExitCode = CInt(refService.GetPropertyValue(WmiInfoService.ExitCode.ToString))
                         End With
                     End With
 
@@ -91,14 +91,14 @@ Namespace Wmi.Objects
 
                     Dim conf As New Native.Api.NativeStructs.QueryServiceConfig
                     With conf
-                        .BinaryPathName = CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.PathName.ToString))
+                        .BinaryPathName = CStr(refService.GetPropertyValue(WmiInfoService.PathName.ToString))
                         '.Dependencies
-                        .DisplayName = CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.DisplayName.ToString))
-                        .ErrorControl = Native.Functions.Service.GetServiceErrorControlFromStringH(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.ErrorControl.ToString)))
+                        .DisplayName = CStr(refService.GetPropertyValue(WmiInfoService.DisplayName.ToString))
+                        .ErrorControl = Native.Functions.Service.GetServiceErrorControlFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.ErrorControl.ToString)))
                         '.LoadOrderGroup 
-                        .ServiceStartName = CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.StartName.ToString))
-                        .StartType = Native.Functions.Service.GetServiceStartTypeFromStringH(CStr(refService.GetPropertyValue(WMI_INFO_SERVICE.StartMode.ToString)))
-                        .TagID = CInt(refService.GetPropertyValue(WMI_INFO_SERVICE.TagId.ToString))
+                        .ServiceStartName = CStr(refService.GetPropertyValue(WmiInfoService.StartName.ToString))
+                        .StartType = Native.Functions.Service.GetServiceStartTypeFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.StartMode.ToString)))
+                        .TagID = CInt(refService.GetPropertyValue(WmiInfoService.TagId.ToString))
                     End With
                     _servInfos.SetConfig(conf)
 
@@ -116,16 +116,16 @@ Namespace Wmi.Objects
                         ByRef errMsg As String) As Boolean
 
             Try
-                Dim res As SERVICE_RETURN_CODE_WMI = Enums.SERVICE_RETURN_CODE_WMI.AccessDenied
+                Dim res As WmiServiceReturnCode = Enums.WmiServiceReturnCode.AccessDenied
                 For Each srv As ManagementObject In objSearcher.Get
-                    If CStr(srv.GetPropertyValue(WMI_INFO_SERVICE.Name.ToString)) = name Then
-                        res = CType(srv.InvokeMethod("PauseService", Nothing), Enums.SERVICE_RETURN_CODE_WMI)
+                    If CStr(srv.GetPropertyValue(WmiInfoService.Name.ToString)) = name Then
+                        res = CType(srv.InvokeMethod("PauseService", Nothing), Enums.WmiServiceReturnCode)
                         Exit For
                     End If
                 Next
 
                 errMsg = res.ToString
-                Return (res = Enums.SERVICE_RETURN_CODE_WMI.Success)
+                Return (res = Enums.WmiServiceReturnCode.Success)
 
             Catch ex As Exception
                 errMsg = ex.Message
@@ -140,16 +140,16 @@ Namespace Wmi.Objects
                         ByRef errMsg As String) As Boolean
 
             Try
-                Dim res As SERVICE_RETURN_CODE_WMI = Enums.SERVICE_RETURN_CODE_WMI.AccessDenied
+                Dim res As WmiServiceReturnCode = Enums.WmiServiceReturnCode.AccessDenied
                 For Each srv As ManagementObject In objSearcher.Get
-                    If CStr(srv.GetPropertyValue(WMI_INFO_SERVICE.Name.ToString)) = name Then
-                        res = CType(srv.InvokeMethod("ResumeService", Nothing), Enums.SERVICE_RETURN_CODE_WMI)
+                    If CStr(srv.GetPropertyValue(WmiInfoService.Name.ToString)) = name Then
+                        res = CType(srv.InvokeMethod("ResumeService", Nothing), Enums.WmiServiceReturnCode)
                         Exit For
                     End If
                 Next
 
                 errMsg = res.ToString
-                Return (res = Enums.SERVICE_RETURN_CODE_WMI.Success)
+                Return (res = Enums.WmiServiceReturnCode.Success)
 
             Catch ex As Exception
                 errMsg = ex.Message
@@ -164,16 +164,16 @@ Namespace Wmi.Objects
                         ByRef errMsg As String) As Boolean
 
             Try
-                Dim res As SERVICE_RETURN_CODE_WMI = Enums.SERVICE_RETURN_CODE_WMI.AccessDenied
+                Dim res As WmiServiceReturnCode = Enums.WmiServiceReturnCode.AccessDenied
                 For Each srv As ManagementObject In objSearcher.Get
-                    If CStr(srv.GetPropertyValue(WMI_INFO_SERVICE.Name.ToString)) = name Then
-                        res = CType(srv.InvokeMethod("StartService", Nothing), Enums.SERVICE_RETURN_CODE_WMI)
+                    If CStr(srv.GetPropertyValue(WmiInfoService.Name.ToString)) = name Then
+                        res = CType(srv.InvokeMethod("StartService", Nothing), Enums.WmiServiceReturnCode)
                         Exit For
                     End If
                 Next
 
                 errMsg = res.ToString
-                Return (res = Enums.SERVICE_RETURN_CODE_WMI.Success)
+                Return (res = Enums.WmiServiceReturnCode.Success)
 
             Catch ex As Exception
                 errMsg = ex.Message
@@ -188,16 +188,16 @@ Namespace Wmi.Objects
                         ByRef errMsg As String) As Boolean
 
             Try
-                Dim res As SERVICE_RETURN_CODE_WMI = Enums.SERVICE_RETURN_CODE_WMI.AccessDenied
+                Dim res As WmiServiceReturnCode = Enums.WmiServiceReturnCode.AccessDenied
                 For Each srv As ManagementObject In objSearcher.Get
-                    If CStr(srv.GetPropertyValue(WMI_INFO_SERVICE.Name.ToString)) = name Then
-                        res = CType(srv.InvokeMethod("StopService", Nothing), Enums.SERVICE_RETURN_CODE_WMI)
+                    If CStr(srv.GetPropertyValue(WmiInfoService.Name.ToString)) = name Then
+                        res = CType(srv.InvokeMethod("StopService", Nothing), Enums.WmiServiceReturnCode)
                         Exit For
                     End If
                 Next
 
                 errMsg = res.ToString
-                Return (res = Enums.SERVICE_RETURN_CODE_WMI.Success)
+                Return (res = Enums.WmiServiceReturnCode.Success)
 
             Catch ex As Exception
                 errMsg = ex.Message
@@ -213,19 +213,19 @@ Namespace Wmi.Objects
                         ByRef errMsg As String) As Boolean
 
             Try
-                Dim res As SERVICE_RETURN_CODE_WMI = Enums.SERVICE_RETURN_CODE_WMI.AccessDenied
+                Dim res As WmiServiceReturnCode = Enums.WmiServiceReturnCode.AccessDenied
                 For Each srv As ManagementObject In objSearcher.Get
-                    If CStr(srv.GetPropertyValue(WMI_INFO_SERVICE.Name.ToString)) = name Then
+                    If CStr(srv.GetPropertyValue(WmiInfoService.Name.ToString)) = name Then
                         Dim inParams As ManagementBaseObject = srv.GetMethodParameters("ChangeStartMode")
                         inParams("StartMode") = GetServiceStartTypeAsString(type)
                         Dim outParams As ManagementBaseObject = srv.InvokeMethod("ChangeStartMode", inParams, Nothing)
-                        res = CType(outParams("ReturnValue"), SERVICE_RETURN_CODE_WMI)
+                        res = CType(outParams("ReturnValue"), WmiServiceReturnCode)
                         Exit For
                     End If
                 Next
 
                 errMsg = res.ToString
-                Return (res = Enums.SERVICE_RETURN_CODE_WMI.Success)
+                Return (res = Enums.WmiServiceReturnCode.Success)
 
             Catch ex As Exception
                 errMsg = ex.Message

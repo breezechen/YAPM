@@ -70,9 +70,9 @@ Namespace Native.Api
             Else
 
                 Dim lpMsgBuf As New System.Text.StringBuilder(&H100)
-                Dim dwChars As UInteger = FormatMessage(FormatMessageFlags.FORMAT_MESSAGE_ALLOCATE_BUFFER _
-                                                        Or FormatMessageFlags.FORMAT_MESSAGE_FROM_SYSTEM _
-                                                        Or FormatMessageFlags.FORMAT_MESSAGE_IGNORE_INSERTS, _
+                Dim dwChars As UInteger = FormatMessage(FormatMessageFlags.AllocateBuffer _
+                                                        Or FormatMessageFlags.FromSystem _
+                                                        Or FormatMessageFlags.MessageIgnoreInserts, _
                                             IntPtr.Zero, nLastError, 0, lpMsgBuf, lpMsgBuf.Capacity, IntPtr.Zero)
 
                 ' Unknown error
@@ -112,9 +112,9 @@ Namespace Native.Api
                 Dim Hand As IntPtr = LoadLibrary("NTDLL.DLL")
 
                 ' Get the buffer
-                FormatMessage(FormatMessageFlags.FORMAT_MESSAGE_ALLOCATE_BUFFER Or _
-                            FormatMessageFlags.FORMAT_MESSAGE_FROM_SYSTEM Or _
-                            FormatMessageFlags.FORMAT_MESSAGE_FROM_HMODULE, _
+                FormatMessage(FormatMessageFlags.AllocateBuffer Or _
+                            FormatMessageFlags.FromSystem Or _
+                            FormatMessageFlags.FromHModule, _
                             Hand, _
                             status, _
                             MAKELANGID(NativeConstants.LANG_NEUTRAL, _

@@ -483,60 +483,60 @@ Namespace Native.Api
 #Region "Declarations used for files"
 
         Public Enum FO_Func As UInteger
-            FO_MOVE = &H1
-            FO_COPY = &H2
-            FO_DELETE = &H3
-            FO_RENAME = &H4
+            Move = &H1
+            Copy = &H2
+            Delete = &H3
+            Rename = &H4
         End Enum
 
         Public Enum EFileAccess
-            _GenericRead = &H80000000
-            _GenericWrite = &H40000000
-            _GenericExecute = &H20000000
-            _GenericAll = &H10000000
+            GenericRead = &H80000000
+            GenericWrite = &H40000000
+            GenericExecute = &H20000000
+            GenericAll = &H10000000
         End Enum
 
         Public Enum EFileShare
-            _None = &H0
-            _Read = &H1
-            _Write = &H2
-            _Delete = &H4
+            None = &H0
+            Read = &H1
+            Write = &H2
+            Delete = &H4
         End Enum
 
         Public Enum ECreationDisposition
-            _New = 1
-            _CreateAlways = 2
-            _OpenExisting = 3
-            _OpenAlways = 4
-            _TruncateExisting = 5
+            [New] = 1
+            CreateAlways = 2
+            OpenExisting = 3
+            OpenAlways = 4
+            TruncateExisting = 5
         End Enum
 
         Public Enum EFileAttributes
-            _Readonly = &H1
-            _Hidden = &H2
-            _System = &H4
-            _Directory = &H10
-            _Archive = &H20
-            _Device = &H40
-            _Normal = &H80
-            _Temporary = &H100
-            _SparseFile = &H200
-            _ReparsePoint = &H400
-            _Compressed = &H800
-            _Offline = &H1000
-            _NotContentIndexed = &H2000
-            _Encrypted = &H4000
-            _Write_Through = &H80000000
-            _Overlapped = &H40000000
-            _NoBuffering = &H20000000
-            _RandomAccess = &H10000000
-            _SequentialScan = &H8000000
-            _DeleteOnClose = &H4000000
-            _BackupSemantics = &H2000000
-            _PosixSemantics = &H1000000
-            _OpenReparsePoint = &H200000
-            _OpenNoRecall = &H100000
-            _FirstPipeInstance = &H80000
+            [Readonly] = &H1
+            Hidden = &H2
+            System = &H4
+            Directory = &H10
+            Archive = &H20
+            Device = &H40
+            Normal = &H80
+            Temporary = &H100
+            SparseFile = &H200
+            ReparsePoint = &H400
+            Compressed = &H800
+            Offline = &H1000
+            NotContentIndexed = &H2000
+            Encrypted = &H4000
+            Write_Through = &H80000000
+            Overlapped = &H40000000
+            NoBuffering = &H20000000
+            RandomAccess = &H10000000
+            SequentialScan = &H8000000
+            DeleteOnClose = &H4000000
+            BackupSemantics = &H2000000
+            PosixSemantics = &H1000000
+            OpenReparsePoint = &H200000
+            OpenNoRecall = &H100000
+            FirstPipeInstance = &H80000
         End Enum
 
         <Flags()> _
@@ -573,9 +573,9 @@ Namespace Native.Api
 
         <Flags()> _
         Public Enum ShellExecuteInfoMask As Integer
-            SEE_MASK_INVOKEIDLIST = &HC
-            SEE_MASK_NOCLOSEPROCESS = &H40
-            SEE_MASK_FLAG_NO_UI = &H400
+            InvokeIdList = &HC
+            NoCloseProcess = &H40
+            NoUI = &H400
         End Enum
 
 #End Region
@@ -584,11 +584,11 @@ Namespace Native.Api
 #Region "Declarations used for system"
 
         <Flags()> _
-        Public Enum KBDLLHOOKSTRUCTFlags As Integer
-            LLKHF_EXTENDED = &H1
-            LLKHF_INJECTED = &H10
-            LLKHF_ALTDOWN = &H20
-            LLKHF_UP = &H80
+        Public Enum KBDLLHookStructFlags As Integer
+            Extended = &H1
+            Injected = &H10
+            AltDown = &H20
+            Up = &H80
         End Enum
 
         Public Enum SystemInformationClass As Integer
@@ -733,12 +733,12 @@ Namespace Native.Api
 
         <Flags()> _
         Public Enum FlashWInfoFlags As UInteger
-            FLASHW_STOP = 0
-            FLASHW_CAPTION = &H1
-            FLASHW_TRAY = &H2
-            FLASHW_ALL = &H3
-            FLASHW_TIMER = &H4
-            FLASHW_TIMERNOFG = &HC
+            [Stop] = 0
+            Caption = &H1
+            Tray = &H2
+            All = &H3
+            Timer = &H4
+            TimerNoFG = &HC
         End Enum
 
         Public Enum WindowMessage As UInteger
@@ -980,27 +980,27 @@ Namespace Native.Api
         End Enum
 
         Public Enum LvsEx
-            LVS_EX_GRIDLINES = &H1
-            LVS_EX_SUBITEMIMAGES = &H2
-            LVS_EX_CHECKBOXES = &H4
-            LVS_EX_TRACKSELECT = &H8
-            LVS_EX_HEADERDRAGDROP = &H10
-            LVS_EX_FULLROWSELECT = &H20
-            LVS_EX_ONECLICKACTIVATE = &H40
-            LVS_EX_TWOCLICKACTIVATE = &H80
-            LVS_EX_FLATSB = &H100
-            LVS_EX_REGIONAL = &H200
-            LVS_EX_INFOTIP = &H400
-            LVS_EX_UNDERLINEHOT = &H800
-            LVS_EX_UNDERLINECOLD = &H1000
-            LVS_EX_MULTIWORKAREAS = &H2000
-            LVS_EX_LABELTIP = &H4000
-            LVS_EX_BORDERSELECT = &H8000
-            LVS_EX_DOUBLEBUFFER = &H10000
-            LVS_EX_HIDELABELS = &H20000
-            LVS_EX_SINGLEROW = &H40000
-            LVS_EX_SNAPTOGRID = &H80000
-            LVS_EX_SIMPLESELECT = &H100000
+            GridLines = &H1
+            SubitemImages = &H2
+            Checkboxes = &H4
+            TrackSelect = &H8
+            HeaderDragDrop = &H10
+            FullRowSelect = &H20
+            OneClickActivate = &H40
+            TwoClickActivate = &H80
+            FlatSB = &H100
+            Regional = &H200
+            InfoTip = &H400
+            UnderlineHot = &H800
+            UnderlineCold = &H1000
+            MultiWorkAreas = &H2000
+            LabelTip = &H4000
+            BorderSelect = &H8000
+            DoubleBuffer = &H10000
+            HideLabels = &H20000
+            SingleRow = &H40000
+            SnapToGrid = &H80000
+            SimpleSelect = &H100000
         End Enum
 
         Public Enum ShowWindowType As UInteger
@@ -1076,13 +1076,13 @@ Namespace Native.Api
         End Enum
 
         Public Enum GetWindowCmd As UInteger
-            GW_HWNDFIRST = 0
-            GW_HWNDLAST = 1
-            GW_HWNDNEXT = 2
-            GW_HWNDPREV = 3
-            GW_OWNER = 4
-            GW_CHILD = 5
-            GW_ENABLEDPOPUP = 6
+            First = 0
+            Last = 1
+            [Next] = 2
+            Previous = 3
+            Owner = 4
+            Child = 5
+            EnabledPopup = 6
         End Enum
 
         Public Enum GetWindowLongOffset As Integer
@@ -1103,10 +1103,10 @@ Namespace Native.Api
         End Enum
 
         Public Enum SendMessageTimeoutFlags As Integer
-            SMTO_NORMAL = &H0
-            SMTO_BLOCK = &H1
-            SMTO_ABORTIFHUNG = &H2
-            SMTO_NOTIMEOUTIFNOTHUNG = &H8
+            Normal = &H0
+            Block = &H1
+            AbortIfHung = &H2
+            NoTimeoutIfHung = &H8
         End Enum
 
 #End Region
@@ -1209,31 +1209,31 @@ Namespace Native.Api
 
         ' http://msdn.microsoft.com/en-us/library/ms724892(VS.85).aspx
         ' Type of Key
-        Public Enum KEY_TYPE
-            HKEY_CLASSES_ROOT = &H80000000
-            HKEY_CURRENT_USER = &H80000001
-            HKEY_LOCAL_MACHINE = &H80000002
-            HKEY_USERS = &H80000003
-            HKEY_CURRENT_CONFIG = &H80000005
-            HKEY_PERFORMANCE_DATA = &H80000004
-            HKEY_DYN_DATA = &H80000006
+        Public Enum KeyType
+            ClassesRoot = &H80000000
+            CurrentUser = &H80000001
+            LocalMachine = &H80000002
+            Users = &H80000003
+            CurrentConfig = &H80000005
+            PerformanceData = &H80000004
+            DynData = &H80000006
         End Enum
 
         ' Type of monitoring to apply
         <Flags()> _
-        Public Enum KEY_MONITORING_TYPE
-            REG_NOTIFY_CHANGE_NAME = &H1            ' Subkey added or deleted
-            REG_NOTIFY_CHANGE_ATTRIBUTES = &H2      ' Attributes changed
-            REG_NOTIFY_CHANGE_LAST_SET = &H4        ' Value changed (changed, deleted, added)
-            REG_NOTIFY_CHANGE_SECURITY = &H8        ' Security descriptor changed
+        Public Enum KeyMonitoringType
+            ChangeName = &H1            ' Subkey added or deleted
+            ChangeAttributes = &H2      ' Attributes changed
+            ChangeLastSet = &H4         ' Value changed (changed, deleted, added)
+            ChangeSecurity = &H8        ' Security descriptor changed
         End Enum
 
         Public Enum WaitResult As UInteger
-            INFINITE = &HFFFFFFFF
-            WAIT_ABANDONED = &H80
-            WAIT_OBJECT_0 = &H0
-            WAIT_TIMEOUT = &H102
-            WAIT_FAILED = &HFFFFFFFF
+            Infinite = &HFFFFFFFF
+            Abandoned = &H80
+            Object_0 = &H0
+            TimeOut = &H102
+            Failed = &HFFFFFFFF
         End Enum
 
 #End Region
@@ -1242,14 +1242,14 @@ Namespace Native.Api
 #Region "Declarations used for graphical functions"
 
         Public Enum IconSize As Integer
-            ICON_SMALL = &H0
-            ICON_BIG = &H1
+            Small = &H0
+            Big = &H1
         End Enum
 
         Public Enum LVM As UInteger
-            LVM_FIRST = &H1000
-            LVM_SETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 54)
-            LVM_GETEXTENDEDLISTVIEWSTYLE = (LVM_FIRST + 55)
+            First = &H1000
+            SetExtendedListviewStyle = (First + 54)
+            GetExtendedListviewStyle = (First + 55)
         End Enum
 
 #End Region
@@ -1258,21 +1258,21 @@ Namespace Native.Api
 #Region "Declarations used for keyboard management"
 
         Public Enum HookType As Byte
-            WH_JOURNALRECORD = 0
-            WH_JOURNALPLAYBACK = 1
-            WH_KEYBOARD = 2
-            WH_GETMESSAGE = 3
-            WH_CALLWNDPROC = 4
-            WH_CBT = 5
-            WH_SYSMSGFILTER = 6
-            WH_MOUSE = 7
-            WH_HARDWARE = 8
-            WH_DEBUG = 9
-            WH_SHELL = 10
-            WH_FOREGROUNDIDLE = 11
-            WH_CALLWNDPROCRET = 12
-            WH_KEYBOARD_LL = 13
-            WH_MOUSE_LL = 14
+            JournalRecord = 0
+            JournalPlayBack = 1
+            Kerboard = 2
+            GetMessage = 3
+            CallWindowProc = 4
+            Cbt = 5
+            SysMsgFilter = 6
+            Mouse = 7
+            Hardware = 8
+            Debug = 9
+            Shell = 10
+            ForegroundIdle = 11
+            CallWindowProcRet = 12
+            KeyboardLowLevel = 13
+            MouseLowLevel = 14
         End Enum
 
 #End Region
@@ -1282,12 +1282,12 @@ Namespace Native.Api
 
         <Flags()> _
         Public Enum FormatMessageFlags As Integer
-            FORMAT_MESSAGE_ALLOCATE_BUFFER = &H100
-            FORMAT_MESSAGE_ARGUMENT_ARRAY = &H2000
-            FORMAT_MESSAGE_FROM_HMODULE = &H800
-            FORMAT_MESSAGE_FROM_STRING = &H400
-            FORMAT_MESSAGE_FROM_SYSTEM = &H1000
-            FORMAT_MESSAGE_IGNORE_INSERTS = &H200
+            AllocateBuffer = &H100
+            ArgumentArray = &H2000
+            FromHModule = &H800
+            FromString = &H400
+            FromSystem = &H1000
+            MessageIgnoreInserts = &H200
         End Enum
 
 #End Region
@@ -1306,7 +1306,6 @@ Namespace Native.Api
             KernelHandle = &H200
             ForceAccessCheck = &H400
             ValidAttributes = &H7F2
-
         End Enum
 
         Public Enum PoolType As UInteger
@@ -1381,17 +1380,17 @@ Namespace Native.Api
             ''' <summary>
             ''' Enumerate currently connected resources. The dwUsage member cannot be specified.
             ''' </summary>
-            RESOURCE_CONNECTED = &H1
+            Connected = &H1
 
             ''' <summary>
             ''' Enumerate all resources on the network. The dwUsage member is specified.
             ''' </summary>
-            RESOURCE_GLOBALNET = &H2
+            GlobalNet = &H2
 
             ''' <summary>
             ''' Enumerate remembered (persistent) connections. The dwUsage member cannot be specified.
             ''' </summary>
-            RESOURCE_REMEMBERED = &H3
+            Remembered = &H3
         End Enum
 
         ''' <summary>
@@ -1401,17 +1400,17 @@ Namespace Native.Api
             ''' <summary>
             ''' All resources
             ''' </summary>
-            RESOURCETYPE_ANY = &H0
+            Any = &H0
 
             ''' <summary>
             ''' Disk resources
             ''' </summary>
-            RESOURCETYPE_DISK = &H1
+            Disk = &H1
 
             ''' <summary>
             ''' Print resources
             ''' </summary>
-            RESOURCETYPE_PRINT = &H2
+            Print = &H2
         End Enum
 
         ''' <summary>
@@ -1421,22 +1420,22 @@ Namespace Native.Api
             ''' <summary>
             ''' The object should be displayed as a domain.
             ''' </summary>
-            RESOURCEDISPLAYTYPE_GENERIC = &H0
+            Generic = &H0
 
             ''' <summary>
             ''' The object should be displayed as a server.
             ''' </summary>
-            RESOURCEDISPLAYTYPE_DOMAIN = &H1
+            Domain = &H1
 
             ''' <summary>
             ''' The object should be displayed as a share.
             ''' </summary>
-            RESOURCEDISPLAYTYPE_SERVER = &H2
+            Server = &H2
 
             ''' <summary>
             ''' The method used to display the object does not matter.
             ''' </summary>
-            RESOURCEDISPLAYTYPE_SHARE = &H3
+            Share = &H3
         End Enum
 
         ''' <summary>
@@ -1447,12 +1446,12 @@ Namespace Native.Api
             ''' <summary>
             ''' The resource is a connectable resource; the name pointed to by the lpRemoteName member can be passed to the WNetAddConnection function to make a network connection.
             ''' </summary>
-            RESOURCEUSAGE_CONNECTABLE = &H1
+            Connectable = &H1
 
             ''' <summary>
             ''' The resource is a container resource; the name pointed to by the lpRemoteName member can be passed to the WNetOpenEnum function to enumerate the resources in the container.
             ''' </summary>
-            RESOURCEUSAGE_CONTAINER = &H2
+            Container = &H2
         End Enum
 
 #End Region

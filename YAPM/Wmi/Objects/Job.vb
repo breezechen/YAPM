@@ -60,7 +60,7 @@ Namespace Wmi.Objects
             For Each refJob As Management.ManagementObject In res
 
                 ' Job name
-                Dim jobName As String = CStr(refJob.GetPropertyValue(WMI_INFO_JOB.CollectionID.ToString))
+                Dim jobName As String = CStr(refJob.GetPropertyValue(WmiInfoJob.CollectionID.ToString))
 
                 ' TODO : have to retrieve ProcessesCount ?
 

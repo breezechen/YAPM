@@ -121,7 +121,7 @@ Public Class cHotkeys
             ' Initialize our delegate
             Me.myCallbackDelegate = New Native.Api.NativeFunctions.HookProcKbd(AddressOf Me.KeyboardFilter)
 
-            hKeyHook = Native.Api.NativeFunctions.SetWindowsHookEx(Native.Api.NativeEnums.HookType.WH_KEYBOARD_LL, _
+            hKeyHook = Native.Api.NativeFunctions.SetWindowsHookEx(Native.Api.NativeEnums.HookType.KeyboardLowLevel, _
                         Me.myCallbackDelegate, IntPtr.Zero, 0) ' 0 -> all threads
             GC.KeepAlive(Me.myCallbackDelegate)
         End If

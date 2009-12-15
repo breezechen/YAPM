@@ -103,10 +103,10 @@ Namespace Native.Objects
                 If ret Then
                     ' Create file (replace if existing)
                     Dim hFile As IntPtr = NativeFunctions.CreateFile(file, _
-                                            NativeEnums.EFileAccess._GenericWrite, _
-                                            NativeEnums.EFileShare._Read, _
+                                            NativeEnums.EFileAccess.GenericWrite, _
+                                            NativeEnums.EFileShare.Read, _
                                             IntPtr.Zero, _
-                                            NativeEnums.ECreationDisposition._CreateAlways, _
+                                            NativeEnums.ECreationDisposition.CreateAlways, _
                                             0, _
                                             IntPtr.Zero)
                     If hFile.IsNotNull Then
