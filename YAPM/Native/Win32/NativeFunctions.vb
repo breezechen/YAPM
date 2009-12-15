@@ -731,6 +731,14 @@ Namespace Native.Api
             <[In]()> ByVal pWVTData As WinTrustData) As WinVerifyTrustResult
         End Function
 
+        <DllImport("kernel32.dll", SetLastError:=True)> _
+        Public Shared Function WriteFile(ByVal FileHandle As IntPtr, _
+                                         ByVal Buffer As Byte(), _
+                                         ByVal Bytes As Integer, _
+                                         ByRef WrittenBytes As Integer, _
+                                         ByVal Overlapped As IntPtr) As Boolean
+        End Function
+
 #End Region
 
         ' OK

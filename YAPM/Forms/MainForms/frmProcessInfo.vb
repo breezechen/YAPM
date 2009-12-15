@@ -2600,7 +2600,28 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub MenuItemMemoryDump_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMemoryDump.Click
-        '
+        ' Dump memory
+        Dim sDir As String
+        ' Select destination dir
+        Using chooseF As New Windows.Forms.FolderBrowserDialog
+            chooseF.Description = "Choose destination directory"
+            chooseF.ShowNewFolderButton = True
+            chooseF.ShowDialog()
+            sDir = chooseF.SelectedPath
+        End Using
+        ' File name : process-pid-adressHexa.bin
+        If IO.Directory.Exists(sDir) Then
+            For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
+                Dim sFile As String = sDir & "\" & curProc.Infos.Name & "-" & curProc.Infos.ProcessId.ToString & "-0x" & it.Infos.BaseAddress.ToString("x") & ".bin"
+                Dim okToReplace As Boolean = True
+                If IO.File.Exists(sFile) Then
+                    okToReplace = (Misc.ShowMsg("Dump memory", "Would you like to replace the existing file ?", "File " & sFile & " already exists.", MessageBoxButtons.YesNo, TaskDialogIcon.Warning) = Windows.Forms.DialogResult.Yes)
+                End If
+                If okToReplace Then
+                    it.DumpToFile(sFile)
+                End If
+            Next
+        End If
     End Sub
 
     Private Sub MenuItemMemoryRelease_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMemoryRelease.Click

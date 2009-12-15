@@ -45,7 +45,6 @@ BUGS CRITIQUES
 BUGS NON CRITIQUES
 - columns lvHeap
 - outils network connection (trace, whois...)
-- implémenter le dump...
 - elevation pour create service
 - déconnexion remote quand recherche non terminée -> lvSearch disabled
 - timer dans jobInfos doit avoir le même temps que dans frmMain
@@ -125,6 +124,5 @@ Temp Change log :
 /!\ METTRE A JOUR LE FICHIER D'AIDE LORS DE LA RELEASE
 
 * NEW / Improvements
-- Added LoadCount information for modules
 
 * Bug fixed

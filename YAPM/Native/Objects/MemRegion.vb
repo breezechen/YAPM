@@ -90,6 +90,50 @@ Namespace Native.Objects
 
         End Function
 
+        ' Dump memory
+        Public Shared Function DumpMemory(ByVal processId As Integer, _
+                                        ByVal address As IntPtr, _
+                                        ByVal regSize As IntPtr, _
+                                        ByVal file As String) As Boolean
+
+            Dim ret As Boolean
+            Using pRW As New ProcessRW(processId)
+                ' Read from process memory
+                Dim b() As Byte = pRW.ReadByteArray(address, regSize.ToInt32, ret)
+                If ret Then
+                    ' Create file (replace if existing)
+                    Dim hFile As IntPtr = NativeFunctions.CreateFile(file, _
+                                            NativeEnums.EFileAccess._GenericWrite, _
+                                            NativeEnums.EFileShare._Read, _
+                                            IntPtr.Zero, _
+                                            NativeEnums.ECreationDisposition._CreateAlways, _
+                                            0, _
+                                            IntPtr.Zero)
+                    If hFile.IsNotNull Then
+                        ' Save file
+                        Dim res As Integer
+                        Dim ol As New Threading.NativeOverlapped
+                        NativeFunctions.WriteFile(hFile, _
+                                                  b, _
+                                                  regSize.ToInt32, _
+                                                  res, _
+                                                  IntPtr.Zero)
+
+                        ' Success ?
+                        ret = (res = regSize.ToInt32)
+
+                        ' Close file handle
+                        Objects.General.CloseHandle(hFile)
+                    Else
+                        ret = False
+                    End If
+                End If
+                ReDim b(0)
+            End Using
+
+            Return ret
+
+        End Function
         ' Enumerate memory regions
         Public Shared Sub EnumerateMemoryRegionsByProcessId(ByVal pid As Integer, _
                                     ByRef _dico As Dictionary(Of String, memRegionInfos))

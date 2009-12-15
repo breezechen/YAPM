@@ -864,6 +864,7 @@
     <Compile Include="Native\Objects\Token.vb" />
     <Compile Include="Native\Structs.vb" />
     <Compile Include="Native\Objects\Process.vb" />
+    <Compile Include="Providers\Classes\MemoryRegions\asyncMethods\asyncCallbackMemRegionDump.vb" />
     <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleEnumerate.vb" />
     <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleUnload.vb" />
     <Compile Include="Providers\Classes\Heaps\cHeap.vb" />

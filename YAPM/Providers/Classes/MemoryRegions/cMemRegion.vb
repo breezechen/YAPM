@@ -144,6 +144,29 @@ Public Class cMemRegion
         RemovePendingTask(actionNumber)
     End Sub
 
+    ' Dump
+    Private _dump As asyncCallbackMemRegionDump
+    Public Function DumpToFile(ByVal file As String) As Integer
+
+        If _dump Is Nothing Then
+            _dump = New asyncCallbackMemRegionDump(New asyncCallbackMemRegionDump.HasDumped(AddressOf DumpDone), _connection)
+        End If
+
+        Dim t As New System.Threading.WaitCallback(AddressOf _dump.Process)
+        Dim newAction As Integer = cGeneralObject.GetActionCount
+
+        AddPendingTask(newAction, t)
+        Call Threading.ThreadPool.QueueUserWorkItem(t, New  _
+            asyncCallbackMemRegionDump.poolObj(Me.Infos.ProcessId, Me.Infos.BaseAddress, file, Me.Infos.RegionSize, newAction))
+
+    End Function
+    Private Sub DumpDone(ByVal Success As Boolean, ByVal file As String, ByVal address As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
+        If Success = False Then
+            Misc.ShowError("Could not dump memory (" & address.ToString("x") & ") to file " & file & ": " & msg)
+        End If
+        RemovePendingTask(actionNumber)
+    End Sub
+
     ' Change protection type
     Private _changeProtec As asyncCallbackMemRegionChangeProtection
     Public Function ChangeProtectionType(ByVal newProtection As Native.Api.NativeEnums.MemoryProtectionType) As Integer
