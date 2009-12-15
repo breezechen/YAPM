@@ -244,7 +244,11 @@ Public Class Graph
                 .Width = Math.Abs(_xDown - e.X)
                 .Height = Math.Abs(_yDown - e.Y)
             End With
-            Me.CreateGraphics.DrawRectangle(Pens.WhiteSmoke, _zoomRect)
+            Dim g As Graphics = Me.CreateGraphics
+            With g
+                .DrawRectangle(Pens.WhiteSmoke, _zoomRect)
+                .Dispose()
+            End With
         End If
 
         ' Get time (milliseconds) of current x point

@@ -1148,8 +1148,12 @@ Public Class frmMain
         Me.timerMonitoring.Interval = it.Interval
 
         If it.Enabled = False Then
-            Me.graphMonitor.CreateGraphics.Clear(Color.Black)
-            Me.graphMonitor.CreateGraphics.DrawString("You have to start monitoring.", Me.Font, Brushes.White, 0, 0)
+            Dim g As Graphics = Me.graphMonitor.CreateGraphics
+            With g
+                .Clear(Color.Black)
+                .DrawString("You have to start monitoring.", Me.Font, Brushes.White, 0, 0)
+                .Dispose()
+            End With
             Exit Sub
         End If
 
@@ -1595,8 +1599,12 @@ Public Class frmMain
                 ' Then we have selected a process
                 Me.butMonitorStart.Enabled = True
                 Me.butMonitorStop.Enabled = True
-                Me.graphMonitor.CreateGraphics.Clear(Color.Black)
-                Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview a counter.", Me.Font, Brushes.White, 0, 0)
+                Dim g As Graphics = Me.graphMonitor.CreateGraphics
+                With g
+                    .Clear(Color.Black)
+                    .DrawString("Select in the treeview a counter.", Me.Font, Brushes.White, 0, 0)
+                    .Dispose()
+                End With
             Else
                 Dim it As cMonitor = CType(tvMonitor.SelectedNode.Tag, cMonitor)
                 Me.butMonitorStart.Enabled = Not (it.Enabled)
@@ -1610,8 +1618,12 @@ Public Class frmMain
             ' The we can start/stop all items
             Me.butMonitorStart.Enabled = True
             Me.butMonitorStop.Enabled = True
-            Me.graphMonitor.CreateGraphics.Clear(Color.Black)
-            Me.graphMonitor.CreateGraphics.DrawString("Select in the treeview an item and then a counter.", Me.Font, Brushes.White, 0, 0)
+            Dim g As Graphics = Me.graphMonitor.CreateGraphics
+            With g
+                .Clear(Color.Black)
+                .DrawString("Select in the treeview an item and then a counter.", Me.Font, Brushes.White, 0, 0)
+                .Dispose()
+            End With
         End If
 
         Me.MenuItemMonitorStart.Enabled = Me.butMonitorStart.Enabled
