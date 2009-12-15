@@ -144,7 +144,7 @@ Public Class cHotkeys
     ' ========================================
     ' This function is called each time a key is pressed
     ' ========================================
-    Private Function KeyboardFilter(ByVal nCode As Integer, ByVal wParam As IntPtr, ByRef lParam As Native.Api.NativeStructs.KBDLLHOOKSTRUCT) As Integer
+    Private Function KeyboardFilter(ByVal nCode As Integer, ByVal wParam As IntPtr, ByRef lParam As Native.Api.NativeStructs.KBDLLHookStruct) As Integer
         Dim bAlt As Boolean
         Dim bCtrl As Boolean
         Dim bShift As Boolean

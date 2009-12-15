@@ -61,12 +61,6 @@ Namespace Native.Api
 
 #Region "Declarations used for jobs"
 
-        ' http://msdn.microsoft.com/en-us/library/ms684155(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential), Serializable()> _
-        Public Structure JobObjectEndOfJobTimeInformation
-            Public EndOfJobTimeAction As EndOfJobTimeActionFlag
-        End Structure
-
         ' http://msdn.microsoft.com/en-us/library/ms684143(VS.85).aspx
         <StructLayout(LayoutKind.Sequential), Serializable()> _
         Public Structure JobObjectBasicAccountingInformation
@@ -87,28 +81,6 @@ Namespace Native.Api
             Public IoInfo As IoCounters
         End Structure
 
-        ' http://msdn.microsoft.com/en-us/library/ms684150(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential), Serializable()> _
-        Public Structure JobObjectBasicProcessIdList
-            Public AssignedProcessesCount As Integer
-            Public ProcessIdsCount As Integer
-            <MarshalAs(UnmanagedType.ByValArray)> _
-            Public ProcessId As Integer()
-        End Structure
-
-        ' http://msdn.microsoft.com/en-us/library/ms684152(VS.85).aspx
-        <StructLayout(LayoutKind.Sequential), Serializable()> _
-        Public Structure JobObjectBasicUiRestrictions
-            Public UIRestrictionsClass As NativeEnums.JobObjectBasicUiRestrictions
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SecurityAttributes
-            Public nLength As Integer
-            Public lpSecurityDescriptor As IntPtr
-            Public bInheritHandle As Boolean
-        End Structure
-
         ' http://msdn.microsoft.com/en-us/library/ms684147(VS.85).aspx
         ' 48 bytes on x86, 64 bytes on x64 with alignment
         <StructLayout(LayoutKind.Sequential), Serializable()> _
@@ -124,6 +96,27 @@ Namespace Native.Api
             Public SchedulingClass As Integer           ' 4 bytes
         End Structure
 
+        ' http://msdn.microsoft.com/en-us/library/ms684150(VS.85).aspx
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
+        Public Structure JobObjectBasicProcessIdList
+            Public AssignedProcessesCount As Integer
+            Public ProcessIdsCount As Integer
+            <MarshalAs(UnmanagedType.ByValArray)> _
+            Public ProcessId As Integer()
+        End Structure
+
+        ' http://msdn.microsoft.com/en-us/library/ms684152(VS.85).aspx
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
+        Public Structure JobObjectBasicUiRestrictions
+            Public UIRestrictionsClass As NativeEnums.JobObjectBasicUiRestrictions
+        End Structure
+
+        ' http://msdn.microsoft.com/en-us/library/ms684155(VS.85).aspx
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
+        Public Structure JobObjectEndOfJobTimeInformation
+            Public EndOfJobTimeAction As EndOfJobTimeActionFlag
+        End Structure
+
         ' http://msdn.microsoft.com/en-us/library/ms684156(VS.85).aspx
         <StructLayout(LayoutKind.Sequential), Serializable()> _
         Public Structure JobObjectExtendedLimitInformation
@@ -135,60 +128,37 @@ Namespace Native.Api
             Public PeakJobMemoryUsed As IntPtr      ' non-fixed bytes
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure SecurityAttributes
+            Public nLength As Integer
+            Public lpSecurityDescriptor As IntPtr
+            Public bInheritHandle As Boolean
+        End Structure
+
 #End Region
 
 #Region "Declarations used for processes"
 
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SystemProcessInformation
-            Public NextEntryOffset As Integer
-            Public NumberOfThreads As Integer
-            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=3)> _
-            Public Reserved1 As Long()
-            Public CreateTime As Long
-            Public UserTime As Long
-            Public KernelTime As Long
-            Public ImageName As UnicodeString
-            Public BasePriority As Integer
-            ' This two variables are private cause we prefer
-            ' access to ProcessId and Inherited...Id as Int32
-            Private _ProcessId As IntPtr
-            Private _InheritedFromProcessId As IntPtr
-            Public HandleCount As Integer
-            Public SessionId As Integer
-            Public PageDirectoryBase As IntPtr
-            Public VirtualMemoryCounters As VmCountersEx
-            Public IoCounters As IoCounters
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
+        Public Structure IoCounters
+            Public ReadOperationCount As ULong
+            Public WriteOperationCount As ULong
+            Public OtherOperationCount As ULong
+            Public ReadTransferCount As ULong
+            Public WriteTransferCount As ULong
+            Public OtherTransferCount As ULong
+            Public Shared Operator <>(ByVal i1 As IoCounters, ByVal i2 As IoCounters) As Boolean
+                Return Not (i1 = i2)
+            End Operator
+            Public Shared Operator =(ByVal i1 As IoCounters, ByVal i2 As IoCounters) As Boolean
+                Return (i1.ReadOperationCount = i2.ReadOperationCount AndAlso _
+                    i1.WriteOperationCount = i2.WriteOperationCount AndAlso _
+                    i1.OtherOperationCount = i2.OtherOperationCount AndAlso _
+                    i1.ReadTransferCount = i2.ReadTransferCount AndAlso _
+                    i1.WriteTransferCount = i2.WriteTransferCount AndAlso _
+                    i1.OtherTransferCount = i2.OtherTransferCount)
+            End Operator
 
-            ' 2 properties to access to private variables
-            Public Property ProcessId() As Integer
-                Get
-                    Return _ProcessId.ToInt32
-                End Get
-                Set(ByVal value As Integer)
-                    _ProcessId = New IntPtr(value)
-                End Set
-            End Property
-            Public Property InheritedFromProcessId() As Integer
-                Get
-                    Return _InheritedFromProcessId.ToInt32
-                End Get
-                Set(ByVal value As Integer)
-                    _InheritedFromProcessId = New IntPtr(value)
-                End Set
-            End Property
-
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure PebLdrData
-            Public Length As Integer
-            <MarshalAs(UnmanagedType.I1)> _
-            Public Initialized As Boolean
-            Public SsHandle As IntPtr
-            Public InLoadOrderModuleList As ListEntry
-            Public InMemoryOrderModuleList As ListEntry
-            Public InInitializationOrderModuleList As ListEntry
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -214,67 +184,6 @@ Namespace Native.Api
         Public Structure ListEntry
             Public Flink As IntPtr
             Public Blink As IntPtr
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure RtlUserProcessParameters
-            Public Shared ReadOnly CurrentDirectoryOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "CurrentDirectory").ToInt32()
-            Public Shared ReadOnly DllPathOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "DllPath").ToInt32()
-            Public Shared ReadOnly ImagePathNameOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "ImagePathName").ToInt32()
-            Public Shared ReadOnly CommandLineOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "CommandLine").ToInt32()
-            Public Shared ReadOnly EnvironmentOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "Environment").ToInt32()
-            Public Shared ReadOnly WindowTitleOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "WindowTitle").ToInt32()
-            Public Shared ReadOnly DesktopInfoOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "DesktopInfo").ToInt32()
-            Public Shared ReadOnly ShellInfoOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "ShellInfo").ToInt32()
-            Public Shared ReadOnly RuntimeDataOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "RuntimeData").ToInt32()
-
-            Public Structure CurDir
-                Public DosPath As UnicodeString
-                Public Handle As IntPtr
-            End Structure
-
-            Public Structure RtlDriveLetterCurDir
-                Public Flags As UShort
-                Public Length As UShort
-                Public TimeStamp As UInteger
-                Public DosPath As IntPtr
-            End Structure
-
-            Public MaximumLength As Integer
-            Public Length As Integer
-
-            Public Flags As RtlUserProcessFlags
-            Public DebugFlags As Integer
-
-            Public ConsoleHandle As IntPtr
-            Public ConsoleFlags As Integer
-            Public StandardInput As IntPtr
-            Public StandardOutput As IntPtr
-            Public StandardError As IntPtr
-
-            Public CurrentDirectory As CurDir
-            Public DllPath As UnicodeString
-            Public ImagePathName As UnicodeString
-            Public CommandLine As UnicodeString
-            Public Environment As IntPtr
-
-            Public StartingX As Integer
-            Public StartingY As Integer
-            Public CountX As Integer
-            Public CountY As Integer
-            Public CountCharsX As Integer
-            Public CountCharsY As Integer
-            Public FillAttribute As Integer
-
-            Public WindowFlags As Integer
-            Public ShowWindowFlags As Integer
-            Public WindowTitle As UnicodeString
-            Public DesktopInfo As UnicodeString
-            Public ShellInfo As UnicodeString
-            Public RuntimeData As UnicodeString
-
-            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=32)> _
-            Public CurrentDirectories As RtlDriveLetterCurDir()
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -344,6 +253,17 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
+        Public Structure PebLdrData
+            Public Length As Integer
+            <MarshalAs(UnmanagedType.I1)> _
+            Public Initialized As Boolean
+            Public SsHandle As IntPtr
+            Public InLoadOrderModuleList As ListEntry
+            Public InMemoryOrderModuleList As ListEntry
+            Public InInitializationOrderModuleList As ListEntry
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure ProcessBasicInformation
             Public ExitStatus As UInteger
             Public PebBaseAddress As IntPtr
@@ -353,25 +273,106 @@ Namespace Native.Api
             Public InheritedFromUniqueProcessId As IntPtr
         End Structure
 
-        <StructLayout(LayoutKind.Sequential), Serializable()> _
-        Public Structure IoCounters
-            Public ReadOperationCount As ULong
-            Public WriteOperationCount As ULong
-            Public OtherOperationCount As ULong
-            Public ReadTransferCount As ULong
-            Public WriteTransferCount As ULong
-            Public OtherTransferCount As ULong
-            Public Shared Operator <>(ByVal i1 As IoCounters, ByVal i2 As IoCounters) As Boolean
-                Return Not (i1 = i2)
-            End Operator
-            Public Shared Operator =(ByVal i1 As IoCounters, ByVal i2 As IoCounters) As Boolean
-                Return (i1.ReadOperationCount = i2.ReadOperationCount AndAlso _
-                    i1.WriteOperationCount = i2.WriteOperationCount AndAlso _
-                    i1.OtherOperationCount = i2.OtherOperationCount AndAlso _
-                    i1.ReadTransferCount = i2.ReadTransferCount AndAlso _
-                    i1.WriteTransferCount = i2.WriteTransferCount AndAlso _
-                    i1.OtherTransferCount = i2.OtherTransferCount)
-            End Operator
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure RtlUserProcessParameters
+            Public Shared ReadOnly CurrentDirectoryOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "CurrentDirectory").ToInt32()
+            Public Shared ReadOnly DllPathOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "DllPath").ToInt32()
+            Public Shared ReadOnly ImagePathNameOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "ImagePathName").ToInt32()
+            Public Shared ReadOnly CommandLineOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "CommandLine").ToInt32()
+            Public Shared ReadOnly EnvironmentOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "Environment").ToInt32()
+            Public Shared ReadOnly WindowTitleOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "WindowTitle").ToInt32()
+            Public Shared ReadOnly DesktopInfoOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "DesktopInfo").ToInt32()
+            Public Shared ReadOnly ShellInfoOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "ShellInfo").ToInt32()
+            Public Shared ReadOnly RuntimeDataOffset As Integer = Marshal.OffsetOf(GetType(RtlUserProcessParameters), "RuntimeData").ToInt32()
+
+            Public Structure CurDir
+                Public DosPath As UnicodeString
+                Public Handle As IntPtr
+            End Structure
+
+            Public Structure RtlDriveLetterCurDir
+                Public Flags As UShort
+                Public Length As UShort
+                Public TimeStamp As UInteger
+                Public DosPath As IntPtr
+            End Structure
+
+            Public MaximumLength As Integer
+            Public Length As Integer
+
+            Public Flags As RtlUserProcessFlags
+            Public DebugFlags As Integer
+
+            Public ConsoleHandle As IntPtr
+            Public ConsoleFlags As Integer
+            Public StandardInput As IntPtr
+            Public StandardOutput As IntPtr
+            Public StandardError As IntPtr
+
+            Public CurrentDirectory As CurDir
+            Public DllPath As UnicodeString
+            Public ImagePathName As UnicodeString
+            Public CommandLine As UnicodeString
+            Public Environment As IntPtr
+
+            Public StartingX As Integer
+            Public StartingY As Integer
+            Public CountX As Integer
+            Public CountY As Integer
+            Public CountCharsX As Integer
+            Public CountCharsY As Integer
+            Public FillAttribute As Integer
+
+            Public WindowFlags As Integer
+            Public ShowWindowFlags As Integer
+            Public WindowTitle As UnicodeString
+            Public DesktopInfo As UnicodeString
+            Public ShellInfo As UnicodeString
+            Public RuntimeData As UnicodeString
+
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=32)> _
+            Public CurrentDirectories As RtlDriveLetterCurDir()
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure SystemProcessInformation
+            Public NextEntryOffset As Integer
+            Public NumberOfThreads As Integer
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=3)> _
+            Public Reserved1 As Long()
+            Public CreateTime As Long
+            Public UserTime As Long
+            Public KernelTime As Long
+            Public ImageName As UnicodeString
+            Public BasePriority As Integer
+            ' This two variables are private cause we prefer
+            ' access to ProcessId and Inherited...Id as Int32
+            Private _ProcessId As IntPtr
+            Private _InheritedFromProcessId As IntPtr
+            Public HandleCount As Integer
+            Public SessionId As Integer
+            Public PageDirectoryBase As IntPtr
+            Public VirtualMemoryCounters As VmCountersEx
+            Public IoCounters As IoCounters
+
+            ' 2 properties to access to private variables
+            Public Property ProcessId() As Integer
+                Get
+                    Return _ProcessId.ToInt32
+                End Get
+                Set(ByVal value As Integer)
+                    _ProcessId = New IntPtr(value)
+                End Set
+            End Property
+            Public Property InheritedFromProcessId() As Integer
+                Get
+                    Return _InheritedFromProcessId.ToInt32
+                End Get
+                Set(ByVal value As Integer)
+                    _InheritedFromProcessId = New IntPtr(value)
+                End Set
+            End Property
+
         End Structure
 
         <StructLayout(LayoutKind.Sequential), Serializable()> _
@@ -410,18 +411,6 @@ Namespace Native.Api
 #End Region
 
         ' OK
-#Region "Declarations used for modules"
-
-        '<StructLayout(LayoutKind.Sequential)> _
-        'Public Structure MODULEINFO
-        '    Public BaseOfDll As IntPtr
-        '    Public SizeOfImage As Integer
-        '    Public EntryPoint As IntPtr
-        'End Structure
-
-#End Region
-
-        ' OK
 #Region "Declarations used for memory management"
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -441,16 +430,6 @@ Namespace Native.Api
 #Region "Declarations used for threads"
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure ThreadBasicInformation
-            Public ExitStatus As UInteger
-            Public TebBaseAddress As IntPtr
-            Public ClientId As ClientId
-            Public AffinityMask As IntPtr
-            Public Priority As Integer
-            Public BasePriority As Integer
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
         Public Structure SystemThreadInformation
             Public KernelTime As Long
             Public UserTime As Long
@@ -465,29 +444,20 @@ Namespace Native.Api
             Public WaitReason As KwaitReason
         End Structure
 
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure ThreadBasicInformation
+            Public ExitStatus As UInteger
+            Public TebBaseAddress As IntPtr
+            Public ClientId As ClientId
+            Public AffinityMask As IntPtr
+            Public Priority As Integer
+            Public BasePriority As Integer
+        End Structure
+
 #End Region
 
         ' OK
 #Region "Declarations used for tokens & privileges"
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure TokenPrivileges
-            Dim PrivilegeCount As Integer
-            <MarshalAs(UnmanagedType.ByValArray)> _
-            Dim Privileges() As LuidAndAttributes
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure Luid
-            Dim lowpart As Integer
-            Dim highpart As Integer
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure LuidAndAttributes
-            Dim pLuid As Luid
-            Dim Attributes As NativeEnums.SePrivilegeAttributes
-        End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure ClientId
@@ -504,8 +474,22 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure TokenUser
-            Dim User As SidAndAttributes
+        Public Structure Luid
+            Dim lowpart As Integer
+            Dim highpart As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure LuidAndAttributes
+            Dim pLuid As Luid
+            Dim Attributes As NativeEnums.SePrivilegeAttributes
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure PrivilegeInfo
+            Dim Name As String
+            Dim Status As SePrivilegeAttributes
+            Dim pLuid As Luid
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -515,10 +499,10 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure PrivilegeInfo
-            Dim Name As String
-            Dim Status As SePrivilegeAttributes
-            Dim pLuid As Luid
+        Public Structure TokenPrivileges
+            Dim PrivilegeCount As Integer
+            <MarshalAs(UnmanagedType.ByValArray)> _
+            Dim Privileges() As LuidAndAttributes
         End Structure
 
         <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Ansi)> _
@@ -541,10 +525,94 @@ Namespace Native.Api
             Public PrivilegeCount As Integer
             Public ModifiedId As Luid
         End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure TokenUser
+            Dim User As SidAndAttributes
+        End Structure
+
 #End Region
 
         ' OK
 #Region "Declarations used for network"
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibTcp6RowOwnerPid
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=16)> _
+            Public LocalAddr As Byte()
+            Public LocalScopeId As UInteger
+            Public LocalPort As Integer
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=16)> _
+            Public RemoteAddr As Byte()
+            Public RemoteScopeId As UInteger
+            Public RemotePort As Integer
+            Public State As Enums.MibTcpState
+            Public OwningPid As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibTcpRow
+            Public State As Enums.MibTcpState
+            Public LocalAddress As UInteger
+            Public LocalPort As Integer
+            Public RemoteAddress As UInteger
+            Public RemotePort As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibTcpRowOwnerPid
+            Public State As Integer
+            Public LocalAddr As Integer
+            Public LocalPort As Integer
+            Public RemoteAddr As Integer
+            Public RemotePort As Integer
+            Public OwningPid As Integer
+        End Structure
+
+        ' http://msdn.microsoft.com/en-us/library/aa924123.aspx
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibTcpStats
+            Public RtoAlgorithm As MibTcpRtoAlgorithm
+            Public RtoMin As UInteger
+            Public RtoMax As UInteger
+            Public MaxConn As UInteger
+            Public ActiveOpens As UInteger
+            Public PassiveOpens As UInteger
+            Public AttemptFails As UInteger
+            Public EstabResets As UInteger
+            Public CurrEstab As UInteger
+            Public InSegs As UInteger
+            Public OutSegs As UInteger
+            Public RetransSegs As UInteger
+            Public InErrs As UInteger
+            Public OutRsts As UInteger
+            Public NumConns As UInteger
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibUdp6RowOwnerId
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=16)> _
+            Public LocalAddr As Byte()
+            Public LocalScopeId As Integer
+            Public LocalPort As Integer
+            Public OwningPid As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibUdpRowOwnerId
+            Public LocalAddr As Integer
+            Public LocalPort As Integer
+            Public OwningPid As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure MibUdpStats
+            Public InDatagrams As UInteger
+            Public NoPorts As UInteger
+            Public InErrors As UInteger
+            Public OutDatagrams As UInteger
+            Public NumAddrs As UInteger
+        End Structure
 
         Public Structure NetResource
             ''' <summary>
@@ -591,120 +659,9 @@ Namespace Native.Api
             Public lpProvider As String
         End Structure
 
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure MibTcpRowOwnerPid
-            Public State As Integer
-            Public LocalAddr As Integer
-            Public LocalPort As Integer
-            Public RemoteAddr As Integer
-            Public RemotePort As Integer
-            Public OwningPid As Integer
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure MibUdpRowOwnerId
-            Public LocalAddr As Integer
-            Public LocalPort As Integer
-            Public OwningPid As Integer
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure MibUdp6RowOwnerId
-            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=16)> _
-            Public LocalAddr As Byte()
-            Public LocalScopeId As Integer
-            Public LocalPort As Integer
-            Public OwningPid As Integer
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure MibTcpRow
-            Public State As Enums.MibTcpState
-            Public LocalAddress As UInteger
-            Public LocalPort As Integer
-            Public RemoteAddress As UInteger
-            Public RemotePort As Integer
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure MibTcp6RowOwnerPid
-            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=16)> _
-            Public LocalAddr As Byte()
-            Public LocalScopeId As UInteger
-            Public LocalPort As Integer
-            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=16)> _
-            Public RemoteAddr As Byte()
-            Public RemoteScopeId As UInteger
-            Public RemotePort As Integer
-            Public State As Enums.MibTcpState
-            Public OwningPid As Integer
-        End Structure
-
-        ' http://msdn.microsoft.com/en-us/library/aa924123.aspx
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure MibTcpStats
-            Public RtoAlgorithm As MibTcpRtoAlgorithm
-            Public RtoMin As UInteger
-            Public RtoMax As UInteger
-            Public MaxConn As UInteger
-            Public ActiveOpens As UInteger
-            Public PassiveOpens As UInteger
-            Public AttemptFails As UInteger
-            Public EstabResets As UInteger
-            Public CurrEstab As UInteger
-            Public InSegs As UInteger
-            Public OutSegs As UInteger
-            Public RetransSegs As UInteger
-            Public InErrs As UInteger
-            Public OutRsts As UInteger
-            Public NumConns As UInteger
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure MibUdpStats
-            Public InDatagrams As UInteger
-            Public NoPorts As UInteger
-            Public InErrors As UInteger
-            Public OutDatagrams As UInteger
-            Public NumAddrs As UInteger
-        End Structure
-
 #End Region
 
 #Region "Declarations used for files"
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure FileTime
-            Public dwLowDateTime As Integer
-            Public dwHighDateTime As Integer
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
-        Public Structure ShFileOpStruct
-            Public hwnd As IntPtr
-            Public wFunc As FO_Func
-            <MarshalAs(UnmanagedType.LPWStr)> _
-            Public pFrom As String
-            <MarshalAs(UnmanagedType.LPWStr)> _
-            Public pTo As String
-            Public fFlags As Short
-            Public fAnyOperationsAborted As Boolean
-            Public hNameMappings As IntPtr
-            <MarshalAs(UnmanagedType.LPWStr)> _
-            Public lpszProgressTitle As String '  only used if FOF_SIMPLEPROGRESS
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SystemTime
-            <MarshalAs(UnmanagedType.U2)> Public Year As Short
-            <MarshalAs(UnmanagedType.U2)> Public Month As Short
-            <MarshalAs(UnmanagedType.U2)> Public DayOfWeek As Short
-            <MarshalAs(UnmanagedType.U2)> Public Day As Short
-            <MarshalAs(UnmanagedType.U2)> Public Hour As Short
-            <MarshalAs(UnmanagedType.U2)> Public Minute As Short
-            <MarshalAs(UnmanagedType.U2)> Public Second As Short
-            <MarshalAs(UnmanagedType.U2)> Public Milliseconds As Short
-        End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure ByHandleFileInformation
@@ -718,6 +675,12 @@ Namespace Native.Api
             Dim nNumberOfLinks As Integer
             Dim nFileIndexHigh As Integer
             Dim nFileIndexLow As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure FileTime
+            Public dwLowDateTime As Integer
+            Public dwHighDateTime As Integer
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -750,6 +713,33 @@ Namespace Native.Api
             Public szTypeName As String
         End Structure
 
+        <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
+        Public Structure ShFileOpStruct
+            Public hwnd As IntPtr
+            Public wFunc As FO_Func
+            <MarshalAs(UnmanagedType.LPWStr)> _
+            Public pFrom As String
+            <MarshalAs(UnmanagedType.LPWStr)> _
+            Public pTo As String
+            Public fFlags As Short
+            Public fAnyOperationsAborted As Boolean
+            Public hNameMappings As IntPtr
+            <MarshalAs(UnmanagedType.LPWStr)> _
+            Public lpszProgressTitle As String '  only used if FOF_SIMPLEPROGRESS
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure SystemTime
+            <MarshalAs(UnmanagedType.U2)> Public Year As Short
+            <MarshalAs(UnmanagedType.U2)> Public Month As Short
+            <MarshalAs(UnmanagedType.U2)> Public DayOfWeek As Short
+            <MarshalAs(UnmanagedType.U2)> Public Day As Short
+            <MarshalAs(UnmanagedType.U2)> Public Hour As Short
+            <MarshalAs(UnmanagedType.U2)> Public Minute As Short
+            <MarshalAs(UnmanagedType.U2)> Public Second As Short
+            <MarshalAs(UnmanagedType.U2)> Public Milliseconds As Short
+        End Structure
+
 #End Region
 
 #Region "Declarations used for system"
@@ -762,30 +752,6 @@ Namespace Native.Api
             Public time As Integer
             Public dwExtraInfo As IntPtr
         End Class
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SystemInfo
-            Friend uProcessorInfo As ProcessorInfoUnion
-            Public dwPageSize As UInteger
-            Public lpMinimumApplicationAddress As IntPtr
-            Public lpMaximumApplicationAddress As IntPtr
-            Public dwActiveProcessorMask As IntPtr
-            Public dwNumberOfProcessors As UInteger
-            Public dwProcessorType As UInteger
-            Public dwAllocationGranularity As UInteger
-            Public dwProcessorLevel As UShort
-            Public dwProcessorRevision As UShort
-        End Structure
-
-        <StructLayout(LayoutKind.Explicit)> _
-        Public Structure ProcessorInfoUnion
-            <FieldOffset(0)> _
-            Friend dwOemId As UInteger
-            <FieldOffset(0)> _
-            Friend wProcessorArchitecture As UShort
-            <FieldOffset(2)> _
-            Friend wReserved As UShort
-        End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure PerformanceInformation
@@ -803,6 +769,58 @@ Namespace Native.Api
             Public HandlesCount As Integer
             Public ProcessCount As Integer
             Public ThreadCount As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Explicit)> _
+        Public Structure ProcessorInfoUnion
+            <FieldOffset(0)> _
+            Friend dwOemId As UInteger
+            <FieldOffset(0)> _
+            Friend wProcessorArchitecture As UShort
+            <FieldOffset(2)> _
+            Friend wReserved As UShort
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure SystemBasicInformation
+            Public Reserved As Integer
+            Public TimerResolution As Integer
+            Public PageSize As Integer
+            Public NumberOfPhysicalPages As Integer
+            Public LowestPhysicalPageNumber As Integer
+            Public HighestPhysicalPageNumber As Integer
+            Public AllocationGranularity As Integer
+            Public MinimumUserModeAddress As IntPtr
+            Public MaximumUserModeAddress As IntPtr
+            Public ActiveProcessorsAffinityMask As IntPtr
+            Public NumberOfProcessors As Byte
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure SystemCacheInformation
+            Public SystemCacheWsSize As IntPtr
+            Public SystemCacheWsPeakSize As IntPtr
+            Public SystemCacheWsFaults As Integer
+            Public SystemCacheWsMinimum As IntPtr
+            Public SystemCacheWsMaximum As IntPtr
+            Public TransitionSharedPages As IntPtr
+            Public TransitionSharedPagesPeak As IntPtr
+            Public Reserved1 As Integer
+            Public Reserved2 As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure SystemInfo
+            Friend uProcessorInfo As ProcessorInfoUnion
+            Public dwPageSize As UInteger
+            Public lpMinimumApplicationAddress As IntPtr
+            Public lpMaximumApplicationAddress As IntPtr
+            Public dwActiveProcessorMask As IntPtr
+            Public dwNumberOfProcessors As UInteger
+            Public dwProcessorType As UInteger
+            Public dwAllocationGranularity As UInteger
+            Public dwProcessorLevel As UShort
+            Public dwProcessorRevision As UShort
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -1201,19 +1219,6 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SystemCacheInformation
-            Public SystemCacheWsSize As IntPtr
-            Public SystemCacheWsPeakSize As IntPtr
-            Public SystemCacheWsFaults As Integer
-            Public SystemCacheWsMinimum As IntPtr
-            Public SystemCacheWsMaximum As IntPtr
-            Public TransitionSharedPages As IntPtr
-            Public TransitionSharedPagesPeak As IntPtr
-            Public Reserved1 As Integer
-            Public Reserved2 As Integer
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
         Public Structure SystemProcessorPerformanceInformation
             Public IdleTime As Long
             Public KernelTime As Long
@@ -1223,29 +1228,31 @@ Namespace Native.Api
             Public InterruptCount As Integer
         End Structure
 
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SystemBasicInformation
-            Public Reserved As Integer
-            Public TimerResolution As Integer
-            Public PageSize As Integer
-            Public NumberOfPhysicalPages As Integer
-            Public LowestPhysicalPageNumber As Integer
-            Public HighestPhysicalPageNumber As Integer
-            Public AllocationGranularity As Integer
-            Public MinimumUserModeAddress As IntPtr
-            Public MaximumUserModeAddress As IntPtr
-            Public ActiveProcessorsAffinityMask As IntPtr
-            Public NumberOfProcessors As Byte
-        End Structure
-
 #End Region
 
 #Region "Declarations used for windows (not Windows :-p)"
 
         <StructLayout(LayoutKind.Sequential)> _
+        Public Structure FlashWInfo
+            Public cbSize As UInt32
+            Public hwnd As IntPtr
+            Public dwFlags As FlashWInfoFlags
+            Public uCount As UInt32
+            Public dwTimeout As UInt32
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure PointApi
             Dim X As Integer
             Dim Y As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> <Serializable()> _
+        Public Structure Rect
+            Public Left As Integer
+            Public Top As Integer
+            Public Right As Integer
+            Public Bottom As Integer
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -1258,27 +1265,17 @@ Namespace Native.Api
             Public NormalPosition As Rect
         End Structure
 
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure FlashWInfo
-            Public cbSize As UInt32
-            Public hwnd As IntPtr
-            Public dwFlags As FlashWInfoFlags
-            Public uCount As UInt32
-            Public dwTimeout As UInt32
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> <Serializable()> _
-        Public Structure Rect
-            Public Left As Integer
-            Public Top As Integer
-            Public Right As Integer
-            Public Bottom As Integer
-        End Structure
-
 #End Region
 
         ' OK
 #Region "Declarations used for services"
+
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure EnumServiceStatusProcess
+            <MarshalAs(UnmanagedType.LPTStr)> Public ServiceName As String
+            <MarshalAs(UnmanagedType.LPTStr)> Public DisplayName As String
+            <MarshalAs(UnmanagedType.Struct)> Public ServiceStatusProcess As ServiceStatusProcess
+        End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
         Public Structure QueryServiceConfig
@@ -1317,13 +1314,6 @@ Namespace Native.Api
             Public ServiceFlags As ServiceFlags
         End Structure
 
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure EnumServiceStatusProcess
-            <MarshalAs(UnmanagedType.LPTStr)> Public ServiceName As String
-            <MarshalAs(UnmanagedType.LPTStr)> Public DisplayName As String
-            <MarshalAs(UnmanagedType.Struct)> Public ServiceStatusProcess As ServiceStatusProcess
-        End Structure
-
 #End Region
 
         ' OK
@@ -1342,7 +1332,7 @@ Namespace Native.Api
 #Region "Declarations used for hooks"
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure KBDLLHOOKSTRUCT
+        Public Structure KBDLLHookStruct
             Public vkCode As Integer
             Public scanCode As Integer
             Public flags As KBDLLHookStructFlags
@@ -1351,7 +1341,7 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure MOUSEHOOKSTRUCT
+        Public Structure MouseHookStruct
             Public pt As Point
             Public hwnd As IntPtr
             Public wHitTestCode As UInteger
@@ -1364,6 +1354,14 @@ Namespace Native.Api
 #Region "Declarations used for handles"
 
         <StructLayout(LayoutKind.Sequential)> _
+        Public Structure GenericMapping
+            Dim GenericRead As Integer
+            Dim GenericWrite As Integer
+            Dim GenericExecute As Integer
+            Dim GenericAll As Integer
+        End Structure
+
+        <StructLayout(LayoutKind.Sequential)> _
         Public Structure ObjectAttributes
             Dim Length As Integer
             Dim RootDirectoryHandle As IntPtr
@@ -1374,22 +1372,25 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure GenericMapping
-            Dim GenericRead As Integer
-            Dim GenericWrite As Integer
-            Dim GenericExecute As Integer
-            Dim GenericAll As Integer
+        Public Structure ObjectBasicInformation
+            Dim Attributes As UInteger
+            Dim GrantedAccess As Integer
+            Dim HandleCount As UInteger
+            Dim PointerCount As UInteger
+            Dim PagedPoolUsage As UInteger
+            Dim NonPagedPoolUsage As UInteger
+            Dim Reserved1 As Integer
+            Dim Reserved2 As Integer
+            Dim Reserved3 As Integer
+            Dim NameInformationLength As UInteger
+            Dim TypeInformationLength As UInteger
+            Dim SecurityDescriptorLength As UInteger
+            Dim CreateTime As ULong
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure ObjectTypesInformation
-            Public ObjectTypesCount As Integer
-            Public Entries As ObjectTypeInformation
-            Public Shared ReadOnly Property ObjectTypeInformationOffset() As Integer
-                Get
-                    Return Marshal.OffsetOf(GetType(ObjectTypesInformation), "Entries").ToInt32
-                End Get
-            End Property
+        Public Structure ObjectNameInformation
+            Dim Name As UnicodeString
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -1419,12 +1420,12 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure SystemHandleInformation
-            Public HandleCount As Integer
-            Public Entries As SystemHandleEntry
-            Public Shared ReadOnly Property HandlesOffset() As Integer
+        Public Structure ObjectTypesInformation
+            Public ObjectTypesCount As Integer
+            Public Entries As ObjectTypeInformation
+            Public Shared ReadOnly Property ObjectTypeInformationOffset() As Integer
                 Get
-                    Return Marshal.OffsetOf(GetType(SystemHandleInformation), "Entries").ToInt32
+                    Return Marshal.OffsetOf(GetType(ObjectTypesInformation), "Entries").ToInt32
                 End Get
             End Property
         End Structure
@@ -1440,59 +1441,20 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure ObjectNameInformation
-            Dim Name As UnicodeString
-        End Structure
-
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure ObjectBasicInformation
-            Dim Attributes As UInteger
-            Dim GrantedAccess As Integer
-            Dim HandleCount As UInteger
-            Dim PointerCount As UInteger
-            Dim PagedPoolUsage As UInteger
-            Dim NonPagedPoolUsage As UInteger
-            Dim Reserved1 As Integer
-            Dim Reserved2 As Integer
-            Dim Reserved3 As Integer
-            Dim NameInformationLength As UInteger
-            Dim TypeInformationLength As UInteger
-            Dim SecurityDescriptorLength As UInteger
-            Dim CreateTime As ULong
+        Public Structure SystemHandleInformation
+            Public HandleCount As Integer
+            Public Entries As SystemHandleEntry
+            Public Shared ReadOnly Property HandlesOffset() As Integer
+                Get
+                    Return Marshal.OffsetOf(GetType(SystemHandleInformation), "Entries").ToInt32
+                End Get
+            End Property
         End Structure
 
 #End Region
 
         ' OK
 #Region "Declarations used for debugging"
-
-        ' http://virtualkd.sysprogs.org/dox/a00098.html
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure RtlProcessModuleInformation
-            Public Section As IntPtr
-            Public MappedBase As IntPtr
-            Public ImageBase As IntPtr
-            Public ImageSize As Integer
-            Public Flags As LdrpDataTableEntryFlags
-            Public LoadOrderIndex As UShort
-            Public InitOrderIndex As UShort
-            Public LoadCount As UShort
-            Public OffsetToFileName As UShort
-            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=256)> _
-            Public FullPathName() As Char
-        End Structure
-
-        ' http://virtualkd.sysprogs.org/dox/a00098.html
-        <StructLayout(LayoutKind.Sequential)> _
-        Public Structure RtlProcessModules
-            Public NumberOfModules As Integer
-            Public Modules As RtlProcessModuleInformation
-            Public Shared ReadOnly Property ModulesOffset() As Integer
-                Get
-                    Return Marshal.OffsetOf(GetType(RtlProcessModules), "Modules").ToInt32
-                End Get
-            End Property
-        End Structure
 
         ' http://www.woodmann.com/forum/blog.php?b=151
         ' http://securityxploded.com/enumheaps.php
@@ -1522,19 +1484,11 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure HeapInformation
-            Public BaseAddress As IntPtr
-            Public Flags As Integer
-            Public Granularity As UShort
-            Public Unknown As UShort
-            Public MemAllocated As IntPtr
-            Public MemCommitted As IntPtr
-            Public TagCount As Integer
-            Public BlockCount As Integer
-            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=7)> _
-            Public Reserved As Integer()
-            Public Tags As IntPtr
-            Public Blocks As IntPtr
+        Public Structure HeapBlock
+            Public Address As IntPtr
+            Public Size As Integer
+            Public Flags As NativeEnums.HeapBlockFlag
+            Public Reserved As IntPtr
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -1551,14 +1505,19 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure ProcessHeaps
-            Public HeapsCount As Integer
-            Public Heaps As HeapInformation
-            Public Shared ReadOnly Property HeapsOffset() As Integer
-                Get
-                    Return Marshal.OffsetOf(GetType(ProcessHeaps), "Heaps").ToInt32
-                End Get
-            End Property
+        Public Structure HeapInformation
+            Public BaseAddress As IntPtr
+            Public Flags As Integer
+            Public Granularity As UShort
+            Public Unknown As UShort
+            Public MemAllocated As IntPtr
+            Public MemCommitted As IntPtr
+            Public TagCount As Integer
+            Public BlockCount As Integer
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=7)> _
+            Public Reserved As Integer()
+            Public Tags As IntPtr
+            Public Blocks As IntPtr
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
@@ -1570,38 +1529,48 @@ Namespace Native.Api
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
-        Public Structure HeapBlock
-            Public Address As IntPtr
-            Public Size As Integer
-            Public Flags As NativeEnums.HeapBlockFlag
-            Public Reserved As IntPtr
+        Public Structure ProcessHeaps
+            Public HeapsCount As Integer
+            Public Heaps As HeapInformation
+            Public Shared ReadOnly Property HeapsOffset() As Integer
+                Get
+                    Return Marshal.OffsetOf(GetType(ProcessHeaps), "Heaps").ToInt32
+                End Get
+            End Property
+        End Structure
+
+        ' http://virtualkd.sysprogs.org/dox/a00098.html
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure RtlProcessModuleInformation
+            Public Section As IntPtr
+            Public MappedBase As IntPtr
+            Public ImageBase As IntPtr
+            Public ImageSize As Integer
+            Public Flags As LdrpDataTableEntryFlags
+            Public LoadOrderIndex As UShort
+            Public InitOrderIndex As UShort
+            Public LoadCount As UShort
+            Public OffsetToFileName As UShort
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=256)> _
+            Public FullPathName() As Char
+        End Structure
+
+        ' http://virtualkd.sysprogs.org/dox/a00098.html
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure RtlProcessModules
+            Public NumberOfModules As Integer
+            Public Modules As RtlProcessModuleInformation
+            Public Shared ReadOnly Property ModulesOffset() As Integer
+                Get
+                    Return Marshal.OffsetOf(GetType(RtlProcessModules), "Modules").ToInt32
+                End Get
+            End Property
         End Structure
 
 #End Region
 
         ' OK
 #Region "Declarations used for wintrust verification"
-
-        <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
-       Public Class WinTrustFileInfo
-            Private StructSize As Integer = DirectCast(Marshal.SizeOf(GetType(WinTrustFileInfo)), Integer)
-            Private pszFilePath As IntPtr
-            ' required, file name to be verified
-            Private hFile As IntPtr = IntPtr.Zero
-            ' optional, open handle to FilePath
-            Private pgKnownSubject As IntPtr = IntPtr.Zero
-            ' optional, subject type if it is known
-            Public Sub New(ByVal _filePath As String)
-                pszFilePath = Marshal.StringToCoTaskMemAuto(_filePath)
-            End Sub
-            Protected Overrides Sub Finalize()
-                Try
-                    Marshal.FreeCoTaskMem(pszFilePath)
-                Finally
-                    MyBase.Finalize()
-                End Try
-            End Sub
-        End Class
 
         <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
         Public Class WinTrustData
@@ -1631,6 +1600,27 @@ Namespace Native.Api
             Protected Overrides Sub Finalize()
                 Try
                     Marshal.FreeCoTaskMem(FileInfoPtr)
+                Finally
+                    MyBase.Finalize()
+                End Try
+            End Sub
+        End Class
+
+        <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Unicode)> _
+       Public Class WinTrustFileInfo
+            Private StructSize As Integer = DirectCast(Marshal.SizeOf(GetType(WinTrustFileInfo)), Integer)
+            Private pszFilePath As IntPtr
+            ' required, file name to be verified
+            Private hFile As IntPtr = IntPtr.Zero
+            ' optional, open handle to FilePath
+            Private pgKnownSubject As IntPtr = IntPtr.Zero
+            ' optional, subject type if it is known
+            Public Sub New(ByVal _filePath As String)
+                pszFilePath = Marshal.StringToCoTaskMemAuto(_filePath)
+            End Sub
+            Protected Overrides Sub Finalize()
+                Try
+                    Marshal.FreeCoTaskMem(pszFilePath)
                 Finally
                     MyBase.Finalize()
                 End Try

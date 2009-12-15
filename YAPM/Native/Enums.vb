@@ -56,24 +56,6 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for network"
 
-        Public Enum TcpTableClass As Integer
-            BasicListener
-            BasicConnections
-            BasicAll
-            OwnerPidListener
-            OwnerPidConnections
-            OwnerPidAll
-            OwnerModuleListener
-            OwnerModuleConnections
-            OwnerModuleAll
-        End Enum
-
-        Public Enum UdpTableClass As Integer
-            Basic
-            OwnerPid
-            OwnerModule
-        End Enum
-
         Public Enum MibTcpState As Integer
             Closed = 1
             Listening
@@ -96,88 +78,34 @@ Namespace Native.Api
             Udp6
         End Enum
 
+        Public Enum TcpTableClass As Integer
+            BasicListener
+            BasicConnections
+            BasicAll
+            OwnerPidListener
+            OwnerPidConnections
+            OwnerPidAll
+            OwnerModuleListener
+            OwnerModuleConnections
+            OwnerModuleAll
+        End Enum
+
         Public Enum ToolType
             TraceRoute
             WhoIs
             Ping
         End Enum
 
+        Public Enum UdpTableClass As Integer
+            Basic
+            OwnerPid
+            OwnerModule
+        End Enum
+
 #End Region
 
         ' OK
 #Region "Declarations used for WMI"
-
-        Public Enum WmiProcessReturnCode
-            SuccessfulCompletion = 0
-            AccessDenied = 2
-            InsufficientPrivilege = 3
-            UnknownFailure = 8
-            PathNotFound = 9
-            InvalidParameter = 21
-        End Enum
-
-        Public Enum WmiInfoJob
-            CollectionID
-        End Enum
-
-        Public Enum WmiInfoService
-            AcceptPause
-            AcceptStop
-            CheckPoint
-            DesktopInteract
-            DisplayName
-            ErrorControl
-            ExitCode
-            Name
-            PathName
-            ProcessId
-            ServiceSpecificExitCode
-            ServiceType
-            Started
-            StartMode
-            StartName
-            State
-            SystemCreationClassName
-            SystemName
-            TagId
-            WaitHint
-        End Enum
-
-        Public Enum WmiServiceReturnCode
-            Success = 0
-            NotSupported = 1
-            AccessDenied = 2
-            DependentServicesRunning = 3
-            InvalidServiceControl = 4
-            ServiceCannotAcceptControl = 5
-            ServiceNotActive = 6
-            ServiceRequestTimeout = 7
-            UnknownFailure = 8
-            PathNotFound = 9
-            ServiceAlreadyRunning = 10
-            ServiceDatabaseLocked = 11
-            ServiceDependencyDeleted = 12
-            ServiceDependencyFailure = 13
-            ServiceDisabled = 14
-            ServiceLogonFailure = 15
-            ServiceMarkedForDeletion = 16
-            ServiceNoThread = 17
-            StatusCircularDependency = 18
-            StatusDuplicateName = 19
-            StatusInvalidName = 20
-            StatusInvalidParameter = 21
-            StatusInvalidServiceAccount = 22
-            StatusServiceExists = 23
-            ServiceAlreadyPaused = 24
-        End Enum
-
-        Public Enum WmiShutdownValues As Integer
-            [LogOff] = 0
-            [Shutdown] = 1
-            [Reboot] = 2
-            [PowerOff] = 8
-            [Force] = 4
-        End Enum
 
         Public Enum WBEMStatus
             WBEM_NO_ERROR = 0
@@ -375,6 +303,10 @@ Namespace Native.Api
             WBEMMOF_E_INVALID_DELETECLASS_SYNTAX = &H80044031
         End Enum
 
+        Public Enum WmiInfoJob
+            CollectionID
+        End Enum
+
         Public Enum WmiInfoProcess
             'Caption
             CommandLine
@@ -436,6 +368,74 @@ Namespace Native.Api
             ThreadState
             ThreadWaitReason
             UserModeTime
+        End Enum
+
+        Public Enum WmiInfoService
+            AcceptPause
+            AcceptStop
+            CheckPoint
+            DesktopInteract
+            DisplayName
+            ErrorControl
+            ExitCode
+            Name
+            PathName
+            ProcessId
+            ServiceSpecificExitCode
+            ServiceType
+            Started
+            StartMode
+            StartName
+            State
+            SystemCreationClassName
+            SystemName
+            TagId
+            WaitHint
+        End Enum
+
+        Public Enum WmiProcessReturnCode
+            SuccessfulCompletion = 0
+            AccessDenied = 2
+            InsufficientPrivilege = 3
+            UnknownFailure = 8
+            PathNotFound = 9
+            InvalidParameter = 21
+        End Enum
+
+        Public Enum WmiServiceReturnCode
+            Success = 0
+            NotSupported = 1
+            AccessDenied = 2
+            DependentServicesRunning = 3
+            InvalidServiceControl = 4
+            ServiceCannotAcceptControl = 5
+            ServiceNotActive = 6
+            ServiceRequestTimeout = 7
+            UnknownFailure = 8
+            PathNotFound = 9
+            ServiceAlreadyRunning = 10
+            ServiceDatabaseLocked = 11
+            ServiceDependencyDeleted = 12
+            ServiceDependencyFailure = 13
+            ServiceDisabled = 14
+            ServiceLogonFailure = 15
+            ServiceMarkedForDeletion = 16
+            ServiceNoThread = 17
+            StatusCircularDependency = 18
+            StatusDuplicateName = 19
+            StatusInvalidName = 20
+            StatusInvalidParameter = 21
+            StatusInvalidServiceAccount = 22
+            StatusServiceExists = 23
+            ServiceAlreadyPaused = 24
+        End Enum
+
+        Public Enum WmiShutdownValues As Integer
+            [LogOff] = 0
+            [Shutdown] = 1
+            [Reboot] = 2
+            [PowerOff] = 8
+            [Force] = 4
         End Enum
 
 #End Region

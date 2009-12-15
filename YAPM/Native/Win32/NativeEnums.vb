@@ -76,6 +76,20 @@ Namespace Native.Api
             ExitWindows = &H80
         End Enum
 
+        Public Enum JobObjectInformationClass As Integer
+            JobObjectBasicAccountingInformation = 1
+            JobObjectBasicLimitInformation = 2
+            JobObjectBasicProcessIdList = 3
+            JobObjectBasicUIRestrictions = 4
+            JobObjectSecurityLimitInformation = 5
+            JobObjectEndOfJobTimeInformation = 6
+            JobObjectAssociateCompletionPortInformation = 7
+            JobObjectBasicAndIoAccountingInformation = 8
+            JobObjectExtendedLimitInformation = 9
+            JobObjectJobSetInformation = 10
+            JobObjectGroupInformation = 11      ' Not supported on XP/Vista
+        End Enum
+
         ' http://msdn.microsoft.com/en-us/library/ms684147(VS.85).aspx
         <Flags()> _
         Public Enum JobObjectLimitFlags As UInteger
@@ -95,56 +109,19 @@ Namespace Native.Api
             KillOnJobClose = &H2000
         End Enum
 
-        Public Enum JobObjectInformationClass As Integer
-            JobObjectBasicAccountingInformation = 1
-            JobObjectBasicLimitInformation = 2
-            JobObjectBasicProcessIdList = 3
-            JobObjectBasicUIRestrictions = 4
-            JobObjectSecurityLimitInformation = 5
-            JobObjectEndOfJobTimeInformation = 6
-            JobObjectAssociateCompletionPortInformation = 7
-            JobObjectBasicAndIoAccountingInformation = 8
-            JobObjectExtendedLimitInformation = 9
-            JobObjectJobSetInformation = 10
-            JobObjectGroupInformation = 11      ' Not supported on XP/Vista
-        End Enum
-
 #End Region
 
 #Region "Declarations used for processes"
 
-        <Flags()> _
-        Public Enum RtlUserProcessFlags As UInteger
-            ParamsNormalized = &H1
-            ProfileUser = &H2
-            ProfileKernel = &H4
-            ProfileServer = &H8
-            Reserve1Mb = &H20
-            Reserve16Mb = &H40
-            CaseSensitive = &H80
-            DisableHeapDecommit = &H100
-            DllRedirectionLocal = &H1000
-            AppManifestPresent = &H2000
-            ImageKeyMissing = &H4000
-            OptInProcess = &H20000
+        Public Enum DepFlags As UInteger
+            Disable = &H0
+            Enable = &H1
+            DisableAtlThunkEmulation = &H2
         End Enum
 
-        Public Enum MiniDumpType As Integer
-            MiniDumpNormal = &H0
-            MiniDumpWithDataSegs = &H1
-            MiniDumpWithFullMemory = &H2
-            MiniDumpWithHandleData = &H4
-            MiniDumpFilterMemory = &H8
-            MiniDumpScanMemory = &H10
-            MiniDumpWithUnloadedModules = &H20
-            MiniDumpWithIndirectlyReferencedMemory = &H40
-            MiniDumpFilterModulePaths = &H80
-            MiniDumpWithProcessThreadData = &H100
-            MiniDumpWithPrivateReadWriteMemory = &H200
-            MiniDumpWithoutOptionalData = &H400
-            MiniDumpWithFullMemoryInfo = &H800
-            MiniDumpWithThreadInfo = &H1000
-            MiniDumpWithCodeSegs = &H2000
+        Public Enum GuiResourceType As Integer
+            GdiObjects = &H0
+            UserObjects = &H1
         End Enum
 
         <Flags()> _
@@ -173,6 +150,24 @@ Namespace Native.Api
             NonPagedDebugInfo = &H20000000
             MmLoaded = &H40000000
             CompatDatabaseProcessed = &H80000000
+        End Enum
+
+        Public Enum MiniDumpType As Integer
+            MiniDumpNormal = &H0
+            MiniDumpWithDataSegs = &H1
+            MiniDumpWithFullMemory = &H2
+            MiniDumpWithHandleData = &H4
+            MiniDumpFilterMemory = &H8
+            MiniDumpScanMemory = &H10
+            MiniDumpWithUnloadedModules = &H20
+            MiniDumpWithIndirectlyReferencedMemory = &H40
+            MiniDumpFilterModulePaths = &H80
+            MiniDumpWithProcessThreadData = &H100
+            MiniDumpWithPrivateReadWriteMemory = &H200
+            MiniDumpWithoutOptionalData = &H400
+            MiniDumpWithFullMemoryInfo = &H800
+            MiniDumpWithThreadInfo = &H1000
+            MiniDumpWithCodeSegs = &H2000
         End Enum
 
         Public Enum ProcessInformationClass As Integer
@@ -231,15 +226,20 @@ Namespace Native.Api
             MaxProcessInfoClass
         End Enum
 
-        Public Enum DepFlags As UInteger
-            Disable = &H0
-            Enable = &H1
-            DisableAtlThunkEmulation = &H2
-        End Enum
-
-        Public Enum GuiResourceType As Integer
-            GdiObjects = &H0
-            UserObjects = &H1
+        <Flags()> _
+        Public Enum RtlUserProcessFlags As UInteger
+            ParamsNormalized = &H1
+            ProfileUser = &H2
+            ProfileKernel = &H4
+            ProfileServer = &H8
+            Reserve1Mb = &H20
+            Reserve16Mb = &H40
+            CaseSensitive = &H80
+            DisableHeapDecommit = &H100
+            DllRedirectionLocal = &H1000
+            AppManifestPresent = &H2000
+            ImageKeyMissing = &H4000
+            OptInProcess = &H20000
         End Enum
 
         <Flags()> _
@@ -298,40 +298,6 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for threads"
 
-        <Flags()> _
-        Public Enum RemoteThreadCreationFlags As UInteger
-            DebugProcess = &H1
-            DebugOnlyThisProcess = &H2
-            CreateSuspended = &H4
-            DetachedProcess = &H8
-            CreateNewConsole = &H10
-            NormalPriorityClass = &H20
-            IdlePriorityClass = &H40
-            HighPriorityClass = &H80
-            RealtimePriorityClass = &H100
-            CreateNewProcessGroup = &H200
-            CreateUnicodeEnvironment = &H400
-            CreateSeparateWowVdm = &H800
-            CreateSharedWowVdm = &H1000
-            CreateForceDos = &H2000
-            BelowNormalPriorityClass = &H4000
-            AboveNormalPriorityClass = &H8000
-            StackSizeParamIsAReservation = &H10000
-            InheritCallerPriority = &H20000
-            CreateProtectedProcess = &H40000
-            ExtendedStartupInfoPresent = &H80000
-            ProcessModeBackgroundBegin = &H100000
-            ProcessModeBackgroundEnd = &H200000
-            CreateBreakawayFromJob = &H1000000
-            CreatePreserveCodeAuthzLevel = &H2000000
-            CreateDefaultErrorMode = &H4000000
-            CreateNoWindow = &H8000000
-            ProfileUser = &H10000000
-            ProfileKernel = &H20000000
-            ProfileServer = &H40000000
-            CreateIgnoreSystemDefault = &H80000000
-        End Enum
-
         Public Enum KwaitReason As Integer
             Executive = 0
             FreePage = 1
@@ -373,6 +339,40 @@ Namespace Native.Api
             MaximumWaitReason = 37
         End Enum
 
+        <Flags()> _
+        Public Enum RemoteThreadCreationFlags As UInteger
+            DebugProcess = &H1
+            DebugOnlyThisProcess = &H2
+            CreateSuspended = &H4
+            DetachedProcess = &H8
+            CreateNewConsole = &H10
+            NormalPriorityClass = &H20
+            IdlePriorityClass = &H40
+            HighPriorityClass = &H80
+            RealtimePriorityClass = &H100
+            CreateNewProcessGroup = &H200
+            CreateUnicodeEnvironment = &H400
+            CreateSeparateWowVdm = &H800
+            CreateSharedWowVdm = &H1000
+            CreateForceDos = &H2000
+            BelowNormalPriorityClass = &H4000
+            AboveNormalPriorityClass = &H8000
+            StackSizeParamIsAReservation = &H10000
+            InheritCallerPriority = &H20000
+            CreateProtectedProcess = &H40000
+            ExtendedStartupInfoPresent = &H80000
+            ProcessModeBackgroundBegin = &H100000
+            ProcessModeBackgroundEnd = &H200000
+            CreateBreakawayFromJob = &H1000000
+            CreatePreserveCodeAuthzLevel = &H2000000
+            CreateDefaultErrorMode = &H4000000
+            CreateNoWindow = &H8000000
+            ProfileUser = &H10000000
+            ProfileKernel = &H20000000
+            ProfileServer = &H40000000
+            CreateIgnoreSystemDefault = &H80000000
+        End Enum
+
         Public Enum ThreadInformationClass
             ThreadBasicInformation
             ThreadTimes
@@ -409,6 +409,13 @@ Namespace Native.Api
 
 #Region "Declarations used for tokens & privileges"
 
+        Public Enum SecurityImpersonationLevel As Integer
+            SecurityAnonymous
+            SecurityIdentification
+            SecurityImpersonation
+            SecurityDelegation
+        End Enum
+
         <Flags()> _
         Public Enum SePrivilegeAttributes As UInteger
             Disabled = &H0
@@ -417,6 +424,19 @@ Namespace Native.Api
             DisabledByDefault = &H3
             Removed = &H4
             UsedForAccess = &H80000000
+        End Enum
+
+        Public Enum SidNameUse As Integer
+            User = 1
+            Group
+            Domain
+            [Alias]
+            WellKnownGroup
+            DeletedAccount
+            Invalid
+            Unknown
+            Computer
+            Label
         End Enum
 
         Public Enum TokenInformationClass
@@ -458,35 +478,16 @@ Namespace Native.Api
             Impersonation
         End Enum
 
-        Public Enum SecurityImpersonationLevel As Integer
-            SecurityAnonymous
-            SecurityIdentification
-            SecurityImpersonation
-            SecurityDelegation
-        End Enum
-
-        Public Enum SidNameUse As Integer
-            User = 1
-            Group
-            Domain
-            [Alias]
-            WellKnownGroup
-            DeletedAccount
-            Invalid
-            Unknown
-            Computer
-            Label
-        End Enum
-
 #End Region
 
 #Region "Declarations used for files"
 
-        Public Enum FO_Func As UInteger
-            Move = &H1
-            Copy = &H2
-            Delete = &H3
-            Rename = &H4
+        Public Enum ECreationDisposition
+            [New] = 1
+            CreateAlways = 2
+            OpenExisting = 3
+            OpenAlways = 4
+            TruncateExisting = 5
         End Enum
 
         Public Enum EFileAccess
@@ -501,14 +502,6 @@ Namespace Native.Api
             Read = &H1
             Write = &H2
             Delete = &H4
-        End Enum
-
-        Public Enum ECreationDisposition
-            [New] = 1
-            CreateAlways = 2
-            OpenExisting = 3
-            OpenAlways = 4
-            TruncateExisting = 5
         End Enum
 
         Public Enum EFileAttributes
@@ -561,6 +554,13 @@ Namespace Native.Api
             SectionReserve = &H4000000
         End Enum
 
+        Public Enum FO_Func As UInteger
+            Move = &H1
+            Copy = &H2
+            Delete = &H3
+            Rename = &H4
+        End Enum
+
         <Flags()> _
         Public Enum RunFileDialogFlags As UInteger
             None = &H0
@@ -582,6 +582,16 @@ Namespace Native.Api
 
         ' OK
 #Region "Declarations used for system"
+
+        Public Enum ExitWindowsFlags As Integer
+            Logoff = &H0
+            Shutdown = &H1
+            Reboot = &H2
+            Force = &H4
+            Poweroff = &H8
+            ForceIfHung = &H10
+            RestartApps = &H40
+        End Enum
 
         <Flags()> _
         Public Enum KBDLLHookStructFlags As Integer
@@ -717,16 +727,6 @@ Namespace Native.Api
             ' 106, calls MmQuerySystemVaInformation
         End Enum
 
-        Public Enum ExitWindowsFlags As Integer
-            Logoff = &H0
-            Shutdown = &H1
-            Reboot = &H2
-            Force = &H4
-            Poweroff = &H8
-            ForceIfHung = &H10
-            RestartApps = &H40
-        End Enum
-
 #End Region
 
 #Region "Declarations used for windows (not Windows :-p)"
@@ -739,6 +739,138 @@ Namespace Native.Api
             All = &H3
             Timer = &H4
             TimerNoFG = &HC
+        End Enum
+
+        Public Enum GdiBlendMode As Integer
+            Black = 1
+            NotMergePen
+            MaskNotPen
+            NotCopyPen
+            MaskPenNot
+            [Not]
+            XorPen
+            NotMaskPen
+            MaskPen
+            NotXorPen
+            Nop
+            MergeNotPen
+            CopyPen
+            MergePenNot
+            MergePen
+            White
+            Last
+        End Enum
+
+        Public Enum GdiPenStyle As Integer
+            Solid = 0
+            Dash
+            Dot
+            DashDot
+            DashDotDot
+            Null
+            InsideFrame
+            UserStyle
+            Alternate
+        End Enum
+
+        Public Enum GdiStockObject As Integer
+            WhiteBrush = 0
+            LightGrayBrush
+            GrayBrush
+            DarkGrayBrush
+            BlackBrush
+            NullBrush
+            WhitePen
+            BlackPen
+            NullPen
+            OemFixedFont
+            AnsiFixedFont
+            AnsiVarFont
+            SystemFont
+            DeviceDefaultFont
+            DefaultPalette
+            SystemFixedFont
+            DefaultGuiFont
+            DcBrush
+            DcPen
+        End Enum
+
+        Public Enum GetWindowCmd As UInteger
+            First = 0
+            Last = 1
+            [Next] = 2
+            Previous = 3
+            Owner = 4
+            Child = 5
+            EnabledPopup = 6
+        End Enum
+
+        Public Enum GetWindowLongOffset As Integer
+            WndProc = -4
+            HInstance = -6
+            HwndParent = -8
+            Id = -12
+            Style = -16
+            ExStyle = -20
+            UserData = -21
+        End Enum
+
+        Public Enum LvsEx
+            GridLines = &H1
+            SubitemImages = &H2
+            Checkboxes = &H4
+            TrackSelect = &H8
+            HeaderDragDrop = &H10
+            FullRowSelect = &H20
+            OneClickActivate = &H40
+            TwoClickActivate = &H80
+            FlatSB = &H100
+            Regional = &H200
+            InfoTip = &H400
+            UnderlineHot = &H800
+            UnderlineCold = &H1000
+            MultiWorkAreas = &H2000
+            LabelTip = &H4000
+            BorderSelect = &H8000
+            DoubleBuffer = &H10000
+            HideLabels = &H20000
+            SingleRow = &H40000
+            SnapToGrid = &H80000
+            SimpleSelect = &H100000
+        End Enum
+
+        Public Enum SendMessageTimeoutFlags As Integer
+            Normal = &H0
+            Block = &H1
+            AbortIfHung = &H2
+            NoTimeoutIfHung = &H8
+        End Enum
+
+        Public Enum ShowWindowType As UInteger
+            Hide = 0
+            ShowNormal = 1
+            Normal = 1
+            ShowMinimized = 2
+            ShowMaximized = 3
+            Maximize = 3
+            ShowNoActivate = 4
+            Show = 5
+            Minimize = 6
+            ShowMinNoActive = 7
+            ShowNa = 8
+            Restore = 9
+            ShowDefault = 10
+            ForceMinimize = 11
+            Max = 11
+        End Enum
+
+        <Flags()> _
+        Public Enum SmtoFlags As Integer
+            Normal = &H0
+            Block = &H1
+            AbortIfHung = &H2
+            NoTimeoutIfNotHung = &H8
+            ErrorOnExit = &H20
         End Enum
 
         Public Enum WindowMessage As UInteger
@@ -971,142 +1103,10 @@ Namespace Native.Api
         End Enum
 
         <Flags()> _
-        Public Enum SmtoFlags As Integer
-            Normal = &H0
-            Block = &H1
-            AbortIfHung = &H2
-            NoTimeoutIfNotHung = &H8
-            ErrorOnExit = &H20
-        End Enum
-
-        Public Enum LvsEx
-            GridLines = &H1
-            SubitemImages = &H2
-            Checkboxes = &H4
-            TrackSelect = &H8
-            HeaderDragDrop = &H10
-            FullRowSelect = &H20
-            OneClickActivate = &H40
-            TwoClickActivate = &H80
-            FlatSB = &H100
-            Regional = &H200
-            InfoTip = &H400
-            UnderlineHot = &H800
-            UnderlineCold = &H1000
-            MultiWorkAreas = &H2000
-            LabelTip = &H4000
-            BorderSelect = &H8000
-            DoubleBuffer = &H10000
-            HideLabels = &H20000
-            SingleRow = &H40000
-            SnapToGrid = &H80000
-            SimpleSelect = &H100000
-        End Enum
-
-        Public Enum ShowWindowType As UInteger
-            Hide = 0
-            ShowNormal = 1
-            Normal = 1
-            ShowMinimized = 2
-            ShowMaximized = 3
-            Maximize = 3
-            ShowNoActivate = 4
-            Show = 5
-            Minimize = 6
-            ShowMinNoActive = 7
-            ShowNa = 8
-            Restore = 9
-            ShowDefault = 10
-            ForceMinimize = 11
-            Max = 11
-        End Enum
-
-        Public Enum GdiPenStyle As Integer
-            Solid = 0
-            Dash
-            Dot
-            DashDot
-            DashDotDot
-            Null
-            InsideFrame
-            UserStyle
-            Alternate
-        End Enum
-
-        Public Enum GdiBlendMode As Integer
-            Black = 1
-            NotMergePen
-            MaskNotPen
-            NotCopyPen
-            MaskPenNot
-            [Not]
-            XorPen
-            NotMaskPen
-            MaskPen
-            NotXorPen
-            Nop
-            MergeNotPen
-            CopyPen
-            MergePenNot
-            MergePen
-            White
-            Last
-        End Enum
-
-        Public Enum GdiStockObject As Integer
-            WhiteBrush = 0
-            LightGrayBrush
-            GrayBrush
-            DarkGrayBrush
-            BlackBrush
-            NullBrush
-            WhitePen
-            BlackPen
-            NullPen
-            OemFixedFont
-            AnsiFixedFont
-            AnsiVarFont
-            SystemFont
-            DeviceDefaultFont
-            DefaultPalette
-            SystemFixedFont
-            DefaultGuiFont
-            DcBrush
-            DcPen
-        End Enum
-
-        Public Enum GetWindowCmd As UInteger
-            First = 0
-            Last = 1
-            [Next] = 2
-            Previous = 3
-            Owner = 4
-            Child = 5
-            EnabledPopup = 6
-        End Enum
-
-        Public Enum GetWindowLongOffset As Integer
-            WndProc = -4
-            HInstance = -6
-            HwndParent = -8
-            Id = -12
-            Style = -16
-            ExStyle = -20
-            UserData = -21
-        End Enum
-
-        <Flags()> _
         Public Enum WindowPlacementFlags As Integer
             SetMinPosition = &H1
             RestoreToMaximized = &H2
             AsyncWindowPlacement = &H4
-        End Enum
-
-        Public Enum SendMessageTimeoutFlags As Integer
-            Normal = &H0
-            Block = &H1
-            AbortIfHung = &H2
-            NoTimeoutIfHung = &H8
         End Enum
 
 #End Region
@@ -1114,17 +1114,16 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for services"
 
-        Public Enum ServiceQueryState As UInteger
-            Active = 1
-            Inactive = 2
-            All = 3
-        End Enum
-
-        <Flags()> _
-        Public Enum ServiceQueryType As UInteger
-            Driver = &HB
-            Win32 = &H30
-            All = Driver Or Win32
+        Public Enum ServiceAccept As UInteger
+            [NetBindChange] = &H10
+            [ParamChange] = &H8
+            [PauseContinue] = &H2
+            [PreShutdown] = &H100
+            [Shutdown] = &H4
+            [Stop] = &H1
+            [HardwareProfileChange] = &H20
+            [PowerEvent] = &H40
+            [SessionChange] = &H80
         End Enum
 
         Public Enum ServiceControl
@@ -1142,6 +1141,33 @@ Namespace Native.Api
             HardwareProfileChange = 12
             PowerEvent = 13
             SessionChange = 14
+        End Enum
+
+        Public Enum ServiceErrorControl As Integer
+            Critical = &H3
+            Ignore = &H0
+            Normal = &H1
+            Severe = &H2
+            Unknown = &HF
+            NoChange = &HFFFFFFFF
+        End Enum
+
+        Public Enum ServiceFlags As UInteger
+            None = 0
+            RunsInSystemProcess = &H1
+        End Enum
+
+        Public Enum ServiceQueryState As UInteger
+            Active = 1
+            Inactive = 2
+            All = 3
+        End Enum
+
+        <Flags()> _
+        Public Enum ServiceQueryType As UInteger
+            Driver = &HB
+            Win32 = &H30
+            All = Driver Or Win32
         End Enum
 
         Public Enum ServiceStartType As Integer
@@ -1176,36 +1202,19 @@ Namespace Native.Api
             NoChange = &HFFFFFFFF
         End Enum
 
-        Public Enum ServiceErrorControl As Integer
-            Critical = &H3
-            Ignore = &H0
-            Normal = &H1
-            Severe = &H2
-            Unknown = &HF
-            NoChange = &HFFFFFFFF
-        End Enum
-
-        Public Enum ServiceFlags As UInteger
-            None = 0
-            RunsInSystemProcess = &H1
-        End Enum
-
-        Public Enum ServiceAccept As UInteger
-            [NetBindChange] = &H10
-            [ParamChange] = &H8
-            [PauseContinue] = &H2
-            [PreShutdown] = &H100
-            [Shutdown] = &H4
-            [Stop] = &H1
-            [HardwareProfileChange] = &H20
-            [PowerEvent] = &H40
-            [SessionChange] = &H80
-        End Enum
-
 #End Region
 
         ' OK
 #Region "Declarations used for registry"
+
+        ' Type of monitoring to apply
+        <Flags()> _
+        Public Enum KeyMonitoringType
+            ChangeName = &H1            ' Subkey added or deleted
+            ChangeAttributes = &H2      ' Attributes changed
+            ChangeLastSet = &H4         ' Value changed (changed, deleted, added)
+            ChangeSecurity = &H8        ' Security descriptor changed
+        End Enum
 
         ' http://msdn.microsoft.com/en-us/library/ms724892(VS.85).aspx
         ' Type of Key
@@ -1217,15 +1226,6 @@ Namespace Native.Api
             CurrentConfig = &H80000005
             PerformanceData = &H80000004
             DynData = &H80000006
-        End Enum
-
-        ' Type of monitoring to apply
-        <Flags()> _
-        Public Enum KeyMonitoringType
-            ChangeName = &H1            ' Subkey added or deleted
-            ChangeAttributes = &H2      ' Attributes changed
-            ChangeLastSet = &H4         ' Value changed (changed, deleted, added)
-            ChangeSecurity = &H8        ' Security descriptor changed
         End Enum
 
         Public Enum WaitResult As UInteger
@@ -1296,29 +1296,6 @@ Namespace Native.Api
 #Region "Declarations used for handles"
 
         <Flags()> _
-        Public Enum ObjectFlags As UInteger
-            Inherit = &H2
-            Permanent = &H10
-            Exclusive = &H20
-            CaseInsensitive = &H40
-            OpenIf = &H80
-            OpenLink = &H100
-            KernelHandle = &H200
-            ForceAccessCheck = &H400
-            ValidAttributes = &H7F2
-        End Enum
-
-        Public Enum PoolType As UInteger
-            NonPagedPool
-            PagedPool
-            NonPagedPoolMustSucceed
-            DontUseThisType
-            NonPagedPoolCacheAligned
-            PagedPoolCacheAligned
-            NonPagedPoolCacheAlignedMustS
-        End Enum
-
-        <Flags()> _
         Public Enum DuplicateOptions As Integer
             CloseSource = &H1
             SameAccess = &H2
@@ -1332,6 +1309,19 @@ Namespace Native.Api
             AuditObjectClose = &H4
         End Enum
 
+        <Flags()> _
+        Public Enum ObjectFlags As UInteger
+            Inherit = &H2
+            Permanent = &H10
+            Exclusive = &H20
+            CaseInsensitive = &H40
+            OpenIf = &H80
+            OpenLink = &H100
+            KernelHandle = &H200
+            ForceAccessCheck = &H400
+            ValidAttributes = &H7F2
+        End Enum
+
         Public Enum ObjectInformationClass As Integer
             ObjectAttributes = 0
             ObjectNameInformation = 1
@@ -1341,15 +1331,20 @@ Namespace Native.Api
             ObjectSessionInformation = 5
         End Enum
 
+        Public Enum PoolType As UInteger
+            NonPagedPool
+            PagedPool
+            NonPagedPoolMustSucceed
+            DontUseThisType
+            NonPagedPoolCacheAligned
+            PagedPoolCacheAligned
+            NonPagedPoolCacheAlignedMustS
+        End Enum
+
 #End Region
 
         ' OK
 #Region "Declarations used for network connections"
-
-        Public Enum IpVersion As UInteger
-            AfInet = &H2
-            AfInt6 = &H17
-        End Enum
 
         <Flags()> _
         Public Enum AddConnectionFlag As Integer
@@ -1365,6 +1360,11 @@ Namespace Native.Api
             ConnectCredReset = &H2000
         End Enum
 
+        Public Enum IpVersion As UInteger
+            AfInet = &H2
+            AfInt6 = &H17
+        End Enum
+
         Public Enum MibTcpRtoAlgorithm As UInteger
             [Other] = &H1
             [ConstantTimeOut] = &H2
@@ -1372,6 +1372,30 @@ Namespace Native.Api
             [VanJacobson] = &H4
         End Enum
 
+        ''' <summary>
+        ''' Display options for the network object in a network browsing user interface.
+        ''' </summary>
+        Public Enum NetResourceDisplayType As UInteger
+            ''' <summary>
+            ''' The object should be displayed as a domain.
+            ''' </summary>
+            Generic = &H0
+
+            ''' <summary>
+            ''' The object should be displayed as a server.
+            ''' </summary>
+            Domain = &H1
+
+            ''' <summary>
+            ''' The object should be displayed as a share.
+            ''' </summary>
+            Server = &H2
+
+            ''' <summary>
+            ''' The method used to display the object does not matter.
+            ''' </summary>
+            Share = &H3
+        End Enum
 
         ''' <summary>
         ''' Scope of the enumeration.
@@ -1414,31 +1438,6 @@ Namespace Native.Api
         End Enum
 
         ''' <summary>
-        ''' Display options for the network object in a network browsing user interface.
-        ''' </summary>
-        Public Enum NetResourceDisplayType As UInteger
-            ''' <summary>
-            ''' The object should be displayed as a domain.
-            ''' </summary>
-            Generic = &H0
-
-            ''' <summary>
-            ''' The object should be displayed as a server.
-            ''' </summary>
-            Domain = &H1
-
-            ''' <summary>
-            ''' The object should be displayed as a share.
-            ''' </summary>
-            Server = &H2
-
-            ''' <summary>
-            ''' The method used to display the object does not matter.
-            ''' </summary>
-            Share = &H3
-        End Enum
-
-        ''' <summary>
         ''' Set of bit flags describing how the resource can be used. 
         ''' Note that this member can be specified only if the dwScope member is equal to RESOURCE_GLOBALNET.
         ''' </summary>
@@ -1459,18 +1458,6 @@ Namespace Native.Api
         ' OK
 #Region "Declarations used for debugging"
 
-        ' http://www.cygwin.com/ml/cygwin-talk/2006-q2/txt00000.txt
-        <Flags()> _
-        Public Enum RtlQueryProcessDebugInformationFlags As UInteger
-            Modules = &H1
-            BackTrace = &H2
-            Heaps = &H4
-            HeapTags = &H8
-            HeapBlocks = &H10
-            Locks = &H20
-            Modules32 = &H40
-        End Enum
-
         <Flags()> _
         Public Enum HeapBlockFlag As Integer
             Fixed = &H1
@@ -1483,10 +1470,71 @@ Namespace Native.Api
             [Default] = &H1
         End Enum
 
+        ' http://www.cygwin.com/ml/cygwin-talk/2006-q2/txt00000.txt
+        <Flags()> _
+        Public Enum RtlQueryProcessDebugInformationFlags As UInteger
+            Modules = &H1
+            BackTrace = &H2
+            Heaps = &H4
+            HeapTags = &H8
+            HeapBlocks = &H10
+            Locks = &H20
+            Modules32 = &H40
+        End Enum
+
 #End Region
 
         ' OK
 #Region "Declarations used for wintrust verification"
+
+        Public Enum WinTrustDataChoice As UInteger
+            File = 1
+            Catalog = 2
+            Blob = 3
+            Signer = 4
+            Certificate = 5
+        End Enum
+
+        Public Enum WinTrustDataUIChoice As UInteger
+            All = 1
+            None = 2
+            NoBad = 3
+            NoGood = 4
+        End Enum
+
+        <FlagsAttribute()> _
+       Public Enum WinTrustDataProvFlags As UInteger
+            UseIe4TrustFlag = &H1
+            NoIe4ChainFlag = &H2
+            NoPolicyUsageFlag = &H4
+            RevocationCheckNone = &H10
+            RevocationCheckEndCert = &H20
+            RevocationCheckChain = &H40
+            RevocationCheckChainExcludeRoot = &H80
+            SaferFlag = &H100
+            HashOnlyFlag = &H200
+            UseDefaultOsverCheck = &H400
+            LifetimeSigningFlag = &H800
+            CacheOnlyUrlRetrieval = &H1000
+        End Enum
+
+        Public Enum WinTrustDataRevocationChecks As UInteger
+            None = &H0
+            WholeChain = &H1
+        End Enum
+
+        Public Enum WinTrustDataStateAction As UInteger
+            Ignore = &H0
+            Verify = &H1
+            Close = &H2
+            AutoCache = &H3
+            AutoCacheFlush = &H4
+        End Enum
+
+        Public Enum WinTrustDataUIContext As UInteger
+            Execute = 0
+            Install = 1
+        End Enum
 
         Public Enum WinVerifyTrustResult As Integer
             Trusted = 0
@@ -1513,55 +1561,6 @@ Namespace Native.Api
             ExplicitDistrust = &H800B0111
             UntrustedCA = &H800B0112
             SecuritySettings = &H80092026
-        End Enum
-
-        Public Enum WinTrustDataUIChoice As UInteger
-            All = 1
-            None = 2
-            NoBad = 3
-            NoGood = 4
-        End Enum
-
-        Public Enum WinTrustDataRevocationChecks As UInteger
-            None = &H0
-            WholeChain = &H1
-        End Enum
-
-        Public Enum WinTrustDataChoice As UInteger
-            File = 1
-            Catalog = 2
-            Blob = 3
-            Signer = 4
-            Certificate = 5
-        End Enum
-
-        Public Enum WinTrustDataStateAction As UInteger
-            Ignore = &H0
-            Verify = &H1
-            Close = &H2
-            AutoCache = &H3
-            AutoCacheFlush = &H4
-        End Enum
-
-        <FlagsAttribute()> _
-       Public Enum WinTrustDataProvFlags As UInteger
-            UseIe4TrustFlag = &H1
-            NoIe4ChainFlag = &H2
-            NoPolicyUsageFlag = &H4
-            RevocationCheckNone = &H10
-            RevocationCheckEndCert = &H20
-            RevocationCheckChain = &H40
-            RevocationCheckChainExcludeRoot = &H80
-            SaferFlag = &H100
-            HashOnlyFlag = &H200
-            UseDefaultOsverCheck = &H400
-            LifetimeSigningFlag = &H800
-            CacheOnlyUrlRetrieval = &H1000
-        End Enum
-
-        Public Enum WinTrustDataUIContext As UInteger
-            Execute = 0
-            Install = 1
         End Enum
 
 #End Region
