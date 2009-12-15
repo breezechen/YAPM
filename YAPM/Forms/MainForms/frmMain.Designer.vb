@@ -78,6 +78,7 @@ Partial Class frmMain
         Me.butScripting = New System.Windows.Forms.RibbonButton
         Me.butSaveSystemSnaphotFile = New System.Windows.Forms.RibbonButton
         Me.butExploreSSFile = New System.Windows.Forms.RibbonButton
+        Me.butCheckSignatures = New System.Windows.Forms.RibbonButton
         Me.TaskTab = New System.Windows.Forms.RibbonTab
         Me.RBTaskDisplay = New System.Windows.Forms.RibbonPanel
         Me.butTaskRefresh = New System.Windows.Forms.RibbonButton
@@ -510,6 +511,7 @@ Partial Class frmMain
         Me.MenuItemSystemScripting = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemSaveSSFile = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemExploreSSFile = New System.Windows.Forms.MenuItem
+        Me.MenuItemSystemCheckSignatures = New System.Windows.Forms.MenuItem
         Me.MenuItem62 = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemEmergency = New System.Windows.Forms.MenuItem
         Me.MenuItemSystemSBA = New System.Windows.Forms.MenuItem
@@ -582,8 +584,6 @@ Partial Class frmMain
         Me.timerJobs = New System.Windows.Forms.Timer(Me.components)
         Me.mnuJob = New System.Windows.Forms.ContextMenu
         Me.MenuItem53 = New System.Windows.Forms.MenuItem
-        Me.butCheckSignatures = New System.Windows.Forms.RibbonButton
-        Me.MenuItemSystemCheckSignatures = New System.Windows.Forms.MenuItem
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -1132,6 +1132,21 @@ Partial Class frmMain
         Me.butExploreSSFile.ToolTip = Nothing
         Me.butExploreSSFile.ToolTipImage = Nothing
         Me.butExploreSSFile.ToolTipTitle = Nothing
+        '
+        'butCheckSignatures
+        '
+        Me.butCheckSignatures.AltKey = Nothing
+        Me.butCheckSignatures.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butCheckSignatures.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butCheckSignatures.Image = CType(resources.GetObject("butCheckSignatures.Image"), System.Drawing.Image)
+        Me.butCheckSignatures.MaxSizeMode = System.Windows.Forms.RibbonElementSizeMode.Compact
+        Me.butCheckSignatures.SmallImage = Global.My.Resources.Resources.ok16
+        Me.butCheckSignatures.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butCheckSignatures.Tag = Nothing
+        Me.butCheckSignatures.Text = "RibbonButton1"
+        Me.butCheckSignatures.ToolTip = Nothing
+        Me.butCheckSignatures.ToolTipImage = Nothing
+        Me.butCheckSignatures.ToolTipTitle = Nothing
         '
         'TaskTab
         '
@@ -3714,7 +3729,7 @@ Partial Class frmMain
         Me.lvNetwork.Location = New System.Drawing.Point(0, 0)
         Me.lvNetwork.Name = "lvNetwork"
         Me.lvNetwork.OverriddenDoubleBuffered = True
-        Me.lvNetwork.ProcessId = Nothing
+        Me.lvNetwork.ProcessId = 0
         Me.lvNetwork.ReorganizeColumns = True
         Me.lvNetwork.ShowAllPid = False
         Me.lvNetwork.ShowConnectionsByProcessesGroup = False
@@ -5220,6 +5235,12 @@ Partial Class frmMain
         Me.MenuItemSystemExploreSSFile.Index = 14
         Me.MenuItemSystemExploreSSFile.Text = "&Explore System Snapshot File..."
         '
+        'MenuItemSystemCheckSignatures
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemSystemCheckSignatures, Global.My.Resources.Resources.ok16)
+        Me.MenuItemSystemCheckSignatures.Index = 15
+        Me.MenuItemSystemCheckSignatures.Text = "Check file signatures..."
+        '
         'MenuItem62
         '
         Me.MenuItem62.Index = 16
@@ -5630,26 +5651,6 @@ Partial Class frmMain
         '
         Me.MenuItem53.Index = 1
         Me.MenuItem53.Text = "-"
-        '
-        'butCheckSignatures
-        '
-        Me.butCheckSignatures.AltKey = Nothing
-        Me.butCheckSignatures.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.butCheckSignatures.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butCheckSignatures.Image = CType(resources.GetObject("butCheckSignatures.Image"), System.Drawing.Image)
-        Me.butCheckSignatures.SmallImage = Global.My.Resources.Resources.ok16
-        Me.butCheckSignatures.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butCheckSignatures.Tag = Nothing
-        Me.butCheckSignatures.Text = "RibbonButton1"
-        Me.butCheckSignatures.ToolTip = Nothing
-        Me.butCheckSignatures.ToolTipImage = Nothing
-        Me.butCheckSignatures.ToolTipTitle = Nothing
-        '
-        'MenuItemSystemCheckSignatures
-        '
-        Me.VistaMenu.SetImage(Me.MenuItemSystemCheckSignatures, Global.My.Resources.Resources.ok16)
-        Me.MenuItemSystemCheckSignatures.Index = 15
-        Me.MenuItemSystemCheckSignatures.Text = "Check file signatures..."
         '
         'frmMain
         '
