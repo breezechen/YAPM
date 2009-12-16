@@ -22,9 +22,8 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
 <DIV id=content>
 			
     <DIV id=content>
-        <H2>&nbsp;</H2>
         <H2>Introduction</H2>
-        <p><b><font color="red">Note : this help file describes the last version of YAPM :&nbsp;v2.4.0.</font></b></p>
+        <p><b><font color="red">Note : this help file describes the last version of YAPM :&nbsp;v2.4.1.</font></b></p>
         <p><a href="help_static.html#Menu">Main menu</a><br>
 <a href="help_static.html#Task">Tasks</a><br>
 <a href="help_static.html#Process">Processes</a><br>
@@ -41,6 +40,7 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
 <a href="help_static.html#LogFeature">Log feature</a><br>
 <a href="help_static.html#DependenciesViewer">Dependency viewer</a><br>
 <span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt; color:rgb(112,39,21); text-decoration:none;"><a href="help_static.html#SystemSnapshotFeature">System Snapshot feature</a></span><br>
+<span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt; color:rgb(112,39,21); text-decoration:none;"><a href="help_static.html#UsingCommandLine">Using the command line</a></span><br>
 <a href="help_static.html#OtherFeatures">Others features &amp; tips</a><br>
 &nbsp;</p>
         <p>Some of the features of YAPM are not available with remote monitoring. On the help file&nbsp;available below, if the name of a&nbsp;command is <b>black</b>, the command is&nbsp;available for all types of connection (local, WMI and server). If it's <font color="#00B050"><b>green</b></font>, it's available for both local and remote via server. If it's <font color="#00B0F0"><b>blue</b></font> it's only available for a local machine.</p>
@@ -52,6 +52,10 @@ font-size:13pt; background-color:white;"> </span></font><span style="background-
             <LI><b>Change connection type</b> : changes the type of connection YAPM is using. You can choose&nbsp;&quot;local&quot;, &quot;remote via WMI&quot; or &quot;remote via server&quot;. &quot;Local&quot; should be used to monitor the system on which YAPM is running. &quot;WMI&quot; should be used to monitor a remote machine on the same workgroup. It's a bit limited but does not require anything to be started on the remote machine. &quot;Server&quot; should be used to have full control on the remote machine, but it requires YAPM to be launched on the remote machine as a server.&nbsp;See <a href="help.html#RemoteManagement">Remote monitoring</a>.</LI>
             <LI><b>Emergency hotkeys</b> : adds custom hotkeys you will be able to use&nbsp;in case of emergency. For example, you can configure YAPM to kill the foreground application with Ctrl+Shift+Suppr shortcut. See <a href="help_static.html#EmergencyHotkeys">Emergency hotkeys</a>.</LI>
             <LI><b>Save report</b> : saves a report about the local&nbsp;system.</LI>
+            <LI><b>About</b> : displays the 'about' window.</LI>
+            <LI><b>Free memory</b> : calls the garbage collector and tries to free some memory used by YAPM.</LI>
+            <LI><b>Preferences</b> : shows preferences window.</LI>
+            <LI><b>Quit</b> : closes YAPM.</LI>
             <LI><b>Log file</b> : displays the history of new/killed processes.</LI>
             <LI><b>System informations</b><span style="font-family:Calibri,Verdana,Tahoma,Sans-Serif; font-size:13pt;"> : displays numerical informations about the local system.</span></LI>
             <LI><b>Windows list</b> : displays the list of the windows opened by YAPM itself.&nbsp;You can show or close these windows.</LI>
@@ -296,6 +300,25 @@ Click on 'Options' and choose the desired options :</p>
             </ul>
         </ul>
         <p>It is also possible to explore a System Snapshot File to see which data are stored in it by using the <a href="help_static.html#ExploreSSFile">Explore System Snapshot File menu.</a></p>
+        <h2><a name="UsingCommandLine"></a>Using the command line</h2>
+        <p>Here are the different arguments which can be used&nbsp;in command line to start YAPM :</p>
+        <ul>
+            <LI>To start YAPM as a server :</LI>
+            <ul>
+                <LI><font face="Courier New">-server [-hide] -port PORT_NUMBER</font></LI>
+                <ul>
+                    <LI><font face="Courier New">-server</font> : specifies server mode to be used</LI>
+                    <LI><font face="Courier New">-hide</font> : hide the GUI of the server (optional)</LI>
+                    <LI><font face="Courier New">-port PORT_NUMER</font> : specifies the port number to use for network communication</LI>
+                </ul>
+                <LI>Example : <font face="Courier New">YAPM.exe -server -hide -port 12700</font></LI>
+            </ul>
+            <LI>Other parameters :</LI>
+            <ul>
+                <LI><font face="Courier New">-nodriver</font> : YAPM won't use its driver in kernel mode</LI>
+                <LI><font face="Courier New">-ssfile FILE_NAME</font> : does not start YAPM but only create a snapshot file of the system, and save it as <font face="Courier New">FILE_NAME</font> file (relative or absolute path).</LI>
+            </ul>
+        </ul>
         <h2><a name="OtherFeatures"></a>Other features &amp;&nbsp;tips</h2>
         <p>Here are some other features and tips you should know when using YAPM&nbsp;:</p>
         <ul>
@@ -308,7 +331,7 @@ Click on 'Options' and choose the desired options :</p>
         </ul>
         <p>&nbsp;</p>
         <P id=footer><i>Copyright (c) 2008-2009 violent_ken</i></P>
-        <P><i>Last update of this page : 2009-22-11&nbsp;01:00</i></P>
+        <P><i>Last update of this page : 2009-16-12&nbsp;12:00</i></P>
     </DIV>
 </DIV>
 <P></P>
