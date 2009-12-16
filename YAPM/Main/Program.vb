@@ -44,7 +44,6 @@ Public Module Program
         ' Available parameters
         Private isServerMode As Boolean = False
         Private remPort As Integer = 8081
-        Private isAutoConnectMode As Boolean = False
         Private isHidden As Boolean = False
         Private requestReplaceTaskMgr As Boolean = False
         Private replaceTaskMgrValue As Boolean = False
@@ -61,11 +60,6 @@ Public Module Program
         Public ReadOnly Property ModeServerService() As Boolean
             Get
                 Return serviceMode
-            End Get
-        End Property
-        Public ReadOnly Property AutoConnect() As Boolean
-            Get
-                Return isAutoConnectMode
             End Get
         End Property
         Public ReadOnly Property ModeHidden() As Boolean
@@ -115,8 +109,6 @@ Public Module Program
             For i As Integer = 0 To parameters.Length - 1
                 If parameters(i).ToUpperInvariant = "-SERVER" Then
                     isServerMode = True
-                ElseIf parameters(i).ToUpperInvariant = "-AUTOCONNECT" Then
-                    isAutoConnectMode = True
                 ElseIf parameters(i).ToUpperInvariant = "-HIDE" Then
                     isHidden = True
                 ElseIf parameters(i).ToUpperInvariant = "-PORT" Then

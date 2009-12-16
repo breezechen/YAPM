@@ -1054,10 +1054,8 @@ Public Class frmServer
             Me.txtIp.Text = Me.txtIp.Text.Substring(0, Me.txtIp.Text.Length - 2)
         End If
 
-        ' Connect if automode = true
-        If Program.Parameters.AutoConnect Then
-            Call cmdConnection_Click(Nothing, Nothing)
-        End If
+        ' Connect 
+        Call ConnectNow()
 
     End Sub
 
@@ -1068,7 +1066,7 @@ Public Class frmServer
         Me.lvServer.Items.Add(it)
     End Sub
 
-    Private Sub cmdConnection_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub ConnectNow()
         ' Connect or disconnect the socket (server)
         Dim t As New System.Threading.WaitCallback(AddressOf conDegCallBack)
         Call Threading.ThreadPool.QueueUserWorkItem(t, Nothing)
