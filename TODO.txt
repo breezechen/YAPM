@@ -11,7 +11,6 @@ Refactoring bugs
 - jobList affiché en premier puis processes -> fixedInfos pas récupérées (en effet, le dicoProcesses est rempli mais la liste n'est pas mise à jour car processList pas initialiée -> une fois initialisée, ce n'est plus le premier processRefresh. Idem pour services ???)
 
 - snapshot -> serviceDep et processesInJob + désactiver times + gestion historiques + recherche (pb de dico)
-- revoir remote address des connections
 - commandline dans l'aide
 
 - icones de partout (windows, fileHandle...) -> SEULEMENT pour le local

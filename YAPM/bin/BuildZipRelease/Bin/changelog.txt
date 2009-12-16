@@ -8,6 +8,7 @@ CHANGES FROM 2.4.0
 - Now can create snapshot file from command line (-ssfile "FILE_PATH")
 - Optimized Service enumeration
 - Added LoadCount information for modules
+- Added 'Free memory' button (this calls the .Net GC)
 - x64 systems : added "IsWow64" information (and displays "* 32")
 - x64 systems : now module enumeration for Wow64 processes is OK
 

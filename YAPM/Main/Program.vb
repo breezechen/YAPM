@@ -244,7 +244,7 @@ Public Module Program
 
 
 
-    Sub Main()
+    Public Sub Main()
 
 
         ' ======= Some basic initialisations
@@ -462,6 +462,13 @@ Public Module Program
 
 
 
+    ' Free memory (GC)
+    Public Sub CollectGarbage()
+        ' Use GC to collect
+        GC.Collect()
+        GC.WaitForPendingFinalizers()
+        GC.Collect()
+    End Sub
 
     ' Exit application
     Public Sub ExitYAPM()

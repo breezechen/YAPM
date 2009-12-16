@@ -4103,4 +4103,9 @@ Public Class frmMain
         frm.TopMost = _frmMain.TopMost
         frm.Show()
     End Sub
+
+    Private Sub butFreeMemory_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butFreeMemory.Click
+        ' Calls the garbage collector
+        Program.CollectGarbage()
+    End Sub
 End Class

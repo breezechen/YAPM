@@ -584,6 +584,7 @@ Partial Class frmMain
         Me.timerJobs = New System.Windows.Forms.Timer(Me.components)
         Me.mnuJob = New System.Windows.Forms.ContextMenu
         Me.MenuItem53 = New System.Windows.Forms.MenuItem
+        Me.butFreeMemory = New System.Windows.Forms.RibbonOrbOptionButton
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -737,10 +738,10 @@ Partial Class frmMain
         Me.Ribbon.OrbDropDown.NextPopup = Nothing
         Me.Ribbon.OrbDropDown.OptionItems.Add(Me.butExit)
         Me.Ribbon.OrbDropDown.OptionItems.Add(Me.butShowPreferences)
+        Me.Ribbon.OrbDropDown.OptionItems.Add(Me.butFreeMemory)
         Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
         Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 345)
         Me.Ribbon.OrbDropDown.TabIndex = 0
-        Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
         Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
         '
         '
@@ -5652,6 +5653,20 @@ Partial Class frmMain
         Me.MenuItem53.Index = 1
         Me.MenuItem53.Text = "-"
         '
+        'butFreeMemory
+        '
+        Me.butFreeMemory.AltKey = Nothing
+        Me.butFreeMemory.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butFreeMemory.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFreeMemory.Image = Global.My.Resources.Resources.scripting16
+        Me.butFreeMemory.SmallImage = Global.My.Resources.Resources.scripting16
+        Me.butFreeMemory.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFreeMemory.Tag = Nothing
+        Me.butFreeMemory.Text = "Free memory"
+        Me.butFreeMemory.ToolTip = Nothing
+        Me.butFreeMemory.ToolTipImage = Nothing
+        Me.butFreeMemory.ToolTipTitle = Nothing
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6307,5 +6322,6 @@ Partial Class frmMain
     Friend WithEvents MenuItemSystemExploreSSFile As System.Windows.Forms.MenuItem
     Friend WithEvents butCheckSignatures As System.Windows.Forms.RibbonButton
     Friend WithEvents MenuItemSystemCheckSignatures As System.Windows.Forms.MenuItem
+    Friend WithEvents butFreeMemory As System.Windows.Forms.RibbonOrbOptionButton
 
 End Class
