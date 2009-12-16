@@ -13,7 +13,6 @@ Refactoring bugs
 - snapshot -> serviceDep et processesInJob + désactiver times + gestion historiques + recherche (pb de dico)
 - commandline dans l'aide
 
-- icones de partout (windows, fileHandle...) -> SEULEMENT pour le local
 - search et log -> enumeration des modules prend pas en compte les wow64
 
 BUGS CRITIQUES

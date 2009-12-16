@@ -305,17 +305,21 @@ Public Class taskList
         'item.Group = Me.Groups(0)
 
         ' Add icon
-        Try
-            Dim icon As System.Drawing.Icon = _dico(key).SmallIcon
-            If icon IsNot Nothing Then
-                Me.SmallImageList.Images.Add(key, icon)
-                item.ImageKey = key
-            Else
+        If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            Try
+                Dim icon As System.Drawing.Icon = _dico(key).SmallIcon
+                If icon IsNot Nothing Then
+                    Me.SmallImageList.Images.Add(key, icon)
+                    item.ImageKey = key
+                Else
+                    item.ImageKey = "noIcon"
+                End If
+            Catch ex As Exception
                 item.ImageKey = "noIcon"
-            End If
-        Catch ex As Exception
+            End Try
+        Else
             item.ImageKey = "noIcon"
-        End Try
+        End If
 
         item.Tag = key
 

@@ -76,25 +76,12 @@ Public Class threadList
         ' Cet appel est requis par le Concepteur Windows Form.
         InitializeComponent()
 
-        ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
-        _IMG = New ImageList
-        _IMG.ImageSize = New Size(16, 16)
-        _IMG.ColorDepth = ColorDepth.Depth32Bit
-
-        Me.SmallImageList = _IMG
-        _IMG.Images.Add("thread", My.Resources.thread)
-
         _first = True
 
         ' Set handlers
         _threadConnection.Disconnected = New cThreadConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _threadConnection.Connected = New cThreadConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
-
-    ' Get an item from listview
-    Public Function GetImageFromImageList(ByVal key As String) As System.Drawing.Image
-        Return _IMG.Images.Item(key)
-    End Function
 
     ' Delete all items
     Public Sub ClearItems()
@@ -103,8 +90,6 @@ Public Class threadList
         _dico.Clear()
         _dicoDel.Clear()
         _dicoNew.Clear()
-        _IMG.Images.Clear()
-        _IMG.Images.Add("thread", My.Resources.thread)
         Me.Items.Clear()
     End Sub
 
@@ -313,7 +298,6 @@ Public Class threadList
         Dim item As ListViewItem = Me.Items.Add(key)
         item.Name = key
         item.ForeColor = _foreColor
-        item.ImageKey = "thread"
         item.Tag = key
         'item.Group = Me.Groups(0)
         Return item
