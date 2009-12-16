@@ -4,39 +4,40 @@
 	<!-- Most recent version first -->
 	
 	<update type="stable">
-		<version>2.4.0.0</version>
-		<caption>Yet Another (remote) Process Monitor 2.4.0</caption>
-		<description>2.4.0 implements a major new feature : System Snapshot Feature (useful for remote assistance).
+		<version>2.4.1.0</version>
+		<caption>Yet Another (remote) Process Monitor 2.4.1</caption>
+		<description>2.4.1 provides a (almost) full support for x64 platforms. Lots of bugs have been fixed.
 
-CHANGES FROM 2.3.1
+CHANGES FROM 2.4.0
 
 * NEW / Improvements
-- Added unique and powerful "System Snapshot" feature !
-- Added Ping functions for TCP connections
-- Added 'TotalIoDelta' counter
-- Added 'network information' window
-- Added heaps management
-- Improved appearance of graphs
-- Improved 'system info' window (added new informations + always on top option + now YAPM remember infos options)
-- Added 'go to parent process' feature
-- Now performance graphs are up-to-date when opening process' detailed window
-- Now can select the thread associated to a window using "find window's process" feature
-- Now YAPM remember positions and sizes of the main windows
-- Now informations about an image file (eg version, companyName, copyright...) are retrieved when monitoring a remote machine using the "server method"
-- No more need to display job list before being able to set a job limit (using Control process job)
+- Added massive signature check feature
+- Now 'Dump memory' feature is implemented and works fine
+- Now can create snapshot file from command line (-ssfile "FILE_PATH")
+- Optimized Service enumeration
+- Added LoadCount information for modules
+- Added 'Free memory' button (this calls the .Net GC)
+- x64 systems : added "IsWow64" information (and displays "* 32")
+- x64 systems : now module enumeration for Wow64 processes is OK
 
 * Bug fixed
-- Fixed bad I/O transfer values
-- Now "check updates" check for alpha/beta if the option is checked (and not if the option is saved as checked in preferences)
-- Fixed #2885689 (cannot call BeginInvoke)
-- Help menu not broken anymore
-- Now save column's preferences when exiting using the standard 'close' button
-- Fixed #2894305 (zero division)
-- Fixed "hide when close" option
-- Fixed a bug when enumerating processes in a job
+- TCP/UDP connections : only display 'remote' column values if remote is not nothing
+- Fixed #2848713 (Index and length must refer to a location within the string)
+- Fixed "IsDebuggerPresent" information
+- x64 systems : fixed bad CommandLine information
+- x64 systems : fixed bad DisplayName/ObjectName/Depedencies information
+- x64 systems : fixed Set/Get JobLimits feature
+- x64 systems : fixed #2891421 (enumeration of processes in job which fail)
+- Fixed wrong error message when creating a process using WMI
+- Does not display wrong Task icons in remote mode anymore
+- Say good bye to those damned "Cannot call Invoke or BeginInvoke..." crashes !
+
+* Other changes
+- No more icon is displayed in Thread list
+- Removed useless 'autoconnect' param to start YAPM as a server (always autoconnecting)
 		</description>
-		<date>22 November 2009</date>
-		<downloadUrl>https://www.ohloh.net/p/yaprocmon/download?filename=YAPM-v2.4.0-Setup.exe</downloadUrl>
-		<hash>d0c32aad276791c5c8d2f801e75b9a6799997dd3a41cc75ad5c916faf2764dc765f6a1456351771d58bf51ab9f69b68a352c03b84ff511dc6d8ba6d0ee4c3ace</hash>
+		<date>16 December 2009</date>
+		<downloadUrl>https://www.ohloh.net/p/yaprocmon/download?filename=YAPM-v2.4.1-Setup.exe</downloadUrl>
+		<hash>424b90603387cbfcd7aba6b1b4d3dce0af3f680b5944ce01541bcf73140e2583b524933972825473872c400e5e06fff02f45d9282d88997004777a09cb410c06</hash>
 	</update>
 </YAPM>
