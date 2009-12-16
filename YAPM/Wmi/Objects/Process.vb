@@ -258,7 +258,8 @@ Namespace Wmi.Objects
                 Dim inParams As ManagementBaseObject = processClass.GetMethodParameters("Create")
                 inParams("CommandLine") = path
                 Dim outParams As ManagementBaseObject = processClass.InvokeMethod("Create", inParams, Nothing)
-                Dim res As WmiProcessReturnCode = CType(outParams("ProcessId"), WmiProcessReturnCode)
+                Dim res As WmiProcessReturnCode = CType(outParams("ReturnValue"), WmiProcessReturnCode)
+                Dim pid As Integer = CType(outParams("ProcessId"), WmiProcessReturnCode)
 
                 msgError = res.ToString
                 Return (res = WmiProcessReturnCode.SuccessfulCompletion)

@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Yet Another (remote) Process Monitor"
-#define MyAppVer "2.4.0"
+#define MyAppVer "2.4.1"
 #define MyAppPublisher "v_k softwares"
 #define MyAppURL "http://yaprocmon.sourceforge.net/"
 #define MyAppExeName "YAPM.exe"

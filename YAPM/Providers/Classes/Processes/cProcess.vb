@@ -410,7 +410,7 @@ Public Class cProcess
     End Function
     Private Sub killDone(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionNumber As Integer)
         If Success = False Then
-            Misc.ShowError("Could not kill process " & Me.Infos.Name & "(" & Me.Infos.ProcessId.ToString & ") : " & msg)
+            Misc.ShowError("Could not kill process " & Me.Infos.Name & " (" & Me.Infos.ProcessId.ToString & ") : " & msg)
         End If
         RemovePendingTask(actionNumber)
     End Sub
