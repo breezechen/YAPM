@@ -221,7 +221,19 @@ Namespace My
                 Me("DeletedItemColor") = value
             End Set
         End Property
-
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property CloseYAPMWithCloseButton() As Boolean
+            Get
+                Return CType(Me("CloseYAPMWithCloseButton"),Boolean)
+            End Get
+            Set
+                Me("CloseYAPMWithCloseButton") = value
+            End Set
+        End Property
+        
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
@@ -1042,7 +1054,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public Property AutomaticWintrust() As Boolean
             Get
                 Return CType(Me("AutomaticWintrust"),Boolean)
@@ -1362,6 +1374,18 @@ Namespace My
             End Get
             Set
                 Me("PSfrmScripting") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property IconsInList() As Boolean
+            Get
+                Return CType(Me("IconsInList"),Boolean)
+            End Get
+            Set
+                Me("IconsInList") = value
             End Set
         End Property
     End Class

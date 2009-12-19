@@ -78,13 +78,15 @@ Public Class moduleList
         InitializeComponent()
 
         ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
-        _IMG = New ImageList
-        _IMG.ImageSize = New Size(16, 16)
-        _IMG.ColorDepth = ColorDepth.Depth32Bit
+        If My.Settings.IconsInList Then
+            _IMG = New ImageList
+            _IMG.ImageSize = New Size(16, 16)
+            _IMG.ColorDepth = ColorDepth.Depth32Bit
 
-        Me.SmallImageList = _IMG
-        _IMG.Images.Add("dllIcon", My.Resources.dllIcon16)
-        _IMG.Images.Add("exeFile", My.Resources.application_blue16)
+            Me.SmallImageList = _IMG
+            _IMG.Images.Add("dllIcon", My.Resources.dllIcon16)
+            _IMG.Images.Add("exeFile", My.Resources.application_blue16)
+        End If
 
         _first = True
 
@@ -93,15 +95,6 @@ Public Class moduleList
         _moduleConnection.Connected = New cModuleConnection.ConnectedEventHandler(AddressOf HasConnected)
     End Sub
 
-    ' Get an item from listview
-    Public Function GetImageFromImageList(ByVal key As String) As System.Drawing.Image
-        If _IMG.Images.ContainsKey(key) Then
-            Return _IMG.Images.Item(key)
-        Else
-            Return Nothing
-        End If
-    End Function
-
     ' Delete all items
     Public Sub ClearItems()
         _first = True
@@ -109,9 +102,11 @@ Public Class moduleList
         _dico.Clear()
         _dicoDel.Clear()
         _dicoNew.Clear()
-        _IMG.Images.Clear()
-        _IMG.Images.Add("dllIcon", My.Resources.dllIcon16)
-        _IMG.Images.Add("exeFile", My.Resources.application_blue16)
+        If My.Settings.IconsInList Then
+            _IMG.Images.Clear()
+            _IMG.Images.Add("dllIcon", My.Resources.dllIcon16)
+            _IMG.Images.Add("exeFile", My.Resources.application_blue16)
+        End If
         Me.Items.Clear()
     End Sub
 
@@ -325,35 +320,37 @@ Public Class moduleList
         item.ForeColor = _foreColor
 
         ' Add icon
-        If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-            If InStr(key.ToLowerInvariant, "exe-") > 0 Then
-                Try
+        If My.Settings.IconsInList Then
+            If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+                If InStr(key.ToLowerInvariant, "exe-") > 0 Then
+                    Try
 
-                    Dim fName As String = _dico.Item(key).Infos.Path
+                        Dim fName As String = _dico.Item(key).Infos.Path
 
-                    If IO.File.Exists(fName) Then
-                        Me.SmallImageList.Images.Add(fName, GetIcon(fName, True))
-                        item.ImageKey = fName
-                    Else
+                        If IO.File.Exists(fName) Then
+                            Me.SmallImageList.Images.Add(fName, GetIcon(fName, True))
+                            item.ImageKey = fName
+                        Else
+                            item.ImageKey = "dllIcon"
+                            item.ForeColor = Drawing.Color.Gray
+                        End If
+
+                    Catch ex As Exception
                         item.ImageKey = "dllIcon"
                         item.ForeColor = Drawing.Color.Gray
-                    End If
+                    End Try
 
-                Catch ex As Exception
+                Else
+                    ' Standard dll file
                     item.ImageKey = "dllIcon"
-                    item.ForeColor = Drawing.Color.Gray
-                End Try
-
+                End If
             Else
-                ' Standard dll file
-                item.ImageKey = "dllIcon"
-            End If
-        Else
-            ' Remote file -> standard icons
-            If InStr(key.ToLowerInvariant, "exe-") > 0 Then
-                item.ImageKey = "exeFile"
-            Else
-                item.ImageKey = "dllIcon"
+                ' Remote file -> standard icons
+                If InStr(key.ToLowerInvariant, "exe-") > 0 Then
+                    item.ImageKey = "exeFile"
+                Else
+                    item.ImageKey = "dllIcon"
+                End If
             End If
         End If
 

@@ -86,15 +86,17 @@ Public Class handleList
         InitializeComponent()
 
         ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
-        _IMG = New ImageList
-        _IMG.ImageSize = New Size(16, 16)
-        _IMG.ColorDepth = ColorDepth.Depth32Bit
+        If My.Settings.IconsInList Then
+            _IMG = New ImageList
+            _IMG.ImageSize = New Size(16, 16)
+            _IMG.ColorDepth = ColorDepth.Depth32Bit
 
-        Me.SmallImageList = _IMG
-        _IMG.Images.Add("key", My.Resources.key)
-        _IMG.Images.Add("thread", My.Resources.thread)
-        _IMG.Images.Add("service", My.Resources.gear)
-        _IMG.Images.Add("noicon", My.Resources.application_blue16)
+            Me.SmallImageList = _IMG
+            _IMG.Images.Add("key", My.Resources.key)
+            _IMG.Images.Add("thread", My.Resources.thread)
+            _IMG.Images.Add("service", My.Resources.gear)
+            _IMG.Images.Add("noicon", My.Resources.application_blue16)
+        End If
 
         _first = True
 
@@ -115,11 +117,13 @@ Public Class handleList
         _dico.Clear()
         _dicoDel.Clear()
         _dicoNew.Clear()
-        _IMG.Images.Clear()
-        _IMG.Images.Add("key", My.Resources.key)
-        _IMG.Images.Add("thread", My.Resources.thread)
-        _IMG.Images.Add("service", My.Resources.gear)
-        _IMG.Images.Add("noicon", My.Resources.application_blue16)
+        If My.Settings.IconsInList Then
+            _IMG.Images.Clear()
+            _IMG.Images.Add("key", My.Resources.key)
+            _IMG.Images.Add("thread", My.Resources.thread)
+            _IMG.Images.Add("service", My.Resources.gear)
+            _IMG.Images.Add("noicon", My.Resources.application_blue16)
+        End If
         Me.Items.Clear()
     End Sub
 
@@ -331,28 +335,30 @@ Public Class handleList
         'item.Group = Me.Groups(0)
 
         ' Icon
-        Select Case _dico.Item(key).Infos.Type
-            Case "Key"
-                item.ImageKey = "key"
-            Case "File", "Directory"
-                ' Have to retrieve the icon of file/directory
-                Dim fName As String = _dico.Item(key).Infos.Name
-                If IO.File.Exists(fName) Or IO.Directory.Exists(fName) Then
-                    Dim img As System.Drawing.Icon = Common.Misc.GetIcon2(fName, True)
-                    If img IsNot Nothing Then
-                        Me.SmallImageList.Images.Add(fName, img)
-                        item.ImageKey = fName
+        If My.Settings.IconsInList Then
+            Select Case _dico.Item(key).Infos.Type
+                Case "Key"
+                    item.ImageKey = "key"
+                Case "File", "Directory"
+                    ' Have to retrieve the icon of file/directory
+                    Dim fName As String = _dico.Item(key).Infos.Name
+                    If IO.File.Exists(fName) Or IO.Directory.Exists(fName) Then
+                        Dim img As System.Drawing.Icon = Common.Misc.GetIcon2(fName, True)
+                        If img IsNot Nothing Then
+                            Me.SmallImageList.Images.Add(fName, img)
+                            item.ImageKey = fName
+                        Else
+                            item.ImageKey = "noicon"
+                        End If
                     Else
                         item.ImageKey = "noicon"
                     End If
-                Else
-                    item.ImageKey = "noicon"
-                End If
-            Case "Thread", "Process"
-                item.ImageKey = "thread"
-            Case Else
-                item.ImageKey = "service"
-        End Select
+                Case "Thread", "Process"
+                    item.ImageKey = "thread"
+                Case Else
+                    item.ImageKey = "service"
+            End Select
+        End If
 
         item.Tag = key
         Return item

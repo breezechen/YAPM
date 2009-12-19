@@ -249,7 +249,7 @@
       <Value Profile="(Default)">General</Value>
     </Setting>
     <Setting Name="AutomaticWintrust" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="ShowFindWindowDetailedForm" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -328,6 +328,9 @@
     </Setting>
     <Setting Name="PSfrmScripting" Type="System.String" Scope="User">
       <Value Profile="(Default)">0|0|0|0</Value>
+    </Setting>
+    <Setting Name="IconsInList" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

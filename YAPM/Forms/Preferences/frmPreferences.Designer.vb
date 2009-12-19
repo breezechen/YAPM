@@ -102,6 +102,7 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
+        Me.chkShowIconsList = New System.Windows.Forms.CheckBox
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -358,6 +359,7 @@ Partial Class frmPreferences
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.chkShowIconsList)
         Me.TabPage3.Controls.Add(Me.chkRemember)
         Me.TabPage3.Controls.Add(Me.chkClassicMsgbox)
         Me.TabPage3.Controls.Add(Me.cbShownTab)
@@ -867,6 +869,16 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
+        'chkShowIconsList
+        '
+        Me.chkShowIconsList.AutoSize = True
+        Me.chkShowIconsList.Location = New System.Drawing.Point(181, 171)
+        Me.chkShowIconsList.Name = "chkShowIconsList"
+        Me.chkShowIconsList.Size = New System.Drawing.Size(166, 17)
+        Me.chkShowIconsList.TabIndex = 16
+        Me.chkShowIconsList.Text = "Show icons in detailed lists"
+        Me.chkShowIconsList.UseVisualStyleBackColor = True
+        '
         'frmPreferences
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -987,4 +999,5 @@ Partial Class frmPreferences
     Friend WithEvents valCoefRemote As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents chkRemember As System.Windows.Forms.CheckBox
+    Friend WithEvents chkShowIconsList As System.Windows.Forms.CheckBox
 End Class

@@ -74,6 +74,7 @@ Public Class frmPreferences
         My.Settings.ShowClassicMessageBoxes = Me.chkClassicMsgbox.Checked
         My.Settings.CoefTimeMul = CInt(Me.valCoefRemote.Value)
         My.Settings.RememberPosAndSize = Me.chkRemember.Checked
+        My.Settings.IconsInList = Me.chkShowIconsList.Checked
 
         If Me.chkUnlimitedBuf.Checked Then
             My.Settings.HistorySize = -1
@@ -194,6 +195,7 @@ Public Class frmPreferences
         SetToolTip(Me.chkClassicMsgbox, "Display classical messageboxes (Windows XP style)")
         SetToolTip(Me.valCoefRemote, "Coefficient for update interval in case of remote monitoring." & vbNewLine & "For example, if you set 200, all refreshment intervals for remote monitoring will" & vbNewLine & "be 2 times greater than intervals for local monitoring.")
         SetToolTip(Me.chkRemember, "Remember position and size of the main windows.")
+        SetToolTip(Me.chkShowIconsList, "Show icons in detailed lists.")
 
 
         ' Set control's values
@@ -232,6 +234,7 @@ Public Class frmPreferences
         Me.chkClassicMsgbox.Enabled = False ' cEnvironment.SupportsTaskDialog
         Me.valCoefRemote.Value = My.Settings.CoefTimeMul
         Me.chkRemember.Checked = My.Settings.RememberPosAndSize
+        Me.chkShowIconsList.Checked = My.Settings.IconsInList
 
         If My.Settings.HistorySize > 0 Then
             Me.bufferSize.Value = CInt(My.Settings.HistorySize / 1024)
@@ -343,6 +346,7 @@ Public Class frmPreferences
         Me.chkUpdateAuto.Checked = False
         Me.txtUpdateServer.Text = "http://yaprocmon.sourceforge.net/update.xml"
         Me.valCoefRemote.Value = 250
+        Me.chkShowIconsList.Checked = True
         Me.chkRemember.Checked = True
         If Me.chkClassicMsgbox.Enabled Then
             Me.chkClassicMsgbox.Checked = True

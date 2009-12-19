@@ -3,11 +3,13 @@ YAPM 2.4.1 BETA
 CHANGES FROM 2.4.1
 
 * NEW / Improvements
--
+- Added 'show icons in list' option
 
 * Bug fixed
 - Fixed installer (do not check for .net 3.5 anymore)
 
+* Other changes
+- Now 'automatic wintrust verification' is disabled by default
 
 
 CHANGES FROM 2.4.0
