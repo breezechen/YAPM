@@ -1,5 +1,15 @@
 YAPM 2.4.1 BETA
 
+CHANGES FROM 2.4.1
+
+* NEW / Improvements
+-
+
+* Bug fixed
+- Fixed installer (do not check for .net 3.5 anymore)
+
+
+
 CHANGES FROM 2.4.0
 
 * NEW / Improvements
@@ -27,6 +37,7 @@ CHANGES FROM 2.4.0
 * Other changes
 - No more icon is displayed in Thread list
 - Removed useless 'autoconnect' param to start YAPM as a server (always autoconnecting)
+
 
 
 CHANGES FROM 2.3.1

@@ -90,31 +90,31 @@ begin
 end;
 
 // Initialization of setup
-// Check if .Net framework 3.5 is present
+// Check if .Net framework 2.0 is present
 function InitializeSetup(): Boolean;
 var
 	res : Boolean;
 	errRes: Integer;
-	dotNot3dot5Installed : Boolean;
+	dotNot2dot0Installed : Boolean;
 	winDir : String;
 begin
-	winDir := GetWinDir();
-	dotNot3dot5Installed := DirExists(winDir + '\Microsoft.NET\Framework\v3.5' );
-	if dotNot3dot5Installed then
-	begin
+	try
+		// An exception will be raised if an attempt is made to expand this constant on a system with no .NET Framework version 2.0 present
+		// dotnet20 = dotnet2032 if system is 32-bit, and = dotnet2064 if 64-bit
+		ExpandConstant('{dotnet20}');
 		Result := True;
-	end
-	else
-	begin
-		res := MsgBox(ExpandConstant('{cm:noDotNetInstalled}'), mbCriticalError, MB_YESNO or MB_DEFBUTTON1) = IDYES;
-		if res = False then
+	except
 		begin
-			Result := False;
-		end
-		else
-		begin
-			Result := False;
-			ShellExec('open', 'http://download.microsoft.com/download/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe', '', '', SW_SHOWNORMAL, ewNoWait, errRes);
+			res := MsgBox(ExpandConstant('{cm:noDotNetInstalled}'), mbCriticalError, MB_YESNO or MB_DEFBUTTON1) = IDYES;
+			if res = False then
+			begin
+				Result := False;
+			end
+			else
+			begin
+				Result := False;
+				ShellExec('open', 'http://download.microsoft.com/download/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe', '', '', SW_SHOWNORMAL, ewNoWait, errRes);
+			end;
 		end;
 	end;
 end;
