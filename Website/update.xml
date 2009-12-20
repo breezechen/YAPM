@@ -4,40 +4,27 @@
 	<!-- Most recent version first -->
 	
 	<update type="stable">
-		<version>2.4.1.0</version>
-		<caption>Yet Another (remote) Process Monitor 2.4.1</caption>
-		<description>2.4.1 provides a (almost) full support for x64 platforms. Lots of bugs have been fixed.
-
-CHANGES FROM 2.4.0
+		<version>2.4.2.0</version>
+		<caption>Yet Another (remote) Process Monitor 2.4.2</caption>
+		<description>2.4.2 is a bug-fix release. Monitoring of a 64-bit remote system on a local 32-bit system should now works even if x64 remote system has more than 2GB of memory. The installer of YAPM is also fixed as now it does not check for .Net 3.5 anymore...
+		
+CHANGES FROM 2.4.1
 
 * NEW / Improvements
-- Added massive signature check feature
-- Now 'Dump memory' feature is implemented and works fine
-- Now can create snapshot file from command line (-ssfile "FILE_PATH")
-- Optimized Service enumeration
-- Added LoadCount information for modules
-- Added 'Free memory' button (this calls the .Net GC)
-- x64 systems : added "IsWow64" information (and displays "* 32")
-- x64 systems : now module enumeration for Wow64 processes is OK
+- Added 'show icons in list' option
 
 * Bug fixed
-- TCP/UDP connections : only display 'remote' column values if remote is not nothing
-- Fixed #2848713 (Index and length must refer to a location within the string)
-- Fixed "IsDebuggerPresent" information
-- x64 systems : fixed bad CommandLine information
-- x64 systems : fixed bad DisplayName/ObjectName/Depedencies information
-- x64 systems : fixed Set/Get JobLimits feature
-- x64 systems : fixed #2891421 (enumeration of processes in job which fail)
-- Fixed wrong error message when creating a process using WMI
-- Does not display wrong Task icons in remote mode anymore
-- Say good bye to those damned "Cannot call Invoke or BeginInvoke..." crashes !
+- Fixed installer (do not check for .net 3.5 anymore)
+- Fixed arithmetic crashes when monitoring a 64-bit system with a 32-bit system
+- Disabled 'view memory' by double clicking on a memRegion item when monitoring remote system
+- 'Delete service' button is now disabled when using remote monitoring via WMI
 
 * Other changes
-- No more icon is displayed in Thread list
-- Removed useless 'autoconnect' param to start YAPM as a server (always autoconnecting)
+- Now 'automatic wintrust verification' is disabled by default
+- Simplified *.bat file to start YAPM as a server
 		</description>
-		<date>16 December 2009</date>
-		<downloadUrl>https://www.ohloh.net/p/yaprocmon/download?filename=YAPM-v2.4.1-Setup.exe</downloadUrl>
-		<hash>424b90603387cbfcd7aba6b1b4d3dce0af3f680b5944ce01541bcf73140e2583b524933972825473872c400e5e06fff02f45d9282d88997004777a09cb410c06</hash>
+		<date>20 December 2009</date>
+		<downloadUrl>https://www.ohloh.net/p/yaprocmon/download?filename=YAPM-v2.4.2-Setup.exe</downloadUrl>
+		<hash>a26c8359eab5dd61cbc7be01268c162ea481040bb63077098be44b39d2a54c0356be57ad56263f72f057077a088ea2fe7f3aae52ca4459a14c5a93e8318dd297</hash>
 	</update>
 </YAPM>
