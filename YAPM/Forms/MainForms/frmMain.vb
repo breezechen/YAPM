@@ -826,9 +826,8 @@ Public Class frmMain
     Private Sub butSearchSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSearchSaveReport.Click
         Dim frm As New frmSaveReport
         With frm
-            .ReportType = Native.Api.Enums.ReportType.Search
-            Call Application.DoEvents()
             .TopMost = _frmMain.TopMost
+            .ListviewToSave = Me.lvSearchResults
             .ShowDialog()
         End With
     End Sub
@@ -1284,9 +1283,8 @@ Public Class frmMain
     Private Sub butServiceReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceReport.Click
         Dim frm As New frmSaveReport
         With frm
-            .ReportType = Native.Api.Enums.ReportType.Services
-            Call Application.DoEvents()
             .TopMost = _frmMain.TopMost
+            .ListviewToSave = Me.lvServices
             .ShowDialog()
         End With
     End Sub
@@ -1500,9 +1498,8 @@ Public Class frmMain
     Private Sub butSaveProcessReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSaveProcessReport.Click
         Dim frm As New frmSaveReport
         With frm
-            .ReportType = Native.Api.Enums.ReportType.Processes
-            Call Application.DoEvents()
             .TopMost = _frmMain.TopMost
+            .ListviewToSave = Me.lvProcess
             .ShowDialog()
         End With
     End Sub

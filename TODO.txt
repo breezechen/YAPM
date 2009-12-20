@@ -4,6 +4,8 @@ Refactoring bugs
 
 - x64 via server : peut pas énumérer handles, modules et memory
 
+- HELP : ajouter ctrl+s + csv gestion
+
 - hotkeys.xml -> à ne pas mettre dans program files (access denied)
 
 - job enumeration can work even if not admin (xp)
@@ -26,11 +28,8 @@ BUGS CRITIQUES
 - searchInfos contains cService/cModule (NOT Serializable -> can not search via server)
 - others highlightings (isTask, wow64...)
 - refermer les handles quand les processes meurent !
-- rapports à faire (vérifier l'utilisation de GetAvailbleProperties)
-	monitor -> rien
-	network -> à implémenter (menu + icone ribbon)
-	main -> à faire
-	!!! reports des modules/threads/handles/windows (depuis que les maintab sont plus là) ?
+- Save monitoring report à faire
+- Save main report à faire
 	
 BUGS NON CRITIQUES
 - close local process handle -> utiliser DuplicateHandle plutôt que remote thread

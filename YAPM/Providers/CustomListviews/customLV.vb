@@ -166,6 +166,18 @@ Public MustInherit Class customLV
         End If
     End Sub
 
+    Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
+        MyBase.OnKeyDown(e)
+        If e.Control AndAlso e.KeyCode = Keys.S Then
+            Dim frm As New frmSaveReport
+            With frm
+                .TopMost = _frmMain.TopMost
+                .ListviewToSave = Me
+                .ShowDialog()
+            End With
+        End If
+    End Sub
+
     ' Force refreshing of all items and subitems
     ' Have to NOT USE generalLvSemaphore in this method because it is always
     ' called in a safe context

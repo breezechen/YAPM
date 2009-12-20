@@ -25,17 +25,9 @@ Imports Common.Misc
 
 Public Class frmSaveReport
 
-    Private _repType As Native.Api.Enums.ReportType
     Private _path As String
+    Private _lv As ListView
 
-    Public Property ReportType() As Native.Api.Enums.ReportType
-        Get
-            Return _repType
-        End Get
-        Set(ByVal value As Native.Api.Enums.ReportType)
-            _repType = value
-        End Set
-    End Property
     Public Property ReportPath() As String
         Get
             Return _path
@@ -44,23 +36,14 @@ Public Class frmSaveReport
             _path = value
         End Set
     End Property
-
-    ' Public functions to save reports
-    Public Sub SaveReportLog()
-        Me.genericSaveReport(Native.Api.Enums.ReportType.Log, Program.Log.Form.lv)
-    End Sub
-    Public Sub SaveReportServices()
-        Me.genericSaveReport(Native.Api.Enums.ReportType.Services, _frmMain.lvServices)
-    End Sub
-    Public Sub SaveReportSearch()
-        Me.genericSaveReport(Native.Api.Enums.ReportType.Search, _frmMain.lvSearchResults)
-    End Sub
-    Public Sub SaveReportMonitoring()
-        'TODO
-    End Sub
-    Public Sub SaveReportProcesses()
-        Me.genericSaveReport(Native.Api.Enums.ReportType.Processes, _frmMain.lvProcess)
-    End Sub
+    Public Property ListviewToSave() As ListView
+        Get
+            Return _lv
+        End Get
+        Set(ByVal value As ListView)
+            _lv = value
+        End Set
+    End Property
 
     ' Report has been succesfully saved
     Private Sub ReportSaved()
@@ -116,16 +99,7 @@ Public Class frmSaveReport
         Me.cmdGO.Enabled = False
         Me.cmdOK.Enabled = False
         Me.cmdOpenReport.Enabled = False
-        Select Case Me.ReportType
-            Case Native.Api.Enums.ReportType.Services
-                Call Me.SaveReportServices()
-            Case Native.Api.Enums.ReportType.Processes
-                Call Me.SaveReportProcesses()
-            Case Native.Api.Enums.ReportType.Search
-                Call Me.SaveReportSearch()
-            Case Native.Api.Enums.ReportType.Log
-                Call Me.SaveReportLog()
-        End Select
+        Me.genericSaveReport(Me.ListviewToSave)
     End Sub
 
     ' Save what's displayed on a listview as a textfile
@@ -244,8 +218,7 @@ Public Class frmSaveReport
     End Sub
 
     ' Save a report
-    Private Sub genericSaveReport(ByVal type As Native.Api.Enums.ReportType, _
-                                  ByVal lv As ListView)
+    Private Sub genericSaveReport(ByVal lv As ListView)
         Try
             If Me.SaveFileDialog.ShowDialog = Windows.Forms.DialogResult.OK Then
                 Dim s As String = Me.SaveFileDialog.FileName
