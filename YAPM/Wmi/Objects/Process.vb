@@ -18,6 +18,8 @@
 ' You should have received a copy of the GNU General Public License
 ' along with YAPM; if not, see http://www.gnu.org/licenses/.
 
+Option Strict On
+
 Imports System.Runtime.InteropServices
 Imports Native.Api
 Imports System.Management
@@ -55,7 +57,13 @@ Namespace Wmi.Objects
 
                 For Each refProcess As Management.ManagementObject In res
 
-                    Dim obj As New Native.Api.NativeStructs.SystemProcessInformation
+                    ' We use a SystemProcessInformation64 structure,
+                    ' as we don't know if remote machine is 64 or 32-bit.
+                    ' If it's 64-bits, we potentially won't be able to create
+                    ' IntPtrs in our local machine (if 32-bit) as the associated
+                    ' value might be > Integer.MaxValue (which is the maximum
+                    ' value supported by IntPtr constructor on 32-bit systems).
+                    Dim obj As New Native.Api.Structs.SystemProcessInformation64
                     With obj
                         .BasePriority = CInt(refProcess.Item(WmiInfoProcess.Priority.ToString))
                         .HandleCount = CInt(refProcess.Item(WmiInfoProcess.HandleCount.ToString))
@@ -75,20 +83,20 @@ Namespace Wmi.Objects
                         .ProcessId = CInt(refProcess.Item(WmiInfoProcess.ProcessId.ToString))
                         '.SessionId                 ' NOT IMPLEMENTED
                         .UserTime = CLng(refProcess.Item(WmiInfoProcess.UserModeTime.ToString))
-                        Dim _VM As New Native.Api.NativeStructs.VmCountersEx
+                        Dim _VM As New Native.Api.Structs.VmCountersEx64
                         With _VM
                             .PageFaultCount = CInt(refProcess.Item(WmiInfoProcess.PageFaults.ToString))
-                            .PagefileUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PageFileUsage.ToString)))
-                            .PeakPagefileUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakPageFileUsage.ToString)))
-                            .PeakVirtualSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakVirtualSize.ToString)))
-                            .PeakWorkingSetSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakWorkingSetSize.ToString)))
-                            .PrivateBytes = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PrivatePageCount.ToString)))
-                            .QuotaNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaNonPagedPoolUsage.ToString)))
-                            .QuotaPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPagedPoolUsage.ToString)))
-                            .QuotaPeakNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPeakNonPagedPoolUsage.ToString)))
-                            .QuotaPeakPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPeakPagedPoolUsage.ToString)))
-                            .VirtualSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.VirtualSize.ToString)))
-                            .WorkingSetSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.WorkingSetSize.ToString)))
+                            .PagefileUsage = CLng(refProcess.Item(WmiInfoProcess.PageFileUsage.ToString))
+                            .PeakPagefileUsage = CLng(refProcess.Item(WmiInfoProcess.PeakPageFileUsage.ToString))
+                            .PeakVirtualSize = CLng(refProcess.Item(WmiInfoProcess.PeakVirtualSize.ToString))
+                            .PeakWorkingSetSize = CLng(refProcess.Item(WmiInfoProcess.PeakWorkingSetSize.ToString))
+                            .PrivateBytes = CLng(refProcess.Item(WmiInfoProcess.PrivatePageCount.ToString))
+                            .QuotaNonPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaNonPagedPoolUsage.ToString))
+                            .QuotaPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPagedPoolUsage.ToString))
+                            .QuotaPeakNonPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPeakNonPagedPoolUsage.ToString))
+                            .QuotaPeakPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPeakPagedPoolUsage.ToString))
+                            .VirtualSize = CLng(refProcess.Item(WmiInfoProcess.VirtualSize.ToString))
+                            .WorkingSetSize = CLng(refProcess.Item(WmiInfoProcess.WorkingSetSize.ToString))
                         End With
                         .VirtualMemoryCounters = _VM
                     End With
@@ -151,7 +159,7 @@ Namespace Wmi.Objects
         Public Shared Function RefreshProcessInformationsById(ByVal pid As Integer, _
                         ByVal objSearcher As Management.ManagementObjectSearcher, _
                         ByRef msgError As String, _
-                        ByRef _newInfos As Native.Api.NativeStructs.SystemProcessInformation) As Boolean
+                        ByRef _newInfos As Native.Api.Structs.SystemProcessInformation64) As Boolean
 
             ' Get infos
             Dim refProcess As Management.ManagementObject = Nothing
@@ -192,20 +200,20 @@ Namespace Wmi.Objects
                     '.ProcessId = CInt(refProcess.Item(API.WMI_INFO.ProcessId.ToString))
                     '.SessionId                 ' NOT IMPLEMENTED
                     .UserTime = CLng(refProcess.Item(WmiInfoProcess.UserModeTime.ToString))
-                    Dim _VM As New Native.Api.NativeStructs.VmCountersEx
+                    Dim _VM As New Native.Api.Structs.VmCountersEx64
                     With _VM
                         .PageFaultCount = CInt(refProcess.Item(WmiInfoProcess.PageFaults.ToString))
-                        .PagefileUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PageFileUsage.ToString)))
-                        .PeakPagefileUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakPageFileUsage.ToString)))
-                        .PeakVirtualSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakVirtualSize.ToString)))
-                        .PeakWorkingSetSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PeakWorkingSetSize.ToString)))
-                        .PrivateBytes = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.PrivatePageCount.ToString)))
-                        .QuotaNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaNonPagedPoolUsage.ToString)))
-                        .QuotaPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPagedPoolUsage.ToString)))
-                        .QuotaPeakNonPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPeakNonPagedPoolUsage.ToString)))
-                        .QuotaPeakPagedPoolUsage = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.QuotaPeakPagedPoolUsage.ToString)))
-                        .VirtualSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.VirtualSize.ToString)))
-                        .WorkingSetSize = New IntPtr(CInt(refProcess.Item(WmiInfoProcess.WorkingSetSize.ToString)))
+                        .PagefileUsage = CLng(refProcess.Item(WmiInfoProcess.PageFileUsage.ToString))
+                        .PeakPagefileUsage = CLng(refProcess.Item(WmiInfoProcess.PeakPageFileUsage.ToString))
+                        .PeakVirtualSize = CLng(refProcess.Item(WmiInfoProcess.PeakVirtualSize.ToString))
+                        .PeakWorkingSetSize = CLng(refProcess.Item(WmiInfoProcess.PeakWorkingSetSize.ToString))
+                        .PrivateBytes = CLng(refProcess.Item(WmiInfoProcess.PrivatePageCount.ToString))
+                        .QuotaNonPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaNonPagedPoolUsage.ToString))
+                        .QuotaPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPagedPoolUsage.ToString))
+                        .QuotaPeakNonPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPeakNonPagedPoolUsage.ToString))
+                        .QuotaPeakPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPeakPagedPoolUsage.ToString))
+                        .VirtualSize = CLng(refProcess.Item(WmiInfoProcess.VirtualSize.ToString))
+                        .WorkingSetSize = CLng(refProcess.Item(WmiInfoProcess.WorkingSetSize.ToString))
                     End With
                     .VirtualMemoryCounters = _VM
                 End With

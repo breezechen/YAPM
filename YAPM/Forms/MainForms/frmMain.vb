@@ -30,7 +30,7 @@ Public Class frmMain
     ' ========================================
     ' Private attributes
     ' ========================================
-    Private WithEvents creg As cRegMonitor
+    Public WithEvents cReg As cRegMonitor
     Private _ribbonStyle As Boolean = True
     Private _local As Boolean = True
     Private _notWMI As Boolean = True
@@ -317,7 +317,7 @@ Public Class frmMain
             End If
             Me.Hide()
         End If
-        
+
         ' For now, SBA is removed from menu...
         Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbMenuSBA)
         ' For now, scripting is removed from menu...
@@ -353,7 +353,7 @@ Public Class frmMain
 
         PROCESSOR_COUNT = Program.SystemInfo.ProcessorCount
 
-        creg = New cRegMonitor(Native.Api.NativeEnums.KeyType.LocalMachine, "SYSTEM\CurrentControlSet\Services", _
+        cReg = New cRegMonitor(Native.Api.NativeEnums.KeyType.LocalMachine, "SYSTEM\CurrentControlSet\Services", _
                 Native.Api.NativeEnums.KeyMonitoringType.ChangeName)
 
         With Me.graphMonitor
@@ -1310,7 +1310,7 @@ Public Class frmMain
         Next
     End Sub
 
-    Private Sub creg_KeyAdded(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyAdded
+    Private Sub creg_KeyAdded(ByVal key As cRegMonitor.KeyDefinition) Handles cReg.KeyAdded
         'log.AppendLine("Service added : " & key.name)
         If My.Settings.NotifyNewServices Then
             With Me.Tray
@@ -1322,7 +1322,7 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub creg_KeyDeleted(ByVal key As cRegMonitor.KeyDefinition) Handles creg.KeyDeleted
+    Private Sub creg_KeyDeleted(ByVal key As cRegMonitor.KeyDefinition) Handles cReg.KeyDeleted
         'log.AppendLine("Service deleted : " & key.name)
         If My.Settings.NotifyDeletedServices Then
             With Me.Tray
@@ -2580,6 +2580,7 @@ Public Class frmMain
         Me.RBTaskActions.Enabled = _notWMI AndAlso _notSnapshotMode
         Me.RBTaskDisplay.Enabled = _notWMI
         Me.RBServiceFile.Enabled = _notWMI
+        Me.butDeleteService.Enabled = _notWMI
         Me.butProcessOtherActions.Enabled = _notWMI AndAlso _notSnapshotMode
         Me.RBProcessActions.Enabled = _notSnapshotMode
         Me.RBProcessPriority.Enabled = _notSnapshotMode

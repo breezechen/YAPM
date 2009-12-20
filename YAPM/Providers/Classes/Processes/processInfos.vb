@@ -60,7 +60,7 @@ Imports System.Runtime.InteropServices
     Private _Name As String
     Private _KernelTime As Long
     Private _UserTime As Long
-    Private _MemoryInfos As Native.Api.NativeStructs.VmCountersEx
+    Private _MemoryInfos As Native.Api.Structs.VmCountersEx64
     Private _HandleCount As Integer
     Private _StartTime As Long
     Private _Priority As ProcessPriorityClass
@@ -133,7 +133,7 @@ Imports System.Runtime.InteropServices
             Return _UserTime
         End Get
     End Property
-    Public ReadOnly Property MemoryInfos() As Native.Api.NativeStructs.VmCountersEx
+    Public ReadOnly Property MemoryInfos() As Native.Api.Structs.VmCountersEx64
         Get
             Return _MemoryInfos
         End Get
@@ -257,7 +257,7 @@ Imports System.Runtime.InteropServices
     Public Sub New()
         '
     End Sub
-    Public Sub New(ByRef Proc As Native.Api.NativeStructs.SystemProcessInformation, Optional ByVal ProcessName As String = Nothing)
+    Public Sub New(ByRef Proc As Native.Api.Structs.SystemProcessInformation64, Optional ByVal ProcessName As String = Nothing)
         _PebAddress = IntPtr.Zero
 
         With Proc

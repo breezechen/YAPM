@@ -2,6 +2,8 @@ TODO LIST
 
 Refactoring bugs
 
+- x64 via server : peut pas énumérer handles, modules et memory
+
 - hotkeys.xml -> à ne pas mettre dans program files (access denied)
 
 - job enumeration can work even if not admin (xp)

@@ -27,7 +27,7 @@ Imports System.Windows.Forms
 
 Public Class asyncCallbackProcGetAllNonFixedInfos
 
-    Public Event HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As Native.Api.NativeStructs.SystemProcessInformation, ByVal msg As String)
+    Public Event HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As Native.Api.Structs.SystemProcessInformation64, ByVal msg As String)
 
     Private _connection As cProcessConnection
     Private _process As cProcess
@@ -47,7 +47,7 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 Dim msg As String = ""
-                Dim _newInfos As New Native.Api.NativeStructs.SystemProcessInformation
+                Dim _newInfos As New Native.Api.Structs.SystemProcessInformation64
                 Dim ret As Boolean = _
                     Wmi.Objects.Process.RefreshProcessInformationsById(_process.Infos.ProcessId, _
                                                                 _connection.wmiSearcher, msg, _newInfos)

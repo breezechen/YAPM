@@ -1,1 +1,1 @@
-YAPM.exe -server -autoconnect -port 8085
+YAPM.exe -server -port 8085

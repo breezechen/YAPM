@@ -249,7 +249,7 @@ Public Class frmProcessInfo
         Me.lblOtherD.Text = curProc.IODelta.OtherOperationCount.ToString
         Me.lblOthersBD.Text = curProc.GetInformation("OtherTransferCountDelta")
 
-        Dim mem As Native.Api.NativeStructs.VmCountersEx = curProc.Infos.MemoryInfos
+        Dim mem As Native.Api.Structs.VmCountersEx64 = curProc.Infos.MemoryInfos
         Me.lblHandles.Text = CStr(curProc.Infos.HandleCount)
         Dim ts As Date = New Date(curProc.Infos.KernelTime)
         Dim s As String = String.Format("{0:00}", ts.Hour) & ":" & _
@@ -284,7 +284,7 @@ Public Class frmProcessInfo
     ' Refresh information tab
     Private Sub refreshInfosTab()
         Try
-            Dim pmc As Native.Api.NativeStructs.VmCountersEx = curProc.Infos.MemoryInfos
+            Dim pmc As Native.Api.Structs.VmCountersEx64 = curProc.Infos.MemoryInfos
             Dim s As String = ""
             s = "{\rtf1\ansi\ansicpg1252\deff0\deflang1036{\fonttbl{\f0\fswiss\fprq2\fcharset0 Tahoma;}}"
             s = s & "{\*\generator Msftedit 5.41.21.2508;}\viewkind4\uc1\pard\f0\fs18   \b File properties\b0\par"
@@ -308,15 +308,15 @@ Public Class frmProcessInfo
                 String.Format("{0:00}", ts.Second) & ":" & _
                 String.Format("{000}", ts.Millisecond)
             s = s & "\tab Processor time :\tab\tab\tab " & proctime & "\par"
-            s = s & "\tab Memory :\tab\tab\tab " & CStr(pmc.WorkingSetSize.ToInt64 / 1024) & " Kb" & "\par"
-            s = s & "\tab Memory peak :\tab\tab\tab " & CStr(pmc.PeakWorkingSetSize.ToInt64 / 1024) & " Kb" & "\par"
+            s = s & "\tab Memory :\tab\tab\tab " & CStr(pmc.WorkingSetSize / 1024) & " Kb" & "\par"
+            s = s & "\tab Memory peak :\tab\tab\tab " & CStr(pmc.PeakWorkingSetSize / 1024) & " Kb" & "\par"
             s = s & "\tab Page faults :\tab\tab\tab " & CStr(pmc.PageFaultCount) & "\par"
-            s = s & "\tab Page file usage :\tab\tab\tab " & CStr(pmc.PagefileUsage.ToInt64 / 1024) & " Kb" & "\par"
-            s = s & "\tab Peak page file usage :\tab\tab " & CStr(pmc.PeakPagefileUsage.ToInt64 / 1024) & " Kb" & "\par"
-            s = s & "\tab QuotaPagedPoolUsage :\tab\tab " & CStr(Math.Round(pmc.QuotaPagedPoolUsage.ToInt64 / 1024, 3)) & " Kb" & "\par"
-            s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage.ToInt64 / 1024, 3)) & " Kb" & "\par"
-            s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage.ToInt64 / 1024, 3)) & " Kb" & "\par"
-            s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage.ToInt64 / 1024, 3)) & " Kb" & "\par"
+            s = s & "\tab Page file usage :\tab\tab\tab " & CStr(pmc.PagefileUsage / 1024) & " Kb" & "\par"
+            s = s & "\tab Peak page file usage :\tab\tab " & CStr(pmc.PeakPagefileUsage / 1024) & " Kb" & "\par"
+            s = s & "\tab QuotaPagedPoolUsage :\tab\tab " & CStr(Math.Round(pmc.QuotaPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+            s = s & "\tab QuotaPeakPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+            s = s & "\tab QuotaNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
+            s = s & "\tab QuotaPeakNonPagedPoolUsage :\tab " & CStr(Math.Round(pmc.QuotaPeakNonPagedPoolUsage / 1024, 3)) & " Kb" & "\par"
 
             s = s & "}"
 
@@ -719,10 +719,10 @@ Public Class frmProcessInfo
         Me.graphCPU.Refresh()
         Me.graphCPU.TopText = "Cpu : " & Misc.GetFormatedPercentage(z, 3, True) & " %"
 
-        z = curProc.Infos.MemoryInfos.WorkingSetSize.ToInt64 / 2147483648 * 100
+        z = curProc.Infos.MemoryInfos.WorkingSetSize / 2147483648 * 100
         Me.graphMemory.AddValue(z)
         Me.graphMemory.Refresh()
-        Me.graphMemory.TopText = "WorkingSet : " & GetFormatedSize(curProc.Infos.MemoryInfos.WorkingSetSize.ToInt64)
+        Me.graphMemory.TopText = "WorkingSet : " & GetFormatedSize(curProc.Infos.MemoryInfos.WorkingSetSize)
 
         Me.graphIO.Add2Values(curProc.IODelta.ReadTransferCount + curProc.IODelta.OtherTransferCount, curProc.IODelta.WriteTransferCount)
         Me.graphIO.Refresh()
@@ -1081,12 +1081,14 @@ Public Class frmProcessInfo
     End Function
 
     Private Sub lvProcMem_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcMem.DoubleClick
-        For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
-            Dim frm As New frmHexEditor
-            Dim reg As New MemoryHexEditor.MemoryRegion(it.Infos.BaseAddress, it.Infos.RegionSize)
-            frm.SetPidAndRegion(it.Infos.ProcessId, reg)
-            frm.Show()
-        Next
+        If cMemRegion.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
+                Dim frm As New frmHexEditor
+                Dim reg As New MemoryHexEditor.MemoryRegion(it.Infos.BaseAddress, it.Infos.RegionSize)
+                frm.SetPidAndRegion(it.Infos.ProcessId, reg)
+                frm.Show()
+            Next
+        End If
     End Sub
 
     Private Sub cmdShowFileDetails_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdShowFileDetails.Click
@@ -1445,7 +1447,7 @@ Public Class frmProcessInfo
     End Sub
 
     ' When we've finished to get all non fixed infos
-    Private Sub asyncAllNonFixedInfos_HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As Native.Api.NativeStructs.SystemProcessInformation, ByVal msg As String) Handles asyncAllNonFixedInfos.HasGotAllNonFixedInfos
+    Private Sub asyncAllNonFixedInfos_HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As Native.Api.Structs.SystemProcessInformation64, ByVal msg As String) Handles asyncAllNonFixedInfos.HasGotAllNonFixedInfos
         If Success Then
             curProc.Merge(newInfos)
         Else

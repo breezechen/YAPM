@@ -483,6 +483,9 @@ Public Module Program
         ' Close forms & exit
         Program.MustCloseWithCloseButton = True
         If _frmMain IsNot Nothing Then
+            ' Terminate registry monitoring thread
+            _frmMain.cReg.Thread.Abort()
+            ' Close form
             _frmMain.Close()
         End If
         Application.Exit()

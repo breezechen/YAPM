@@ -23,6 +23,7 @@ Option Strict On
 
 Imports System.Net
 Imports Native.Api.Enums
+Imports System.Runtime.InteropServices
 
 Namespace Native.Api
 
@@ -70,8 +71,8 @@ Namespace Native.Api
 
         Public Structure ProcMemInfo
             Dim time As Long
-            Dim mem As Native.Api.NativeStructs.VmCountersEx
-            Public Sub New(ByVal aTime As Long, ByRef aMem As Native.Api.NativeStructs.VmCountersEx)
+            Dim mem As VmCountersEx64
+            Public Sub New(ByVal aTime As Long, ByRef aMem As VmCountersEx64)
                 time = aTime
                 mem = aMem
             End Sub
@@ -99,6 +100,118 @@ Namespace Native.Api
                 userO = aUser
                 cpuUsage = aCpu
                 averageCpuUsage = aAverage
+            End Sub
+        End Structure
+
+        ' This "encapsulate" SystemProcessInformation structure which is OS-dependent
+        <StructLayout(LayoutKind.Sequential)> _
+        Public Structure SystemProcessInformation64
+            Public NextEntryOffset As Integer
+            Public NumberOfThreads As Integer
+            <MarshalAs(UnmanagedType.ByValArray, SizeConst:=3)> _
+            Public Reserved1 As Long()
+            Public CreateTime As Long
+            Public UserTime As Long
+            Public KernelTime As Long
+            Public ImageName As NativeStructs.UnicodeString
+            Public BasePriority As Integer
+            ' This two variables are private cause we prefer
+            ' access to ProcessId and Inherited...Id as Int32
+            Private _ProcessId As IntPtr
+            Private _InheritedFromProcessId As IntPtr
+            Public HandleCount As Integer
+            Public SessionId As Integer
+            Public PageDirectoryBase As IntPtr
+            Public VirtualMemoryCounters As VmCountersEx64
+            Public IoCounters As NativeStructs.IoCounters
+
+            ' 2 properties to access to private variables
+            Public Property ProcessId() As Integer
+                Get
+                    Return _ProcessId.ToInt32
+                End Get
+                Set(ByVal value As Integer)
+                    _ProcessId = New IntPtr(value)
+                End Set
+            End Property
+            Public Property InheritedFromProcessId() As Integer
+                Get
+                    Return _InheritedFromProcessId.ToInt32
+                End Get
+                Set(ByVal value As Integer)
+                    _InheritedFromProcessId = New IntPtr(value)
+                End Set
+            End Property
+
+            Public Sub New(ByVal procInfo As NativeStructs.SystemProcessInformation)
+                With procInfo
+                    NextEntryOffset = .NextEntryOffset
+                    NumberOfThreads = .NumberOfThreads
+                    Reserved1 = .Reserved1
+                    CreateTime = .CreateTime
+                    UserTime = .UserTime
+                    KernelTime = .KernelTime
+                    ImageName = .ImageName
+                    BasePriority = .BasePriority
+                    ProcessId = .ProcessId
+                    InheritedFromProcessId = .InheritedFromProcessId
+                    HandleCount = .HandleCount
+                    SessionId = .SessionId
+                    PageDirectoryBase = .PageDirectoryBase
+                    VirtualMemoryCounters = .VirtualMemoryCounters.ToVmCountersEx64
+                    IoCounters = .IoCounters
+                End With
+            End Sub
+
+        End Structure
+
+        ' This "encapsulate" VmCountersEx structure which is OS-dependent
+        <StructLayout(LayoutKind.Sequential), Serializable()> _
+        Public Structure VmCountersEx64
+            Public PeakVirtualSize As Long
+            Public VirtualSize As Long
+            Public PageFaultCount As Integer
+            Public PeakWorkingSetSize As Long
+            Public WorkingSetSize As Long
+            Public QuotaPeakPagedPoolUsage As Long
+            Public QuotaPagedPoolUsage As Long
+            Public QuotaPeakNonPagedPoolUsage As Long
+            Public QuotaNonPagedPoolUsage As Long
+            Public PagefileUsage As Long
+            Public PeakPagefileUsage As Long
+            Public PrivateBytes As Long
+            Public Shared Operator <>(ByVal m1 As VmCountersEx64, ByVal m2 As VmCountersEx64) As Boolean
+                Return Not (m1 = m2)
+            End Operator
+            Public Shared Operator =(ByVal i1 As VmCountersEx64, ByVal i2 As VmCountersEx64) As Boolean
+                Return (i1.PeakVirtualSize = i2.PeakVirtualSize AndAlso _
+                    i1.VirtualSize = i2.VirtualSize AndAlso _
+                    i1.PageFaultCount = i2.PageFaultCount AndAlso _
+                    i1.PeakWorkingSetSize = i2.PeakWorkingSetSize AndAlso _
+                    i1.WorkingSetSize = i2.WorkingSetSize AndAlso _
+                    i1.QuotaPeakPagedPoolUsage = i2.QuotaPeakPagedPoolUsage AndAlso _
+                    i1.QuotaPagedPoolUsage = i2.QuotaPagedPoolUsage AndAlso _
+                    i1.QuotaPeakNonPagedPoolUsage = i2.QuotaPeakNonPagedPoolUsage AndAlso _
+                    i1.QuotaNonPagedPoolUsage = i2.QuotaNonPagedPoolUsage AndAlso _
+                    i1.PagefileUsage = i2.PagefileUsage AndAlso _
+                    i1.PeakPagefileUsage = i2.PeakPagefileUsage AndAlso _
+                    i1.PrivateBytes = i2.PrivateBytes)
+            End Operator
+            Public Sub New(ByVal vmCounter As NativeStructs.VmCountersEx)
+                With vmCounter
+                    PeakVirtualSize = .PeakVirtualSize.ToInt64
+                    VirtualSize = .VirtualSize.ToInt64
+                    PageFaultCount = .PageFaultCount
+                    PeakWorkingSetSize = .PeakWorkingSetSize.ToInt64
+                    WorkingSetSize = .WorkingSetSize.ToInt64
+                    QuotaPeakPagedPoolUsage = .QuotaPeakPagedPoolUsage.ToInt64
+                    QuotaPagedPoolUsage = .QuotaPagedPoolUsage.ToInt64
+                    QuotaPeakNonPagedPoolUsage = .QuotaPeakNonPagedPoolUsage.ToInt64
+                    QuotaNonPagedPoolUsage = .QuotaNonPagedPoolUsage.ToInt64
+                    PagefileUsage = .PagefileUsage.ToInt64
+                    PeakPagefileUsage = .PeakPagefileUsage.ToInt64
+                    PrivateBytes = .PrivateBytes.ToInt64
+                End With
             End Sub
         End Structure
 

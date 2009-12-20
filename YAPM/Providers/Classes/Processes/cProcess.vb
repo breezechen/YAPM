@@ -308,7 +308,7 @@ Public Class cProcess
 
         RaiseEvent HasMerged()
     End Sub
-    Public Sub Merge(ByRef Proc As Native.Api.NativeStructs.SystemProcessInformation)
+    Public Sub Merge(ByRef Proc As Native.Api.Structs.SystemProcessInformation64)
         _processInfos.Merge(New processInfos(Proc))
         Call RefreshSpecialInformations()
     End Sub
@@ -1300,23 +1300,23 @@ Public Class cProcess
             Case "TotalCpuTime"
                 res = Me.Infos.ProcessorTime
             Case "WorkingSet"
-                res = Me.Infos.MemoryInfos.WorkingSetSize.ToInt64
+                res = Me.Infos.MemoryInfos.WorkingSetSize
             Case "PeakWorkingSet"
-                res = Me.Infos.MemoryInfos.PeakWorkingSetSize.ToInt64
+                res = Me.Infos.MemoryInfos.PeakWorkingSetSize
             Case "PageFaultCount"
                 res = Me.Infos.MemoryInfos.PageFaultCount
             Case "PagefileUsage"
-                res = Me.Infos.MemoryInfos.PagefileUsage.ToInt64
+                res = Me.Infos.MemoryInfos.PagefileUsage
             Case "PeakPagefileUsage"
-                res = Me.Infos.MemoryInfos.PeakPagefileUsage.ToInt64
+                res = Me.Infos.MemoryInfos.PeakPagefileUsage
             Case "QuotaPeakPagedPoolUsage"
-                res = Me.Infos.MemoryInfos.QuotaPeakPagedPoolUsage.ToInt64
+                res = Me.Infos.MemoryInfos.QuotaPeakPagedPoolUsage
             Case "QuotaPagedPoolUsage"
-                res = Me.Infos.MemoryInfos.QuotaPagedPoolUsage.ToInt64
+                res = Me.Infos.MemoryInfos.QuotaPagedPoolUsage
             Case "QuotaPeakNonPagedPoolUsage"
-                res = Me.Infos.MemoryInfos.QuotaPeakNonPagedPoolUsage.ToInt64
+                res = Me.Infos.MemoryInfos.QuotaPeakNonPagedPoolUsage
             Case "QuotaNonPagedPoolUsage"
-                res = Me.Infos.MemoryInfos.QuotaNonPagedPoolUsage.ToInt64
+                res = Me.Infos.MemoryInfos.QuotaNonPagedPoolUsage
             Case "GdiObjects"
                 res = Me.Infos.GdiObjects
             Case "UserObjects"
@@ -1509,14 +1509,14 @@ Public Class cProcess
                 ReDim ret(_dicoProcMem.Count - 1)
                 Dim x As Integer = 0
                 For Each t As ProcMemInfo In _dicoProcMem.Values
-                    ret(x) = t.mem.WorkingSetSize.ToInt64
+                    ret(x) = t.mem.WorkingSetSize
                     x += 1
                 Next
             Case "PeakWorkingSet"
                 ReDim ret(_dicoProcMem.Count - 1)
                 Dim x As Integer = 0
                 For Each t As ProcMemInfo In _dicoProcMem.Values
-                    ret(x) = t.mem.PeakWorkingSetSize.ToInt64
+                    ret(x) = t.mem.PeakWorkingSetSize
                     x += 1
                 Next
             Case "PageFaultCount"
@@ -1530,42 +1530,42 @@ Public Class cProcess
                 ReDim ret(_dicoProcMem.Count - 1)
                 Dim x As Integer = 0
                 For Each t As ProcMemInfo In _dicoProcMem.Values
-                    ret(x) = t.mem.PagefileUsage.ToInt64
+                    ret(x) = t.mem.PagefileUsage
                     x += 1
                 Next
             Case "PeakPagefileUsage"
                 ReDim ret(_dicoProcMem.Count - 1)
                 Dim x As Integer = 0
                 For Each t As ProcMemInfo In _dicoProcMem.Values
-                    ret(x) = t.mem.PeakPagefileUsage.ToInt64
+                    ret(x) = t.mem.PeakPagefileUsage
                     x += 1
                 Next
             Case "QuotaPeakPagedPoolUsage"
                 ReDim ret(_dicoProcMem.Count - 1)
                 Dim x As Integer = 0
                 For Each t As ProcMemInfo In _dicoProcMem.Values
-                    ret(x) = t.mem.QuotaPeakPagedPoolUsage.ToInt64
+                    ret(x) = t.mem.QuotaPeakPagedPoolUsage
                     x += 1
                 Next
             Case "QuotaPagedPoolUsage"
                 ReDim ret(_dicoProcMem.Count - 1)
                 Dim x As Integer = 0
                 For Each t As ProcMemInfo In _dicoProcMem.Values
-                    ret(x) = t.mem.QuotaPagedPoolUsage.ToInt64
+                    ret(x) = t.mem.QuotaPagedPoolUsage
                     x += 1
                 Next
             Case "QuotaPeakNonPagedPoolUsage"
                 ReDim ret(_dicoProcMem.Count - 1)
                 Dim x As Integer = 0
                 For Each t As ProcMemInfo In _dicoProcMem.Values
-                    ret(x) = t.mem.QuotaPeakNonPagedPoolUsage.ToInt64
+                    ret(x) = t.mem.QuotaPeakNonPagedPoolUsage
                     x += 1
                 Next
             Case "QuotaNonPagedPoolUsage"
                 ReDim ret(_dicoProcMem.Count - 1)
                 Dim x As Integer = 0
                 For Each t As ProcMemInfo In _dicoProcMem.Values
-                    ret(x) = t.mem.QuotaNonPagedPoolUsage.ToInt64
+                    ret(x) = t.mem.QuotaNonPagedPoolUsage
                     x += 1
                 Next
             Case "ReadOperationCount"

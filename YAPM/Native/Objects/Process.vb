@@ -597,7 +597,7 @@ Namespace Native.Objects
 
                 Dim obj As NativeStructs.SystemProcessInformation = _
                         memAllocForVSProcesses.ReadStructOffset(Of NativeStructs.SystemProcessInformation)(offset)
-                Dim _procInfos As New processInfos(obj)
+                Dim _procInfos As New processInfos(obj.ToSystemProcessInformation64)
 
                 Dim _path As String = GetProcessPathById(obj.ProcessId)
                 With _procInfos
@@ -650,7 +650,7 @@ Namespace Native.Objects
 
                 Dim obj As NativeStructs.SystemProcessInformation = _
                         memAllocForVProcesses.ReadStructOffset(Of NativeStructs.SystemProcessInformation)(offset)
-                Dim _procInfos As New processInfos(obj)
+                Dim _procInfos As New processInfos(obj.ToSystemProcessInformation64)
 
 
                 ' Do we have to get fixed infos ?
@@ -769,7 +769,7 @@ Namespace Native.Objects
                             .ProcessId = pid
                         End With
                         Dim _path As String = GetProcessPathById(obj.ProcessId)
-                        Dim _procInfos As New processInfos(obj, cFile.GetFileName(_path))
+                        Dim _procInfos As New processInfos(obj.ToSystemProcessInformation64, cFile.GetFileName(_path))
                         _procInfos.Path = _path
                         If _dico.ContainsKey(pid.ToString) = False Then
                             _dico.Add(pid.ToString, _procInfos)
@@ -787,7 +787,7 @@ Namespace Native.Objects
                     .ProcessId = h
                 End With
                 Dim _path As String = GetProcessPathById(obj.ProcessId)
-                Dim _procInfos As New processInfos(obj, cFile.GetFileName(_path))
+                Dim _procInfos As New processInfos(obj.ToSystemProcessInformation64, cFile.GetFileName(_path))
                 _procInfos.Path = _path
                 If _dico.ContainsKey(h.ToString) = False Then
                     _dico.Add(h.ToString, _procInfos)
@@ -840,7 +840,7 @@ Namespace Native.Objects
                             .ProcessId = pid
                         End With
                         Dim _path As String = GetProcessPathById(obj.ProcessId)
-                        Dim _procInfos As New processInfos(obj, cFile.GetFileName(_path))
+                        Dim _procInfos As New processInfos(obj.ToSystemProcessInformation64, cFile.GetFileName(_path))
                         _procInfos.Path = _path
                         Dim sKey As String = pid.ToString
                         If _dico.ContainsKey(sKey) = False Then

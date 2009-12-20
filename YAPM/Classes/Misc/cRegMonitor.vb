@@ -43,7 +43,14 @@ Public Class cRegMonitor
     Private _ss() As String
     Private _path As String
     Private _kt As Native.Api.NativeEnums.KeyType
-    Public _t As Thread
+    Private _t As Thread
+
+    ' Return thread
+    Public ReadOnly Property Thread() As Thread
+        Get
+            Return _t
+        End Get
+    End Property
 
     ' Constructor
     Public Sub New(ByVal KeyType As Native.Api.NativeEnums.KeyType, ByVal path As String, ByVal monType As  _

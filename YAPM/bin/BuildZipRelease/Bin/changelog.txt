@@ -7,9 +7,13 @@ CHANGES FROM 2.4.1
 
 * Bug fixed
 - Fixed installer (do not check for .net 3.5 anymore)
+- Fixed arithmetic crashes when monitoring a 64-bit system with a 32-bit system
+- Disabled 'view memory' by double clicking on a memRegion item when monitoring remote system
+- 'Delete service' button is now disabled when using remote monitoring via WMI
 
 * Other changes
 - Now 'automatic wintrust verification' is disabled by default
+- Simplified *.bat file to start YAPM as a server
 
 
 CHANGES FROM 2.4.0

@@ -136,13 +136,15 @@ Public Class frmHeapBlocks
 
     Private Sub MenuItemViewMemory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemViewMemory.Click
         ' View memory
-        For Each it As ListViewItem In Me.lv.SelectedItems
-            Dim bl As Native.Api.NativeStructs.HeapBlock = CType(it.Tag, Native.Api.NativeStructs.HeapBlock)
-            Dim frm As New frmHexEditor
-            Dim reg As New MemoryHexEditor.MemoryRegion(bl.Address, New IntPtr(bl.Size))
-            frm.SetPidAndRegion(_pid, reg)
-            frm.Show()
-        Next
+        If cHeap.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            For Each it As ListViewItem In Me.lv.SelectedItems
+                Dim bl As Native.Api.NativeStructs.HeapBlock = CType(it.Tag, Native.Api.NativeStructs.HeapBlock)
+                Dim frm As New frmHexEditor
+                Dim reg As New MemoryHexEditor.MemoryRegion(bl.Address, New IntPtr(bl.Size))
+                frm.SetPidAndRegion(_pid, reg)
+                frm.Show()
+            Next
+        End If
     End Sub
 
 End Class

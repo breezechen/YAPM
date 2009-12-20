@@ -373,6 +373,28 @@ Namespace Native.Api
                 End Set
             End Property
 
+            Public Function ToSystemProcessInformation64() As Structs.SystemProcessInformation64
+                Dim ret As New Structs.SystemProcessInformation64
+                With ret
+                    .NextEntryOffset = NextEntryOffset
+                    .NumberOfThreads = NumberOfThreads
+                    .Reserved1 = Reserved1
+                    .CreateTime = CreateTime
+                    .UserTime = UserTime
+                    .KernelTime = KernelTime
+                    .ImageName = ImageName
+                    .BasePriority = BasePriority
+                    .ProcessId = ProcessId
+                    .InheritedFromProcessId = InheritedFromProcessId
+                    .HandleCount = HandleCount
+                    .SessionId = SessionId
+                    .PageDirectoryBase = PageDirectoryBase
+                    .VirtualMemoryCounters = VirtualMemoryCounters.ToVmCountersEx64
+                    .IoCounters = IoCounters
+                End With
+                Return ret
+            End Function
+
         End Structure
 
         <StructLayout(LayoutKind.Sequential), Serializable()> _
@@ -406,6 +428,24 @@ Namespace Native.Api
                     i1.PeakPagefileUsage = i2.PeakPagefileUsage AndAlso _
                     i1.PrivateBytes = i2.PrivateBytes)
             End Operator
+            Public Function ToVmCountersEx64() As Structs.VmCountersEx64
+                Dim ret As New Structs.VmCountersEx64
+                With ret
+                    .PageFaultCount = PageFaultCount
+                    .PagefileUsage = PagefileUsage.ToInt64
+                    .PeakPagefileUsage = PeakPagefileUsage.ToInt64
+                    .PeakVirtualSize = PeakVirtualSize.ToInt64
+                    .PeakWorkingSetSize = PeakWorkingSetSize.ToInt64
+                    .PrivateBytes = PrivateBytes.ToInt64
+                    .QuotaNonPagedPoolUsage = QuotaNonPagedPoolUsage.ToInt64
+                    .QuotaPagedPoolUsage = QuotaPagedPoolUsage.ToInt64
+                    .QuotaPeakNonPagedPoolUsage = QuotaPeakNonPagedPoolUsage.ToInt64
+                    .QuotaPeakPagedPoolUsage = QuotaPeakPagedPoolUsage.ToInt64
+                    .VirtualSize = VirtualSize.ToInt64
+                    .WorkingSetSize = WorkingSetSize.ToInt64
+                End With
+                Return ret
+            End Function
         End Structure
 
 #End Region
