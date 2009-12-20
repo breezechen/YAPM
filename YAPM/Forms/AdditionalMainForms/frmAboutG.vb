@@ -44,6 +44,7 @@ Public Class frmAboutG
         SetToolTip(Me.lnkWebsite,"Visit YAPM website")
 
         Me.lblVersion.Text = My.Application.Info.Version.ToString
+        Me.lblDate.Text = "Dec. 20 2009"
 
     End Sub
 

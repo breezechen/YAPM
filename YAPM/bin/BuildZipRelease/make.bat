@@ -33,6 +33,7 @@ rem     18/08/09 - Initial version (violent_ken)
 rem	    29/08/09 - Now it creates the setup
 rem	    31/08/09 - Now it create a source package
 rem	    16/09/09 - Added SecureChannel.dll to ILMerge
+rem	    20/12/09 - Removed 7z generation for now
 
 
 rem     Remove YAPM.exe
@@ -48,7 +49,7 @@ rem     Create zip file
 ..\..\..\Tools\7za\7za.exe a -tzip -y ..\..\..\RELEASE\YAPM-vx.x.x-binaries.zip -r .\Bin\* -x!.svn
 
 rem     Create 7z file
- ..\..\..\Tools\7za\7za.exe a -t7z -y ..\..\..\RELEASE\YAPM-vx.x.x-binaries.7z -r .\Bin\* -x!.svn
+rem ..\..\..\Tools\7za\7za.exe a -t7z -y ..\..\..\RELEASE\YAPM-vx.x.x-binaries.7z -r .\Bin\* -x!.svn
 
 rem     Build setup
 "C:\Program Files\Inno Setup 5\Compil32.exe" /cc ..\..\..\Setup\ISS\main.iss
