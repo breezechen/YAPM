@@ -294,6 +294,33 @@ Namespace Common
             End Try
         End Function
 
+        ' Expand the first node of a tv which has a specific text
+        Public Shared Sub ShowTvNodeByText(ByVal tv As TreeView, ByVal text As String)
+            For Each n As TreeNode In tv.Nodes
+                If pvtExpandTvNodeByText(n, text, tv) Then
+                    Exit For
+                End If
+            Next
+        End Sub
+        Private Shared Function pvtExpandTvNodeByText(ByVal node As TreeNode, ByVal text As String, ByVal tv As TreeView) As Boolean
+            If node.Nodes.Count > 0 Then
+                For Each n As TreeNode In node.Nodes
+                    If pvtExpandTvNodeByText(n, text, tv) Then
+                        Exit For
+                    End If
+                Next
+            Else
+                Dim ret As Boolean = (node.Text = text)
+                If ret Then
+                    node.EnsureVisible()
+                    tv.SelectedNode = node
+                    tv.Focus()
+                End If
+                Return ret
+            End If
+        End Function
+
+
 
         ' Get a good path
         Public Shared Function GetRealPath(ByVal path As String) As String

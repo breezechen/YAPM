@@ -3,7 +3,7 @@ YAPM 2.4.3 BETA
 CHANGES FROM 2.4.2
 
 * NEW / Improvements
-- 
+- PerfCounter : now select item in treeview when clicking on the associated item in listview
 
 * Bug fixed
 -

@@ -4109,4 +4109,12 @@ Public Class frmMain
         ' Calls the garbage collector
         Program.CollectGarbage()
     End Sub
+
+    Private Sub lvMonitorReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvMonitorReport.Click
+        ' Select associated item in tvMonitor
+        If Me.lvMonitorReport.SelectedItems.Count > 0 Then
+            Dim it As ListViewItem = Me.lvMonitorReport.SelectedItems(0)
+            Misc.ShowTvNodeByText(Me.tvMonitor, it.Text)
+        End If
+    End Sub
 End Class
