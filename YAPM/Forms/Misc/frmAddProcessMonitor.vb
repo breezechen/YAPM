@@ -31,12 +31,6 @@ Public Class frmAddProcessMonitor
 
     Private _con As cConnection
 
-    Private Structure monCounter
-        Dim instanceName As String
-        Dim counterTypeName As String
-        Dim categoryName As String
-    End Structure
-
     Public Sub New(ByRef connection As cConnection)
         InitializeComponent()
         _con = connection
@@ -103,7 +97,8 @@ Public Class frmAddProcessMonitor
 
         For Each lstIt In Me.lstToAdd.Items
 
-            Dim obj As monCounter = CType(lstIt.Tag, Global.frmAddProcessMonitor.monCounter)
+            Dim obj As Native.Api.Structs.PerfCounter = _
+                        DirectCast(lstIt.Tag, Native.Api.Structs.PerfCounter)
 
             With obj
                 Dim _name As String = .instanceName
@@ -146,13 +141,7 @@ Public Class frmAddProcessMonitor
             If _count = vbNullString And _name = vbNullString Then Exit Sub
             _cat = Me.lstCategory.SelectedItems(0).Text
 
-            Dim it As New monCounter
-
-            With it
-                .categoryName = _cat
-                .counterTypeName = _count
-                .instanceName = _name
-            End With
+            Dim it As New Native.Api.Structs.PerfCounter(_cat, _count, _name)
 
             Dim sName As String = _cat & " -- " & CStr(IIf(_name = vbNullString, vbNullString, _name & " -- ")) & _count
             Dim bPresent As Boolean = False
@@ -213,6 +202,7 @@ Public Class frmAddProcessMonitor
                     Me.lstInstance.Items.Add("No instance available")
                 End If
             Catch ex As Exception
+                '
             End Try
             Call lstInstance_SelectedIndexChanged(Nothing, Nothing)
         End If
@@ -241,6 +231,7 @@ Public Class frmAddProcessMonitor
                     Me.lstCounterType.Items.Add(mypc(i).CounterName)
                 Next
             Catch ex As Exception
+                '
             End Try
         Else
             Dim myCat As PerformanceCounterCategory
@@ -256,6 +247,7 @@ Public Class frmAddProcessMonitor
                     Me.lstCounterType.Items.Add(mypc(i).CounterName)
                 Next
             Catch ex As Exception
+                '
             End Try
         End If
         Me.butAdd.Enabled = (Me.lstCounterType.SelectedItems.Count > 0)

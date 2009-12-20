@@ -75,7 +75,6 @@ BUGS NON CRITIQUES
 - ajouter bouton Default dans ChooseColumns
 - ajouter infos token (elevation, domain, user name, SID...)
 - ajouter "démarrer en tant que" (runas, cf lien opera)
-- perf counter pour PC distant : ajouter gestion remote pour la recherche
 - path des process : \Device\VBoxMiniRdr\VBOXSVR\Release\YAPM.exe à convertir en path avec lecteur
 - fin d'un service dans frmDetail -> afficher 'terminé le xxx' en titre quand le service n'existe plus
 - tooltip partout (manque frmPreferences ? et manque frmLogOptions + forms qui viennent des autres projets)

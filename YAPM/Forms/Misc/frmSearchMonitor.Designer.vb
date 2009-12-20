@@ -22,8 +22,8 @@ Partial Class frmSearchMonitor
     'Ne la modifiez pas à l'aide de l'éditeur de code.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim ListViewGroup1 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Category", System.Windows.Forms.HorizontalAlignment.Left)
-        Dim ListViewGroup2 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Counter", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup3 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Category", System.Windows.Forms.HorizontalAlignment.Left)
+        Dim ListViewGroup4 As System.Windows.Forms.ListViewGroup = New System.Windows.Forms.ListViewGroup("Counter", System.Windows.Forms.HorizontalAlignment.Left)
         Me.Label1 = New System.Windows.Forms.Label
         Me.txtToSearch = New System.Windows.Forms.TextBox
         Me.chkCase = New System.Windows.Forms.CheckBox
@@ -74,11 +74,11 @@ Partial Class frmSearchMonitor
         'LV
         '
         Me.LV.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
-        ListViewGroup1.Header = "Category"
-        ListViewGroup1.Name = "groupCategory"
-        ListViewGroup2.Header = "Counter"
-        ListViewGroup2.Name = "groupCounter"
-        Me.LV.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup1, ListViewGroup2})
+        ListViewGroup3.Header = "Category"
+        ListViewGroup3.Name = "groupCategory"
+        ListViewGroup4.Header = "Counter"
+        ListViewGroup4.Name = "groupCounter"
+        Me.LV.Groups.AddRange(New System.Windows.Forms.ListViewGroup() {ListViewGroup3, ListViewGroup4})
         Me.LV.Location = New System.Drawing.Point(15, 32)
         Me.LV.Name = "LV"
         Me.LV.Size = New System.Drawing.Size(363, 165)
@@ -109,7 +109,7 @@ Partial Class frmSearchMonitor
         Me.ShowIcon = False
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Search a monitor item"
+        Me.Text = "Search a counter"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

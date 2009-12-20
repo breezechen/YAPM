@@ -235,6 +235,21 @@ Namespace Native.Api
 
 #End Region
 
+#Region "Other declarations"
+
+        Public Structure PerfCounter
+            Public InstanceName As String
+            Public CounterTypeName As String
+            Public CategoryName As String
+            Public Sub New(ByVal aCat As String, ByVal aCount As String, ByVal aName As String)
+                InstanceName = aName
+                CounterTypeName = aCount
+                CategoryName = aCat
+            End Sub
+        End Structure
+
+#End Region
+
     End Class
 
 End Namespace
