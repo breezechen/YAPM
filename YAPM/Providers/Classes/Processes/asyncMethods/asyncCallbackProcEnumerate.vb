@@ -197,6 +197,27 @@ Public Class asyncCallbackProcEnumerate
                 ' Local
                 Dim _dico As Dictionary(Of String, processInfos)
 
+                Static hasFailedAtLeastOnce As Boolean = False
+
+                If hasFailedAtLeastOnce = False Then
+                    If deg Is Nothing OrElse ctrl.Created = False Then
+                        ' We won't be able to invoke method, so we have to clear the
+                        ' list of new processes when we will able to invoke it
+                        hasFailedAtLeastOnce = True
+                    End If
+                Else
+                    If deg IsNot Nothing AndAlso ctrl.Created Then
+                        ' OK, we'll be able to invoke method, and it has failed
+                        ' last time, so we clear the dico of new processes
+                        ' That's how we'll be able to retrieve and display
+                        ' the fixed info
+                        Native.Objects.Process.NewProcesses.Clear()
+                        ' Set hasFailedAtLeastOnce = false so we won't clear dico
+                        ' each time
+                        hasFailedAtLeastOnce = False
+                    End If
+                End If
+
                 Select Case pObj.method
                     Case ProcessEnumMethode.BruteForce
                         _dico = Native.Objects.Process.EnumerateHiddenProcessesBruteForce
@@ -207,8 +228,9 @@ Public Class asyncCallbackProcEnumerate
                 End Select
 
                 Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
+                    If deg IsNot Nothing AndAlso ctrl.Created Then
                         ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    End If
                 Catch ex As Exception
                     Misc.ShowDebugError(ex)
                 End Try
