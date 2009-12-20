@@ -56,23 +56,30 @@ Public Class cNetwork
         _connection = Connection
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.NetworkConnection
 
-        ' Solve DNS
-        Try
-            If Me.Infos._Local.Address.Equals(nullAddress) = False Then
-                Dim t As New System.Threading.WaitCallback(AddressOf getHostNameLocal)
-                Call Threading.ThreadPool.QueueUserWorkItem(t, Me.Infos.Local)
-            End If
-        Catch ex As Exception
-            Misc.ShowDebugError(ex)
-        End Try
-        Try
-            If Me.Infos._remote IsNot Nothing AndAlso Me.Infos._remote.Address.Equals(nullAddress) = False Then
-                Dim t As New System.Threading.WaitCallback(AddressOf getHostNameRemote)
-                Call Threading.ThreadPool.QueueUserWorkItem(t, Me.Infos.Remote)
-            End If
-        Catch ex As Exception
-            Misc.ShowDebugError(ex)
-        End Try
+        ' Solve DNS (only on local mode)
+        If cNetwork.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            Try
+                If Me.Infos._Local.Address.Equals(nullAddress) = False Then
+                    Dim t As New System.Threading.WaitCallback(AddressOf getHostNameLocal)
+                    Call Threading.ThreadPool.QueueUserWorkItem(t, Me.Infos.Local)
+                End If
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            End Try
+        End If
+
+        ' If not Snapshot mode (it has no sense as the snapshot might refer
+        ' to a system on another network...)
+        If cNetwork.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile Then
+            Try
+                If Me.Infos._remote IsNot Nothing AndAlso Me.Infos._remote.Address.Equals(nullAddress) = False Then
+                    Dim t As New System.Threading.WaitCallback(AddressOf getHostNameRemote)
+                    Call Threading.ThreadPool.QueueUserWorkItem(t, Me.Infos.Remote)
+                End If
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            End Try
+        End If
     End Sub
     Private disposed As Boolean = False
     Public Overloads Sub Dispose() Implements IDisposable.Dispose
