@@ -1,4 +1,14 @@
-YAPM 2.4.2 BETA
+YAPM 2.4.3 BETA
+
+CHANGES FROM 2.4.2
+
+* NEW / Improvements
+- 
+
+* Bug fixed
+-
+
+
 
 CHANGES FROM 2.4.1
 
