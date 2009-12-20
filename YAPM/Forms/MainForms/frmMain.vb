@@ -826,7 +826,7 @@ Public Class frmMain
     Private Sub butSearchSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSearchSaveReport.Click
         Dim frm As New frmSaveReport
         With frm
-            .ReportType = "search"
+            .ReportType = Native.Api.Enums.ReportType.Search
             Call Application.DoEvents()
             .TopMost = _frmMain.TopMost
             .ShowDialog()
@@ -1284,7 +1284,7 @@ Public Class frmMain
     Private Sub butServiceReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butServiceReport.Click
         Dim frm As New frmSaveReport
         With frm
-            .ReportType = "services"
+            .ReportType = Native.Api.Enums.ReportType.Services
             Call Application.DoEvents()
             .TopMost = _frmMain.TopMost
             .ShowDialog()
@@ -1500,7 +1500,7 @@ Public Class frmMain
     Private Sub butSaveProcessReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butSaveProcessReport.Click
         Dim frm As New frmSaveReport
         With frm
-            .ReportType = "processes"
+            .ReportType = Native.Api.Enums.ReportType.Processes
             Call Application.DoEvents()
             .TopMost = _frmMain.TopMost
             .ShowDialog()
@@ -1835,6 +1835,7 @@ Public Class frmMain
 
     Private Sub lvSearchResults_HasRefreshed() Handles lvSearchResults.HasRefreshed
         Me.butSearchGo.Enabled = True
+        Me.butSearchSaveReport.Enabled = True
         Me.MenuItemSearchNew.Enabled = True
     End Sub
 
@@ -2380,6 +2381,7 @@ Public Class frmMain
                 .Includes = t
                 Me.butSearchGo.Enabled = False
                 Me.MenuItemSearchNew.Enabled = False
+                Me.butSearchSaveReport.Enabled = False
                 .UpdateItems()
             End With
         End If

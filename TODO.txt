@@ -26,16 +26,9 @@ BUGS CRITIQUES
 - searchInfos contains cService/cModule (NOT Serializable -> can not search via server)
 - others highlightings (isTask, wow64...)
 - refermer les handles quand les processes meurent !
-- reports à faire (vérifier l'utilisation de GetAvailbleProperties)
-	process -> save services
-	mod -> foireux
-	thread -> foireux
-	handles -> OK
-	windows -> OK
+- rapports à faire (vérifier l'utilisation de GetAvailbleProperties)
 	monitor -> rien
-	services -> OK
 	network -> à implémenter (menu + icone ribbon)
-	search -> OK
 	main -> à faire
 	!!! reports des modules/threads/handles/windows (depuis que les maintab sont plus là) ?
 	

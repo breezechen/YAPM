@@ -91,6 +91,11 @@ Public Class cLog
             End If
         End Set
     End Property
+    Public ReadOnly Property Form() As frmLog
+        Get
+            Return frm
+        End Get
+    End Property
 
 
 

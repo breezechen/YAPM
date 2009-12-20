@@ -546,6 +546,13 @@ Namespace Native.Api
             [Heap] = &H8000
         End Enum
 
+        Public Enum ReportType
+            Log
+            Search
+            Services
+            Processes
+        End Enum
+
         <Flags()> _
         Public Enum SnapshotObject
             [Windows] = &H1

@@ -4,9 +4,10 @@ CHANGES FROM 2.4.2
 
 * NEW / Improvements
 - PerfCounter : now select item in treeview when clicking on the associated item in listview
-- 
+- Now 'Save report' can save into CSV format
 
 * Bug fixed
+- Now all 'Save report' features are well implemented
 - Fixed behaviour of "case sensitive" checkbox when using 'Search monitor' feature
 - Now can search perfmon counters of a remote machine when using WMI
 - Does not try to solve network addresses on System Snapshot mode anymore

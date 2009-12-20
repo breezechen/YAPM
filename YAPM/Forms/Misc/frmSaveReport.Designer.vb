@@ -27,6 +27,7 @@ Partial Class frmSaveReport
         Me.cmdOK = New System.Windows.Forms.Button
         Me.cmdOpenReport = New System.Windows.Forms.Button
         Me.cmdGO = New System.Windows.Forms.Button
+        Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog
         Me.SuspendLayout()
         '
         'pgb
@@ -81,6 +82,12 @@ Partial Class frmSaveReport
         Me.cmdGO.Text = "Save"
         Me.cmdGO.UseVisualStyleBackColor = True
         '
+        'SaveFileDialog
+        '
+        Me.SaveFileDialog.Filter = "CSV file (*.csv)|*.csv|HTML File (*.html)|*.html|Text file (*.txt)|*.txt"
+        Me.SaveFileDialog.SupportMultiDottedExtensions = True
+        Me.SaveFileDialog.Title = "Save report"
+        '
         'frmSaveReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -109,4 +116,5 @@ Partial Class frmSaveReport
     Friend WithEvents cmdOK As System.Windows.Forms.Button
     Friend WithEvents cmdOpenReport As System.Windows.Forms.Button
     Friend WithEvents cmdGO As System.Windows.Forms.Button
+    Friend WithEvents SaveFileDialog As System.Windows.Forms.SaveFileDialog
 End Class

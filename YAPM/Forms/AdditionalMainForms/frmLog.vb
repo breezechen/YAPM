@@ -64,7 +64,7 @@ Public Class frmLog
     Private Sub MenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItem.Click
         Dim frm As New frmSaveReport
         With frm
-            .ReportType = "log"
+            .ReportType = Native.Api.Enums.ReportType.Log
             Call Application.DoEvents()
             .TopMost = _frmMain.TopMost
             .ShowDialog()
