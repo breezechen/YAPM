@@ -29,6 +29,7 @@ Public Class frmError
 
     Private _theExeption As Exception
     Private _canClose As Boolean = False
+    Private _bugReportUrl As String
     Private Const NEW_ARTIFACT_URL As String = "http://sourceforge.net/tracker/?atid=1126635&group_id=244697&func=add"
 
     Public Sub New(ByVal e As Exception)
@@ -110,25 +111,31 @@ Public Class frmError
 
     Private Sub cmdSend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSend.Click
 
-        Dim bgRep As New BugReporter
-        Me.Enabled = False
-        Application.DoEvents()
+        If Me.cmdSend.Text = "Open the bug report" Then
+            ' Open the bug report
+            cFile.ShellOpenFile(_bugReportUrl, Me.Handle)
+        Else
+            ' Send it to sf.net
+            Dim bgRep As New BugReporter
+            Me.Enabled = False
+            Application.DoEvents()
 
-        ' Set the handler (used when download completed)
-        AddHandler bgRep.DownloadStringCompleted, AddressOf impDownloadStringCompleted
+            ' Set the handler (used when download completed)
+            AddHandler bgRep.DownloadStringCompleted, AddressOf impDownloadStringCompleted
 
-        ' Create an unique string to prevent some identical error messages to
-        ' be added with identical summaries on sourceforge.net
-        Dim uId As String = Date.Now.ToFileTimeUtc.ToString
+            ' Create an unique string to prevent some identical error messages to
+            ' be added with identical summaries on sourceforge.net
+            Dim uId As String = Date.Now.ToFileTimeUtc.ToString
 
-        ' Set summary and description
-        With bgRep
-            .ValueDetails = Me.txtReport.Text & vbNewLine & vbNewLine & vbNewLine & "CUSTOM MESSAGE : " & vbNewLine & Me.txtCustomMessage.Text
-            .ValueSummary = _theExeption.Message & " (" & uId & ")"
-        End With
+            ' Set summary and description
+            With bgRep
+                .ValueDetails = Me.txtReport.Text & vbNewLine & vbNewLine & vbNewLine & "CUSTOM MESSAGE : " & vbNewLine & Me.txtCustomMessage.Text
+                .ValueSummary = _theExeption.Message & " (" & uId & ")"
+            End With
 
-        If bgRep.GoAsync = False Then
-            Me.Enabled = True
+            If bgRep.GoAsync = False Then
+                Me.Enabled = True
+            End If
         End If
 
     End Sub
@@ -145,6 +152,10 @@ Public Class frmError
             Misc.ShowMsg("Successfully sent the bug report", "Successfully sent the bug report.", "", MessageBoxButtons.OK, TaskDialogIcon.ShieldOk)
         End If
 
+        ' Get the result URL
+        _bugReportUrl = BugReporter.GetUrlOfBugReportFromHtml(e.Result)
+
+        Async.Button.ChangeText(Me.cmdSend, "Open the bug report")
         Async.Form.ChangeEnabled(Me, True)
 
     End Sub

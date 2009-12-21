@@ -99,4 +99,17 @@ Public Class BugReporter
         Return True
     End Function
 
+
+    ' Return the bug report URL from the HTML code of the bug page
+    Public Shared Function GetUrlOfBugReportFromHtml(ByVal content As String) As String
+        ' Search (Artifact <a href=
+        Dim i As Integer = InStr(content, "(Artifact <a href=", CompareMethod.Binary)
+        Dim i2 As Integer = InStr(i, content, ">", CompareMethod.Binary)
+        If i > 0 AndAlso i2 > i Then
+            Return "http://sourceforge.net/" & content.Substring(i + 19, i2 - i - 21)
+        Else
+            Return ""
+        End If
+    End Function
+
 End Class

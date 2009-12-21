@@ -462,6 +462,12 @@ Public Module Program
         GC.Collect()
     End Sub
 
+    ' Generate an unhandled error
+    Public Sub ThrowUnhandledError()
+        Dim x As IntPtr = IntPtr.Zero
+        Marshal.ReadInt64(x, 0)
+    End Sub
+
     ' Exit application
     Public Sub ExitYAPM()
 

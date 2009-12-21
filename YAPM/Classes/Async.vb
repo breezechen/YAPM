@@ -93,6 +93,23 @@ Namespace Async
 
 
 
+    ' Some async and threaf safe functions for the Button control
+    Public Class Button
+
+        Private Delegate Sub degChangeText(ByVal tb As Windows.Forms.Button, ByVal value As String)
+        Public Shared Sub ChangeText(ByVal tb As Windows.Forms.Button, ByVal value As String)
+            If tb.InvokeRequired Then
+                Dim d As New degChangeText(AddressOf ChangeText)
+                tb.Invoke(d, tb, value)
+            Else
+                tb.Text = value
+            End If
+        End Sub
+
+    End Class
+
+
+
     ' Some async and threaf safe functions for the SplitContainer control
     Public Class SplitContainer
 
