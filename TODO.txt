@@ -2,10 +2,17 @@ TODO LIST
 
 Refactoring bugs
 
+- demain :
+	- emergency hotkeys XML file à sauvegarder dans appData
+	- one graph per CPU -> ne pas remettre à zéro
+	- stats système + stats network -> tjrs mettre à jour (mais pas afficher pour économiser CPU)
+	- rapport monitoring + rapport général
+	- MAJ help
+	- serviceDep et processesInJob pour le snapshot
+
 - x64 via server : peut pas énumérer handles, modules et memory
 
 - HELP : ajouter ctrl+s + csv gestion
-
 - hotkeys.xml -> à ne pas mettre dans program files (access denied)
 
 - job enumeration can work even if not admin (xp)

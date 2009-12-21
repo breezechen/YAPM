@@ -682,6 +682,67 @@ Namespace Native.Objects
 
         End Function
 
+        ' Return ObjectTypeName associated to a ObjectType defined by its number
+        Public Shared Function GetObjectTypeNameByNumber(ByVal number As Integer) As String
+            Dim cbReqLength As Integer
+            Dim cTypeCount As Integer
+            Dim x As Integer
+            Dim TypeInfo As NativeStructs.ObjectTypeInformation
+            Dim strType As String = ""
+
+            ' Request size for types informations
+            Using memAlloc As New Memory.MemoryAlloc(&H100)
+                NativeFunctions.NtQueryObject(IntPtr.Zero, NativeEnums.ObjectInformationClass.ObjectTypesInformation, memAlloc.Pointer, memAlloc.Size, cbReqLength)
+                memAlloc.Resize(cbReqLength)
+
+                ' Retrieve list of types
+                NativeFunctions.NtQueryObject(IntPtr.Zero, _
+                                NativeEnums.ObjectInformationClass.ObjectTypesInformation, _
+                                memAlloc.Pointer, cbReqLength, cbReqLength)
+
+                ' Get number of struct to read
+                cTypeCount = memAlloc.ReadStruct(Of NativeStructs.ObjectTypesInformation).ObjectTypesCount
+
+                Dim offset As Integer = NativeStructs.ObjectTypesInformation.ObjectTypeInformationOffset
+
+                If number >= 0 AndAlso number <= cTypeCount Then
+
+                    For x = 0 To number - 1
+                        ' Retrieve type infos
+                        TypeInfo = memAlloc.ReadStruct(Of NativeStructs.ObjectTypeInformation)(offset, x)
+
+                        ' Return TypeName
+                        If x = number - 1 Then
+                            Return Common.Misc.ReadUnicodeString(TypeInfo.Name)
+                        End If
+
+                        ' Find the position of the next element in the structure.
+                        ' The format of the structure is:
+                        '  -------------------
+                        ' | Type1 Information | [sizeof(OBJECT_TYPE_INFORMATION)]
+                        ' | Type1 Type Name   | [OBJECT_TYPE_INFORMATION.TypeName.MaximumLength]
+                        ' | Alignement        | [0-3 Bytes for 32-bits, 0-7 bytes for 64-bits]
+                        ' | Type2 Information | 
+                        '
+                        ' | TypeN Information |
+                        ' | TypeN Type Name   |
+                        '  -------------------
+                        ' The beginning of each type is aligned on IntPtr.size bytes boudary.
+                        '
+                        ' Find the offset(aligned) to the next item
+                        ' Magic operation :
+                        offset += TypeInfo.Name.MaximumLength + _
+                                        (IntPtr.Size - 1) And Not (IntPtr.Size - 1)
+                    Next
+
+                End If
+
+            End Using
+
+            Return ""
+
+        End Function
+
         ' Return ObjectTypeNumber associated to a ObjectType defined by its name
         Private Shared Function GetObjectTypeNumberByName(ByVal typeName As String) As Integer
             Dim cbReqLength As Integer

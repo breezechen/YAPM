@@ -26,10 +26,15 @@ Imports Common.Misc
 
 Public Class frmHotkeys
 
-    Public Const HOTKEYS_SAVE_FILE As String = "hotkeys.xml"
+    Public ReadOnly Property HotkeysXmlPath() As String
+        Get
+            Return Application.LocalUserAppDataPath & "\hotkeys.xml"
+        End Get
+    End Property
+
     Private atxtKey As Integer = -1
 
-    Private Sub frmHotkeys_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Mybase.FormClosing
+    Private Sub frmHotkeys_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         ' Save to XML
         writeXML()
     End Sub
@@ -166,7 +171,7 @@ Public Class frmHotkeys
         '</hotkeys>
 
         Try
-            Call XmlDoc.Load(My.Application.Info.DirectoryPath & "\" & HOTKEYS_SAVE_FILE)
+            Call XmlDoc.Load(HotkeysXmlPath)
             element = XmlDoc.DocumentElement.GetElementsByTagName("key")
 
             For Each noeud In element
@@ -253,7 +258,7 @@ Public Class frmHotkeys
 
         Next
 
-        XmlDoc.Save(My.Application.Info.DirectoryPath & "\" & HOTKEYS_SAVE_FILE)
+        XmlDoc.Save(HotkeysXmlPath)
     End Sub
 
     Private Sub lv_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseUp
