@@ -1057,11 +1057,12 @@ Public Class frmProcessInfo
 
         ' Save our file
         Try
-            Dim stream As New System.IO.StreamWriter(_frmMain.saveDial.FileName, False)
-            For x As Integer = 0 To Me.lvProcString.Items.Count - 1
-                stream.WriteLine(Me.lvProcString.Items(x).SubItems(1).Text)
-            Next
-            stream.Close()
+            Using stream As New System.IO.StreamWriter(_frmMain.saveDial.FileName, False)
+                For x As Integer = 0 To Me.lvProcString.Items.Count - 1
+                    stream.WriteLine(Me.lvProcString.Items(x).SubItems(1).Text)
+                Next
+                stream.Close()
+            End Using
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         End Try
@@ -1284,16 +1285,17 @@ Public Class frmProcessInfo
             If _frmMain.saveDial.ShowDialog = Windows.Forms.DialogResult.OK Then
                 Dim s As String = _frmMain.saveDial.FileName
                 If Len(s) > 0 Then
-                    Dim stream As New System.IO.StreamWriter(s, False)
-                    'Dim x As Integer = 0
-                    For Each cm As ListViewItem In Me.lvLog.Items
-                        stream.WriteLine(cm.Text & vbTab & cm.SubItems(1).Text & vbTab & cm.SubItems(2).Text)
-                        'x += 1
-                        '  UpdateProgress(x)
-                    Next
-                    stream.WriteLine()
-                    stream.WriteLine(CStr(Me.lvLog.Items.Count) & " entries(s)")
-                    stream.Close()
+                    Using stream As New System.IO.StreamWriter(s, False)
+                        'Dim x As Integer = 0
+                        For Each cm As ListViewItem In Me.lvLog.Items
+                            stream.WriteLine(cm.Text & vbTab & cm.SubItems(1).Text & vbTab & cm.SubItems(2).Text)
+                            'x += 1
+                            '  UpdateProgress(x)
+                        Next
+                        stream.WriteLine()
+                        stream.WriteLine(CStr(Me.lvLog.Items.Count) & " entries(s)")
+                        stream.Close()
+                    End Using
                     Misc.ShowMsg("Save log", Nothing, "Saved file successfully.", MessageBoxButtons.OK, TaskDialogIcon.ShieldOk)
                 End If
             End If

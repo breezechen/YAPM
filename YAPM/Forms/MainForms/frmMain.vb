@@ -3779,7 +3779,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butMonitorSaveReport_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butMonitorSaveReport.Click
-        'TODO
+        Call Me.saveMonitorReport()
     End Sub
 
     Private Sub butProcessReduceWS_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butProcessReduceWS.Click
@@ -4114,4 +4114,71 @@ Public Class frmMain
             Misc.ShowTvNodeByText(Me.tvMonitor, it.Text)
         End If
     End Sub
+
+    Private Sub saveMonitorReport()
+        ' Save a report of which is monitored using perfmon counters
+        Dim sFile As String
+        With Me.saveDial
+            .AddExtension = True
+            .CheckPathExists = True
+            .Filter = "HTML (*.html)|*.html"
+            .Title = "Save report"
+            If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                sFile = .FileName
+            Else
+                Exit Sub
+            End If
+        End With
+
+        Me.panelMainMonitoring.Enabled = False
+        Me.timerMonitoring.Enabled = False
+
+        ' Save to an html file
+        ' Defines columns
+        Dim totalWidth As Integer = 0
+        For Each c As ColumnHeader In Me.lvMonitorReport.Columns
+            totalWidth += c.Width
+        Next
+        Dim col(Me.lvMonitorReport.Columns.Count) As cHTML.HtmlColumnStructure
+        Dim colCount As Integer = 0
+        For Each c As ColumnHeader In Me.lvMonitorReport.Columns
+            With col(colCount)
+                .sizePercent = CInt(100 * c.Width / totalWidth)
+                .title = c.Text
+            End With
+            colCount += 1
+        Next
+
+        ' Defines title
+        Dim title As String = Me.lvMonitorReport.Items.Count.ToString & " perfmon counter(s)"
+        Dim _html As New cHTML(col, sFile, title)
+
+        ' Write items
+        Dim it As ListViewItem
+        Dim x As Integer = 0
+        For Each it In Me.lvMonitorReport.Items
+            Dim _lin(Me.lvMonitorReport.Columns.Count) As String
+            colCount = 0
+            For Each c As ColumnHeader In Me.lvMonitorReport.Columns
+                _lin(colCount) = it.SubItems(colCount).Text
+                colCount += 1
+            Next
+            ' Write line to HTML
+            _html.AppendLine(_lin)
+            ' Select node associated to lvItem'
+            ' so it well update image in me.graphMonitor
+            Misc.ShowTvNodeByText(Me.tvMonitor, it.Text)
+            ' Save image in html
+            _html.AppendImage(Me.graphMonitor.GetImage, it.Text)
+            x += 1
+        Next
+
+        If _html.ExportHTML = False Then
+            Misc.ShowMsg("Save report", "Could not save report !", , MessageBoxButtons.OK, TaskDialogIcon.Error)
+        End If
+
+        Me.panelMainMonitoring.Enabled = True
+        Me.timerMonitoring.Enabled = True
+    End Sub
+
 End Class

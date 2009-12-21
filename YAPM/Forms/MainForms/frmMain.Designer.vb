@@ -247,7 +247,7 @@ Partial Class frmMain
         Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.pageMonitor = New System.Windows.Forms.TabPage
-        Me.panelMain8 = New System.Windows.Forms.Panel
+        Me.panelMainMonitoring = New System.Windows.Forms.Panel
         Me.splitMonitor = New System.Windows.Forms.SplitContainer
         Me.tvMonitor = New System.Windows.Forms.TreeView
         Me.splitMonitor2 = New System.Windows.Forms.SplitContainer
@@ -610,7 +610,7 @@ Partial Class frmMain
         Me.pageJobs.SuspendLayout()
         Me.panelMain12.SuspendLayout()
         Me.pageMonitor.SuspendLayout()
-        Me.panelMain8.SuspendLayout()
+        Me.panelMainMonitoring.SuspendLayout()
         Me.splitMonitor.Panel1.SuspendLayout()
         Me.splitMonitor.Panel2.SuspendLayout()
         Me.splitMonitor.SuspendLayout()
@@ -1744,7 +1744,7 @@ Partial Class frmMain
         Me.butMonitorSaveReport.AltKey = Nothing
         Me.butMonitorSaveReport.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butMonitorSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butMonitorSaveReport.Enabled = False
+        Me.butMonitorSaveReport.Enabled = True
         Me.butMonitorSaveReport.Image = Global.My.Resources.Resources.save32
         Me.butMonitorSaveReport.SmallImage = CType(resources.GetObject("butMonitorSaveReport.SmallImage"), System.Drawing.Image)
         Me.butMonitorSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -3139,7 +3139,7 @@ Partial Class frmMain
         'pageMonitor
         '
         Me.pageMonitor.BackColor = System.Drawing.Color.Transparent
-        Me.pageMonitor.Controls.Add(Me.panelMain8)
+        Me.pageMonitor.Controls.Add(Me.panelMainMonitoring)
         Me.pageMonitor.Location = New System.Drawing.Point(4, 22)
         Me.pageMonitor.Name = "pageMonitor"
         Me.pageMonitor.Padding = New System.Windows.Forms.Padding(3)
@@ -3150,12 +3150,12 @@ Partial Class frmMain
         '
         'panelMain8
         '
-        Me.panelMain8.Controls.Add(Me.splitMonitor)
-        Me.panelMain8.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.panelMain8.Location = New System.Drawing.Point(3, 3)
-        Me.panelMain8.Name = "panelMain8"
-        Me.panelMain8.Size = New System.Drawing.Size(852, 357)
-        Me.panelMain8.TabIndex = 51
+        Me.panelMainMonitoring.Controls.Add(Me.splitMonitor)
+        Me.panelMainMonitoring.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.panelMainMonitoring.Location = New System.Drawing.Point(3, 3)
+        Me.panelMainMonitoring.Name = "panelMain8"
+        Me.panelMainMonitoring.Size = New System.Drawing.Size(852, 357)
+        Me.panelMainMonitoring.TabIndex = 51
         '
         'splitMonitor
         '
@@ -5710,7 +5710,7 @@ Partial Class frmMain
         Me.pageJobs.ResumeLayout(False)
         Me.panelMain12.ResumeLayout(False)
         Me.pageMonitor.ResumeLayout(False)
-        Me.panelMain8.ResumeLayout(False)
+        Me.panelMainMonitoring.ResumeLayout(False)
         Me.splitMonitor.Panel1.ResumeLayout(False)
         Me.splitMonitor.Panel2.ResumeLayout(False)
         Me.splitMonitor.ResumeLayout(False)
@@ -5940,7 +5940,7 @@ Partial Class frmMain
     Friend WithEvents c10 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader20 As System.Windows.Forms.ColumnHeader
     Friend WithEvents pageMonitor As System.Windows.Forms.TabPage
-    Friend WithEvents panelMain8 As System.Windows.Forms.Panel
+    Friend WithEvents panelMainMonitoring As System.Windows.Forms.Panel
     Friend WithEvents splitMonitor As System.Windows.Forms.SplitContainer
     Friend WithEvents tvMonitor As System.Windows.Forms.TreeView
     Friend WithEvents splitMonitor2 As System.Windows.Forms.SplitContainer

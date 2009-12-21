@@ -207,6 +207,13 @@ Public Class Graph
             _enableGraph = value
         End Set
     End Property
+    Public ReadOnly Property GetImage() As Image
+        Get
+            Dim bmp As New Bitmap(Me.Bounds.Width, Me.Bounds.Height)
+            Me.DrawToBitmap(bmp, Me.Bounds)
+            Return bmp
+        End Get
+    End Property
 #End Region
 
 

@@ -555,6 +555,16 @@ Public Class cFile
         End If
     End Function
 
+    ' Get last dir
+    Public Shared Function GetLastDir(ByVal filePath As String) As String
+        Dim i As Integer = InStrRev(filePath, "\", , CompareMethod.Binary)
+        If i > 0 Then
+            Return filePath.Substring(i, filePath.Length - i)
+        Else
+            Return filePath
+        End If
+    End Function
+
     ' Open a directory specified in parameter
     Public Shared Function OpenADirectory(ByVal dir As String) As Integer
         Dim r As Integer = -1

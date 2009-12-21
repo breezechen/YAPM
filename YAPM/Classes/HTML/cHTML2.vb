@@ -94,9 +94,10 @@ Public Class cHTML2
         _code.AppendLine("</html>")
 
         Try
-            Dim stream As New System.IO.StreamWriter(_file, False)
-            stream.Write(_code.ToString)
-            stream.Close()
+            Using stream As New System.IO.StreamWriter(_file, False)
+                stream.Write(_code.ToString)
+                stream.Close()
+            End Using
             Return True
         Catch ex As Exception
             Return False

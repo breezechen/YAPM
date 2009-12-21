@@ -98,9 +98,10 @@ Public Class cHTML
         _code.AppendLine("</html>")
 
         Try
-            Dim stream As New System.IO.StreamWriter(_file, False)
-            stream.Write(_code.ToString)
-            stream.Close()
+            Using stream As New System.IO.StreamWriter(_file, False)
+                stream.Write(_code.ToString)
+                stream.Close()
+            End Using
             Return True
         Catch ex As Exception
             Return False
@@ -116,23 +117,62 @@ Public Class cHTML
     ' Add a new line in our array
     Public Sub AppendLine(ByVal line() As String)
 
-        If line Is Nothing Then Exit Sub
-        If Not (line.Length = _colCount) Then Exit Sub
+        If line IsNot Nothing AndAlso line.Length = _colCount Then
+            Try
+                _code.AppendLine("<tr class=" & Chr(34) & "titlecell" & Chr(34) & ">")
+                For x As Integer = 0 To line.Length - 1
+                    _code.AppendLine("<td class=" & Chr(34) & "normalcell" & Chr(34) & ">" & normaliszeISOhtml(line(x)) & "</td>")
+                Next
+                _code.AppendLine("</tr>")
+            Catch ex As Exception
+                _code.Capacity += _code.Capacity
+                _code.AppendLine("<tr class=" & Chr(34) & "titlecell" & Chr(34) & ">")
+                For x As Integer = 0 To line.Length - 1
+                    _code.AppendLine("<td class=" & Chr(34) & "normalcell" & Chr(34) & ">" & normaliszeISOhtml(line(x)) & "</td>")
+                Next
+                _code.AppendLine("</tr>")
+            End Try
+        End If
 
-        Try
+    End Sub
+
+    ' Add a new image in our array
+    ' -------------------
+    ' | IMG | text |
+    ' -------------------
+    Public Sub AppendImage(ByVal img As Image, ByVal alt As String)
+
+        ' Create dir for images
+        If img IsNot Nothing Then
+            Dim htmlFile As String = cFile.GetFileName(_file)
+            Dim dir As String = cFile.GetParentDir(_file) & "\" & htmlFile & "_imgs"
+            Dim dirName As String = ""
+            If IO.Directory.Exists(dir) = False Then
+                Try
+                    IO.Directory.CreateDirectory(dir)
+                Catch ex As Exception
+                    Exit Sub
+                End Try
+            End If
+            dirName = cFile.GetLastDir(dir)
+
+            ' Build file name
+            Static fileNumber As Integer = 0
+            fileNumber += 1
+            Dim file As String = dirName & "\" & fileNumber.ToString & ".png"
+
+            ' Save file into dir
+            Try
+                img.Save(dir & "\" & fileNumber.ToString & ".png", Imaging.ImageFormat.Png)
+            Catch ex As Exception
+                Exit Sub
+            End Try
+
+            ' Write html
             _code.AppendLine("<tr class=" & Chr(34) & "titlecell" & Chr(34) & ">")
-            For x As Integer = 0 To line.Length - 1
-                _code.AppendLine("<td class=" & Chr(34) & "normalcell" & Chr(34) & ">" & normaliszeISOhtml(line(x)) & "</td>")
-            Next
+            _code.AppendLine("<td><img src=" & Chr(34) & file & Chr(34) & " alt=" & Chr(34) & alt & Chr(34) & "></img></td>")
             _code.AppendLine("</tr>")
-        Catch ex As Exception
-            _code.Capacity += _code.Capacity
-            _code.AppendLine("<tr class=" & Chr(34) & "titlecell" & Chr(34) & ">")
-            For x As Integer = 0 To line.Length - 1
-                _code.AppendLine("<td class=" & Chr(34) & "normalcell" & Chr(34) & ">" & normaliszeISOhtml(line(x)) & "</td>")
-            Next
-            _code.AppendLine("</tr>")
-        End Try
+        End If
 
     End Sub
 

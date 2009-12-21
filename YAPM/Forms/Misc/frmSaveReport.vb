@@ -106,34 +106,34 @@ Public Class frmSaveReport
     Private Sub SaveListviewContentAsTxtFile(ByVal file As String, ByVal lv As ListView)
 
         ' New stream
-        Dim stream As New System.IO.StreamWriter(file, False)
+        Using stream As New System.IO.StreamWriter(file, False)
 
-        Dim c As String = ""
-        Dim it As ListViewItem
-        Dim x As Integer = 0
+            Dim c As String = ""
+            Dim it As ListViewItem
+            Dim x As Integer = 0
 
-        ' Add column names
-        For Each col As ColumnHeader In lv.Columns
-            c &= col.Text & vbTab
-        Next
-        stream.WriteLine(c)
-
-        ' Add each item in listview
-        For Each it In lv.Items
-            Dim colNumber As Integer = 0
-            c = ""
+            ' Add column names
             For Each col As ColumnHeader In lv.Columns
-                c &= it.SubItems(colNumber).Text & vbTab
-                colNumber += 1
+                c &= col.Text & vbTab
             Next
             stream.WriteLine(c)
-            x += 1
-            UpdateProgress(x)
-        Next
 
-        ' Close stream
-        stream.Close()
-        stream.Dispose()
+            ' Add each item in listview
+            For Each it In lv.Items
+                Dim colNumber As Integer = 0
+                c = ""
+                For Each col As ColumnHeader In lv.Columns
+                    c &= it.SubItems(colNumber).Text & vbTab
+                    colNumber += 1
+                Next
+                stream.WriteLine(c)
+                x += 1
+                UpdateProgress(x)
+            Next
+
+            ' Close stream
+            stream.Close()
+        End Using
     End Sub
 
     ' Save what's displayed on a listview as a csv file
@@ -142,38 +142,38 @@ Public Class frmSaveReport
         Dim tabCar As String = ";"
 
         ' New stream
-        Dim stream As New System.IO.StreamWriter(file, False)
+        Using stream As New System.IO.StreamWriter(file, False)
 
-        Dim c As String = ""
-        Dim it As ListViewItem
-        Dim x As Integer = 0
+            Dim c As String = ""
+            Dim it As ListViewItem
+            Dim x As Integer = 0
 
-        ' Add column names
-        For Each col As ColumnHeader In lv.Columns
-            c &= col.Text & tabCar
-        Next
-        stream.WriteLine(c)
-
-        ' Add each item in listview
-        For Each it In lv.Items
-            Dim colNumber As Integer = 0
-            c = ""
+            ' Add column names
             For Each col As ColumnHeader In lv.Columns
-                Dim theText As String = it.SubItems(colNumber).Text
-                If InStr(theText, ";", CompareMethod.Binary) > 0 Then
-                    theText = CChar(ChrW(34)) & theText & CChar(ChrW(34))
-                End If
-                c &= theText & tabCar
-                colNumber += 1
+                c &= col.Text & tabCar
             Next
             stream.WriteLine(c)
-            x += 1
-            UpdateProgress(x)
-        Next
 
-        ' Close stream
-        stream.Close()
-        stream.Dispose()
+            ' Add each item in listview
+            For Each it In lv.Items
+                Dim colNumber As Integer = 0
+                c = ""
+                For Each col As ColumnHeader In lv.Columns
+                    Dim theText As String = it.SubItems(colNumber).Text
+                    If InStr(theText, ";", CompareMethod.Binary) > 0 Then
+                        theText = CChar(ChrW(34)) & theText & CChar(ChrW(34))
+                    End If
+                    c &= theText & tabCar
+                    colNumber += 1
+                Next
+                stream.WriteLine(c)
+                x += 1
+                UpdateProgress(x)
+            Next
+
+            ' Close stream
+            stream.Close()
+        End Using
     End Sub
 
     ' Save what's displayed on a listview as a html file
@@ -213,7 +213,9 @@ Public Class frmSaveReport
             UpdateProgress(x)
         Next
 
-        _html.ExportHTML()
+        If _html.ExportHTML() = False Then
+            Misc.ShowMsg("Save report", "Could not save report !", , MessageBoxButtons.OK, TaskDialogIcon.Error)
+        End If
 
     End Sub
 
