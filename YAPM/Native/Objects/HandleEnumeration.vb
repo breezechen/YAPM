@@ -53,6 +53,9 @@ Namespace Native.Objects
         Private BufferObjName As New Native.Memory.MemoryAlloc(512)
         Private BufferObjBasic As New Native.Memory.MemoryAlloc(Marshal.SizeOf(GetType(NativeStructs.ObjectBasicInformation)))
 
+        ' Dictionnary which contains ObjectTypeNumber <-> ObjectTypeName
+        Private _dicoObjectTypeNumber As New Dictionary(Of Integer, String)
+
         ' Currently opened driver
         Private hProcess As IntPtr
         Private lastPID As Integer
@@ -350,12 +353,22 @@ Namespace Native.Objects
             ObjBasic = BufferObjBasic.ReadStruct(Of NativeStructs.ObjectBasicInformation)(0)
 
             ' Get Type infos about object
-            NativeFunctions.NtQueryObject(hHandle, _
-                                NativeEnums.ObjectInformationClass.ObjectTypeInformation, _
-                                BufferObjType.Pointer, _
-                                BufferObjType.Size, ret)
-            ObjType = BufferObjType.ReadStruct(Of NativeStructs.ObjectTypeInformation)(0)
-            m_ObjectTypeName = Marshal.PtrToStringUni(ObjType.Name.Buffer)
+            ' We try to retieve this from the dictionary. If it's not possible, we
+            ' have to get it using NtQueryObject and we save the info into the dico
+            ' Note : We assume that this dictionary is always protected by
+            ' semProtectEnum (Handle.vb)
+            If _dicoObjectTypeNumber.ContainsKey(Handle.ObjectTypeNumber) Then
+                m_ObjectTypeName = _dicoObjectTypeNumber(Handle.ObjectTypeNumber)
+            Else
+                ' Have to retrieve this using NtQueryObject...
+                NativeFunctions.NtQueryObject(hHandle, _
+                                    NativeEnums.ObjectInformationClass.ObjectTypeInformation, _
+                                    BufferObjType.Pointer, _
+                                    BufferObjType.Size, ret)
+                ObjType = BufferObjType.ReadStruct(Of NativeStructs.ObjectTypeInformation)(0)
+                m_ObjectTypeName = Marshal.PtrToStringUni(ObjType.Name.Buffer)
+                _dicoObjectTypeNumber(Handle.ObjectTypeNumber) = m_ObjectTypeName
+            End If
 
 
             NativeFunctions.ZeroMemory(BufferObjName, New IntPtr(&H200))
