@@ -4,7 +4,6 @@ Refactoring bugs
 
 - demain :
 	- one graph per CPU -> ne pas remettre à zéro
-	- stats système + stats network -> tjrs mettre à jour (mais pas afficher pour économiser CPU)
 	- rapport monitoring + rapport général
 	- MAJ help
 	- serviceDep et processesInJob pour le snapshot

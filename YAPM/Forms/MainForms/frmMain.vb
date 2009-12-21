@@ -2876,8 +2876,7 @@ Public Class frmMain
     End Sub
 
     Private Sub MenuItemMainSysInfo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainSysInfo.Click
-        frmSystemInfo.TopMost = _frmMain.TopMost
-        frmSystemInfo.Show()
+        Program._frmSystemInfo.Show()
     End Sub
 
     Private Sub MenuItemMainOpenedW_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemMainOpenedW.Click
@@ -4060,8 +4059,7 @@ Public Class frmMain
     End Sub
 
     Private Sub butNetworkInfos_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNetworkInfos.Click
-        frmNetworkInfo.TopMost = _frmMain.TopMost
-        frmNetworkInfo.Show()
+        Program._frmNetworkInfo.Show()
     End Sub
 
     Private Sub MenuItemSystemScripting_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemSystemScripting.Click

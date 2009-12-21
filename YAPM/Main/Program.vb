@@ -140,6 +140,8 @@ Public Module Program
 
     Public _frmMain As frmMain
     Public _frmServer As frmServer
+    Public _frmNetworkInfo As frmNetworkInfo
+    Public _frmSystemInfo As frmSystemInfo
 
     Private WithEvents _updater As cUpdate
     Private _progParameters As ProgramParameters
@@ -351,12 +353,14 @@ Public Module Program
 
             ' Classes for client only
             If _progParameters.ModeServer = False Then
-                _pref = New Pref                    ' Preferences
-                _hotkeys = New cHotkeys             ' Hotkeys
-                _log = New cLog                     ' Log instance
-                _trayIcon = New cTrayIcon(2)        ' Tray icons
-                _frmMain = New frmMain              ' Main form
-                _updater = New cUpdate              ' Updater class
+                _pref = New Pref                        ' Preferences
+                _hotkeys = New cHotkeys                 ' Hotkeys
+                _log = New cLog                         ' Log instance
+                _trayIcon = New cTrayIcon(2)            ' Tray icons
+                _frmMain = New frmMain                  ' Main form
+                _updater = New cUpdate                  ' Updater class
+                _frmNetworkInfo = New frmNetworkInfo    ' Network info
+                _frmSystemInfo = New frmSystemInfo      ' System info
             Else
                 _frmMain = New frmMain              ' Main form
                 _frmServer = New frmServer          ' Server form (server mode)

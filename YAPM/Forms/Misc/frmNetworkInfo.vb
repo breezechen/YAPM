@@ -153,6 +153,9 @@ Public Class frmNetworkInfo
     Private Sub frmNetworkInfo_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         ' Save position & size
         Pref.SaveFormPositionAndSize(Me, "PSfrmNetworkInfo")
+        ' Hide, and do not close
+        Me.Hide()
+        e.Cancel = True
     End Sub
 
     Private Sub frmSystemInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

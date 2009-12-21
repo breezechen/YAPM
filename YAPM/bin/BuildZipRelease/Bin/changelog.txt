@@ -7,6 +7,7 @@ CHANGES FROM 2.4.2
 - Now 'Save report' can save into CSV format
 - Can now save report of ANY listview by using Ctrl+S shortcut
 - Now can open the bug report after submission
+- Now network/system info are always retrieved (even if the associated windows are not displayed)
 
 * Bug fixed
 - No more need to use 'Reanalize processes' to get fixed information about processes if the first displayed tab is not the process tab
