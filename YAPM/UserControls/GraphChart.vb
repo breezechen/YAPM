@@ -268,10 +268,6 @@ Public Class GraphChart
 
     End Sub
     Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
-        ' First, draw the grid
-        If Me.DrawTheGrid Then
-            Me.DrawGrid(e.Graphics)
-        End If
         If Me.EnableGraph Then
             ' Smooth mode
             e.Graphics.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
@@ -287,6 +283,10 @@ Public Class GraphChart
             If _showToolTip Then
                 Me.ShowToolTip()
             End If
+        End If
+        ' Draw the grid
+        If Me.DrawTheGrid Then
+            Me.DrawGrid(e.Graphics)
         End If
     End Sub
     Protected Overrides Sub OnMouseMove(ByVal e As System.Windows.Forms.MouseEventArgs)
