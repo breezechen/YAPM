@@ -19,6 +19,7 @@ CHANGES FROM 2.4.2
 - Now can search perfmon counters of a remote machine when using WMI
 - Does not try to solve network addresses on System Snapshot mode anymore
 - Fixed bug #2918460, #2905263 (can't write hotkeys.xml on Windows Vista and above)
+- Fixed incorrect behaviour of 'Max history size' options on x64
 
 
 

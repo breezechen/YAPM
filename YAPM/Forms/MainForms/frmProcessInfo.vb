@@ -582,6 +582,11 @@ Public Class frmProcessInfo
         Me.MenuItemCopyString.MenuItems.Add("Position", AddressOf MenuItemCopyString_Click)
         Me.MenuItemCopyString.MenuItems.Add("String", AddressOf MenuItemCopyString_Click)
 
+        ' Add handlers to tooltip proc
+        Me.graphCPU.ReturnTooltipText = AddressOf Me.impTooltipCpu
+        Me.graphIO.ReturnTooltipText = AddressOf Me.impTooltipIO
+        Me.graphMemory.ReturnTooltipText = AddressOf Me.impTooltipMem
+
         ' TOREMOVE
         Me.lvHeaps.Enabled = False
 
@@ -660,34 +665,39 @@ Public Class frmProcessInfo
 
         ' Add values to perf graphs
         ' Memory usage
-        For Each _val As Double In curProc.GetHistory("WorkingSet")
-            Me.graphMemory.AddValue(_val / 2147483648 * 100)
+        Dim __v() As Double = curProc.GetHistory("WorkingSet")
+        Dim __v2() As Double = curProc.GetHistory("PagefileUsage")
+        Dim x As Integer = 0
+        For Each _val As Double In __v
+            Dim z As Double = __v2(x)
+            Me.graphMemory.Add2Values(z, _val, curProc.GetTimeLine(x))
+            x += 1
         Next
         Me.graphMemory.Refresh()
 
         ' CpuUsage
         Dim _v() As Double = curProc.GetHistory("CpuUsage")
         Dim _v2() As Double = curProc.GetHistory("AverageCpuUsage")
-        Dim x As Integer = 0
+        x = 0
         For Each _val2 As Double In _v2
             Dim z As Double = _v(x)
+            Me.graphCPU.Add2Values(z, _val2, curProc.GetTimeLine(x))
             x += 1
             If Double.IsNegativeInfinity(z) Then
                 z = 0
             End If
-            Me.graphCPU.Add2Values(z, _val2)
         Next
         Me.graphCPU.Refresh()
 
         ' IO graph
         _v = curProc.GetHistory("ReadTransferCountDelta")
-        Dim __v() As Double = curProc.GetHistory("OtherTransferCountDelta")
+        __v = curProc.GetHistory("OtherTransferCountDelta")
         _v2 = curProc.GetHistory("WriteTransferCountDelta")
         x = 0
         For Each _val2 As Double In _v2
             Dim z As Double = _v(x) + __v(x)
+            Me.graphIO.Add2Values(z, _val2, curProc.GetTimeLine(x))
             x += 1
-            Me.graphIO.Add2Values(z, _val2)
         Next
         Me.graphIO.Refresh()
 
@@ -719,14 +729,13 @@ Public Class frmProcessInfo
         Me.graphCPU.Refresh()
         Me.graphCPU.TopText = "Cpu : " & Misc.GetFormatedPercentage(z, 3, True) & " %"
 
-        z = curProc.Infos.MemoryInfos.WorkingSetSize / 2147483648 * 100
-        Me.graphMemory.AddValue(z)
+        Me.graphMemory.Add2Values(curProc.Infos.MemoryInfos.PagefileUsage, curProc.Infos.MemoryInfos.WorkingSetSize)
         Me.graphMemory.Refresh()
-        Me.graphMemory.TopText = "WorkingSet : " & GetFormatedSize(curProc.Infos.MemoryInfos.WorkingSetSize)
+        Me.graphMemory.TopText = "WorkingSet : " & GetFormatedSize(curProc.Infos.MemoryInfos.WorkingSetSize) & vbNewLine & "PagefileUsage : " & GetFormatedSize(curProc.Infos.MemoryInfos.PagefileUsage)
 
         Me.graphIO.Add2Values(curProc.IODelta.ReadTransferCount + curProc.IODelta.OtherTransferCount, curProc.IODelta.WriteTransferCount)
         Me.graphIO.Refresh()
-        Me.graphIO.TopText = "R+O : " & Misc.GetFormatedSizePerSecond(curProc.IODelta.ReadTransferCount + curProc.IODelta.OtherTransferCount) & " , W : " & Misc.GetFormatedSizePerSecond(curProc.IODelta.WriteTransferCount)
+        Me.graphIO.TopText = "R+O : " & Misc.GetFormatedSizePerSecond(curProc.IODelta.ReadTransferCount + curProc.IODelta.OtherTransferCount, forceZeroDisplay:=True) & vbNewLine & "W : " & Misc.GetFormatedSizePerSecond(curProc.IODelta.WriteTransferCount, forceZeroDisplay:=True)
 
 
         ' Parent process exists ?
@@ -946,7 +955,7 @@ Public Class frmProcessInfo
             __sRes = strRes
             __lRes = lngRes
 
-            Async.ListView.ChangeVirtualListSize(Me.lvProcString,tRes.Length - BUF_SIZE + cArraySizeBef - 1)
+            Async.ListView.ChangeVirtualListSize(Me.lvProcString, tRes.Length - BUF_SIZE + cArraySizeBef - 1)
 
         End If
 
@@ -3077,4 +3086,37 @@ Public Class frmProcessInfo
         Me.lvHeaps.Enabled = True
         Me.TabPageHeaps.Controls.Remove(Me.cmdActivateHeapEnumeration)
     End Sub
+
+
+#Region "Graph tooltips proc"
+
+    Private Function impTooltipMem(ByVal index As Integer, ByVal time As Long) As String
+        Dim s As String = "Memory usage"
+        s &= vbNewLine & "Phys. memory : " & Misc.GetFormatedSize(Me.graphMemory.Values(index))
+        s &= vbNewLine & "Commit : " & Misc.GetFormatedSize(Me.graphMemory.Values2(index))
+        Dim d As New Date(time)
+        s &= vbNewLine & d.ToShortDateString & " " & d.ToLongTimeString
+        Return s
+    End Function
+
+    Private Function impTooltipIO(ByVal index As Integer, ByVal time As Long) As String
+        Dim s As String = "Input/output"
+        s &= vbNewLine & "R+O : " & Misc.GetFormatedSizePerSecond(Me.graphIO.Values(index), forceZeroDisplay:=True)
+        s &= vbNewLine & "W : " & Misc.GetFormatedSizePerSecond(Me.graphIO.Values2(index), forceZeroDisplay:=True)
+        Dim d As New Date(time)
+        s &= vbNewLine & d.ToShortDateString & " " & d.ToLongTimeString
+        Return s
+    End Function
+
+    Private Function impTooltipCpu(ByVal index As Integer, ByVal time As Long) As String
+        Dim s As String = "Cpu usage"
+        s &= vbNewLine & "CPU : " & Misc.GetFormatedPercentage(Me.graphCPU.Values(index) / 100, forceZeroDisplay:=True) & " %"
+        s &= vbNewLine & "Average : " & Misc.GetFormatedPercentage(Me.graphCPU.Values2(index) / 100, forceZeroDisplay:=True)
+        Dim d As New Date(time)
+        s &= vbNewLine & d.ToShortDateString & " " & d.ToLongTimeString
+        Return s
+    End Function
+
+#End Region
+
 End Class

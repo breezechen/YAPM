@@ -30,12 +30,39 @@ Public Class cProcess
 
 #Region "History structure"
 
-    Private Const HIST_SIZE As Integer = 226                ' Size of an item of the history
-    Private Shared _histBuff As Integer = 1000              ' Number of items to save
+    Private Shared _histBuff As Integer = 1000      ' Number of items to save (default)
 
+    Private Shared ReadOnly Property HistSize() As Integer
+        Get
+            ' Here's the included variables
+            'Friend _TimeLine As New List(Of Long)
+            'Friend _dicoProcMem As New SortedList(Of Integer, ProcMemInfo)
+            'Friend _dicoProcTimes As New SortedList(Of Integer, ProcTimeInfo)
+            'Friend _dicoProcIO As New SortedList(Of Integer, ProcIoInfo)
+            'Friend _dicoProcMisc As New SortedList(Of Integer, ProcMiscInfo)
+            'Friend _dicoProcIODelta As New SortedList(Of Integer, ProcIoInfo)
+            Static size As Integer = 0
+            ' Calculate it once
+            If size = 0 Then
+                ' Indexes of dico
+                size += 5 * Runtime.InteropServices.Marshal.SizeOf(GetType(Integer))
+                ' TimeLine
+                size += Runtime.InteropServices.Marshal.SizeOf(GetType(Long))
+                ' _dicoProcMem
+                size += Runtime.InteropServices.Marshal.SizeOf(GetType(ProcMemInfo))
+                ' _dicoProcTimes
+                size += Runtime.InteropServices.Marshal.SizeOf(GetType(ProcTimeInfo))
+                ' _dicoProcIO and _dicoProcIODelta
+                size += 2 * Runtime.InteropServices.Marshal.SizeOf(GetType(ProcIoInfo))
+                ' _dicoProcMisc
+                size += Runtime.InteropServices.Marshal.SizeOf(GetType(ProcMiscInfo))
+            End If
+            Return size
+        End Get
+    End Property
     Public Shared WriteOnly Property BuffSize() As Integer
         Set(ByVal value As Integer)
-            _histBuff = CInt(value / HIST_SIZE)
+            _histBuff = CInt(value / HistSize)
         End Set
     End Property
 
@@ -60,6 +87,7 @@ Public Class cProcess
     Friend _dicoProcIO As New SortedList(Of Integer, ProcIoInfo)
     Friend _dicoProcMisc As New SortedList(Of Integer, ProcMiscInfo)
     Friend _dicoProcIODelta As New SortedList(Of Integer, ProcIoInfo)
+    Friend _TimeLine As New List(Of Long)
 
     Private _handleQueryInfo As IntPtr
     Private _tokenHandle As IntPtr
@@ -263,13 +291,17 @@ Public Class cProcess
     Public Sub Merge(ByRef Proc As processInfos)
 
         ' Here we do some refreshment
-        If _handleQueryInfo.IsNotNull Then
-            Call Native.Objects.Token.GetProcessElevationTypeByTokenHandle(_tokenHandle, _elevation)   ' Elevation type
-            _isInJob = Native.Objects.Process.IsProcessInJob(_handleQueryInfo)
-            _isBeingDebugged = Native.Objects.Process.IsDebuggerPresent(_handleQueryInfo)
-            _isWow64Process = Native.Objects.Process.IsWow64Process(_handleQueryInfo)
+        ' TOCHANGE
+        If cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            If _handleQueryInfo.IsNotNull Then
+                Call Native.Objects.Token.GetProcessElevationTypeByTokenHandle(_tokenHandle, _elevation)   ' Elevation type
+                _isInJob = Native.Objects.Process.IsProcessInJob(_handleQueryInfo)
+                _isBeingDebugged = Native.Objects.Process.IsDebuggerPresent(_handleQueryInfo)
+                _isWow64Process = Native.Objects.Process.IsWow64Process(_handleQueryInfo)
+            End If
         End If
 
+        'TODO
         'Private _isCritical As Boolean
         'Private _isBoostEnabled As Boolean
         'IsService ??
@@ -294,6 +326,7 @@ Public Class cProcess
             _dicoProcIO.Remove(d)
             _dicoProcIODelta.Remove(d)
             _dicoProcMisc.Remove(d)
+            _TimeLine.RemoveAt(0)
         End If
 
         ' Store history
@@ -305,6 +338,7 @@ Public Class cProcess
             _dicoProcMisc.Add(_refrehNumber, New ProcMiscInfo(_now, Me.Infos.GdiObjects, Me.Infos.UserObjects, _
                      100 * Me.CpuUsage, 100 * Me.Infos.AverageCpuUsage))
         End SyncLock
+        _TimeLine.Add(Date.Now.Ticks)
 
         RaiseEvent HasMerged()
     End Sub
@@ -1692,6 +1726,11 @@ Public Class cProcess
         End Select
 
         Return ret
+    End Function
+
+    ' Return timeline history
+    Public Function GetTimeLine() As List(Of Long)
+        Return _TimeLine
     End Function
 
     ' Refresh CPU usage once

@@ -225,7 +225,7 @@ Public Class frmSystemInfo
 
         ' Add handlers for graph tooltips
         Me.gIO.ReturnTooltipText = AddressOf impTooltipIO
-        Me.gMemory.ReturnTooltipText = AddressOf impTooltipPhysMem
+        Me.gMemory.ReturnTooltipText = AddressOf impTooltipMem
 
     End Sub
 
@@ -434,7 +434,7 @@ Public Class frmSystemInfo
 
 #Region "Graph tooltips proc"
 
-    Private Function impTooltipPhysMem(ByVal index As Integer, ByVal time As Long) As String
+    Private Function impTooltipMem(ByVal index As Integer, ByVal time As Long) As String
         Dim s As String = "Memory usage"
         s &= vbNewLine & "Phys. memory : " & Misc.GetFormatedSize(Me.gMemory.Values(index))
         s &= vbNewLine & "Commit : " & Misc.GetFormatedSize(Me.gMemory.Values2(index))

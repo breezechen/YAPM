@@ -223,10 +223,13 @@ Public Class GraphChart
             Return _values2
         End Get
     End Property
-    Public ReadOnly Property Times() As List(Of Long)
+    Public Property Times() As List(Of Long)
         Get
             Return _times
         End Get
+        Set(ByVal value As List(Of Long))
+            _times = value
+        End Set
     End Property
     Public Property DrawTheGrid() As Boolean
         Get
