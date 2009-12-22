@@ -69,8 +69,8 @@ Partial Class frmNetworkInfo
         Me.Label1 = New System.Windows.Forms.Label
         Me.SplitContainer = New System.Windows.Forms.SplitContainer
         Me.SplitContainerGraphs = New System.Windows.Forms.SplitContainer
-        Me.g1 = New Graph2
-        Me.g2 = New Graph2
+        Me.g1 = New GraphChart
+        Me.g2 = New GraphChart
         Me.chkTopMost = New System.Windows.Forms.CheckBox
         Me.GroupBox7.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -530,9 +530,12 @@ Partial Class frmNetworkInfo
         'g1
         '
         Me.g1.BackColor = System.Drawing.Color.Black
-        Me.g1.Color2 = System.Drawing.Color.Olive
+        Me.g1.ColorFill1 = System.Drawing.Color.Olive
         Me.g1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.g1.DrawTheGrid = True
         Me.g1.EnableGraph = True
+        Me.g1.Fill1 = True
+        Me.g1.Fill2 = False
         Me.g1.Fixedheight = False
         Me.g1.GridStep = 13
         Me.g1.Location = New System.Drawing.Point(0, 0)
@@ -547,9 +550,12 @@ Partial Class frmNetworkInfo
         'g2
         '
         Me.g2.BackColor = System.Drawing.Color.Black
-        Me.g2.Color2 = System.Drawing.Color.Olive
+        Me.g2.ColorFill1 = System.Drawing.Color.Olive
         Me.g2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.g2.DrawTheGrid = True
         Me.g2.EnableGraph = True
+        Me.g2.Fill1 = True
+        Me.g2.Fill2 = False
         Me.g2.Fixedheight = False
         Me.g2.GridStep = 13
         Me.g2.Location = New System.Drawing.Point(0, 0)
@@ -644,7 +650,7 @@ Partial Class frmNetworkInfo
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents SplitContainer As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainerGraphs As System.Windows.Forms.SplitContainer
-    Friend WithEvents g2 As Graph2
+    Friend WithEvents g2 As GraphChart
     Friend WithEvents chkTopMost As System.Windows.Forms.CheckBox
-    Friend WithEvents g1 As Graph2
+    Friend WithEvents g1 As GraphChart
 End Class

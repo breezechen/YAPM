@@ -125,9 +125,9 @@ Partial Class frmSystemInfo
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
         Me.chkTopMost = New System.Windows.Forms.CheckBox
-        Me.g2 = New Graph2
-        Me.g3 = New Graph2
-        Me.g4 = New Graph2
+        Me.g2 = New GraphChart
+        Me.g3 = New GraphChart
+        Me.g4 = New GraphChart
         Me.mainSplit.Panel1.SuspendLayout()
         Me.mainSplit.Panel2.SuspendLayout()
         Me.mainSplit.SuspendLayout()
@@ -1210,8 +1210,8 @@ Partial Class frmSystemInfo
         'g3
         '
         Me.g3.BackColor = System.Drawing.Color.Black
-        Me.g3.Color = System.Drawing.Color.Red
-        Me.g3.Color2 = System.Drawing.Color.Maroon
+        Me.g3.Color1 = System.Drawing.Color.Red
+        Me.g3.ColorFill1 = System.Drawing.Color.Maroon
         Me.g3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.g3.EnableGraph = True
         Me.g3.Fixedheight = False
@@ -1228,8 +1228,8 @@ Partial Class frmSystemInfo
         'g4
         '
         Me.g4.BackColor = System.Drawing.Color.Black
-        Me.g4.Color = System.Drawing.Color.Red
-        Me.g4.Color2 = System.Drawing.Color.Maroon
+        Me.g4.Color1 = System.Drawing.Color.Red
+        Me.g4.ColorFill1 = System.Drawing.Color.Maroon
         Me.g4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.g4.EnableGraph = True
         Me.g4.Fixedheight = False
@@ -1384,9 +1384,9 @@ Partial Class frmSystemInfo
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents g2 As Graph2
-    Friend WithEvents g3 As Graph2
-    Friend WithEvents g4 As Graph2
+    Friend WithEvents g2 As GraphChart
+    Friend WithEvents g3 As GraphChart
+    Friend WithEvents g4 As GraphChart
     Friend WithEvents chkOneGraphPerCpu As System.Windows.Forms.CheckBox
     Friend WithEvents lblCPUTotalTime As System.Windows.Forms.Label
     Friend WithEvents Label37 As System.Windows.Forms.Label

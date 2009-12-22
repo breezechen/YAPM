@@ -1329,7 +1329,7 @@ Public Class frmProcessInfo
     Private Sub lstHistoryCat_ItemCheck(ByVal sender As Object, ByVal e As System.Windows.Forms.ItemCheckEventArgs) Handles lstHistoryCat.ItemCheck
         If e.NewValue = CheckState.Checked Then
             _historyGraphNumber += 1
-            Dim _g As New Graph2
+            Dim _g As New GraphChart
             _g.Dock = DockStyle.Top
             _g.Height = CInt((Me.containerHistory.Panel2.Height - _historyGraphNumber) / _historyGraphNumber)
             _g.Visible = True
@@ -1340,14 +1340,14 @@ Public Class frmProcessInfo
             _g.Fixedheight = (InStr(_g.Name, "CpuUsage") > 0)
             _g.ShowSecondGraph = False
             If InStr(_g.Name, "Cpu") > 0 Then
-                _g.Color = Color.LimeGreen
-                _g.Color2 = Color.Green
+                _g.Color1 = Color.LimeGreen
+                _g.ColorFill1 = Color.Green
             ElseIf InStr(_g.Name, "Transfer") + InStr(_g.Name, "Operation") + InStr(_g.Name, "Delta") > 0 Then
-                _g.Color = Color.Red
-                _g.Color2 = Color.Maroon
+                _g.Color1 = Color.Red
+                _g.ColorFill1 = Color.Maroon
             Else
-                _g.Color = Color.Yellow
-                _g.Color2 = Color.Olive
+                _g.Color1 = Color.Yellow
+                _g.ColorFill1 = Color.Olive
             End If
             Me.containerHistory.Panel2.Controls.Add(_g)
             Dim _p As New PictureBox
@@ -1373,9 +1373,9 @@ Public Class frmProcessInfo
 
         ' Recalculate heights
         For Each ct As Control In Me.containerHistory.Panel2.Controls
-            If TypeOf ct Is Graph2 Then
+            If TypeOf ct Is GraphChart Then
                 ct.Height = CInt((Me.containerHistory.Panel2.Height - _historyGraphNumber) / _historyGraphNumber)
-                CType(ct, Graph2).TopText = ct.Name
+                CType(ct, GraphChart).TopText = ct.Name
             End If
         Next
     End Sub
@@ -1383,7 +1383,7 @@ Public Class frmProcessInfo
     Private Sub containerHistory_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles containerHistory.Resize
         ' Recalculate heights
         For Each ct As Control In Me.containerHistory.Panel2.Controls
-            If TypeOf ct Is Graph2 Then
+            If TypeOf ct Is GraphChart Then
                 ct.Height = CInt((Me.containerHistory.Panel2.Height - 2 * _historyGraphNumber) / _historyGraphNumber)
             End If
         Next
@@ -1393,8 +1393,8 @@ Public Class frmProcessInfo
         ' curProc has been merged, so we have to add a value to the different
         ' graphs in containerHistory
         For Each ct As Control In Me.containerHistory.Panel2.Controls
-            If TypeOf ct Is Graph2 Then
-                Dim _tempG As Graph2 = CType(ct, Graph2)
+            If TypeOf ct Is GraphChart Then
+                Dim _tempG As GraphChart = CType(ct, GraphChart)
                 _tempG.AddValue(curProc.GetInformationNumerical(ct.Name))
                 _tempG.Refresh()
             End If

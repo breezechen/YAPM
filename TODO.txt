@@ -3,7 +3,6 @@ TODO LIST
 Refactoring bugs
 
 - demain :
-	- one graph per CPU -> ne pas remettre à zéro
 	- rapport général
 	- serviceDep et processesInJob pour le snapshot
 
@@ -55,7 +54,6 @@ BUGS NON CRITIQUES
 - optmisation NetWorklist -> bytes swap uniquement pour les news items (inutile de faire çà a chaque fois dans l'enum)
 - monitoring de pleins d'items -> thread spécifique nécessaire pour éviter les bloquages
 - systemInfo pour les pc remote
-- SystemInfos -> afficher graphes en permanence (et pas que quand la form est affichée)
 - lvFileStrings doit être Virtual
 - dependencies pour les services KO (on a le path avec \SystemRoot\ dans le .Imagepath (récupérer plutôt .Getinformation(path) + enlever ligne de commande après fichier)
 - si network connexions obtenues AVANT process, alors le processname n'est pas trouvé (refaire un check après)
@@ -88,7 +86,6 @@ BUGS NON CRITIQUES
 - getmappedimage... pour socket
 - messages Vista like partout
 - rapport monitoring
-- one graph per CPU -> conserver historique
 - performances (_currentServices et _currentProcesses remplis 2 fois au démarrage -> customLV qui créé des cObject, et asyncEnum aussi)
 - upload virus total
 - modules Wow64 en WMI ?
@@ -100,7 +97,6 @@ BUGS NON CRITIQUES
 - "monitor" sur les processus (sélection du PID, sélection de la catégorie Process/Processus et sélection des bonnes instances)
 - infos système dans le general report
 - "other actions" pour les processus (limitation CPU usage...)
-- tooltip sur graphes
 
 4) Fonctions à ajouter pleinement
 - autres token
