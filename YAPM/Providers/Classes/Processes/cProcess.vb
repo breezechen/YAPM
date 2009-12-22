@@ -723,7 +723,7 @@ Public Class cProcess
             Case "AffinityMask"
                 res = Me.Infos.AffinityMask.ToString
             Case "AverageCpuUsage"
-                res = GetFormatedPercentage(Me.Infos.AverageCpuUsage, force0:=True)
+                res = GetFormatedPercentage(Me.Infos.AverageCpuUsage, forceZeroDisplay:=True)
             Case "CommandLine"
                 res = Me.Infos.CommandLine
             Case "ReadOperationCount"
@@ -1109,7 +1109,7 @@ Public Class cProcess
                     _old_AffinityMask = res
                 End If
             Case "AverageCpuUsage"
-                res = GetFormatedPercentage(Me.Infos.AverageCpuUsage, force0:=True)
+                res = GetFormatedPercentage(Me.Infos.AverageCpuUsage, forceZeroDisplay:=True)
                 If res = _old_AverageCpuUsage Then
                     hasChanged = False
                 Else

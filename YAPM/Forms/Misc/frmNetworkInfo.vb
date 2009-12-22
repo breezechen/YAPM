@@ -138,7 +138,7 @@ Public Class frmNetworkInfo
         ' g1 (TCP)
         Me.g1.Add2Values(_diff_InSegs, _diff_OutSegs)
         Trace.WriteLine(String.Format("in {0}, out {1}", _diff_InSegs, _diff_OutSegs))
-        Me.g1.TopText = "TCP in/out datagrams"
+        Me.g1.TopText = "TCP in/out segments"
         Me.g1.Refresh()
 
 
@@ -192,6 +192,10 @@ Public Class frmNetworkInfo
 
         Me.chkTopMost.Checked = My.Settings.NetworkInfoTopMost
 
+        ' Add handlers for graph tooltips
+        Me.g1.ReturnTooltipText = AddressOf Me.impTooltipTCP
+        Me.g2.ReturnTooltipText = AddressOf Me.impTooltipUDP
+
     End Sub
 
     Private Sub frmSystemInfo_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
@@ -210,5 +214,27 @@ Public Class frmNetworkInfo
         End If
         Me.TopMost = Me.chkTopMost.Checked
     End Sub
+
+#Region "Graph tooltips proc"
+
+    Private Function impTooltipTCP(ByVal index As Integer, ByVal time As Long) As String
+        Dim s As String = "TCP traffic"
+        s &= vbNewLine & "In segments : " & Me.g1.Values(index).ToString
+        s &= vbNewLine & "Out segments : " & Me.g1.Values2(index).ToString
+        Dim d As New Date(time)
+        s &= vbNewLine & d.ToShortDateString & " " & d.ToLongTimeString
+        Return s
+    End Function
+
+    Private Function impTooltipUDP(ByVal index As Integer, ByVal time As Long) As String
+        Dim s As String = "UDP traffic"
+        s &= vbNewLine & "In datagrams : " & Me.g2.Values(index).ToString
+        s &= vbNewLine & "Out datagrams : " & Me.g2.Values2(index).ToString
+        Dim d As New Date(time)
+        s &= vbNewLine & d.ToShortDateString & " " & d.ToLongTimeString
+        Return s
+    End Function
+
+#End Region
 
 End Class

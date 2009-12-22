@@ -63,6 +63,9 @@ Public Class GraphChart
     Private _lastToolTip As String
     Private _xCoeff As Double = 2   ' One point every 2 pixels (width)
 
+    Public Delegate Sub MouseEnterGraph(ByVal sender As Object, ByVal e As System.EventArgs)
+    Public EvMouseEnterGraph As MouseEnterGraph
+
     Public Delegate Function DegReturnTooltipText(ByVal index As Integer, ByVal time As Long) As String
     Public ReturnTooltipText As DegReturnTooltipText
 
@@ -277,8 +280,6 @@ Public Class GraphChart
             If Me.ShowSecondGraph Then
                 Me.DrawValues2(e.Graphics)
             End If
-            ' Draw legend
-            DrawLegend(e.Graphics)
             ' If necessary, show tooltip
             If _showToolTip Then
                 Me.ShowToolTip()
@@ -287,6 +288,10 @@ Public Class GraphChart
         ' Draw the grid
         If Me.DrawTheGrid Then
             Me.DrawGrid(e.Graphics)
+        End If
+        If Me.EnableGraph Then
+            ' Draw legend
+            DrawLegend(e.Graphics)
         End If
     End Sub
     Protected Overrides Sub OnMouseMove(ByVal e As System.Windows.Forms.MouseEventArgs)
@@ -312,6 +317,13 @@ Public Class GraphChart
     End Sub
     Protected Overrides Sub OnMouseEnter(ByVal e As System.EventArgs)
         MyBase.OnMouseEnter(e)
+        If EvMouseEnterGraph IsNot Nothing Then
+            Try
+                Call EvMouseEnterGraph(Me, e)
+            Catch ex As Exception
+                '
+            End Try
+        End If
         _showToolTip = True
         Me.toolTip.Hide(Me)
     End Sub

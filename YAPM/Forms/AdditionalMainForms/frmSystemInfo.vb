@@ -59,7 +59,7 @@ Public Class frmSystemInfo
             Me.lblThreads.Text = CStr(.ThreadCount)
 
             ' Commit charge
-            Me.lblCCC.Text = GetFormatedSize(pi.CommittedPages * _pagesize)
+            Me.lblCCC.Text = GetFormatedSize(Decimal.Multiply(pi.CommittedPages, _pagesize))
             Me.lblCCP.Text = GetFormatedSize(Decimal.Multiply(pi.PeakCommitment, _pagesize))
             Me.lblCCL.Text = GetFormatedSize(Decimal.Multiply(pi.CommitLimit, _pagesize))
 
@@ -86,57 +86,57 @@ Public Class frmSystemInfo
 
             ' CPU
             Me.lblCPUcontextSwitches.Text = CStr(pi.ContextSwitches)
-            Dim zres0 As Long = 0
-            Dim zres1 As Long = 0
-            Dim zres2 As Long = 0
-            Dim zres3 As Long = 0
-            Dim zres4 As Long = 0
-            Dim zres5 As Long = 0
+            Dim zTotInterruptCount As Long = 0
+            Dim zTotIdleTime As Long = 0
+            Dim zTotInterruptTime As Long = 0
+            Dim zTotUserTime As Long = 0
+            Dim zTotDpcTime As Long = 0
+            Dim zTotKernelTime As Long = 0
             For x As Integer = 0 To ppi.Length - 1
-                zres0 += ppi(x).InterruptCount
-                zres1 += CLng(ppi(x).IdleTime / _processors)
-                zres2 += CLng(ppi(x).InterruptTime / _processors)
-                zres3 += CLng(ppi(x).UserTime / _processors)
-                zres5 += CLng(ppi(x).DpcTime / _processors)
-                zres4 += CLng(ppi(x).KernelTime / _processors)
+                zTotInterruptCount += ppi(x).InterruptCount
+                zTotIdleTime += CLng(ppi(x).IdleTime / _processors)
+                zTotInterruptTime += CLng(ppi(x).InterruptTime / _processors)
+                zTotUserTime += CLng(ppi(x).UserTime / _processors)
+                zTotKernelTime += CLng(ppi(x).DpcTime / _processors)
+                zTotDpcTime += CLng(ppi(x).KernelTime / _processors)
             Next
-            zres4 = zres4 - zres5 - zres1 - zres2
-            Me.lblCPUinterrupts.Text = CStr(zres0)
+            zTotDpcTime = zTotDpcTime - zTotKernelTime - zTotIdleTime - zTotInterruptTime
+            Me.lblCPUinterrupts.Text = CStr(zTotInterruptCount)
             Me.lblCPUprocessors.Text = CStr(_processors)
             Me.lblCPUsystemCalls.Text = CStr(pi.SystemCalls)
-            Dim zTotal As Double = zres4 + zres3 + zres1
+            Dim zTotal As Double = zTotDpcTime + zTotUserTime + zTotIdleTime
 
-            Dim ts As Date = New Date(zres1)
+            Dim ts As Date = New Date(zTotIdleTime)
             Me.lblCPUidleTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
                 String.Format("{000}", ts.Millisecond) & " (" & _
-                Math.Round(zres1 / zTotal * 100, 3).ToString & " %)"
-            ts = New Date(zres2)
+                Math.Round(zTotIdleTime / zTotal * 100, 3).ToString & " %)"
+            ts = New Date(zTotInterruptTime)
             Me.lblCPUinterruptTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
                 String.Format("{000}", ts.Millisecond) & " (" & _
-                Math.Round(zres2 / zTotal * 100, 3).ToString & " %)"
-            ts = New Date(zres3)
+                Math.Round(zTotInterruptTime / zTotal * 100, 3).ToString & " %)"
+            ts = New Date(zTotUserTime)
             Me.lblCPUuserTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
                 String.Format("{000}", ts.Millisecond) & " (" & _
-                Math.Round(zres3 / zTotal * 100, 3).ToString & " %)"
-            ts = New Date(zres4)
+                Math.Round(zTotUserTime / zTotal * 100, 3).ToString & " %)"
+            ts = New Date(zTotDpcTime)
             Me.lblCPUkernelTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
                 String.Format("{000}", ts.Millisecond) & " (" & _
-                Math.Round(zres4 / zTotal * 100, 3).ToString & " %)"
-            ts = New Date(zres5)
+                Math.Round(zTotDpcTime / zTotal * 100, 3).ToString & " %)"
+            ts = New Date(zTotKernelTime)
             Me.lblCPUdpcTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
                 String.Format("{000}", ts.Millisecond) & " (" & _
-                Math.Round(zres5 / zTotal * 100, 3).ToString & " %)"
-            ts = New Date(zres2 + zres3 + zres4 + zres5)
+                Math.Round(zTotKernelTime / zTotal * 100, 3).ToString & " %)"
+            ts = New Date(zTotInterruptTime + zTotUserTime + zTotDpcTime + zTotKernelTime)
             Me.lblCPUTotalTime.Text = String.Format("{0:00}", ts.Hour) & ":" & _
                 String.Format("{0:00}", ts.Minute) & ":" & _
                 String.Format("{0:00}", ts.Second) & ":" & _
@@ -154,17 +154,18 @@ Public Class frmSystemInfo
 
             ' ======== Graphics
             ' g1 (CPU)
-            Call showCpuUsage(zres3, zres4, ppi, diff)
+            Call showCpuUsage(zTotUserTime, zTotDpcTime, ppi, diff)
 
 
             ' g2 (physical memory)
-            Dim ggg2 As Double = 100 * (bi.NumberOfPhysicalPages - pi.AvailablePages) / bi.NumberOfPhysicalPages
-            Me.g2.AddValue(ggg2)
-            Me.g2.TopText = "Phys. memory : " & Misc.GetFormatedSize(Decimal.Multiply(bi.NumberOfPhysicalPages - pi.AvailablePages, _pagesize))
-            Me.g2.Refresh()
+            Dim ggg2 As Double = Decimal.Multiply(bi.NumberOfPhysicalPages - pi.AvailablePages, _pagesize)
+            Dim ggg3 As Double = Decimal.Multiply(pi.CommittedPages, _pagesize)
+            Me.gMemory.Add2Values(ggg3, ggg2)
+            Me.gMemory.TopText = "Phys. memory : " & Misc.GetFormatedSize(ggg2) & "  Commit : " & Misc.GetFormatedSize(ggg3)
+            Me.gMemory.Refresh()
 
 
-            ' g3 (I/O read+other)
+            ' g3 (I/O read+other - write)
             Static oldIOr As Long = 0
             Dim newIOr As Long = pi.IoReadTransferCount + pi.IoOtherTransferCount
             Dim diffIOr As Long = newIOr - oldIOr
@@ -177,12 +178,6 @@ Public Class frmSystemInfo
                 v3 = 0
             End If
 
-            Me.g3.AddValue(v3 * 100)
-            Me.g3.TopText = "R+O : " & Misc.GetFormatedSizePerSecond(diffIOr)
-            Me.g3.Refresh()
-
-
-            ' g4 (I/O write)
             Static oldIOw As Long = 0
             Dim newIOw As Long = pi.IoWriteTransferCount
             Dim diffIOw As Long = newIOw - oldIOw
@@ -195,9 +190,9 @@ Public Class frmSystemInfo
                 v4 = 0
             End If
 
-            Me.g4.AddValue(v4 * 100)
-            Me.g4.TopText = "W : " & Misc.GetFormatedSizePerSecond(diffIOw)
-            Me.g4.Refresh()
+            Me.gIO.Add2Values(v3 * 100, v4 * 100)
+            Me.gIO.TopText = "R+O : " & Misc.GetFormatedSizePerSecond(diffIOr, forceZeroDisplay:=True) & vbNewLine & "W : " & Misc.GetFormatedSizePerSecond(diffIOw, forceZeroDisplay:=True)
+            Me.gIO.Refresh()
 
         End With
     End Sub
@@ -228,12 +223,15 @@ Public Class frmSystemInfo
 
         Call chkOneGraphPerCpu_CheckedChanged(Nothing, Nothing) ' Add graphs
 
+        ' Add handlers for graph tooltips
+        Me.gIO.ReturnTooltipText = AddressOf impTooltipIO
+        Me.gMemory.ReturnTooltipText = AddressOf impTooltipPhysMem
+
     End Sub
 
     Private Sub frmSystemInfo_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
-        Me.g2.Refresh()
-        Me.g3.Refresh()
-        Me.g4.Refresh()
+        Me.gMemory.Refresh()
+        Me.gIO.Refresh()
     End Sub
 
     Private Sub chkOneGraphPerCpu_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkOneGraphPerCpu.CheckedChanged
@@ -247,13 +245,43 @@ Public Class frmSystemInfo
             End Try
         End If
 
+        ' Save history of values
+        'Dim _oldValuesTotal As List(Of Double)
+        'Dim _dicoOldValues As New Dictionary(Of Integer, List(Of Double))
+        'If Me.SplitContainer1.Panel1.Controls.Count > 0 Then
+        '    If chkOneGraphPerCpu.Checked = False Then
+        '        ' Then it was previously one graph per CPU -> there are n graphs
+        '        ' Store all values
+        '        Dim i As Integer = 0
+        '        Dim count As Integer
+        '        For Each ctrl As Control In Me.SplitContainer1.Panel1.Controls
+        '            If TypeOf ctrl Is Graph2 Then
+        '                Dim g As Graph2 = DirectCast(ctrl, Graph2)
+        '                Dim tmp As List(Of Double) = CType(ctrl, Graph2).Values
+        '                count = tmp.Count
+        '                _dicoOldValues.Add(i, tmp)
+        '                i += 1
+        '            End If
+        '        Next
+        '        ' Sum all values
+        '        For i = 0 To count - 1
+        '            For Each dbl As List(Of Double) In _dicoOldValues.Values
+        '                _oldValuesTotal(i) += dbl(i)
+        '            Next
+        '        Next
+        '    Else
+        '        ' Then it was previously one graph for all CPUs -> there is 1 graph
+        '        _oldValuesTotal = CType(Me.SplitContainer1.Panel1.Controls(0), Graph2).Values
+        '    End If
+        'End If
+
         ' Delete graphs
         Me.SplitContainer1.Panel1.Controls.Clear()
 
         ' Add graphs
         If chkOneGraphPerCpu.Checked = False Then
             ' One graph
-            Dim _g As New Graph2
+            Dim _g As New GraphChart
             _g.Dock = DockStyle.Fill
             _g.Visible = True
             _g.ColorGrid = Color.DarkGreen
@@ -262,14 +290,20 @@ Public Class frmSystemInfo
             _g.EnableGraph = True
             _g.Fixedheight = True
             _g.ShowSecondGraph = False
-            _g.Color = Color.LimeGreen
-            _g.Color2 = Color.Green
+            _g.Color1 = Color.LimeGreen
+            _g.ColorFill1 = Color.Green
+            _g.ReturnTooltipText = AddressOf impTooltipCPU
+            _g.EvMouseEnterGraph = AddressOf CpuGraphMouseEnter
             Me.SplitContainer1.Panel1.Controls.Add(_g)
+            _g.ClearValue()
+            'For Each d As Double In _oldValuesTotal
+            '    _g.AddValue(d)
+            'Next
             _g.Refresh()
         Else
             ' One graph per CPU
             For x As Integer = 0 To _processors - 1
-                Dim _g As New Graph2
+                Dim _g As New GraphChart
                 _g.Dock = DockStyle.Left
                 _g.Visible = True
                 _g.ColorGrid = Color.DarkGreen
@@ -279,9 +313,11 @@ Public Class frmSystemInfo
                 _g.EnableGraph = True
                 _g.Fixedheight = True
                 _g.ShowSecondGraph = False
-                _g.Color = Color.LimeGreen
-                _g.Color2 = Color.Green
+                _g.Color1 = Color.LimeGreen
+                _g.ColorFill1 = Color.Green
                 Me.SplitContainer1.Panel1.Controls.Add(_g)
+                _g.ReturnTooltipText = AddressOf impTooltipCPU
+                _g.EvMouseEnterGraph = AddressOf CpuGraphMouseEnter
                 If x < _processors - 1 Then
                     Dim _p As New PictureBox
                     _p.BackColor = Color.Transparent
@@ -291,6 +327,12 @@ Public Class frmSystemInfo
                     Me.SplitContainer1.Panel1.Controls.Add(_p)
                 End If
                 _g.Refresh()
+                'If _dicoOldValues.ContainsKey(x) Then
+                '    _g.ClearValue()
+                '    For Each d As Double In _dicoOldValues(x)
+                '        _g.AddValue(d)
+                '    Next
+                'End If
             Next
             SplitContainer2_Resize(Nothing, Nothing)
         End If
@@ -301,7 +343,7 @@ Public Class frmSystemInfo
         ' Recalculate width if one graph per CPU
         If Me.chkOneGraphPerCpu.Checked Then
             For Each ct As Control In Me.SplitContainer1.Panel1.Controls
-                If TypeOf ct Is Graph2 Then
+                If TypeOf ct Is GraphChart Then
                     ct.Width = CInt((Me.SplitContainer1.Panel1.Width - 2 * (_processors - 1)) / _processors)
                     ct.Refresh()
                 End If
@@ -322,57 +364,37 @@ Public Class frmSystemInfo
             Exit Sub
         End If
 
-        If chkOneGraphPerCpu.Checked = False Then
-            ' One graph for all CPUs
-            _old = Nothing
-            Dim newProcTime As Long = zres3 + zres4
-            Dim diffProcTime As Long = newProcTime - oldProcTime
+        oldProcTime = 0
+        If _old Is Nothing Then
+            ReDim _old(_processors - 1)
+        End If
 
-            Dim v1 As Double
-            If diff.Ticks > 0 AndAlso oldProcTime > 0 Then
-                v1 = diffProcTime / diff.Ticks / _processors
-            Else
-                v1 = 0
-            End If
-            oldProcTime = newProcTime
+        Dim _new() As Long
+        ReDim _new(_processors - 1)
+        For x As Integer = 0 To _processors - 1
+            _new(x) = ppi(x).UserTime + ppi(x).KernelTime - ppi(x).IdleTime - ppi(x).InterruptTime - ppi(x).DpcTime
+        Next
 
-            Dim _g1 As Graph2 = CType(Me.SplitContainer1.Panel1.Controls(0), Graph2)
-
-            Me.lblCPUUsage.Text = GetFormatedPercentage(v1, 3) & " %"
-            _g1.AddValue(v1 * 100)
-            _g1.TopText = "Cpu : " & Misc.GetFormatedPercentage(v1, 3, True) & " %"
-            _g1.Refresh()
-        Else
-            ' One graph per CPU
-            oldProcTime = 0
-            If _old Is Nothing Then
-                ReDim _old(_processors - 1)
-            End If
-
-            Dim _new() As Long
-            ReDim _new(_processors - 1)
+        Dim _diff() As Long
+        ReDim _diff(_processors - 1)
+        If diff.Ticks > 0 AndAlso _old(0) > 0 Then
             For x As Integer = 0 To _processors - 1
-                _new(x) = ppi(x).UserTime + ppi(x).KernelTime - ppi(x).IdleTime - ppi(x).InterruptTime - ppi(x).DpcTime
+                _diff(x) = _new(x) - _old(x)
             Next
+        Else
+            For x As Integer = 0 To _processors - 1
+                _diff(x) = 0
+            Next
+        End If
+        _old = _new
 
-            Dim _diff() As Long
-            ReDim _diff(_processors - 1)
-            If diff.Ticks > 0 AndAlso _old(0) > 0 Then
-                For x As Integer = 0 To _processors - 1
-                    _diff(x) = _new(x) - _old(x)
-                Next
-            Else
-                For x As Integer = 0 To _processors - 1
-                    _diff(x) = 0
-                Next
-            End If
-            _old = _new
-
-            ' Refresh graphs
+        ' Refresh graphs
+        If Me.chkOneGraphPerCpu.Checked Then
+            ' One graph per CPU
             Dim _totalCpuDiff As Double = 0
             For Each ct As Control In Me.SplitContainer1.Panel1.Controls
-                If TypeOf ct Is Graph2 Then
-                    Dim _g1 As Graph2 = CType(ct, Graph2)
+                If TypeOf ct Is GraphChart Then
+                    Dim _g1 As GraphChart = CType(ct, GraphChart)
                     Dim _i As Integer = CInt(_g1.Tag)
                     Dim z As Double = _diff(_i) / diff.Ticks / _processors
                     _g1.AddValue(100 * z)
@@ -381,11 +403,21 @@ Public Class frmSystemInfo
                     _g1.Refresh()
                 End If
             Next
-
             Me.lblCPUUsage.Text = GetFormatedPercentage(_totalCpuDiff, 3) & " %"
-
-
+        Else
+            ' Only one graph for all CPUs
+            Dim _totalCpuDiff As Double = 0
+            For _i As Integer = 0 To _processors - 1
+                Dim z As Double = _diff(_i) / diff.Ticks / _processors
+                _totalCpuDiff += z
+            Next
+            Dim _g1 As GraphChart = CType(Me.SplitContainer1.Panel1.Controls(0), GraphChart)
+            _g1.AddValue(100 * _totalCpuDiff)
+            _g1.TopText = Misc.GetFormatedPercentage(_totalCpuDiff, 3, True) & " %"
+            _g1.Refresh()
+            Me.lblCPUUsage.Text = GetFormatedPercentage(_totalCpuDiff, 3) & " %"
         End If
+
     End Sub
 
     Private Sub chkTopMost_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkTopMost.CheckedChanged
@@ -399,4 +431,55 @@ Public Class frmSystemInfo
         End If
         Me.TopMost = Me.chkTopMost.Checked
     End Sub
+
+#Region "Graph tooltips proc"
+
+    Private Function impTooltipPhysMem(ByVal index As Integer, ByVal time As Long) As String
+        Dim s As String = "Memory usage"
+        s &= vbNewLine & "Phys. memory : " & Misc.GetFormatedSize(Me.gMemory.Values(index))
+        s &= vbNewLine & "Commit : " & Misc.GetFormatedSize(Me.gMemory.Values2(index))
+        Dim d As New Date(time)
+        s &= vbNewLine & d.ToShortDateString & " " & d.ToLongTimeString
+        Return s
+    End Function
+
+    Private Function impTooltipIO(ByVal index As Integer, ByVal time As Long) As String
+        Dim s As String = "Input/output"
+        s &= vbNewLine & "R+O : " & Misc.GetFormatedSizePerSecond(Me.gIO.Values(index), forceZeroDisplay:=True)
+        s &= vbNewLine & "W : " & Misc.GetFormatedSizePerSecond(Me.gIO.Values2(index), forceZeroDisplay:=True)
+        Dim d As New Date(time)
+        s &= vbNewLine & d.ToShortDateString & " " & d.ToLongTimeString
+        Return s
+    End Function
+
+    Private gCpuGraphSelected As GraphChart
+    Private cpuSelected As Integer
+    Private Function impTooltipCPU(ByVal index As Integer, ByVal time As Long) As String
+        Dim s As String = "CPU usage"
+        If Me.chkOneGraphPerCpu.Checked Then
+            s &= " (CPU " & cpuSelected.ToString & ")"
+        End If
+        s &= vbNewLine & "Usage : " & Misc.GetFormatedPercentage(gCpuGraphSelected.Values(index) / 100, forceZeroDisplay:=True) & " %"
+        Dim d As New Date(time)
+        s &= vbNewLine & d.ToShortDateString & " " & d.ToLongTimeString
+        Return s
+    End Function
+
+    Private Sub CpuGraphMouseEnter(ByVal sender As Object, ByVal e As System.EventArgs)
+        ' Set cpuSelected and gCpuGraphSelected
+        gCpuGraphSelected = CType(sender, GraphChart)
+        Dim x As Integer = 0
+        For Each ctrl As Control In Me.SplitContainer1.Panel1.Controls
+            If TypeOf ctrl Is GraphChart Then
+                x += 1
+                If ctrl.Equals(sender) Then
+                    cpuSelected = x - 1
+                    Exit For
+                End If
+            End If
+        Next
+    End Sub
+
+#End Region
+
 End Class

@@ -26,6 +26,7 @@ Partial Class frmSystemInfo
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSystemInfo))
         Me.timerRefresh = New System.Windows.Forms.Timer(Me.components)
         Me.mainSplit = New System.Windows.Forms.SplitContainer
+        Me.chkTopMost = New System.Windows.Forms.CheckBox
         Me.chkOneGraphPerCpu = New System.Windows.Forms.CheckBox
         Me.GroupBox8 = New System.Windows.Forms.GroupBox
         Me.lblKnpf = New System.Windows.Forms.Label
@@ -124,10 +125,8 @@ Partial Class frmSystemInfo
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer
-        Me.chkTopMost = New System.Windows.Forms.CheckBox
-        Me.g2 = New GraphChart
-        Me.g3 = New GraphChart
-        Me.g4 = New GraphChart
+        Me.gMemory = New GraphChart
+        Me.gIO = New GraphChart
         Me.mainSplit.Panel1.SuspendLayout()
         Me.mainSplit.Panel2.SuspendLayout()
         Me.mainSplit.SuspendLayout()
@@ -140,16 +139,14 @@ Partial Class frmSystemInfo
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
-        Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
-        CType(Me.g2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.g3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.g4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gMemory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gIO, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'timerRefresh
@@ -181,9 +178,19 @@ Partial Class frmSystemInfo
         'mainSplit.Panel2
         '
         Me.mainSplit.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.mainSplit.Size = New System.Drawing.Size(735, 477)
+        Me.mainSplit.Size = New System.Drawing.Size(835, 475)
         Me.mainSplit.SplitterDistance = 425
         Me.mainSplit.TabIndex = 11
+        '
+        'chkTopMost
+        '
+        Me.chkTopMost.AutoSize = True
+        Me.chkTopMost.Location = New System.Drawing.Point(298, 448)
+        Me.chkTopMost.Name = "chkTopMost"
+        Me.chkTopMost.Size = New System.Drawing.Size(99, 17)
+        Me.chkTopMost.TabIndex = 17
+        Me.chkTopMost.Text = "Always on top"
+        Me.chkTopMost.UseVisualStyleBackColor = True
         '
         'chkOneGraphPerCpu
         '
@@ -1138,12 +1145,9 @@ Partial Class frmSystemInfo
         'SplitContainer2.Panel1
         '
         Me.SplitContainer2.Panel1.Controls.Add(Me.SplitContainer1)
-        '
-        'SplitContainer2.Panel2
-        '
-        Me.SplitContainer2.Panel2.Controls.Add(Me.SplitContainer3)
-        Me.SplitContainer2.Size = New System.Drawing.Size(306, 477)
-        Me.SplitContainer2.SplitterDistance = 239
+        Me.SplitContainer2.Panel2Collapsed = True
+        Me.SplitContainer2.Size = New System.Drawing.Size(406, 475)
+        Me.SplitContainer2.SplitterDistance = 234
         Me.SplitContainer2.TabIndex = 0
         '
         'SplitContainer1
@@ -1156,98 +1160,79 @@ Partial Class frmSystemInfo
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.g2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(306, 239)
-        Me.SplitContainer1.SplitterDistance = 119
+        Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer3)
+        Me.SplitContainer1.Size = New System.Drawing.Size(406, 475)
+        Me.SplitContainer1.SplitterDistance = 156
         Me.SplitContainer1.TabIndex = 1
         '
         'SplitContainer3
         '
         Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer3.IsSplitterFixed = True
         Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer3.Name = "SplitContainer3"
         Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer3.Panel1
         '
-        Me.SplitContainer3.Panel1.Controls.Add(Me.g3)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.gMemory)
         '
         'SplitContainer3.Panel2
         '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.g4)
-        Me.SplitContainer3.Size = New System.Drawing.Size(306, 234)
-        Me.SplitContainer3.SplitterDistance = 117
+        Me.SplitContainer3.Panel2.Controls.Add(Me.gIO)
+        Me.SplitContainer3.Size = New System.Drawing.Size(406, 315)
+        Me.SplitContainer3.SplitterDistance = 156
         Me.SplitContainer3.TabIndex = 0
         '
-        'chkTopMost
+        'gMemory
         '
-        Me.chkTopMost.AutoSize = True
-        Me.chkTopMost.Location = New System.Drawing.Point(298, 448)
-        Me.chkTopMost.Name = "chkTopMost"
-        Me.chkTopMost.Size = New System.Drawing.Size(99, 17)
-        Me.chkTopMost.TabIndex = 17
-        Me.chkTopMost.Text = "Always on top"
-        Me.chkTopMost.UseVisualStyleBackColor = True
+        Me.gMemory.BackColor = System.Drawing.Color.Black
+        Me.gMemory.Color1 = System.Drawing.Color.Chocolate
+        Me.gMemory.Color2 = System.Drawing.Color.Turquoise
+        Me.gMemory.ColorFill1 = System.Drawing.Color.SaddleBrown
+        Me.gMemory.ColorFill2 = System.Drawing.Color.Teal
+        Me.gMemory.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gMemory.DrawTheGrid = True
+        Me.gMemory.EnableGraph = True
+        Me.gMemory.Fill1 = True
+        Me.gMemory.Fill2 = True
+        Me.gMemory.Fixedheight = False
+        Me.gMemory.GridStep = 13
+        Me.gMemory.Location = New System.Drawing.Point(0, 0)
+        Me.gMemory.Name = "gMemory"
+        Me.gMemory.ShowSecondGraph = True
+        Me.gMemory.Size = New System.Drawing.Size(406, 156)
+        Me.gMemory.TabIndex = 13
+        Me.gMemory.TabStop = False
+        Me.gMemory.TextColor = System.Drawing.Color.Lime
+        Me.gMemory.TopText = Nothing
         '
-        'g2
+        'gIO
         '
-        Me.g2.BackColor = System.Drawing.Color.Black
-        Me.g2.Color2 = System.Drawing.Color.Olive
-        Me.g2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.g2.EnableGraph = True
-        Me.g2.Fixedheight = True
-        Me.g2.GridStep = 13
-        Me.g2.Location = New System.Drawing.Point(0, 0)
-        Me.g2.Name = "g2"
-        Me.g2.ShowSecondGraph = False
-        Me.g2.Size = New System.Drawing.Size(306, 116)
-        Me.g2.TabIndex = 11
-        Me.g2.TabStop = False
-        Me.g2.TextColor = System.Drawing.Color.Lime
-        Me.g2.TopText = Nothing
-        '
-        'g3
-        '
-        Me.g3.BackColor = System.Drawing.Color.Black
-        Me.g3.Color1 = System.Drawing.Color.Red
-        Me.g3.ColorFill1 = System.Drawing.Color.Maroon
-        Me.g3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.g3.EnableGraph = True
-        Me.g3.Fixedheight = False
-        Me.g3.GridStep = 13
-        Me.g3.Location = New System.Drawing.Point(0, 0)
-        Me.g3.Name = "g3"
-        Me.g3.ShowSecondGraph = False
-        Me.g3.Size = New System.Drawing.Size(306, 117)
-        Me.g3.TabIndex = 10
-        Me.g3.TabStop = False
-        Me.g3.TextColor = System.Drawing.Color.Lime
-        Me.g3.TopText = Nothing
-        '
-        'g4
-        '
-        Me.g4.BackColor = System.Drawing.Color.Black
-        Me.g4.Color1 = System.Drawing.Color.Red
-        Me.g4.ColorFill1 = System.Drawing.Color.Maroon
-        Me.g4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.g4.EnableGraph = True
-        Me.g4.Fixedheight = False
-        Me.g4.GridStep = 13
-        Me.g4.Location = New System.Drawing.Point(0, 0)
-        Me.g4.Name = "g4"
-        Me.g4.ShowSecondGraph = False
-        Me.g4.Size = New System.Drawing.Size(306, 113)
-        Me.g4.TabIndex = 11
-        Me.g4.TabStop = False
-        Me.g4.TextColor = System.Drawing.Color.Lime
-        Me.g4.TopText = Nothing
+        Me.gIO.BackColor = System.Drawing.Color.Black
+        Me.gIO.Color2 = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
+        Me.gIO.ColorFill1 = System.Drawing.Color.Olive
+        Me.gIO.ColorFill2 = System.Drawing.Color.Purple
+        Me.gIO.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gIO.DrawTheGrid = True
+        Me.gIO.EnableGraph = True
+        Me.gIO.Fill1 = True
+        Me.gIO.Fill2 = True
+        Me.gIO.Fixedheight = False
+        Me.gIO.GridStep = 13
+        Me.gIO.Location = New System.Drawing.Point(0, 0)
+        Me.gIO.Name = "gIO"
+        Me.gIO.ShowSecondGraph = True
+        Me.gIO.Size = New System.Drawing.Size(406, 155)
+        Me.gIO.TabIndex = 12
+        Me.gIO.TabStop = False
+        Me.gIO.TextColor = System.Drawing.Color.Lime
+        Me.gIO.TopText = Nothing
         '
         'frmSystemInfo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(735, 477)
+        Me.ClientSize = New System.Drawing.Size(835, 475)
         Me.Controls.Add(Me.mainSplit)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -1276,16 +1261,14 @@ Partial Class frmSystemInfo
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         Me.SplitContainer2.Panel1.ResumeLayout(False)
-        Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         Me.SplitContainer3.Panel1.ResumeLayout(False)
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.g2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.g3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.g4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gMemory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gIO, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1381,16 +1364,15 @@ Partial Class frmSystemInfo
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents lblCacheCurrent As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
-    Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
-    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents g2 As GraphChart
-    Friend WithEvents g3 As GraphChart
-    Friend WithEvents g4 As GraphChart
     Friend WithEvents chkOneGraphPerCpu As System.Windows.Forms.CheckBox
     Friend WithEvents lblCPUTotalTime As System.Windows.Forms.Label
     Friend WithEvents Label37 As System.Windows.Forms.Label
     Friend WithEvents lblCPUUsage As System.Windows.Forms.Label
     Friend WithEvents Label40 As System.Windows.Forms.Label
     Friend WithEvents chkTopMost As System.Windows.Forms.CheckBox
+    Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
+    Friend WithEvents gIO As GraphChart
+    Friend WithEvents gMemory As GraphChart
+    Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
 End Class

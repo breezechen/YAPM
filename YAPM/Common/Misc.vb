@@ -153,10 +153,10 @@ Namespace Common
         End Function
 
         ' Get formated size per second
-        Public Shared Function GetFormatedSizePerSecond(ByVal size As Double, Optional ByVal digits As Integer = 3) As String
-            Return GetFormatedSizePerSecond(New Decimal(size), digits)
+        Public Shared Function GetFormatedSizePerSecond(ByVal size As Double, Optional ByVal digits As Integer = 3, Optional ByVal forceZeroDisplay As Boolean = False) As String
+            Return GetFormatedSizePerSecond(New Decimal(size), digits, forceZeroDisplay)
         End Function
-        Public Shared Function GetFormatedSizePerSecond(ByVal size As Decimal, Optional ByVal digits As Integer = 3) As String
+        Public Shared Function GetFormatedSizePerSecond(ByVal size As Decimal, Optional ByVal digits As Integer = 3, Optional ByVal forceZeroDisplay As Boolean = False) As String
             Dim t As Decimal = size
             Dim dep As Integer = 0
 
@@ -165,7 +165,7 @@ Namespace Common
                 dep += 1
             End While
 
-            If size > 0 Then
+            If forceZeroDisplay OrElse size > 0 Then
                 Return CStr(Math.Round(t, digits)) & " " & sizeUnits(dep) & "/s"
             Else
                 Return ""
@@ -207,8 +207,8 @@ Namespace Common
         End Function
 
         ' Get a formated percentage
-        Public Shared Function GetFormatedPercentage(ByVal p As Double, Optional ByVal digits As Integer = 3, Optional ByVal force0 As Boolean = False) As String
-            If force0 OrElse p > 0 Then
+        Public Shared Function GetFormatedPercentage(ByVal p As Double, Optional ByVal digits As Integer = 3, Optional ByVal forceZeroDisplay As Boolean = False) As String
+            If forceZeroDisplay OrElse p > 0 Then
                 Dim d100 As Double = p * 100
                 Dim d As Double = Math.Round(d100, digits)
                 Dim tr As Double = Math.Truncate(d)

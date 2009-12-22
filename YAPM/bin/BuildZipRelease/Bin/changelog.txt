@@ -3,7 +3,7 @@ YAPM 2.4.3 BETA
 CHANGES FROM 2.4.2
 
 * NEW / Improvements
-- Improved appearance of graphs
+- Improved appearance of graphs (added tooltips + better aspect)
 - Implemented Monitoring report (save HTML file with graphs as images)
 - Optimized handle enumeration
 - PerfCounter : now select item in treeview when clicking on the associated item in listview
