@@ -273,6 +273,9 @@ Public Class GraphChart
         Me.Refresh()
 
     End Sub
+    Public Sub RePaintNow()
+        Me.Refresh()
+    End Sub
     Protected Overrides Sub OnPaint(ByVal e As System.Windows.Forms.PaintEventArgs)
         If Me.EnableGraph Then
             ' Smooth mode

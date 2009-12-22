@@ -25,7 +25,40 @@ Imports Common.Misc
 
 Public Class frmSystemInfo
 
+    ' Number of processors
     Private _processors As Integer = 1
+
+    ' Proc usage per processor  processorNumber <-> CpuUsage history
+    Private _procUsage As New Dictionary(Of Integer, List(Of Double))
+
+    ' Timeline for proc usage
+    Private _procTimeLine As New List(Of Long)
+
+    Public Sub New()
+
+        InitializeComponent()
+
+        SetToolTip(Me.chkOneGraphPerCpu, "Display one graph per CPU or one graph for all CPUs")
+        SetToolTip(Me.chkTopMost, "Display window always on top")
+        CloseWithEchapKey(Me)
+
+        ' Init position & size
+        Pref.LoadFormPositionAndSize(Me, "PSfrmSystemInfo")
+
+        Me.timerRefresh.Interval = My.Settings.SystemInterval
+        Call timerRefresh_Tick(Nothing, Nothing)
+        Me.chkOneGraphPerCpu.Enabled = (Program.SystemInfo.ProcessorCount > 1)
+
+        Me.chkTopMost.Checked = My.Settings.SystemInfoTopMost
+        Me.chkOneGraphPerCpu.Checked = Not (My.Settings.SystemInfoOneGraph)
+
+        Call chkOneGraphPerCpu_CheckedChanged(Nothing, Nothing) ' Add graphs
+
+        ' Add handlers for graph tooltips
+        Me.gIO.ReturnTooltipText = AddressOf impTooltipIO
+        Me.gMemory.ReturnTooltipText = AddressOf impTooltipMem
+
+    End Sub
 
     Private Sub timerRefresh_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerRefresh.Tick
 
@@ -161,7 +194,7 @@ Public Class frmSystemInfo
             Dim ggg2 As Double = Decimal.Multiply(bi.NumberOfPhysicalPages - pi.AvailablePages, _pagesize)
             Dim ggg3 As Double = Decimal.Multiply(pi.CommittedPages, _pagesize)
             Me.gMemory.Add2Values(ggg3, ggg2)
-            Me.gMemory.TopText = "Phys. memory : " & Misc.GetFormatedSize(ggg2) & "  Commit : " & Misc.GetFormatedSize(ggg3)
+            Me.gMemory.TopText = "Phys. memory : " & Misc.GetFormatedSize(ggg2) & vbNewLine & "Commit : " & Misc.GetFormatedSize(ggg3)
             Me.gMemory.Refresh()
 
 
@@ -205,30 +238,6 @@ Public Class frmSystemInfo
         e.Cancel = True
     End Sub
 
-    Private Sub frmSystemInfo_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-        SetToolTip(Me.chkOneGraphPerCpu, "Display one graph per CPU or one graph for all CPUs")
-        SetToolTip(Me.chkTopMost, "Display window always on top")
-        CloseWithEchapKey(Me)
-
-        ' Init position & size
-        Pref.LoadFormPositionAndSize(Me, "PSfrmSystemInfo")
-
-        Me.timerRefresh.Interval = My.Settings.SystemInterval
-        Call timerRefresh_Tick(Nothing, Nothing)
-        Me.chkOneGraphPerCpu.Enabled = (Program.SystemInfo.ProcessorCount > 1)
-
-        Me.chkTopMost.Checked = My.Settings.SystemInfoTopMost
-        Me.chkOneGraphPerCpu.Checked = Not (My.Settings.SystemInfoOneGraph)
-
-        Call chkOneGraphPerCpu_CheckedChanged(Nothing, Nothing) ' Add graphs
-
-        ' Add handlers for graph tooltips
-        Me.gIO.ReturnTooltipText = AddressOf impTooltipIO
-        Me.gMemory.ReturnTooltipText = AddressOf impTooltipMem
-
-    End Sub
-
     Private Sub frmSystemInfo_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Resize
         Me.gMemory.Refresh()
         Me.gIO.Refresh()
@@ -244,36 +253,6 @@ Public Class frmSystemInfo
                 Misc.ShowDebugError(ex)
             End Try
         End If
-
-        ' Save history of values
-        'Dim _oldValuesTotal As List(Of Double)
-        'Dim _dicoOldValues As New Dictionary(Of Integer, List(Of Double))
-        'If Me.SplitContainer1.Panel1.Controls.Count > 0 Then
-        '    If chkOneGraphPerCpu.Checked = False Then
-        '        ' Then it was previously one graph per CPU -> there are n graphs
-        '        ' Store all values
-        '        Dim i As Integer = 0
-        '        Dim count As Integer
-        '        For Each ctrl As Control In Me.SplitContainer1.Panel1.Controls
-        '            If TypeOf ctrl Is Graph2 Then
-        '                Dim g As Graph2 = DirectCast(ctrl, Graph2)
-        '                Dim tmp As List(Of Double) = CType(ctrl, Graph2).Values
-        '                count = tmp.Count
-        '                _dicoOldValues.Add(i, tmp)
-        '                i += 1
-        '            End If
-        '        Next
-        '        ' Sum all values
-        '        For i = 0 To count - 1
-        '            For Each dbl As List(Of Double) In _dicoOldValues.Values
-        '                _oldValuesTotal(i) += dbl(i)
-        '            Next
-        '        Next
-        '    Else
-        '        ' Then it was previously one graph for all CPUs -> there is 1 graph
-        '        _oldValuesTotal = CType(Me.SplitContainer1.Panel1.Controls(0), Graph2).Values
-        '    End If
-        'End If
 
         ' Delete graphs
         Me.SplitContainer1.Panel1.Controls.Clear()
@@ -296,10 +275,15 @@ Public Class frmSystemInfo
             _g.EvMouseEnterGraph = AddressOf CpuGraphMouseEnter
             Me.SplitContainer1.Panel1.Controls.Add(_g)
             _g.ClearValue()
-            'For Each d As Double In _oldValuesTotal
-            '    _g.AddValue(d)
-            'Next
-            _g.Refresh()
+            Dim historyCount As Integer = _procTimeLine.Count   ' Saved values
+            For y As Integer = 0 To historyCount - 1
+                Dim sum As Double = 0 ' Total usage for all processors
+                For x As Integer = 0 To _processors - 1
+                    sum += _procUsage(x)(y)
+                Next
+                _g.AddValue(sum, _procTimeLine(y))
+            Next
+            _g.RePaintNow()
         Else
             ' One graph per CPU
             For x As Integer = 0 To _processors - 1
@@ -326,13 +310,11 @@ Public Class frmSystemInfo
                     _p.Name = "_pct" & x.ToString
                     Me.SplitContainer1.Panel1.Controls.Add(_p)
                 End If
-                _g.Refresh()
-                'If _dicoOldValues.ContainsKey(x) Then
-                '    _g.ClearValue()
-                '    For Each d As Double In _dicoOldValues(x)
-                '        _g.AddValue(d)
-                '    Next
-                'End If
+                Dim historyCount As Integer = _procTimeLine.Count   ' Saved values
+                For y As Integer = 0 To historyCount - 1
+                    _g.AddValue(_procUsage(x)(y), _procTimeLine(y))
+                Next
+                _g.RePaintNow()
             Next
             SplitContainer2_Resize(Nothing, Nothing)
         End If
@@ -398,6 +380,12 @@ Public Class frmSystemInfo
                     Dim _i As Integer = CInt(_g1.Tag)
                     Dim z As Double = _diff(_i) / diff.Ticks / _processors
                     _g1.AddValue(100 * z)
+                    If _procUsage.ContainsKey(_i) = False Then
+                        ' First time we add the value into the dico (create a
+                        ' memory space for the processor _i)
+                        _procUsage.Add(_i, New List(Of Double))
+                    End If
+                    _procUsage(_i).Add(100 * z)
                     _totalCpuDiff += z
                     _g1.TopText = "Cpu " & _i.ToString & " : " & Misc.GetFormatedPercentage(z, 3, True) & " %"
                     _g1.Refresh()
@@ -409,6 +397,12 @@ Public Class frmSystemInfo
             Dim _totalCpuDiff As Double = 0
             For _i As Integer = 0 To _processors - 1
                 Dim z As Double = _diff(_i) / diff.Ticks / _processors
+                If _procUsage.ContainsKey(_i) = False Then
+                    ' First time we add the value into the dico (create a
+                    ' memory space for the processor _i)
+                    _procUsage.Add(_i, New List(Of Double))
+                End If
+                _procUsage(_i).Add(100 * z)
                 _totalCpuDiff += z
             Next
             Dim _g1 As GraphChart = CType(Me.SplitContainer1.Panel1.Controls(0), GraphChart)
@@ -417,6 +411,7 @@ Public Class frmSystemInfo
             _g1.Refresh()
             Me.lblCPUUsage.Text = GetFormatedPercentage(_totalCpuDiff, 3) & " %"
         End If
+        _procTimeLine.Add(Date.Now.Ticks)       ' New time in proc timeline
 
     End Sub
 
