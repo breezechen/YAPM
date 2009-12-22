@@ -7,6 +7,7 @@ Refactoring bugs
 	- serviceDep et processesInJob pour le snapshot
 
 - x64 via server : peut pas énumérer handles, modules et memory
+- checker pb encapsulation 64b pour les SetJobLimits (memory limits)
 
 - job enumeration can work even if not admin (xp)
 - cannot enumerate strings in a file on a network dir (works in File but not in Processes->Strings)
@@ -16,6 +17,7 @@ Refactoring bugs
 
 - snapshot -> serviceDep et processesInJob + désactiver times + gestion historiques + recherche (pb de dico)
 
+- limiter taille MAX à pouvoir stocker pour systemInfo (comme pour les processus)
 - search et log -> enumeration des modules prend pas en compte les wow64
 
 BUGS CRITIQUES
@@ -48,7 +50,7 @@ BUGS NON CRITIQUES
 - ajout des 6 nouvelles infos process dans formDetail (sauf certaines qui auront un truc spécifique comme token, job)
 - ajouter description des colonnes (dans le chooseColumns)
 - option Kill with specific exitcode
-- déconnexion local puis connexion WMI foireuse puis reconnexion local -> ServiceStartType change et devient foireux
+- déconnexion local puis connexion WMI foireuse puis reconnexion local -> ServiceStartType change et devient foireux (+impossible de lister les processus !!)
 - creatime time foireux pour les threads
 - inspect structures (PEB...) + possibilité afficher valeurs structs depuis hex editor
 - optmisation NetWorklist -> bytes swap uniquement pour les news items (inutile de faire çà a chaque fois dans l'enum)
@@ -67,7 +69,7 @@ BUGS NON CRITIQUES
 - tooltip partout (manque frmPreferences ? et manque frmLogOptions + forms qui viennent des autres projets)
 - certaines icones moches (yes/no dans lvPrivileges, refresh, find window, )
 - get online infos pour les services (changer de provider !!)
-- graph monitoring -> refresh l'affichage de la valeur survolée également quand la souris se déplace
+- graph monitoring -> refresh l'affichage de la valeur survolée également quand la souris se déplace + refaire graph comme pour GraphChart
 - vérifier pourquoi cpu usage de Idle dépasse les 100% ; le cas échéant limiter la valeur à 100%
 - find hidden processes utilisable pour les PCs distants ? + ajouter Terminate dans le menu popup + éventuellement 'go to process' pour aller dans lvProcess
 - déconnexion WMI après longue inactivité -> calculer temps dernière requete et lancer une requete pour éviter la déconnexion si t>MAX ?
@@ -85,7 +87,6 @@ BUGS NON CRITIQUES
 - transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
 - getmappedimage... pour socket
 - messages Vista like partout
-- rapport monitoring
 - performances (_currentServices et _currentProcesses remplis 2 fois au démarrage -> customLV qui créé des cObject, et asyncEnum aussi)
 - upload virus total
 - modules Wow64 en WMI ?
