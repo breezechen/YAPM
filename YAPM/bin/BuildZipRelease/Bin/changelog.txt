@@ -3,6 +3,8 @@ YAPM 2.4.3 BETA
 CHANGES FROM 2.4.2
 
 * NEW / Improvements
+- Added tooltips to listviews
+- Added enumeration of loaded drivers list when enumerating modules for SYSTEM process
 - Improved appearance of graphs (added tooltips + better aspect)
 - SystemInfo : Now can switch between 'one graph per CPU' and 'one graph for all CPUs' without clearing values
 - Implemented Monitoring report (save HTML file with graphs as images)

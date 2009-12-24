@@ -131,6 +131,13 @@ Imports System.Runtime.InteropServices
                 path = path.Substring(ii, path.Length - ii)
                 path = Environment.SystemDirectory & "\" & path
             End If
+        ElseIf path.ToLowerInvariant.StartsWith("\windows\") Then
+            path = path.Substring(9, path.Length - 9)
+            Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
+            If ii > 0 Then
+                path = path.Substring(ii, path.Length - ii)
+                path = Environment.SystemDirectory & "\" & path
+            End If
         ElseIf path.StartsWith("\??\") Then
             path = path.Substring(4)
         End If
@@ -186,6 +193,13 @@ Imports System.Runtime.InteropServices
 
         If path.ToLowerInvariant.StartsWith("\systemroot\") Then
             path = path.Substring(12, path.Length - 12)
+            Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
+            If ii > 0 Then
+                path = path.Substring(ii, path.Length - ii)
+                path = Environment.SystemDirectory & "\" & path
+            End If
+        ElseIf path.ToLowerInvariant.StartsWith("\windows\") Then
+            path = path.Substring(9, path.Length - 9)
             Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
             If ii > 0 Then
                 path = path.Substring(ii, path.Length - ii)

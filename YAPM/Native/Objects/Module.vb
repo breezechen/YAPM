@@ -37,10 +37,36 @@ Namespace Native.Objects
         ' Private attributes
         ' ========================================
 
+        ' Used to store list of kernel drivers loaded
+        Private Shared memAllocDrivers As New Memory.MemoryAlloc(&H1000)
+
+        ' Protect memAllocDrivers
+        Private Shared semMemAllocDrivers As New Threading.Semaphore(1, 1)
+
 
         ' ========================================
         ' Public properties
         ' ========================================
+
+        ' Return the kernel file path
+        Public Shared ReadOnly Property KernelFilePath() As String
+            Get
+                ' Retrieve the file path only once
+                Static _ret As String = Nothing
+                If _ret Is Nothing Then
+                    ' First module in list of loaded drivers
+                    Dim _dico As Dictionary(Of String, moduleInfos) = [Module].EnumerateKernelModules(1)
+                    For Each it As moduleInfos In _dico.Values
+                        _ret = it.Path
+                    Next
+                    If _ret Is Nothing Then
+                        _ret = NO_INFO_RETRIEVED
+                    End If
+                End If
+                Return _ret
+            End Get
+        End Property
+
 
         ' ========================================
         ' Other public
@@ -112,6 +138,11 @@ Namespace Native.Objects
         ' Enumerate modules
         Public Shared Function EnumerateModulesByProcessId(ByVal pid As Integer, _
                 Optional ByVal noFileInfo As Boolean = False) As Dictionary(Of String, moduleInfos)
+
+            ' If it's the SYSTEM process, we return list of loaded drivers
+            If pid = 4 Then
+                Return EnumerateKernelModules()
+            End If
 
             ' Retrieve modules of a process (uses PEB_LDR_DATA structs)
             Dim retDico As New Dictionary(Of String, moduleInfos)
@@ -193,6 +224,59 @@ Namespace Native.Objects
 
         End Function
 
+        ' Enumerate kernel modules
+        Public Shared Function EnumerateKernelModules(Optional ByVal itemToGet As Integer = Integer.MaxValue) As Dictionary(Of String, moduleInfos)
+
+            semMemAllocDrivers.WaitOne()
+
+            ' Dico to return
+            Dim retDico As New Dictionary(Of String, moduleInfos)
+            Dim res As UInteger
+            Dim length As Integer
+            Dim count As Integer = 0
+
+            ' Query
+            res = NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemModuleInformation, _
+                                    memAllocDrivers.Pointer, _
+                                    memAllocDrivers.Size, _
+                                    length)
+
+            ' Resize if necessary
+            If res = NativeConstants.STATUS_INFO_LENGTH_MISMATCH Then
+                memAllocDrivers.Resize(length)
+                NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemModuleInformation, _
+                                    memAllocDrivers.Pointer, _
+                                    memAllocDrivers.Size, _
+                                    length)
+            End If
+
+            ' Get list of modules from memory
+            Dim modules As NativeStructs.RtlProcessModules = _
+                    memAllocDrivers.ReadStruct(Of NativeStructs.RtlProcessModules)()
+
+            For x As Integer = 0 To modules.NumberOfModules - 1
+                Dim modu As NativeStructs.RtlProcessModuleInformation = _
+                        memAllocDrivers.ReadStruct(Of NativeStructs.RtlProcessModuleInformation)(NativeStructs.RtlProcessModules.ModulesOffset, x)
+
+                ' Add to dico
+                ' Key is baseAddress
+                Dim _key As String = modu.ImageBase.ToString
+                If retDico.ContainsKey(_key) = False Then
+                    ' "System" process has always the same pid : 4
+                    retDico.Add(_key, New moduleInfos(modu, 4))
+                    count += 1
+                    If count >= itemToGet Then
+                        ' Ok, return items
+                        semMemAllocDrivers.Release()
+                        Return retDico
+                    End If
+                End If
+            Next
+
+            semMemAllocDrivers.Release()
+
+            Return retDico
+        End Function
 
 
         ' ========================================

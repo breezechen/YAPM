@@ -37,6 +37,7 @@ Public Class DoubleBufferedLV
         MyBase.New()
         ' Set double buffered property to true
         'Me.DoubleBuffered = True
+        Me.ShowItemToolTips = True
     End Sub
 
     Public ReadOnly Property SelectedItemsVMode() As List(Of ListViewItem)

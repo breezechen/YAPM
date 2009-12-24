@@ -422,6 +422,7 @@ Public Class processList
         End If
 
         item.Tag = key
+        item.ToolTipText = GetTooltipTextFromObj(proc)
 
         Return item
 
@@ -499,5 +500,26 @@ Public Class processList
             frm.Show()
         Next
     End Sub
+
+    ' Return associated tooltiptext
+    Private Function GetTooltipTextFromObj(ByRef obj As cProcess) As String
+        If obj.Infos.ProcessId >= 4 Then
+            If obj.Infos.CommandLine IsNot Nothing AndAlso obj.Infos.CommandLine.Length > 0 Then
+                ' OK, there is a command line
+                Dim s As String = obj.Infos.CommandLine
+                s &= vbNewLine & "File : " & vbNewLine & obj.Infos.Path
+                If obj.Infos.FileInfo IsNot Nothing Then
+                    s &= vbNewLine & obj.Infos.FileInfo.CompanyName
+                    s &= vbNewLine & obj.Infos.FileInfo.FileVersion
+                End If
+                Return s
+            Else
+                Return obj.Infos.Name
+            End If
+        Else
+            ' 0 -> Idle process
+            Return "Idle process"
+        End If
+    End Function
 
 End Class

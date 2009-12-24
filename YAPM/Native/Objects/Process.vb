@@ -366,9 +366,9 @@ Namespace Native.Objects
 
             ' 1) Native method
             If pid = 0 Then
-                Return "[Idle process]"
+                Return "Idle process"
             ElseIf pid = 4 Then
-                Return "SYSTEM"
+                Return [Module].KernelFilePath
             Else
 
                 ' Have to open a handle
@@ -664,6 +664,9 @@ Namespace Native.Objects
                     Dim _peb As IntPtr = GetProcessPebAddressById(obj.ProcessId)
                     If _peb.IsNotNull Then
                         _command = GetProcessCommandLineById(obj.ProcessId, _peb)
+                    ElseIf obj.ProcessId = 4 Then
+                        ' System process -> custom command line
+                        _command = "System process"
                     End If
                     Dim _finfo As SerializableFileVersionInfo = Nothing
                     If IO.File.Exists(_path) Then
