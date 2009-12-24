@@ -183,13 +183,13 @@ Imports System.Runtime.InteropServices
 
         ' Get index of first null char (to truncate char array)
         Dim nullCharIndex As Integer = Array.IndexOf(data.FullPathName, Nothing)
-        Dim path As String
+        Dim retrievedPath As String
         If nullCharIndex > 0 Then
-            path = New String(data.FullPathName, 0, nullCharIndex)
+            retrievedPath = New String(data.FullPathName, 0, nullCharIndex)
         Else
-            path = New String(data.FullPathName)  ' length is 256
+            retrievedPath = New String(data.FullPathName)  ' length is 256
         End If
-        Dim dllName As String = Misc.GetFileName(path)
+        Dim path As String = retrievedPath
 
         If path.ToLowerInvariant.StartsWith("\systemroot\") Then
             path = path.Substring(12, path.Length - 12)
@@ -209,7 +209,12 @@ Imports System.Runtime.InteropServices
             path = path.Substring(4)
         End If
         _path = path
-        _name = dllName
+
+        ' Get the driver name
+        ' Have to get it using OffsetToFileName
+        If data.OffsetToFileName >= 0 AndAlso data.OffsetToFileName < &H100 Then
+            _name = retrievedPath.Substring(data.OffsetToFileName)
+        End If
 
         If noFileInfo = False Then
             ' Retrieve infos about file
