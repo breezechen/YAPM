@@ -636,7 +636,7 @@ Public Class frmServer
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim aff As Integer = CType(cData.Param2, Integer)
                         Try
-                            Native.Objects.Process.GetProcessById(pid).SetAffinity(aff)
+                            cProcess.GetProcessById(pid).SetAffinity(aff)
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not change process affinity")
                         End Try
@@ -644,28 +644,28 @@ Public Class frmServer
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim level As System.Diagnostics.ProcessPriorityClass = CType(cData.Param2, ProcessPriorityClass)
                         Try
-                            Native.Objects.Process.GetProcessById(pid).SetPriority(level)
+                            cProcess.GetProcessById(pid).SetPriority(level)
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not change process priority")
                         End Try
                     Case cSocketData.OrderType.ProcessDecreasePriority
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            Native.Objects.Process.GetProcessById(pid).DecreasePriority()
+                            cProcess.GetProcessById(pid).DecreasePriority()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not change process priority")
                         End Try
                     Case cSocketData.OrderType.ProcessIncreasePriority
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            Native.Objects.Process.GetProcessById(pid).IncreasePriority()
+                            cProcess.GetProcessById(pid).IncreasePriority()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not change process priority")
                         End Try
                     Case cSocketData.OrderType.ProcessKill
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            Native.Objects.Process.GetProcessById(pid).Kill()
+                            cProcess.GetProcessById(pid).Kill()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not kill process")
                         End Try
@@ -673,35 +673,35 @@ Public Class frmServer
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim method As Native.Api.Enums.KillMethod = CType(cData.Param2, Native.Api.Enums.KillMethod)
                         Try
-                            Native.Objects.Process.GetProcessById(pid).KillByMethod(method)
+                            cProcess.GetProcessById(pid).KillByMethod(method)
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not kill process by method")
                         End Try
                     Case cSocketData.OrderType.ProcessKillTree
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            Native.Objects.Process.GetProcessById(pid).KillProcessTree()
+                            cProcess.GetProcessById(pid).KillProcessTree()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not kill process tree")
                         End Try
                     Case cSocketData.OrderType.ProcessReduceWorkingSet
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            Native.Objects.Process.GetProcessById(pid).EmptyWorkingSetSize()
+                            cProcess.GetProcessById(pid).EmptyWorkingSetSize()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not reduce process' working set size")
                         End Try
                     Case cSocketData.OrderType.ProcessResume
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            Native.Objects.Process.GetProcessById(pid).ResumeProcess()
+                            cProcess.GetProcessById(pid).ResumeProcess()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not resume process")
                         End Try
                     Case cSocketData.OrderType.ProcessSuspend
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            Native.Objects.Process.GetProcessById(pid).SuspendProcess()
+                            cProcess.GetProcessById(pid).SuspendProcess()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not suspend process")
                         End Try
@@ -773,14 +773,14 @@ Public Class frmServer
                     Case cSocketData.OrderType.ServiceDelete
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            Native.Objects.Service.GetServiceByName(name).DeleteService()
+                            cService.GetServiceByName(name).DeleteService()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not delete service")
                         End Try
                     Case cSocketData.OrderType.ServicePause
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            Native.Objects.Service.GetServiceByName(name).PauseService()
+                            cService.GetServiceByName(name).PauseService()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not pause service")
                         End Try
@@ -788,28 +788,28 @@ Public Class frmServer
                         Dim name As String = CStr(cData.Param1)
                         Dim type As Native.Api.NativeEnums.ServiceStartType = CType(cData.Param2, Native.Api.NativeEnums.ServiceStartType)
                         Try
-                            Native.Objects.Service.GetServiceByName(name).SetServiceStartType(type)
+                            cService.GetServiceByName(name).SetServiceStartType(type)
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not change service start type")
                         End Try
                     Case cSocketData.OrderType.ServiceResume
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            Native.Objects.Service.GetServiceByName(name).ResumeService()
+                            cService.GetServiceByName(name).ResumeService()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not resume service")
                         End Try
                     Case cSocketData.OrderType.ServiceStart
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            Native.Objects.Service.GetServiceByName(name).StartService()
+                            cService.GetServiceByName(name).StartService()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not start service")
                         End Try
                     Case cSocketData.OrderType.ServiceStop
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            Native.Objects.Service.GetServiceByName(name).StopService()
+                            cService.GetServiceByName(name).StopService()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not stop service")
                         End Try

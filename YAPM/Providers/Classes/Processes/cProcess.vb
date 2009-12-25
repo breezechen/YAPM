@@ -1397,7 +1397,10 @@ Public Class cProcess
 #Region "Shared function"
 
     ' Return process from id
+    ' This method is thread safe, and does not depend of current connection mode
     Public Shared Function GetProcessById(ByVal pid As Integer) As cProcess
+        ' Get it from dico of current processes, which is updated in
+        ' main lvProcess each updateItems() call
         Return Native.Objects.Process.GetProcessById(pid)
     End Function
 

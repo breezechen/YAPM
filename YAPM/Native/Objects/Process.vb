@@ -876,16 +876,19 @@ Namespace Native.Objects
         End Function
 
         ' Get a service by name
+        ' Thread safe (get an item does not need to be thread-protected)
         Public Shared Function GetProcessById(ByVal id As Integer) As cProcess
 
             Dim tt As cProcess = Nothing
-            Native.Objects.Process.SemCurrentProcesses.WaitOne()
             If _currentProcesses IsNot Nothing Then
                 If _currentProcesses.ContainsKey(id.ToString) Then
-                    tt = _currentProcesses.Item(id.ToString)
+                    Try
+                        tt = _currentProcesses.Item(id.ToString)
+                    Catch ex As Exception
+                        ' Item was removed just after ContainsKey... bad luck :-(
+                    End Try
                 End If
             End If
-            Native.Objects.Process.SemCurrentProcesses.Release()
 
             Return tt
 

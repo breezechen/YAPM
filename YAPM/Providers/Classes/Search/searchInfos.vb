@@ -95,7 +95,6 @@ Imports Native.Api.Enums
 
 
     ' Return owner of item
-    ' !!!! Process.CurrentProcesses MUST be protected by the caller
     Private Shared Function GetOwner(ByVal obj As cGeneralObject, ByVal pid As Integer) As String
         ' Just say a big thanks to polymorphism...
         Try
@@ -104,8 +103,9 @@ Imports Native.Api.Enums
 
             If obj.TypeOfObject <> GeneralObjectType.Service Then
                 ' Try to get the owner process
-                If Native.Objects.Process.CurrentProcesses.ContainsKey(_pid.ToString) Then
-                    Dim nn As String = Native.Objects.Process.CurrentProcesses.Item(_pid.ToString).Infos.Name
+                Dim _curProc As cProcess = cProcess.GetProcessById(_pid)
+                If _curProc IsNot Nothing Then
+                    Dim nn As String = _curProc.Infos.Name
                     If String.IsNullOrEmpty(nn) = False Then
                         res = "Process " & nn & " (" & _pid.ToString & ")"
                     Else

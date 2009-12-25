@@ -310,14 +310,17 @@ Namespace Native.Objects
 
 
         ' Get a service by its name
+        ' Thread safe (get an item does not need to be thread-protected)
         Public Shared Function GetServiceByName(ByVal name As String) As cService
 
             Dim tt As cService = Nothing
-            _semCurrentServ.WaitOne()
             If _currentServices.ContainsKey(name) Then
-                tt = _currentServices.Item(name)
+                Try
+                    tt = _currentServices.Item(name)
+                Catch ex As Exception
+                    ' Item was removed just after ContainsKey... bad luck :-(
+                End Try
             End If
-            _semCurrentServ.Release()
 
             Return tt
 

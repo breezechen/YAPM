@@ -468,12 +468,7 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub cmdGoProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGoProcess.Click
-        Dim _t As cProcess = Nothing
-        Native.Objects.Process.SemCurrentProcesses.WaitOne()
-        If Native.Objects.Process.CurrentProcesses.ContainsKey(curServ.Infos.ProcessId.ToString) Then
-            _t = Native.Objects.Process.CurrentProcesses(curServ.Infos.ProcessId.ToString)
-        End If
-        Native.Objects.Process.SemCurrentProcesses.Release()
+        Dim _t As cProcess = cProcess.GetProcessById(curServ.Infos.ProcessId)
         If _t IsNot Nothing Then
             Dim frm As New frmProcessInfo
             frm.SetProcess(_t)
@@ -514,7 +509,7 @@ Public Class frmServiceInfo
     Private Sub cmdServDet1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServDet1.Click
         If Me.tv2.SelectedNode IsNot Nothing Then
             Dim s As String = CType(Me.tv2.SelectedNode.Tag, serviceDependenciesList.servTag).name
-            Dim it As cService = Native.Objects.Service.GetServiceByName(s)
+            Dim it As cService = cService.GetServiceByName(s)
             If it IsNot Nothing Then
                 Dim frm As New frmServiceInfo
                 frm.SetService(it)
@@ -527,7 +522,7 @@ Public Class frmServiceInfo
     Private Sub cmdServDet2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServDet2.Click
         If Me.tv.SelectedNode IsNot Nothing Then
             Dim s As String = CType(Me.tv.SelectedNode.Tag, serviceDependenciesList.servTag).name
-            Dim it As cService = Native.Objects.Service.GetServiceByName(s)
+            Dim it As cService = cService.GetServiceByName(s)
             If it IsNot Nothing Then
                 Dim frm As New frmServiceInfo
                 frm.SetService(it)
