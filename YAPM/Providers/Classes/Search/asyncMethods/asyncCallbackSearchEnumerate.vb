@@ -351,7 +351,6 @@ Public Class asyncCallbackSearchEnumerate
 
                 ' ---- SERVICES
                 If (pObj.includ And GeneralObjectType.Service) = GeneralObjectType.Service Then
-                    Native.Objects.Service.SemCurrentServices.WaitOne()
                     If Native.Objects.Service.CurrentServices IsNot Nothing Then
                         Dim _tmpDico As New Dictionary(Of String, cService)
                         _tmpDico = Native.Objects.Service.CurrentServices
@@ -372,7 +371,6 @@ Public Class asyncCallbackSearchEnumerate
                             Next
                         Next
                     End If
-                    Native.Objects.Service.SemCurrentServices.Release()
                 End If
 
 

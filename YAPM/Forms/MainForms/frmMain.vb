@@ -1834,6 +1834,9 @@ Public Class frmMain
         Me.butSearchGo.Enabled = True
         Me.butSearchSaveReport.Enabled = True
         Me.MenuItemSearchNew.Enabled = True
+        If Ribbon.ActiveTab.Text = "Search" Then
+            Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvSearchResults.Items.Count) & " search results"
+        End If
     End Sub
 
     Private Sub lvSearchResults_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvSearchResults.MouseDown

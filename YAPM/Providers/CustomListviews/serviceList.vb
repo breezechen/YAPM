@@ -259,9 +259,7 @@ Public Class serviceList
         Next
 
 
-        Native.Objects.Service.SemCurrentServices.WaitOne()
         Native.Objects.Service.CurrentServices = New Dictionary(Of String, cService)(_dico)
-        Native.Objects.Service.SemCurrentServices.Release()
 
 
         ' Now add all new items to listview

@@ -45,14 +45,10 @@ Namespace Native.Objects
         Private Shared _dicoNewServices As New Dictionary(Of String, Boolean)
 
         ' Current services running (updated after each enumeration)
-        Private Shared _currentServices As Dictionary(Of String, cService)
+        Private Shared _currentServices As New Dictionary(Of String, cService)
 
         ' Used for memory operations
         Private Shared _memBufferEnumServics As New Native.Memory.MemoryAlloc(&H1000)   ' NOTE : never unallocated
-
-        ' Used to protect currentServices dico
-        Private Shared _semCurrentServ As New System.Threading.Semaphore(1, 1)
-
 
 
 
@@ -69,16 +65,11 @@ Namespace Native.Objects
                 Return _currentServices
             End Get
             Set(ByVal value As Dictionary(Of String, cService))
-                _currentServices = value
+                SyncLock _currentServices
+                    _currentServices = value
+                End SyncLock
             End Set
         End Property
-
-        ' Return semaphore used to protect list of current services
-        Public Shared ReadOnly Property SemCurrentServices() As System.Threading.Semaphore
-            Get
-                Return _semCurrentServ
-            End Get
-        End Property        
 
 
 
@@ -258,16 +249,13 @@ Namespace Native.Objects
 
             ' Here we fill _currentServices if necessary
             'PERFISSUE
-            _semCurrentServ.WaitOne()
-            If _currentServices Is Nothing Then
-                _currentServices = New Dictionary(Of String, cService)
-            End If
-            For Each pc As serviceInfos In _dico.Values
-                If _currentServices.ContainsKey(pc.Name) = False Then
-                    _currentServices.Add(pc.Name, New cService(pc))
-                End If
-            Next
-            _semCurrentServ.Release()
+            SyncLock _currentServices
+                For Each pc As serviceInfos In _dico.Values
+                    If _currentServices.ContainsKey(pc.Name) = False Then
+                        _currentServices.Add(pc.Name, New cService(pc))
+                    End If
+                Next
+            End SyncLock
         End Sub
 
 
@@ -332,21 +320,21 @@ Namespace Native.Objects
             Dim _d As New Dictionary(Of String, serviceInfos)
             Dim dep() As String = Nothing
 
-            _semCurrentServ.WaitOne()
+            SyncLock _currentServices
 
-            For Each serv As cService In _currentServices.Values
-                dep = serv.Infos.Dependencies
-                If dep IsNot Nothing Then
-                    For Each s As String In dep
-                        If s.ToLowerInvariant = serviceName.ToLowerInvariant Then
-                            _d.Add(serv.Infos.Name, serv.Infos)
-                            Exit For
-                        End If
-                    Next
-                End If
-            Next
+                For Each serv As cService In _currentServices.Values
+                    dep = serv.Infos.Dependencies
+                    If dep IsNot Nothing Then
+                        For Each s As String In dep
+                            If s.ToLowerInvariant = serviceName.ToLowerInvariant Then
+                                _d.Add(serv.Infos.Name, serv.Infos)
+                                Exit For
+                            End If
+                        Next
+                    End If
+                Next
 
-            _semCurrentServ.Release()
+            End SyncLock
 
             Return _d
         End Function
@@ -357,30 +345,29 @@ Namespace Native.Objects
             Dim _d As New Dictionary(Of String, serviceInfos)
             Dim dep() As String = Nothing
 
-            _semCurrentServ.WaitOne()
+            SyncLock _currentServices
 
-            For Each serv As cService In _currentServices.Values
-                If serv.Infos.Name.ToLowerInvariant = serviceName.ToLowerInvariant Then
-                    dep = serv.Infos.Dependencies
-                    Exit For
-                End If
-            Next
-
-            If dep Is Nothing OrElse dep.Length = 0 Then
-                _semCurrentServ.Release()
-                Return _d
-            End If
-
-            For Each servName As String In dep
                 For Each serv As cService In _currentServices.Values
-                    If servName.ToLowerInvariant = serv.Infos.Name.ToLowerInvariant Then
-                        _d.Add(servName, serv.Infos)
+                    If serv.Infos.Name.ToLowerInvariant = serviceName.ToLowerInvariant Then
+                        dep = serv.Infos.Dependencies
                         Exit For
                     End If
                 Next
-            Next
 
-            _semCurrentServ.Release()
+                If dep Is Nothing OrElse dep.Length = 0 Then
+                    Return _d
+                End If
+
+                For Each servName As String In dep
+                    For Each serv As cService In _currentServices.Values
+                        If servName.ToLowerInvariant = serv.Infos.Name.ToLowerInvariant Then
+                            _d.Add(servName, serv.Infos)
+                            Exit For
+                        End If
+                    Next
+                Next
+
+            End SyncLock
 
             Return _d
         End Function
