@@ -42,9 +42,7 @@ Namespace Common
 
         ' Contains devices (logical drives) and their corresponding path
         ' e.g. :        /Device/Harddisk1/...       , C:
-        ' Protected by semaphore
         Private Shared _DicoLogicalDrivesNames As New Dictionary(Of String, String)
-        Private Shared _semProtectDicoLogDrives As New System.Threading.Semaphore(1, 1)
 
 
         ' ========================================
@@ -959,15 +957,14 @@ Namespace Common
                 Dim res As String = Nothing
                 Dim found As Boolean = False
 
-                _semProtectDicoLogDrives.WaitOne()
-                For Each pair As System.Collections.Generic.KeyValuePair(Of String, String) In _DicoLogicalDrivesNames
+                Dim _tempDico As Dictionary(Of String, String) = _DicoLogicalDrivesNames
+                For Each pair As System.Collections.Generic.KeyValuePair(Of String, String) In _tempDico
                     If path.StartsWith(pair.Key) Then
                         res = pair.Value & path.Substring(pair.Key.Length)
                         found = True
                         Exit For
                     End If
                 Next
-                _semProtectDicoLogDrives.Release()
 
                 If found Then
                     Return res
@@ -984,7 +981,7 @@ Namespace Common
         ' Refresh the dictionnary of logical drives
         Public Shared Sub RefreshLogicalDrives()
 
-            Dim _tempDico As Dictionary(Of String, String) = New Dictionary(Of String, String)
+            Dim _tempDico As New Dictionary(Of String, String)
 
             ' From 'A' to 'Z'
             ' It also possible to use GetLogicalDriveStringsA
@@ -996,9 +993,7 @@ Namespace Common
                 End If
             Next
 
-            _semProtectDicoLogDrives.WaitOne()
             _DicoLogicalDrivesNames = _tempDico
-            _semProtectDicoLogDrives.Release()
         End Sub
 
         ' Return a priority as an int from a string (System.Diagnostics.ProcessPriorityClass)
