@@ -330,6 +330,13 @@ Namespace Common
                         path = path.Substring(ii, path.Length - ii)
                         path = Environment.SystemDirectory & "\" & path
                     End If
+                ElseIf path.ToLowerInvariant.StartsWith("\windows\") OrElse path.ToLowerInvariant.StartsWith("system32\") Then
+                    path = path.Substring(9, path.Length - 9)
+                    Dim ii As Integer = InStr(path, "\", CompareMethod.Binary)
+                    If ii > 0 Then
+                        path = path.Substring(ii, path.Length - ii)
+                        path = Environment.SystemDirectory & "\" & path
+                    End If
                 ElseIf path.StartsWith("\??\") Then
                     path = path.Substring(4)
                 ElseIf path.StartsWith(Char.ConvertFromUtf32(34)) Then
@@ -337,8 +344,6 @@ Namespace Common
                         path = path.Substring(1, path.Length - 2)
                     End If
                 End If
-            Else
-                path = NO_INFO_RETRIEVED
             End If
             Return path
         End Function

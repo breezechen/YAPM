@@ -135,10 +135,12 @@ Public Class cServiceConnection
 
     ' Enumerate services
     Public Function Enumerate(ByVal getFixedInfos As Boolean, ByVal pid As Integer, ByVal complete As Boolean, ByVal all As Boolean, Optional ByVal forInstanceId As Integer = -1) As Integer
-        Call Threading.ThreadPool.QueueUserWorkItem(New  _
-                System.Threading.WaitCallback(AddressOf _
-                _servEnum.Process), New  _
-                asyncCallbackServiceEnumerate.poolObj(pid, all, complete, forInstanceId))
+        If _connected Then
+            Call Threading.ThreadPool.QueueUserWorkItem(New  _
+                    System.Threading.WaitCallback(AddressOf _
+                    _servEnum.Process), New  _
+                    asyncCallbackServiceEnumerate.poolObj(pid, all, complete, forInstanceId))
+        End If
     End Function
 
 #End Region
