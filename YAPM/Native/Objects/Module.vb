@@ -40,9 +40,6 @@ Namespace Native.Objects
         ' Used to store list of kernel drivers loaded
         Private Shared memAllocDrivers As New Memory.MemoryAlloc(&H1000)
 
-        ' Protect memAllocDrivers
-        Private Shared semMemAllocDrivers As New Threading.Semaphore(1, 1)
-
 
         ' ========================================
         ' Public properties
@@ -227,55 +224,55 @@ Namespace Native.Objects
         ' Enumerate kernel modules
         Public Shared Function EnumerateKernelModules(Optional ByVal itemToGet As Integer = Integer.MaxValue) As Dictionary(Of String, moduleInfos)
 
-            semMemAllocDrivers.WaitOne()
+            SyncLock memAllocDrivers
 
-            ' Dico to return
-            Dim retDico As New Dictionary(Of String, moduleInfos)
-            Dim res As UInteger
-            Dim length As Integer
-            Dim count As Integer = 0
+                ' Dico to return
+                Dim retDico As New Dictionary(Of String, moduleInfos)
+                Dim res As UInteger
+                Dim length As Integer
+                Dim count As Integer = 0
 
-            ' Query
-            res = NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemModuleInformation, _
-                                    memAllocDrivers.Pointer, _
-                                    memAllocDrivers.Size, _
-                                    length)
+                ' Query
+                res = NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemModuleInformation, _
+                                        memAllocDrivers.Pointer, _
+                                        memAllocDrivers.Size, _
+                                        length)
 
-            ' Resize if necessary
-            If res = NativeConstants.STATUS_INFO_LENGTH_MISMATCH Then
-                memAllocDrivers.Resize(length)
-                NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemModuleInformation, _
-                                    memAllocDrivers.Pointer, _
-                                    memAllocDrivers.Size, _
-                                    length)
-            End If
-
-            ' Get list of modules from memory
-            Dim modules As NativeStructs.RtlProcessModules = _
-                    memAllocDrivers.ReadStruct(Of NativeStructs.RtlProcessModules)()
-
-            For x As Integer = 0 To modules.NumberOfModules - 1
-                Dim modu As NativeStructs.RtlProcessModuleInformation = _
-                        memAllocDrivers.ReadStruct(Of NativeStructs.RtlProcessModuleInformation)(NativeStructs.RtlProcessModules.ModulesOffset, x)
-
-                ' Add to dico
-                ' Key is baseAddress
-                Dim _key As String = modu.ImageBase.ToString
-                If retDico.ContainsKey(_key) = False Then
-                    ' "System" process has always the same pid : 4
-                    retDico.Add(_key, New moduleInfos(modu, 4))
-                    count += 1
-                    If count >= itemToGet Then
-                        ' Ok, return items
-                        semMemAllocDrivers.Release()
-                        Return retDico
-                    End If
+                ' Resize if necessary
+                If res = NativeConstants.STATUS_INFO_LENGTH_MISMATCH Then
+                    memAllocDrivers.Resize(length)
+                    NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemModuleInformation, _
+                                        memAllocDrivers.Pointer, _
+                                        memAllocDrivers.Size, _
+                                        length)
                 End If
-            Next
 
-            semMemAllocDrivers.Release()
+                ' Get list of modules from memory
+                Dim modules As NativeStructs.RtlProcessModules = _
+                        memAllocDrivers.ReadStruct(Of NativeStructs.RtlProcessModules)()
 
-            Return retDico
+                For x As Integer = 0 To modules.NumberOfModules - 1
+                    Dim modu As NativeStructs.RtlProcessModuleInformation = _
+                            memAllocDrivers.ReadStruct(Of NativeStructs.RtlProcessModuleInformation)(NativeStructs.RtlProcessModules.ModulesOffset, x)
+
+                    ' Add to dico
+                    ' Key is baseAddress
+                    Dim _key As String = modu.ImageBase.ToString
+                    If retDico.ContainsKey(_key) = False Then
+                        ' "System" process has always the same pid : 4
+                        retDico.Add(_key, New moduleInfos(modu, 4))
+                        count += 1
+                        If count >= itemToGet Then
+                            ' Ok, return items
+                            Return retDico
+                        End If
+                    End If
+                Next
+
+                Return retDico
+
+            End SyncLock
+
         End Function
 
 
