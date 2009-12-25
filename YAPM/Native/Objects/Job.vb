@@ -50,9 +50,6 @@ Namespace Native.Objects
         Private Shared _ownHandles As New Dictionary(Of String, IntPtr)
         Private Shared semDupHandles As New System.Threading.Semaphore(1, 1)
 
-        ' Sem for enumeration
-        Private Shared semEnum As New System.Threading.Semaphore(1, 1)
-
         ' List of created jobs
         Private Shared colJobs As New Dictionary(Of String, cJob)
 
@@ -314,117 +311,6 @@ Namespace Native.Objects
 
         ' Enumerate created jobs
         Public Shared Function EnumerateJobs() As Dictionary(Of String, jobInfos)
-            Return GetJobList()
-        End Function
-
-        ' Enumerate Processes in a job
-        Public Shared Function GetProcessesInJobByName(ByVal jobName As String) As Dictionary(Of String, processInfos)
-
-            ' Query valid handle
-            Dim hJob As IntPtr = BeginUsingValidJobHandle(jobName)
-
-            Dim procs As New Dictionary(Of String, processInfos)
-            Dim ret As Integer
-
-            If hJob.IsNotNull Then
-
-                Using memAlloc As New Memory.MemoryAlloc(&H1000)
-
-                    NativeFunctions.QueryInformationJobObject(hJob, _
-                                    NativeEnums.JobObjectInformationClass.JobObjectBasicProcessIdList, _
-                                    memAlloc.Pointer, memAlloc.Size, ret)
-
-                    If ret > 0 Then
-                        Dim list As NativeStructs.JobObjectBasicProcessIdList = _
-                            memAlloc.ReadStruct(Of NativeStructs.JobObjectBasicProcessIdList)()
-                        Debug.WriteLine(list.ProcessIdsCount.ToString)
-                        For i As Integer = 0 To list.ProcessIdsCount - 1
-                            Dim pid As Integer = memAlloc.ReadInt32(&H8, i)      ' &h8 cause of two first Int32
-                            Dim proc As cProcess = cProcess.GetProcessById(pid)
-                            ' /!\ We HAVE to check that the cProcess we retrieve
-                            ' is NOT null, as it may has just been created and is not
-                            ' yet available in list of cProcesses
-                            If proc IsNot Nothing AndAlso pid > 0 Then
-                                ' PERFISSUE ?
-                                If procs.ContainsKey(pid.ToString) = False Then
-                                    procs.Add(pid.ToString, proc.Infos)
-                                End If
-                            End If
-                        Next
-                    End If
-
-                End Using
-
-            End If
-
-            ' End using valid handle
-            EndUsingValidJobHandle()
-
-            Return procs
-        End Function
-
-        ' Query some informations
-        ' These 5 functions use QueryJobInformationByHandle
-        Public Shared Function GetJobBasicAndIoAccountingInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicAndIoAccountingInformation
-            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicAndIoAccountingInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicAndIoAccountingInformation)
-        End Function
-
-        Public Shared Function GetJobBasicAccountingInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicAccountingInformation
-            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicAccountingInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicAccountingInformation)
-        End Function
-
-        Public Shared Function GetJobBasicUiRestrictionsByName(ByVal jobName As String) As NativeStructs.JobObjectBasicUiRestrictions
-            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicUiRestrictions)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions)
-        End Function
-
-        Public Shared Function GetJobBasicLimitInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicLimitInformation
-            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicLimitInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation)
-        End Function
-
-        Public Shared Function GetJobExtendedLimitInformationByName(ByVal jobName As String) As NativeStructs.JobObjectExtendedLimitInformation
-            Return QueryJobInformationByName(Of NativeStructs.JobObjectExtendedLimitInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation)
-        End Function
-
-        ' Set some informations
-        Public Shared Function SetJobBasicLimitInformationByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectBasicLimitInformation) As Boolean
-            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation, limit)
-        End Function
-
-        Public Shared Function SetJobCommonLimitsByName(ByVal jobName As String, _
-                ByVal limit1 As NativeStructs.JobObjectBasicUiRestrictions, _
-                ByVal limit2 As NativeStructs.JobObjectExtendedLimitInformation) As Boolean
-            Dim ret As Boolean = True
-            ret = ret And SetJobBasicUiRestrictionsName(jobName, limit1)
-            ret = ret And SetJobExtendedLimitInformationsByName(jobName, limit2)
-            Return ret
-        End Function
-
-        Public Shared Function SetJobBasicUiRestrictionsName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectBasicUiRestrictions) As Boolean
-            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions, limit)
-        End Function
-
-        Public Shared Function SetJobExtendedLimitInformationsByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectExtendedLimitInformation) As Boolean
-            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation, limit)
-        End Function
-
-        Public Shared Function SetJobEndOfTimeInformationByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectEndOfJobTimeInformation) As Boolean
-            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectEndOfJobTimeInformation, limit)
-        End Function
-
-
-        ' Return job handle
-        Public Shared Function GetJobHandleByName(ByVal name As String, ByVal access As Security.JobAccess) As IntPtr
-            Return NativeFunctions.OpenJobObject(access, True, name)
-        End Function
-
-
-
-        ' ========================================
-        ' Private functions
-        ' ========================================
-
-        ' Return list of jobs
-        Private Shared Function GetJobList() As Dictionary(Of String, jobInfos)
             Dim Length As Integer
             Dim x As Integer
             Dim mCount As Integer
@@ -620,6 +506,112 @@ Namespace Native.Objects
             Return buf
 
         End Function
+
+        ' Enumerate Processes in a job
+        Public Shared Function GetProcessesInJobByName(ByVal jobName As String) As Dictionary(Of String, processInfos)
+
+            ' Query valid handle
+            Dim hJob As IntPtr = BeginUsingValidJobHandle(jobName)
+
+            Dim procs As New Dictionary(Of String, processInfos)
+            Dim ret As Integer
+
+            If hJob.IsNotNull Then
+
+                Using memAlloc As New Memory.MemoryAlloc(&H1000)
+
+                    NativeFunctions.QueryInformationJobObject(hJob, _
+                                    NativeEnums.JobObjectInformationClass.JobObjectBasicProcessIdList, _
+                                    memAlloc.Pointer, memAlloc.Size, ret)
+
+                    If ret > 0 Then
+                        Dim list As NativeStructs.JobObjectBasicProcessIdList = _
+                            memAlloc.ReadStruct(Of NativeStructs.JobObjectBasicProcessIdList)()
+                        Debug.WriteLine(list.ProcessIdsCount.ToString)
+                        For i As Integer = 0 To list.ProcessIdsCount - 1
+                            Dim pid As Integer = memAlloc.ReadInt32(&H8, i)      ' &h8 cause of two first Int32
+                            Dim proc As cProcess = cProcess.GetProcessById(pid)
+                            ' /!\ We HAVE to check that the cProcess we retrieve
+                            ' is NOT null, as it may has just been created and is not
+                            ' yet available in list of cProcesses
+                            If proc IsNot Nothing AndAlso pid > 0 Then
+                                ' PERFISSUE ?
+                                If procs.ContainsKey(pid.ToString) = False Then
+                                    procs.Add(pid.ToString, proc.Infos)
+                                End If
+                            End If
+                        Next
+                    End If
+
+                End Using
+
+            End If
+
+            ' End using valid handle
+            EndUsingValidJobHandle()
+
+            Return procs
+        End Function
+
+        ' Query some informations
+        ' These 5 functions use QueryJobInformationByHandle
+        Public Shared Function GetJobBasicAndIoAccountingInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicAndIoAccountingInformation
+            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicAndIoAccountingInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicAndIoAccountingInformation)
+        End Function
+
+        Public Shared Function GetJobBasicAccountingInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicAccountingInformation
+            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicAccountingInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicAccountingInformation)
+        End Function
+
+        Public Shared Function GetJobBasicUiRestrictionsByName(ByVal jobName As String) As NativeStructs.JobObjectBasicUiRestrictions
+            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicUiRestrictions)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions)
+        End Function
+
+        Public Shared Function GetJobBasicLimitInformationByName(ByVal jobName As String) As NativeStructs.JobObjectBasicLimitInformation
+            Return QueryJobInformationByName(Of NativeStructs.JobObjectBasicLimitInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation)
+        End Function
+
+        Public Shared Function GetJobExtendedLimitInformationByName(ByVal jobName As String) As NativeStructs.JobObjectExtendedLimitInformation
+            Return QueryJobInformationByName(Of NativeStructs.JobObjectExtendedLimitInformation)(jobName, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation)
+        End Function
+
+        ' Set some informations
+        Public Shared Function SetJobBasicLimitInformationByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectBasicLimitInformation) As Boolean
+            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicLimitInformation, limit)
+        End Function
+
+        Public Shared Function SetJobCommonLimitsByName(ByVal jobName As String, _
+                ByVal limit1 As NativeStructs.JobObjectBasicUiRestrictions, _
+                ByVal limit2 As NativeStructs.JobObjectExtendedLimitInformation) As Boolean
+            Dim ret As Boolean = True
+            ret = ret And SetJobBasicUiRestrictionsName(jobName, limit1)
+            ret = ret And SetJobExtendedLimitInformationsByName(jobName, limit2)
+            Return ret
+        End Function
+
+        Public Shared Function SetJobBasicUiRestrictionsName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectBasicUiRestrictions) As Boolean
+            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectBasicUIRestrictions, limit)
+        End Function
+
+        Public Shared Function SetJobExtendedLimitInformationsByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectExtendedLimitInformation) As Boolean
+            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectExtendedLimitInformation, limit)
+        End Function
+
+        Public Shared Function SetJobEndOfTimeInformationByName(ByVal jobName As String, ByVal limit As NativeStructs.JobObjectEndOfJobTimeInformation) As Boolean
+            Return SetJobInformationByName(jobName, NativeEnums.JobObjectInformationClass.JobObjectEndOfJobTimeInformation, limit)
+        End Function
+
+
+        ' Return job handle
+        Public Shared Function GetJobHandleByName(ByVal name As String, ByVal access As Security.JobAccess) As IntPtr
+            Return NativeFunctions.OpenJobObject(access, True, name)
+        End Function
+
+
+
+        ' ========================================
+        ' Private functions
+        ' ========================================
 
         ' Query a job information struct
         Friend Shared Function QueryJobInformationByName(Of T)(ByVal name As String, _
