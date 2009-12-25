@@ -35,9 +35,6 @@ Namespace Native.Objects
         ' Handle enumeration class
         Private Shared hEnum As HandleEnumeration
 
-        ' Protect handle enumeration
-        Private Shared semProtectEnum As New System.Threading.Semaphore(1, 1)
-
 
         ' ========================================
         ' Private attributes
@@ -107,66 +104,67 @@ Namespace Native.Objects
             End If
 
             ' Protection !
-            semProtectEnum.WaitOne()
+            SyncLock hEnum
 
-            ' Refresh handles
-            Call hEnum.Refresh(pid)
+                ' Refresh handles
+                Call hEnum.Refresh(pid)
 
-            For i As Integer = 0 To hEnum.Count - 1
-                If hEnum.IsNotNull(i) AndAlso hEnum.GetHandle(i).IsNotNull Then
-                    If showUnNamed OrElse (Len(hEnum.GetObjectName(i)) > 0) Then
+                For i As Integer = 0 To hEnum.Count - 1
+                    If hEnum.IsNotNull(i) AndAlso hEnum.GetHandle(i).IsNotNull Then
+                        If showUnNamed OrElse (Len(hEnum.GetObjectName(i)) > 0) Then
 
-                        Dim _key As String = hEnum.GetHandleInfos(i).Key
+                            Dim _key As String = hEnum.GetHandleInfos(i).Key
 
-                        ' This verification should not be needed, but in reality
-                        ' it IS needed
-                        ' TOCHECK
-                        If _dico.ContainsKey(_key) = False Then
-                            _dico.Add(_key, hEnum.GetHandleInfos(i))
+                            ' This verification should not be needed, but in reality
+                            ' it IS needed
+                            ' TOCHECK
+                            If _dico.ContainsKey(_key) = False Then
+                                _dico.Add(_key, hEnum.GetHandleInfos(i))
+                            End If
+
                         End If
-
                     End If
-                End If
-            Next
+                Next
 
-            semProtectEnum.Release()
+            End SyncLock
 
         End Sub
 
-        ' Return all local handles (protected by semaphore)
+        ' Return all local handles
         Public Shared Function EnumerateCurrentLocalHandles(Optional ByVal all As Boolean = True) As Dictionary(Of String, cHandle)
 
             Dim _dico As New Dictionary(Of String, cHandle)
 
-            ' Handle enumeration class not initialized...
-            If hEnum Is Nothing Then
-                Return _dico
-            End If
-
             ' Protection !
-            semProtectEnum.WaitOne()
+            SyncLock hEnum
 
-            ' Refresh handles
-            Call hEnum.Refresh(-1)    ' Refresh all
-
-            For i As Integer = 0 To hEnum.Count - 1
-                If hEnum.IsNotNull(i) AndAlso hEnum.GetHandle(i).IsNotNull Then
-                    If all OrElse (Len(hEnum.GetObjectName(i)) > 0) Then
-
-                        Dim _key As String = hEnum.GetHandleInfos(i).Key
-
-                        ' This verification should not be needed, but in reality
-                        ' it IS needed
-                        ' TOCHECK
-                        If _dico.ContainsKey(_key) = False Then
-                            _dico.Add(_key, New cHandle(hEnum.GetHandleInfos(i)))
-                        End If
-
-                    End If
+                ' Handle enumeration class not initialized...
+                If hEnum Is Nothing Then
+                    Return _dico
                 End If
-            Next
 
-            semProtectEnum.Release()
+
+                ' Refresh handles
+                Call hEnum.Refresh(-1)    ' Refresh all
+
+                For i As Integer = 0 To hEnum.Count - 1
+                    If hEnum.IsNotNull(i) AndAlso hEnum.GetHandle(i).IsNotNull Then
+                        If all OrElse (Len(hEnum.GetObjectName(i)) > 0) Then
+
+                            Dim _key As String = hEnum.GetHandleInfos(i).Key
+
+                            ' This verification should not be needed, but in reality
+                            ' it IS needed
+                            ' TOCHECK
+                            If _dico.ContainsKey(_key) = False Then
+                                _dico.Add(_key, New cHandle(hEnum.GetHandleInfos(i)))
+                            End If
+
+                        End If
+                    End If
+                Next
+
+            End SyncLock
 
             Return _dico
 
