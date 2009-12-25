@@ -54,8 +54,6 @@ Public Class AsynchronousClient
     Public Event SocketError As SocketErrorHandler
 
     Private _uniqueClientKey As String = "cDat._id"
-    Private Shared semQueue As New Semaphore(1, 1)
-
 
     Private _ServerTalk As ServerTalk = Nothing
     ' this object lives on the server
