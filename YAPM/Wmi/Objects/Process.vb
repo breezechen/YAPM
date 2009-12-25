@@ -30,7 +30,6 @@ Namespace Wmi.Objects
     Public Class Process
 
 
-
         ' ========================================
         ' Private constants
         ' ========================================
@@ -51,107 +50,101 @@ Namespace Wmi.Objects
                         ByRef _dico As Dictionary(Of String, processInfos), _
                         ByRef errMsg As String) As Boolean
 
-            Dim res As ManagementObjectCollection = Nothing
-            Try
-                res = objSearcher.Get()
+            SyncLock Native.Objects.Process._dicoNewProcesses
 
-                For Each refProcess As Management.ManagementObject In res
+                Dim res As ManagementObjectCollection = Nothing
+                Try
+                    res = objSearcher.Get()
 
-                    ' We use a SystemProcessInformation64 structure,
-                    ' as we don't know if remote machine is 64 or 32-bit.
-                    ' If it's 64-bits, we potentially won't be able to create
-                    ' IntPtrs in our local machine (if 32-bit) as the associated
-                    ' value might be > Integer.MaxValue (which is the maximum
-                    ' value supported by IntPtr constructor on 32-bit systems).
-                    Dim obj As New Native.Api.Structs.SystemProcessInformation64
-                    With obj
-                        .BasePriority = CInt(refProcess.Item(WmiInfoProcess.Priority.ToString))
-                        .HandleCount = CInt(refProcess.Item(WmiInfoProcess.HandleCount.ToString))
-                        .InheritedFromProcessId = CInt(refProcess.Item(WmiInfoProcess.ParentProcessId.ToString))
-                        Dim _IO As New Native.Api.NativeStructs.IoCounters
-                        With _IO
-                            .OtherOperationCount = CULng(refProcess.Item(WmiInfoProcess.OtherOperationCount.ToString))
-                            .OtherTransferCount = CULng(refProcess.Item(WmiInfoProcess.OtherTransferCount.ToString))
-                            .ReadOperationCount = CULng(refProcess.Item(WmiInfoProcess.ReadOperationCount.ToString))
-                            .ReadTransferCount = CULng(refProcess.Item(WmiInfoProcess.ReadTransferCount.ToString))
-                            .WriteOperationCount = CULng(refProcess.Item(WmiInfoProcess.WriteOperationCount.ToString))
-                            .WriteTransferCount = CULng(refProcess.Item(WmiInfoProcess.WriteTransferCount.ToString))
+                    For Each refProcess As Management.ManagementObject In res
+
+                        ' We use a SystemProcessInformation64 structure,
+                        ' as we don't know if remote machine is 64 or 32-bit.
+                        ' If it's 64-bits, we potentially won't be able to create
+                        ' IntPtrs in our local machine (if 32-bit) as the associated
+                        ' value might be > Integer.MaxValue (which is the maximum
+                        ' value supported by IntPtr constructor on 32-bit systems).
+                        Dim obj As New Native.Api.Structs.SystemProcessInformation64
+                        With obj
+                            .BasePriority = CInt(refProcess.Item(WmiInfoProcess.Priority.ToString))
+                            .HandleCount = CInt(refProcess.Item(WmiInfoProcess.HandleCount.ToString))
+                            .InheritedFromProcessId = CInt(refProcess.Item(WmiInfoProcess.ParentProcessId.ToString))
+                            Dim _IO As New Native.Api.NativeStructs.IoCounters
+                            With _IO
+                                .OtherOperationCount = CULng(refProcess.Item(WmiInfoProcess.OtherOperationCount.ToString))
+                                .OtherTransferCount = CULng(refProcess.Item(WmiInfoProcess.OtherTransferCount.ToString))
+                                .ReadOperationCount = CULng(refProcess.Item(WmiInfoProcess.ReadOperationCount.ToString))
+                                .ReadTransferCount = CULng(refProcess.Item(WmiInfoProcess.ReadTransferCount.ToString))
+                                .WriteOperationCount = CULng(refProcess.Item(WmiInfoProcess.WriteOperationCount.ToString))
+                                .WriteTransferCount = CULng(refProcess.Item(WmiInfoProcess.WriteTransferCount.ToString))
+                            End With
+                            .IoCounters = _IO
+                            .KernelTime = CLng(refProcess.Item(WmiInfoProcess.KernelModeTime.ToString))
+                            .NumberOfThreads = CInt(refProcess.Item(WmiInfoProcess.ThreadCount.ToString))
+                            .ProcessId = CInt(refProcess.Item(WmiInfoProcess.ProcessId.ToString))
+                            '.SessionId                 ' NOT IMPLEMENTED
+                            .UserTime = CLng(refProcess.Item(WmiInfoProcess.UserModeTime.ToString))
+                            Dim _VM As New Native.Api.Structs.VmCountersEx64
+                            With _VM
+                                .PageFaultCount = CInt(refProcess.Item(WmiInfoProcess.PageFaults.ToString))
+                                .PagefileUsage = CLng(refProcess.Item(WmiInfoProcess.PageFileUsage.ToString))
+                                .PeakPagefileUsage = CLng(refProcess.Item(WmiInfoProcess.PeakPageFileUsage.ToString))
+                                .PeakVirtualSize = CLng(refProcess.Item(WmiInfoProcess.PeakVirtualSize.ToString))
+                                .PeakWorkingSetSize = CLng(refProcess.Item(WmiInfoProcess.PeakWorkingSetSize.ToString))
+                                .PrivateBytes = CLng(refProcess.Item(WmiInfoProcess.PrivatePageCount.ToString))
+                                .QuotaNonPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaNonPagedPoolUsage.ToString))
+                                .QuotaPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPagedPoolUsage.ToString))
+                                .QuotaPeakNonPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPeakNonPagedPoolUsage.ToString))
+                                .QuotaPeakPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPeakPagedPoolUsage.ToString))
+                                .VirtualSize = CLng(refProcess.Item(WmiInfoProcess.VirtualSize.ToString))
+                                .WorkingSetSize = CLng(refProcess.Item(WmiInfoProcess.WorkingSetSize.ToString))
+                            End With
+                            .VirtualMemoryCounters = _VM
                         End With
-                        .IoCounters = _IO
-                        .KernelTime = CLng(refProcess.Item(WmiInfoProcess.KernelModeTime.ToString))
-                        .NumberOfThreads = CInt(refProcess.Item(WmiInfoProcess.ThreadCount.ToString))
-                        .ProcessId = CInt(refProcess.Item(WmiInfoProcess.ProcessId.ToString))
-                        '.SessionId                 ' NOT IMPLEMENTED
-                        .UserTime = CLng(refProcess.Item(WmiInfoProcess.UserModeTime.ToString))
-                        Dim _VM As New Native.Api.Structs.VmCountersEx64
-                        With _VM
-                            .PageFaultCount = CInt(refProcess.Item(WmiInfoProcess.PageFaults.ToString))
-                            .PagefileUsage = CLng(refProcess.Item(WmiInfoProcess.PageFileUsage.ToString))
-                            .PeakPagefileUsage = CLng(refProcess.Item(WmiInfoProcess.PeakPageFileUsage.ToString))
-                            .PeakVirtualSize = CLng(refProcess.Item(WmiInfoProcess.PeakVirtualSize.ToString))
-                            .PeakWorkingSetSize = CLng(refProcess.Item(WmiInfoProcess.PeakWorkingSetSize.ToString))
-                            .PrivateBytes = CLng(refProcess.Item(WmiInfoProcess.PrivatePageCount.ToString))
-                            .QuotaNonPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaNonPagedPoolUsage.ToString))
-                            .QuotaPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPagedPoolUsage.ToString))
-                            .QuotaPeakNonPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPeakNonPagedPoolUsage.ToString))
-                            .QuotaPeakPagedPoolUsage = CLng(refProcess.Item(WmiInfoProcess.QuotaPeakPagedPoolUsage.ToString))
-                            .VirtualSize = CLng(refProcess.Item(WmiInfoProcess.VirtualSize.ToString))
-                            .WorkingSetSize = CLng(refProcess.Item(WmiInfoProcess.WorkingSetSize.ToString))
-                        End With
-                        .VirtualMemoryCounters = _VM
-                    End With
 
 
-                    ' Do we have to get fixed infos ?
-                    Dim _procInfos As New processInfos(obj, CStr(refProcess.Item("Name")))
-                    If Native.Objects.Process.NewProcesses.ContainsKey(obj.ProcessId) = False Then
-                        With _procInfos
-                            .Path = CStr(refProcess.Item(WmiInfoProcess.ExecutablePath.ToString))
+                        ' Do we have to get fixed infos ?
+                        Dim _procInfos As New processInfos(obj, CStr(refProcess.Item("Name")))
+                        If Native.Objects.Process.NewProcesses.Contains(obj.ProcessId) = False Then
+                            With _procInfos
+                                .Path = CStr(refProcess.Item(WmiInfoProcess.ExecutablePath.ToString))
 
-                            Dim s1(1) As String
-                            Try
-                                Call refProcess.InvokeMethod("GetOwner", s1)
-                                If Len(s1(0)) + Len(s1(1)) > 0 Then
-                                    .UserName = s1(1) & "\" & s1(0)
-                                Else
+                                Dim s1(1) As String
+                                Try
+                                    Call refProcess.InvokeMethod("GetOwner", s1)
+                                    If Len(s1(0)) + Len(s1(1)) > 0 Then
+                                        .UserName = s1(1) & "\" & s1(0)
+                                    Else
+                                        .UserName = NO_INFO_RETRIEVED
+                                    End If
+                                Catch ex As Exception
                                     .UserName = NO_INFO_RETRIEVED
-                                End If
-                            Catch ex As Exception
-                                .UserName = NO_INFO_RETRIEVED
-                            End Try
+                                End Try
 
-                            .CommandLine = NO_INFO_RETRIEVED
-                            .FileInfo = Nothing
-                            .PebAddress = IntPtr.Zero
-                        End With
+                                .CommandLine = NO_INFO_RETRIEVED
+                                .FileInfo = Nothing
+                                .PebAddress = IntPtr.Zero
+                            End With
 
-                        Native.Objects.Process.NewProcesses.Add(obj.ProcessId, False)
+                            Native.Objects.Process.NewProcesses.Add(obj.ProcessId)
 
-                        Trace.WriteLine("Got fixed infos for id = " & obj.ProcessId.ToString)
-                    End If
+                            Trace.WriteLine("Got fixed infos for id = " & obj.ProcessId.ToString)
+                        End If
 
-                    ' Set true so that the process is marked as existing
-                    Native.Objects.Process.NewProcesses(obj.ProcessId) = True
-                    Dim sKey As String = obj.ProcessId.ToString
-                    If _dico.ContainsKey(sKey) = False Then
-                        _dico.Add(sKey, _procInfos)
-                    End If
-                Next
+                        Dim sKey As String = obj.ProcessId.ToString
+                        If _dico.ContainsKey(sKey) = False Then
+                            _dico.Add(sKey, _procInfos)
+                        End If
+                    Next
 
-                ' Remove all processes that not exist anymore
-                Dim _dicoTemp As Dictionary(Of Integer, Boolean) = Native.Objects.Process.NewProcesses
-                For Each it As System.Collections.Generic.KeyValuePair(Of Integer, Boolean) In _dicoTemp
-                    If it.Value = False Then
-                        Native.Objects.Process.NewProcesses.Remove(it.Key)
-                    End If
-                Next
+                    Return True
 
-                Return True
+                Catch ex As Exception
+                    errMsg = ex.Message
+                    Return False
+                End Try
 
-            Catch ex As Exception
-                errMsg = ex.Message
-                Return False
-            End Try
+            End SyncLock
 
         End Function
 

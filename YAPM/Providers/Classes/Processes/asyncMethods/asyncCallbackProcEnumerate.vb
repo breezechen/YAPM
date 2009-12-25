@@ -77,13 +77,7 @@ Public Class asyncCallbackProcEnumerate
                 End Try
 
             Case cConnection.TypeOfConnection.LocalConnection, cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                Native.Objects.Process.SemNewProcesses.WaitOne()
-                For Each id As Integer In pObj.pid
-                    If Native.Objects.Process.NewProcesses.ContainsKey(id) Then
-                        Native.Objects.Process.NewProcesses.Remove(id)
-                    End If
-                Next
-                Native.Objects.Process.SemNewProcesses.Release()
+                Native.Objects.Process.RemoveProcessesFromListOfNewProcesses(pObj.pid)
 
         End Select
 
@@ -93,13 +87,7 @@ Public Class asyncCallbackProcEnumerate
     ' Called to remove PIDs from shared dico by the server after it receive
     ' a command to reanalize some PIDs
     Public Shared Sub ReanalizeLocalAfterSocket(ByRef pid() As Integer)
-        Native.Objects.Process.SemNewProcesses.WaitOne()
-        For Each id As Integer In pid
-            If Native.Objects.Process.NewProcesses.ContainsKey(id) Then
-                Native.Objects.Process.NewProcesses.Remove(id)
-            End If
-        Next
-        Native.Objects.Process.SemNewProcesses.Release()
+        Native.Objects.Process.RemoveProcessesFromListOfNewProcesses(pid)
     End Sub
 
 #End Region
@@ -144,8 +132,6 @@ Public Class asyncCallbackProcEnumerate
     Public Sub Process(ByVal thePoolObj As Object)
 
         sem.WaitOne()
-
-        Native.Objects.Process.SemNewProcesses.WaitOne()
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
         If con.ConnectionObj.IsConnected = False Then
@@ -211,7 +197,7 @@ Public Class asyncCallbackProcEnumerate
                         ' last time, so we clear the dico of new processes
                         ' That's how we'll be able to retrieve and display
                         ' the fixed info
-                        Native.Objects.Process.NewProcesses.Clear()
+                        Native.Objects.Process.ClearNewProcessesDico()
                         ' Set hasFailedAtLeastOnce = false so we won't clear dico
                         ' each time
                         hasFailedAtLeastOnce = False
@@ -236,7 +222,6 @@ Public Class asyncCallbackProcEnumerate
                 End Try
         End Select
 
-        Native.Objects.Process.SemNewProcesses.Release()
         sem.Release()
 
     End Sub

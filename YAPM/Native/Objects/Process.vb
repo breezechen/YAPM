@@ -53,10 +53,7 @@ Namespace Native.Objects
         Private Shared _currentProcesses As New Dictionary(Of String, cProcess)
 
         ' List of new processes
-        Private Shared dicoNewProcesses As New Dictionary(Of Integer, Boolean)
-
-        ' Protection for dicoNewProcesses
-        Private Shared _semNewProcesses As New System.Threading.Semaphore(1, 1)
+        Friend Shared _dicoNewProcesses As New List(Of Integer)
 
         ' Protection for 'kill by method'
         Private Shared _semKillByMethod As New System.Threading.Semaphore(1, 1)
@@ -107,18 +104,15 @@ Namespace Native.Objects
         End Property
 
         ' New processes
-        Public Shared Property NewProcesses() As Dictionary(Of Integer, Boolean)
+        Public Shared Property NewProcesses() As List(Of Integer)
             Get
-                Return dicoNewProcesses
+                Return _dicoNewProcesses
             End Get
-            Set(ByVal value As Dictionary(Of Integer, Boolean))
-                dicoNewProcesses = value
+            Set(ByVal value As List(Of Integer))
+                SyncLock _dicoNewProcesses
+                    _dicoNewProcesses = value
+                End SyncLock
             End Set
-        End Property
-        Public Shared ReadOnly Property SemNewProcesses() As System.Threading.Semaphore
-            Get
-                Return _semNewProcesses
-            End Get
         End Property
 
         ' Is a process in job ?
@@ -161,9 +155,24 @@ Namespace Native.Objects
         ' Public functions
         ' ========================================
 
+        ' Remove some PIDs from new processes list
+        Public Shared Sub RemoveProcessesFromListOfNewProcesses(ByVal pid() As Integer)
+            If pid IsNot Nothing Then
+                SyncLock _dicoNewProcesses
+                    For Each id As Integer In pid
+                        If _dicoNewProcesses.Contains(id) Then
+                            _dicoNewProcesses.Remove(id)
+                        End If
+                    Next
+                End SyncLock
+            End If
+        End Sub
+
         ' Clear new process dico
         Public Shared Sub ClearNewProcessesDico()
-            dicoNewProcesses.Clear()
+            SyncLock _dicoNewProcesses
+                _dicoNewProcesses.Clear()
+            End SyncLock
         End Sub
 
 
@@ -624,95 +633,89 @@ Namespace Native.Objects
         ''' </summary>
         Public Shared Function EnumerateVisibleProcesses(Optional ByVal forceAllInfos As Boolean = False) As Dictionary(Of String, processInfos)
 
-            ' Refresh list of drives
-            Common.Misc.RefreshLogicalDrives()
-
-            Dim ret As Integer
-            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                            memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
-            If memAllocForVProcesses.Size < ret Then
-                memAllocForVProcesses.Resize(ret)
-            End If
-            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                            memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
-
-            ' Extract structures from unmanaged memory
-            Dim x As Integer = 0
-            Dim offset As Integer = 0
             Dim _dico As New Dictionary(Of String, processInfos)
-            Do While True
 
-                Dim obj As NativeStructs.SystemProcessInformation = _
-                        memAllocForVProcesses.ReadStructOffset(Of NativeStructs.SystemProcessInformation)(offset)
-                Dim _procInfos As New processInfos(obj.ToSystemProcessInformation64)
+            SyncLock _dicoNewProcesses
+
+                ' Refresh list of drives
+                Common.Misc.RefreshLogicalDrives()
+
+                Dim ret As Integer
+                NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
+                                memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
+                If memAllocForVProcesses.Size < ret Then
+                    memAllocForVProcesses.Resize(ret)
+                End If
+                NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
+                                memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
+
+                ' Extract structures from unmanaged memory
+                Dim x As Integer = 0
+                Dim offset As Integer = 0
+                Do While True
+
+                    Dim obj As NativeStructs.SystemProcessInformation = _
+                            memAllocForVProcesses.ReadStructOffset(Of NativeStructs.SystemProcessInformation)(offset)
+                    Dim _procInfos As New processInfos(obj.ToSystemProcessInformation64)
 
 
-                ' Do we have to get fixed infos ?
-                If forceAllInfos OrElse dicoNewProcesses.ContainsKey(obj.ProcessId) = False Then
+                    ' Do we have to get fixed infos ?
+                    If forceAllInfos OrElse _dicoNewProcesses.Contains(obj.ProcessId) = False Then
 
-                    Dim _path As String = GetProcessPathById(obj.ProcessId)
-                    Dim _domain As String = Nothing
-                    Dim _user As String = Nothing
-                    GetProcessUserDomainNameById(obj.ProcessId, _user, _domain)
-                    Dim _command As String = NO_INFO_RETRIEVED
-                    Dim _peb As IntPtr = GetProcessPebAddressById(obj.ProcessId)
-                    If _peb.IsNotNull Then
-                        _command = GetProcessCommandLineById(obj.ProcessId, _peb)
-                    ElseIf obj.ProcessId = 4 Then
-                        ' System process -> custom command line
-                        _command = "System process"
+                        Dim _path As String = GetProcessPathById(obj.ProcessId)
+                        Dim _domain As String = Nothing
+                        Dim _user As String = Nothing
+                        GetProcessUserDomainNameById(obj.ProcessId, _user, _domain)
+                        Dim _command As String = NO_INFO_RETRIEVED
+                        Dim _peb As IntPtr = GetProcessPebAddressById(obj.ProcessId)
+                        If _peb.IsNotNull Then
+                            _command = GetProcessCommandLineById(obj.ProcessId, _peb)
+                        ElseIf obj.ProcessId = 4 Then
+                            ' System process -> custom command line
+                            _command = "System process"
+                        End If
+                        Dim _finfo As SerializableFileVersionInfo = Nothing
+                        If IO.File.Exists(_path) Then
+                            Try
+                                _finfo = New SerializableFileVersionInfo(FileVersionInfo.GetVersionInfo(_path))
+                            Catch ex As Exception
+                                ' File not available or ?
+                            End Try
+                        End If
+
+                        With _procInfos
+                            .Path = _path
+                            .UserName = _user
+                            .DomainName = _domain
+                            .CommandLine = _command
+                            .FileInfo = _finfo
+                            .PebAddress = _peb
+                            .HasReanalize = True
+                        End With
+
+                        ' Have to check if key already exists if we force retrieving
+                        ' of all informations, else it has already be done before
+                        If _dicoNewProcesses.Contains(obj.ProcessId) = False Then
+                            ' Add to list (<-> process exists)
+                            _dicoNewProcesses.Add(obj.ProcessId)
+                        End If
+
+                        Trace.WriteLine("Got fixed infos for id = " & obj.ProcessId.ToString)
                     End If
-                    Dim _finfo As SerializableFileVersionInfo = Nothing
-                    If IO.File.Exists(_path) Then
-                        Try
-                            _finfo = New SerializableFileVersionInfo(FileVersionInfo.GetVersionInfo(_path))
-                        Catch ex As Exception
-                            ' File not available or ?
-                        End Try
+
+                    offset += obj.NextEntryOffset
+                    Dim sKey As String = obj.ProcessId.ToString
+                    If _dico.ContainsKey(sKey) = False Then
+                        _dico.Add(sKey, _procInfos)
                     End If
 
-                    With _procInfos
-                        .Path = _path
-                        .UserName = _user
-                        .DomainName = _domain
-                        .CommandLine = _command
-                        .FileInfo = _finfo
-                        .PebAddress = _peb
-                        .HasReanalize = True
-                    End With
-
-                    ' Have to check if key already exists if we force retrieving
-                    ' of all informations, else it has already be done before
-                    If forceAllInfos = False OrElse dicoNewProcesses.ContainsKey(obj.ProcessId) = False Then
-                        dicoNewProcesses.Add(obj.ProcessId, False)
+                    If obj.NextEntryOffset = 0 Then
+                        Exit Do
                     End If
+                    x += 1
+                Loop
 
-                    Trace.WriteLine("Got fixed infos for id = " & obj.ProcessId.ToString)
-                End If
-
-                ' Set true so that the process is marked as existing
-                dicoNewProcesses(obj.ProcessId) = True
-
-                offset += obj.NextEntryOffset
-                Dim sKey As String = obj.ProcessId.ToString
-                If _dico.ContainsKey(sKey) = False Then
-                    _dico.Add(sKey, _procInfos)
-                End If
-
-                If obj.NextEntryOffset = 0 Then
-                    Exit Do
-                End If
-                x += 1
-            Loop
-
-
-            ' Remove all processes that not exist anymore
-            Dim _dicoTemp As Dictionary(Of Integer, Boolean) = dicoNewProcesses
-            For Each it As System.Collections.Generic.KeyValuePair(Of Integer, Boolean) In _dicoTemp
-                If it.Value = False Then
-                    dicoNewProcesses.Remove(it.Key)
-                End If
-            Next
+            End SyncLock
 
             ' Here we fill _currentProcesses if necessary
             'PERFISSUE
