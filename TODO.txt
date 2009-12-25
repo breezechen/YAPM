@@ -84,8 +84,6 @@ BUGS NON CRITIQUES
 - pending task : caption -> object.tostring (surcharger chaque cXXXX)
 - setLIMITEDinfo dans les access comme pour QueryLIMITEDinfo (thread & process)
 
-- ajouter semaphores de protection dans les methodes "Friend Shared Sub enumXXXX" (pour accès concurrent avec le log) ????
-- probablement des bugs de 'collection modifiée' vis à vis du log
 - transformer .Created par try/catch ? + manque des Invoke pour les connected dans les cXXXConnection
 - getmappedimage... pour socket
 - messages Vista like partout
