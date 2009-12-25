@@ -112,7 +112,7 @@ Public Class asyncCallbackSearchEnumerate
                         If _procs IsNot Nothing Then
                             For Each proc As processInfos In _procs.Values
                                 Dim cp As New cProcess(proc)
-                                For Each field As String In processInfos.GetAvailableProperties
+                                For Each field As String In processInfos.GetAvailableProperties(includeFirstProp:=True)
                                     Dim scomp As String = cp.GetInformation(field)
                                     If scomp IsNot Nothing Then
                                         If pObj.caseSen = False Then
@@ -134,7 +134,7 @@ Public Class asyncCallbackSearchEnumerate
                                     If _tmpDico2 IsNot Nothing Then
                                         For Each cm As moduleInfos In _tmpDico2.Values
                                             Dim cmm As New cModule(cm)
-                                            For Each field2 As String In processInfos.GetAvailableProperties
+                                            For Each field2 As String In processInfos.GetAvailableProperties(includeFirstProp:=True)
                                                 Dim scomp2 As String = cmm.GetInformation(field2)
                                                 If scomp2 IsNot Nothing Then
                                                     If pObj.caseSen = False Then
@@ -159,7 +159,7 @@ Public Class asyncCallbackSearchEnumerate
                                     If _tmpDico2 IsNot Nothing Then
                                         For Each cm As envVariableInfos In _tmpDico2.Values
                                             Dim cmm As New cEnvVariable(cm)
-                                            For Each field2 As String In envVariableInfos.GetAvailableProperties
+                                            For Each field2 As String In envVariableInfos.GetAvailableProperties(includeFirstProp:=True)
                                                 Dim scomp2 As String = cmm.GetInformation(field2)
                                                 If scomp2 IsNot Nothing Then
                                                     If pObj.caseSen = False Then
@@ -187,7 +187,7 @@ Public Class asyncCallbackSearchEnumerate
                         If _tmpDico IsNot Nothing Then
                             For Each cp As serviceInfos In _tmpDico.Values
                                 Dim cpp As New cService(cp)
-                                For Each field As String In serviceInfos.GetAvailableProperties
+                                For Each field As String In serviceInfos.GetAvailableProperties(includeFirstProp:=True)
                                     Dim scomp As String = cpp.GetInformation(field)
                                     If scomp IsNot Nothing Then
                                         If pObj.caseSen = False Then
@@ -214,7 +214,7 @@ Public Class asyncCallbackSearchEnumerate
                                 _tmpDico = snap.HandlesByProcessId(theproc.ProcessId)
                                 For Each cp As handleInfos In _tmpDico.Values
                                     Dim cpp As New cHandle(cp)
-                                    For Each field As String In handleInfos.GetAvailableProperties
+                                    For Each field As String In handleInfos.GetAvailableProperties(includeFirstProp:=True)
                                         Dim scomp As String = cpp.GetInformation(field)
                                         If scomp IsNot Nothing Then
                                             If pObj.caseSen = False Then
@@ -242,7 +242,7 @@ Public Class asyncCallbackSearchEnumerate
                                 _tmpDico = snap.WindowsByProcessId(theproc.ProcessId)
                                 For Each cp As windowInfos In _tmpDico.Values
                                     Dim cpp As New cWindow(cp)
-                                    For Each field As String In windowInfos.GetAvailableProperties
+                                    For Each field As String In windowInfos.GetAvailableProperties(includeFirstProp:=True)
                                         Dim scomp As String = cpp.GetInformation(field)
                                         If scomp IsNot Nothing Then
                                             If pObj.caseSen = False Then
@@ -287,7 +287,7 @@ Public Class asyncCallbackSearchEnumerate
                         Dim _tmpDico As New Dictionary(Of String, cProcess)
                         _tmpDico = Native.Objects.Process.CurrentProcesses
                         For Each cp As cProcess In _tmpDico.Values
-                            For Each field As String In processInfos.GetAvailableProperties
+                            For Each field As String In processInfos.GetAvailableProperties(includeFirstProp:=True)
                                 Dim scomp As String = cp.GetInformation(field)
                                 If scomp IsNot Nothing Then
                                     If pObj.caseSen = False Then
@@ -306,7 +306,7 @@ Public Class asyncCallbackSearchEnumerate
                             If (pObj.includ And GeneralObjectType.Module) = GeneralObjectType.Module Then
                                 Dim _tmpDico2 As Dictionary(Of String, cModule) = cModule.CurrentLocalModules(cp.Infos.ProcessId)
                                 For Each cm As cModule In _tmpDico2.Values
-                                    For Each field2 As String In processInfos.GetAvailableProperties
+                                    For Each field2 As String In processInfos.GetAvailableProperties(includeFirstProp:=True)
                                         Dim scomp2 As String = cm.GetInformation(field2)
                                         If scomp2 IsNot Nothing Then
                                             If pObj.caseSen = False Then
@@ -327,7 +327,7 @@ Public Class asyncCallbackSearchEnumerate
                             If (pObj.includ And GeneralObjectType.EnvironmentVariable) = GeneralObjectType.EnvironmentVariable Then
                                 Dim _tmpDico2 As Dictionary(Of String, cEnvVariable) = cEnvVariable.CurrentEnvVariables(cp)
                                 For Each cm As cEnvVariable In _tmpDico2.Values
-                                    For Each field2 As String In envVariableInfos.GetAvailableProperties
+                                    For Each field2 As String In envVariableInfos.GetAvailableProperties(includeFirstProp:=True)
                                         Dim scomp2 As String = cm.GetInformation(field2)
                                         If scomp2 IsNot Nothing Then
                                             If pObj.caseSen = False Then
@@ -356,7 +356,7 @@ Public Class asyncCallbackSearchEnumerate
                         Dim _tmpDico As New Dictionary(Of String, cService)
                         _tmpDico = Native.Objects.Service.CurrentServices
                         For Each cp As cService In _tmpDico.Values
-                            For Each field As String In serviceInfos.GetAvailableProperties
+                            For Each field As String In serviceInfos.GetAvailableProperties(includeFirstProp:=True)
                                 Dim scomp As String = cp.GetInformation(field)
                                 If scomp IsNot Nothing Then
                                     If pObj.caseSen = False Then
@@ -381,7 +381,7 @@ Public Class asyncCallbackSearchEnumerate
                     Dim _tmpDico As New Dictionary(Of String, cHandle)
                     _tmpDico = Native.Objects.Handle.EnumerateCurrentLocalHandles
                     For Each cp As cHandle In _tmpDico.Values
-                        For Each field As String In handleInfos.GetAvailableProperties
+                        For Each field As String In handleInfos.GetAvailableProperties(includeFirstProp:=True)
                             Dim scomp As String = cp.GetInformation(field)
                             If scomp IsNot Nothing Then
                                 If pObj.caseSen = False Then
@@ -404,7 +404,7 @@ Public Class asyncCallbackSearchEnumerate
                     Dim _tmpDico As New Dictionary(Of String, cWindow)
                     _tmpDico = Native.Objects.Window.EnumerateAllWindows
                     For Each cp As cWindow In _tmpDico.Values
-                        For Each field As String In windowInfos.GetAvailableProperties
+                        For Each field As String In windowInfos.GetAvailableProperties(includeFirstProp:=True)
                             Dim scomp As String = cp.GetInformation(field)
                             If scomp IsNot Nothing Then
                                 If pObj.caseSen = False Then

@@ -46,7 +46,6 @@ Namespace Native.Objects
 
         ' Some mem allocation for buffer of handles
         Private memAllocPIDs As New Native.Memory.MemoryAlloc(&H100)
-        Private memAllocPID As New Native.Memory.MemoryAlloc(&H100)
 
         ' Some other mem allocations 
         Private BufferObjType As New Native.Memory.MemoryAlloc(512)
