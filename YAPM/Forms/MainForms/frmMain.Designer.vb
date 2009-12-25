@@ -64,6 +64,7 @@ Partial Class frmMain
         Me.orbMenuAbout = New System.Windows.Forms.RibbonOrbMenuItem
         Me.butExit = New System.Windows.Forms.RibbonOrbOptionButton
         Me.butShowPreferences = New System.Windows.Forms.RibbonOrbOptionButton
+        Me.butFreeMemory = New System.Windows.Forms.RibbonOrbOptionButton
         Me.butLog = New System.Windows.Forms.RibbonButton
         Me.butSystemInfo = New System.Windows.Forms.RibbonButton
         Me.butWindows = New System.Windows.Forms.RibbonButton
@@ -584,7 +585,6 @@ Partial Class frmMain
         Me.timerJobs = New System.Windows.Forms.Timer(Me.components)
         Me.mnuJob = New System.Windows.Forms.ContextMenu
         Me.MenuItem53 = New System.Windows.Forms.MenuItem
-        Me.butFreeMemory = New System.Windows.Forms.RibbonOrbOptionButton
         Me._main.Panel1.SuspendLayout()
         Me._main.Panel2.SuspendLayout()
         Me._main.SuspendLayout()
@@ -742,6 +742,7 @@ Partial Class frmMain
         Me.Ribbon.OrbDropDown.PreviousPopup = Nothing
         Me.Ribbon.OrbDropDown.Size = New System.Drawing.Size(527, 345)
         Me.Ribbon.OrbDropDown.TabIndex = 0
+        Me.Ribbon.OrbDropDown.ToolStripDropDown = Nothing
         Me.Ribbon.OrbImage = CType(resources.GetObject("Ribbon.OrbImage"), System.Drawing.Image)
         '
         '
@@ -923,6 +924,20 @@ Partial Class frmMain
         Me.butShowPreferences.ToolTip = Nothing
         Me.butShowPreferences.ToolTipImage = Nothing
         Me.butShowPreferences.ToolTipTitle = Nothing
+        '
+        'butFreeMemory
+        '
+        Me.butFreeMemory.AltKey = Nothing
+        Me.butFreeMemory.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
+        Me.butFreeMemory.DropDownArrowSize = New System.Drawing.Size(5, 3)
+        Me.butFreeMemory.Image = Global.My.Resources.Resources.scripting16
+        Me.butFreeMemory.SmallImage = Global.My.Resources.Resources.scripting16
+        Me.butFreeMemory.Style = System.Windows.Forms.RibbonButtonStyle.Normal
+        Me.butFreeMemory.Tag = Nothing
+        Me.butFreeMemory.Text = "Free memory"
+        Me.butFreeMemory.ToolTip = Nothing
+        Me.butFreeMemory.ToolTipImage = Nothing
+        Me.butFreeMemory.ToolTipTitle = Nothing
         '
         'butLog
         '
@@ -1744,7 +1759,6 @@ Partial Class frmMain
         Me.butMonitorSaveReport.AltKey = Nothing
         Me.butMonitorSaveReport.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
         Me.butMonitorSaveReport.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butMonitorSaveReport.Enabled = True
         Me.butMonitorSaveReport.Image = Global.My.Resources.Resources.save32
         Me.butMonitorSaveReport.SmallImage = CType(resources.GetObject("butMonitorSaveReport.SmallImage"), System.Drawing.Image)
         Me.butMonitorSaveReport.Style = System.Windows.Forms.RibbonButtonStyle.Normal
@@ -2841,6 +2855,7 @@ Partial Class frmMain
         Me.lvTask.Name = "lvTask"
         Me.lvTask.OverriddenDoubleBuffered = True
         Me.lvTask.ReorganizeColumns = True
+        Me.lvTask.ShowItemToolTips = True
         Me.lvTask.ShowObjectDetailsOnDoubleClick = False
         Me.lvTask.Size = New System.Drawing.Size(852, 328)
         Me.lvTask.TabIndex = 3
@@ -3015,6 +3030,7 @@ Partial Class frmMain
         Me.lvProcess.Name = "lvProcess"
         Me.lvProcess.OverriddenDoubleBuffered = True
         Me.lvProcess.ReorganizeColumns = True
+        Me.lvProcess.ShowItemToolTips = True
         Me.lvProcess.ShowObjectDetailsOnDoubleClick = False
         Me.lvProcess.Size = New System.Drawing.Size(852, 328)
         Me.lvProcess.TabIndex = 3
@@ -3120,6 +3136,7 @@ Partial Class frmMain
         Me.lvJob.Name = "lvJob"
         Me.lvJob.OverriddenDoubleBuffered = True
         Me.lvJob.ReorganizeColumns = True
+        Me.lvJob.ShowItemToolTips = True
         Me.lvJob.ShowObjectDetailsOnDoubleClick = False
         Me.lvJob.Size = New System.Drawing.Size(852, 357)
         Me.lvJob.TabIndex = 10
@@ -3148,12 +3165,12 @@ Partial Class frmMain
         Me.pageMonitor.Text = "Monitor"
         Me.pageMonitor.UseVisualStyleBackColor = True
         '
-        'panelMain8
+        'panelMainMonitoring
         '
         Me.panelMainMonitoring.Controls.Add(Me.splitMonitor)
         Me.panelMainMonitoring.Dock = System.Windows.Forms.DockStyle.Fill
         Me.panelMainMonitoring.Location = New System.Drawing.Point(3, 3)
-        Me.panelMainMonitoring.Name = "panelMain8"
+        Me.panelMainMonitoring.Name = "panelMainMonitoring"
         Me.panelMainMonitoring.Size = New System.Drawing.Size(852, 357)
         Me.panelMainMonitoring.TabIndex = 51
         '
@@ -3233,6 +3250,7 @@ Partial Class frmMain
         Me.lvMonitorReport.Location = New System.Drawing.Point(0, 0)
         Me.lvMonitorReport.Name = "lvMonitorReport"
         Me.lvMonitorReport.OverriddenDoubleBuffered = False
+        Me.lvMonitorReport.ShowItemToolTips = True
         Me.lvMonitorReport.Size = New System.Drawing.Size(567, 133)
         Me.lvMonitorReport.TabIndex = 1
         Me.lvMonitorReport.UseCompatibleStateImageBehavior = False
@@ -3506,6 +3524,7 @@ Partial Class frmMain
         Me.lvServices.ProcessId = 0
         Me.lvServices.ReorganizeColumns = True
         Me.lvServices.ShowAll = True
+        Me.lvServices.ShowItemToolTips = True
         Me.lvServices.ShowObjectDetailsOnDoubleClick = False
         Me.lvServices.Size = New System.Drawing.Size(852, 196)
         Me.lvServices.TabIndex = 1
@@ -3651,7 +3670,7 @@ Partial Class frmMain
         '
         Me.splitServices4.Panel2.Controls.Add(Me.tv)
         Me.splitServices4.Size = New System.Drawing.Size(219, 89)
-        Me.splitServices4.SplitterDistance = 30
+        Me.splitServices4.SplitterDistance = 44
         Me.splitServices4.TabIndex = 0
         '
         'tv2
@@ -3670,7 +3689,7 @@ Partial Class frmMain
         Me.tv2.Name = "tv2"
         Me.tv2.RootService = Nothing
         Me.tv2.SelectedImageIndex = 2
-        Me.tv2.Size = New System.Drawing.Size(219, 30)
+        Me.tv2.Size = New System.Drawing.Size(219, 44)
         Me.tv2.TabIndex = 15
         '
         'tv
@@ -3689,7 +3708,7 @@ Partial Class frmMain
         Me.tv.Name = "tv"
         Me.tv.RootService = Nothing
         Me.tv.SelectedImageIndex = 0
-        Me.tv.Size = New System.Drawing.Size(219, 55)
+        Me.tv.Size = New System.Drawing.Size(219, 41)
         Me.tv.TabIndex = 14
         '
         'pageNetwork
@@ -3734,6 +3753,7 @@ Partial Class frmMain
         Me.lvNetwork.ReorganizeColumns = True
         Me.lvNetwork.ShowAllPid = False
         Me.lvNetwork.ShowConnectionsByProcessesGroup = False
+        Me.lvNetwork.ShowItemToolTips = True
         Me.lvNetwork.ShowObjectDetailsOnDoubleClick = True
         Me.lvNetwork.Size = New System.Drawing.Size(852, 357)
         Me.lvNetwork.TabIndex = 4
@@ -4089,6 +4109,7 @@ Partial Class frmMain
         Me.lvFileString.Location = New System.Drawing.Point(0, 0)
         Me.lvFileString.Name = "lvFileString"
         Me.lvFileString.OverriddenDoubleBuffered = True
+        Me.lvFileString.ShowItemToolTips = True
         Me.lvFileString.Size = New System.Drawing.Size(267, 318)
         Me.lvFileString.TabIndex = 22
         Me.lvFileString.UseCompatibleStateImageBehavior = False
@@ -4292,6 +4313,7 @@ Partial Class frmMain
         Me.lvSearchResults.OverriddenDoubleBuffered = True
         Me.lvSearchResults.ReorganizeColumns = True
         Me.lvSearchResults.SearchString = Nothing
+        Me.lvSearchResults.ShowItemToolTips = True
         Me.lvSearchResults.ShowObjectDetailsOnDoubleClick = True
         Me.lvSearchResults.Size = New System.Drawing.Size(852, 298)
         Me.lvSearchResults.TabIndex = 3
@@ -5652,20 +5674,6 @@ Partial Class frmMain
         '
         Me.MenuItem53.Index = 1
         Me.MenuItem53.Text = "-"
-        '
-        'butFreeMemory
-        '
-        Me.butFreeMemory.AltKey = Nothing
-        Me.butFreeMemory.DropDownArrowDirection = System.Windows.Forms.RibbonArrowDirection.Down
-        Me.butFreeMemory.DropDownArrowSize = New System.Drawing.Size(5, 3)
-        Me.butFreeMemory.Image = Global.My.Resources.Resources.scripting16
-        Me.butFreeMemory.SmallImage = Global.My.Resources.Resources.scripting16
-        Me.butFreeMemory.Style = System.Windows.Forms.RibbonButtonStyle.Normal
-        Me.butFreeMemory.Tag = Nothing
-        Me.butFreeMemory.Text = "Free memory"
-        Me.butFreeMemory.ToolTip = Nothing
-        Me.butFreeMemory.ToolTipImage = Nothing
-        Me.butFreeMemory.ToolTipTitle = Nothing
         '
         'frmMain
         '
