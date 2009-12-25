@@ -282,7 +282,6 @@ Public Class asyncCallbackSearchEnumerate
 
                 ' ---- PROCESSES
                 If (pObj.includ And GeneralObjectType.Process) = GeneralObjectType.Process Then
-                    Native.Objects.Process.SemCurrentProcesses.WaitOne()
                     If Native.Objects.Process.CurrentProcesses IsNot Nothing Then
                         Dim _tmpDico As New Dictionary(Of String, cProcess)
                         _tmpDico = Native.Objects.Process.CurrentProcesses
@@ -346,7 +345,6 @@ Public Class asyncCallbackSearchEnumerate
 
                         Next
                     End If
-                    Native.Objects.Process.SemCurrentProcesses.Release()
                 End If
 
                 ' ---- SERVICES

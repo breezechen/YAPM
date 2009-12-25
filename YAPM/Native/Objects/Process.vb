@@ -49,11 +49,8 @@ Namespace Native.Objects
         ' Mem alloc for handle enumeration
         Private Shared memAllocPIDs As New Native.Memory.MemoryAlloc(&H100)             ' NOTE : never unallocated
 
-        ' Protection for _currentProcesses
-        Private Shared _semCurrentProcesses As New System.Threading.Semaphore(1, 1)
-
         ' Current processes running
-        Private Shared _currentProcesses As Dictionary(Of String, cProcess)
+        Private Shared _currentProcesses As New Dictionary(Of String, cProcess)
 
         ' List of new processes
         Private Shared dicoNewProcesses As New Dictionary(Of Integer, Boolean)
@@ -103,13 +100,10 @@ Namespace Native.Objects
                 Return _currentProcesses
             End Get
             Set(ByVal value As Dictionary(Of String, cProcess))
-                _currentProcesses = value
+                SyncLock _currentProcesses
+                    _currentProcesses = value
+                End SyncLock
             End Set
-        End Property
-        Public Shared ReadOnly Property SemCurrentProcesses() As System.Threading.Semaphore
-            Get
-                Return _semCurrentProcesses
-            End Get
         End Property
 
         ' New processes
@@ -722,16 +716,13 @@ Namespace Native.Objects
 
             ' Here we fill _currentProcesses if necessary
             'PERFISSUE
-            SemCurrentProcesses.WaitOne()
-            If CurrentProcesses Is Nothing Then
-                CurrentProcesses = New Dictionary(Of String, cProcess)
-            End If
-            For Each pc As processInfos In _dico.Values
-                If CurrentProcesses.ContainsKey(pc.ProcessId.ToString) = False Then
-                    CurrentProcesses.Add(pc.ProcessId.ToString, New cProcess(pc))
-                End If
-            Next
-            SemCurrentProcesses.Release()
+            SyncLock _currentProcesses
+                For Each pc As processInfos In _dico.Values
+                    If _currentProcesses.ContainsKey(pc.ProcessId.ToString) = False Then
+                        _currentProcesses.Add(pc.ProcessId.ToString, New cProcess(pc))
+                    End If
+                Next
+            End SyncLock
 
             Return _dico
         End Function

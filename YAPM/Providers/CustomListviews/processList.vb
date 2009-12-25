@@ -282,9 +282,7 @@ Public Class processList
             _dico.Add(z.ToString, _it)
         Next
 
-        Native.Objects.Process.SemCurrentProcesses.WaitOne()
         Native.Objects.Process.CurrentProcesses = New Dictionary(Of String, cProcess)((_dico))
-        Native.Objects.Process.SemCurrentProcesses.Release()
 
 
         ' Now add all new items to listview

@@ -2,6 +2,8 @@ TODO LIST
 
 Refactoring bugs
 
+- can't get Path of service when enumerating them quickly
+
 - demain :
 	- rapport général
 	- serviceDep et processesInJob pour le snapshot
