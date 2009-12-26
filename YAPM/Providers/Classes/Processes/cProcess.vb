@@ -154,7 +154,6 @@ Public Class cProcess
 
     Public Sub New(ByRef infos As processInfos)
         _processInfos = infos
-        _connection = Connection
         _processors = cProcessConnection.ProcessorCount
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Process
         ' Get a handle if local

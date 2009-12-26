@@ -44,7 +44,6 @@ Public Class cEnvVariable
 
     Public Sub New(ByRef infos As envVariableInfos)
         _envInfos = infos
-        _connection = Connection
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.EnvironmentVariable
     End Sub
 

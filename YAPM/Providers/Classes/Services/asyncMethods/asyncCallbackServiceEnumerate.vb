@@ -65,16 +65,19 @@ Public Class asyncCallbackServiceEnumerate
     ' When socket got a list !
     Private _poolObj As poolObj
     Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
-        Dim dico As New Dictionary(Of String, serviceInfos)
+        Dim _dico As New Dictionary(Of String, serviceInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
-                dico.Add(keys(x), DirectCast(lst(x), serviceInfos))
+                _dico.Add(keys(x), DirectCast(lst(x), serviceInfos))
             Next
         End If
 
+        ' Save service list into a dictionary
+        Native.Objects.Service.CurrentServices = _dico
+
         Try
             If deg IsNot Nothing AndAlso ctrl.Created Then _
-                ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+                ctrl.Invoke(deg, True, _dico, Nothing, _instanceId)
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         End Try
@@ -112,6 +115,10 @@ Public Class asyncCallbackServiceEnumerate
 
                 res = Wmi.Objects.Service.EnumerateProcesses(pObj.pid, pObj.all, _
                                                              con.wmiSearcher, _dico, msg)
+
+                ' Save service list into a dictionary
+                Native.Objects.Service.CurrentServices = _dico
+
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then _
                         ctrl.Invoke(deg, res, _dico, msg, 0)
@@ -133,6 +140,10 @@ Public Class asyncCallbackServiceEnumerate
                         _dico = snap.ServicesByProcessId(pObj.pid)
                     End If
                 End If
+
+                ' Save service list into a dictionary
+                Native.Objects.Service.CurrentServices = _dico
+
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then _
                         ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
@@ -147,6 +158,9 @@ Public Class asyncCallbackServiceEnumerate
 
                 Native.Objects.Service.EnumerateServices(con.SCManagerLocalHandle, _dico, pObj.all, _
                                                  pObj.complete, pObj.pid)
+
+                ' Save service list into a dictionary
+                Native.Objects.Service.CurrentServices = _dico
 
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then _

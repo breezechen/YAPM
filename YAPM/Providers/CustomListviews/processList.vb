@@ -282,8 +282,6 @@ Public Class processList
             _dico.Add(z.ToString, _it)
         Next
 
-        Native.Objects.Process.CurrentProcesses = New Dictionary(Of String, cProcess)((_dico))
-
 
         ' Now add all new items to listview
         ' If first time, lock listview

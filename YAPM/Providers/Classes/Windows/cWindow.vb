@@ -48,7 +48,6 @@ Public Class cWindow
 
     Public Sub New(ByRef infos As windowInfos)
         _windowInfos = infos
-        _connection = Connection
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Window
     End Sub
 

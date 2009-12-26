@@ -44,7 +44,6 @@ Public Class cHeap
 
     Public Sub New(ByRef infos As heapInfos)
         _heapInfos = infos
-        _connection = Connection
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Heap
     End Sub
 

@@ -112,17 +112,21 @@ Public Class asyncCallbackProcEnumerate
     ' When socket got a list of processes !
     Private _poolObj As poolObj
     Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
-        Dim dico As New Dictionary(Of String, processInfos)
+        Dim _dico As New Dictionary(Of String, processInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
-                If dico.ContainsKey(keys(x)) = False Then
-                    dico.Add(keys(x), DirectCast(lst(x), processInfos))
+                If _dico.ContainsKey(keys(x)) = False Then
+                    _dico.Add(keys(x), DirectCast(lst(x), processInfos))
                 End If
             Next
         End If
+
+        ' Save current processes into a dictionary
+        Native.Objects.Process.CurrentProcesses = _dico
+
         Try
             If deg IsNot Nothing AndAlso ctrl.Created Then _
-                ctrl.Invoke(deg, True, dico, Nothing, _instanceId)
+                ctrl.Invoke(deg, True, _dico, Nothing, _instanceId)
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         End Try
@@ -156,7 +160,10 @@ Public Class asyncCallbackProcEnumerate
                 Dim msg As String = ""
                 Dim res As Boolean = _
                     Wmi.Objects.Process.EnumerateProcesses(con.wmiSearcher, _dico, msg)
-                
+
+                ' Save current processes into a dictionary
+                Native.Objects.Process.CurrentProcesses = _dico
+
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then _
                         ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
@@ -172,6 +179,10 @@ Public Class asyncCallbackProcEnumerate
                 If snap IsNot Nothing Then
                     _dico = snap.Processes
                 End If
+
+                ' Save current processes into a dictionary
+                Native.Objects.Process.CurrentProcesses = _dico
+
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then _
                         ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
@@ -212,6 +223,9 @@ Public Class asyncCallbackProcEnumerate
                     Case Else
                         _dico = Native.Objects.Process.EnumerateVisibleProcesses(pObj.force)
                 End Select
+
+                ' Save current processes into a dictionary
+                Native.Objects.Process.CurrentProcesses = _dico
 
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then

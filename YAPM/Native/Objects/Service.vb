@@ -45,7 +45,7 @@ Namespace Native.Objects
         Private Shared _dicoNewServices As New Dictionary(Of String, Boolean)
 
         ' Current services running (updated after each enumeration)
-        Private Shared _currentServices As New Dictionary(Of String, cService)
+        Private Shared _currentServices As New Dictionary(Of String, serviceInfos)
 
         ' Used for memory operations
         Private Shared _memBufferEnumServics As New Native.Memory.MemoryAlloc(&H1000)   ' NOTE : never unallocated
@@ -60,11 +60,11 @@ Namespace Native.Objects
         ' List of current services
         ' Needs to be protected by SemCurrentServices
         ''' </summary>
-        Public Shared Property CurrentServices() As Dictionary(Of String, cService)
+        Public Shared Property CurrentServices() As Dictionary(Of String, serviceInfos)
             Get
                 Return _currentServices
             End Get
-            Set(ByVal value As Dictionary(Of String, cService))
+            Set(ByVal value As Dictionary(Of String, serviceInfos))
                 SyncLock _currentServices
                     _currentServices = value
                 End SyncLock
@@ -247,15 +247,6 @@ Namespace Native.Objects
                 Next
             End If
 
-            ' Here we fill _currentServices if necessary
-            'PERFISSUE
-            SyncLock _currentServices
-                For Each pc As serviceInfos In _dico.Values
-                    If _currentServices.ContainsKey(pc.Name) = False Then
-                        _currentServices.Add(pc.Name, New cService(pc))
-                    End If
-                Next
-            End SyncLock
         End Sub
 
 
@@ -306,7 +297,7 @@ Namespace Native.Objects
             Dim tt As cService = Nothing
             If _currentServices.ContainsKey(name) Then
                 Try
-                    tt = _currentServices.Item(name)
+                    tt = New cService(_currentServices.Item(name))
                 Catch ex As Exception
                     ' Item was removed just after ContainsKey... bad luck :-(
                 End Try
@@ -324,12 +315,12 @@ Namespace Native.Objects
 
             SyncLock _currentServices
 
-                For Each serv As cService In _currentServices.Values
-                    dep = serv.Infos.Dependencies
+                For Each serv As serviceInfos In _currentServices.Values
+                    dep = serv.Dependencies
                     If dep IsNot Nothing Then
                         For Each s As String In dep
                             If s.ToLowerInvariant = serviceName.ToLowerInvariant Then
-                                _d.Add(serv.Infos.Name, serv.Infos)
+                                _d.Add(serv.Name, serv)
                                 Exit For
                             End If
                         Next
@@ -349,9 +340,9 @@ Namespace Native.Objects
 
             SyncLock _currentServices
 
-                For Each serv As cService In _currentServices.Values
-                    If serv.Infos.Name.ToLowerInvariant = serviceName.ToLowerInvariant Then
-                        dep = serv.Infos.Dependencies
+                For Each serv As serviceInfos In _currentServices.Values
+                    If serv.Name.ToLowerInvariant = serviceName.ToLowerInvariant Then
+                        dep = serv.Dependencies
                         Exit For
                     End If
                 Next
@@ -361,9 +352,9 @@ Namespace Native.Objects
                 End If
 
                 For Each servName As String In dep
-                    For Each serv As cService In _currentServices.Values
-                        If servName.ToLowerInvariant = serv.Infos.Name.ToLowerInvariant Then
-                            _d.Add(servName, serv.Infos)
+                    For Each serv As serviceInfos In _currentServices.Values
+                        If servName.ToLowerInvariant = serv.Name.ToLowerInvariant Then
+                            _d.Add(servName, serv)
                             Exit For
                         End If
                     Next

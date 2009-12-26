@@ -50,7 +50,7 @@ Namespace Native.Objects
         Private Shared memAllocPIDs As New Native.Memory.MemoryAlloc(&H100)             ' NOTE : never unallocated
 
         ' Current processes running
-        Private Shared _currentProcesses As New Dictionary(Of String, cProcess)
+        Private Shared _currentProcesses As New Dictionary(Of String, processInfos)
 
         ' List of new processes
         Friend Shared _dicoNewProcesses As New List(Of Integer)
@@ -92,11 +92,11 @@ Namespace Native.Objects
         End Property
 
         ' Current processes
-        Public Shared Property CurrentProcesses() As Dictionary(Of String, cProcess)
+        Public Shared Property CurrentProcesses() As Dictionary(Of String, processInfos)
             Get
                 Return _currentProcesses
             End Get
-            Set(ByVal value As Dictionary(Of String, cProcess))
+            Set(ByVal value As Dictionary(Of String, processInfos))
                 SyncLock _currentProcesses
                     _currentProcesses = value
                 End SyncLock
@@ -729,16 +729,6 @@ Namespace Native.Objects
 
             End SyncLock
 
-            ' Here we fill _currentProcesses if necessary
-            'PERFISSUE
-            SyncLock _currentProcesses
-                For Each pc As processInfos In _dico.Values
-                    If _currentProcesses.ContainsKey(pc.ProcessId.ToString) = False Then
-                        _currentProcesses.Add(pc.ProcessId.ToString, New cProcess(pc))
-                    End If
-                Next
-            End SyncLock
-
             Return _dico
         End Function
 
@@ -889,7 +879,7 @@ Namespace Native.Objects
             If _currentProcesses IsNot Nothing Then
                 If _currentProcesses.ContainsKey(id.ToString) Then
                     Try
-                        tt = _currentProcesses.Item(id.ToString)
+                        tt = New cProcess(_currentProcesses.Item(id.ToString))
                     Catch ex As Exception
                         ' Item was removed just after ContainsKey... bad luck :-(
                     End Try

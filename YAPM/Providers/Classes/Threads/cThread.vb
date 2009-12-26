@@ -50,7 +50,6 @@ Public Class cThread
 
     Public Sub New(ByRef infos As threadInfos, Optional ByVal getPriorityInfo As Boolean = False)
         _threadInfos = infos
-        _connection = Connection
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Thread
         ' Get a handle if local
         If _connection IsNot Nothing Then

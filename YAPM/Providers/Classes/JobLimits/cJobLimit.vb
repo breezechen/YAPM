@@ -50,7 +50,6 @@ Public Class cJobLimit
 
     Public Sub New(ByRef infos As jobLimitInfos)
         _jobLimitsInfos = infos
-        _connection = Connection
         _TypeOfObject = Enums.GeneralObjectType.JobLimit
     End Sub
     Private disposed As Boolean = False

@@ -283,9 +283,10 @@ Public Class asyncCallbackSearchEnumerate
                 ' ---- PROCESSES
                 If (pObj.includ And GeneralObjectType.Process) = GeneralObjectType.Process Then
                     If Native.Objects.Process.CurrentProcesses IsNot Nothing Then
-                        Dim _tmpDico As New Dictionary(Of String, cProcess)
+                        Dim _tmpDico As New Dictionary(Of String, processInfos)
                         _tmpDico = Native.Objects.Process.CurrentProcesses
-                        For Each cp As cProcess In _tmpDico.Values
+                        For Each _cp As processInfos In _tmpDico.Values
+                            Dim cp As New cProcess(_cp)
                             For Each field As String In processInfos.GetAvailableProperties(includeFirstProp:=True)
                                 Dim scomp As String = cp.GetInformation(field)
                                 If scomp IsNot Nothing Then
@@ -350,9 +351,10 @@ Public Class asyncCallbackSearchEnumerate
                 ' ---- SERVICES
                 If (pObj.includ And GeneralObjectType.Service) = GeneralObjectType.Service Then
                     If Native.Objects.Service.CurrentServices IsNot Nothing Then
-                        Dim _tmpDico As New Dictionary(Of String, cService)
+                        Dim _tmpDico As New Dictionary(Of String, serviceInfos)
                         _tmpDico = Native.Objects.Service.CurrentServices
-                        For Each cp As cService In _tmpDico.Values
+                        For Each _cp As serviceInfos In _tmpDico.Values
+                            Dim cp As New cService(_cp)
                             For Each field As String In serviceInfos.GetAvailableProperties(includeFirstProp:=True)
                                 Dim scomp As String = cp.GetInformation(field)
                                 If scomp IsNot Nothing Then

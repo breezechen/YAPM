@@ -50,7 +50,6 @@ Public Class cJob
 
     Public Sub New(ByRef infos As jobInfos)
         _jobInfos = infos
-        _connection = Connection
         _TypeOfObject = Enums.GeneralObjectType.Job
     End Sub
     Private disposed As Boolean = False
