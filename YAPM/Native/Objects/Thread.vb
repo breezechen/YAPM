@@ -187,12 +187,14 @@ Namespace Native.Objects
 
             Dim ret As Integer
             Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                            memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
+                            memAllocForThreadEnum.Pointer, _
+                            memAllocForThreadEnum.Size, _
+                            ret)
             If memAllocForThreadEnum.Size < ret Then
-                memAllocForThreadEnum.Resize(ret)
+                memAllocForThreadEnum.ResizeNew(ret)
+                Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
+                                memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
             End If
-            Native.Api.NativeFunctions.NtQuerySystemInformation(Native.Api.NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                            memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
 
             ' Extract structures from unmanaged memory
             Dim x As Integer = 0

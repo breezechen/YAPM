@@ -276,20 +276,22 @@ Namespace Native.Objects
                     Dim bytesNeeded As Integer = 0
                     Dim fResult As Boolean
 
-                    Dim pt As IntPtr = IntPtr.Zero
-                    fResult = NativeFunctions.QueryServiceConfig(lServ, pt, bytesNeeded, _
+                    fResult = NativeFunctions.QueryServiceConfig(lServ, _
+                                                                 IntPtr.Zero, _
+                                                                 0, _
                                                                  bytesNeeded)
-                    pt = Marshal.AllocHGlobal(bytesNeeded)
-                    fResult = NativeFunctions.QueryServiceConfig(lServ, pt, bytesNeeded, _
-                                                                 bytesNeeded)
-                    ' Cast into NativeStructs.QueryServiceConfig unmanaged memory
-                    tt = CType(Marshal.PtrToStructure(pt, _
-                                        GetType(NativeStructs.QueryServiceConfig)),  _
-                                        NativeStructs.QueryServiceConfig)
-                    Marshal.FreeHGlobal(pt)
+                    Using memAlloc As New Memory.MemoryAlloc(bytesNeeded)
+                        fResult = NativeFunctions.QueryServiceConfig(lServ, _
+                                                                     memAlloc, _
+                                                                     memAlloc.Size, _
+                                                                     bytesNeeded)
 
-                    ' Set configuration
-                    _infos.SetConfig(tt)
+                        ' Cast into NativeStructs.QueryServiceConfig unmanaged memory
+                        tt = memAlloc.ReadStruct(Of NativeStructs.QueryServiceConfig)()
+
+                        ' Set configuration
+                        _infos.SetConfig(tt)
+                    End Using
 
                     NativeFunctions.CloseServiceHandle(lServ)
                 End If

@@ -366,7 +366,7 @@ Namespace Native.Objects
                                 memAllocJobs.Pointer, memAllocJobs.Size, ret) = STATUS_INFO_LENGTH_MISMATCH
                 ' Resize buffer
                 Length = Length * 2
-                memAllocJobs.Resize(Length)
+                memAllocJobs.ResizeNew(Length)
             Loop
 
             ' Get the number of handles 
@@ -630,7 +630,7 @@ Namespace Native.Objects
                     If Not NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
                                                                      memAlloc.Size, ret) Then
                         ' Need a greater mem alloc
-                        memAlloc.Resize(ret)
+                        memAlloc.ResizeNew(ret)
 
                         NativeFunctions.QueryInformationJobObject(handle, info, memAlloc.Pointer, _
                                                                   memAlloc.Size, ret)
@@ -683,14 +683,20 @@ Namespace Native.Objects
             Dim strType As String = ""
 
             ' Request size for types informations
-            Using memAlloc As New Memory.MemoryAlloc(&H100)
-                NativeFunctions.NtQueryObject(IntPtr.Zero, NativeEnums.ObjectInformationClass.ObjectTypesInformation, memAlloc.Pointer, memAlloc.Size, cbReqLength)
-                memAlloc.Resize(cbReqLength)
+            NativeFunctions.NtQueryObject(IntPtr.Zero, _
+                                          NativeEnums.ObjectInformationClass.ObjectTypesInformation, _
+                                          IntPtr.Zero, _
+                                          0, _
+                                          cbReqLength)
+
+            Using memAlloc As New Memory.MemoryAlloc(cbReqLength)
 
                 ' Retrieve list of types
                 NativeFunctions.NtQueryObject(IntPtr.Zero, _
                                 NativeEnums.ObjectInformationClass.ObjectTypesInformation, _
-                                memAlloc.Pointer, cbReqLength, cbReqLength)
+                                memAlloc.Pointer, _
+                                cbReqLength, _
+                                cbReqLength)
 
                 ' Get number of struct to read
                 cTypeCount = memAlloc.ReadStruct(Of NativeStructs.ObjectTypesInformation).ObjectTypesCount

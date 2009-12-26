@@ -173,6 +173,12 @@ Namespace Native.Memory
             _ptr = Marshal.ReAllocHGlobal(_ptr, New IntPtr(newSize))
             _size = newSize
         End Sub
+        Public Sub ResizeNew(ByVal newSize As Integer)
+            ' This is 2x faster then re-allocating a new size to an existing pointer
+            Marshal.FreeHGlobal(_ptr)
+            _ptr = Marshal.AllocHGlobal(newSize)
+            _size = newSize
+        End Sub
         Public Sub IncrementSize(ByVal newBytesCount As Integer)
             _ptr = Marshal.ReAllocHGlobal(_ptr, New IntPtr(newBytesCount + _size))
             _size = newBytesCount + _size

@@ -137,7 +137,6 @@ Public Class frmNetworkInfo
         ' ======== Graphics
         ' g1 (TCP)
         Me.g1.Add2Values(_diff_InSegs, _diff_OutSegs)
-        Trace.WriteLine(String.Format("in {0}, out {1}", _diff_InSegs, _diff_OutSegs))
         Me.g1.TopText = "TCP in/out segments"
         Me.g1.Refresh()
 

@@ -212,7 +212,7 @@ Namespace Native.Objects
                                 memAllocPIDs.Pointer, memAllocPIDs.Size, ret) = NativeConstants.STATUS_INFO_LENGTH_MISMATCH
                 ' Resize buffer
                 Length = Length * 2
-                memAllocPIDs.Resize(Length)
+                memAllocPIDs.ResizeNew(Length)
             Loop
 
             ' Get the number of handles 
@@ -265,7 +265,7 @@ Namespace Native.Objects
                                 memAllocPIDs.Pointer, memAllocPIDs.Size, ret) = NativeConstants.STATUS_INFO_LENGTH_MISMATCH
                 ' Resize buffer
                 Length = Length * 2
-                memAllocPIDs.Resize(Length)
+                memAllocPIDs.ResizeNew(Length)
             Loop
 
             ' Get the number of handles

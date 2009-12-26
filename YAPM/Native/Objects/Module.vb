@@ -240,7 +240,7 @@ Namespace Native.Objects
 
                 ' Resize if necessary
                 If res = NativeConstants.STATUS_INFO_LENGTH_MISMATCH Then
-                    memAllocDrivers.Resize(length)
+                    memAllocDrivers.ResizeNew(length)
                     NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemModuleInformation, _
                                         memAllocDrivers.Pointer, _
                                         memAllocDrivers.Size, _

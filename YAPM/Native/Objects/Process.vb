@@ -585,12 +585,14 @@ Namespace Native.Objects
 
             Dim ret As Integer
             NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                            memAllocForVSProcesses.Pointer, memAllocForVSProcesses.Size, ret)
+                            memAllocForVSProcesses.Pointer, _
+                            memAllocForVSProcesses.Size, _
+                            ret)
             If memAllocForVSProcesses.Size < ret Then
-                memAllocForVSProcesses.Resize(ret)
+                memAllocForVSProcesses.ResizeNew(ret)
+                NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
+                                memAllocForVSProcesses.Pointer, memAllocForVSProcesses.Size, ret)
             End If
-            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                            memAllocForVSProcesses.Pointer, memAllocForVSProcesses.Size, ret)
 
             ' Extract structures from unmanaged memory
             Dim x As Integer = 0
@@ -642,12 +644,14 @@ Namespace Native.Objects
 
                 Dim ret As Integer
                 NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                                memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
+                                memAllocForVProcesses.Pointer, _
+                                memAllocForVProcesses.Size, _
+                                ret)
                 If memAllocForVProcesses.Size < ret Then
-                    memAllocForVProcesses.Resize(ret)
+                    memAllocForVProcesses.ResizeNew(ret)
+                    NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
+                                    memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
                 End If
-                NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                                memAllocForVProcesses.Pointer, memAllocForVProcesses.Size, ret)
 
                 ' Extract structures from unmanaged memory
                 Dim x As Integer = 0
@@ -1001,7 +1005,7 @@ Namespace Native.Objects
 
                 While CUInt(NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, memAlloc.Pointer, size, retLen)) = STATUS_INFO_LENGTH_MISMATCH
                     size *= 2
-                    memAlloc.Resize(size)
+                    memAlloc.ResizeNew(size)
                 End While
 
                 handleCount = memAlloc.ReadStruct(Of NativeStructs.SystemHandleInformation).HandleCount
@@ -1128,12 +1132,16 @@ Namespace Native.Objects
 
             Dim ret As Integer
             NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                            memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
+                            memAllocForThreadEnum.Pointer, _
+                            memAllocForThreadEnum.Size, _
+                            ret)
             If memAllocForThreadEnum.Size < ret Then
-                memAllocForThreadEnum.Resize(ret)
+                memAllocForThreadEnum.ResizeNew(ret)
+                NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
+                                memAllocForThreadEnum.Pointer, _
+                                memAllocForThreadEnum.Size, _
+                                ret)
             End If
-            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                            memAllocForThreadEnum.Pointer, memAllocForThreadEnum.Size, ret)
 
             ' Extract structures from unmanaged memory
             Dim x As Integer = 0

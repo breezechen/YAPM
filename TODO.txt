@@ -2,7 +2,7 @@ TODO LIST
 
 Refactoring bugs
 
-- can't get Path of service when enumerating them quickly
+- diviser les onglets de frmProcessInfos en usercontrol et les ajouter manuellement (en fonction de la connection et du type de process 4,0  ou >4)
 
 - demain :
 	- rapport général
