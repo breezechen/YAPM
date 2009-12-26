@@ -3,6 +3,7 @@ TODO LIST
 Refactoring bugs
 
 - ajouter écriture log (ShowDebugLog + option)
+- _dicoNew et _dicoDel en local à la procédure pour tous les asyncXXXEnum, _buffDico useless
 
 - diviser les onglets de frmProcessInfos en usercontrol et les ajouter manuellement (en fonction de la connection et du type de process 4,0  ou >4)
 

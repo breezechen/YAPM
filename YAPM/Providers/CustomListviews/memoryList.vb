@@ -37,9 +37,6 @@ Public Class memoryList
     ' ========================================
     Private _pid As Integer
     Private _first As Boolean
-    Private _dicoNew As New Dictionary(Of String, cMemRegion)
-    Private _dicoDel As New Dictionary(Of String, cMemRegion)
-    Private _buffDico As New Dictionary(Of String, cMemRegion)
     Private _dico As New Dictionary(Of String, cMemRegion)
     Private WithEvents _connectionObject As New cConnection
     Private WithEvents _memregionConnection As New cMemRegionConnection(Me, _connectionObject, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
@@ -87,10 +84,7 @@ Public Class memoryList
     ' Delete all items
     Public Sub ClearItems()
         _first = True
-        _buffDico.Clear()
         _dico.Clear()
-        _dicoDel.Clear()
-        _dicoNew.Clear()
         Me.Items.Clear()
     End Sub
 
@@ -170,9 +164,11 @@ Public Class memoryList
 
 
             ' Now add all items with isKilled = true to _dicoDel dictionnary
+            Dim _dicoDel As New List(Of String)
+            Dim _dicoNew As New List(Of String)
             For Each z As cMemRegion In _dico.Values
                 If z.IsKilledItem Then
-                    _dicoDel.Add(z.Infos.BaseAddress.ToString, Nothing)
+                    _dicoDel.Add(z.Infos.BaseAddress.ToString)
                 End If
             Next
 
@@ -181,9 +177,8 @@ Public Class memoryList
             For Each pair As System.Collections.Generic.KeyValuePair(Of String, memRegionInfos) In Dico
                 If Not (_dico.ContainsKey(pair.Key)) Then
                     ' Add to dico
-                    _dicoNew.Add(pair.Key, New cMemRegion(pair.Value))
+                    _dicoNew.Add(pair.Key)
                 End If
-
             Next
 
 
@@ -197,17 +192,16 @@ Public Class memoryList
 
 
             ' Now remove all deleted items from listview and _dico
-            For Each z As String In _dicoDel.Keys
+            For Each z As String In _dicoDel
                 Me.Items.RemoveByKey(z)
                 RaiseEvent ItemDeleted(_dico.Item(z))
                 _dico.Remove(z)
             Next
-            _dicoDel.Clear()
 
 
             ' Merge _dico and _dicoNew
-            For Each z As String In _dicoNew.Keys
-                Dim _it As cMemRegion = _dicoNew.Item(z)
+            For Each z As String In _dicoNew
+                Dim _it As New cMemRegion(Dico(z))
                 RaiseEvent ItemAdded(_it)
                 _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
                 _dico.Add(z.ToString, _it)
@@ -217,7 +211,7 @@ Public Class memoryList
             ' Now add all new items to listview
             ' If first time, lock listview
             If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
-            For Each z As String In _dicoNew.Keys
+            For Each z As String In _dicoNew
 
                 ' Add to listview
                 Dim _subItems() As String
@@ -228,7 +222,6 @@ Public Class memoryList
                 AddItemWithStyle(z).SubItems.AddRange(_subItems)
             Next
             If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.EndUpdate()
-            _dicoNew.Clear()
 
 
             ' Now refresh all subitems of the listview

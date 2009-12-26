@@ -1159,6 +1159,7 @@ Namespace Common
             Debug.WriteLine("       Message : " & ex.Message)
             Debug.WriteLine("       Trace : " & ex.StackTrace)
             Debug.WriteLine("================================================================")
+            Beep()
         End Sub
 
 

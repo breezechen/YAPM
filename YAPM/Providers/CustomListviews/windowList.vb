@@ -39,9 +39,6 @@ Public Class windowList
     Private _allPid As Boolean
     Private _unNamed As Boolean
     Private _first As Boolean
-    Private _dicoNew As New Dictionary(Of String, cWindow)
-    Private _dicoDel As New Dictionary(Of String, cWindow)
-    Private _buffDico As New Dictionary(Of String, cWindow)
     Private _dico As New Dictionary(Of String, cWindow)
     Private WithEvents _connectionObject As New cConnection
     Private WithEvents _windowConnection As New cWindowConnection(Me, _connectionObject, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
@@ -118,10 +115,7 @@ Public Class windowList
     ' Delete all items
     Public Sub ClearItems()
         _first = True
-        _buffDico.Clear()
         _dico.Clear()
-        _dicoDel.Clear()
-        _dicoNew.Clear()
         _IMG.Images.Clear()
         _IMG.Images.Add("noIcon", My.Resources.application_blue16)
         Me.Items.Clear()
@@ -203,18 +197,20 @@ Public Class windowList
 
 
             ' Now add all items with isKilled = true to _dicoDel dictionnary
+            Dim _dicoDel As New List(Of String)
             For Each z As cWindow In _dico.Values
                 If z.IsKilledItem Then
-                    _dicoDel.Add(z.Infos.ProcessId.ToString & "-" & z.Infos.ThreadId.ToString & "-" & z.Infos.Handle.ToString, Nothing)
+                    _dicoDel.Add(z.Infos.ProcessId.ToString & "-" & z.Infos.ThreadId.ToString & "-" & z.Infos.Handle.ToString)
                 End If
             Next
 
 
             ' Now add new items to dictionnary
+            Dim _dicoNew As New List(Of String)
             For Each pair As System.Collections.Generic.KeyValuePair(Of String, windowInfos) In Dico
                 If Not (_dico.ContainsKey(pair.Key)) Then
                     ' Add to dico
-                    _dicoNew.Add(pair.Key, New cWindow(pair.Value))
+                    _dicoNew.Add(pair.Key)
                 End If
 
             Next
@@ -230,17 +226,16 @@ Public Class windowList
 
 
             ' Now remove all deleted items from listview and _dico
-            For Each z As String In _dicoDel.Keys
+            For Each z As String In _dicoDel
                 Me.Items.RemoveByKey(z)
                 RaiseEvent ItemDeleted(_dico.Item(z))
                 _dico.Remove(z)
             Next
-            _dicoDel.Clear()
 
 
             ' Merge _dico and _dicoNew
-            For Each z As String In _dicoNew.Keys
-                Dim _it As cWindow = _dicoNew.Item(z)
+            For Each z As String In _dicoNew
+                Dim _it As New cWindow(Dico(z))
                 RaiseEvent ItemAdded(_it)
                 _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
                 _dico.Add(z.ToString, _it)
@@ -250,7 +245,7 @@ Public Class windowList
             ' Now add all new items to listview
             ' If first time, lock listview
             If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
-            For Each z As String In _dicoNew.Keys
+            For Each z As String In _dicoNew
 
                 ' Add to listview
                 Dim _subItems() As String
@@ -261,7 +256,6 @@ Public Class windowList
                 AddItemWithStyle(z).SubItems.AddRange(_subItems)
             Next
             If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.EndUpdate()
-            _dicoNew.Clear()
 
 
             ' Now refresh all subitems of the listview
