@@ -248,16 +248,13 @@ Public Class processList
 
 
             ' Now add new items to dictionnary
-            Try
-                For Each pair As System.Collections.Generic.KeyValuePair(Of String, processInfos) In Dico
-                    If Not (_dico.ContainsKey(pair.Key)) Then
-                        ' Add to dico
-                        _dicoNew.Add(pair.Key, New cProcess(pair.Value))
-                    End If
-                Next
-            Catch ex As Exception
-                ex = ex
-            End Try
+            For Each pair As System.Collections.Generic.KeyValuePair(Of String, processInfos) In Dico
+                If Not (_dico.ContainsKey(pair.Key)) Then
+                    ' Add to dico
+                    _dicoNew.Add(pair.Key, New cProcess(pair.Value))
+                End If
+            Next
+
 
             ' Now remove deleted items from dictionnary
             For Each z As String In _dico.Keys
