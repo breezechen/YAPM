@@ -37,9 +37,6 @@ Partial Class frmHotkeys
         Me.chkAlt = New System.Windows.Forms.CheckBox
         Me.chkShift = New System.Windows.Forms.CheckBox
         Me.chkCtrl = New System.Windows.Forms.CheckBox
-        Me.lv = New DoubleBufferedLV
-        Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
-        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
         Me.VistaMenu = New wyDay.Controls.VistaMenu(Me.components)
         Me.mnuRemoveFolder = New System.Windows.Forms.MenuItem
         Me.MenuItem = New System.Windows.Forms.MenuItem
@@ -47,6 +44,14 @@ Partial Class frmHotkeys
         Me.menuItem12 = New System.Windows.Forms.MenuItem
         Me.MenuItem2 = New System.Windows.Forms.MenuItem
         Me.MenuItem3 = New System.Windows.Forms.MenuItem
+        Me.MenuItem1 = New System.Windows.Forms.MenuItem
+        Me.MenuItemExportXML = New System.Windows.Forms.MenuItem
+        Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog
+        Me.lv = New DoubleBufferedLV
+        Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
+        Me.ColumnHeader1 = New System.Windows.Forms.ColumnHeader
+        Me.MenuItemImportXML = New System.Windows.Forms.MenuItem
+        Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog
         Me.gp.SuspendLayout()
         CType(Me.VistaMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -185,32 +190,6 @@ Partial Class frmHotkeys
         Me.chkCtrl.Text = "Control"
         Me.chkCtrl.UseVisualStyleBackColor = True
         '
-        'lv
-        '
-        Me.lv.AllowColumnReorder = True
-        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader52, Me.ColumnHeader1})
-        Me.lv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lv.FullRowSelect = True
-        Me.lv.HideSelection = False
-        Me.lv.Location = New System.Drawing.Point(0, 0)
-        Me.lv.Name = "lv"
-        Me.lv.OverriddenDoubleBuffered = True
-        Me.lv.Size = New System.Drawing.Size(543, 401)
-        Me.lv.SmallImageList = Me.imgList
-        Me.lv.TabIndex = 5
-        Me.lv.UseCompatibleStateImageBehavior = False
-        Me.lv.View = System.Windows.Forms.View.Details
-        '
-        'ColumnHeader52
-        '
-        Me.ColumnHeader52.Text = "Hotkeys"
-        Me.ColumnHeader52.Width = 210
-        '
-        'ColumnHeader1
-        '
-        Me.ColumnHeader1.Text = "Action"
-        Me.ColumnHeader1.Width = 327
-        '
         'VistaMenu
         '
         Me.VistaMenu.ContainerControl = Me
@@ -230,7 +209,7 @@ Partial Class frmHotkeys
         '
         'TheContextMenu
         '
-        Me.TheContextMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem, Me.mnuRemoveFolder, Me.menuItem12, Me.MenuItem2, Me.MenuItem3})
+        Me.TheContextMenu.MenuItems.AddRange(New System.Windows.Forms.MenuItem() {Me.MenuItem, Me.mnuRemoveFolder, Me.menuItem12, Me.MenuItem2, Me.MenuItem3, Me.MenuItem1, Me.MenuItemExportXML, Me.MenuItemImportXML})
         '
         'menuItem12
         '
@@ -247,11 +226,67 @@ Partial Class frmHotkeys
         Me.MenuItem3.Index = 4
         Me.MenuItem3.Text = "Disable"
         '
+        'MenuItem1
+        '
+        Me.MenuItem1.Index = 5
+        Me.MenuItem1.Text = "-"
+        '
+        'MenuItemExportXML
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemExportXML, Global.My.Resources.Resources.save16)
+        Me.MenuItemExportXML.Index = 6
+        Me.MenuItemExportXML.Text = "Export hotkeys.xml..."
+        '
+        'SaveFileDialog
+        '
+        Me.SaveFileDialog.FileName = "hotkeys.xml"
+        Me.SaveFileDialog.Filter = "hotkeys.xml file|*.xml"
+        Me.SaveFileDialog.Title = "Export hotkeys.xml file"
+        '
+        'lv
+        '
+        Me.lv.AllowColumnReorder = True
+        Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader52, Me.ColumnHeader1})
+        Me.lv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lv.FullRowSelect = True
+        Me.lv.HideSelection = False
+        Me.lv.Location = New System.Drawing.Point(0, 0)
+        Me.lv.Name = "lv"
+        Me.lv.OverriddenDoubleBuffered = True
+        Me.lv.ShowItemToolTips = True
+        Me.lv.Size = New System.Drawing.Size(543, 380)
+        Me.lv.SmallImageList = Me.imgList
+        Me.lv.TabIndex = 5
+        Me.lv.UseCompatibleStateImageBehavior = False
+        Me.lv.View = System.Windows.Forms.View.Details
+        '
+        'ColumnHeader52
+        '
+        Me.ColumnHeader52.Text = "Hotkeys"
+        Me.ColumnHeader52.Width = 210
+        '
+        'ColumnHeader1
+        '
+        Me.ColumnHeader1.Text = "Action"
+        Me.ColumnHeader1.Width = 327
+        '
+        'MenuItemImportXML
+        '
+        Me.VistaMenu.SetImage(Me.MenuItemImportXML, Global.My.Resources.Resources.folder_open)
+        Me.MenuItemImportXML.Index = 7
+        Me.MenuItemImportXML.Text = "Import hotkeys.xml..."
+        '
+        'OpenFileDialog
+        '
+        Me.OpenFileDialog.FileName = "hotkeys.xml"
+        Me.OpenFileDialog.Filter = "hotkeys.xml file|*.xml"
+        Me.OpenFileDialog.Title = "Import hotkeys.xml"
+        '
         'frmHotkeys
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(543, 401)
+        Me.ClientSize = New System.Drawing.Size(543, 380)
         Me.Controls.Add(Me.gp)
         Me.Controls.Add(Me.lv)
         Me.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -290,4 +325,9 @@ Partial Class frmHotkeys
     Private WithEvents menuItem12 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem2 As System.Windows.Forms.MenuItem
     Friend WithEvents MenuItem3 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItem1 As System.Windows.Forms.MenuItem
+    Friend WithEvents MenuItemExportXML As System.Windows.Forms.MenuItem
+    Friend WithEvents SaveFileDialog As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents MenuItemImportXML As System.Windows.Forms.MenuItem
+    Friend WithEvents OpenFileDialog As System.Windows.Forms.OpenFileDialog
 End Class

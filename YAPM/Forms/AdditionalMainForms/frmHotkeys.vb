@@ -23,12 +23,17 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports Common.Misc
+Imports System.Configuration
 
 Public Class frmHotkeys
 
     Public ReadOnly Property HotkeysXmlPath() As String
         Get
-            Return Application.LocalUserAppDataPath & "\hotkeys.xml"
+            Static path As String = Nothing
+            If path Is Nothing Then
+                path = cFile.GetParentDir(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath)
+            End If
+            Return path & "\hotkeys.xml"
         End Get
     End Property
 
@@ -36,24 +41,11 @@ Public Class frmHotkeys
 
     Private Sub frmHotkeys_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         ' Save to XML
-        writeXML()
+        writeXML(Me.HotkeysXmlPath)
     End Sub
 
-    Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-        CloseWithEchapKey(Me)
-
-        Native.Functions.Misc.SetTheme(Me.lv.Handle)
-
-        SetToolTip(Me.chkAlt, "Use Alt key")
-        SetToolTip(Me.chkCtrl, "Use Control key")
-        SetToolTip(Me.chkShift, "Use Shift key")
-        SetToolTip(Me.txtKey, "Press the desired key on your keyboard for the shortcut")
-        SetToolTip(Me.cmdAdd, "Add the shortcut")
-        SetToolTip(Me.cmdKO, "Do not add the shortcut")
-        SetToolTip(Me.cbAction, "Action to raise when the keys of the shortcut are pressed")
-
-
+    ' Fill form from XML file
+    Private Sub fillForm()
         Me.cbAction.Items.Clear()
         For Each i As String In Program.Hotkeys.ActionsAvailable
             If i IsNot Nothing Then
@@ -76,6 +68,24 @@ Public Class frmHotkeys
             it.ImageKey = "default"
             Me.lv.Items.Add(it)
         Next
+    End Sub
+
+    Private Sub frmWindowsList_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        CloseWithEchapKey(Me)
+
+        Native.Functions.Misc.SetTheme(Me.lv.Handle)
+
+        SetToolTip(Me.chkAlt, "Use Alt key")
+        SetToolTip(Me.chkCtrl, "Use Control key")
+        SetToolTip(Me.chkShift, "Use Shift key")
+        SetToolTip(Me.txtKey, "Press the desired key on your keyboard for the shortcut")
+        SetToolTip(Me.cmdAdd, "Add the shortcut")
+        SetToolTip(Me.cmdKO, "Do not add the shortcut")
+        SetToolTip(Me.cbAction, "Action to raise when the keys of the shortcut are pressed")
+
+        Me.fillForm()
+        
     End Sub
 
     Private Sub cmdKO_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdKO.Click
@@ -171,7 +181,7 @@ Public Class frmHotkeys
         '</hotkeys>
 
         Try
-            Call XmlDoc.Load(HotkeysXmlPath)
+            Call XmlDoc.Load(Me.HotkeysXmlPath)
             element = XmlDoc.DocumentElement.GetElementsByTagName("key")
 
             For Each noeud In element
@@ -208,7 +218,7 @@ Public Class frmHotkeys
     End Sub
 
     ' Write to XML file
-    Private Sub writeXML()
+    Private Sub writeXML(ByVal path As String)
 
         '<hotkeys>
         '	<key>
@@ -258,7 +268,12 @@ Public Class frmHotkeys
 
         Next
 
-        XmlDoc.Save(HotkeysXmlPath)
+        Try
+            XmlDoc.Save(path)
+        Catch ex As Exception
+            ' Could not save file...
+            ShowDebugError(ex)
+        End Try
     End Sub
 
     Private Sub lv_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lv.MouseUp
@@ -301,4 +316,31 @@ Public Class frmHotkeys
         Next
     End Sub
 
+    Private Sub MenuItemExportXML_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemExportXML.Click
+        ' Export XML file
+        With Me.SaveFileDialog
+            If .ShowDialog = Windows.Forms.DialogResult.OK Then
+                Me.writeXML(.FileName)
+            End If
+        End With
+    End Sub
+
+    Private Sub MenuItemImportXML_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemImportXML.Click
+        ' Import XML file
+        With Me.OpenFileDialog
+            If .ShowDialog = Windows.Forms.DialogResult.OK Then
+                Try
+                    ' Copy file
+                    System.IO.File.Copy(.FileName, Me.HotkeysXmlPath, True)
+                    ' Read it
+                    Me.readHotkeysFromXML()
+                    ' Fill form
+                    Me.fillForm()
+                Catch ex As Exception
+                    ' Could not copy the file...
+                    ShowDebugError(ex)
+                End Try
+            End If
+        End With
+    End Sub
 End Class

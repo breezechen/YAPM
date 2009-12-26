@@ -178,27 +178,37 @@ Public Class cEnvironment
                 Dim ret As Integer
 
                 ' Get tokeninfo length
-                NativeFunctions.GetTokenInformation(hTok, NativeEnums.TokenInformationClass.TokenElevationType, IntPtr.Zero, 0, ret)
-                Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(ret)
-                ' Get token information
-                NativeFunctions.GetTokenInformation(hTok, NativeEnums.TokenInformationClass.TokenElevationType, TokenInformation, ret, 0)
-                ' Get a valid structure
-                value = Marshal.ReadInt32(TokenInformation, 0)
-                Marshal.FreeHGlobal(TokenInformation)
-                valRetrieved = CType(value, Enums.ElevationType)
+                NativeFunctions.GetTokenInformation(hTok, _
+                                                    NativeEnums.TokenInformationClass.TokenElevationType, _
+                                                    IntPtr.Zero, _
+                                                    0, _
+                                                    ret)
+                Using memAlloc As New Native.Memory.MemoryAlloc(ret)
+                    ' Get token information
+                    NativeFunctions.GetTokenInformation(hTok, _
+                                                        NativeEnums.TokenInformationClass.TokenElevationType, _
+                                                        memAlloc, _
+                                                        memAlloc.Size, _
+                                                        0)
+                    ' Get a valid structure
+                    value = memAlloc.ReadInt32(0)
+                    valRetrieved = CType(value, Enums.ElevationType)
 
-                NativeFunctions.CloseHandle(hTok)
+                    NativeFunctions.CloseHandle(hTok)
 
-                If valRetrieved = Enums.ElevationType.Default Then
-                    If cEnvironment.IsAdmin = False Then
-                        valRetrieved = Enums.ElevationType.Limited
-                    Else
-                        valRetrieved = Enums.ElevationType.Full
+                    If valRetrieved = Enums.ElevationType.Default Then
+                        If cEnvironment.IsAdmin = False Then
+                            valRetrieved = Enums.ElevationType.Limited
+                        Else
+                            valRetrieved = Enums.ElevationType.Full
+                        End If
                     End If
-                End If
 
-                retrieved = True
-                Return valRetrieved
+                    retrieved = True
+
+                    Return valRetrieved
+
+                End Using
             End If
         End Get
     End Property

@@ -124,15 +124,19 @@ Namespace Native.Objects
                 ' Get tokeninfo length
                 Native.Api.NativeFunctions.GetTokenInformation(hTok, _
                             Native.Api.NativeEnums.TokenInformationClass.TokenElevationType, _
-                            IntPtr.Zero, 0, ret)
-                Dim TokenInformation As IntPtr = Marshal.AllocHGlobal(ret)
-                ' Get token information
-                Native.Api.NativeFunctions.GetTokenInformation(hTok, _
-                            Native.Api.NativeEnums.TokenInformationClass.TokenElevationType, _
-                            TokenInformation, ret, Nothing)
-                ' Get a valid structure
-                value = Marshal.ReadInt32(TokenInformation, 0)
-                Marshal.FreeHGlobal(TokenInformation)
+                            IntPtr.Zero, _
+                            0, _
+                            ret)
+                Using memAlloc As New Memory.MemoryAlloc(ret)
+                    ' Get token information
+                    Native.Api.NativeFunctions.GetTokenInformation(hTok, _
+                                Native.Api.NativeEnums.TokenInformationClass.TokenElevationType, _
+                                memAlloc, _
+                                memAlloc.Size, _
+                                ret)
+                    ' Get a valid structure
+                    value = memAlloc.ReadInt32(0)
+                End Using
                 elevation = CType(value, Native.Api.Enums.ElevationType)
                 Return True
             Else

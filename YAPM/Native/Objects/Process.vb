@@ -265,32 +265,36 @@ Namespace Native.Objects
         Public Shared Function EnumerateChildProcessesById(ByVal pid As Integer) As List(Of Integer)
             Dim ret As Integer
             NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                                                                IntPtr.Zero, 0, ret)
-            Dim size As Integer = ret
-            Dim ptr As IntPtr = Marshal.AllocHGlobal(size)
-            NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
-                                                                ptr, size, ret)
+                                                                IntPtr.Zero, _
+                                                                0, _
+                                                                ret)
+            Using memAlloc As New Memory.MemoryAlloc(ret)
+                NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemProcessInformation, _
+                                                                    memAlloc, _
+                                                                    memAlloc.Size, ret)
 
-            ' Extract structures from unmanaged memory
-            Dim x As Integer = 0
-            Dim offset As Integer = 0
-            Dim _list As New List(Of Integer)
-            Do While True
-                Dim obj As NativeStructs.SystemProcessInformation = CType(Marshal.PtrToStructure(ptr.Increment(offset), _
-                                                                                                            GetType(NativeStructs.SystemProcessInformation)),  _
-                                                                                                            NativeStructs.SystemProcessInformation)
-                offset += obj.NextEntryOffset
-                If obj.InheritedFromProcessId = pid Then
-                    _list.Add(obj.ProcessId)
-                End If
-                If obj.NextEntryOffset = 0 Then
-                    Exit Do
-                End If
-                x += 1
-            Loop
-            Marshal.FreeHGlobal(ptr)
+                ' Extract structures from unmanaged memory
+                Dim x As Integer = 0
+                Dim offset As Integer = 0
+                Dim _list As New List(Of Integer)
+                Do While True
+                    Dim obj As NativeStructs.SystemProcessInformation = _
+                        memAlloc.ReadStructOffset(Of NativeStructs.SystemProcessInformation)(offset)
 
-            Return _list
+                    offset += obj.NextEntryOffset
+                    If obj.InheritedFromProcessId = pid Then
+                        _list.Add(obj.ProcessId)
+                    End If
+                    If obj.NextEntryOffset = 0 Then
+                        Exit Do
+                    End If
+                    x += 1
+                Loop
+
+                Return _list
+
+            End Using
+
         End Function
 
         ' Create a minidump
@@ -388,22 +392,23 @@ Namespace Native.Objects
                     If _size > 0 Then
 
                         ' Retrieve unicode string
-                        Dim _pt As IntPtr = Marshal.AllocHGlobal(_size)
-                        NativeFunctions.NtQueryInformationProcess(hProc, _
-                                NativeEnums.ProcessInformationClass.ProcessImageFileName, _
-                                _pt, _size, _size)
+                        Using memAlloc As New Memory.MemoryAlloc(_size)
+                            NativeFunctions.NtQueryInformationProcess(hProc, _
+                                    NativeEnums.ProcessInformationClass.ProcessImageFileName, _
+                                    memAlloc, _
+                                    memAlloc.Size, _
+                                    _size)
 
-                        ' Read it
-                        Dim _str As NativeStructs.UnicodeString = _
-                                    CType(Marshal.PtrToStructure(_pt, GetType(NativeStructs.UnicodeString)),  _
-                                    NativeStructs.UnicodeString)
+                            ' Read it
+                            Dim _str As NativeStructs.UnicodeString = _
+                                memAlloc.ReadStruct(Of NativeStructs.UnicodeString)()
 
-                        Marshal.FreeHGlobal(_pt)
-                        Dim _stemp As String = Common.Misc.ReadUnicodeString(_str)
+                            Dim _stemp As String = Common.Misc.ReadUnicodeString(_str)
 
-                        If _stemp IsNot Nothing Then
-                            resFile = Common.Misc.DeviceDriveNameToDosDriveName(_stemp)
-                        End If
+                            If _stemp IsNot Nothing Then
+                                resFile = Common.Misc.DeviceDriveNameToDosDriveName(_stemp)
+                            End If
+                        End Using
                     End If
                 End If
             End If
@@ -497,22 +502,25 @@ Namespace Native.Objects
 
                     NativeFunctions.GetTokenInformation(hToken, _
                                         NativeEnums.TokenInformationClass.TokenUser, _
-                                        IntPtr.Zero, 0, retLen)
-                    Dim data As IntPtr = Marshal.AllocHGlobal(retLen)
-                    NativeFunctions.GetTokenInformation(hToken, _
-                                        NativeEnums.TokenInformationClass.TokenUser, _
-                                        data, retLen, retLen)
+                                        IntPtr.Zero, _
+                                        0, _
+                                        retLen)
+                    Using memAlloc As New Memory.MemoryAlloc(retLen)
+                        NativeFunctions.GetTokenInformation(hToken, _
+                                            NativeEnums.TokenInformationClass.TokenUser, _
+                                            memAlloc, _
+                                            memAlloc.Size, _
+                                            retLen)
 
-                    NativeFunctions.CloseHandle(hProc)
-                    NativeFunctions.CloseHandle(hToken)
+                        NativeFunctions.CloseHandle(hProc)
+                        NativeFunctions.CloseHandle(hToken)
 
-                    Dim user As New NativeStructs.TokenUser
-                    user = CType(Marshal.PtrToStructure(data, _
-                                    GetType(NativeStructs.TokenUser)),  _
-                                    NativeStructs.TokenUser)
-
-                    Objects.Token.GetAccountNameFromSid(user.User.Sid, username, domain)
-                    Marshal.FreeHGlobal(data)
+                        Dim user As New NativeStructs.TokenUser
+                        user = memAlloc.ReadStruct(Of NativeStructs.TokenUser) 
+                        Objects.Token.GetAccountNameFromSid(user.User.Sid, _
+                                                            username, _
+                                                            domain)
+                    End Using
 
                     Return True
                 Else
