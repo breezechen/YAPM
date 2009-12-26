@@ -167,6 +167,14 @@ Namespace Native.Objects
                 End SyncLock
             End If
         End Sub
+        Public Shared Sub RemoveProcesseFromListOfNewProcesses(ByVal pid As String)
+            Dim _pid As Integer = Integer.Parse(pid)
+            SyncLock _dicoNewProcesses
+                If _dicoNewProcesses.Contains(_pid) Then
+                    _dicoNewProcesses.Remove(_pid)
+                End If
+            End SyncLock
+        End Sub
 
         ' Clear new process dico
         Public Shared Sub ClearNewProcessesDico()

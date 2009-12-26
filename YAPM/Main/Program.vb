@@ -501,8 +501,10 @@ Public Module Program
     End Sub
 
     Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
-        ' Clear list of processes (used to get ParentProcess name)
-        Call cProcess.ClearProcessDico()
+        ' Clear lists of processes/services
+        Native.Objects.Process.NewProcesses.Clear()
+        Native.Objects.Process.CurrentProcesses.Clear()
+        Native.Objects.Service.CurrentServices.Clear()
     End Sub
 
     ' Create a snapshot file

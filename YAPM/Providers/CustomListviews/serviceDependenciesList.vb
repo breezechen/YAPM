@@ -165,35 +165,40 @@ Public Class serviceDependenciesList
 
         sem.WaitOne()
 
-        If Success = False Then
-            Trace.WriteLine("Cannot enumerate, an error was raised...")
-            RaiseEvent GotAnError("Service dependencies connection enumeration", errorMessage)
+        Try
+            If Success = False Then
+                Trace.WriteLine("Cannot enumerate, an error was raised...")
+                RaiseEvent GotAnError("Service dependencies connection enumeration", errorMessage)
+                sem.Release()
+                Exit Sub
+            End If
+
+            _dico = Dico
+
+            ' Now add all items to listview
+            Me.BeginUpdate()
+
+            Me.Nodes.Clear()
+            Dim nn As TreeNode = Me.Nodes.Add(cService.GetServiceByName(_rootService).Infos.DisplayName)
+            nn.Tag = New servTag(_rootService, _rootService)
+            addChilds(_dico, nn)
+            nn.Expand()
+
+            If nn.Nodes.Count > 0 Then
+                nn.ImageKey = "ko"
+                nn.SelectedImageKey = "ko"
+            Else
+                nn.ImageKey = "ok"
+                nn.SelectedImageKey = "ok"
+            End If
+
+            Me.EndUpdate()
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
             sem.Release()
-            Exit Sub
-        End If
-
-        _dico = Dico
-
-        ' Now add all items to listview
-        Me.BeginUpdate()
-
-        Me.Nodes.Clear()
-        Dim nn As TreeNode = Me.Nodes.Add(cService.GetServiceByName(_rootService).Infos.DisplayName)
-        nn.Tag = New servTag(_rootService, _rootService)
-        addChilds(_dico, nn)
-        nn.Expand()
-
-        If nn.Nodes.Count > 0 Then
-            nn.ImageKey = "ko"
-            nn.SelectedImageKey = "ko"
-        Else
-            nn.ImageKey = "ok"
-            nn.SelectedImageKey = "ok"
-        End If
-
-        Me.EndUpdate()
-
-        sem.Release()
+        End Try
 
         RaiseEvent HasRefreshed()
     End Sub

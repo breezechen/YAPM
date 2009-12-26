@@ -192,63 +192,69 @@ Public Class searchList
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, searchInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         generalLvSemaphore.WaitOne()
-        Me.ClearItems()
 
-        If Success = False Then
-            Trace.WriteLine("Cannot enumerate, an error was raised...")
-            RaiseEvent GotAnError("Search connection enumeration", errorMessage)
-            generalLvSemaphore.Release()
-            Exit Sub
-        End If
+        Try
+            Me.ClearItems()
 
-
-        ' Create cSearchItem instances
-        For Each pair As System.Collections.Generic.KeyValuePair(Of String, searchInfos) In Dico
-            _dico.Add(pair.Key, New cSearchItem(pair.Value))
-        Next
-
-        ' Now add all items to listview
-        Me.BeginUpdate()
-        Me.Enabled = True
-
-        For Each z As String In _dico.Keys
-            ' Add to listview
-            Dim _subItems() As String
-            ReDim _subItems(Me.Columns.Count - 1)
-            For x As Integer = 1 To _subItems.Length - 1
-                _subItems(x) = ""
-            Next
-            Dim _tmp As cSearchItem = _dico.Item(z)
-            AddItemWithStyle(z, _tmp).SubItems.AddRange(_subItems)
-        Next
-
-
-        ' Now refresh all subitems of the listview
-        Dim isub As ListViewItem.ListViewSubItem
-        Dim it As ListViewItem
-        For Each it In Me.Items
-            Dim x As Integer = 0
-            If _dico.ContainsKey(it.Name) Then
-                Dim _item As cSearchItem = _dico.Item(it.Name)
-                For Each isub In it.SubItems
-                    isub.Text = _item.GetInformation(_columnsName(x))
-                    x += 1
-                Next
+            If Success = False Then
+                Trace.WriteLine("Cannot enumerate, an error was raised...")
+                RaiseEvent GotAnError("Search connection enumeration", errorMessage)
+                generalLvSemaphore.Release()
+                Exit Sub
             End If
-        Next
 
 
-        ' Sort items
-        Me.Sort()
-        Me.EndUpdate()
+            ' Create cSearchItem instances
+            For Each pair As System.Collections.Generic.KeyValuePair(Of String, searchInfos) In Dico
+                _dico.Add(pair.Key, New cSearchItem(pair.Value))
+            Next
 
-        _firstItemUpdate = False
+            ' Now add all items to listview
+            Me.BeginUpdate()
+            Me.Enabled = True
 
-        'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh search list.")
+            For Each z As String In _dico.Keys
+                ' Add to listview
+                Dim _subItems() As String
+                ReDim _subItems(Me.Columns.Count - 1)
+                For x As Integer = 1 To _subItems.Length - 1
+                    _subItems(x) = ""
+                Next
+                Dim _tmp As cSearchItem = _dico.Item(z)
+                AddItemWithStyle(z, _tmp).SubItems.AddRange(_subItems)
+            Next
 
-        MyBase.UpdateItems()
 
-        generalLvSemaphore.Release()
+            ' Now refresh all subitems of the listview
+            Dim isub As ListViewItem.ListViewSubItem
+            Dim it As ListViewItem
+            For Each it In Me.Items
+                Dim x As Integer = 0
+                If _dico.ContainsKey(it.Name) Then
+                    Dim _item As cSearchItem = _dico.Item(it.Name)
+                    For Each isub In it.SubItems
+                        isub.Text = _item.GetInformation(_columnsName(x))
+                        x += 1
+                    Next
+                End If
+            Next
+
+
+            ' Sort items
+            Me.Sort()
+            Me.EndUpdate()
+
+            _firstItemUpdate = False
+
+            'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh search list.")
+
+            MyBase.UpdateItems()
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
 
         RaiseEvent HasRefreshed()
     End Sub

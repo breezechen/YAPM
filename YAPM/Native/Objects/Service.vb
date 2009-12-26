@@ -42,7 +42,7 @@ Namespace Native.Objects
         ' ========================================
 
         ' Store new services ( serviceName <-> isNew )
-        Private Shared _dicoNewServices As New Dictionary(Of String, Boolean)
+        Private Shared _dicoNewServices As New List(Of String)
 
         ' Current services running (updated after each enumeration)
         Private Shared _currentServices As New Dictionary(Of String, serviceInfos)
@@ -76,6 +76,15 @@ Namespace Native.Objects
         ' ========================================
         ' Public functions
         ' ========================================
+
+        ' Remove a service from new services list
+        Public Shared Sub RemoveServiceFromListOfNewServices(ByVal name As String)
+            SyncLock _dicoNewServices
+                If _dicoNewServices.Contains(name) Then
+                    _dicoNewServices.Remove(name)
+                End If
+            End SyncLock
+        End Sub
 
         ' Create a service
         Public Shared Function CreateService(ByVal params As Native.Api.Structs.ServiceCreationParams) As Boolean
@@ -213,7 +222,7 @@ Namespace Native.Objects
                         If forAllProcesses OrElse processId = obj.ServiceStatusProcess.ProcessID Then
                             Dim _servINFO As New serviceInfos(obj, completeInfos)
 
-                            If forAllProcesses = False OrElse _dicoNewServices.ContainsKey(obj.ServiceName) = False Or completeInfos Then
+                            If forAllProcesses = False OrElse _dicoNewServices.Contains(obj.ServiceName) = False Or completeInfos Then
 
                                 ' Get infos from registry
                                 GetServiceInformationsFromRegistry(obj.ServiceName, _servINFO)
@@ -222,29 +231,15 @@ Namespace Native.Objects
                                 GetServiceConfigByName(hSCM, obj.ServiceName, _servINFO, True)
 
                                 If forAllProcesses And completeInfos = False Then
-                                    _dicoNewServices.Add(obj.ServiceName, False)
+                                    _dicoNewServices.Add(obj.ServiceName)
                                 End If
                             End If
 
                             _dico.Add(obj.ServiceName, _servINFO)
                         End If
-                        If forAllProcesses Then
-                            _dicoNewServices(obj.ServiceName) = True
-                        End If
                     Next idx
 
                 End If
-            End If
-
-
-            ' Remove all services that not exist anymore
-            If forAllProcesses Then
-                Dim _dicoTemp As Dictionary(Of String, Boolean) = _dicoNewServices
-                For Each it As System.Collections.Generic.KeyValuePair(Of String, Boolean) In _dicoTemp
-                    If it.Value = False Then
-                        _dicoNewServices.Remove(it.Key)
-                    End If
-                Next
             End If
 
         End Sub

@@ -70,9 +70,6 @@ Public Class cProcess
 
     Public Event HasMerged()
 
-    ' Contains list of process names
-    Friend Shared _procs As New Dictionary(Of String, String)
-
     Private _processInfos As processInfos
     Private _processors As Integer = 1       ' By default we consider that there is only one processor
     Private Shared WithEvents _connection As cProcessConnection
@@ -1405,18 +1402,12 @@ Public Class cProcess
 
     ' Return Process name
     Public Shared Function GetProcessName(ByVal pid As Integer) As String
-        Select Case pid
-            Case 0
-                Return "[System Process]"
-            Case 4
-                Return "System"
-            Case Else
-                If _procs.ContainsKey(pid.ToString) Then
-                    Return _procs.Item(pid.ToString)
-                Else
-                    Return NO_INFO_RETRIEVED
-                End If
-        End Select
+        Dim cp As cProcess = cProcess.GetProcessById(pid)
+        If cp IsNot Nothing Then
+            Return cp.Infos.Name
+        Else
+            Return NO_INFO_RETRIEVED
+        End If
     End Function
 
     ' Kill a process
@@ -1487,22 +1478,6 @@ Public Class cProcess
             Misc.ShowError("Could not unload module from process " & pid.ToString & " : " & msg)
         End If
         RemoveSharedPendingTask(actionNumber)
-    End Sub
-
-
-    ' Clear process dico
-    Public Shared Sub ClearProcessDico()
-        _procs.Clear()
-    End Sub
-
-    ' Add/remove a process to dictionnary
-    Public Shared Sub AssociatePidAndName(ByVal pid As String, ByVal name As String)
-        If _procs.ContainsKey(pid) = False Then
-            _procs.Add(pid, name)
-        End If
-    End Sub
-    Public Shared Sub UnAssociatePidAndName(ByVal pid As String)
-        _procs.Remove(pid)
     End Sub
 
 #End Region

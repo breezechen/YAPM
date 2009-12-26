@@ -216,106 +216,111 @@ Public Class logList
 
         generalLvSemaphore.WaitOne()
 
-        If Success = False Then
-            Trace.WriteLine("Cannot enumerate, an error was raised...")
-            RaiseEvent GotAnError("Log enumeration", errorMessage)
-            generalLvSemaphore.Release()
-            Exit Sub
-        End If
-
-        ' We won't enumerate next time with all informations (included fixed infos)
-        _first = False
-
-
-        '' Now add all items with isKilled = true to _dicoDel dictionnary
-        'For Each z As cLogItem In _dico.Values
-        '    If z.IsKilledItem Then
-        '        _dicoDel.Add(z.Infos.BaseAddress.ToString, Nothing)
-        '    End If
-        'Next
-
-
-        ' Now add new items to dictionnary
-        Dim _dicoNew As New Dictionary(Of String, cLogItem)
-        For Each pair As System.Collections.Generic.KeyValuePair(Of String, logItemInfos) In Dico
-            If Not (_dico.ContainsKey(pair.Key)) Then
-                ' Add to dico
-                _dicoNew.Add(pair.Key, New cLogItem(pair.Value))
-                _dico.Add(pair.Key, _dicoNew(pair.Key))
+        Try
+            If Success = False Then
+                Trace.WriteLine("Cannot enumerate, an error was raised...")
+                RaiseEvent GotAnError("Log enumeration", errorMessage)
+                generalLvSemaphore.Release()
+                Exit Sub
             End If
-        Next
+
+            ' We won't enumerate next time with all informations (included fixed infos)
+            _first = False
 
 
-        '' Now remove deleted items from dictionnary
-        'For Each z As String In _dico.Keys
-        '    If Dico.ContainsKey(z) = False Then
-        '        ' Remove from dico
-        '        _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
-        '    End If
-        'Next
+            '' Now add all items with isKilled = true to _dicoDel dictionnary
+            'For Each z As cLogItem In _dico.Values
+            '    If z.IsKilledItem Then
+            '        _dicoDel.Add(z.Infos.BaseAddress.ToString, Nothing)
+            '    End If
+            'Next
 
 
-        '' Now remove all deleted items from listview and _dico
-        'For Each z As String In _dicoDel.Keys
-        '    Me.Items.RemoveByKey(z)
-        '    RaiseEvent ItemDeleted(_dico.Item(z))
-        '    _dico.Remove(z)
-        'Next
-        '_dicoDel.Clear()
+            ' Now add new items to dictionnary
+            Dim _dicoNew As New Dictionary(Of String, cLogItem)
+            For Each pair As System.Collections.Generic.KeyValuePair(Of String, logItemInfos) In Dico
+                If Not (_dico.ContainsKey(pair.Key)) Then
+                    ' Add to dico
+                    _dicoNew.Add(pair.Key, New cLogItem(pair.Value))
+                    _dico.Add(pair.Key, _dicoNew(pair.Key))
+                End If
+            Next
 
 
-        '' Merge _dico and _dicoNew
-        'For Each z As String In _dicoNew.Keys
-        '    Dim _it As cLogItem = _dicoNew.Item(z)
-        '    RaiseEvent ItemAdded(_it)
-        '    _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-        '    _dico.Add(z.ToString, _it)
-        'Next
+            '' Now remove deleted items from dictionnary
+            'For Each z As String In _dico.Keys
+            '    If Dico.ContainsKey(z) = False Then
+            '        ' Remove from dico
+            '        _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
+            '    End If
+            'Next
 
 
-        ' Now add all new items to listview
-        ' If first time, lock listview
-        'If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
-        For Each z As String In _dicoNew.Keys
-            Call conditionalAdd(_dicoNew(z))
-        Next
-        'If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE orelse _dicodel.count>EMPIRIC_MINIMAL_NUMBER_OF_deleted_ITEMS_TO_BEGIN_UPDATE Then Me.EndUpdate()
-        '_dicoNew.Clear()
+            '' Now remove all deleted items from listview and _dico
+            'For Each z As String In _dicoDel.Keys
+            '    Me.Items.RemoveByKey(z)
+            '    RaiseEvent ItemDeleted(_dico.Item(z))
+            '    _dico.Remove(z)
+            'Next
+            '_dicoDel.Clear()
 
 
-        ' Now refresh all subitems of the listview
-        'Dim isub As ListViewItem.ListViewSubItem
-        'Dim it As ListViewItem
-        'For Each it In Me.Items
-        '    Dim x As Integer = 0
-        '    Dim _item As cLogItem = _dico.Item(it.Name)
-        '    'If Dico.ContainsKey(it.Name) Then
-        '    '    _item.Merge(Dico.Item(it.Name))
-        '    'End If
-        '    For Each isub In it.SubItems
-        '        isub.Text = _item.GetInformation(_columnsName(x))
-        '        x += 1
-        '    Next
-        '    'If _item.IsNewItem Then
-        '    '    _item.IsNewItem = False
-        '    '    it.BackColor = NEW_ITEM_COLOR
-        '    'ElseIf _item.IsKilledItem Then
-        '    '    it.BackColor = DELETED_ITEM_COLOR
-        '    'Else
-        '    '    it.BackColor = Color.White
-        '    'End If
-        'Next
+            '' Merge _dico and _dicoNew
+            'For Each z As String In _dicoNew.Keys
+            '    Dim _it As cLogItem = _dicoNew.Item(z)
+            '    RaiseEvent ItemAdded(_it)
+            '    _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
+            '    _dico.Add(z.ToString, _it)
+            'Next
 
-        ' Sort items
-        Me.Sort()
 
-        _firstItemUpdate = False
+            ' Now add all new items to listview
+            ' If first time, lock listview
+            'If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
+            For Each z As String In _dicoNew.Keys
+                Call conditionalAdd(_dicoNew(z))
+            Next
+            'If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE orelse _dicodel.count>EMPIRIC_MINIMAL_NUMBER_OF_deleted_ITEMS_TO_BEGIN_UPDATE Then Me.EndUpdate()
+            '_dicoNew.Clear()
 
-        'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh log list.")
 
-        MyBase.UpdateItems()
+            ' Now refresh all subitems of the listview
+            'Dim isub As ListViewItem.ListViewSubItem
+            'Dim it As ListViewItem
+            'For Each it In Me.Items
+            '    Dim x As Integer = 0
+            '    Dim _item As cLogItem = _dico.Item(it.Name)
+            '    'If Dico.ContainsKey(it.Name) Then
+            '    '    _item.Merge(Dico.Item(it.Name))
+            '    'End If
+            '    For Each isub In it.SubItems
+            '        isub.Text = _item.GetInformation(_columnsName(x))
+            '        x += 1
+            '    Next
+            '    'If _item.IsNewItem Then
+            '    '    _item.IsNewItem = False
+            '    '    it.BackColor = NEW_ITEM_COLOR
+            '    'ElseIf _item.IsKilledItem Then
+            '    '    it.BackColor = DELETED_ITEM_COLOR
+            '    'Else
+            '    '    it.BackColor = Color.White
+            '    'End If
+            'Next
 
-        generalLvSemaphore.Release()
+            ' Sort items
+            Me.Sort()
+
+            _firstItemUpdate = False
+
+            'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh log list.")
+
+            MyBase.UpdateItems()
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
 
     End Sub
 

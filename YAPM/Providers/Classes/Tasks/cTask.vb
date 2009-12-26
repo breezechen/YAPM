@@ -29,9 +29,6 @@ Public Class cTask
 
     Private _pid As Integer
     Private _process As cProcess
-    Private _retried As Boolean = False
-
-    Private Shared _procList As Dictionary(Of String, cProcess)
 
 #Region "Constructors & destructor"
 
@@ -42,16 +39,7 @@ Public Class cTask
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Task
 
         ' Get process from process list
-        If _procList IsNot Nothing Then
-            If _procList.Count = 0 Then
-                ' When we have disconnected (no more processes)
-                _procList = Nothing
-            Else
-                If _procList.ContainsKey(_pid.ToString) Then
-                    _process = _procList(_pid.ToString)
-                End If
-            End If
-        End If
+        _process = cProcess.GetProcessById(_pid)
     End Sub
 
 #End Region
@@ -64,37 +52,25 @@ Public Class cTask
         End Get
     End Property
 
-    Public Shared Property ProcessCollection() As Dictionary(Of String, cProcess)
-        Get
-            Return _procList
-        End Get
-        Set(ByVal value As Dictionary(Of String, cProcess))
-            _procList = value
-        End Set
-    End Property
-
 #End Region
 
 #Region "Other properties"
 
     Public ReadOnly Property CpuUsage() As Double
         Get
-            If _process IsNot Nothing Then
-                Return _process.CpuUsage
-            Else
-                ' _process does not exist -> we try to get it
-                If _procList IsNot Nothing Then
-                    If _retried = False Then
-                        ' We have a list and we never tried to get _process -> do it
-                        If _procList.ContainsKey(_pid.ToString) Then
-                            _process = _procList(_pid.ToString)
-                        End If
-                        _retried = True
-                    End If
-                End If
-            End If
-
-            Return 0
+            'If _process IsNot Nothing Then
+            '    Return _process.CpuUsage
+            'Else
+            '    ' We have a list and we never tried to get _process -> do it
+            '    ' Get it from lvProcess (this is the only list which calls
+            '    ' the Merge() func which calculate CPU usage)
+            '    _process = _frmMain.lvProcess.GetItemByKey(_pid.ToString)
+            '    If _process IsNot Nothing Then
+            '        Return _process.CpuUsage
+            '    Else
+            '        Return 0
+            '    End If
+            'End If
         End Get
     End Property
 
