@@ -15,10 +15,6 @@ Refactoring bugs
 - cannot enumerate strings in a file on a network dir (works in File but not in Processes->Strings)
 - crash first time I displayed help (IE component failure)
 
-- virer PtrToStructure et n'utiliser que MemoryAlloc
-
-- virer cMonitor pour les nouveaux services (et utiliser même méthode que pour les processus)
-
 - snapshot -> serviceDep et processesInJob + désactiver times + gestion historiques + recherche (pb de dico)
 
 - limiter taille MAX à pouvoir stocker pour systemInfo (comme pour les processus)

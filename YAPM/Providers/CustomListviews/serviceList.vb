@@ -35,6 +35,7 @@ Public Class serviceList
     ' ========================================
     ' Private
     ' ========================================
+    Private _firstRefresh As Boolean
     Private _all As Boolean
     Private _pid As Integer
     Private _first As Boolean
@@ -79,6 +80,11 @@ Public Class serviceList
             _all = value
         End Set
     End Property
+    Public ReadOnly Property FirstRefreshDone() As Boolean
+        Get
+            Return Not (_firstRefresh)
+        End Get
+    End Property
 
 #End Region
 
@@ -100,6 +106,7 @@ Public Class serviceList
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
 
         _first = True
+        _firstRefresh = True
 
         ' Set handlers
         _serviceConnection.Disconnected = New cServiceConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
@@ -114,6 +121,7 @@ Public Class serviceList
     ' Delete all items
     Public Sub ClearItems()
         _first = True
+        _firstRefresh = True
         _buffDico.Clear()
         _dico.Clear()
         _dicoDel.Clear()
@@ -318,6 +326,7 @@ Public Class serviceList
         MyBase.UpdateItems()
 
         generalLvSemaphore.Release()
+        _firstRefresh = False
     End Sub
 
     ' Force item refreshing
@@ -374,6 +383,7 @@ Public Class serviceList
         If MyBase.Connect Then
             Me.IsConnected = True
             _first = True
+            _firstRefresh = True
             _serviceConnection.ConnectionObj = _connectionObject
             asyncCallbackServiceEnumerate.ClearDico()
             _serviceConnection.Connect()

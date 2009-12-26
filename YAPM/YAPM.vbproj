@@ -696,7 +696,6 @@
     <Compile Include="Classes\Misc\cFile.vb" />
     <Compile Include="Classes\Misc\cLog.vb" />
     <Compile Include="Classes\Misc\cMonitor.vb" />
-    <Compile Include="Classes\Misc\cRegMonitor.vb" />
     <Compile Include="Native\Objects\Job.vb" />
     <Compile Include="Native\Objects\System.vb" />
     <Compile Include="Classes\Misc\cSystemInfo.vb" />

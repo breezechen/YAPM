@@ -30,7 +30,6 @@ Public Class frmMain
     ' ========================================
     ' Private attributes
     ' ========================================
-    Public WithEvents cReg As cRegMonitor
     Private _ribbonStyle As Boolean = True
     Private _local As Boolean = True
     Private _notWMI As Boolean = True
@@ -352,9 +351,6 @@ Public Class frmMain
         TrayIcon.SetCounter(2, Color.LightGreen, Color.FromArgb(0, 120, 0))
 
         PROCESSOR_COUNT = Program.SystemInfo.ProcessorCount
-
-        cReg = New cRegMonitor(Native.Api.NativeEnums.KeyType.LocalMachine, "SYSTEM\CurrentControlSet\Services", _
-                Native.Api.NativeEnums.KeyMonitoringType.ChangeName)
 
         With Me.graphMonitor
             .ColorMemory1 = Color.Yellow
@@ -1308,27 +1304,47 @@ Public Class frmMain
         Next
     End Sub
 
-    Private Sub creg_KeyAdded(ByVal key As cRegMonitor.KeyDefinition) Handles cReg.KeyAdded
-        'log.AppendLine("Service added : " & key.name)
-        If My.Settings.NotifyNewServices Then
-            With Me.Tray
-                .BalloonTipText = key.name
-                .BalloonTipIcon = ToolTipIcon.Info
-                .BalloonTipTitle = "A new service has been created"
-                .ShowBalloonTip(3000)
-            End With
+    Private Sub serviceCreated(ByRef item As cService) Handles lvServices.ItemAdded
+        If item IsNot Nothing Then
+            Program.Log.AppendLine("Service created : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
+            If My.Settings.NotifyNewServices AndAlso Me.lvServices.FirstRefreshDone Then
+                Dim text As String = "Name : " & item.Infos.Name
+                If item.Infos.ProcessId > 0 Then
+                    text &= " (" & item.Infos.ProcessId.ToString & ")"
+                End If
+                If item.Infos.FileInfo IsNot Nothing Then
+                    text &= vbNewLine & "Company : " & item.Infos.FileInfo.CompanyName & _
+                        vbNewLine & "Description : " & item.Infos.FileInfo.FileDescription
+                End If
+                With Me.Tray
+                    .BalloonTipText = text
+                    .BalloonTipIcon = ToolTipIcon.Info
+                    .BalloonTipTitle = "A new service has been created"
+                    .ShowBalloonTip(3000)
+                End With
+            End If
         End If
     End Sub
 
-    Private Sub creg_KeyDeleted(ByVal key As cRegMonitor.KeyDefinition) Handles cReg.KeyDeleted
-        'log.AppendLine("Service deleted : " & key.name)
-        If My.Settings.NotifyDeletedServices Then
-            With Me.Tray
-                .BalloonTipText = key.name
-                .BalloonTipIcon = ToolTipIcon.Info
-                .BalloonTipTitle = "A service has been deleted"
-                .ShowBalloonTip(3000)
-            End With
+    Private Sub serviceDeleted(ByRef item As cService) Handles lvServices.ItemDeleted
+        If item IsNot Nothing Then
+            Program.Log.AppendLine("Service deleted : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
+            If My.Settings.NotifyDeletedServices Then
+                Dim text As String = "Name : " & item.Infos.Name
+                If item.Infos.ProcessId > 0 Then
+                    text &= " (" & item.Infos.ProcessId.ToString & ")"
+                End If
+                If item.Infos.FileInfo IsNot Nothing Then
+                    text &= vbNewLine & "Company : " & item.Infos.FileInfo.CompanyName & _
+                        vbNewLine & "Description : " & item.Infos.FileInfo.FileDescription
+                End If
+                With Me.Tray
+                    .BalloonTipText = text
+                    .BalloonTipIcon = ToolTipIcon.Info
+                    .BalloonTipTitle = "A service has been deleted"
+                    .ShowBalloonTip(3000)
+                End With
+            End If
         End If
     End Sub
 
@@ -1848,7 +1864,7 @@ Public Class frmMain
         Call Me.DisconnectFromMachine()
     End Sub
 
-    Private Sub lvProcess_ItemAdded(ByRef item As cProcess) Handles lvProcess.ItemAdded
+    Private Sub processCreated(ByRef item As cProcess) Handles lvProcess.ItemAdded
         If item IsNot Nothing Then
             Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
             If Me.MenuItemTaskSelProc.Enabled = False Then
@@ -1875,7 +1891,7 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub lvProcess_ItemDeleted(ByRef item As cProcess) Handles lvProcess.ItemDeleted
+    Private Sub processDeleted(ByRef item As cProcess) Handles lvProcess.ItemDeleted
         If item IsNot Nothing Then
             Program.Log.AppendLine("Process deleted : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
             If My.Settings.NotifyTerminatedProcesses Then

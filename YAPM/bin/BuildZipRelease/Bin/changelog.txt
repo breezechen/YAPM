@@ -26,6 +26,7 @@ CHANGES FROM 2.4.2
 - Fixed bug #2918460, #2905263 (can't write hotkeys.xml on Windows Vista and above)
 - Fixed incorrect behaviour of 'Max history size' options on x64
 - Fixed a bug in 'search' feature
+- Service created/deleted notification also works for remote monitoring
 
 
 
