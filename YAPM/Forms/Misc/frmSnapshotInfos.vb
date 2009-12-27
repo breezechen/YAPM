@@ -94,7 +94,7 @@ Public Class frmSnapshotInfos
         ' Processes
         If snap.Processes IsNot Nothing Then
             Dim rootProcess As TreeNode = rootData.Nodes.Add("Processes")
-            For Each pair As Collections.Generic.KeyValuePair(Of String, processInfos) In snap.Processes
+            For Each pair As Collections.Generic.KeyValuePair(Of Integer, processInfos) In snap.Processes
                 Dim n As New TreeNode(pair.Key & " - " & pair.Value.Name)
 
                 ' Env var

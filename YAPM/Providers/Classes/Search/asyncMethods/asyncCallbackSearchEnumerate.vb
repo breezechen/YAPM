@@ -106,7 +106,7 @@ Public Class asyncCallbackSearchEnumerate
                 If snap IsNot Nothing Then
 
                     ' ---- PROCESSES
-                    Dim _procs As New Dictionary(Of String, processInfos)
+                    Dim _procs As New Dictionary(Of Integer, processInfos)
                     _procs = snap.Processes
                     If snap.Processes IsNot Nothing Then
                         If _procs IsNot Nothing Then
@@ -283,7 +283,7 @@ Public Class asyncCallbackSearchEnumerate
                 ' ---- PROCESSES
                 If (pObj.includ And GeneralObjectType.Process) = GeneralObjectType.Process Then
                     If Native.Objects.Process.CurrentProcesses IsNot Nothing Then
-                        Dim _tmpDico As New Dictionary(Of String, processInfos)
+                        Dim _tmpDico As New Dictionary(Of Integer, processInfos)
                         _tmpDico = Native.Objects.Process.CurrentProcesses
                         For Each _cp As processInfos In _tmpDico.Values
                             Dim cp As New cProcess(_cp)

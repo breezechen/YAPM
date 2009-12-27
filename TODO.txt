@@ -2,15 +2,14 @@ TODO LIST
 
 Refactoring bugs
 
+- xp sp3 : enum des env variables foire (regression : checker les modifications apportées à envVariableEnum)
 - ajouter écriture log (ShowDebugLog + option)
-- _dicoNew et _dicoDel en local à la procédure pour tous les asyncXXXEnum, _buffDico useless
-
-- diviser les onglets de frmProcessInfos en usercontrol et les ajouter manuellement (en fonction de la connection et du type de process 4,0  ou >4)
+- bug col modif (cf. affectation dico process)
 
 - rapport général
 - serviceDep et processesInJob pour le snapshot
 
-- x64 via server : peut pas énumérer handles, modules et memory
+- x64 via server : peut pas énumérer handles, modules et memory, username/path des processus
 - checker pb encapsulation 64b pour les SetJobLimits (memory limits)
 
 - job enumeration can work even if not admin (xp)
@@ -33,6 +32,7 @@ BUGS CRITIQUES
 - Save main report à faire
 	
 BUGS NON CRITIQUES
+- diviser les onglets de frmProcessInfos en usercontrol et les ajouter manuellement (en fonction de la connection et du type de process 4,0  ou >4)
 - close local process handle -> utiliser DuplicateHandle plutôt que remote thread
 - problème icones menu principal cachées (Vista seulement)
 - columns lvHeap

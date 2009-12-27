@@ -30,7 +30,7 @@ Public Class cSnapshot
 #Region "Private attributes"
 
     ' List of processes
-    Private _processes As New Dictionary(Of String, processInfos)
+    Private _processes As New Dictionary(Of Integer, processInfos)
 
     ' List of services
     Private _services As New Dictionary(Of String, serviceInfos)
@@ -161,11 +161,11 @@ Public Class cSnapshot
 #Region "Other properties"
 
     ' List of processes
-    Public Property Processes() As Dictionary(Of String, processInfos)
+    Public Property Processes() As Dictionary(Of Integer, processInfos)
         Get
             Return _processes
         End Get
-        Set(ByVal value As Dictionary(Of String, processInfos))
+        Set(ByVal value As Dictionary(Of Integer, processInfos))
             _processes = value
         End Set
     End Property

@@ -52,10 +52,10 @@ Public Class asyncCallbackProcessesInJobEnumerate
     ' When socket got a list  !
     Private _poolObj As poolObj
     Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
-        Dim dico As New Dictionary(Of String, processInfos)
+        Dim dico As New Dictionary(Of Integer, processInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
-                dico.Add(keys(x), DirectCast(lst(x), processInfos))
+                dico.Add(Integer.Parse(keys(x)), DirectCast(lst(x), processInfos))
             Next
         End If
         If deg IsNot Nothing AndAlso ctrl.Created Then _
@@ -94,7 +94,7 @@ Public Class asyncCallbackProcessesInJobEnumerate
             Case Else
                 ' Local
 
-                Dim _dico As Dictionary(Of String, processInfos) = _
+                Dim _dico As Dictionary(Of Integer, processInfos) = _
                         Native.Objects.Job.GetProcessesInJobByName(pObj.jobName)
 
                 If deg IsNot Nothing Then

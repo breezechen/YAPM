@@ -47,7 +47,7 @@ Namespace Wmi.Objects
         ' Enumerate processes
         Public Shared Function EnumerateProcesses( _
                         ByVal objSearcher As Management.ManagementObjectSearcher, _
-                        ByRef _dico As Dictionary(Of String, processInfos), _
+                        ByRef _dico As Dictionary(Of Integer, processInfos), _
                         ByRef errMsg As String) As Boolean
 
             SyncLock Native.Objects.Process._dicoNewProcesses
@@ -131,9 +131,8 @@ Namespace Wmi.Objects
                             Trace.WriteLine("Got fixed infos for id = " & obj.ProcessId.ToString)
                         End If
 
-                        Dim sKey As String = obj.ProcessId.ToString
-                        If _dico.ContainsKey(sKey) = False Then
-                            _dico.Add(sKey, _procInfos)
+                        If _dico.ContainsKey(obj.ProcessId) = False Then
+                            _dico.Add(obj.ProcessId, _procInfos)
                         End If
                     Next
 

@@ -55,7 +55,7 @@ Public Class cJobConnection
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, jobInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
-    Public Delegate Sub HasEnumeratedProcInJobEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Public Delegate Sub HasEnumeratedProcInJobEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of Integer, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler

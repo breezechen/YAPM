@@ -214,7 +214,7 @@ Public Class processList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of Integer, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         generalLvSemaphore.WaitOne()
 
@@ -234,18 +234,18 @@ Public Class processList
 
 
             ' Now add all items with isKilled = true to _dicoDel dictionnary
-            Dim _dicoDel As New List(Of String)
+            Dim _dicoDel As New List(Of Integer)
             For Each z As cProcess In _dico.Values
                 If z.IsKilledItem Then
-                    _dicoDel.Add(z.Infos.ProcessId.ToString)
+                    _dicoDel.Add(z.Infos.ProcessId)
                 End If
             Next
 
 
             ' Now add new items to dictionnary
-            Dim _dicoNew As New List(Of String)
-            For Each pair As System.Collections.Generic.KeyValuePair(Of String, processInfos) In Dico
-                If Not (_dico.ContainsKey(pair.Key)) Then
+            Dim _dicoNew As New List(Of Integer)
+            For Each pair As System.Collections.Generic.KeyValuePair(Of Integer, processInfos) In Dico
+                If Not (_dico.ContainsKey(pair.Key.ToString)) Then
                     ' Add to dico
                     _dicoNew.Add(pair.Key)
                 End If
@@ -253,10 +253,10 @@ Public Class processList
 
 
             ' Now remove deleted items from dictionnary
-            For Each z As String In _dico.Keys
+            For Each z As Integer In _dico.Keys
                 If Dico.ContainsKey(z) = False Then
                     ' Remove from dico
-                    _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
+                    _dico.Item(z.ToString).IsKilledItem = True  ' Will be deleted next time
                 End If
             Next
 
@@ -271,7 +271,7 @@ Public Class processList
 
 
             ' Merge _dico and _dicoNew
-            For Each z As String In _dicoNew
+            For Each z As Integer In _dicoNew
                 Dim _it As New cProcess(Dico(z))
                 RaiseEvent ItemAdded(_it)
                 _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
@@ -301,8 +301,8 @@ Public Class processList
             For Each it In Me.Items
                 Dim x As Integer = 0
                 Dim _item As cProcess = _dico.Item(it.Name)
-                If Dico.ContainsKey(it.Name) Then
-                    _item.Merge(Dico.Item(it.Name))
+                If Dico.ContainsKey(_item.Infos.ProcessId) Then
+                    _item.Merge(Dico.Item(_item.Infos.ProcessId))
                 End If
                 Dim ___info As String = Nothing
                 For Each isub In it.SubItems

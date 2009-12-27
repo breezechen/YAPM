@@ -50,7 +50,7 @@ Namespace Native.Objects
         Private Shared memAllocPIDs As New Native.Memory.MemoryAlloc(&H100)             ' NOTE : never unallocated
 
         ' Current processes running
-        Private Shared _currentProcesses As New Dictionary(Of String, processInfos)
+        Private Shared _currentProcesses As New Dictionary(Of Integer, processInfos)
 
         ' List of new processes
         Friend Shared _dicoNewProcesses As New List(Of Integer)
@@ -92,11 +92,11 @@ Namespace Native.Objects
         End Property
 
         ' Current processes
-        Public Shared Property CurrentProcesses() As Dictionary(Of String, processInfos)
+        Public Shared Property CurrentProcesses() As Dictionary(Of Integer, processInfos)
             Get
                 Return _currentProcesses
             End Get
-            Set(ByVal value As Dictionary(Of String, processInfos))
+            Set(ByVal value As Dictionary(Of Integer, processInfos))
                 SyncLock _currentProcesses
                     _currentProcesses = value
                 End SyncLock
@@ -649,9 +649,9 @@ Namespace Native.Objects
         ''' Enumerate processes
         ''' MUST BE protected by _semNewProcesses
         ''' </summary>
-        Public Shared Function EnumerateVisibleProcesses(Optional ByVal forceAllInfos As Boolean = False) As Dictionary(Of String, processInfos)
+        Public Shared Function EnumerateVisibleProcesses(Optional ByVal forceAllInfos As Boolean = False) As Dictionary(Of Integer, processInfos)
 
-            Dim _dico As New Dictionary(Of String, processInfos)
+            Dim _dico As New Dictionary(Of Integer, processInfos)
 
             SyncLock _dicoNewProcesses
 
@@ -724,9 +724,8 @@ Namespace Native.Objects
                     End If
 
                     offset += obj.NextEntryOffset
-                    Dim sKey As String = obj.ProcessId.ToString
-                    If _dico.ContainsKey(sKey) = False Then
-                        _dico.Add(sKey, _procInfos)
+                    If _dico.ContainsKey(obj.ProcessId) = False Then
+                        _dico.Add(obj.ProcessId, _procInfos)
                     End If
 
                     If obj.NextEntryOffset = 0 Then
@@ -741,13 +740,13 @@ Namespace Native.Objects
         End Function
 
         ' Get all hidden processes (handle method)
-        Public Shared Function EnumerateHiddenProcessesHandleMethod() As Dictionary(Of String, processInfos)
+        Public Shared Function EnumerateHiddenProcessesHandleMethod() As Dictionary(Of Integer, processInfos)
 
             ' Refresh list of drives
             Common.Misc.RefreshLogicalDrives()
 
             ' For each Process Id (PID) possible
-            Dim _dico As New Dictionary(Of String, processInfos)
+            Dim _dico As New Dictionary(Of Integer, processInfos)
 
             ' Firstly, we get all instances of csrss.exe process.
             ' We retrieve them from visible list. So if csrss.exe processes are hidden... DAMN !!!
@@ -778,8 +777,8 @@ Namespace Native.Objects
                         Dim _path As String = GetProcessPathById(obj.ProcessId)
                         Dim _procInfos As New processInfos(obj.ToSystemProcessInformation64, cFile.GetFileName(_path))
                         _procInfos.Path = _path
-                        If _dico.ContainsKey(pid.ToString) = False Then
-                            _dico.Add(pid.ToString, _procInfos)
+                        If _dico.ContainsKey(pid) = False Then
+                            _dico.Add(pid, _procInfos)
                         End If
                     End If
                     NativeFunctions.CloseHandle(_dup)
@@ -796,8 +795,8 @@ Namespace Native.Objects
                 Dim _path As String = GetProcessPathById(obj.ProcessId)
                 Dim _procInfos As New processInfos(obj.ToSystemProcessInformation64, cFile.GetFileName(_path))
                 _procInfos.Path = _path
-                If _dico.ContainsKey(h.ToString) = False Then
-                    _dico.Add(h.ToString, _procInfos)
+                If _dico.ContainsKey(h) = False Then
+                    _dico.Add(h, _procInfos)
                 End If
 
                 NativeFunctions.CloseHandle(_csrss(h))
@@ -809,8 +808,8 @@ Namespace Native.Objects
 
             ' Merge results
             For Each pp As processInfos In _visible.Values
-                If _dico.ContainsKey(pp.ProcessId.ToString) = False Then
-                    _dico.Add(pp.ProcessId.ToString, pp)
+                If _dico.ContainsKey(pp.ProcessId) = False Then
+                    _dico.Add(pp.ProcessId, pp)
                 End If
             Next
 
@@ -826,13 +825,13 @@ Namespace Native.Objects
         End Function
 
         ' Get all hidden processes (brute force)
-        Public Shared Function EnumerateHiddenProcessesBruteForce() As Dictionary(Of String, processInfos)
+        Public Shared Function EnumerateHiddenProcessesBruteForce() As Dictionary(Of Integer, processInfos)
 
             ' Refresh list of drives
             Common.Misc.RefreshLogicalDrives()
 
             ' For each Process Id (PID) possible
-            Dim _dico As New Dictionary(Of String, processInfos)
+            Dim _dico As New Dictionary(Of Integer, processInfos)
 
             ' For each PID...
             For pid As Integer = &H8 To &HFFFF Step 4
@@ -849,9 +848,8 @@ Namespace Native.Objects
                         Dim _path As String = GetProcessPathById(obj.ProcessId)
                         Dim _procInfos As New processInfos(obj.ToSystemProcessInformation64, cFile.GetFileName(_path))
                         _procInfos.Path = _path
-                        Dim sKey As String = pid.ToString
-                        If _dico.ContainsKey(sKey) = False Then
-                            _dico.Add(sKey, _procInfos)
+                        If _dico.ContainsKey(pid) = False Then
+                            _dico.Add(pid, _procInfos)
                         End If
                     End If
                     NativeFunctions.CloseHandle(handle)
@@ -863,8 +861,8 @@ Namespace Native.Objects
 
             ' Merge results
             For Each pp As processInfos In _visible.Values
-                If _dico.ContainsKey(pp.ProcessId.ToString) = False Then
-                    _dico.Add(pp.ProcessId.ToString, pp)
+                If _dico.ContainsKey(pp.ProcessId) = False Then
+                    _dico.Add(pp.ProcessId, pp)
                 End If
             Next
 
@@ -885,9 +883,9 @@ Namespace Native.Objects
 
             Dim tt As cProcess = Nothing
             If _currentProcesses IsNot Nothing Then
-                If _currentProcesses.ContainsKey(id.ToString) Then
+                If _currentProcesses.ContainsKey(id) Then
                     Try
-                        tt = New cProcess(_currentProcesses.Item(id.ToString))
+                        tt = New cProcess(_currentProcesses.Item(id))
                     Catch ex As Exception
                         ' Item was removed just after ContainsKey... bad luck :-(
                     End Try

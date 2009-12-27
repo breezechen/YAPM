@@ -180,7 +180,7 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedProcessInJob(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedProcessInJob(ByVal Success As Boolean, ByVal Dico As Dictionary(Of Integer, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success Then
             Try
@@ -275,7 +275,7 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedProcess(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedProcess(ByVal Success As Boolean, ByVal Dico As Dictionary(Of Integer, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         If Success Then
             Try

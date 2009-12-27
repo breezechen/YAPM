@@ -172,7 +172,7 @@ Public Class processesInJobList
     ' ========================================
 
     ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of Integer, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
         generalLvSemaphore.WaitOne()
 
@@ -210,24 +210,24 @@ Public Class processesInJobList
 
 
             ' Now remove deleted items from dictionnary
-            For Each z As String In _dico.Keys
+            For Each z As Integer In _dico.Keys
                 If Dico.ContainsKey(z) = False Then
                     ' Remove from dico
-                    _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
+                    _dico.Item(z.ToString).IsKilledItem = True  ' Will be deleted next time
                 End If
             Next
 
 
             ' Now remove all deleted items from listview and _dico
-            For Each z As String In _dicoDel
-                Me.Items.RemoveByKey(z)
-                RaiseEvent ItemDeleted(_dico.Item(z))
-                _dico.Remove(z)
+            For Each z As Integer In _dicoDel
+                Me.Items.RemoveByKey(z.ToString)
+                RaiseEvent ItemDeleted(_dico.Item(z.ToString))
+                _dico.Remove(z.ToString)
             Next
 
 
             ' Merge _dico and _dicoNew
-            For Each z As String In _dicoNew
+            For Each z As Integer In _dicoNew
                 Dim _it As cProcess = cProcess.GetProcessById(Dico(z).ProcessId)
                 RaiseEvent ItemAdded(_it)
                 _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item

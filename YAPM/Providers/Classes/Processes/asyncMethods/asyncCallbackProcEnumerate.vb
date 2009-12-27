@@ -112,11 +112,11 @@ Public Class asyncCallbackProcEnumerate
     ' When socket got a list of processes !
     Private _poolObj As poolObj
     Friend Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
-        Dim _dico As New Dictionary(Of String, processInfos)
+        Dim _dico As New Dictionary(Of Integer, processInfos)
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
-                If _dico.ContainsKey(keys(x)) = False Then
-                    _dico.Add(keys(x), DirectCast(lst(x), processInfos))
+                If _dico.ContainsKey(Integer.Parse(keys(x))) = False Then
+                    _dico.Add(Integer.Parse(keys(x)), DirectCast(lst(x), processInfos))
                 End If
             Next
         End If
@@ -156,7 +156,7 @@ Public Class asyncCallbackProcEnumerate
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                Dim _dico As New Dictionary(Of String, processInfos)
+                Dim _dico As New Dictionary(Of Integer, processInfos)
                 Dim msg As String = ""
                 Dim res As Boolean = _
                     Wmi.Objects.Process.EnumerateProcesses(con.wmiSearcher, _dico, msg)
@@ -174,7 +174,7 @@ Public Class asyncCallbackProcEnumerate
             Case cConnection.TypeOfConnection.SnapshotFile
                 ' Snapshot
 
-                Dim _dico As New Dictionary(Of String, processInfos)
+                Dim _dico As New Dictionary(Of Integer, processInfos)
                 Dim snap As cSnapshot = con.ConnectionObj.Snapshot
                 If snap IsNot Nothing Then
                     _dico = snap.Processes
@@ -192,7 +192,7 @@ Public Class asyncCallbackProcEnumerate
 
             Case Else
                 ' Local
-                Dim _dico As Dictionary(Of String, processInfos)
+                Dim _dico As Dictionary(Of Integer, processInfos)
 
                 Static hasFailedAtLeastOnce As Boolean = False
 
@@ -225,7 +225,7 @@ Public Class asyncCallbackProcEnumerate
                 End Select
 
                 ' Save current processes into a dictionary
-                Native.Objects.Process.CurrentProcesses = _dico
+                '  Native.Objects.Process.CurrentProcesses = _dico
 
                 Try
                     If deg IsNot Nothing AndAlso ctrl.Created Then
@@ -241,8 +241,8 @@ Public Class asyncCallbackProcEnumerate
     End Sub
 
     ' Shared, local and sync enumeration
-    Public Shared Function SharedLocalSyncEnumerate(ByVal forceAllInfos As Boolean, ByVal pObj As poolObj) As Dictionary(Of String, processInfos)
-        Dim _dico As Dictionary(Of String, processInfos)
+    Public Shared Function SharedLocalSyncEnumerate(ByVal forceAllInfos As Boolean, ByVal pObj As poolObj) As Dictionary(Of Integer, processInfos)
+        Dim _dico As Dictionary(Of Integer, processInfos)
 
         Select Case pObj.method
             Case ProcessEnumMethode.BruteForce

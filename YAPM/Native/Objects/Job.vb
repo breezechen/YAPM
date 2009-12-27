@@ -508,12 +508,12 @@ Namespace Native.Objects
         End Function
 
         ' Enumerate Processes in a job
-        Public Shared Function GetProcessesInJobByName(ByVal jobName As String) As Dictionary(Of String, processInfos)
+        Public Shared Function GetProcessesInJobByName(ByVal jobName As String) As Dictionary(Of Integer, processInfos)
 
             ' Query valid handle
             Dim hJob As IntPtr = BeginUsingValidJobHandle(jobName)
 
-            Dim procs As New Dictionary(Of String, processInfos)
+            Dim procs As New Dictionary(Of Integer, processInfos)
             Dim ret As Integer
 
             If hJob.IsNotNull Then
@@ -536,8 +536,8 @@ Namespace Native.Objects
                             ' yet available in list of cProcesses
                             If proc IsNot Nothing AndAlso pid > 0 Then
                                 ' PERFISSUE ?
-                                If procs.ContainsKey(pid.ToString) = False Then
-                                    procs.Add(pid.ToString, proc.Infos)
+                                If procs.ContainsKey(pid) = False Then
+                                    procs.Add(pid, proc.Infos)
                                 End If
                             End If
                         Next

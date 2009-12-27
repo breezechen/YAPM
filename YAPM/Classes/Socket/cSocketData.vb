@@ -330,7 +330,7 @@ Option Strict On
 
     End Sub
 
-    Public Sub SetProcessList(ByVal dico As Dictionary(Of String, processInfos))
+    Public Sub SetProcessList(ByVal dico As Dictionary(Of Integer, processInfos))
         If dico Is Nothing Then
             Exit Sub
         End If
@@ -340,9 +340,9 @@ Option Strict On
         ReDim _keys(dico.Count - 1)
 
         Dim x As Integer = 0
-        For Each pp As System.Collections.Generic.KeyValuePair(Of String, processInfos) In dico
+        For Each pp As System.Collections.Generic.KeyValuePair(Of Integer, processInfos) In dico
             _list(x) = pp.Value
-            _keys(x) = pp.Key
+            _keys(x) = pp.Key.ToString
             x += 1
         Next
 
