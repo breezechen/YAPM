@@ -148,11 +148,16 @@ Public Class moduleList
     Public Shadows Function GetSelectedItems() As Dictionary(Of String, cModule).ValueCollection
         Dim res As New Dictionary(Of String, cModule)
 
-        generalLvSemaphore.WaitOne()
-        For Each it As ListViewItem In Me.SelectedItems
-            res.Add(it.Name, _dico.Item(it.Name))
-        Next
-        generalLvSemaphore.Release()
+        Try
+            generalLvSemaphore.WaitOne()
+            For Each it As ListViewItem In Me.SelectedItems
+                res.Add(it.Name, _dico.Item(it.Name))
+            Next
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
 
         Return res.Values
     End Function
@@ -165,13 +170,12 @@ Public Class moduleList
     ' Executed when enumeration is done
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, moduleInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
-        generalLvSemaphore.WaitOne()
-
         Try
+            generalLvSemaphore.WaitOne()
+
             If Success = False Then
                 Trace.WriteLine("Cannot enumerate, an error was raised...")
                 RaiseEvent GotAnError("Module enumeration", errorMessage)
-                generalLvSemaphore.Release()
                 Exit Sub
             End If
 

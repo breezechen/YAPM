@@ -66,67 +66,71 @@ Public Class asyncCallbackNetworkEnumerate
     Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
 
-        sem.WaitOne()
+        Try
+            sem.WaitOne()
 
-        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
-            sem.Release()
-            Exit Sub
-        End If
+            Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+            If con.ConnectionObj.IsConnected = False Then
+                Exit Sub
+            End If
 
-        Select Case con.ConnectionObj.ConnectionType
+            Select Case con.ConnectionObj.ConnectionType
 
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                _poolObj = pObj
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestNetworkConnectionList, pObj.pid, pObj.all)
-                    cDat.InstanceId = _instanceId   ' Instance which request the list
-                    con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    _poolObj = pObj
+                    Try
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestNetworkConnectionList, pObj.pid, pObj.all)
+                        cDat.InstanceId = _instanceId   ' Instance which request the list
+                        con.ConnectionObj.Socket.Send(cDat)
+                    Catch ex As Exception
+                        Misc.ShowError(ex, "Unable to send request to server")
+                    End Try
 
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
-            Case cConnection.TypeOfConnection.SnapshotFile
-                ' Snapshot
+                Case cConnection.TypeOfConnection.SnapshotFile
+                    ' Snapshot
 
-                Dim _dico As New Dictionary(Of String, networkInfos)
-                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
-                If snap IsNot Nothing Then
-                    If pObj.all Then
-                        ' All connections
-                        _dico = snap.NetworkConnections
-                    Else
-                        ' For one process only
-                        _dico = snap.NetworkConnectionsByProcessId(pObj.pid)
+                    Dim _dico As New Dictionary(Of String, networkInfos)
+                    Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                    If snap IsNot Nothing Then
+                        If pObj.all Then
+                            ' All connections
+                            _dico = snap.NetworkConnections
+                        Else
+                            ' For one process only
+                            _dico = snap.NetworkConnectionsByProcessId(pObj.pid)
+                        End If
                     End If
-                End If
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
 
-            Case Else
-                ' Local
+                Case Else
+                    ' Local
 
-                Dim _dico As New Dictionary(Of String, networkInfos)
+                    Dim _dico As New Dictionary(Of String, networkInfos)
 
-                ' Enumeration
-                Native.Objects.Network.EnumerateTcpUdpConnections(_dico, pObj.all, pObj.pid)
+                    ' Enumeration
+                    Native.Objects.Network.EnumerateTcpUdpConnections(_dico, pObj.all, pObj.pid)
 
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
 
-        End Select
+            End Select
 
-        sem.Release()
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            sem.Release()
+        End Try
 
     End Sub
 

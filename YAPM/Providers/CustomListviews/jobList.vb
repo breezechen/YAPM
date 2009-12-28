@@ -123,11 +123,16 @@ Public Class jobList
     Public Shadows Function GetSelectedItems() As Dictionary(Of String, cJob).ValueCollection
         Dim res As New Dictionary(Of String, cJob)
 
-        generalLvSemaphore.WaitOne()
-        For Each it As ListViewItem In Me.SelectedItems
-            res.Add(it.Name, _dico.Item(it.Name))
-        Next
-        generalLvSemaphore.Release()
+        Try
+            generalLvSemaphore.WaitOne()
+            For Each it As ListViewItem In Me.SelectedItems
+                res.Add(it.Name, _dico.Item(it.Name))
+            Next
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
 
         Return res.Values
     End Function
@@ -140,13 +145,12 @@ Public Class jobList
     ' Executed when enumeration is done
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, jobInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
-        generalLvSemaphore.WaitOne()
-
         Try
+            generalLvSemaphore.WaitOne()
+
             If Success = False Then
                 Trace.WriteLine("Cannot enumerate, an error was raised...")
                 RaiseEvent GotAnError("Job connection enumeration", errorMessage)
-                generalLvSemaphore.Release()
                 Exit Sub
             End If
 

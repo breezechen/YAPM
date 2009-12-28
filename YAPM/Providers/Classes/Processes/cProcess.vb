@@ -652,21 +652,6 @@ Public Class cProcess
         Select Case info
             Case "ParentPID"
                 res = Me.Infos.ParentProcessId.ToString
-            Case "ParentName"
-                If _parentName = vbNullString Then
-                    Dim _pi As Integer = Me.Infos.ParentProcessId
-                    If _pi > 4 Then
-                        _parentName = GetProcessName(Me.Infos.ParentProcessId)
-                        If Len(_parentName) = 0 Then
-                            _parentName = "[Parent killed]"
-                        End If
-                    ElseIf _pi = 4 Then
-                        _parentName = "Idle process"
-                    Else
-                        _parentName = NO_INFO_RETRIEVED
-                    End If
-                End If
-                res = _parentName
             Case "PID"
                 res = Me.Infos.ProcessId.ToString
             Case "UserName"
@@ -811,7 +796,6 @@ Public Class cProcess
         ' Old values (from last refresh)
         Static _old_ObjectCreationDate As String = ""
         Static _old_PendingTaskCount As String = ""
-        Static _old_ParentName As String = ""
         Static _old_ParentPID As String = ""
         Static _old_PID As String = ""
         Static _old_UserName As String = ""
@@ -894,26 +878,6 @@ Public Class cProcess
                     hasChanged = False
                 Else
                     _old_ParentPID = res
-                End If
-            Case "ParentName"
-                If _parentName = vbNullString Then
-                    Dim _pi As Integer = Me.Infos.ParentProcessId
-                    If _pi > 4 Then
-                        _parentName = GetProcessName(Me.Infos.ParentProcessId)
-                        If Len(_parentName) = 0 Then
-                            _parentName = "[Parent killed]"
-                        End If
-                    ElseIf _pi = 4 Then
-                        _parentName = "Idle process"
-                    Else
-                        _parentName = NO_INFO_RETRIEVED
-                    End If
-                End If
-                res = _parentName
-                If res = _old_ParentName Then
-                    hasChanged = False
-                Else
-                    _old_ParentName = res
                 End If
             Case "PID"
                 res = Me.Infos.ProcessId.ToString
@@ -1392,17 +1356,9 @@ Public Class cProcess
 
 #Region "Shared function"
 
-    ' Return process from id
-    ' This method is thread safe, and does not depend of current connection mode
-    Public Shared Function GetProcessById(ByVal pid As Integer) As cProcess
-        ' Get it from dico of current processes, which is updated in
-        ' main lvProcess each updateItems() call
-        Return Native.Objects.Process.GetProcessById(pid)
-    End Function
-
     ' Return Process name
     Public Shared Function GetProcessName(ByVal pid As Integer) As String
-        Dim cp As cProcess = cProcess.GetProcessById(pid)
+        Dim cp As cProcess = ProcessProvider.GetProcessById(pid)
         If cp IsNot Nothing Then
             Return cp.Infos.Name
         Else

@@ -656,7 +656,7 @@ Public Class frmProcessInfo
         End If
 
         ' Parent process exists ?
-        Me.cmdGoProcess.Enabled = (cProcess.GetProcessById(curProc.Infos.ParentProcessId) IsNot Nothing)
+        Me.cmdGoProcess.Enabled = (ProcessProvider.GetProcessById(curProc.Infos.ParentProcessId) IsNot Nothing)
 
         ' Wow64 process ?
         If curProc.IsWow64Process Then
@@ -739,7 +739,7 @@ Public Class frmProcessInfo
 
 
         ' Parent process exists ?
-        Me.cmdGoProcess.Enabled = (cProcess.GetProcessById(curProc.Infos.ParentProcessId) IsNot Nothing)
+        Me.cmdGoProcess.Enabled = (ProcessProvider.GetProcessById(curProc.Infos.ParentProcessId) IsNot Nothing)
 
 
         ' Refresh informations about process
@@ -3047,7 +3047,7 @@ Public Class frmProcessInfo
 
     Private Sub cmdGoProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGoProcess.Click
         ' Select parent process
-        Dim _t As cProcess = cProcess.GetProcessById(curProc.Infos.ParentProcessId)
+        Dim _t As cProcess = ProcessProvider.GetProcessById(curProc.Infos.ParentProcessId)
         If _t IsNot Nothing Then
             Dim frm As New frmProcessInfo
             frm.SetProcess(_t)

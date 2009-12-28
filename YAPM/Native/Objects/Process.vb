@@ -49,12 +49,6 @@ Namespace Native.Objects
         ' Mem alloc for handle enumeration
         Private Shared memAllocPIDs As New Native.Memory.MemoryAlloc(&H100)             ' NOTE : never unallocated
 
-        ' Current processes running
-        Private Shared _currentProcesses As New Dictionary(Of Integer, processInfos)
-
-        ' List of new processes
-        Friend Shared _dicoNewProcesses As New List(Of Integer)
-
         ' Protection for 'kill by method'
         Private Shared _semKillByMethod As New System.Threading.Semaphore(1, 1)
 
@@ -89,30 +83,6 @@ Namespace Native.Objects
                 End If
                 Return _minRights
             End Get
-        End Property
-
-        ' Current processes
-        Public Shared Property CurrentProcesses() As Dictionary(Of Integer, processInfos)
-            Get
-                Return _currentProcesses
-            End Get
-            Set(ByVal value As Dictionary(Of Integer, processInfos))
-                SyncLock _currentProcesses
-                    _currentProcesses = value
-                End SyncLock
-            End Set
-        End Property
-
-        ' New processes
-        Public Shared Property NewProcesses() As List(Of Integer)
-            Get
-                Return _dicoNewProcesses
-            End Get
-            Set(ByVal value As List(Of Integer))
-                SyncLock _dicoNewProcesses
-                    _dicoNewProcesses = value
-                End SyncLock
-            End Set
         End Property
 
         ' Is a process in job ?
@@ -154,35 +124,6 @@ Namespace Native.Objects
         ' ========================================
         ' Public functions
         ' ========================================
-
-        ' Remove some PIDs from new processes list
-        Public Shared Sub RemoveProcessesFromListOfNewProcesses(ByVal pid() As Integer)
-            If pid IsNot Nothing Then
-                SyncLock _dicoNewProcesses
-                    For Each id As Integer In pid
-                        If _dicoNewProcesses.Contains(id) Then
-                            _dicoNewProcesses.Remove(id)
-                        End If
-                    Next
-                End SyncLock
-            End If
-        End Sub
-        Public Shared Sub RemoveProcesseFromListOfNewProcesses(ByVal pid As String)
-            Dim _pid As Integer = Integer.Parse(pid)
-            SyncLock _dicoNewProcesses
-                If _dicoNewProcesses.Contains(_pid) Then
-                    _dicoNewProcesses.Remove(_pid)
-                End If
-            End SyncLock
-        End Sub
-
-        ' Clear new process dico
-        Public Shared Sub ClearNewProcessesDico()
-            SyncLock _dicoNewProcesses
-                _dicoNewProcesses.Clear()
-            End SyncLock
-        End Sub
-
 
         ' Set affinity to a process
         Public Shared Function SetProcessAffinityByHandle(ByVal hProc As IntPtr, _
@@ -524,7 +465,7 @@ Namespace Native.Objects
                         NativeFunctions.CloseHandle(hToken)
 
                         Dim user As New NativeStructs.TokenUser
-                        user = memAlloc.ReadStruct(Of NativeStructs.TokenUser) 
+                        user = memAlloc.ReadStruct(Of NativeStructs.TokenUser)()
                         Objects.Token.GetAccountNameFromSid(user.User.Sid, _
                                                             username, _
                                                             domain)
@@ -653,7 +594,8 @@ Namespace Native.Objects
 
             Dim _dico As New Dictionary(Of Integer, processInfos)
 
-            SyncLock _dicoNewProcesses
+            Try
+                ProcessProvider._semNewProceses.WaitOne()
 
                 ' Refresh list of drives
                 Common.Misc.RefreshLogicalDrives()
@@ -680,7 +622,7 @@ Namespace Native.Objects
 
 
                     ' Do we have to get fixed infos ?
-                    If forceAllInfos OrElse _dicoNewProcesses.Contains(obj.ProcessId) = False Then
+                    If forceAllInfos OrElse ProcessProvider._dicoNewProcesses.Contains(obj.ProcessId) = False Then
 
                         Dim _path As String = GetProcessPathById(obj.ProcessId)
                         Dim _domain As String = Nothing
@@ -715,9 +657,9 @@ Namespace Native.Objects
 
                         ' Have to check if key already exists if we force retrieving
                         ' of all informations, else it has already be done before
-                        If _dicoNewProcesses.Contains(obj.ProcessId) = False Then
+                        If ProcessProvider._dicoNewProcesses.Contains(obj.ProcessId) = False Then
                             ' Add to list (<-> process exists)
-                            _dicoNewProcesses.Add(obj.ProcessId)
+                            ProcessProvider._dicoNewProcesses.Add(obj.ProcessId)
                         End If
 
                         Trace.WriteLine("Got fixed infos for id = " & obj.ProcessId.ToString)
@@ -734,9 +676,15 @@ Namespace Native.Objects
                     x += 1
                 Loop
 
-            End SyncLock
+
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            Finally
+                ProcessProvider._semNewProceses.Release()
+            End Try
 
             Return _dico
+
         End Function
 
         ' Get all hidden processes (handle method)
@@ -877,25 +825,6 @@ Namespace Native.Objects
 
         End Function
 
-        ' Get a service by name
-        ' Thread safe (get an item does not need to be thread-protected)
-        Public Shared Function GetProcessById(ByVal id As Integer) As cProcess
-
-            Dim tt As cProcess = Nothing
-            If _currentProcesses IsNot Nothing Then
-                If _currentProcesses.ContainsKey(id) Then
-                    Try
-                        tt = New cProcess(_currentProcesses.Item(id))
-                    Catch ex As Exception
-                        ' Item was removed just after ContainsKey... bad luck :-(
-                    End Try
-                End If
-            End If
-
-            Return tt
-
-        End Function
-
         ' Return a handle for a process
         Public Shared Function GetProcessHandleById(ByVal pid As Integer, ByVal access As Security.ProcessAccess) As IntPtr
             Return NativeFunctions.OpenProcess(access, False, pid)
@@ -906,47 +835,52 @@ Namespace Native.Objects
         Public Shared Function KillProcessByMethod(ByVal pid As Integer, _
                                 ByVal method As Enums.KillMethod) As Boolean
 
-            _semKillByMethod.WaitOne()
+            Try
+                _semKillByMethod.WaitOne()
 
-            If (method And Enums.KillMethod.NtTerminate) = Enums.KillMethod.NtTerminate Then
-                KillByMethod_NtTerminateProcess(pid)
-            End If
-            If (method And Enums.KillMethod.ThreadTerminate) = Enums.KillMethod.ThreadTerminate Then
-                KillByMethod_NtTerminateThread(pid)
-            End If
-            If (method And Enums.KillMethod.ThreadTerminate_GetNextThread) = Enums.KillMethod.ThreadTerminate_GetNextThread Then
-                KillByMethod_NtTerminateThreadNt(pid)
-            End If
-            If (method And Enums.KillMethod.CreateRemoteThread) = Enums.KillMethod.CreateRemoteThread Then
-                KillByMethod_CreateRemoteThread(pid)
-            End If
-            If (method And Enums.KillMethod.CloseAllHandles) = Enums.KillMethod.CloseAllHandles Then
-                KillByMethod_CloseAllHandles(pid)
-            End If
-            If (method And Enums.KillMethod.CloseAllWindows) = Enums.KillMethod.CloseAllWindows Then
-                KillByMethod_CloseAllWindows(pid)
-            End If
-            If (method And Enums.KillMethod.TerminateJob) = Enums.KillMethod.TerminateJob Then
-                KillByMethod_TerminateJobObject(pid)
-            End If
+                If (method And Enums.KillMethod.NtTerminate) = Enums.KillMethod.NtTerminate Then
+                    KillByMethod_NtTerminateProcess(pid)
+                End If
+                If (method And Enums.KillMethod.ThreadTerminate) = Enums.KillMethod.ThreadTerminate Then
+                    KillByMethod_NtTerminateThread(pid)
+                End If
+                If (method And Enums.KillMethod.ThreadTerminate_GetNextThread) = Enums.KillMethod.ThreadTerminate_GetNextThread Then
+                    KillByMethod_NtTerminateThreadNt(pid)
+                End If
+                If (method And Enums.KillMethod.CreateRemoteThread) = Enums.KillMethod.CreateRemoteThread Then
+                    KillByMethod_CreateRemoteThread(pid)
+                End If
+                If (method And Enums.KillMethod.CloseAllHandles) = Enums.KillMethod.CloseAllHandles Then
+                    KillByMethod_CloseAllHandles(pid)
+                End If
+                If (method And Enums.KillMethod.CloseAllWindows) = Enums.KillMethod.CloseAllWindows Then
+                    KillByMethod_CloseAllWindows(pid)
+                End If
+                If (method And Enums.KillMethod.TerminateJob) = Enums.KillMethod.TerminateJob Then
+                    KillByMethod_TerminateJobObject(pid)
+                End If
 
-            ' Wait process to crash...
-            System.Threading.Thread.Sleep(3000)
+                ' Wait process to crash...
+                System.Threading.Thread.Sleep(3000)
 
-            ' Now retrieve exitCode to see if process is still running or not
-            Dim ret As Boolean
-            Dim exitC As Integer
-            Dim hProc As IntPtr = GetProcessHandleWById(pid, Process.ProcessQueryMinRights)
-            If hProc.IsNotNull Then
-                NativeFunctions.GetExitCodeProcess(hProc, exitC)
-                ret = (exitC <> NativeConstants.STILL_ACTIVE)
-                Native.Objects.General.CloseHandle(hProc)
-            Else
-                ret = False
-            End If
+                ' Now retrieve exitCode to see if process is still running or not
+                Dim ret As Boolean
+                Dim exitC As Integer
+                Dim hProc As IntPtr = GetProcessHandleWById(pid, Process.ProcessQueryMinRights)
+                If hProc.IsNotNull Then
+                    NativeFunctions.GetExitCodeProcess(hProc, exitC)
+                    ret = (exitC <> NativeConstants.STILL_ACTIVE)
+                    Native.Objects.General.CloseHandle(hProc)
+                Else
+                    ret = False
+                End If
 
-            _semKillByMethod.Release()
-            Return ret
+                Return ret
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            Finally
+                _semKillByMethod.Release()
+            End Try
 
         End Function
 

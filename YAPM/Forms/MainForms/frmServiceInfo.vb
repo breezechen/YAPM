@@ -468,7 +468,7 @@ Public Class frmServiceInfo
     End Sub
 
     Private Sub cmdGoProcess_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdGoProcess.Click
-        Dim _t As cProcess = cProcess.GetProcessById(curServ.Infos.ProcessId)
+        Dim _t As cProcess = ProcessProvider.GetProcessById(curServ.Infos.ProcessId)
         If _t IsNot Nothing Then
             Dim frm As New frmProcessInfo
             frm.SetProcess(_t)

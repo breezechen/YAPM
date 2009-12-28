@@ -101,368 +101,372 @@ Public Class asyncCallbackLogEnumerate
         Static _dicoThreads As New Dictionary(Of String, threadInfos)
         Static _dicoWindows As New Dictionary(Of String, windowInfos)
 
-        sem.WaitOne()
+        Try
+            sem.WaitOne()
 
-        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
-            sem.Release()
-            Exit Sub
-        End If
+            Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+            If con.ConnectionObj.IsConnected = False Then
+                Exit Sub
+            End If
 
-        Select Case con.ConnectionObj.ConnectionType
+            Select Case con.ConnectionObj.ConnectionType
 
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                _poolObj = pObj
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestLogList, pObj.pid, pObj.infos)
-                    cDat.InstanceId = _instanceId   ' Instance which request the list
-                    con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    _poolObj = pObj
+                    Try
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestLogList, pObj.pid, pObj.infos)
+                        cDat.InstanceId = _instanceId   ' Instance which request the list
+                        con.ConnectionObj.Socket.Send(cDat)
+                    Catch ex As Exception
+                        Misc.ShowError(ex, "Unable to send request to server")
+                    End Try
 
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
-            Case Else
-                ' Local
+                Case Else
+                    ' Local
 
-                Dim _dico As New Dictionary(Of String, logItemInfos)
+                    Dim _dico As New Dictionary(Of String, logItemInfos)
 
-                Dim __dicoNetwork As New Dictionary(Of String, networkInfos)
-                Dim __dicoHandles As New Dictionary(Of String, handleInfos)
-                Dim __dicoModules As New Dictionary(Of String, moduleInfos)
-                Dim __dicoMemRegions As New Dictionary(Of String, memRegionInfos)
-                Dim __dicoServices As New Dictionary(Of String, serviceInfos)
-                Dim __dicoThreads As New Dictionary(Of String, threadInfos)
-                Dim __dicoWindows As New Dictionary(Of String, windowInfos)
+                    Dim __dicoNetwork As New Dictionary(Of String, networkInfos)
+                    Dim __dicoHandles As New Dictionary(Of String, handleInfos)
+                    Dim __dicoModules As New Dictionary(Of String, moduleInfos)
+                    Dim __dicoMemRegions As New Dictionary(Of String, memRegionInfos)
+                    Dim __dicoServices As New Dictionary(Of String, serviceInfos)
+                    Dim __dicoThreads As New Dictionary(Of String, threadInfos)
+                    Dim __dicoWindows As New Dictionary(Of String, windowInfos)
 
-                ' Network list
-                If (pObj.infos And LogItemType.NetworkItem) = LogItemType.NetworkItem Then
+                    ' Network list
+                    If (pObj.infos And LogItemType.NetworkItem) = LogItemType.NetworkItem Then
 
-                    ' Get list
-                    Native.Objects.Network.EnumerateTcpUdpConnections(__dicoNetwork, False, pObj.pid)
+                        ' Get list
+                        Native.Objects.Network.EnumerateTcpUdpConnections(__dicoNetwork, False, pObj.pid)
 
-                    ' Store in static dico if it is first refresh
-                    If firstNetwork Then
-                        firstNetwork = False
+                        ' Store in static dico if it is first refresh
+                        If firstNetwork Then
+                            firstNetwork = False
+                            _dicoNetwork = __dicoNetwork
+                        End If
+
+                        ' Make diff between __dicoXXX and _dicoXXX, and add
+                        ' difference to _dico
+
+                        ' Check if there are new items
+                        If pObj.newItems Then
+                            For Each z As String In __dicoNetwork.Keys
+                                If Not (_dicoNetwork.ContainsKey(z)) Then
+                                    ' New item
+                                    Dim _tmp As logItemInfos = New logItemInfos(__dicoNetwork(z), logItemInfos.CREATED_OR_DELETED.created)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
+
+
+                        ' Check if there are deleted items
+                        If pObj.deletedItems Then
+                            For Each z As String In _dicoNetwork.Keys
+                                If Not (__dicoNetwork.ContainsKey(z)) Then
+                                    ' Deleted item
+                                    Dim _tmp As logItemInfos = New logItemInfos(_dicoNetwork(z), logItemInfos.CREATED_OR_DELETED.deleted)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
+
+                        ' Save __dicoXXX into _dicoXXX
                         _dicoNetwork = __dicoNetwork
-                    End If
 
-                    ' Make diff between __dicoXXX and _dicoXXX, and add
-                    ' difference to _dico
-
-                    ' Check if there are new items
-                    If pObj.newItems Then
-                        For Each z As String In __dicoNetwork.Keys
-                            If Not (_dicoNetwork.ContainsKey(z)) Then
-                                ' New item
-                                Dim _tmp As logItemInfos = New logItemInfos(__dicoNetwork(z), logItemInfos.CREATED_OR_DELETED.created)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
                     End If
 
 
-                    ' Check if there are deleted items
-                    If pObj.deletedItems Then
-                        For Each z As String In _dicoNetwork.Keys
-                            If Not (__dicoNetwork.ContainsKey(z)) Then
-                                ' Deleted item
-                                Dim _tmp As logItemInfos = New logItemInfos(_dicoNetwork(z), logItemInfos.CREATED_OR_DELETED.deleted)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
-                    End If
 
-                    ' Save __dicoXXX into _dicoXXX
-                    _dicoNetwork = __dicoNetwork
+                    ' Handle list
+                    If (pObj.infos And LogItemType.HandleItem) = LogItemType.HandleItem Then
 
-                End If
+                        ' Get list
+                        Native.Objects.Handle.EnumerateHandleByProcessId(pObj.pid, True, __dicoHandles)
+
+                        ' Store in static dico if it is first refresh
+                        If firstHandles Then
+                            firstHandles = False
+                            _dicoHandles = __dicoHandles
+                        End If
+
+                        ' Make diff between __dicoXXX and _dicoXXX, and add
+                        ' difference to _dico
+
+                        ' Check if there are new items
+                        If pObj.newItems Then
+                            For Each z As String In __dicoHandles.Keys
+                                If Not (_dicoHandles.ContainsKey(z)) Then
+                                    ' New item
+                                    Dim _tmp As logItemInfos = New logItemInfos(__dicoHandles(z), logItemInfos.CREATED_OR_DELETED.created)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
 
+                        ' Check if there are deleted items
+                        If pObj.deletedItems Then
+                            For Each z As String In _dicoHandles.Keys
+                                If Not (__dicoHandles.ContainsKey(z)) Then
+                                    ' Deleted item
+                                    Dim _tmp As logItemInfos = New logItemInfos(_dicoHandles(z), logItemInfos.CREATED_OR_DELETED.deleted)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
-                ' Handle list
-                If (pObj.infos And LogItemType.HandleItem) = LogItemType.HandleItem Then
-
-                    ' Get list
-                    Native.Objects.Handle.EnumerateHandleByProcessId(pObj.pid, True, __dicoHandles)
-
-                    ' Store in static dico if it is first refresh
-                    If firstHandles Then
-                        firstHandles = False
+                        ' Save __dicoXXX into _dicoXXX
                         _dicoHandles = __dicoHandles
-                    End If
 
-                    ' Make diff between __dicoXXX and _dicoXXX, and add
-                    ' difference to _dico
-
-                    ' Check if there are new items
-                    If pObj.newItems Then
-                        For Each z As String In __dicoHandles.Keys
-                            If Not (_dicoHandles.ContainsKey(z)) Then
-                                ' New item
-                                Dim _tmp As logItemInfos = New logItemInfos(__dicoHandles(z), logItemInfos.CREATED_OR_DELETED.created)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
                     End If
 
 
-                    ' Check if there are deleted items
-                    If pObj.deletedItems Then
-                        For Each z As String In _dicoHandles.Keys
-                            If Not (__dicoHandles.ContainsKey(z)) Then
-                                ' Deleted item
-                                Dim _tmp As logItemInfos = New logItemInfos(_dicoHandles(z), logItemInfos.CREATED_OR_DELETED.deleted)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
-                    End If
 
-                    ' Save __dicoXXX into _dicoXXX
-                    _dicoHandles = __dicoHandles
+                    ' Mem regions list
+                    If (pObj.infos And LogItemType.MemoryItem) = LogItemType.MemoryItem Then
 
-                End If
+                        ' Get list
+                        Dim pid(0) As Integer
+                        pid(0) = pObj.pid
+                        Native.Objects.MemRegion.EnumerateMemoryRegionsByProcessId(pid(0), __dicoMemRegions)
+
+                        ' Store in static dico if it is first refresh
+                        If firstMemRegions Then
+                            firstMemRegions = False
+                            _dicoMemRegions = __dicoMemRegions
+                        End If
+
+                        ' Make diff between __dicoXXX and _dicoXXX, and add
+                        ' difference to _dico
+
+                        ' Check if there are new items
+                        If pObj.newItems Then
+                            For Each z As String In __dicoMemRegions.Keys
+                                If Not (_dicoMemRegions.ContainsKey(z)) Then
+                                    ' New item
+                                    Dim _tmp As logItemInfos = New logItemInfos(__dicoMemRegions(z), logItemInfos.CREATED_OR_DELETED.created)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
 
+                        ' Check if there are deleted items
+                        If pObj.deletedItems Then
+                            For Each z As String In _dicoMemRegions.Keys
+                                If Not (__dicoMemRegions.ContainsKey(z)) Then
+                                    ' Deleted item
+                                    Dim _tmp As logItemInfos = New logItemInfos(_dicoMemRegions(z), logItemInfos.CREATED_OR_DELETED.deleted)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
-                ' Mem regions list
-                If (pObj.infos And LogItemType.MemoryItem) = LogItemType.MemoryItem Then
-
-                    ' Get list
-                    Dim pid(0) As Integer
-                    pid(0) = pObj.pid
-                    Native.Objects.MemRegion.EnumerateMemoryRegionsByProcessId(pid(0), __dicoMemRegions)
-
-                    ' Store in static dico if it is first refresh
-                    If firstMemRegions Then
-                        firstMemRegions = False
+                        ' Save __dicoXXX into _dicoXXX
                         _dicoMemRegions = __dicoMemRegions
-                    End If
 
-                    ' Make diff between __dicoXXX and _dicoXXX, and add
-                    ' difference to _dico
-
-                    ' Check if there are new items
-                    If pObj.newItems Then
-                        For Each z As String In __dicoMemRegions.Keys
-                            If Not (_dicoMemRegions.ContainsKey(z)) Then
-                                ' New item
-                                Dim _tmp As logItemInfos = New logItemInfos(__dicoMemRegions(z), logItemInfos.CREATED_OR_DELETED.created)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
                     End If
 
 
-                    ' Check if there are deleted items
-                    If pObj.deletedItems Then
-                        For Each z As String In _dicoMemRegions.Keys
-                            If Not (__dicoMemRegions.ContainsKey(z)) Then
-                                ' Deleted item
-                                Dim _tmp As logItemInfos = New logItemInfos(_dicoMemRegions(z), logItemInfos.CREATED_OR_DELETED.deleted)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
-                    End If
 
-                    ' Save __dicoXXX into _dicoXXX
-                    _dicoMemRegions = __dicoMemRegions
+                    ' Modules list
+                    If (pObj.infos And LogItemType.ModuleItem) = LogItemType.ModuleItem Then
 
-                End If
+                        ' Get list
+                        __dicoModules = Native.Objects.Module.EnumerateModulesByProcessId(pObj.pid, True)
+
+                        ' Store in static dico if it is first refresh
+                        If firstModules Then
+                            firstModules = False
+                            _dicoModules = __dicoModules
+                        End If
+
+                        ' Make diff between __dicoXXX and _dicoXXX, and add
+                        ' difference to _dico
+
+                        ' Check if there are new items
+                        If pObj.newItems Then
+                            For Each z As String In __dicoModules.Keys
+                                If Not (_dicoModules.ContainsKey(z)) Then
+                                    ' New item
+                                    Dim _tmp As logItemInfos = New logItemInfos(__dicoModules(z), logItemInfos.CREATED_OR_DELETED.created)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
 
+                        ' Check if there are deleted items
+                        If pObj.deletedItems Then
+                            For Each z As String In _dicoModules.Keys
+                                If Not (__dicoModules.ContainsKey(z)) Then
+                                    ' Deleted item
+                                    Dim _tmp As logItemInfos = New logItemInfos(_dicoModules(z), logItemInfos.CREATED_OR_DELETED.deleted)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
-                ' Modules list
-                If (pObj.infos And LogItemType.ModuleItem) = LogItemType.ModuleItem Then
-
-                    ' Get list
-                    __dicoModules = Native.Objects.Module.EnumerateModulesByProcessId(pObj.pid, True)
-
-                    ' Store in static dico if it is first refresh
-                    If firstModules Then
-                        firstModules = False
+                        ' Save __dicoXXX into _dicoXXX
                         _dicoModules = __dicoModules
-                    End If
 
-                    ' Make diff between __dicoXXX and _dicoXXX, and add
-                    ' difference to _dico
-
-                    ' Check if there are new items
-                    If pObj.newItems Then
-                        For Each z As String In __dicoModules.Keys
-                            If Not (_dicoModules.ContainsKey(z)) Then
-                                ' New item
-                                Dim _tmp As logItemInfos = New logItemInfos(__dicoModules(z), logItemInfos.CREATED_OR_DELETED.created)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
                     End If
 
 
-                    ' Check if there are deleted items
-                    If pObj.deletedItems Then
-                        For Each z As String In _dicoModules.Keys
-                            If Not (__dicoModules.ContainsKey(z)) Then
-                                ' Deleted item
-                                Dim _tmp As logItemInfos = New logItemInfos(_dicoModules(z), logItemInfos.CREATED_OR_DELETED.deleted)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
-                    End If
 
-                    ' Save __dicoXXX into _dicoXXX
-                    _dicoModules = __dicoModules
+                    ' Services list
+                    If (pObj.infos And LogItemType.ServiceItem) = LogItemType.ServiceItem Then
 
-                End If
+                        ' Get list
+                        Dim pid(0) As Integer
+                        pid(0) = pObj.pid
+                        Native.Objects.Service.EnumerateServices(pObj.hSCM, __dicoServices, False, False, pid(0))
+
+                        ' Store in static dico if it is first refresh
+                        If firstServices Then
+                            firstServices = False
+                            _dicoServices = __dicoServices
+                        End If
+
+                        ' Make diff between __dicoXXX and _dicoXXX, and add
+                        ' difference to _dico
+
+                        ' Check if there are new items
+                        If pObj.newItems Then
+                            For Each z As String In __dicoServices.Keys
+                                If Not (_dicoServices.ContainsKey(z)) Then
+                                    ' New item
+                                    Dim _tmp As logItemInfos = New logItemInfos(__dicoServices(z), logItemInfos.CREATED_OR_DELETED.created)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
 
+                        ' Check if there are deleted items
+                        If pObj.deletedItems Then
+                            For Each z As String In _dicoServices.Keys
+                                If Not (__dicoServices.ContainsKey(z)) Then
+                                    ' Deleted item
+                                    Dim _tmp As logItemInfos = New logItemInfos(_dicoServices(z), logItemInfos.CREATED_OR_DELETED.deleted)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
-                ' Services list
-                If (pObj.infos And LogItemType.ServiceItem) = LogItemType.ServiceItem Then
-
-                    ' Get list
-                    Dim pid(0) As Integer
-                    pid(0) = pObj.pid
-                    Native.Objects.Service.EnumerateServices(pObj.hSCM, __dicoServices, False, False, pid(0))
-
-                    ' Store in static dico if it is first refresh
-                    If firstServices Then
-                        firstServices = False
+                        ' Save __dicoXXX into _dicoXXX
                         _dicoServices = __dicoServices
-                    End If
 
-                    ' Make diff between __dicoXXX and _dicoXXX, and add
-                    ' difference to _dico
-
-                    ' Check if there are new items
-                    If pObj.newItems Then
-                        For Each z As String In __dicoServices.Keys
-                            If Not (_dicoServices.ContainsKey(z)) Then
-                                ' New item
-                                Dim _tmp As logItemInfos = New logItemInfos(__dicoServices(z), logItemInfos.CREATED_OR_DELETED.created)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
                     End If
 
 
-                    ' Check if there are deleted items
-                    If pObj.deletedItems Then
-                        For Each z As String In _dicoServices.Keys
-                            If Not (__dicoServices.ContainsKey(z)) Then
-                                ' Deleted item
-                                Dim _tmp As logItemInfos = New logItemInfos(_dicoServices(z), logItemInfos.CREATED_OR_DELETED.deleted)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
-                    End If
 
-                    ' Save __dicoXXX into _dicoXXX
-                    _dicoServices = __dicoServices
+                    ' Threads list
+                    If (pObj.infos And LogItemType.ThreadItem) = LogItemType.ThreadItem Then
 
-                End If
+                        ' Get list
+                        Native.Objects.Thread.EnumerateThreadsByProcessId(__dicoThreads, pObj.pid)
+
+                        ' Store in static dico if it is first refresh
+                        If firstThreads Then
+                            firstThreads = False
+                            _dicoThreads = __dicoThreads
+                        End If
+
+                        ' Make diff between __dicoXXX and _dicoXXX, and add
+                        ' difference to _dico
+
+                        ' Check if there are new items
+                        If pObj.newItems Then
+                            For Each z As String In __dicoThreads.Keys
+                                If Not (_dicoThreads.ContainsKey(z)) Then
+                                    ' New item
+                                    Dim _tmp As logItemInfos = New logItemInfos(__dicoThreads(z), logItemInfos.CREATED_OR_DELETED.created)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
 
+                        ' Check if there are deleted items
+                        If pObj.deletedItems Then
+                            For Each z As String In _dicoThreads.Keys
+                                If Not (__dicoThreads.ContainsKey(z)) Then
+                                    ' Deleted item
+                                    Dim _tmp As logItemInfos = New logItemInfos(_dicoThreads(z), logItemInfos.CREATED_OR_DELETED.deleted)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
-                ' Threads list
-                If (pObj.infos And LogItemType.ThreadItem) = LogItemType.ThreadItem Then
-
-                    ' Get list
-                    Native.Objects.Thread.EnumerateThreadsByProcessId(__dicoThreads, pObj.pid)
-
-                    ' Store in static dico if it is first refresh
-                    If firstThreads Then
-                        firstThreads = False
+                        ' Save __dicoXXX into _dicoXXX
                         _dicoThreads = __dicoThreads
-                    End If
 
-                    ' Make diff between __dicoXXX and _dicoXXX, and add
-                    ' difference to _dico
-
-                    ' Check if there are new items
-                    If pObj.newItems Then
-                        For Each z As String In __dicoThreads.Keys
-                            If Not (_dicoThreads.ContainsKey(z)) Then
-                                ' New item
-                                Dim _tmp As logItemInfos = New logItemInfos(__dicoThreads(z), logItemInfos.CREATED_OR_DELETED.created)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
                     End If
 
 
-                    ' Check if there are deleted items
-                    If pObj.deletedItems Then
-                        For Each z As String In _dicoThreads.Keys
-                            If Not (__dicoThreads.ContainsKey(z)) Then
-                                ' Deleted item
-                                Dim _tmp As logItemInfos = New logItemInfos(_dicoThreads(z), logItemInfos.CREATED_OR_DELETED.deleted)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
-                    End If
 
-                    ' Save __dicoXXX into _dicoXXX
-                    _dicoThreads = __dicoThreads
+                    ' Windows list
+                    If (pObj.infos And LogItemType.WindowItem) = LogItemType.WindowItem Then
 
-                End If
+                        ' Get list
+                        Native.Objects.Window.EnumerateWindowsByProcessId(pObj.pid, False, True, __dicoWindows, False)
+
+                        ' Store in static dico if it is first refresh
+                        If firstWindows Then
+                            firstWindows = False
+                            _dicoWindows = __dicoWindows
+                        End If
+
+                        ' Make diff between __dicoXXX and _dicoXXX, and add
+                        ' difference to _dico
+
+                        ' Check if there are new items
+                        If pObj.newItems Then
+                            For Each z As String In __dicoWindows.Keys
+                                If Not (_dicoWindows.ContainsKey(z)) Then
+                                    ' New item
+                                    Dim _tmp As logItemInfos = New logItemInfos(__dicoWindows(z), logItemInfos.CREATED_OR_DELETED.created)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
 
+                        ' Check if there are deleted items
+                        If pObj.deletedItems Then
+                            For Each z As String In _dicoWindows.Keys
+                                If Not (__dicoWindows.ContainsKey(z)) Then
+                                    ' Deleted item
+                                    Dim _tmp As logItemInfos = New logItemInfos(_dicoWindows(z), logItemInfos.CREATED_OR_DELETED.deleted)
+                                    _dico.Add(_tmp.Key, _tmp)
+                                End If
+                            Next
+                        End If
 
-                ' Windows list
-                If (pObj.infos And LogItemType.WindowItem) = LogItemType.WindowItem Then
-
-                    ' Get list
-                    Native.Objects.Window.EnumerateWindowsByProcessId(pObj.pid, False, True, __dicoWindows, False)
-
-                    ' Store in static dico if it is first refresh
-                    If firstWindows Then
-                        firstWindows = False
+                        ' Save __dicoXXX into _dicoXXX
                         _dicoWindows = __dicoWindows
+
                     End If
 
-                    ' Make diff between __dicoXXX and _dicoXXX, and add
-                    ' difference to _dico
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
 
-                    ' Check if there are new items
-                    If pObj.newItems Then
-                        For Each z As String In __dicoWindows.Keys
-                            If Not (_dicoWindows.ContainsKey(z)) Then
-                                ' New item
-                                Dim _tmp As logItemInfos = New logItemInfos(__dicoWindows(z), logItemInfos.CREATED_OR_DELETED.created)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
-                    End If
+            End Select
 
-
-                    ' Check if there are deleted items
-                    If pObj.deletedItems Then
-                        For Each z As String In _dicoWindows.Keys
-                            If Not (__dicoWindows.ContainsKey(z)) Then
-                                ' Deleted item
-                                Dim _tmp As logItemInfos = New logItemInfos(_dicoWindows(z), logItemInfos.CREATED_OR_DELETED.deleted)
-                                _dico.Add(_tmp.Key, _tmp)
-                            End If
-                        Next
-                    End If
-
-                    ' Save __dicoXXX into _dicoXXX
-                    _dicoWindows = __dicoWindows
-
-                End If
-
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
-
-        End Select
-
-        sem.Release()
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            sem.Release()
+        End Try
 
     End Sub
 

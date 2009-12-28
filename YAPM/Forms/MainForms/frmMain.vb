@@ -317,6 +317,11 @@ Public Class frmMain
             Me.Hide()
         End If
 
+        ' Set some handlers
+        AddHandler ProcessProvider.GotNewItems, AddressOf Me.processCreated
+        AddHandler ProcessProvider.GotDeletedItems, AddressOf Me.processDeleted
+
+
         ' For now, SBA is removed from menu...
         Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbMenuSBA)
         ' For now, scripting is removed from menu...
@@ -1864,55 +1869,61 @@ Public Class frmMain
         Call Me.DisconnectFromMachine()
     End Sub
 
-    Private Sub processCreated(ByRef item As cProcess) Handles lvProcess.ItemAdded
-        If item IsNot Nothing Then
-            Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
-            If Me.MenuItemTaskSelProc.Enabled = False Then
-                MenuItemTaskSelProc.Enabled = True
-            End If
-            If My.Settings.NotifyNewProcesses AndAlso Me.lvProcess.FirstRefreshDone Then
-                Dim text As String = "Name : " & item.Infos.Name & " (" & item.Infos.ProcessId.ToString & ")"
-                If item.Infos.ParentProcessId > 0 Then
-                    text &= vbNewLine & "Parent : " & _
-                        cProcess.GetProcessName(item.Infos.ParentProcessId) & " (" & _
-                        cProcess.GetProcessName(item.Infos.ParentProcessId) & ")"
+    Private Sub processCreated(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos))
+        For Each id As Integer In pids
+            Dim item As cProcess = ProcessProvider.GetProcessById(id)
+            If item IsNot Nothing Then
+                Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
+                If Me.MenuItemTaskSelProc.Enabled = False Then
+                    MenuItemTaskSelProc.Enabled = True
                 End If
-                If item.Infos.FileInfo IsNot Nothing Then
-                    text &= vbNewLine & "Company : " & item.Infos.FileInfo.CompanyName & _
-                        vbNewLine & "Description : " & item.Infos.FileInfo.FileDescription
+                If My.Settings.NotifyNewProcesses AndAlso ProcessProvider.FirstRefreshDone Then
+                    Dim text As String = "Name : " & item.Infos.Name & " (" & item.Infos.ProcessId.ToString & ")"
+                    If item.Infos.ParentProcessId > 0 Then
+                        text &= vbNewLine & "Parent : " & _
+                            cProcess.GetProcessName(item.Infos.ParentProcessId) & " (" & _
+                            cProcess.GetProcessName(item.Infos.ParentProcessId) & ")"
+                    End If
+                    If item.Infos.FileInfo IsNot Nothing Then
+                        text &= vbNewLine & "Company : " & item.Infos.FileInfo.CompanyName & _
+                            vbNewLine & "Description : " & item.Infos.FileInfo.FileDescription
+                    End If
+                    With Me.Tray
+                        .BalloonTipText = text
+                        .BalloonTipIcon = ToolTipIcon.Info
+                        .BalloonTipTitle = "A new process has been started"
+                        .ShowBalloonTip(3000)
+                    End With
                 End If
-                With Me.Tray
-                    .BalloonTipText = text
-                    .BalloonTipIcon = ToolTipIcon.Info
-                    .BalloonTipTitle = "A new process has been started"
-                    .ShowBalloonTip(3000)
-                End With
             End If
-        End If
+        Next
     End Sub
 
-    Private Sub processDeleted(ByRef item As cProcess) Handles lvProcess.ItemDeleted
-        If item IsNot Nothing Then
-            Program.Log.AppendLine("Process deleted : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
-            If My.Settings.NotifyTerminatedProcesses Then
-                Dim text As String = "Name : " & item.Infos.Name & " (" & item.Infos.ProcessId.ToString & ")"
-                If item.Infos.ParentProcessId > 0 Then
-                    text &= vbNewLine & "Parent : " & _
-                        cProcess.GetProcessName(item.Infos.ParentProcessId) & " (" & _
-                        cProcess.GetProcessName(item.Infos.ParentProcessId) & ")"
+    Private Sub processDeleted(ByVal processes As Dictionary(Of Integer, processInfos))
+        For Each id As Integer In processes.Keys
+            Dim item As processInfos = processes(id)
+            If item IsNot Nothing Then
+                Program.Log.AppendLine("Process deleted : " & item.Name & " (" & item.ProcessId & ")")
+                If My.Settings.NotifyTerminatedProcesses Then
+                    Dim text As String = "Name : " & item.Name & " (" & item.ProcessId.ToString & ")"
+                    If item.ParentProcessId > 0 Then
+                        text &= vbNewLine & "Parent : " & _
+                            cProcess.GetProcessName(item.ParentProcessId) & " (" & _
+                            cProcess.GetProcessName(item.ParentProcessId) & ")"
+                    End If
+                    If item.FileInfo IsNot Nothing Then
+                        text &= vbNewLine & "Company : " & item.FileInfo.CompanyName & _
+                            vbNewLine & "Description : " & item.FileInfo.FileDescription
+                    End If
+                    With Me.Tray
+                        .BalloonTipText = text
+                        .BalloonTipIcon = ToolTipIcon.Info
+                        .BalloonTipTitle = "A process has been terminated"
+                        .ShowBalloonTip(3000)
+                    End With
                 End If
-                If item.Infos.FileInfo IsNot Nothing Then
-                    text &= vbNewLine & "Company : " & item.Infos.FileInfo.CompanyName & _
-                        vbNewLine & "Description : " & item.Infos.FileInfo.FileDescription
-                End If
-                With Me.Tray
-                    .BalloonTipText = text
-                    .BalloonTipIcon = ToolTipIcon.Info
-                    .BalloonTipTitle = "A process has been terminated"
-                    .ShowBalloonTip(3000)
-                End With
             End If
-        End If
+        Next
     End Sub
 
     Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
@@ -4004,7 +4015,7 @@ Public Class frmMain
         For Each it As cTask In Me.lvTask.GetSelectedItems
 
             ' Retrieve the associated process
-            Dim _proc As cProcess = cProcess.GetProcessById(it.Infos.ProcessId)
+            Dim _proc As cProcess = ProcessProvider.GetProcessById(it.Infos.ProcessId)
 
             If _proc IsNot Nothing Then
 

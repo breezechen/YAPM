@@ -132,11 +132,16 @@ Public Class memoryList
     Public Shadows Function GetSelectedItems() As Dictionary(Of String, cMemRegion).ValueCollection
         Dim res As New Dictionary(Of String, cMemRegion)
 
-        generalLvSemaphore.WaitOne()
-        For Each it As ListViewItem In Me.SelectedItems
-            res.Add(it.Name, _dico.Item(it.Name))
-        Next
-        generalLvSemaphore.Release()
+        Try
+            generalLvSemaphore.WaitOne()
+            For Each it As ListViewItem In Me.SelectedItems
+                res.Add(it.Name, _dico.Item(it.Name))
+            Next
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
 
         Return res.Values
     End Function
@@ -149,13 +154,12 @@ Public Class memoryList
     ' Executed when enumeration is done
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal errorMessage As String, ByVal InstanceId As Integer)
 
-        generalLvSemaphore.WaitOne()
-
         Try
+            generalLvSemaphore.WaitOne()
+
             If Success = False Then
                 Trace.WriteLine("Cannot enumerate, an error was raised...")
                 RaiseEvent GotAnError("Mem region enumeration", errorMessage)
-                generalLvSemaphore.Release()
                 Exit Sub
             End If
 

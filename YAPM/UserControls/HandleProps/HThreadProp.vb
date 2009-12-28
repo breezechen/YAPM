@@ -44,7 +44,7 @@ Public Class HThreadProp
             If n2 > 0 AndAlso n1 > 0 AndAlso n3 > 0 Then
                 _pid = Integer.Parse(nam.Substring(n2 + 1, n1 - n2 - 1))
                 _tid = Integer.Parse(nam.Substring(n3 + 1, nam.Length - n3 - 1))
-                _proc = cProcess.GetProcessById(_pid)
+                _proc = ProcessProvider.GetProcessById(_pid)
             Else
                 _pid = 0
                 _proc = Nothing

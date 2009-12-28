@@ -64,60 +64,64 @@ Public Class asyncCallbackJobLimitsEnumerate
     Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
 
-        sem.WaitOne()
+        Try
+            sem.WaitOne()
 
-        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+            Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+            If con.ConnectionObj.IsConnected = False Then
+                Exit Sub
+            End If
+
+            Select Case con.ConnectionObj.ConnectionType
+
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    _poolObj = pObj
+                    Try
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestJobLimits, pObj.JobName)
+                        cDat.InstanceId = _instanceId   ' Instance which request the list
+                        con.ConnectionObj.Socket.Send(cDat)
+                    Catch ex As Exception
+                        Misc.ShowError(ex, "Unable to send request to server")
+                    End Try
+
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                    ' TODO
+
+                Case cConnection.TypeOfConnection.SnapshotFile
+                    ' Snapshot
+
+                    Dim _dico As New Dictionary(Of String, jobLimitInfos)
+                    Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                    If snap IsNot Nothing Then
+                        _dico = snap.JobLimitsByJobName(pObj.JobName)
+                    End If
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
+
+                Case Else
+                    ' Local
+
+                    Dim _dico As Dictionary(Of String, jobLimitInfos) = _
+                            Native.Objects.Job.EnumerateJobLimitsByJobName(pObj.JobName)
+
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
+
+            End Select
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
             sem.Release()
-            Exit Sub
-        End If
-
-        Select Case con.ConnectionObj.ConnectionType
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                _poolObj = pObj
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestJobLimits, pObj.JobName)
-                    cDat.InstanceId = _instanceId   ' Instance which request the list
-                    con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                ' TODO
-
-            Case cConnection.TypeOfConnection.SnapshotFile
-                ' Snapshot
-
-                Dim _dico As New Dictionary(Of String, jobLimitInfos)
-                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
-                If snap IsNot Nothing Then
-                    _dico = snap.JobLimitsByJobName(pObj.JobName)
-                End If
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
-
-            Case Else
-                ' Local
-
-                Dim _dico As Dictionary(Of String, jobLimitInfos) = _
-                        Native.Objects.Job.EnumerateJobLimitsByJobName(pObj.JobName)
-
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
-
-        End Select
-
-        sem.Release()
+        End Try
 
     End Sub
 

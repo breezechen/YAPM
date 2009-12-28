@@ -26,21 +26,16 @@ Imports System.Runtime.InteropServices
 Public Class processList
     Inherits customLV
 
-    Public Event ItemAdded(ByRef item As cProcess)
-    Public Event ItemDeleted(ByRef item As cProcess)
-    Public Event HasRefreshed()
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
-
 
     ' ========================================
     ' Private
     ' ========================================
-    Private _firstRefresh As Boolean
     Private _first As Boolean
     Private _enumMethod As asyncCallbackProcEnumerate.ProcessEnumMethode = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
     Private _dico As New Dictionary(Of String, cProcess)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _processConnection As New cProcessConnection(Me, _connectionObject, New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
+    Private WithEvents _processConnection As New cProcessConnection(Me, _connectionObject)
 
 #Region "Properties"
 
@@ -64,11 +59,6 @@ Public Class processList
             _processConnection.EnumMethod = _enumMethod
         End Set
     End Property
-    Public ReadOnly Property FirstRefreshDone() As Boolean
-        Get
-            Return Not (_firstRefresh)
-        End Get
-    End Property
 
 #End Region
 
@@ -89,12 +79,12 @@ Public Class processList
         Me.SmallImageList = _IMG
         _IMG.Images.Add("noIcon", My.Resources.application_blue16)
 
-        _firstRefresh = True
         _first = True
 
         ' Set handlers
         _processConnection.Disconnected = New cProcessConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _processConnection.Connected = New cProcessConnection.ConnectedEventHandler(AddressOf HasConnected)
+        AddHandler ProcessProvider.GotRefreshed, AddressOf Me.GotRefreshed  ' We will add/remove/refresh using this handler
     End Sub
 
     ' Get an item from listview
@@ -105,7 +95,6 @@ Public Class processList
     ' Delete all items
     Public Sub ClearItems()
         _first = True
-        _firstRefresh = True
         _firstItemUpdate = True
         _dico.Clear()
         _IMG.Images.Clear()
@@ -122,9 +111,14 @@ Public Class processList
             pid(x) = cp.Infos.ProcessId
             x += 1
         Next
-        generalLvSemaphore.WaitOne()
-        asyncCallbackProcEnumerate.ReanalizeProcess(New asyncCallbackProcEnumerate.ReanalizeProcessObj(pid, _processConnection))
-        generalLvSemaphore.Release()
+        Try
+            generalLvSemaphore.WaitOne()
+            asyncCallbackProcEnumerate.ReanalizeProcess(New asyncCallbackProcEnumerate.ReanalizeProcessObj(pid, _processConnection))
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
     End Sub
 
     ' Call this to update items in listview
@@ -186,11 +180,16 @@ Public Class processList
     Public Shadows Function GetSelectedItems() As Dictionary(Of String, cProcess).ValueCollection
         Dim res As New Dictionary(Of String, cProcess)
 
-        generalLvSemaphore.WaitOne()
-        For Each it As ListViewItem In Me.SelectedItems
-            res.Add(it.Name, _dico.Item(it.Name))
-        Next
-        generalLvSemaphore.Release()
+        Try
+            generalLvSemaphore.WaitOne()
+            For Each it As ListViewItem In Me.SelectedItems
+                res.Add(it.Name, _dico.Item(it.Name))
+            Next
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
 
         Return res.Values
     End Function
@@ -199,11 +198,16 @@ Public Class processList
     Public Shadows Function GetCheckedItems() As Dictionary(Of String, cProcess).ValueCollection
         Dim res As New Dictionary(Of String, cProcess)
 
-        generalLvSemaphore.WaitOne()
-        For Each it As ListViewItem In Me.CheckedItems
-            res.Add(it.Name, _dico.Item(it.Name))
-        Next
-        generalLvSemaphore.Release()
+        Try
+            generalLvSemaphore.WaitOne()
+            For Each it As ListViewItem In Me.CheckedItems
+                res.Add(it.Name, _dico.Item(it.Name))
+            Next
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
 
         Return res.Values
     End Function
@@ -213,142 +217,159 @@ Public Class processList
     ' Private properties
     ' ========================================
 
-    ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of Integer, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+#Region "Update methods & callbacks"
 
-        generalLvSemaphore.WaitOne()
+    ' GotNewProcesses, GotDeletedProcesses and GotRefreshed are ALWAYS called
+    ' sequentially, and are protected by a semaphore -> no need to reprotect it here
+    Private Delegate Sub degGotNewItems(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos))
+    Private Sub GotNewItems(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos))
 
+        If Me.InvokeRequired Then
+            Dim d As New degGotNewItems(AddressOf GotNewItems)
+            Try
+                Me.Invoke(d, pids, newItems)
+            Catch ex As Exception
+                ' Won't catch this...
+            End Try
+        Else
+            Try
+                ' Lock lv if necesary
+                Dim _hasToLock As Boolean = (_firstItemUpdate OrElse newItems.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE)
+                If _hasToLock Then
+                    Me.BeginUpdate()
+                End If
+                For Each id As Integer In pids
+                    If _dico.ContainsKey(id.ToString) = False Then
+                        Dim proc As New cProcess(newItems(id))
+                        proc.NewCount = 3
+                        _dico.Add(id.ToString, proc)
+
+                        ' Add new item to lv
+                        Dim _subItems() As String
+                        ReDim _subItems(Me.Columns.Count - 1)
+                        For x As Integer = 1 To _subItems.Length - 1
+                            _subItems(x) = ""
+                        Next
+                        AddItemWithStyle(id.ToString).SubItems.AddRange(_subItems)
+                    End If
+                Next
+
+                ' Unlock lv if necesary
+                If _hasToLock Then
+                    Me.EndUpdate()
+                End If
+
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            End Try
+        End If
+
+    End Sub
+    Private Sub GotDeletedItems(ByVal pids As List(Of Integer))
         Try
+            For Each id As Integer In pids
+                Dim cp As cProcess = Nothing
+                If _dico.ContainsKey(id.ToString) Then
+                    cp = _dico(id.ToString)
+                    cp.KillCount = 3
+                End If
+            Next
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        End Try
+    End Sub
 
-            Dim _test As Integer = Native.Api.Win32.GetElapsedTime
+    Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of Integer), ByVal _dicoDel As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos))
+    Private Sub GotRefreshed(ByVal _dicoNew As List(Of Integer), ByVal _dicoDel As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos))
 
-            If Success = False Then
-                Trace.WriteLine("Cannot enumerate, an error was raised...")
-                RaiseEvent GotAnError("Process enumeration", errorMessage)
-                generalLvSemaphore.Release()
-                Exit Sub
-            End If
+        ' Have to call a delegate as will refresh the listview
+        If Me.InvokeRequired Then
+            Dim d As New degGotRefreshed(AddressOf GotRefreshed)
+            Try
+                Me.Invoke(d, _dicoNew, _dicoDel, Dico)
+            Catch ex As Exception
+                ' Won't catch this...
+            End Try
+        Else
+
+            ' DELETED ITEMS
+            Me.GotDeletedItems(_dicoDel)
+
+            ' NEW ITEMS
+            Me.GotNewItems(_dicoNew, Dico)
 
             ' We won't enumerate next time with all informations (included fixed infos)
             _first = False
 
-
-            ' Now add all items with isKilled = true to _dicoDel dictionnary
-            Dim _dicoDel As New List(Of Integer)
-            For Each z As cProcess In _dico.Values
-                If z.IsKilledItem Then
-                    _dicoDel.Add(z.Infos.ProcessId)
+            Try
+                ' Now remove all deleted items from listview and _dico
+                ' If first time, lock listview if necessary
+                Dim _hasToLock As Boolean = (_firstItemUpdate _
+                            OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE)
+                If _hasToLock Then
+                    Me.BeginUpdate()
                 End If
-            Next
-
-
-            ' Now add new items to dictionnary
-            Dim _dicoNew As New List(Of Integer)
-            For Each pair As System.Collections.Generic.KeyValuePair(Of Integer, processInfos) In Dico
-                If Not (_dico.ContainsKey(pair.Key.ToString)) Then
-                    ' Add to dico
-                    _dicoNew.Add(pair.Key)
-                End If
-            Next
-
-
-            ' Now remove deleted items from dictionnary
-            For Each z As Integer In _dico.Keys
-                If Dico.ContainsKey(z) = False Then
-                    ' Remove from dico
-                    _dico.Item(z.ToString).IsKilledItem = True  ' Will be deleted next time
-                End If
-            Next
-
-
-            ' Now remove all deleted items from listview and _dico
-            For Each z As String In _dicoDel
-                Me.Items.RemoveByKey(z)
-                RaiseEvent ItemDeleted(_dico.Item(z))
-                _dico.Remove(z)
-                Native.Objects.Process.RemoveProcesseFromListOfNewProcesses(z)
-            Next
-
-
-            ' Merge _dico and _dicoNew
-            For Each z As Integer In _dicoNew
-                Dim _it As New cProcess(Dico(z))
-                RaiseEvent ItemAdded(_it)
-                _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-                _dico.Add(z.ToString, _it)
-            Next
-
-
-            ' Now add all new items to listview
-            ' If first time, lock listview
-            If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
-            For Each z As String In _dicoNew
-
-                ' Add to listview
-                Dim _subItems() As String
-                ReDim _subItems(Me.Columns.Count - 1)
-                For x As Integer = 1 To _subItems.Length - 1
-                    _subItems(x) = ""
-                Next
-                AddItemWithStyle(z).SubItems.AddRange(_subItems)
-            Next
-            If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.EndUpdate()
-
-
-            ' Now refresh all subitems of the listview
-            Dim isub As ListViewItem.ListViewSubItem
-            Dim it As ListViewItem
-            For Each it In Me.Items
-                Dim x As Integer = 0
-                Dim _item As cProcess = _dico.Item(it.Name)
-                If Dico.ContainsKey(_item.Infos.ProcessId) Then
-                    _item.Merge(Dico.Item(_item.Infos.ProcessId))
-                End If
-                Dim ___info As String = Nothing
-                For Each isub In it.SubItems
-                    If _item.GetInformation(_columnsName(x), ___info) Then
-                        isub.Text = ___info
+                For x As Integer = Me.Items.Count - 1 To 0 Step -1
+                    Dim cp As cProcess = _dico(Me.Items(x).Name)
+                    If cp.KillCount > 0 Then
+                        cp.KillCount -= 1
+                    ElseIf cp.KillCount = 0 Then
+                        Me.Items.RemoveAt(x)
                     End If
-                    x += 1
                 Next
-                If _item.IsNewItem Then
-                    _item.IsNewItem = False
-                    it.BackColor = NEW_ITEM_COLOR
-                ElseIf _item.IsKilledItem Then
-                    it.BackColor = DELETED_ITEM_COLOR
-                Else
-                    it.BackColor = _item.GetBackColor
+                If _hasToLock Then
+                    Me.EndUpdate()
                 End If
-                it.ForeColor = _item.GetForeColor
 
-                ' If we are in 'show hidden process mode', we have to set color red for
-                ' hidden processes
-                If _item.Infos.IsHidden Then
-                    it.ForeColor = Color.Red
-                Else
-                    If it.ForeColor = Color.Red Then
-                        it.ForeColor = Color.Black
+                ' Now refresh all subitems of the listview
+                Dim isub As ListViewItem.ListViewSubItem
+                Dim it As ListViewItem
+                For Each it In Me.Items
+                    Dim x As Integer = 0
+                    Dim _item As cProcess = _dico.Item(it.Name)
+                    If Dico.ContainsKey(_item.Infos.ProcessId) Then
+                        _item.Merge(Dico.Item(_item.Infos.ProcessId))
                     End If
-                End If
-            Next
+                    Dim ___info As String = Nothing
+                    For Each isub In it.SubItems
+                        If _item.GetInformation(_columnsName(x), ___info) Then
+                            isub.Text = ___info
+                        End If
+                        x += 1
+                    Next
+                    If _item.NewCount > 0 Then
+                        _item.NewCount -= 1
+                        If _timeToDisplayNewItemsGreen Then
+                            it.BackColor = NEW_ITEM_COLOR
+                        End If
+                    ElseIf _item.KillCount >= 0 Then
+                        it.BackColor = DELETED_ITEM_COLOR
+                    Else
+                        _timeToDisplayNewItemsGreen = True
+                        it.BackColor = _item.GetBackColor
+                    End If
+                    it.ForeColor = _item.GetForeColor
 
-            ' Sort items
-            Me.Sort()
+                    ' If we are in 'show hidden process mode', we have to set color red for
+                    ' hidden processes
+                    If _item.Infos.IsHidden Then
+                        it.ForeColor = Color.Red
+                    Else
+                        If it.ForeColor = Color.Red Then
+                            it.ForeColor = Color.Black
+                        End If
+                    End If
+                Next
 
-            _firstItemUpdate = False
+                ' Sort items
+                Me.Sort()
 
-            _test = Native.Api.Win32.GetElapsedTime - _test
-            Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
+                _firstItemUpdate = False
 
-            MyBase.UpdateItems()
-
-        Catch ex As Exception
-            Misc.ShowDebugError(ex)
-        Finally
-            generalLvSemaphore.Release()
-        End Try
-
-        _firstRefresh = False
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            End Try
+        End If
     End Sub
 
     ' Force item refreshing
@@ -378,8 +399,8 @@ Public Class processList
     ' Add an item (specific to type of list)
     Friend Overrides Function AddItemWithStyle(ByVal key As String) As ListViewItem
 
-        Dim item As ListViewItem = Me.Items.Add(key)
         Dim proc As cProcess = _dico.Item(key)
+        Dim item As ListViewItem = Me.Items.Add(proc.Infos.Name)
         item.Name = key
 
         If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
@@ -415,6 +436,8 @@ Public Class processList
 
     End Function
 
+#End Region
+
 #Region "Connection stuffs"
 
     Private Sub _connectionObject_Connected() Handles _connectionObject.Connected
@@ -429,9 +452,8 @@ Public Class processList
         If MyBase.Connect Then
             Me.IsConnected = True
             _first = True
-            _firstRefresh = True
             _processConnection.ConnectionObj = _connectionObject
-            Native.Objects.Process.ClearNewProcessesDico()
+            ProcessProvider.ClearNewProcessesDico()
             _processConnection.Connect()
             cProcess.Connection = _processConnection
         End If
@@ -441,7 +463,7 @@ Public Class processList
         If MyBase.Disconnect Then
             Me.IsConnected = False
             _processConnection.Disconnect()
-            Native.Objects.Process.ClearNewProcessesDico()
+            ProcessProvider.ClearNewProcessesDico()
         End If
     End Function
 

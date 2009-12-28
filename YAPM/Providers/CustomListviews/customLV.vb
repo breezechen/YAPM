@@ -36,6 +36,7 @@ Public MustInherit Class customLV
     Friend generalLvSemaphore As New System.Threading.Semaphore(1, 1)
 
     Protected _firstItemUpdate As Boolean = True
+    Protected _timeToDisplayNewItemsGreen As Boolean = False
     Protected _columnsName() As String
 
     Protected _IMG As ImageList

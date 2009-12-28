@@ -86,92 +86,96 @@ Public Class asyncCallbackServiceEnumerate
     Public Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
 
-        sem.WaitOne()
+        Try
+            sem.WaitOne()
 
-        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
-            sem.Release()
-            Exit Sub
-        End If
+            Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+            If con.ConnectionObj.IsConnected = False Then
+                Exit Sub
+            End If
 
-        Select Case con.ConnectionObj.ConnectionType
+            Select Case con.ConnectionObj.ConnectionType
 
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                _poolObj = pObj
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestServiceList, pObj.pid, pObj.all)
-                    cDat.InstanceId = _instanceId   ' Instance which request the list
-                    con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    _poolObj = pObj
+                    Try
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestServiceList, pObj.pid, pObj.all)
+                        cDat.InstanceId = _instanceId   ' Instance which request the list
+                        con.ConnectionObj.Socket.Send(cDat)
+                    Catch ex As Exception
+                        Misc.ShowError(ex, "Unable to send request to server")
+                    End Try
 
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
-                ' Save current collection
-                Dim _dico As New Dictionary(Of String, serviceInfos)
-                Dim res As Boolean
-                Dim msg As String = ""
+                    ' Save current collection
+                    Dim _dico As New Dictionary(Of String, serviceInfos)
+                    Dim res As Boolean
+                    Dim msg As String = ""
 
-                res = Wmi.Objects.Service.EnumerateProcesses(pObj.pid, pObj.all, _
-                                                             con.wmiSearcher, _dico, msg)
+                    res = Wmi.Objects.Service.EnumerateProcesses(pObj.pid, pObj.all, _
+                                                                 con.wmiSearcher, _dico, msg)
 
-                ' Save service list into a dictionary
-                Native.Objects.Service.CurrentServices = _dico
+                    ' Save service list into a dictionary
+                    Native.Objects.Service.CurrentServices = _dico
 
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, res, _dico, msg, 0)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, res, _dico, msg, 0)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
 
-            Case cConnection.TypeOfConnection.SnapshotFile
-                ' Snapshot file
+                Case cConnection.TypeOfConnection.SnapshotFile
+                    ' Snapshot file
 
-                Dim _dico As New Dictionary(Of String, serviceInfos)
-                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
-                If snap IsNot Nothing Then
-                    If pObj.all Then
-                        ' All services
-                        _dico = snap.Services
-                    Else
-                        ' For one process only
-                        _dico = snap.ServicesByProcessId(pObj.pid)
+                    Dim _dico As New Dictionary(Of String, serviceInfos)
+                    Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                    If snap IsNot Nothing Then
+                        If pObj.all Then
+                            ' All services
+                            _dico = snap.Services
+                        Else
+                            ' For one process only
+                            _dico = snap.ServicesByProcessId(pObj.pid)
+                        End If
                     End If
-                End If
 
-                ' Save service list into a dictionary
-                Native.Objects.Service.CurrentServices = _dico
+                    ' Save service list into a dictionary
+                    Native.Objects.Service.CurrentServices = _dico
 
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
 
-            Case Else
-                ' Local
+                Case Else
+                    ' Local
 
-                Dim _dico As New Dictionary(Of String, serviceInfos)
+                    Dim _dico As New Dictionary(Of String, serviceInfos)
 
-                Native.Objects.Service.EnumerateServices(con.SCManagerLocalHandle, _dico, pObj.all, _
-                                                 pObj.complete, pObj.pid)
+                    Native.Objects.Service.EnumerateServices(con.SCManagerLocalHandle, _dico, pObj.all, _
+                                                     pObj.complete, pObj.pid)
 
-                ' Save service list into a dictionary
-                Native.Objects.Service.CurrentServices = _dico
+                    ' Save service list into a dictionary
+                    Native.Objects.Service.CurrentServices = _dico
 
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
 
-        End Select
+            End Select
 
-        sem.Release()
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            sem.Release()
+        End Try
 
     End Sub
 

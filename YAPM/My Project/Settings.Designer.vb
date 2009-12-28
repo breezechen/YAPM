@@ -728,9 +728,9 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Name?106?0$PID?50?1$UserName?124?2$ParentName?94?3$CpuUsage?68?4?Right$AverageCpu"& _ 
-            "Usage?61?5?Right$TotalCpuTime?90?6?Right$HandleCount?56?7?Right$ThreadCount?50?8"& _ 
-            "?Right$WorkingSet?76?9?Right$Priority?90?10$Path?420?11$")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Name?161?0?Left$PID?50?1?Left$UserName?78?2?Left$CpuUsage?68?3?Right$TotalCpuTime"& _ 
+            "?90?5?Right$WorkingSet?76?6?Right$TotalIoDelta?71?4?Left$CommandLine?438?7?Left$"& _ 
+            "")>  _
         Public Property COLmain_process() As String
             Get
                 Return CType(Me("COLmain_process"),String)

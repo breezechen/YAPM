@@ -502,8 +502,7 @@ Public Module Program
 
     Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
         ' Clear lists of processes/services
-        Native.Objects.Process.NewProcesses.Clear()
-        Native.Objects.Process.CurrentProcesses.Clear()
+        ProcessProvider.CurrentProcesses.Clear()
         Native.Objects.Service.CurrentServices.Clear()
     End Sub
 

@@ -157,11 +157,16 @@ Public Class processesInJobList
     Public Shadows Function GetSelectedItems() As Dictionary(Of String, cProcess).ValueCollection
         Dim res As New Dictionary(Of String, cProcess)
 
-        generalLvSemaphore.WaitOne()
-        For Each it As ListViewItem In Me.SelectedItems
-            res.Add(it.Name, _dico.Item(it.Name))
-        Next
-        generalLvSemaphore.Release()
+        Try
+            generalLvSemaphore.WaitOne()
+            For Each it As ListViewItem In Me.SelectedItems
+                res.Add(it.Name, _dico.Item(it.Name))
+            Next
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
 
         Return res.Values
     End Function
@@ -174,15 +179,14 @@ Public Class processesInJobList
     ' Executed when enumeration is done
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of Integer, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
-        generalLvSemaphore.WaitOne()
-
         Try
+            generalLvSemaphore.WaitOne()
+
             Dim _test As Integer = Native.Api.Win32.GetElapsedTime
 
             If Success = False Then
                 Trace.WriteLine("Cannot enumerate, an error was raised...")
                 RaiseEvent GotAnError("Process enumeration", errorMessage)
-                generalLvSemaphore.Release()
                 Exit Sub
             End If
 
@@ -228,7 +232,7 @@ Public Class processesInJobList
 
             ' Merge _dico and _dicoNew
             For Each z As Integer In _dicoNew
-                Dim _it As cProcess = cProcess.GetProcessById(Dico(z).ProcessId)
+                Dim _it As cProcess = ProcessProvider.GetProcessById(Dico(z).ProcessId)
                 RaiseEvent ItemAdded(_it)
                 _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
                 _dico.Add(z.ToString, _it)
@@ -386,7 +390,7 @@ Public Class processesInJobList
             _first = True
             _firstRefresh = True
             _jobConnection.ConnectionObj = _connectionObject
-            Native.Objects.Process.ClearNewProcessesDico()
+            ProcessProvider.ClearNewProcessesDico()
             _jobConnection.Connect()
         End If
     End Function
@@ -395,7 +399,7 @@ Public Class processesInJobList
         If MyBase.Disconnect Then
             Me.IsConnected = False
             _jobConnection.Disconnect()
-            Native.Objects.Process.ClearNewProcessesDico()
+            ProcessProvider.ClearNewProcessesDico()
         End If
     End Function
 

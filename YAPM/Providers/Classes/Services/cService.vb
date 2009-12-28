@@ -487,7 +487,7 @@ Public Class cService
                 End If
             Case "Process"
                 If Me.Infos.ProcessId > 0 Then
-                    res = cProcess.GetProcessName(Me.Infos.ProcessId) & " -- " & Me.Infos.ProcessId.ToString
+                    res = Me.Infos.ProcessId.ToString
                 End If
                 If res = _old_Process Then
                     hasChanged = False

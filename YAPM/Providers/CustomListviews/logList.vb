@@ -157,16 +157,21 @@ Public Class logList
     ' Call this to redraw all items
     Public Sub ReAddItems()
 
-        generalLvSemaphore.WaitOne()
-        Me.BeginUpdate()
-        Me.Items.Clear()
+        Try
+            generalLvSemaphore.WaitOne()
+            Me.BeginUpdate()
+            Me.Items.Clear()
 
-        For Each pair As System.Collections.Generic.KeyValuePair(Of String, cLogItem) In _dico
-            Call conditionalAdd(pair.Value)
-        Next
+            For Each pair As System.Collections.Generic.KeyValuePair(Of String, cLogItem) In _dico
+                Call conditionalAdd(pair.Value)
+            Next
 
-        Me.EndUpdate()
-        generalLvSemaphore.Release()
+            Me.EndUpdate()
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
 
     End Sub
 
@@ -197,11 +202,16 @@ Public Class logList
     Public Shadows Function GetSelectedItems() As Dictionary(Of String, cLogItem).ValueCollection
         Dim res As New Dictionary(Of String, cLogItem)
 
-        generalLvSemaphore.WaitOne()
-        For Each it As ListViewItem In Me.SelectedItems
-            res.Add(it.Name, _dico.Item(it.Name))
-        Next
-        generalLvSemaphore.Release()
+        Try
+            generalLvSemaphore.WaitOne()
+            For Each it As ListViewItem In Me.SelectedItems
+                res.Add(it.Name, _dico.Item(it.Name))
+            Next
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
 
         Return res.Values
     End Function
@@ -214,13 +224,12 @@ Public Class logList
     ' Executed when enumeration is done
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, logItemInfos), ByVal errorMessage As String, ByVal InstanceId As Integer)
 
-        generalLvSemaphore.WaitOne()
-
         Try
+            generalLvSemaphore.WaitOne()
+
             If Success = False Then
                 Trace.WriteLine("Cannot enumerate, an error was raised...")
                 RaiseEvent GotAnError("Log enumeration", errorMessage)
-                generalLvSemaphore.Release()
                 Exit Sub
             End If
 

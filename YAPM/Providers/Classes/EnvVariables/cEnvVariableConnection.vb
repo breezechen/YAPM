@@ -104,7 +104,7 @@ Public Class cEnvVariableConnection
     Public Function Enumerate(ByVal getFixedInfos As Boolean, ByRef pid As Integer, ByVal peb As IntPtr, Optional ByVal forInstanceId As Integer = -1) As Integer
         Dim _pe As IntPtr = peb
         If _pe = Native.Api.NativeConstants.InvalidHandleValue Then
-            Dim _curProc As cProcess = cProcess.GetProcessById(pid)
+            Dim _curProc As cProcess = ProcessProvider.GetProcessById(pid)
             If _curProc IsNot Nothing Then
                 _pe = _curProc.Infos.PebAddress
             End If

@@ -38,22 +38,20 @@ Public Class cProcessConnection
     ' For processor count
     Private Shared _processors As Integer = 1
 
-    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
         MyBase.New(ControlWhichGetInvoked, Conn)
         instanceId += 1
         _instanceId = instanceId
-        _procEnum = New asyncCallbackProcEnumerate(_control, de, Me, _instanceId)
+        _procEnum = New asyncCallbackProcEnumerate(_control, Me, _instanceId)
     End Sub
 
 #Region "Events, delegate, invoke..."
 
     Public Delegate Sub ConnectedEventHandler(ByVal Success As Boolean)
     Public Delegate Sub DisconnectedEventHandler(ByVal Success As Boolean)
-    Public Delegate Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of Integer, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
     Public Connected As ConnectedEventHandler
     Public Disconnected As DisconnectedEventHandler
-    Public HasEnumerated As HasEnumeratedEventHandler
 
 #End Region
 

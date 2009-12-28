@@ -63,59 +63,63 @@ Public Class asyncCallbackPrivilegesEnumerate
     Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
 
-        sem.WaitOne()
+        Try
+            sem.WaitOne()
 
-        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+            Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+            If con.ConnectionObj.IsConnected = False Then
+                Exit Sub
+            End If
+
+            Select Case con.ConnectionObj.ConnectionType
+
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    _poolObj = pObj
+                    Try
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestPrivilegesList, pObj.pid)
+                        cDat.InstanceId = _instanceId   ' Instance which request the list
+                        con.ConnectionObj.Socket.Send(cDat)
+                    Catch ex As Exception
+                        Misc.ShowError(ex, "Unable to send request to server")
+                    End Try
+
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+
+                Case cConnection.TypeOfConnection.SnapshotFile
+                    ' Snapshot
+
+                    Dim _dico As New Dictionary(Of String, privilegeInfos)
+                    Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                    If snap IsNot Nothing Then
+                        ' For some processes only
+                        _dico = snap.PrivilegesByProcessId(pObj.pid)
+                    End If
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
+
+                Case Else
+                    ' Local
+                    Dim _dico As Dictionary(Of String, privilegeInfos) = _
+                            SharedLocalSyncEnumerate(pObj)
+
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
+
+            End Select
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
             sem.Release()
-            Exit Sub
-        End If
-
-        Select Case con.ConnectionObj.ConnectionType
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                _poolObj = pObj
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestPrivilegesList, pObj.pid)
-                    cDat.InstanceId = _instanceId   ' Instance which request the list
-                    con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-
-            Case cConnection.TypeOfConnection.SnapshotFile
-                ' Snapshot
-
-                Dim _dico As New Dictionary(Of String, privilegeInfos)
-                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
-                If snap IsNot Nothing Then
-                    ' For some processes only
-                    _dico = snap.PrivilegesByProcessId(pObj.pid)
-                End If
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
-
-            Case Else
-                ' Local
-                Dim _dico As Dictionary(Of String, privilegeInfos) = _
-                        SharedLocalSyncEnumerate(pObj)
-
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
-
-        End Select
-
-        sem.Release()
+        End Try
 
     End Sub
 

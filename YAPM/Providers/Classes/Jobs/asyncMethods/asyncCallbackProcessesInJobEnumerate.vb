@@ -64,50 +64,54 @@ Public Class asyncCallbackProcessesInJobEnumerate
     Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
 
-        sem.WaitOne()
+        Try
+            sem.WaitOne()
 
-        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
-            sem.Release()
-            Exit Sub
-        End If
+            Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+            If con.ConnectionObj.IsConnected = False Then
+                Exit Sub
+            End If
 
-        Select Case con.ConnectionObj.ConnectionType
+            Select Case con.ConnectionObj.ConnectionType
 
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                _poolObj = pObj
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessesInJobList, pObj.jobName)
-                    cDat.InstanceId = _instanceId   ' Instance which request the list
-                    con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-
-
-            Case cConnection.TypeOfConnection.SnapshotFile
-                ' Snapshot
-
-
-            Case Else
-                ' Local
-
-                Dim _dico As Dictionary(Of Integer, processInfos) = _
-                        Native.Objects.Job.GetProcessesInJobByName(pObj.jobName)
-
-                If deg IsNot Nothing Then
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    _poolObj = pObj
                     Try
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessesInJobList, pObj.jobName)
+                        cDat.InstanceId = _instanceId   ' Instance which request the list
+                        con.ConnectionObj.Socket.Send(cDat)
                     Catch ex As Exception
-                        Misc.ShowDebugError(ex)
+                        Misc.ShowError(ex, "Unable to send request to server")
                     End Try
-                End If
 
-        End Select
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
 
-        sem.Release()
+
+                Case cConnection.TypeOfConnection.SnapshotFile
+                    ' Snapshot
+
+
+                Case Else
+                    ' Local
+
+                    Dim _dico As Dictionary(Of Integer, processInfos) = _
+                            Native.Objects.Job.GetProcessesInJobByName(pObj.jobName)
+
+                    If deg IsNot Nothing Then
+                        Try
+                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                        Catch ex As Exception
+                            Misc.ShowDebugError(ex)
+                        End Try
+                    End If
+
+            End Select
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            sem.Release()
+        End Try
 
     End Sub
 

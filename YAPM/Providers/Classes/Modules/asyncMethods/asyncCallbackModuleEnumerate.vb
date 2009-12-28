@@ -67,72 +67,76 @@ Public Class asyncCallbackModuleEnumerate
     Private Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
 
-        sem.WaitOne()
+        Try
+            sem.WaitOne()
 
-        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+            Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+            If con.ConnectionObj.IsConnected = False Then
+                Exit Sub
+            End If
+
+            Select Case con.ConnectionObj.ConnectionType
+
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    _poolObj = pObj
+                    Try
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestModuleList, pObj.pid)
+                        cDat.InstanceId = _instanceId   ' Instance which request the list
+                        con.ConnectionObj.Socket.Send(cDat)
+                    Catch ex As Exception
+                        Misc.ShowError(ex, "Unable to send request to server")
+                    End Try
+
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                    Dim _dico As New Dictionary(Of String, moduleInfos)
+                    Dim msg As String = ""
+                    Dim res As Boolean = _
+                            Wmi.Objects.Module.EnumerateModuleById(pObj.pid, con.wmiSearcher, _
+                                                                    _dico, msg)
+
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
+
+                Case cConnection.TypeOfConnection.SnapshotFile
+                    ' Snapshot
+
+                    Dim _dico As New Dictionary(Of String, moduleInfos)
+                    Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                    If snap IsNot Nothing Then
+                        ' For some processes only
+                        _dico = snap.ModulesByProcessId(pObj.pid)
+                    End If
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
+
+                Case Else
+                    ' Local
+                    Dim _dico As Dictionary(Of String, moduleInfos) = _
+                                                SharedLocalSyncEnumerate(pObj)
+
+                    Try
+                        If deg IsNot Nothing AndAlso ctrl.Created Then _
+                           ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
+
+            End Select
+
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
             sem.Release()
-            Exit Sub
-        End If
-
-        Select Case con.ConnectionObj.ConnectionType
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                _poolObj = pObj
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestModuleList, pObj.pid)
-                    cDat.InstanceId = _instanceId   ' Instance which request the list
-                    con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                Dim _dico As New Dictionary(Of String, moduleInfos)
-                Dim msg As String = ""
-                Dim res As Boolean = _
-                        Wmi.Objects.Module.EnumerateModuleById(pObj.pid, con.wmiSearcher, _
-                                                                _dico, msg)
-
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
-
-            Case cConnection.TypeOfConnection.SnapshotFile
-                ' Snapshot
-
-                Dim _dico As New Dictionary(Of String, moduleInfos)
-                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
-                If snap IsNot Nothing Then
-                    ' For some processes only
-                    _dico = snap.ModulesByProcessId(pObj.pid)
-                End If
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
-
-            Case Else
-                ' Local
-                Dim _dico As Dictionary(Of String, moduleInfos) = _
-                                            SharedLocalSyncEnumerate(pObj)
-
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                       ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
-
-        End Select
-
-
-        sem.Release()
+        End Try
 
     End Sub
 
@@ -142,7 +146,7 @@ Public Class asyncCallbackModuleEnumerate
         Dim _dico As Dictionary(Of String, moduleInfos)
 
         ' If it's a Wow64 process, module enumeration is made using debug functions
-        Dim cProc As cProcess = cProcess.GetProcessById(pObj.pid)
+        Dim cProc As cProcess = ProcessProvider.GetProcessById(pObj.pid)
         If cProc IsNot Nothing AndAlso cProc.IsWow64Process Then
             _dico = Native.Objects.Module.EnumerateModulesWow64ByProcessId(pObj.pid, False)
         Else

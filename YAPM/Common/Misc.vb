@@ -433,7 +433,9 @@ Namespace Common
                 If value Then
                     regKey.SetValue(Application.ProductName, Application.ExecutablePath)
                 Else
-                    regKey.DeleteValue(Application.ProductName)
+                    If regKey.GetValue(Application.ProductName) IsNot Nothing Then
+                        regKey.DeleteValue(Application.ProductName)
+                    End If
                 End If
             Catch ex As Exception
                 Misc.ShowDebugError(ex)
@@ -1159,7 +1161,9 @@ Namespace Common
             Debug.WriteLine("       Message : " & ex.Message)
             Debug.WriteLine("       Trace : " & ex.StackTrace)
             Debug.WriteLine("================================================================")
+#If RELEASE_MODE = 0 Then
             Beep()
+#End If
         End Sub
 
 

@@ -41,7 +41,7 @@ Public Class HProcessProp
 
             If n2 > 0 AndAlso n1 > 0 Then
                 _pid = Integer.Parse(nam.Substring(n2 + 1, n1 - n2 - 1))
-                _proc = cProcess.GetProcessById(_pid)
+                _proc = ProcessProvider.GetProcessById(_pid)
             Else
                 _pid = 0
                 _proc = Nothing

@@ -37,7 +37,7 @@ Public Class frmServer
     End Enum
 
     Private theConnection As New cConnection
-    Private _procCon As New cProcessConnection(Me, theConnection, New cProcessConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedProcess))
+    Private _procCon As New cProcessConnection(Me, theConnection)
     Private _windowCon As New cWindowConnection(Me, theConnection, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedWindows))
     Private _envCon As New cEnvVariableConnection(Me, theConnection, New cEnvVariableConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEnvVar))
     Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
@@ -636,7 +636,7 @@ Public Class frmServer
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim aff As Integer = CType(cData.Param2, Integer)
                         Try
-                            cProcess.GetProcessById(pid).SetAffinity(aff)
+                            ProcessProvider.GetProcessById(pid).SetAffinity(aff)
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not change process affinity")
                         End Try
@@ -644,28 +644,28 @@ Public Class frmServer
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim level As System.Diagnostics.ProcessPriorityClass = CType(cData.Param2, ProcessPriorityClass)
                         Try
-                            cProcess.GetProcessById(pid).SetPriority(level)
+                            ProcessProvider.GetProcessById(pid).SetPriority(level)
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not change process priority")
                         End Try
                     Case cSocketData.OrderType.ProcessDecreasePriority
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).DecreasePriority()
+                            ProcessProvider.GetProcessById(pid).DecreasePriority()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not change process priority")
                         End Try
                     Case cSocketData.OrderType.ProcessIncreasePriority
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).IncreasePriority()
+                            ProcessProvider.GetProcessById(pid).IncreasePriority()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not change process priority")
                         End Try
                     Case cSocketData.OrderType.ProcessKill
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).Kill()
+                            ProcessProvider.GetProcessById(pid).Kill()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not kill process")
                         End Try
@@ -673,35 +673,35 @@ Public Class frmServer
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim method As Native.Api.Enums.KillMethod = CType(cData.Param2, Native.Api.Enums.KillMethod)
                         Try
-                            cProcess.GetProcessById(pid).KillByMethod(method)
+                            ProcessProvider.GetProcessById(pid).KillByMethod(method)
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not kill process by method")
                         End Try
                     Case cSocketData.OrderType.ProcessKillTree
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).KillProcessTree()
+                            ProcessProvider.GetProcessById(pid).KillProcessTree()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not kill process tree")
                         End Try
                     Case cSocketData.OrderType.ProcessReduceWorkingSet
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).EmptyWorkingSetSize()
+                            ProcessProvider.GetProcessById(pid).EmptyWorkingSetSize()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not reduce process' working set size")
                         End Try
                     Case cSocketData.OrderType.ProcessResume
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).ResumeProcess()
+                            ProcessProvider.GetProcessById(pid).ResumeProcess()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not resume process")
                         End Try
                     Case cSocketData.OrderType.ProcessSuspend
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Try
-                            cProcess.GetProcessById(pid).SuspendProcess()
+                            ProcessProvider.GetProcessById(pid).SuspendProcess()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not suspend process")
                         End Try

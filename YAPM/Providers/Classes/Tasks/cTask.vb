@@ -39,7 +39,7 @@ Public Class cTask
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Task
 
         ' Get process from process list
-        _process = cProcess.GetProcessById(_pid)
+        _process = ProcessProvider.GetProcessById(_pid)
     End Sub
 
 #End Region

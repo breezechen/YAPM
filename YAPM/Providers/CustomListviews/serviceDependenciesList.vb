@@ -163,13 +163,12 @@ Public Class serviceDependenciesList
             Exit Sub
         End If
 
-        sem.WaitOne()
-
         Try
+            sem.WaitOne()
+
             If Success = False Then
                 Trace.WriteLine("Cannot enumerate, an error was raised...")
                 RaiseEvent GotAnError("Service dependencies connection enumeration", errorMessage)
-                sem.Release()
                 Exit Sub
             End If
 

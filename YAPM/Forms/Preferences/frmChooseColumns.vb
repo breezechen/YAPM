@@ -41,49 +41,54 @@ Public Class frmChooseColumns
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
 
-        theListview.generalLvSemaphore.WaitOne()
-        theListview.ReorganizeColumns = True
-        theListview.BeginUpdate()
+        Try
+            theListview.generalLvSemaphore.WaitOne()
+            theListview.ReorganizeColumns = True
+            theListview.BeginUpdate()
 
-        ' Remove all columns
-        For x As Integer = theListview.Columns.Count - 1 To 1 Step -1
-            theListview.Columns.Remove(theListview.Columns(x))
-        Next
-
-        ' Add new columns
-        For Each it As ListViewItem In Me.lv.CheckedItems
-            Dim width As Integer = CInt(Val(it.SubItems(1).Text))
-            If width <= 0 Then
-                width = 90        ' Default size
-            End If
-            theListview.Columns.Add(it.Text, width).TextAlign = CType([Enum].Parse(GetType(HorizontalAlignment), it.SubItems(2).Text), HorizontalAlignment)
-        Next
-
-        ' Add items which are selected
-        For Each it As ListViewItem In theListview.Items
-
-            ' Can not use .Clear because it also remove the Item
-            For i As Integer = it.SubItems.Count - 1 To 1 Step -1
-                it.SubItems.RemoveAt(i)
+            ' Remove all columns
+            For x As Integer = theListview.Columns.Count - 1 To 1 Step -1
+                theListview.Columns.Remove(theListview.Columns(x))
             Next
 
-            Dim subit() As String
-            ReDim subit(Me.lv.CheckedItems.Count)
-
-            For z As Integer = 0 To UBound(subit) - 1
-                subit(z) = ""
+            ' Add new columns
+            For Each it As ListViewItem In Me.lv.CheckedItems
+                Dim width As Integer = CInt(Val(it.SubItems(1).Text))
+                If width <= 0 Then
+                    width = 90        ' Default size
+                End If
+                theListview.Columns.Add(it.Text, width).TextAlign = CType([Enum].Parse(GetType(HorizontalAlignment), it.SubItems(2).Text), HorizontalAlignment)
             Next
 
-            it.SubItems.AddRange(subit)
-        Next
+            ' Add items which are selected
+            For Each it As ListViewItem In theListview.Items
 
-        ' Refresh all items & subitems
-        ConcernedListView.CreateSubItemsBuffer()
-        ConcernedListView.ForceRefreshingOfAllItems()
+                ' Can not use .Clear because it also remove the Item
+                For i As Integer = it.SubItems.Count - 1 To 1 Step -1
+                    it.SubItems.RemoveAt(i)
+                Next
 
-        theListview.ReorganizeColumns = False
-        theListview.EndUpdate()
-        theListview.generalLvSemaphore.Release()
+                Dim subit() As String
+                ReDim subit(Me.lv.CheckedItems.Count)
+
+                For z As Integer = 0 To UBound(subit) - 1
+                    subit(z) = ""
+                Next
+
+                it.SubItems.AddRange(subit)
+            Next
+
+            ' Refresh all items & subitems
+            ConcernedListView.CreateSubItemsBuffer()
+            ConcernedListView.ForceRefreshingOfAllItems()
+
+            theListview.ReorganizeColumns = False
+            theListview.EndUpdate()
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            theListview.generalLvSemaphore.Release()
+        End Try
         Me.Close()
     End Sub
 

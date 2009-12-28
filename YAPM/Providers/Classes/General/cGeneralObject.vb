@@ -32,6 +32,17 @@ Public MustInherit Class cGeneralObject
     ' Item is killed ?
     Private _killedItem As Boolean = False
 
+    ' Kill count
+    ' -1 => item exists
+    ' 0 => have to be removed from list
+    ' > 0 => will be decremented
+    Private _killCount As Integer = -1
+
+    ' New count
+    ' 0 => no more in green
+    ' > 0 => will be decremented
+    Private _newCount As Integer
+
     ' Item is displayed ?
     Private _isDisplayed As Boolean = False
 
@@ -64,35 +75,55 @@ Public MustInherit Class cGeneralObject
     ' Add a pending task to the list
     ' "Shared" is called in shared methods
     Public Sub AddPendingTask(ByVal actionCount As Integer, ByRef thr As System.Threading.WaitCallback)
-        globalSemPendingtask.WaitOne()
-        _SharedPendingTasks.Add(actionCount, thr)
-        _pendingTasks.Add(actionCount, thr)
-        globalSemPendingtask.Release()
+        Try
+            globalSemPendingtask.WaitOne()
+            _SharedPendingTasks.Add(actionCount, thr)
+            _pendingTasks.Add(actionCount, thr)
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            globalSemPendingtask.Release()
+        End Try
     End Sub
     Public Shared Sub AddSharedPendingTask(ByVal actionCount As Integer, ByRef thr As System.Threading.WaitCallback)
-        globalSemPendingtask.WaitOne()
-        _SharedPendingTasks.Add(actionCount, thr)
-        globalSemPendingtask.Release()
+        Try
+            globalSemPendingtask.WaitOne()
+            _SharedPendingTasks.Add(actionCount, thr)
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            globalSemPendingtask.Release()
+        End Try
     End Sub
 
     ' Remove a pending task from the list
     ' "Shared" is called in shared methods
     Public Sub RemovePendingTask(ByVal actionCount As Integer)
-        globalSemPendingtask.WaitOne()
-        If _SharedPendingTasks.ContainsKey(actionCount) Then
-            _SharedPendingTasks.Remove(actionCount)
-        End If
-        If _pendingTasks.ContainsKey(actionCount) Then
-            _pendingTasks.Remove(actionCount)
-        End If
-        globalSemPendingtask.Release()
+        Try
+            globalSemPendingtask.WaitOne()
+            If _SharedPendingTasks.ContainsKey(actionCount) Then
+                _SharedPendingTasks.Remove(actionCount)
+            End If
+            If _pendingTasks.ContainsKey(actionCount) Then
+                _pendingTasks.Remove(actionCount)
+            End If
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            globalSemPendingtask.Release()
+        End Try
     End Sub
     Public Shared Sub RemoveSharedPendingTask(ByVal actionCount As Integer)
-        globalSemPendingtask.WaitOne()
-        If _SharedPendingTasks.ContainsKey(actionCount) Then
-            _SharedPendingTasks.Remove(actionCount)
-        End If
-        globalSemPendingtask.Release()
+        Try
+            globalSemPendingtask.WaitOne()
+            If _SharedPendingTasks.ContainsKey(actionCount) Then
+                _SharedPendingTasks.Remove(actionCount)
+            End If
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            globalSemPendingtask.Release()
+        End Try
     End Sub
 
     ' Return pending tasks
@@ -110,28 +141,38 @@ Public MustInherit Class cGeneralObject
     ' Return count of pending task
     Public ReadOnly Property PendingTaskCount() As Integer
         Get
-            globalSemPendingtask.WaitOne()
-            Dim _cout As Integer = 0
-            For Each th As System.Threading.WaitCallback In _pendingTasks.Values
-                If th IsNot Nothing Then
-                    _cout += 1
-                End If
-            Next
-            globalSemPendingtask.Release()
-            Return _cout
+            Try
+                globalSemPendingtask.WaitOne()
+                Dim _cout As Integer = 0
+                For Each th As System.Threading.WaitCallback In _pendingTasks.Values
+                    If th IsNot Nothing Then
+                        _cout += 1
+                    End If
+                Next
+                Return _cout
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            Finally
+                globalSemPendingtask.Release()
+            End Try
         End Get
     End Property
     Public ReadOnly Property AllPendingTaskCount() As Integer
         Get
-            globalSemPendingtask.WaitOne()
-            Dim _cout As Integer = 0
-            For Each th As System.Threading.WaitCallback In _SharedPendingTasks.Values
-                If th IsNot Nothing Then
-                    _cout += 1
-                End If
-            Next
-            globalSemPendingtask.Release()
-            Return _cout
+            Try
+                globalSemPendingtask.WaitOne()
+                Dim _cout As Integer = 0
+                For Each th As System.Threading.WaitCallback In _SharedPendingTasks.Values
+                    If th IsNot Nothing Then
+                        _cout += 1
+                    End If
+                Next
+                Return _cout
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            Finally
+                globalSemPendingtask.Release()
+            End Try
         End Get
     End Property
 
@@ -150,6 +191,22 @@ Public MustInherit Class cGeneralObject
         End Get
         Set(ByVal value As Boolean)
             _killedItem = value
+        End Set
+    End Property
+    Public Property KillCount() As Integer
+        Get
+            Return _killCount
+        End Get
+        Set(ByVal value As Integer)
+            _killCount = value
+        End Set
+    End Property
+    Public Property NewCount() As Integer
+        Get
+            Return _newCount
+        End Get
+        Set(ByVal value As Integer)
+            _newCount = value
         End Set
     End Property
     Public Property IsNewItem() As Boolean

@@ -32,12 +32,10 @@ Public Class asyncCallbackProcEnumerate
     Private processMinRights As Native.Security.ProcessAccess = Native.Security.ProcessAccess.QueryInformation
 
     Private ctrl As Control
-    Private deg As [Delegate]
     Private con As cProcessConnection
     Private _instanceId As Integer
-    Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cProcessConnection, ByVal iId As Integer)
+    Public Sub New(ByRef ctr As Control, ByRef co As cProcessConnection, ByVal iId As Integer)
         ctrl = ctr
-        deg = de
         _instanceId = iId
         con = co
         If cEnvironment.SupportsMinRights Then
@@ -49,6 +47,7 @@ Public Class asyncCallbackProcEnumerate
 
     ' Reanalize a process by removing (or asking to remove) its PID from
     ' the shared dictionnary of known PID
+    Friend Shared sem2 As New System.Threading.Semaphore(1, 1)
     Public Structure ReanalizeProcessObj
         Public pid() As Integer
         Public con As cProcessConnection
@@ -59,35 +58,39 @@ Public Class asyncCallbackProcEnumerate
     End Structure
     Public Shared Sub ReanalizeProcess(ByVal thePoolObj As Object)
 
-        sem.WaitOne()
+        Try
+            sem2.WaitOne()
 
-        Dim pObj As ReanalizeProcessObj = DirectCast(thePoolObj, ReanalizeProcessObj)
-        If pObj.con.ConnectionObj.IsConnected = False Then
-            sem.Release()
-            Exit Sub
-        End If
+            Dim pObj As ReanalizeProcessObj = DirectCast(thePoolObj, ReanalizeProcessObj)
+            If pObj.con.ConnectionObj.IsConnected = False Then
+                Exit Sub
+            End If
 
-        Select Case pObj.con.ConnectionObj.ConnectionType
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessReanalize, pObj.pid)
-                    pObj.con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
+            Select Case pObj.con.ConnectionObj.ConnectionType
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    Try
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessReanalize, pObj.pid)
+                        pObj.con.ConnectionObj.Socket.Send(cDat)
+                    Catch ex As Exception
+                        Misc.ShowError(ex, "Unable to send request to server")
+                    End Try
 
-            Case cConnection.TypeOfConnection.LocalConnection, cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                Native.Objects.Process.RemoveProcessesFromListOfNewProcesses(pObj.pid)
+                Case cConnection.TypeOfConnection.LocalConnection, cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                    ProcessProvider.RemoveProcessesFromListOfNewProcesses(pObj.pid)
 
-        End Select
+            End Select
 
-        sem.Release()
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            sem2.Release()
+        End Try
     End Sub
 
     ' Called to remove PIDs from shared dico by the server after it receive
     ' a command to reanalize some PIDs
     Public Shared Sub ReanalizeLocalAfterSocket(ByRef pid() As Integer)
-        Native.Objects.Process.RemoveProcessesFromListOfNewProcesses(pid)
+        ProcessProvider.RemoveProcessesFromListOfNewProcesses(pid)
     End Sub
 
 #End Region
@@ -122,121 +125,77 @@ Public Class asyncCallbackProcEnumerate
         End If
 
         ' Save current processes into a dictionary
-        Native.Objects.Process.CurrentProcesses = _dico
+        ProcessProvider.CurrentProcesses = _dico
 
-        Try
-            If deg IsNot Nothing AndAlso ctrl.Created Then _
-                ctrl.Invoke(deg, True, _dico, Nothing, _instanceId)
-        Catch ex As Exception
-            Misc.ShowDebugError(ex)
-        End Try
     End Sub
 
     Friend Shared sem As New System.Threading.Semaphore(1, 1)
     Public Sub Process(ByVal thePoolObj As Object)
 
-        sem.WaitOne()
+        Try
+            sem.WaitOne()
 
-        Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+            Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
+            If con.ConnectionObj.IsConnected = False Then
+                Exit Sub
+            End If
+
+            Select Case con.ConnectionObj.ConnectionType
+
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    _poolObj = pObj
+                    Try
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessList)
+                        cDat.InstanceId = _instanceId   ' Instance which request the list
+                        con.ConnectionObj.Socket.Send(cDat)
+                    Catch ex As Exception
+                        Misc.ShowError(ex, "Unable to send request to server")
+                    End Try
+
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                    Dim _dico As New Dictionary(Of Integer, processInfos)
+                    Dim msg As String = ""
+                    Dim res As Boolean = _
+                        Wmi.Objects.Process.EnumerateProcesses(con.wmiSearcher, _dico, msg)
+
+                    ' Save current processes into a dictionary
+                    ProcessProvider.CurrentProcesses = _dico
+
+                Case cConnection.TypeOfConnection.SnapshotFile
+                    ' Snapshot
+
+                    Dim _dico As New Dictionary(Of Integer, processInfos)
+                    Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                    If snap IsNot Nothing Then
+                        _dico = snap.Processes
+                    End If
+
+                    ' Save current processes into a dictionary
+                    ProcessProvider.CurrentProcesses = _dico
+
+                Case Else
+                    ' Local
+                    Dim _dico As Dictionary(Of Integer, processInfos)
+
+                    Select Case pObj.method
+                        Case ProcessEnumMethode.BruteForce
+                            _dico = Native.Objects.Process.EnumerateHiddenProcessesBruteForce
+                        Case ProcessEnumMethode.HandleMethod
+                            _dico = Native.Objects.Process.EnumerateHiddenProcessesHandleMethod
+                        Case Else
+                            _dico = Native.Objects.Process.EnumerateVisibleProcesses(pObj.force)
+                    End Select
+
+                    ' Save current processes into a dictionary
+                    ProcessProvider.CurrentProcesses = _dico
+
+            End Select
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
             sem.Release()
-            Exit Sub
-        End If
-
-        Select Case con.ConnectionObj.ConnectionType
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                _poolObj = pObj
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessList)
-                    cDat.InstanceId = _instanceId   ' Instance which request the list
-                    con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                Dim _dico As New Dictionary(Of Integer, processInfos)
-                Dim msg As String = ""
-                Dim res As Boolean = _
-                    Wmi.Objects.Process.EnumerateProcesses(con.wmiSearcher, _dico, msg)
-
-                ' Save current processes into a dictionary
-                Native.Objects.Process.CurrentProcesses = _dico
-
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, res, _dico, msg, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
-
-            Case cConnection.TypeOfConnection.SnapshotFile
-                ' Snapshot
-
-                Dim _dico As New Dictionary(Of Integer, processInfos)
-                Dim snap As cSnapshot = con.ConnectionObj.Snapshot
-                If snap IsNot Nothing Then
-                    _dico = snap.Processes
-                End If
-
-                ' Save current processes into a dictionary
-                Native.Objects.Process.CurrentProcesses = _dico
-
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then _
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
-
-            Case Else
-                ' Local
-                Dim _dico As Dictionary(Of Integer, processInfos)
-
-                Static hasFailedAtLeastOnce As Boolean = False
-
-                If hasFailedAtLeastOnce = False Then
-                    If deg Is Nothing OrElse ctrl.Created = False Then
-                        ' We won't be able to invoke method, so we have to clear the
-                        ' list of new processes when we will able to invoke it
-                        hasFailedAtLeastOnce = True
-                    End If
-                Else
-                    If deg IsNot Nothing AndAlso ctrl.Created Then
-                        ' OK, we'll be able to invoke method, and it has failed
-                        ' last time, so we clear the dico of new processes
-                        ' That's how we'll be able to retrieve and display
-                        ' the fixed info
-                        Native.Objects.Process.ClearNewProcessesDico()
-                        ' Set hasFailedAtLeastOnce = false so we won't clear dico
-                        ' each time
-                        hasFailedAtLeastOnce = False
-                    End If
-                End If
-
-                Select Case pObj.method
-                    Case ProcessEnumMethode.BruteForce
-                        _dico = Native.Objects.Process.EnumerateHiddenProcessesBruteForce
-                    Case ProcessEnumMethode.HandleMethod
-                        _dico = Native.Objects.Process.EnumerateHiddenProcessesHandleMethod
-                    Case Else
-                        _dico = Native.Objects.Process.EnumerateVisibleProcesses(pObj.force)
-                End Select
-
-                ' Save current processes into a dictionary
-                '  Native.Objects.Process.CurrentProcesses = _dico
-
-                Try
-                    If deg IsNot Nothing AndAlso ctrl.Created Then
-                        ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                    End If
-                Catch ex As Exception
-                    Misc.ShowDebugError(ex)
-                End Try
-        End Select
-
-        sem.Release()
+        End Try
 
     End Sub
 

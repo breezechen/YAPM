@@ -321,125 +321,88 @@ Namespace Native.Objects
             Dim hProcess As IntPtr
             Dim noNameJobIndex As Integer = 0
 
-            semDupHandles.WaitOne()
+            Try
+                semDupHandles.WaitOne()
 
-            ' We have to get jobTypeNumber
-            If jobTypeNumber = 0 Then
-                ' For an unknown reason, there seems to be a problem with
-                ' Windows 7 : ObjectTypeNumber for Jobs handles is 6 but
-                ' that is not what is retrieved using ObjectTypesInformation...
-                ' So, for now, we have to hardcode the value for Windows 7
-                ' In fact, there is a difference of 1 for all object types between
-                ' the value returned by GetObjectTypeNumberByName and the real
-                ' value.
-                jobTypeNumber = GetObjectTypeNumberByName("Job")
-                If cEnvironment.IsWindows7 Then
-                    jobTypeNumber += 1
+                ' We have to get jobTypeNumber
+                If jobTypeNumber = 0 Then
+                    ' For an unknown reason, there seems to be a problem with
+                    ' Windows 7 : ObjectTypeNumber for Jobs handles is 6 but
+                    ' that is not what is retrieved using ObjectTypesInformation...
+                    ' So, for now, we have to hardcode the value for Windows 7
+                    ' In fact, there is a difference of 1 for all object types between
+                    ' the value returned by GetObjectTypeNumberByName and the real
+                    ' value.
+                    jobTypeNumber = GetObjectTypeNumberByName("Job")
+                    If cEnvironment.IsWindows7 Then
+                        jobTypeNumber += 1
+                    End If
                 End If
-            End If
 
-            ' HACK HACK HACK HACK
-            ' Here is how we retrieve the job list :
-            ' - we enumerate all handles
-            ' - we select all handles with type = job
-            ' - we duplicate these handles to have access in our application (if they are
-            '   not already owned by our application)
-            ' This is it !
-            ' NOTE : we should NOT keep these handles (if duplicated) opened as it might implies
-            ' a change of bevahior in jobs which have JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit,
-            ' as they terminate only when all opened handles are closed.
-            ' SO we save the list of opened handle some time (as we must have the handle
-            ' to access to the job !), and we then close/reopen them each enumeration
+                ' HACK HACK HACK HACK
+                ' Here is how we retrieve the job list :
+                ' - we enumerate all handles
+                ' - we select all handles with type = job
+                ' - we duplicate these handles to have access in our application (if they are
+                '   not already owned by our application)
+                ' This is it !
+                ' NOTE : we should NOT keep these handles (if duplicated) opened as it might implies
+                ' a change of bevahior in jobs which have JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit,
+                ' as they terminate only when all opened handles are closed.
+                ' SO we save the list of opened handle some time (as we must have the handle
+                ' to access to the job !), and we then close/reopen them each enumeration
 
-            ' Closed previously duplicated handles
-            ' We refresh the informations (stats) if demanded
-            For Each ptr As IntPtr In _dupHandles.Values
-                If ptr.IsNotNull Then
-                    Native.Objects.General.CloseHandle(ptr)
-                End If
-            Next
-            _dupHandles.Clear()
+                ' Closed previously duplicated handles
+                ' We refresh the informations (stats) if demanded
+                For Each ptr As IntPtr In _dupHandles.Values
+                    If ptr.IsNotNull Then
+                        Native.Objects.General.CloseHandle(ptr)
+                    End If
+                Next
+                _dupHandles.Clear()
 
-            Length = memAllocJobs.Size
-            ' While length is too small
-            Do While NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, _
-                                memAllocJobs.Pointer, memAllocJobs.Size, ret) = STATUS_INFO_LENGTH_MISMATCH
-                ' Resize buffer
-                Length = Length * 2
-                memAllocJobs.ResizeNew(Length)
-            Loop
+                Length = memAllocJobs.Size
+                ' While length is too small
+                Do While NativeFunctions.NtQuerySystemInformation(NativeEnums.SystemInformationClass.SystemHandleInformation, _
+                                    memAllocJobs.Pointer, memAllocJobs.Size, ret) = STATUS_INFO_LENGTH_MISMATCH
+                    ' Resize buffer
+                    Length = Length * 2
+                    memAllocJobs.ResizeNew(Length)
+                Loop
 
-            ' Get the number of handles 
-            mCount = memAllocJobs.ReadStruct(Of NativeStructs.SystemHandleInformation).HandleCount
+                ' Get the number of handles 
+                mCount = memAllocJobs.ReadStruct(Of NativeStructs.SystemHandleInformation).HandleCount
 
-            ' Resize our array
-            Dim objTypeOffsetInStruct As Integer = NativeStructs.SystemHandleInformation_ObjectTypeOffset
-            Dim structSize As Integer = Marshal.SizeOf(GetType(NativeStructs.SystemHandleEntry))
-            Dim handlesOffset As Integer = NativeStructs.SystemHandleInformation.HandlesOffset
+                ' Resize our array
+                Dim objTypeOffsetInStruct As Integer = NativeStructs.SystemHandleInformation_ObjectTypeOffset
+                Dim structSize As Integer = Marshal.SizeOf(GetType(NativeStructs.SystemHandleEntry))
+                Dim handlesOffset As Integer = NativeStructs.SystemHandleInformation.HandlesOffset
 
-            For x = 0 To mCount - 1
-                ' We do not retrieve the entire SystemHandleInformation struct
-                ' cause it requires too much CPU time
-                ' We just retrieve the Byte which represent the object type
+                For x = 0 To mCount - 1
+                    ' We do not retrieve the entire SystemHandleInformation struct
+                    ' cause it requires too much CPU time
+                    ' We just retrieve the Byte which represent the object type
 
-                ' &h4 offset because of HandleCount on 4 first bytes
-                Dim type As Integer = memAllocJobs.ReadByte(objTypeOffsetInStruct + _
-                                                                    handlesOffset + _
-                                                                    x * structSize)
-                If type = jobTypeNumber Then
+                    ' &h4 offset because of HandleCount on 4 first bytes
+                    Dim type As Integer = memAllocJobs.ReadByte(objTypeOffsetInStruct + _
+                                                                        handlesOffset + _
+                                                                        x * structSize)
+                    If type = jobTypeNumber Then
 
-                    ' This is a job !
+                        ' This is a job !
 
-                    ' Get entire struct
-                    Handle = memAllocJobs.ReadStruct(Of NativeStructs.SystemHandleEntry)(handlesOffset, x)
+                        ' Get entire struct
+                        Handle = memAllocJobs.ReadStruct(Of NativeStructs.SystemHandleEntry)(handlesOffset, x)
 
-                    ' Retrieve its name
-                    Dim theName As String
-                    Dim targetHandle As IntPtr
+                        ' Retrieve its name
+                        Dim theName As String
+                        Dim targetHandle As IntPtr
 
-                    ' If this handle belongs to our process, there is no need
-                    ' to duplicate it
-                    If Handle.ProcessId = NativeFunctions.GetCurrentProcessId Then
+                        ' If this handle belongs to our process, there is no need
+                        ' to duplicate it
+                        If Handle.ProcessId = NativeFunctions.GetCurrentProcessId Then
 
-                        targetHandle = New IntPtr(Handle.Handle)
-
-                        If targetHandle.IsNotNull Then
-
-                            NativeFunctions.ZeroMemory(BufferObjNameJob, New IntPtr(&H200))
-                            NativeFunctions.NtQueryObject(targetHandle, _
-                                            NativeEnums.ObjectInformationClass.ObjectNameInformation, _
-                                            BufferObjNameJob.Pointer, BufferObjNameJob.Size, ret)
-                            ObjName = BufferObjNameJob.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
-                            theName = Marshal.PtrToStringUni(ObjName.Name.Buffer)
-
-                            ' Add to dico
-                            ' The key is the name
-                            If Not (String.IsNullOrEmpty(theName)) Then
-                                If buf.ContainsKey(theName) = False Then
-                                    buf.Add(theName, New jobInfos(theName))
-                                End If
-
-                                ' Add handle to list
-                                If _ownHandles.ContainsKey(theName) = False Then
-                                    _ownHandles.Add(theName, targetHandle)
-                                End If
-                            End If
-                        End If
-                    Else
-
-                        ' Open an handle to the process which owns our handle
-                        hProcess = Native.Objects.Process.GetProcessHandleById(Handle.ProcessId, _
-                                                        Security.ProcessAccess.DupHandle)
-
-                        If hProcess.IsNotNull Then
-
-                            ' Duplicate the handle in our process with same access
-                            NativeFunctions.DuplicateHandle(hProcess, New IntPtr(Handle.Handle), _
-                                                            NativeFunctions.GetCurrentProcess, _
-                                                            targetHandle, Security.JobAccess.All, False, _
-                                                            0)
-                            ' Close process' handle
-                            Objects.General.CloseHandle(hProcess)
+                            targetHandle = New IntPtr(Handle.Handle)
 
                             If targetHandle.IsNotNull Then
 
@@ -450,53 +413,95 @@ Namespace Native.Objects
                                 ObjName = BufferObjNameJob.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
                                 theName = Marshal.PtrToStringUni(ObjName.Name.Buffer)
 
-                                ' Add to dico only NAMED jobs
-                                ' The key is theName
-                                If String.IsNullOrEmpty(theName) = False Then
+                                ' Add to dico
+                                ' The key is the name
+                                If Not (String.IsNullOrEmpty(theName)) Then
                                     If buf.ContainsKey(theName) = False Then
                                         buf.Add(theName, New jobInfos(theName))
                                     End If
 
-                                    ' Add the handle to the list of duplicated handles
-                                    ' So we will close it just before next enumeration
-                                    ' to avoid to multiple per 2 each enumeration the number
-                                    ' of handles... And to avoid JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit issue
-                                    If _dupHandles.ContainsKey(theName) = False Then
-                                        _dupHandles.Add(theName, targetHandle)
+                                    ' Add handle to list
+                                    If _ownHandles.ContainsKey(theName) = False Then
+                                        _ownHandles.Add(theName, targetHandle)
+                                    End If
+                                End If
+                            End If
+                        Else
+
+                            ' Open an handle to the process which owns our handle
+                            hProcess = Native.Objects.Process.GetProcessHandleById(Handle.ProcessId, _
+                                                            Security.ProcessAccess.DupHandle)
+
+                            If hProcess.IsNotNull Then
+
+                                ' Duplicate the handle in our process with same access
+                                NativeFunctions.DuplicateHandle(hProcess, New IntPtr(Handle.Handle), _
+                                                                NativeFunctions.GetCurrentProcess, _
+                                                                targetHandle, Security.JobAccess.All, False, _
+                                                                0)
+                                ' Close process' handle
+                                Objects.General.CloseHandle(hProcess)
+
+                                If targetHandle.IsNotNull Then
+
+                                    NativeFunctions.ZeroMemory(BufferObjNameJob, New IntPtr(&H200))
+                                    NativeFunctions.NtQueryObject(targetHandle, _
+                                                    NativeEnums.ObjectInformationClass.ObjectNameInformation, _
+                                                    BufferObjNameJob.Pointer, BufferObjNameJob.Size, ret)
+                                    ObjName = BufferObjNameJob.ReadStruct(Of NativeStructs.ObjectNameInformation)(0)
+                                    theName = Marshal.PtrToStringUni(ObjName.Name.Buffer)
+
+                                    ' Add to dico only NAMED jobs
+                                    ' The key is theName
+                                    If String.IsNullOrEmpty(theName) = False Then
+                                        If buf.ContainsKey(theName) = False Then
+                                            buf.Add(theName, New jobInfos(theName))
+                                        End If
+
+                                        ' Add the handle to the list of duplicated handles
+                                        ' So we will close it just before next enumeration
+                                        ' to avoid to multiple per 2 each enumeration the number
+                                        ' of handles... And to avoid JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit issue
+                                        If _dupHandles.ContainsKey(theName) = False Then
+                                            _dupHandles.Add(theName, targetHandle)
+                                        Else
+                                            Objects.General.CloseHandle(targetHandle)
+                                        End If
                                     Else
-                                        Objects.General.CloseHandle(targetHandle)
-                                    End If
-                                Else
-                                    ' Then the job has no name...
-                                    ' We will create a name for this job, as a name
-                                    ' is expected as a primary key for dictionaries.
+                                        ' Then the job has no name...
+                                        ' We will create a name for this job, as a name
+                                        ' is expected as a primary key for dictionaries.
 
-                                    noNameJobIndex += 1
-                                    theName = "(no name)[" & noNameJobIndex.ToString & "]"
+                                        noNameJobIndex += 1
+                                        theName = "(no name)[" & noNameJobIndex.ToString & "]"
 
-                                    If buf.ContainsKey(theName) = False Then
-                                        buf.Add(theName, New jobInfos(theName))
-                                    End If
+                                        If buf.ContainsKey(theName) = False Then
+                                            buf.Add(theName, New jobInfos(theName))
+                                        End If
 
-                                    ' Add the handle to the list of duplicated handles
-                                    ' So we will close it just before next enumeration
-                                    ' to avoid to multiple per 2 each enumeration the number
-                                    ' of handles... And to avoid JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit issue
-                                    If _dupHandles.ContainsKey(theName) = False Then
-                                        _dupHandles.Add(theName, targetHandle)
+                                        ' Add the handle to the list of duplicated handles
+                                        ' So we will close it just before next enumeration
+                                        ' to avoid to multiple per 2 each enumeration the number
+                                        ' of handles... And to avoid JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE limit issue
+                                        If _dupHandles.ContainsKey(theName) = False Then
+                                            _dupHandles.Add(theName, targetHandle)
+                                        End If
+
                                     End If
 
                                 End If
 
                             End If
-
                         End If
                     End If
-                End If
 
-            Next
+                Next
 
-            semDupHandles.Release()
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            Finally
+                semDupHandles.Release()
+            End Try
 
             ' Now refresh informations for all jobs
             For Each j As jobInfos In buf.Values
@@ -530,7 +535,7 @@ Namespace Native.Objects
                         Debug.WriteLine(list.ProcessIdsCount.ToString)
                         For i As Integer = 0 To list.ProcessIdsCount - 1
                             Dim pid As Integer = memAlloc.ReadInt32(&H8, i)      ' &h8 cause of two first Int32
-                            Dim proc As cProcess = cProcess.GetProcessById(pid)
+                            Dim proc As cProcess = ProcessProvider.GetProcessById(pid)
                             ' /!\ We HAVE to check that the cProcess we retrieve
                             ' is NOT null, as it may has just been created and is not
                             ' yet available in list of cProcesses

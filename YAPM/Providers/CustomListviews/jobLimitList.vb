@@ -132,11 +132,16 @@ Public Class jobLimitList
     Public Shadows Function GetSelectedItems() As Dictionary(Of String, cJobLimit).ValueCollection
         Dim res As New Dictionary(Of String, cJobLimit)
 
-        generalLvSemaphore.WaitOne()
-        For Each it As ListViewItem In Me.SelectedItems
-            res.Add(it.Name, _dico.Item(it.Name))
-        Next
-        generalLvSemaphore.Release()
+        Try
+            generalLvSemaphore.WaitOne()
+            For Each it As ListViewItem In Me.SelectedItems
+                res.Add(it.Name, _dico.Item(it.Name))
+            Next
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+        End Try
 
         Return res.Values
     End Function
@@ -149,13 +154,12 @@ Public Class jobLimitList
     ' Executed when enumeration is done
     Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, jobLimitInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
-        generalLvSemaphore.WaitOne()
-
         Try
+            generalLvSemaphore.WaitOne()
+
             If Success = False Then
                 Trace.WriteLine("Cannot enumerate, an error was raised...")
                 RaiseEvent GotAnError("Job limits connection enumeration", errorMessage)
-                generalLvSemaphore.Release()
                 Exit Sub
             End If
 

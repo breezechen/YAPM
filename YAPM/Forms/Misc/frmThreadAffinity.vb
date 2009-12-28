@@ -128,7 +128,7 @@ Public Class frmThreadAffinity
 
             ' Disable checkboxes for unsetable processors (in case affinity of owner process
             ' is not set to all processes)
-            Dim m1 As Integer = cProcess.GetProcessById(threads(0).Infos.ProcessId).Infos.AffinityMask.ToInt32
+            Dim m1 As Integer = ProcessProvider.GetProcessById(threads(0).Infos.ProcessId).Infos.AffinityMask.ToInt32
             Me.chk0.Enabled = ((m1 And 1) = 1)
             Me.chk1.Enabled = ((m1 And 2) = 2)
             Me.chk2.Enabled = ((m1 And 4) = 4)
