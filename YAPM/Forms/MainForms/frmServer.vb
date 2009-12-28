@@ -275,12 +275,12 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedProcess(ByVal Success As Boolean, ByVal Dico As Dictionary(Of Integer, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedProcess(ByVal newPids As List(Of Integer), ByVal delPids As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos))
 
-        If Success Then
+        If True Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestProcessList)
-                cDat.InstanceId = instanceId   ' The instance which requested the list
+                'cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat._id = _TheIdToSend
                 cDat.SetProcessList(Dico)
                 sock.Send(cDat)
@@ -1035,6 +1035,8 @@ Public Class frmServer
 
         SetToolTip(Me.txtIp, "Available IP of this machine")
 
+        ' Set some handlers
+        AddHandler ProcessProvider.GotRefreshed, AddressOf HasEnumeratedProcess
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

@@ -219,10 +219,10 @@ Public Class cProcessConnection
 
         If data.Type = cSocketData.DataType.RequestedList AndAlso _
             data.Order = cSocketData.OrderType.RequestProcessList Then
-            If _instanceId = data.InstanceId Then
-                ' OK it is for me
-                _procEnum.GotListFromSocket(data.GetList, data.GetKeys)
-            End If
+            'If _instanceId = data.InstanceId Then
+            ' OK it is for me
+            _procEnum.GotListFromSocket(data.GetList, data.GetKeys)
+            'End If
         End If
 
     End Sub
