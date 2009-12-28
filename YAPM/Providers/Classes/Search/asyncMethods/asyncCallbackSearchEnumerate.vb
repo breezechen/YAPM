@@ -350,9 +350,9 @@ Public Class asyncCallbackSearchEnumerate
 
                     ' ---- SERVICES
                     If (pObj.includ And GeneralObjectType.Service) = GeneralObjectType.Service Then
-                        If Native.Objects.Service.CurrentServices IsNot Nothing Then
+                        If ServiceProvider.CurrentServices IsNot Nothing Then
                             Dim _tmpDico As New Dictionary(Of String, serviceInfos)
-                            _tmpDico = Native.Objects.Service.CurrentServices
+                            _tmpDico = ServiceProvider.CurrentServices
                             For Each _cp As serviceInfos In _tmpDico.Values
                                 Dim cp As New cService(_cp)
                                 For Each field As String In serviceInfos.GetAvailableProperties(includeFirstProp:=True)

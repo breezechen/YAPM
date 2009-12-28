@@ -28,22 +28,10 @@ Imports System.Management
 
 Public Class asyncCallbackServiceEnumerate
 
-#Region "Shared code (for dico of services)"
-
-    Public Shared Sub ClearDico()
-        Native.Objects.Service.ClearNewServicesList()
-    End Sub
-
-#End Region
-
-    Private ctrl As Control
-    Private deg As [Delegate]
     Private con As cServiceConnection
     Private _instanceId As Integer
 
-    Public Sub New(ByRef ctr As Control, ByVal de As [Delegate], ByRef co As cServiceConnection, ByVal iId As Integer)
-        ctrl = ctr
-        deg = de
+    Public Sub New(ByRef co As cServiceConnection, ByVal iId As Integer)
         _instanceId = iId
         con = co
     End Sub
@@ -73,14 +61,7 @@ Public Class asyncCallbackServiceEnumerate
         End If
 
         ' Save service list into a dictionary
-        Native.Objects.Service.CurrentServices = _dico
-
-        Try
-            If deg IsNot Nothing AndAlso ctrl.Created Then _
-                ctrl.Invoke(deg, True, _dico, Nothing, _instanceId)
-        Catch ex As Exception
-            Misc.ShowDebugError(ex)
-        End Try
+        ServiceProvider.CurrentServices = _dico
 
     End Sub
     Public Shared sem As New System.Threading.Semaphore(1, 1)
@@ -117,14 +98,7 @@ Public Class asyncCallbackServiceEnumerate
                                                                  con.wmiSearcher, _dico, msg)
 
                     ' Save service list into a dictionary
-                    Native.Objects.Service.CurrentServices = _dico
-
-                    Try
-                        If deg IsNot Nothing AndAlso ctrl.Created Then _
-                            ctrl.Invoke(deg, res, _dico, msg, 0)
-                    Catch ex As Exception
-                        Misc.ShowDebugError(ex)
-                    End Try
+                    ServiceProvider.CurrentServices = _dico
 
                 Case cConnection.TypeOfConnection.SnapshotFile
                     ' Snapshot file
@@ -142,14 +116,7 @@ Public Class asyncCallbackServiceEnumerate
                     End If
 
                     ' Save service list into a dictionary
-                    Native.Objects.Service.CurrentServices = _dico
-
-                    Try
-                        If deg IsNot Nothing AndAlso ctrl.Created Then _
-                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                    Catch ex As Exception
-                        Misc.ShowDebugError(ex)
-                    End Try
+                    ServiceProvider.CurrentServices = _dico
 
                 Case Else
                     ' Local
@@ -160,14 +127,7 @@ Public Class asyncCallbackServiceEnumerate
                                                      pObj.complete, pObj.pid)
 
                     ' Save service list into a dictionary
-                    Native.Objects.Service.CurrentServices = _dico
-
-                    Try
-                        If deg IsNot Nothing AndAlso ctrl.Created Then _
-                            ctrl.Invoke(deg, True, _dico, Native.Api.Win32.GetLastError, pObj.forInstanceId)
-                    Catch ex As Exception
-                        Misc.ShowDebugError(ex)
-                    End Try
+                    ServiceProvider.CurrentServices = _dico
 
             End Select
 

@@ -1312,7 +1312,7 @@ Public Class frmMain
     Private Sub serviceCreated(ByRef item As cService) Handles lvServices.ItemAdded
         If item IsNot Nothing Then
             Program.Log.AppendLine("Service created : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
-            If My.Settings.NotifyNewServices AndAlso Me.lvServices.FirstRefreshDone Then
+            If My.Settings.NotifyNewServices AndAlso ServiceProvider.FirstRefreshDone Then
                 Dim text As String = "Name : " & item.Infos.Name
                 If item.Infos.ProcessId > 0 Then
                     text &= " (" & item.Infos.ProcessId.ToString & ")"

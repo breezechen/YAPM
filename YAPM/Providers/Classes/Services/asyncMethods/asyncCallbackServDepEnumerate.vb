@@ -134,14 +134,14 @@ Public Class asyncCallbackServDepEnumerate
     End Sub
 
     Private Sub recursiveAddDep(ByVal parent As String, ByVal chain As String, ByRef _dico As Dictionary(Of String, serviceInfos))
-        For Each ii As serviceInfos In Native.Objects.Service.GetServiceDependencies(parent).Values
+        For Each ii As serviceInfos In ServiceProvider.GetServiceDependencies(parent).Values
             ii.Tag = False
             _dico.Add(chain & "->" & ii.Name, ii)
             recursiveAddDep(ii.Name, chain & "->" & ii.Name, _dico)
         Next
     End Sub
     Private Sub recursiveAddDep2(ByVal parent As String, ByVal chain As String, ByRef _dico As Dictionary(Of String, serviceInfos))
-        For Each ii As serviceInfos In Native.Objects.Service.GetServiceWhichDependFromByServiceName(parent).Values
+        For Each ii As serviceInfos In ServiceProvider.GetServiceWhichDependFromByServiceName(parent).Values
             ii.Tag = False
             _dico.Add(chain & "->" & ii.Name, ii)
             recursiveAddDep2(ii.Name, chain & "->" & ii.Name, _dico)

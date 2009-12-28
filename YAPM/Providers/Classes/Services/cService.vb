@@ -94,17 +94,6 @@ Public Class cService
         End Select
     End Sub
 
-#Region "Shared functions"
-
-    ' Return service from name
-    ' This method is thread safe, and does not depend of current connection mode
-    Public Shared Function GetServiceByName(ByVal name As String) As cService
-        ' Get it from dico of current services, which is updated in
-        ' main lvServices each updateItems() call
-        Return Native.Objects.Service.GetServiceByName(name)
-    End Function
-
-#End Region
 
 #Region "All actions on services (start...)"
 

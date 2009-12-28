@@ -103,7 +103,7 @@ Public Class AsynchronousSocketListener
                     ServerTalk.ClientToServerQueue.Clear()
                     ' Let's empty the dictionnary of current processes/services
                     ProcessProvider.ClearNewProcessesDico()
-                    Native.Objects.Service.ClearNewServicesList()
+                    ServiceProvider.ClearNewServicesList()
                 Else
                     ClientToHost(message)
                 End If

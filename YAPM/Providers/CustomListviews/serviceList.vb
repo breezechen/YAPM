@@ -35,13 +35,12 @@ Public Class serviceList
     ' ========================================
     ' Private
     ' ========================================
-    Private _firstRefresh As Boolean
     Private _all As Boolean
     Private _pid As Integer
     Private _first As Boolean
     Private _dico As New Dictionary(Of String, cService)
     Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _serviceConnection As New cServiceConnection(Me, _connectionObject, New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
+    Private WithEvents _serviceConnection As New cServiceConnection(Me, _connectionObject)
 
 #Region "Properties"
 
@@ -77,11 +76,6 @@ Public Class serviceList
             _all = value
         End Set
     End Property
-    Public ReadOnly Property FirstRefreshDone() As Boolean
-        Get
-            Return Not (_firstRefresh)
-        End Get
-    End Property
 
 #End Region
 
@@ -103,11 +97,11 @@ Public Class serviceList
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
 
         _first = True
-        _firstRefresh = True
 
         ' Set handlers
         _serviceConnection.Disconnected = New cServiceConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
         _serviceConnection.Connected = New cServiceConnection.ConnectedEventHandler(AddressOf HasConnected)
+        AddHandler ServiceProvider.GotRefreshed, AddressOf Me.GotRefreshed
     End Sub
 
     ' Get an item from listview
@@ -118,7 +112,6 @@ Public Class serviceList
     ' Delete all items
     Public Sub ClearItems()
         _first = True
-        _firstRefresh = True
         _dico.Clear()
         _IMG.Images.Clear()
         _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
@@ -203,132 +196,140 @@ Public Class serviceList
     ' Private properties
     ' ========================================
 
-    ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal forII As Integer)
+#Region "Update methods & callbacks"
 
-        Try
-            generalLvSemaphore.WaitOne()
+    ' GotNewProcesses, GotDeletedProcesses and GotRefreshed are ALWAYS called
+    ' sequentially, and are protected by a semaphore -> no need to reprotect it here
+    Private Delegate Sub degGotNewItems(ByVal names As List(Of String), ByVal newItems As Dictionary(Of String, serviceInfos))
+    Private Sub GotNewItems(ByVal names As List(Of String), ByVal newItems As Dictionary(Of String, serviceInfos))
 
-            Dim _test As Integer = Native.Api.Win32.GetElapsedTime
+        ' Lock lv if necesary
+        Dim _hasToLock As Boolean = (_firstItemUpdate OrElse newItems.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE)
+        If _hasToLock Then
+            Me.BeginUpdate()
+        End If
+        For Each name As String In names
+            If _dico.ContainsKey(name) = False Then
+                Dim proc As New cService(newItems(name))
+                proc.NewCount = 3
+                _dico.Add(name, proc)
 
-            If Success = False Then
-                Trace.WriteLine("Cannot enumerate, an error was raised...")
-                RaiseEvent GotAnError("Service enumeration", errorMessage)
-                Exit Sub
-            End If
-
-            ' We won't enumerate next time with all informations (included fixed infos)
-            _first = False
-
-
-            ' Now add all items with isKilled = true to _dicoDel dictionnary
-            Dim _dicoDel As New List(Of String)
-            For Each z As cService In _dico.Values
-                If z.IsKilledItem Then
-                    _dicoDel.Add(z.Infos.Name)
-                End If
-            Next
-
-
-            ' Now add new items to dictionnary
-            Dim _dicoNew As New List(Of String)
-            For Each pair As System.Collections.Generic.KeyValuePair(Of String, serviceInfos) In Dico
-                If Not (_dico.ContainsKey(pair.Key)) Then
-                    ' Add to dico
-                    _dicoNew.Add(pair.Key)
-                End If
-            Next
-
-
-            ' Now remove deleted items from dictionnary
-            For Each z As String In _dico.Keys
-                If Dico.ContainsKey(z) = False Then
-                    ' Remove from dico
-                    _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
-                End If
-            Next
-
-
-            ' Now remove all deleted items from listview and _dico
-            For Each z As String In _dicoDel
-                Me.Items.RemoveByKey(z)
-                RaiseEvent ItemDeleted(_dico.Item(z))
-                _dico.Remove(z)
-                Native.Objects.Service.RemoveServiceFromListOfNewServices(z)
-            Next
-            ' Remove deleted services from list of new services
-
-
-            ' Merge _dico and _dicoNew
-            For Each z As String In _dicoNew
-                Dim _it As New cService(Dico(z))
-                RaiseEvent ItemAdded(_it)
-                _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-                _dico.Add(z.ToString, _it)
-            Next
-
-
-            ' Now add all new items to listview
-            ' If first time, lock listview
-            If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
-            For Each z As String In _dicoNew
-                ' Add to listview
+                ' Add new item to lv
                 Dim _subItems() As String
                 ReDim _subItems(Me.Columns.Count - 1)
                 For x As Integer = 1 To _subItems.Length - 1
                     _subItems(x) = ""
                 Next
-                AddItemWithStyle(z).SubItems.AddRange(_subItems)
-            Next
-            If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.EndUpdate()
+                AddItemWithStyle(name).SubItems.AddRange(_subItems)
+            End If
+        Next
 
+        ' Unlock lv if necesary
+        If _hasToLock Then
+            Me.EndUpdate()
+        End If
 
-            ' Now refresh all subitems of the listview
-            Dim isub As ListViewItem.ListViewSubItem
-            Dim it As ListViewItem
-            For Each it In Me.Items
-                Dim x As Integer = 0
-                Dim _item As cService = _dico.Item(it.Name)
-                If Dico.ContainsKey(it.Name) Then
-                    _item.Merge(Dico.Item(it.Name))
-                    'If _item.HasChanged(Dico.Item(it.Name)) Then
-                    '    _item.Refresh()
-                    'End If
-                End If
-                Dim __info As String = Nothing
-                For Each isub In it.SubItems
-                    If _item.GetInformation(_columnsName(x), __info) Then
-                        isub.Text = __info
+    End Sub
+    Private Sub GotDeletedItems(ByVal names As List(Of String))
+        For Each name As String In names
+            Dim cp As cService = Nothing
+            If _dico.ContainsKey(name) Then
+                cp = _dico(name)
+                cp.KillCount = 3
+            End If
+        Next
+    End Sub
+
+    Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos))
+    Private Sub GotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos))
+
+        ' Have to call a delegate as will refresh the listview
+        If Me.InvokeRequired Then
+            Dim d As New degGotRefreshed(AddressOf GotRefreshed)
+            Try
+                Me.Invoke(d, _dicoNew, _dicoDel, Dico)
+            Catch ex As Exception
+                ' Won't catch this...
+            End Try
+        Else
+
+            ' DELETED ITEMS
+            If _dicoDel.Count > 0 Then
+                Me.GotDeletedItems(_dicoDel)
+            End If
+
+            ' NEW ITEMS
+            If _dicoNew.Count > 0 Then
+                Me.GotNewItems(_dicoNew, Dico)
+            End If
+
+            ' We won't enumerate next time with all informations (included fixed infos)
+            _first = False
+
+            Try
+
+                Dim toDel As New List(Of String)   ' Keys of items to remove
+
+                ' Now refresh all subitems of the listview
+                Dim isub As ListViewItem.ListViewSubItem
+                Dim it As ListViewItem
+                For Each it In Me.Items
+                    Dim x As Integer = 0
+                    Dim _item As cService = _dico.Item(it.Name)
+                    If Dico.ContainsKey(_item.Infos.Name) Then
+                        _item.Merge(Dico.Item(_item.Infos.Name))
                     End If
-                    x += 1
+                    Dim ___info As String = Nothing
+                    For Each isub In it.SubItems
+                        If _item.GetInformation(_columnsName(x), ___info) Then
+                            isub.Text = ___info
+                        End If
+                        x += 1
+                    Next
+                    If _item.NewCount > 0 Then
+                        _item.NewCount -= 1
+                        If _timeToDisplayNewItemsGreen Then
+                            it.BackColor = NEW_ITEM_COLOR
+                        End If
+                    ElseIf _item.KillCount > 0 Then
+                        it.BackColor = DELETED_ITEM_COLOR
+                        _item.KillCount -= 1
+                    ElseIf _item.KillCount = 0 Then
+                        toDel.Add(it.Name)
+                    Else
+                        _timeToDisplayNewItemsGreen = True
+                        it.BackColor = _item.GetBackColor
+                    End If
+                    it.ForeColor = _item.GetForeColor
                 Next
-                If _item.IsNewItem Then
-                    _item.IsNewItem = False
-                    it.BackColor = NEW_ITEM_COLOR
-                ElseIf _item.IsKilledItem Then
-                    it.BackColor = DELETED_ITEM_COLOR
-                Else
-                    it.BackColor = Color.White
+
+
+                ' Now remove all deleted items from listview and _dico
+                ' If first time, lock listview if necessary
+                Dim _hasToLock As Boolean = (_firstItemUpdate _
+                            OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE)
+                If _hasToLock Then
+                    Me.BeginUpdate()
                 End If
-            Next
+                For Each key As String In toDel
+                    Me.Items.RemoveByKey(key)
+                    If _dico.ContainsKey(key) Then
+                        _dico.Remove(key)
+                    End If
+                Next
+                If _hasToLock Then
+                    Me.EndUpdate()
+                End If
 
-            ' Sort items
-            Me.Sort()
+                ' Sort items
+                Me.Sort()
 
-            _firstItemUpdate = False
+                _firstItemUpdate = False
 
-            _test = Native.Api.Win32.GetElapsedTime - _test
-            Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh service list.")
-
-            MyBase.UpdateItems()
-
-        Catch ex As Exception
-            Misc.ShowDebugError(ex)
-        Finally
-            generalLvSemaphore.Release()
-        End Try
-
-        _firstRefresh = False
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            End Try
+        End If
     End Sub
 
     ' Force item refreshing
@@ -371,6 +372,8 @@ Public Class serviceList
 
     End Function
 
+#End Region
+
 #Region "Connection stuffs"
 
     Private Sub _connectionObject_Connected() Handles _connectionObject.Connected
@@ -385,9 +388,8 @@ Public Class serviceList
         If MyBase.Connect Then
             Me.IsConnected = True
             _first = True
-            _firstRefresh = True
             _serviceConnection.ConnectionObj = _connectionObject
-            asyncCallbackServiceEnumerate.ClearDico()
+            ServiceProvider.ClearNewServicesList()
             _serviceConnection.Connect()
             cService.Connection = _serviceConnection
         End If
@@ -397,7 +399,7 @@ Public Class serviceList
         If MyBase.Disconnect Then
             Me.IsConnected = False
             _serviceConnection.Disconnect()
-            asyncCallbackServiceEnumerate.ClearDico()
+            ServiceProvider.ClearNewServicesList()
         End If
     End Function
 

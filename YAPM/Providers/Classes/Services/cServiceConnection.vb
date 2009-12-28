@@ -34,11 +34,11 @@ Public Class cServiceConnection
     Private _instanceId As Integer = 1
     Dim _servEnum As asyncCallbackServiceEnumerate
 
-    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection, ByRef de As HasEnumeratedEventHandler)
+    Public Sub New(ByVal ControlWhichGetInvoked As Control, ByRef Conn As cConnection)
         MyBase.New(ControlWhichGetInvoked, Conn)
         instanceId += 1
         _instanceId = instanceId
-        _servEnum = New asyncCallbackServiceEnumerate(_control, de, Me, _instanceId)
+        _servEnum = New asyncCallbackServiceEnumerate(Me, _instanceId)
     End Sub
 
 
@@ -169,10 +169,8 @@ Public Class cServiceConnection
 
         If data.Type = cSocketData.DataType.RequestedList AndAlso _
             data.Order = cSocketData.OrderType.RequestServiceList Then
-            If _instanceId = data.InstanceId Then
-                ' OK it is for me
-                _servEnum.GotListFromSocket(data.GetList, data.GetKeys)
-            End If
+            ' OK it is for me
+            _servEnum.GotListFromSocket(data.GetList, data.GetKeys)
         End If
     End Sub
 

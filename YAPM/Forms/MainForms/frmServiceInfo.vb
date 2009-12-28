@@ -509,7 +509,7 @@ Public Class frmServiceInfo
     Private Sub cmdServDet1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServDet1.Click
         If Me.tv2.SelectedNode IsNot Nothing Then
             Dim s As String = CType(Me.tv2.SelectedNode.Tag, serviceDependenciesList.servTag).name
-            Dim it As cService = cService.GetServiceByName(s)
+            Dim it As cService = ServiceProvider.GetServiceByName(s)
             If it IsNot Nothing Then
                 Dim frm As New frmServiceInfo
                 frm.SetService(it)
@@ -522,7 +522,7 @@ Public Class frmServiceInfo
     Private Sub cmdServDet2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdServDet2.Click
         If Me.tv.SelectedNode IsNot Nothing Then
             Dim s As String = CType(Me.tv.SelectedNode.Tag, serviceDependenciesList.servTag).name
-            Dim it As cService = cService.GetServiceByName(s)
+            Dim it As cService = ServiceProvider.GetServiceByName(s)
             If it IsNot Nothing Then
                 Dim frm As New frmServiceInfo
                 frm.SetService(it)

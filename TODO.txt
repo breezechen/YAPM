@@ -5,8 +5,10 @@ Refactoring bugs
 - ==============
 - Item en vert boolean à remettre à zéro quand on connecte
 - gestion des erreurs 'GotAnError' à refaire
+- instanceId a gérer (par exemple pour les providers de service)
 
 
+- get rid of registry (services)
 
 
 

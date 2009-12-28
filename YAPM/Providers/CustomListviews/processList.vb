@@ -344,6 +344,9 @@ Public Class processList
                 End If
                 For Each key As String In toDel
                     Me.Items.RemoveByKey(key)
+                    If _dico.ContainsKey(key) Then
+                        _dico.Remove(key)
+                    End If
                 Next
                 If _hasToLock Then
                     Me.EndUpdate()
@@ -357,7 +360,7 @@ Public Class processList
             Catch ex As Exception
                 Misc.ShowDebugError(ex)
             End Try
-            End If
+        End If
     End Sub
 
     ' Force item refreshing

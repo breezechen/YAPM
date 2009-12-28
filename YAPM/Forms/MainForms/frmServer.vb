@@ -44,7 +44,7 @@ Public Class frmServer
     Private _memoryCon As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemoryReg))
     Private _moduleCon As New cModuleConnection(Me, theConnection, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule))
     Private _networkCon As New cNetworkConnection(Me, theConnection, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork))
-    Private _serviceCon As New cServiceConnection(Me, theConnection, New cServiceConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedService))
+    Private _serviceCon As New cServiceConnection(Me, theConnection)
     Private _servdepCon As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServDep))
     Private _priviCon As New cPrivilegeConnection(Me, theConnection, New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedPrivilege))
     Private _taskCon As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedTask))
@@ -313,12 +313,11 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedService(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal forII As Integer)
+    Private Sub HasEnumeratedService(ByVal newNames As List(Of String), ByVal delServices As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos))
 
-        If Success Then
+        If True Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServiceList)
-                cDat.InstanceId = forII   ' The instance which requested the list
                 cDat._id = _TheIdToSend
                 cDat.SetServiceList(Dico)
                 sock.Send(cDat)
@@ -773,14 +772,14 @@ Public Class frmServer
                     Case cSocketData.OrderType.ServiceDelete
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            cService.GetServiceByName(name).DeleteService()
+                            ServiceProvider.GetServiceByName(name).DeleteService()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not delete service")
                         End Try
                     Case cSocketData.OrderType.ServicePause
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            cService.GetServiceByName(name).PauseService()
+                            ServiceProvider.GetServiceByName(name).PauseService()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not pause service")
                         End Try
@@ -788,28 +787,28 @@ Public Class frmServer
                         Dim name As String = CStr(cData.Param1)
                         Dim type As Native.Api.NativeEnums.ServiceStartType = CType(cData.Param2, Native.Api.NativeEnums.ServiceStartType)
                         Try
-                            cService.GetServiceByName(name).SetServiceStartType(type)
+                            ServiceProvider.GetServiceByName(name).SetServiceStartType(type)
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not change service start type")
                         End Try
                     Case cSocketData.OrderType.ServiceResume
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            cService.GetServiceByName(name).ResumeService()
+                            ServiceProvider.GetServiceByName(name).ResumeService()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not resume service")
                         End Try
                     Case cSocketData.OrderType.ServiceStart
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            cService.GetServiceByName(name).StartService()
+                            ServiceProvider.GetServiceByName(name).StartService()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not start service")
                         End Try
                     Case cSocketData.OrderType.ServiceStop
                         Dim name As String = CStr(cData.Param1)
                         Try
-                            cService.GetServiceByName(name).StopService()
+                            ServiceProvider.GetServiceByName(name).StopService()
                         Catch ex As Exception
                             Misc.ShowError(ex, "Could not stop service")
                         End Try
@@ -1037,6 +1036,7 @@ Public Class frmServer
 
         ' Set some handlers
         AddHandler ProcessProvider.GotRefreshed, AddressOf HasEnumeratedProcess
+        AddHandler ServiceProvider.GotRefreshed, AddressOf HasEnumeratedService
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

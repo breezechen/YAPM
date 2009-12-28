@@ -42,7 +42,7 @@ Public Class cProcessConnection
         MyBase.New(ControlWhichGetInvoked, Conn)
         instanceId += 1
         _instanceId = instanceId
-        _procEnum = New asyncCallbackProcEnumerate(_control, Me, _instanceId)
+        _procEnum = New asyncCallbackProcEnumerate(Me, _instanceId)
     End Sub
 
 #Region "Events, delegate, invoke..."
@@ -219,10 +219,7 @@ Public Class cProcessConnection
 
         If data.Type = cSocketData.DataType.RequestedList AndAlso _
             data.Order = cSocketData.OrderType.RequestProcessList Then
-            'If _instanceId = data.InstanceId Then
-            ' OK it is for me
             _procEnum.GotListFromSocket(data.GetList, data.GetKeys)
-            'End If
         End If
 
     End Sub

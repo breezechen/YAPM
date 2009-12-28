@@ -31,11 +31,9 @@ Public Class asyncCallbackProcEnumerate
 
     Private processMinRights As Native.Security.ProcessAccess = Native.Security.ProcessAccess.QueryInformation
 
-    Private ctrl As Control
     Private con As cProcessConnection
     Private _instanceId As Integer
-    Public Sub New(ByRef ctr As Control, ByRef co As cProcessConnection, ByVal iId As Integer)
-        ctrl = ctr
+    Public Sub New(ByRef co As cProcessConnection, ByVal iId As Integer)
         _instanceId = iId
         con = co
         If cEnvironment.SupportsMinRights Then

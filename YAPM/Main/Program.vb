@@ -503,7 +503,7 @@ Public Module Program
     Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
         ' Clear lists of processes/services
         ProcessProvider.CurrentProcesses.Clear()
-        Native.Objects.Service.CurrentServices.Clear()
+        ServiceProvider.CurrentServices.Clear()
     End Sub
 
     ' Create a snapshot file

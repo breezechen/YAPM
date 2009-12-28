@@ -41,50 +41,19 @@ Namespace Native.Objects
         ' Private attributes
         ' ========================================
 
-        ' Store new services ( serviceName <-> isNew )
-        Private Shared _dicoNewServices As New List(Of String)
-
-        ' Current services running (updated after each enumeration)
-        Private Shared _currentServices As New Dictionary(Of String, serviceInfos)
-
         ' Used for memory operations
-        Private Shared _memBufferEnumServics As New Native.Memory.MemoryAlloc(&H1000)   ' NOTE : never unallocated
-
+        Private Shared _memBufferEnumServices As New Native.Memory.MemoryAlloc(&H1000)   ' NOTE : never unallocated
 
 
         ' ========================================
         ' Public properties
         ' ========================================
 
-        ''' <summary>
-        ' List of current services
-        ' Needs to be protected by SemCurrentServices
-        ''' </summary>
-        Public Shared Property CurrentServices() As Dictionary(Of String, serviceInfos)
-            Get
-                Return _currentServices
-            End Get
-            Set(ByVal value As Dictionary(Of String, serviceInfos))
-                SyncLock _currentServices
-                    _currentServices = value
-                End SyncLock
-            End Set
-        End Property
-
 
 
         ' ========================================
         ' Public functions
         ' ========================================
-
-        ' Remove a service from new services list
-        Public Shared Sub RemoveServiceFromListOfNewServices(ByVal name As String)
-            SyncLock _dicoNewServices
-                If _dicoNewServices.Contains(name) Then
-                    _dicoNewServices.Remove(name)
-                End If
-            End SyncLock
-        End Sub
 
         ' Create a service
         Public Shared Function CreateService(ByVal params As Native.Api.Structs.ServiceCreationParams) As Boolean
@@ -167,12 +136,6 @@ Namespace Native.Objects
         End Function
 
 
-        ' Clear list of new services
-        Public Shared Sub ClearNewServicesList()
-            _dicoNewServices.Clear()
-        End Sub
-
-
         ' Enumerate services (local)
         Public Shared Sub EnumerateServices(ByVal hSCM As IntPtr, _
                                        ByRef _dico As Dictionary(Of String, serviceInfos), _
@@ -185,44 +148,47 @@ Namespace Native.Objects
             Dim tServiceStatus() As NativeStructs.EnumServiceStatusProcess
             ReDim tServiceStatus(0)
 
-            If hSCM.IsNotNull Then
-                '2nd arg : Api.SC_ENUM_PROCESS_INFO, _
-                If Not (NativeFunctions.EnumServicesStatusEx(hSCM, _
-                                            IntPtr.Zero, _
-                                            NativeEnums.ServiceQueryType.All, _
-                                            NativeEnums.ServiceQueryState.All, _
-                                            _memBufferEnumServics.Pointer, _
-                                            _memBufferEnumServics.Size, _
-                                            lBytesNeeded, _
-                                            lServicesReturned, _
-                                            0, _
-                                            Nothing)) Then
-                    ' Resize buffer
-                    _memBufferEnumServics.IncrementSize(lBytesNeeded)
-                End If
+            Try
+                ServiceProvider._semNewServices.WaitOne()
 
-                '2nd arg : Api.SC_ENUM_PROCESS_INFO, 
-                If NativeFunctions.EnumServicesStatusEx(hSCM, _
-                                            IntPtr.Zero, _
-                                            NativeEnums.ServiceQueryType.All, _
-                                            NativeEnums.ServiceQueryState.All, _
-                                            _memBufferEnumServics.Pointer, _
-                                            _memBufferEnumServics.Size, _
-                                            lBytesNeeded, _
-                                            lServicesReturned, _
-                                            0, _
-                                            Nothing) Then
+                If hSCM.IsNotNull Then
+                    '2nd arg : Api.SC_ENUM_PROCESS_INFO, _
+                    If Not (NativeFunctions.EnumServicesStatusEx(hSCM, _
+                                                IntPtr.Zero, _
+                                                NativeEnums.ServiceQueryType.All, _
+                                                NativeEnums.ServiceQueryState.All, _
+                                                _memBufferEnumServices.Pointer, _
+                                                _memBufferEnumServices.Size, _
+                                                lBytesNeeded, _
+                                                lServicesReturned, _
+                                                0, _
+                                                Nothing)) Then
+                        ' Resize buffer
+                        _memBufferEnumServices.IncrementSize(lBytesNeeded)
+
+                        '2nd arg : Api.SC_ENUM_PROCESS_INFO, 
+                        NativeFunctions.EnumServicesStatusEx(hSCM, _
+                                                    IntPtr.Zero, _
+                                                    NativeEnums.ServiceQueryType.All, _
+                                                    NativeEnums.ServiceQueryState.All, _
+                                                    _memBufferEnumServices.Pointer, _
+                                                    _memBufferEnumServices.Size, _
+                                                    lBytesNeeded, _
+                                                    lServicesReturned, _
+                                                    0, _
+                                                    Nothing)
+                    End If
 
                     For idx As Integer = 0 To lServicesReturned - 1
 
                         ' Get structure from memory
                         Dim obj As NativeStructs.EnumServiceStatusProcess = _
-                                _memBufferEnumServics.ReadStruct(Of NativeStructs.EnumServiceStatusProcess)(idx)
+                                _memBufferEnumServices.ReadStruct(Of NativeStructs.EnumServiceStatusProcess)(idx)
 
                         If forAllProcesses OrElse processId = obj.ServiceStatusProcess.ProcessID Then
                             Dim _servINFO As New serviceInfos(obj, completeInfos)
 
-                            If forAllProcesses = False OrElse _dicoNewServices.Contains(obj.ServiceName) = False Or completeInfos Then
+                            If forAllProcesses = False OrElse ServiceProvider._dicoNewServices.Contains(obj.ServiceName) = False Or completeInfos Then
 
                                 ' Get infos from registry
                                 GetServiceInformationsFromRegistry(obj.ServiceName, _servINFO)
@@ -231,7 +197,7 @@ Namespace Native.Objects
                                 GetServiceConfigByName(hSCM, obj.ServiceName, _servINFO, True)
 
                                 If forAllProcesses And completeInfos = False Then
-                                    _dicoNewServices.Add(obj.ServiceName)
+                                    ServiceProvider._dicoNewServices.Add(obj.ServiceName)
                                 End If
                             End If
 
@@ -240,7 +206,13 @@ Namespace Native.Objects
                     Next idx
 
                 End If
-            End If
+
+            Catch ex As Exception
+                Misc.ShowDebugError(ex)
+            Finally
+                ServiceProvider._semNewServices.Release()
+            End Try
+
 
         End Sub
 
@@ -283,82 +255,6 @@ Namespace Native.Objects
                 End If
             End If
         End Sub
-
-
-        ' Get a service by its name
-        ' Thread safe (get an item does not need to be thread-protected)
-        Public Shared Function GetServiceByName(ByVal name As String) As cService
-
-            Dim tt As cService = Nothing
-            If _currentServices.ContainsKey(name) Then
-                Try
-                    tt = New cService(_currentServices.Item(name))
-                Catch ex As Exception
-                    ' Item was removed just after ContainsKey... bad luck :-(
-                End Try
-            End If
-
-            Return tt
-
-        End Function
-
-        ' Get services which depends from a specific service
-        Public Shared Function GetServiceWhichDependFromByServiceName(ByVal serviceName As String) As Dictionary(Of String, serviceInfos)
-
-            Dim _d As New Dictionary(Of String, serviceInfos)
-            Dim dep() As String = Nothing
-
-            SyncLock _currentServices
-
-                For Each serv As serviceInfos In _currentServices.Values
-                    dep = serv.Dependencies
-                    If dep IsNot Nothing Then
-                        For Each s As String In dep
-                            If s.ToLowerInvariant = serviceName.ToLowerInvariant Then
-                                _d.Add(serv.Name, serv)
-                                Exit For
-                            End If
-                        Next
-                    End If
-                Next
-
-            End SyncLock
-
-            Return _d
-        End Function
-
-        ' Get dependencies of a service
-        Public Shared Function GetServiceDependencies(ByVal serviceName As String) As Dictionary(Of String, serviceInfos)
-
-            Dim _d As New Dictionary(Of String, serviceInfos)
-            Dim dep() As String = Nothing
-
-            SyncLock _currentServices
-
-                For Each serv As serviceInfos In _currentServices.Values
-                    If serv.Name.ToLowerInvariant = serviceName.ToLowerInvariant Then
-                        dep = serv.Dependencies
-                        Exit For
-                    End If
-                Next
-
-                If dep Is Nothing OrElse dep.Length = 0 Then
-                    Return _d
-                End If
-
-                For Each servName As String In dep
-                    For Each serv As serviceInfos In _currentServices.Values
-                        If servName.ToLowerInvariant = serv.Name.ToLowerInvariant Then
-                            _d.Add(servName, serv)
-                            Exit For
-                        End If
-                    Next
-                Next
-
-            End SyncLock
-
-            Return _d
-        End Function
 
         ' Pause a service
         Public Shared Function PauseServiceByName(ByVal name As String, ByVal hSCManager As IntPtr) As Boolean
