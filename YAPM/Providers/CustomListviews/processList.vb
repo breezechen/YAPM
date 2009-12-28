@@ -224,59 +224,41 @@ Public Class processList
     Private Delegate Sub degGotNewItems(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos))
     Private Sub GotNewItems(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos))
 
-        If Me.InvokeRequired Then
-            Dim d As New degGotNewItems(AddressOf GotNewItems)
-            Try
-                Me.Invoke(d, pids, newItems)
-            Catch ex As Exception
-                ' Won't catch this...
-            End Try
-        Else
-            Try
-                ' Lock lv if necesary
-                Dim _hasToLock As Boolean = (_firstItemUpdate OrElse newItems.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE)
-                If _hasToLock Then
-                    Me.BeginUpdate()
-                End If
-                For Each id As Integer In pids
-                    If _dico.ContainsKey(id.ToString) = False Then
-                        Dim proc As New cProcess(newItems(id))
-                        proc.NewCount = 3
-                        _dico.Add(id.ToString, proc)
+        ' Lock lv if necesary
+        Dim _hasToLock As Boolean = (_firstItemUpdate OrElse newItems.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE)
+        If _hasToLock Then
+            Me.BeginUpdate()
+        End If
+        For Each id As Integer In pids
+            If _dico.ContainsKey(id.ToString) = False Then
+                Dim proc As New cProcess(newItems(id))
+                proc.NewCount = 3
+                _dico.Add(id.ToString, proc)
 
-                        ' Add new item to lv
-                        Dim _subItems() As String
-                        ReDim _subItems(Me.Columns.Count - 1)
-                        For x As Integer = 1 To _subItems.Length - 1
-                            _subItems(x) = ""
-                        Next
-                        AddItemWithStyle(id.ToString).SubItems.AddRange(_subItems)
-                    End If
+                ' Add new item to lv
+                Dim _subItems() As String
+                ReDim _subItems(Me.Columns.Count - 1)
+                For x As Integer = 1 To _subItems.Length - 1
+                    _subItems(x) = ""
                 Next
+                AddItemWithStyle(id.ToString).SubItems.AddRange(_subItems)
+            End If
+        Next
 
-                ' Unlock lv if necesary
-                If _hasToLock Then
-                    Me.EndUpdate()
-                End If
-
-            Catch ex As Exception
-                Misc.ShowDebugError(ex)
-            End Try
+        ' Unlock lv if necesary
+        If _hasToLock Then
+            Me.EndUpdate()
         End If
 
     End Sub
     Private Sub GotDeletedItems(ByVal pids As List(Of Integer))
-        Try
-            For Each id As Integer In pids
-                Dim cp As cProcess = Nothing
-                If _dico.ContainsKey(id.ToString) Then
-                    cp = _dico(id.ToString)
-                    cp.KillCount = 3
-                End If
-            Next
-        Catch ex As Exception
-            Misc.ShowDebugError(ex)
-        End Try
+        For Each id As Integer In pids
+            Dim cp As cProcess = Nothing
+            If _dico.ContainsKey(id.ToString) Then
+                cp = _dico(id.ToString)
+                cp.KillCount = 3
+            End If
+        Next
     End Sub
 
     Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of Integer), ByVal _dicoDel As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos))
@@ -293,33 +275,21 @@ Public Class processList
         Else
 
             ' DELETED ITEMS
-            Me.GotDeletedItems(_dicoDel)
+            If _dicoDel.Count > 0 Then
+                Me.GotDeletedItems(_dicoDel)
+            End If
 
             ' NEW ITEMS
-            Me.GotNewItems(_dicoNew, Dico)
+            If _dicoNew.Count > 0 Then
+                Me.GotNewItems(_dicoNew, Dico)
+            End If
 
             ' We won't enumerate next time with all informations (included fixed infos)
             _first = False
 
             Try
-                ' Now remove all deleted items from listview and _dico
-                ' If first time, lock listview if necessary
-                Dim _hasToLock As Boolean = (_firstItemUpdate _
-                            OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE)
-                If _hasToLock Then
-                    Me.BeginUpdate()
-                End If
-                For x As Integer = Me.Items.Count - 1 To 0 Step -1
-                    Dim cp As cProcess = _dico(Me.Items(x).Name)
-                    If cp.KillCount > 0 Then
-                        cp.KillCount -= 1
-                    ElseIf cp.KillCount = 0 Then
-                        Me.Items.RemoveAt(x)
-                    End If
-                Next
-                If _hasToLock Then
-                    Me.EndUpdate()
-                End If
+
+                Dim toDel As New List(Of String)   ' Keys of items to remove
 
                 ' Now refresh all subitems of the listview
                 Dim isub As ListViewItem.ListViewSubItem
@@ -342,8 +312,11 @@ Public Class processList
                         If _timeToDisplayNewItemsGreen Then
                             it.BackColor = NEW_ITEM_COLOR
                         End If
-                    ElseIf _item.KillCount >= 0 Then
+                    ElseIf _item.KillCount > 0 Then
                         it.BackColor = DELETED_ITEM_COLOR
+                        _item.KillCount -= 1
+                    ElseIf _item.KillCount = 0 Then
+                        toDel.Add(it.Name)
                     Else
                         _timeToDisplayNewItemsGreen = True
                         it.BackColor = _item.GetBackColor
@@ -361,6 +334,21 @@ Public Class processList
                     End If
                 Next
 
+
+                ' Now remove all deleted items from listview and _dico
+                ' If first time, lock listview if necessary
+                Dim _hasToLock As Boolean = (_firstItemUpdate _
+                            OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE)
+                If _hasToLock Then
+                    Me.BeginUpdate()
+                End If
+                For Each key As String In toDel
+                    Me.Items.RemoveByKey(key)
+                Next
+                If _hasToLock Then
+                    Me.EndUpdate()
+                End If
+
                 ' Sort items
                 Me.Sort()
 
@@ -369,7 +357,7 @@ Public Class processList
             Catch ex As Exception
                 Misc.ShowDebugError(ex)
             End Try
-        End If
+            End If
     End Sub
 
     ' Force item refreshing
