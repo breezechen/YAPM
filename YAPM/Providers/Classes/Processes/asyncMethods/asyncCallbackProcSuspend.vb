@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackProcSuspend
 
-    Private con As cProcessConnection
     Private _deg As HasSuspended
 
     Public Delegate Sub HasSuspended(ByVal Success As Boolean, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasSuspended, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasSuspended)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj
@@ -48,15 +46,15 @@ Public Class asyncCallbackProcSuspend
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+        If Program.Connection.IsConnected = False Then
             Exit Sub
         End If
 
-        Select Case con.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessSuspend, pObj.pid)
-                    con.ConnectionObj.Socket.Send(cDat)
+                    Program.Connection.Socket.Send(cDat)
                 Catch ex As Exception
                     Misc.ShowError(ex, "Unable to send request to server")
                 End Try

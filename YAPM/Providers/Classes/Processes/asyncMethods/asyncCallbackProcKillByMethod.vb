@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackProcKillByMethod
 
-    Private con As cProcessConnection
     Private _deg As HasKilled
 
     Public Delegate Sub HasKilled(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasKilled, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasKilled)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj
@@ -51,27 +49,26 @@ Public Class asyncCallbackProcKillByMethod
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
-            Exit Sub
+        If Program.Connection.IsConnected Then
+
+            Select Case Program.Connection.Type
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    Try
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessKillByMethod, pObj.pid, pObj.method)
+                        Program.Connection.Socket.Send(cDat)
+                    Catch ex As Exception
+                        Misc.ShowError(ex, "Unable to send request to server")
+                    End Try
+
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+
+
+                Case Else
+                    ' Local
+                    Dim ret As Boolean = Native.Objects.Process.KillProcessByMethod(pObj.pid, pObj.method)
+                    _deg.Invoke(ret, pObj.pid, Native.Api.Win32.GetLastError, pObj.newAction)
+            End Select
         End If
-
-        Select Case con.ConnectionObj.ConnectionType
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessKillByMethod, pObj.pid, pObj.method)
-                    con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                
-
-            Case Else
-                ' Local
-                Dim ret As Boolean = Native.Objects.Process.KillProcessByMethod(pObj.pid, pObj.method)
-                _deg.Invoke(ret, pObj.pid, Native.Api.Win32.GetLastError, pObj.newAction)
-        End Select
     End Sub
 
 End Class

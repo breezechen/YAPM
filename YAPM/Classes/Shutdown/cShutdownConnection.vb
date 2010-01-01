@@ -50,7 +50,7 @@ Public Class cShutdownConnection
     Protected Overrides Sub asyncConnect(ByVal useless As Object)
 
         ' Connect
-        Select Case _conObj.ConnectionType
+        Select Case _conObj.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 ' When we are here, the socket IS CONNECTED
                 _sock = ConnectionObj.Socket
@@ -84,7 +84,7 @@ Public Class cShutdownConnection
     End Sub
 
     Protected Overrides Sub asyncDisconnect(ByVal useless As Object)
-        Select Case _conObj.ConnectionType
+        Select Case _conObj.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _connected = False
                 If Disconnected IsNot Nothing AndAlso _control.Created Then _

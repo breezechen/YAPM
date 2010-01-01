@@ -231,7 +231,7 @@ Partial Class frmMain
         Me.SplitContainerProcess = New System.Windows.Forms.SplitContainer
         Me.SplitContainerTvLv = New System.Windows.Forms.SplitContainer
         Me.tvProc = New System.Windows.Forms.TreeView
-        Me.lvProcess = New processList
+        Me.lvProcess = New mainProcessList
         Me.c1 = New System.Windows.Forms.ColumnHeader
         Me.c2 = New System.Windows.Forms.ColumnHeader
         Me.c3 = New System.Windows.Forms.ColumnHeader
@@ -277,7 +277,7 @@ Partial Class frmMain
         Me.txtServiceSearch = New System.Windows.Forms.TextBox
         Me.panelMain2 = New System.Windows.Forms.Panel
         Me.splitServices = New System.Windows.Forms.SplitContainer
-        Me.lvServices = New serviceList
+        Me.lvServices = New mainServiceList
         Me.ColumnHeader3 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader7 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader8 = New System.Windows.Forms.ColumnHeader
@@ -2837,7 +2837,7 @@ Partial Class frmMain
         Me.lvTask.AllowColumnReorder = True
         Me.lvTask.CatchErrors = False
         Me.lvTask.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader62, Me.ColumnHeader63, Me.ColumnHeader64})
-        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection1.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection1.Snapshot = Nothing
         CConnection1.SnapshotFile = Nothing
         Me.lvTask.ConnectionObj = CConnection1
@@ -3011,12 +3011,10 @@ Partial Class frmMain
         Me.lvProcess.AllowColumnReorder = True
         Me.lvProcess.CatchErrors = False
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c3, Me.c4, Me.c5, Me.c7, Me.c8, Me.c9, Me.c10, Me.ColumnHeader20})
-        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection2.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection2.Snapshot = Nothing
         CConnection2.SnapshotFile = Nothing
-        Me.lvProcess.ConnectionObj = CConnection2
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcess.EnumMethod = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcess.FullRowSelect = True
         ListViewGroup3.Header = "Processes"
@@ -3118,7 +3116,7 @@ Partial Class frmMain
         Me.lvJob.AllowColumnReorder = True
         Me.lvJob.CatchErrors = False
         Me.lvJob.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader5})
-        CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection3.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection3.Snapshot = Nothing
         CConnection3.SnapshotFile = Nothing
         Me.lvJob.ConnectionObj = CConnection3
@@ -3504,10 +3502,9 @@ Partial Class frmMain
         Me.lvServices.AllowColumnReorder = True
         Me.lvServices.CatchErrors = False
         Me.lvServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader11, Me.ColumnHeader19})
-        CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection4.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection4.Snapshot = Nothing
         CConnection4.SnapshotFile = Nothing
-        Me.lvServices.ConnectionObj = CConnection4
         Me.lvServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvServices.FullRowSelect = True
@@ -3521,9 +3518,7 @@ Partial Class frmMain
         Me.lvServices.Location = New System.Drawing.Point(0, 0)
         Me.lvServices.Name = "lvServices"
         Me.lvServices.OverriddenDoubleBuffered = True
-        Me.lvServices.ProcessId = 0
         Me.lvServices.ReorganizeColumns = True
-        Me.lvServices.ShowAll = True
         Me.lvServices.ShowItemToolTips = True
         Me.lvServices.ShowObjectDetailsOnDoubleClick = False
         Me.lvServices.Size = New System.Drawing.Size(852, 196)
@@ -3675,7 +3670,7 @@ Partial Class frmMain
         '
         'tv2
         '
-        CConnection5.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection5.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection5.Snapshot = Nothing
         CConnection5.SnapshotFile = Nothing
         Me.tv2.ConnectionObj = CConnection5
@@ -3694,7 +3689,7 @@ Partial Class frmMain
         '
         'tv
         '
-        CConnection6.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection6.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection6.Snapshot = Nothing
         CConnection6.SnapshotFile = Nothing
         Me.tv.ConnectionObj = CConnection6
@@ -3737,7 +3732,7 @@ Partial Class frmMain
         Me.lvNetwork.AllowColumnReorder = True
         Me.lvNetwork.CatchErrors = False
         Me.lvNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader66, Me.ColumnHeader67, Me.ColumnHeader68, Me.ColumnHeader69})
-        CConnection7.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection7.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection7.Snapshot = Nothing
         CConnection7.SnapshotFile = Nothing
         Me.lvNetwork.ConnectionObj = CConnection7
@@ -4293,7 +4288,7 @@ Partial Class frmMain
         Me.lvSearchResults.CaseSensitive = False
         Me.lvSearchResults.CatchErrors = False
         Me.lvSearchResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader12, Me.ColumnHeader13, Me.ColumnHeader14, Me.ColumnHeader17})
-        CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection8.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection8.Snapshot = Nothing
         CConnection8.SnapshotFile = Nothing
         Me.lvSearchResults.ConnectionObj = CConnection8
@@ -5936,7 +5931,7 @@ Partial Class frmMain
     Friend WithEvents SplitContainerProcess As System.Windows.Forms.SplitContainer
     Friend WithEvents SplitContainerTvLv As System.Windows.Forms.SplitContainer
     Friend WithEvents tvProc As System.Windows.Forms.TreeView
-    Friend WithEvents lvProcess As processList
+    Friend WithEvents lvProcess As mainProcessList
     Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c3 As System.Windows.Forms.ColumnHeader
@@ -5976,7 +5971,7 @@ Partial Class frmMain
     Friend WithEvents txtServiceSearch As System.Windows.Forms.TextBox
     Friend WithEvents panelMain2 As System.Windows.Forms.Panel
     Friend WithEvents splitServices As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvServices As serviceList
+    Friend WithEvents lvServices As mainServiceList
     Friend WithEvents ColumnHeader3 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader7 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader8 As System.Windows.Forms.ColumnHeader

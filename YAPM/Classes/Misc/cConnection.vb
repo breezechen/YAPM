@@ -51,7 +51,7 @@ Public Class cConnection
     End Structure
 
     ' Parameters for a socket connection
-    Public Structure WMIConnectionParameters
+    Public Structure WmiConnectionParameters
         Public userName As String
         Public password As System.Security.SecureString
         Public serverName As String
@@ -62,11 +62,11 @@ Public Class cConnection
         End Sub
     End Structure
 
-    Private WithEvents _sock As AsynchronousClient
+    Private WithEvents _sock As New AsynchronousClient
     Private _snap As cSnapshot
     Private _conType As TypeOfConnection
     Private _conSocket As SocketConnectionParameters
-    Private _conWMI As WMIConnectionParameters
+    Private _conWMI As WmiConnectionParameters
     Private _isConnected As Boolean
     Private _ssFile As String
 
@@ -98,7 +98,7 @@ Public Class cConnection
     End Property
 
     ' Type of connection
-    Public Property ConnectionType() As TypeOfConnection
+    Public Property Type() As TypeOfConnection
         Get
             Return _conType
         End Get
@@ -120,11 +120,11 @@ Public Class cConnection
     End Property
 
     ' Parameters for WMI connection
-    Public Property WmiParameters() As WMIConnectionParameters
+    Public Property WmiParameters() As WmiConnectionParameters
         Get
             Return _conWMI
         End Get
-        Set(ByVal value As WMIConnectionParameters)
+        Set(ByVal value As WmiConnectionParameters)
             If Not (_isConnected) Then
                 _conWMI = value
             End If
@@ -171,14 +171,7 @@ Public Class cConnection
     End Sub
     Public Sub New(ByRef ccon As cConnection)
         _conSocket = ccon.SocketParameters
-        _conType = ccon.ConnectionType
-        _conWMI = ccon.WmiParameters
-        _snap = ccon.Snapshot
-    End Sub
-
-    Public Sub CopyFromInstance(ByRef ccon As cConnection)
-        _conType = ccon.ConnectionType
-        _conSocket = ccon.SocketParameters
+        _conType = ccon.Type
         _conWMI = ccon.WmiParameters
         _snap = ccon.Snapshot
     End Sub
@@ -187,46 +180,47 @@ Public Class cConnection
     ' is called. BAD THING (should wait asyncMethod, but there are LOTS of asyncMethids
     ' (one for each lvItem).
     Public Sub Connect()
-        If Me.ConnectionType = TypeOfConnection.RemoteConnectionViaSocket Then
-            If _sock Is Nothing Then
-                _sock = New AsynchronousClient()
-                _sock.Connect(_conSocket.ServerName, _conSocket.port, _conSocket.ClientIp)
-            Else
-                _isConnected = True
-                RaiseEvent Connected()
-            End If
-        ElseIf Me.ConnectionType = TypeOfConnection.SnapshotFile Then
+        If Me.Type = TypeOfConnection.RemoteConnectionViaSocket Then
+            ' MCTC ???
+            'If _sock Is Nothing Then
+            '    _sock = New AsynchronousClient()
+            _sock.Connect(_conSocket.ServerName, _conSocket.port, _conSocket.ClientIp)
+            'Else
+            '    _isConnected = True
+            '    Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseConnected))
+            'End If
+        ElseIf Me.Type = TypeOfConnection.SnapshotFile Then
             If _isConnected = False Then
                 _snap = New cSnapshot(Me.SnapshotFile)
                 _isConnected = True
             End If
-            RaiseEvent Connected()
+            Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseConnected))
         Else
             _isConnected = True
-            RaiseEvent Connected()
+            Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseConnected))
         End If
     End Sub
     Public Sub Disconnect()
-        If Me.ConnectionType = TypeOfConnection.RemoteConnectionViaSocket Then
+        If Me.Type = TypeOfConnection.RemoteConnectionViaSocket Then
             _sock.Disconnect()
         Else
             _isConnected = False
-            RaiseEvent Disconnected()
+            Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseDisconnected))
         End If
     End Sub
     Public Sub DisconnectForce()        ' Set state as 'disconnected'
         _isConnected = False
-        RaiseEvent Disconnected()
+        Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseDisconnected))
     End Sub
 
     Private Sub _sock_Connected() Handles _sock.Connected
         _isConnected = True
-        RaiseEvent Connected()
+        Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseConnected))
     End Sub
     Private Sub _sock_Disconnected() Handles _sock.Disconnected
         _isConnected = False
         _sock = Nothing
-        RaiseEvent Disconnected()
+        Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseDisconnected))
     End Sub
 
     Private Sub _sock_SentData() Handles _sock.SentData
@@ -260,6 +254,16 @@ Public Class cConnection
         If _isConnected Then
             Misc.ShowError(err, "The server sent a error.")
         End If
+    End Sub
+
+
+    ' Send async events when (dis)connecting
+    Private Sub asyncRaiseConnected(ByVal context As Object)
+        RaiseEvent Connected()
+    End Sub
+
+    Private Sub asyncRaiseDisconnected(ByVal context As Object)
+        RaiseEvent Disconnected()
     End Sub
 
 End Class

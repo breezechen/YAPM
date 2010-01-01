@@ -33,10 +33,9 @@ Public Class frmHiddenProcesses
 
         Call Native.Functions.Misc.SetTheme(Me.lvProcess.Handle)
         Dim theConnection As New cConnection
-        theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        theConnection.Type = cConnection.TypeOfConnection.LocalConnection
 
         Me.lvProcess.ClearItems()
-        Me.lvProcess.ConnectionObj = theConnection
 
         Try
             theConnection.Connect()
@@ -64,14 +63,14 @@ Public Class frmHiddenProcesses
         handleMethod.Checked = True
         bruteforceMethod.Checked = False
         Me.lvProcess.ClearItems()
-        Me.lvProcess.EnumMethod = asyncCallbackProcEnumerate.ProcessEnumMethode.HandleMethod
+        '  Me.lvProcess.EnumMethod = asyncCallbackProcEnumerate.ProcessEnumMethode.HandleMethod
     End Sub
 
     Private Sub bruteforceMethod_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles bruteforceMethod.Click
         handleMethod.Checked = False
         bruteforceMethod.Checked = True
         Me.lvProcess.ClearItems()
-        Me.lvProcess.EnumMethod = asyncCallbackProcEnumerate.ProcessEnumMethode.BruteForce
+        '  Me.lvProcess.EnumMethod = asyncCallbackProcEnumerate.ProcessEnumMethode.BruteForce
     End Sub
 
     Private Sub lvProcess_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvProcess.MouseDoubleClick

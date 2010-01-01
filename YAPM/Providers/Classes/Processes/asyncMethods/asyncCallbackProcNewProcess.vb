@@ -27,14 +27,12 @@ Imports System.Management
 
 Public Class asyncCallbackProcNewProcess
 
-    Private con As cProcessConnection
     Private _deg As HasCreated
 
     Public Delegate Sub HasCreated(ByVal Success As Boolean, ByVal path As String, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasCreated, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasCreated)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj
@@ -49,22 +47,22 @@ Public Class asyncCallbackProcNewProcess
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+        If Program.Connection.IsConnected = False Then
             Exit Sub
         End If
 
-        Select Case con.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessCreateNew, pObj.path)
-                    con.ConnectionObj.Socket.Send(cDat)
+                    Program.Connection.Socket.Send(cDat)
                 Catch ex As Exception
                     Misc.ShowError(ex, "Unable to send request to server")
                 End Try
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 Dim msg As String = ""
-                Dim res As Boolean = Wmi.Objects.Process.CreateNewProcessByPath(pObj.path, con.wmiSearcher, msg)
+                Dim res As Boolean = Wmi.Objects.Process.CreateNewProcessByPath(pObj.path, ProcessProvider.wmiSearcher, msg)
                 Try
                     _deg.Invoke(res, pObj.path, msg, pObj.newAction)
                 Catch ex As Exception

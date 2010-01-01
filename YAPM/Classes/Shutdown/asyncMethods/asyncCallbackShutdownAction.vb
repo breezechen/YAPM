@@ -51,11 +51,11 @@ Public Class asyncCallbackShutdownAction
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+        If Program.Connection.IsConnected = False Then
             Exit Sub
         End If
 
-        Select Case con.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 Try
                     Dim order As cSocketData.OrderType
@@ -76,7 +76,7 @@ Public Class asyncCallbackShutdownAction
                             order = cSocketData.OrderType.GeneralCommandHibernate
                     End Select
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, order, pObj.force)
-                    con.ConnectionObj.Socket.Send(cDat)
+                    Program.Connection.Socket.Send(cDat)
                 Catch ex As Exception
                     Misc.ShowError(ex, "Could not launch shutdown command")
                 End Try

@@ -342,7 +342,7 @@ Public Class processesInJobList
         Dim proc As cProcess = _dico.Item(key)
         item.Name = key
 
-        If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+        If _connectionObject.Type = cConnection.TypeOfConnection.LocalConnection Then
             If proc.Infos.ProcessId > 4 Then
 
                 ' Add icon

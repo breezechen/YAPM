@@ -186,7 +186,7 @@ Namespace Scripting.Items
         Private Function Kill(ByVal pid As Integer, ByVal con As cConnection) As Integer
 
             If _killP Is Nothing Then
-                _killP = New asyncCallbackProcKill(New asyncCallbackProcKill.HasKilled(AddressOf killDone), New cProcessConnection(Nothing, con))
+                _killP = New asyncCallbackProcKill(New asyncCallbackProcKill.HasKilled(AddressOf killDone))
             End If
 
             Dim t As New System.Threading.WaitCallback(AddressOf _killP.Process)

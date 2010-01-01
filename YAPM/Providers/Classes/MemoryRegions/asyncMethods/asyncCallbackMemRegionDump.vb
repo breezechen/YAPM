@@ -58,11 +58,11 @@ Public Class asyncCallbackMemRegionDump
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+        If Program.Connection.IsConnected = False Then
             Exit Sub
         End If
 
-        Select Case con.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

@@ -49,15 +49,15 @@ Public Class asyncCallbackJobTerminateJob
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+        If Program.Connection.IsConnected = False Then
             Exit Sub
         End If
 
-        Select Case con.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.JobTerminate, pObj.jobName)
-                    con.ConnectionObj.Socket.Send(cDat)
+                    Program.Connection.Socket.Send(cDat)
                 Catch ex As Exception
                     Misc.ShowError(ex, "Unable to send request to server")
                 End Try

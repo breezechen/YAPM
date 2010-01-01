@@ -211,9 +211,9 @@ Public Class frmJobInfo
 
         curJob = job
 
-        _local = (cJob.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
-        _notWMI = (cJob.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
-        _notSnapshotMode = (cJob.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile)
+        _local = (cJob.Connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (cJob.Connection.ConnectionObj.Type <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _notSnapshotMode = (cJob.Connection.ConnectionObj.Type <> cConnection.TypeOfConnection.SnapshotFile)
 
         Me.Timer.Enabled = True
         Me.TimerLimits.Enabled = True

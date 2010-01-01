@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackProcKillTree
 
-    Private con As cProcessConnection
     Private _deg As HasKilled
 
     Public Delegate Sub HasKilled(ByVal Success As Boolean, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasKilled, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasKilled)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj
@@ -48,26 +46,25 @@ Public Class asyncCallbackProcKillTree
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
-            Exit Sub
+        If Program.Connection.IsConnected = False Then
+
+            Select Case Program.Connection.Type
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    Try
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessKillTree, pObj.pid)
+                        Program.Connection.Socket.Send(cDat)
+                    Catch ex As Exception
+                        Misc.ShowError(ex, "Unable to send request to server")
+                    End Try
+
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+
+                Case Else
+                    ' Local
+                    _deg.Invoke(recursiveKill(pObj.pid), Native.Api.Win32.GetLastError, pObj.newAction)
+
+            End Select
         End If
-
-        Select Case con.ConnectionObj.ConnectionType
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessKillTree, pObj.pid)
-                    con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-
-            Case Else
-                ' Local
-                _deg.Invoke(recursiveKill(pObj.pid), Native.Api.Win32.GetLastError, pObj.newAction)
-
-        End Select
     End Sub
 
     ' For 'Kill process tree'

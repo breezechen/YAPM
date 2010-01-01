@@ -72,7 +72,6 @@ Public Class cProcess
 
     Private _processInfos As processInfos
     Private _processors As Integer = 1       ' By default we consider that there is only one processor
-    Private Shared WithEvents _connection As cProcessConnection
 
     Private _parentName As String = vbNullString
     Private _cpuUsage As Double
@@ -114,15 +113,6 @@ Public Class cProcess
 
 #Region "Properties"
 
-    Public Shared Property Connection() As cProcessConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cProcessConnection)
-            _connection = value
-        End Set
-    End Property
-
     ' Get the performance dictionnaries
     Public ReadOnly Property DicoPerfMem() As SortedList(Of Integer, ProcMemInfo)
         Get
@@ -151,14 +141,12 @@ Public Class cProcess
 
     Public Sub New(ByRef infos As processInfos)
         _processInfos = infos
-        _processors = cProcessConnection.ProcessorCount
+        _processors = ProcessProvider.ProcessorCount
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Process
         ' Get a handle if local
-        If _connection IsNot Nothing Then
-            If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-                _handleQueryInfo = Native.Objects.Process.GetProcessHandleById(infos.ProcessId, Native.Objects.Process.ProcessQueryMinRights)
-                _tokenHandle = Native.Objects.Token.GetProcessTokenHandleByProcessHandle(_handleQueryInfo, Native.Security.TokenAccess.Query)
-            End If
+        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
+            _handleQueryInfo = Native.Objects.Process.GetProcessHandleById(infos.ProcessId, Native.Objects.Process.ProcessQueryMinRights)
+            _tokenHandle = Native.Objects.Token.GetProcessTokenHandleByProcessHandle(_handleQueryInfo, Native.Security.TokenAccess.Query)
         End If
     End Sub
     Public Sub Dispose() Implements IDisposable.Dispose
@@ -167,11 +155,9 @@ Public Class cProcess
 
     Protected Overrides Sub Finalize()
         ' Close a handle if local
-        If _connection IsNot Nothing Then
-            If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
-                If _handleQueryInfo.IsNotNull Then
-                    Native.Objects.General.CloseHandle(_handleQueryInfo)
-                End If
+        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
+            If _handleQueryInfo.IsNotNull Then
+                Native.Objects.General.CloseHandle(_handleQueryInfo)
             End If
         End If
     End Sub
@@ -288,7 +274,7 @@ Public Class cProcess
 
         ' Here we do some refreshment
         ' TOCHANGE
-        If cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
             If _handleQueryInfo.IsNotNull Then
                 Call Native.Objects.Token.GetProcessElevationTypeByTokenHandle(_tokenHandle, _elevation)   ' Elevation type
                 _isInJob = Native.Objects.Process.IsProcessInJob(_handleQueryInfo)
@@ -350,7 +336,7 @@ Public Class cProcess
     ' Because create ~50 threads/sec is not really cool
     Private WithEvents asyncNonFixed As asyncCallbackProcGetNonFixedInfos
     Private Sub RefreshSpecialInformations()
-        Select Case _connection.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
@@ -358,7 +344,7 @@ Public Class cProcess
             Case Else
                 ' Local
                 If asyncNonFixed Is Nothing Then
-                    asyncNonFixed = New asyncCallbackProcGetNonFixedInfos(Me.Infos.ProcessId, _connection, _handleQueryInfo)
+                    asyncNonFixed = New asyncCallbackProcGetNonFixedInfos(Me.Infos.ProcessId, _handleQueryInfo)
                 End If
                 asyncNonFixed.Process()
         End Select
@@ -378,7 +364,7 @@ Public Class cProcess
     Public Sub CreateDumpFile(ByVal file As String, ByVal opt As Native.Api.NativeEnums.MiniDumpType)
 
         If _createDumpF Is Nothing Then
-            _createDumpF = New asyncCallbackProcMinidump(New asyncCallbackProcMinidump.HasCreatedDump(AddressOf createdMinidump), _connection)
+            _createDumpF = New asyncCallbackProcMinidump(New asyncCallbackProcMinidump.HasCreatedDump(AddressOf createdMinidump))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _createDumpF.Process)
@@ -404,7 +390,7 @@ Public Class cProcess
     Public Function SetPriority(ByVal level As ProcessPriorityClass) As Integer
 
         If _setPriorityP Is Nothing Then
-            _setPriorityP = New asyncCallbackProcSetPriority(New asyncCallbackProcSetPriority.HasSetPriority(AddressOf setPriorityDone), _connection)
+            _setPriorityP = New asyncCallbackProcSetPriority(New asyncCallbackProcSetPriority.HasSetPriority(AddressOf setPriorityDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _setPriorityP.Process)
@@ -427,7 +413,7 @@ Public Class cProcess
     Public Function Kill() As Integer
 
         If _killP Is Nothing Then
-            _killP = New asyncCallbackProcKill(New asyncCallbackProcKill.HasKilled(AddressOf killDone), _connection)
+            _killP = New asyncCallbackProcKill(New asyncCallbackProcKill.HasKilled(AddressOf killDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _killP.Process)
@@ -450,7 +436,7 @@ Public Class cProcess
     Public Function KillByMethod(ByVal method As Native.Api.Enums.KillMethod) As Integer
 
         If _killPM Is Nothing Then
-            _killPM = New asyncCallbackProcKillByMethod(New asyncCallbackProcKillByMethod.HasKilled(AddressOf killDoneM), _connection)
+            _killPM = New asyncCallbackProcKillByMethod(New asyncCallbackProcKillByMethod.HasKilled(AddressOf killDoneM))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _killPM.Process)
@@ -473,7 +459,7 @@ Public Class cProcess
     Public Function DecreasePriority() As Integer
 
         If _decP Is Nothing Then
-            _decP = New asyncCallbackProcDecreasePriority(New asyncCallbackProcDecreasePriority.HasDecreasedPriority(AddressOf decreasePriorityDone), _connection)
+            _decP = New asyncCallbackProcDecreasePriority(New asyncCallbackProcDecreasePriority.HasDecreasedPriority(AddressOf decreasePriorityDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _decP.Process)
@@ -496,7 +482,7 @@ Public Class cProcess
     Public Function IncreasePriority() As Integer
 
         If _incP Is Nothing Then
-            _incP = New asyncCallbackProcIncreasePriority(New asyncCallbackProcIncreasePriority.HasIncreasedPriority(AddressOf increasePriorityDone), _connection)
+            _incP = New asyncCallbackProcIncreasePriority(New asyncCallbackProcIncreasePriority.HasIncreasedPriority(AddressOf increasePriorityDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _incP.Process)
@@ -519,7 +505,7 @@ Public Class cProcess
     Public Function SuspendProcess() As Integer
 
         If _suspP Is Nothing Then
-            _suspP = New asyncCallbackProcSuspend(New asyncCallbackProcSuspend.HasSuspended(AddressOf suspendDone), _connection)
+            _suspP = New asyncCallbackProcSuspend(New asyncCallbackProcSuspend.HasSuspended(AddressOf suspendDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _suspP.Process)
@@ -542,7 +528,7 @@ Public Class cProcess
     Public Function ResumeProcess() As Integer
 
         If _resuP Is Nothing Then
-            _resuP = New asyncCallbackProcResume(New asyncCallbackProcResume.HasResumed(AddressOf resumeDone), _connection)
+            _resuP = New asyncCallbackProcResume(New asyncCallbackProcResume.HasResumed(AddressOf resumeDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _resuP.Process)
@@ -565,7 +551,7 @@ Public Class cProcess
     Public Function KillProcessTree() As Integer
 
         If _killTP Is Nothing Then
-            _killTP = New asyncCallbackProcKillTree(New asyncCallbackProcKillTree.HasKilled(AddressOf recursiveKillDone), _connection)
+            _killTP = New asyncCallbackProcKillTree(New asyncCallbackProcKillTree.HasKilled(AddressOf recursiveKillDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _killTP.Process)
@@ -588,7 +574,7 @@ Public Class cProcess
     Public Function EmptyWorkingSetSize() As Integer
 
         If _emptyP Is Nothing Then
-            _emptyP = New asyncCallbackProcEmptyWorkingSet(New asyncCallbackProcEmptyWorkingSet.HasReducedWorkingSet(AddressOf emptyWorkingSetSizeDone), _connection)
+            _emptyP = New asyncCallbackProcEmptyWorkingSet(New asyncCallbackProcEmptyWorkingSet.HasReducedWorkingSet(AddressOf emptyWorkingSetSizeDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _emptyP.Process)
@@ -611,7 +597,7 @@ Public Class cProcess
     Public Function SetAffinity(ByVal affinity As Integer) As Integer
 
         If _setAffinityP Is Nothing Then
-            _setAffinityP = New asyncCallbackProcSetAffinity(New asyncCallbackProcSetAffinity.HasSetAffinity(AddressOf setAffinityDone), _connection)
+            _setAffinityP = New asyncCallbackProcSetAffinity(New asyncCallbackProcSetAffinity.HasSetAffinity(AddressOf setAffinityDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _setAffinityP.Process)
@@ -1371,7 +1357,7 @@ Public Class cProcess
     Public Shared Function SharedLRKill(ByVal pid As Integer) As Integer
 
         If _sharedKillP Is Nothing Then
-            _sharedKillP = New asyncCallbackProcKill(New asyncCallbackProcKill.HasKilled(AddressOf killDoneShared), _connection)
+            _sharedKillP = New asyncCallbackProcKill(New asyncCallbackProcKill.HasKilled(AddressOf killDoneShared))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _sharedKillP.Process)
@@ -1394,7 +1380,7 @@ Public Class cProcess
     Public Shared Function SharedRLStartNewProcess(ByVal path As String) As Integer
 
         If _newSharedP Is Nothing Then
-            _newSharedP = New asyncCallbackProcNewProcess(New asyncCallbackProcNewProcess.HasCreated(AddressOf newProcessDoneShared), _connection)
+            _newSharedP = New asyncCallbackProcNewProcess(New asyncCallbackProcNewProcess.HasCreated(AddressOf newProcessDoneShared))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _newSharedP.Process)
@@ -1418,7 +1404,7 @@ Public Class cProcess
     Public Shared Function SharedRLUnLoadModuleFromProcess(ByVal pid As Integer, ByVal ModuleBaseAddress As IntPtr) As Integer
 
         If _unloadMSharedP Is Nothing Then
-            _unloadMSharedP = New asyncCallbackProcUnloadModule(New asyncCallbackProcUnloadModule.HasUnloadedModule(AddressOf unloadModuleDoneShared), _connection)
+            _unloadMSharedP = New asyncCallbackProcUnloadModule(New asyncCallbackProcUnloadModule.HasUnloadedModule(AddressOf unloadModuleDoneShared))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _unloadMSharedP.Process)
@@ -1781,7 +1767,7 @@ Public Class cProcess
     ' Return forecolor
     Public Overrides Function GetForeColor() As System.Drawing.Color
         If Me.HaveFullControl OrElse _
-                    cProcess.Connection.ConnectionObj.ConnectionType <> _
+                    Program.Connection.Type <> _
                     cConnection.TypeOfConnection.LocalConnection Then
             Return NON_BLACK_COLOR
         Else

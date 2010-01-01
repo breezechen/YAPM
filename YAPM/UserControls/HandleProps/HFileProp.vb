@@ -33,7 +33,7 @@ Public Class HFileProp
     Public Overrides Sub RefreshInfos()
         Dim bFileExists As Boolean = IO.File.Exists(Me.TheHandle.Infos.Name)
         Dim bDirExists As Boolean = IO.Directory.Exists(Me.TheHandle.Infos.Name)
-        Dim _local As Boolean = (cHandle.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+        Dim _local As Boolean = (cHandle.Connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection)
 
         bFileExists = bFileExists And _local
         bDirExists = bDirExists And _local

@@ -35,10 +35,9 @@ Public Class frmCheckSignatures
         Call Native.Functions.Misc.SetTheme(Me.lvResult.Handle)
         Call Native.Functions.Misc.SetTheme(Me.lvProcess.Handle)
         Dim theConnection As New cConnection
-        theConnection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        theConnection.Type = cConnection.TypeOfConnection.LocalConnection
 
         Me.lvProcess.ClearItems()
-        Me.lvProcess.ConnectionObj = theConnection
 
         Try
             theConnection.Connect()
@@ -170,7 +169,7 @@ Public Class frmCheckSignatures
     Private Sub Timer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer.Tick
         ' Refresh list of processes
         If Me.lvProcess.Items.Count = 0 Then
-            Me.lvProcess.UpdateItemsAllInfos()
+            '     Me.lvProcess.UpdateItemsAllInfos()
         End If
     End Sub
 End Class

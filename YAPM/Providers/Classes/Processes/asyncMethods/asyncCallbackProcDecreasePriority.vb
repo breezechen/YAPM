@@ -27,14 +27,12 @@ Imports System.Management
 
 Public Class asyncCallbackProcDecreasePriority
 
-    Private con As cProcessConnection
     Private _deg As HasDecreasedPriority
 
     Public Delegate Sub HasDecreasedPriority(ByVal Success As Boolean, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasDecreasedPriority, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasDecreasedPriority)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj
@@ -51,67 +49,65 @@ Public Class asyncCallbackProcDecreasePriority
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
-            Exit Sub
+        If Program.Connection.IsConnected Then
+            Select Case Program.Connection.Type
+                Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                    Try
+                        Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessDecreasePriority, pObj.pid)
+                        Program.Connection.Socket.Send(cDat)
+                    Catch ex As Exception
+                        Misc.ShowError(ex, "Unable to send request to server")
+                    End Try
+
+                Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                    Dim _newlevel As ProcessPriorityClass
+                    Select Case pObj.level
+                        Case ProcessPriorityClass.AboveNormal
+                            _newlevel = ProcessPriorityClass.Normal
+                        Case ProcessPriorityClass.BelowNormal
+                            _newlevel = ProcessPriorityClass.Idle
+                        Case ProcessPriorityClass.High
+                            _newlevel = ProcessPriorityClass.AboveNormal
+                        Case ProcessPriorityClass.Idle
+                            '
+                        Case ProcessPriorityClass.Normal
+                            _newlevel = ProcessPriorityClass.BelowNormal
+                        Case ProcessPriorityClass.RealTime
+                            _newlevel = ProcessPriorityClass.High
+                    End Select
+
+                    Dim msg As String = ""
+                    Dim ret As Boolean = _
+                            Wmi.Objects.Process.SetProcessPriorityById(pObj.pid, _newlevel, _
+                                                                        ProcessProvider.wmiSearcher, msg)
+                    Try
+                        _deg.Invoke(ret, msg, pObj.newAction)
+                    Catch ex As Exception
+                        _deg.Invoke(False, ex.Message, pObj.newAction)
+                    End Try
+
+                Case Else
+                    ' Local
+                    Dim _newlevel As ProcessPriorityClass
+                    Select Case pObj.level
+                        Case ProcessPriorityClass.AboveNormal
+                            _newlevel = ProcessPriorityClass.Normal
+                        Case ProcessPriorityClass.BelowNormal
+                            _newlevel = ProcessPriorityClass.Idle
+                        Case ProcessPriorityClass.High
+                            _newlevel = ProcessPriorityClass.AboveNormal
+                        Case ProcessPriorityClass.Idle
+                            '
+                        Case ProcessPriorityClass.Normal
+                            _newlevel = ProcessPriorityClass.BelowNormal
+                        Case ProcessPriorityClass.RealTime
+                            _newlevel = ProcessPriorityClass.High
+                    End Select
+
+                    Dim r As Boolean = Native.Objects.Process.SetProcessPriorityById(pObj.pid, _newlevel)
+                    _deg.Invoke(r, Native.Api.Win32.GetLastError, pObj.newAction)
+            End Select
         End If
-
-        Select Case con.ConnectionObj.ConnectionType
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                Try
-                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessDecreasePriority, pObj.pid)
-                    con.ConnectionObj.Socket.Send(cDat)
-                Catch ex As Exception
-                    Misc.ShowError(ex, "Unable to send request to server")
-                End Try
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                Dim _newlevel As ProcessPriorityClass
-                Select Case pObj.level
-                    Case ProcessPriorityClass.AboveNormal
-                        _newlevel = ProcessPriorityClass.Normal
-                    Case ProcessPriorityClass.BelowNormal
-                        _newlevel = ProcessPriorityClass.Idle
-                    Case ProcessPriorityClass.High
-                        _newlevel = ProcessPriorityClass.AboveNormal
-                    Case ProcessPriorityClass.Idle
-                        '
-                    Case ProcessPriorityClass.Normal
-                        _newlevel = ProcessPriorityClass.BelowNormal
-                    Case ProcessPriorityClass.RealTime
-                        _newlevel = ProcessPriorityClass.High
-                End Select
-
-                Dim msg As String = ""
-                Dim ret As Boolean = _
-                        Wmi.Objects.Process.SetProcessPriorityById(pObj.pid, _newlevel, _
-                                                                   con.wmiSearcher, msg)
-                Try
-                    _deg.Invoke(ret, msg, pObj.newAction)
-                Catch ex As Exception
-                    _deg.Invoke(False, ex.Message, pObj.newAction)
-                End Try
-
-            Case Else
-                ' Local
-                Dim _newlevel As ProcessPriorityClass
-                Select Case pObj.level
-                    Case ProcessPriorityClass.AboveNormal
-                        _newlevel = ProcessPriorityClass.Normal
-                    Case ProcessPriorityClass.BelowNormal
-                        _newlevel = ProcessPriorityClass.Idle
-                    Case ProcessPriorityClass.High
-                        _newlevel = ProcessPriorityClass.AboveNormal
-                    Case ProcessPriorityClass.Idle
-                        '
-                    Case ProcessPriorityClass.Normal
-                        _newlevel = ProcessPriorityClass.BelowNormal
-                    Case ProcessPriorityClass.RealTime
-                        _newlevel = ProcessPriorityClass.High
-                End Select
-
-                Dim r As Boolean = Native.Objects.Process.SetProcessPriorityById(pObj.pid, _newlevel)
-                _deg.Invoke(r, Native.Api.Win32.GetLastError, pObj.newAction)
-        End Select
     End Sub
 
 End Class

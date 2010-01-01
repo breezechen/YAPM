@@ -48,7 +48,7 @@ Public Class asyncCallbackThreadGetOtherInfos
     End Sub
 
     Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+        Select Case _connection.ConnectionObj.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

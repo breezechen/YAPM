@@ -36,15 +36,13 @@ Public Class frmServer
         Disconnected
     End Enum
 
-    Private theConnection As New cConnection
-    Private _procCon As New cProcessConnection(Me, theConnection)
+    Private theConnection As cConnection = Program.Connection
     Private _windowCon As New cWindowConnection(Me, theConnection, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedWindows))
     Private _envCon As New cEnvVariableConnection(Me, theConnection, New cEnvVariableConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEnvVar))
     Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
     Private _memoryCon As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemoryReg))
     Private _moduleCon As New cModuleConnection(Me, theConnection, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule))
     Private _networkCon As New cNetworkConnection(Me, theConnection, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork))
-    Private _serviceCon As New cServiceConnection(Me, theConnection)
     Private _servdepCon As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServDep))
     Private _priviCon As New cPrivilegeConnection(Me, theConnection, New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedPrivilege))
     Private _taskCon As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedTask))
@@ -62,13 +60,11 @@ Public Class frmServer
         ' Set connection
         Try
             With theConnection
-                .ConnectionType = cConnection.TypeOfConnection.LocalConnection
+                .Type = cConnection.TypeOfConnection.LocalConnection
                 .Connect()
             End With
 
-            _procCon.ConnectionObj = theConnection
             _networkCon.ConnectionObj = theConnection
-            _serviceCon.ConnectionObj = theConnection
             _windowCon.ConnectionObj = theConnection
             _threadCon.ConnectionObj = theConnection
             _envCon.ConnectionObj = theConnection
@@ -85,7 +81,6 @@ Public Class frmServer
             _networkCon.Connect()
             _moduleCon.Connect()
             _searchCon.Connect()
-            _serviceCon.Connect()
             _servdepCon.Connect()
             _envCon.Connect()
             _memoryCon.Connect()
@@ -94,19 +89,16 @@ Public Class frmServer
             _windowCon.Connect()
             _threadCon.Connect()
             _handleCon.Connect()
-            _procCon.Connect()
             _logCon.Connect()
             _heapCon.Connect()
 
             cWindow.Connection = _windowCon
-            cProcess.Connection = _procCon
             cThread.Connection = _threadCon
             cEnvVariable.Connection = _envCon
             cHandle.Connection = _handleCon
             cMemRegion.Connection = _memoryCon
             cModule.Connection = _moduleCon
             cNetwork.Connection = _networkCon
-            cService.Connection = _serviceCon
             cPrivilege.Connection = _priviCon
             cTask.Connection = _taskCon
             cLogItem.Connection = _logCon
@@ -528,7 +520,7 @@ Public Class frmServer
                 ' ===== Request lists and informations
                 Select Case cData.Order
                     Case cSocketData.OrderType.RequestProcessList
-                        Call _procCon.Enumerate(True, _forInstanceId)
+                        Call ProcessProvider.Update(True)
                         Exit Sub
                     Case cSocketData.OrderType.RequestNetworkConnectionList
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -549,7 +541,7 @@ Public Class frmServer
                     Case cSocketData.OrderType.RequestServiceList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim all As Boolean = CBool(cData.Param2)
-                        Call _serviceCon.Enumerate(True, pid, True, all, _forInstanceId)
+                        Call ServiceProvider.Update(True)
                         Exit Sub
                     Case cSocketData.OrderType.RequestModuleList
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -630,7 +622,7 @@ Public Class frmServer
                             Misc.ShowError(ex, "Could not create a new process")
                         End Try
                     Case cSocketData.OrderType.ProcessReanalize
-                        asyncCallbackProcEnumerate.ReanalizeLocalAfterSocket(CType(cData.Param1, Integer()))
+                        ProcessProvider.RemoveProcessesFromListOfNewProcesses(CType(cData.Param1, Integer()))
                     Case cSocketData.OrderType.ProcessChangeAffinity
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim aff As Integer = CType(cData.Param2, Integer)

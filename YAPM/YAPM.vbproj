@@ -351,6 +351,10 @@
       <DependentUpon>frmServer.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\serviceList.resx">
+      <DependentUpon>serviceList.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\heapList.resx">
       <DependentUpon>heapList.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -423,8 +427,8 @@
       <DependentUpon>privilegeList.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Providers\CustomListviews\processList.resx">
-      <DependentUpon>processList.vb</DependentUpon>
+    <EmbeddedResource Include="Providers\CustomListviews\mainProcessList.resx">
+      <DependentUpon>mainProcessList.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\searchList.resx">
@@ -435,8 +439,8 @@
       <DependentUpon>serviceDependenciesList.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Providers\CustomListviews\serviceList.resx">
-      <DependentUpon>serviceList.vb</DependentUpon>
+    <EmbeddedResource Include="Providers\CustomListviews\mainServiceList.resx">
+      <DependentUpon>mainServiceList.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\taskList.resx">
@@ -920,7 +924,6 @@
     <Compile Include="Providers\Classes\Privileges\privilegeInfos.vb" />
     <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcDecreasePriority.vb" />
     <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcEmptyWorkingSet.vb" />
-    <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcEnumerate.vb" />
     <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcGetAllNonFixedInfos.vb" />
     <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcGetNonFixedInfos.vb" />
     <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcIncreasePriority.vb" />
@@ -935,7 +938,6 @@
     <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcUnloadModule.vb" />
     <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcKillByMethod.vb" />
     <Compile Include="Providers\Classes\Processes\cProcess.vb" />
-    <Compile Include="Providers\Classes\Processes\cProcessConnection.vb" />
     <Compile Include="Native\Memory\ProcessMemReader.vb" />
     <Compile Include="Native\Objects\ProcessRW.vb" />
     <Compile Include="Native\Memory\MemoryAlloc.vb" />
@@ -945,7 +947,6 @@
     <Compile Include="Providers\Classes\Search\cSearchConnection.vb" />
     <Compile Include="Providers\Classes\Search\searchInfos.vb" />
     <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServDepEnumerate.vb" />
-    <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServiceEnumerate.vb" />
     <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServicePause.vb" />
     <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServiceResume.vb" />
     <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServiceSetStartType.vb" />
@@ -954,7 +955,6 @@
     <Compile Include="Providers\Classes\Services\asyncMethods\asyncCallbackServiceDelete.vb" />
     <Compile Include="Providers\Classes\Services\cServDepConnection.vb" />
     <Compile Include="Providers\Classes\Services\cService.vb" />
-    <Compile Include="Providers\Classes\Services\cServiceConnection.vb" />
     <Compile Include="Providers\Classes\Services\serviceInfos.vb" />
     <Compile Include="Providers\Classes\Tasks\asyncMethods\asyncCallbackTaskEnumerate.vb" />
     <Compile Include="Providers\Classes\Tasks\cTask.vb" />
@@ -978,6 +978,12 @@
     <Compile Include="Providers\Classes\Windows\cWindow.vb" />
     <Compile Include="Providers\Classes\Windows\cWindowConnection.vb" />
     <Compile Include="Providers\Classes\Windows\windowInfos.vb" />
+    <Compile Include="Providers\CustomListviews\serviceList.Designer.vb">
+      <DependentUpon>serviceList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\serviceList.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Providers\CustomListviews\heapList.Designer.vb">
       <DependentUpon>heapList.vb</DependentUpon>
     </Compile>
@@ -1096,10 +1102,10 @@
     <Compile Include="Providers\CustomListviews\privilegeList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Providers\CustomListviews\processList.Designer.vb">
-      <DependentUpon>processList.vb</DependentUpon>
+    <Compile Include="Providers\CustomListviews\mainProcessList.Designer.vb">
+      <DependentUpon>mainProcessList.vb</DependentUpon>
     </Compile>
-    <Compile Include="Providers\CustomListviews\processList.vb">
+    <Compile Include="Providers\CustomListviews\mainProcessList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Providers\CustomListviews\searchList.Designer.vb">
@@ -1114,10 +1120,10 @@
     <Compile Include="Providers\CustomListviews\serviceDependenciesList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Providers\CustomListviews\serviceList.Designer.vb">
-      <DependentUpon>serviceList.vb</DependentUpon>
+    <Compile Include="Providers\CustomListviews\mainServiceList.Designer.vb">
+      <DependentUpon>mainServiceList.vb</DependentUpon>
     </Compile>
-    <Compile Include="Providers\CustomListviews\serviceList.vb">
+    <Compile Include="Providers\CustomListviews\mainServiceList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Providers\CustomListviews\taskList.Designer.vb">

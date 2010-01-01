@@ -215,7 +215,7 @@ Public Class frmServiceInfo
         ' Icons
         Me.tv.ImageList = _frmMain.imgServices
         Me.tv2.ImageList = _frmMain.imgServices
-        If cService.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
             If pctBigIcon.Image Is Nothing Then
                 Try
                     pctBigIcon.Image = GetIcon(Me.txtServicePath.Text, False).ToBitmap
@@ -246,9 +246,9 @@ Public Class frmServiceInfo
 
         Me.Text = curServ.Infos.Name & " (" & curServ.Infos.DisplayName & ")"
 
-        _local = (cService.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
-        _notWMI = (cService.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
-        _notSnapshotMode = (cService.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile)
+        _local = (Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (Program.Connection.Type <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _notSnapshotMode = (Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile)
 
         Me.cmdShowFileDetails.Enabled = _local
         Me.cmdShowFileProperties.Enabled = _local

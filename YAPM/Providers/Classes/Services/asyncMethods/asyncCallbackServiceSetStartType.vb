@@ -27,14 +27,12 @@ Imports System.Management
 Public Class asyncCallbackServiceSetStartType
 
     Private Shared _syncLockObj As New Object
-    Private con As cServiceConnection
     Private _deg As HasChangedStartType
 
     Public Delegate Sub HasChangedStartType(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasChangedStartType, ByRef procConnection As cServiceConnection)
+    Public Sub New(ByVal deg As HasChangedStartType)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj
@@ -54,15 +52,15 @@ Public Class asyncCallbackServiceSetStartType
 
         SyncLock _syncLockObj
             Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-            If con.ConnectionObj.IsConnected = False Then
+            If Program.Connection.IsConnected = False Then
                 Exit Sub
             End If
 
-            Select Case con.ConnectionObj.ConnectionType
+            Select Case Program.Connection.Type
                 Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                     Try
                         Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ServiceChangeServiceStartType, pObj.name, pObj.type)
-                        con.ConnectionObj.Socket.Send(cDat)
+                        Program.Connection.Socket.Send(cDat)
                     Catch ex As Exception
                         Misc.ShowError(ex, "Unable to send request to server")
                     End Try
@@ -71,7 +69,7 @@ Public Class asyncCallbackServiceSetStartType
                     Dim res As Boolean
                     Dim msg As String = ""
                     res = Wmi.Objects.Service.SetServiceStartTypeByName(pObj.name, pObj.type, _
-                                                                        con.wmiSearcher, msg)
+                                                                        ServiceProvider.wmiSearcher, msg)
 
                     Try
                         _deg.Invoke(res, pObj.name, msg, pObj.newAction)
@@ -83,7 +81,7 @@ Public Class asyncCallbackServiceSetStartType
                     ' Local
                     Dim res As Boolean = Native.Objects.Service.SetServiceStartTypeByName(pObj.name, _
                                                 pObj.type, _
-                                                con.SCManagerLocalHandle)
+                                                ServiceProvider.ServiceControlManaherHandle)
                     _deg.Invoke(res, pObj.name, Native.Api.Win32.GetLastError, pObj.newAction)
             End Select
         End SyncLock

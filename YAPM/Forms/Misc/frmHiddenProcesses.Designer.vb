@@ -36,7 +36,7 @@ Partial Class frmHiddenProcesses
         Me.bruteforceMethod = New System.Windows.Forms.ToolStripMenuItem
         Me.TimerProcess = New System.Windows.Forms.Timer(Me.components)
         Me.SplitContainer = New System.Windows.Forms.SplitContainer
-        Me.lvProcess = New processList
+        Me.lvProcess = New mainProcessList
         Me.c1 = New System.Windows.Forms.ColumnHeader
         Me.c2 = New System.Windows.Forms.ColumnHeader
         Me.c8 = New System.Windows.Forms.ColumnHeader
@@ -127,10 +127,8 @@ Partial Class frmHiddenProcesses
         Me.lvProcess.AllowColumnReorder = True
         Me.lvProcess.CatchErrors = False
         Me.lvProcess.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.c1, Me.c2, Me.c8, Me.ColumnHeader20})
-        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
-        Me.lvProcess.ConnectionObj = CConnection1
+        CConnection1.Type = cConnection.TypeOfConnection.LocalConnection
         Me.lvProcess.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.lvProcess.EnumMethod = asyncCallbackProcEnumerate.ProcessEnumMethode.HandleMethod
         Me.lvProcess.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcess.FullRowSelect = True
         ListViewGroup1.Header = "Processes"
@@ -232,7 +230,7 @@ Partial Class frmHiddenProcesses
     Friend WithEvents bruteforceMethod As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents TimerProcess As System.Windows.Forms.Timer
     Friend WithEvents SplitContainer As System.Windows.Forms.SplitContainer
-    Friend WithEvents lvProcess As processList
+    Friend WithEvents lvProcess As mainProcessList
     Friend WithEvents c1 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c2 As System.Windows.Forms.ColumnHeader
     Friend WithEvents c8 As System.Windows.Forms.ColumnHeader

@@ -6,7 +6,7 @@ Refactoring bugs
 - Item en vert boolean à remettre à zéro quand on connecte
 - gestion des erreurs 'GotAnError' à refaire
 - instanceId a gérer (par exemple pour les providers de service)
-
+- snapshot -> récupération directe avec CurrentProcesses/Services pose problème si liste pas encore crée (Me.processes = processprovider.Currentprocesses)
 
 - get rid of registry (services)
 
@@ -17,6 +17,7 @@ Refactoring bugs
 - ajouter écriture log (ShowDebugLog + option)
 - bug col modif (cf. affectation dico process)
 
+- icone des service doit dépendre du type
 - rapport général
 - serviceDep et processesInJob pour le snapshot
 

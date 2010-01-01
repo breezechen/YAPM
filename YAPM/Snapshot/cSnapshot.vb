@@ -536,7 +536,7 @@ Public Class cSnapshot
     ' Create the snapshot
     Public Function CreateSnapshot(ByVal connection As cConnection, ByVal options As Native.Api.Enums.SnapshotObject, ByRef msg As String) As Boolean
         Dim b As Boolean = True
-        Select Case connection.ConnectionType
+        Select Case connection.Type
             Case cConnection.TypeOfConnection.LocalConnection
                 b = Me.LocalBuild(msg, options)
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
@@ -569,11 +569,11 @@ Public Class cSnapshot
 
             ' Processes
             ' We HAVE to get the list cause some other informations depend on it
-            Me.Processes = asyncCallbackProcEnumerate.SharedLocalSyncEnumerate(True, New asyncCallbackProcEnumerate.poolObj(0, asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses))
+            Me.Processes = ProcessProvider.CurrentProcesses
 
             ' Services
             If (options And Native.Api.Enums.SnapshotObject.[Services]) = Native.Api.Enums.SnapshotObject.[Services] Then
-                Me.Services = asyncCallbackServiceEnumerate.SharedLocalSyncEnumerate(New asyncCallbackServiceEnumerate.poolObj(0, True, True, 0), _frmMain.lvServices.ServiceConnection)
+                Me.Services = ServiceProvider.CurrentServices
             End If
 
             ' Network connections

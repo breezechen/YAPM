@@ -150,7 +150,7 @@ Partial Class frmAddToJob
         Me.lvJob.AllowColumnReorder = True
         Me.lvJob.CatchErrors = False
         Me.lvJob.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader5})
-        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection1.Type = cConnection.TypeOfConnection.LocalConnection
         Me.lvJob.ConnectionObj = CConnection1
         Me.lvJob.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJob.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))

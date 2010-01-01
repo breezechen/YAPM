@@ -143,6 +143,8 @@ Public Module Program
     Public _frmNetworkInfo As frmNetworkInfo
     Public _frmSystemInfo As frmSystemInfo
 
+    Private _processProvider As ProcessProvider
+    Private _serviceProvider As ServiceProvider
     Private WithEvents _updater As cUpdate
     Private _progParameters As ProgramParameters
     Private WithEvents theConnection As cConnection
@@ -226,6 +228,16 @@ Public Module Program
             _mustCloseWithCloseButton = value
         End Set
     End Property
+    Public ReadOnly Property ProcessProvider() As ProcessProvider
+        Get
+            Return _processProvider
+        End Get
+    End Property
+    Public ReadOnly Property ServiceProvider() As ServiceProvider
+        Get
+            Return _serviceProvider
+        End Get
+    End Property
 
 
     Public Const HELP_PATH_INTERNET As String = "http://yaprocmon.sourceforge.net/help_static.html"
@@ -294,7 +306,6 @@ Public Module Program
             ' need a cServiceConnection, retrieved as a property in
             ' _frmMain.lvServices
             _frmMain = New frmMain
-            _frmMain.lvServices.ConnectionObj = theConnection
 
             ' This initializes the Handle Enumeration Class (needed to enumerate
             ' handles)
@@ -357,15 +368,18 @@ Public Module Program
                 _hotkeys = New cHotkeys                 ' Hotkeys
                 _log = New cLog                         ' Log instance
                 _trayIcon = New cTrayIcon(2)            ' Tray icons
-                _frmMain = New frmMain                  ' Main form
                 _updater = New cUpdate                  ' Updater class
                 _frmNetworkInfo = New frmNetworkInfo    ' Network info
                 _frmSystemInfo = New frmSystemInfo      ' System info
             Else
-                _frmMain = New frmMain              ' Main form
                 _frmServer = New frmServer          ' Server form (server mode)
             End If
 
+
+            ' Common classes
+            _frmMain = New frmMain                  ' Main form
+            _processProvider = New ProcessProvider  ' Process provider
+            _serviceProvider = New ServiceProvider  ' Service provider
 
 
             ' ======= Load preferences

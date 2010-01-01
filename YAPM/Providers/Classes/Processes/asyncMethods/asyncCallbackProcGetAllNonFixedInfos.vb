@@ -29,11 +29,9 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
 
     Public Event HasGotAllNonFixedInfos(ByVal Success As Boolean, ByRef newInfos As Native.Api.Structs.SystemProcessInformation64, ByVal msg As String)
 
-    Private _connection As cProcessConnection
     Private _process As cProcess
 
-    Public Sub New(ByRef procConnection As cProcessConnection, ByRef process As cProcess)
-        _connection = procConnection
+    Public Sub New(ByRef process As cProcess)
         _process = process
     End Sub
 
@@ -41,7 +39,7 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
     ' It is called when user want to refresh statistics of a process in detailed view
     Public Sub Process(ByVal state As Object)
 
-        Select Case _connection.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
 
@@ -50,7 +48,7 @@ Public Class asyncCallbackProcGetAllNonFixedInfos
                 Dim _newInfos As New Native.Api.Structs.SystemProcessInformation64
                 Dim ret As Boolean = _
                     Wmi.Objects.Process.RefreshProcessInformationsById(_process.Infos.ProcessId, _
-                                                                _connection.wmiSearcher, msg, _newInfos)
+                                                                ProcessProvider.wmiSearcher, msg, _newInfos)
 
                 RaiseEvent HasGotAllNonFixedInfos(ret, _newInfos, msg)
 

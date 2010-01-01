@@ -65,7 +65,7 @@ Public Class cTaskConnection
     Protected Shadows Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
 
         ' Exit immediately if not connected
-        If Program.Connection.IsConnected = False OrElse Program.Connection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaSocket Then
+        If Program.Connection.IsConnected = False OrElse Program.Connection.Type <> cConnection.TypeOfConnection.RemoteConnectionViaSocket Then
             Exit Sub
         End If
 

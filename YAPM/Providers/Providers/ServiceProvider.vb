@@ -21,6 +21,8 @@
 
 Option Strict On
 
+Imports System.Management
+
 Public Class ServiceProvider
 
     ' ========================================
@@ -32,6 +34,9 @@ Public Class ServiceProvider
     ' Private attributes
     ' ========================================
 
+    ' For WMI connection
+    Friend Shared wmiSearcher As Management.ManagementObjectSearcher
+
     ' Store new services names
     Friend Shared _dicoNewServices As New List(Of String)
     Friend Shared _semNewServices As New Threading.Semaphore(1, 1)
@@ -42,6 +47,12 @@ Public Class ServiceProvider
 
     ' First refresh done ?
     Private Shared _firstRefreshDone As Boolean = False
+
+    ' Handle to service manager
+    Private Shared _hSCM As IntPtr = IntPtr.Zero
+
+    ' Sempahore to protect async ProcessEnumeration
+    Friend Shared _semProcessEnumeration As New System.Threading.Semaphore(1, 1)
 
 
     ' ========================================
@@ -103,6 +114,13 @@ Public Class ServiceProvider
         End Set
     End Property
 
+    ' Handle to service control manager
+    Public Shared ReadOnly Property ServiceControlManaherHandle() As IntPtr
+        Get
+            Return _hSCM
+        End Get
+    End Property
+
 
     ' ========================================
     ' Other public
@@ -113,11 +131,27 @@ Public Class ServiceProvider
     Public Shared Event GotDeletedItems(ByVal names As Dictionary(Of String, serviceInfos))
     Public Shared Event GotRefreshed(ByVal newServices As List(Of String), ByVal delServices As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos))
 
+    ' Structure used to store parameters of enumeration
+    Public Structure asyncEnumPoolObj
+        Public complete As Boolean
+        Public Sub New(ByVal comp As Boolean)
+            complete = comp
+        End Sub
+    End Structure
+
+
 
     ' ========================================
     ' Public functions
     ' ========================================
 
+    ' Constructor
+    Public Sub New()
+        ' Add handler for general connection/deconnection
+        AddHandler Program.Connection.Connected, AddressOf eventConnected
+        AddHandler Program.Connection.Disconnected, AddressOf eventDisConnected
+        AddHandler Program.Connection.Socket.ReceivedData, AddressOf eventSockReceiveData
+    End Sub
 
     ' Get a service by its name
     ' Thread safe
@@ -242,11 +276,164 @@ Public Class ServiceProvider
         Return _d
     End Function
 
+    ' Refresh list of services depending on the connection NOW
+    Public Shared Sub Update(ByVal forceAllInfos As Boolean)
+        ' This is of course async
+        Call Threading.ThreadPool.QueueUserWorkItem( _
+                New System.Threading.WaitCallback(AddressOf ServiceProvider.ProcessEnumeration), _
+                New ServiceProvider.asyncEnumPoolObj(forceAllInfos))
+    End Sub
 
 
     ' ========================================
     ' Private functions
     ' ========================================
 
+    ' Called when connected
+    Private Sub eventConnected()
+
+        ' Connect
+        Select Case Program.Connection.Type
+            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                ' Nothing special here
+
+            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                ' Have to connect some things when using WMI
+
+                Dim __con As New ConnectionOptions
+                __con.Impersonation = ImpersonationLevel.Impersonate
+                __con.Password = Common.Misc.SecureStringToCharArray(Program.Connection.WmiParameters.password)
+                __con.Username = Program.Connection.WmiParameters.userName
+
+                Try
+                    wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Service")
+                    wmiSearcher.Scope = New Management.ManagementScope("\\" & Program.Connection.WmiParameters.serverName & "\root\cimv2", __con)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Nothing special here
+
+            Case cConnection.TypeOfConnection.LocalConnection
+                ' Get handle to service control manager
+                If _hSCM.IsNotNull Then
+                    Native.Objects.Service.CloseSCManagerHandle(_hSCM)
+                End If
+                _hSCM = Native.Objects.Service.GetSCManagerHandle(Native.Security.ServiceManagerAccess.EnumerateService)
+
+        End Select
+
+    End Sub
+
+    ' Called when disconnected
+    Private Sub eventDisConnected()
+        ' Close handle to service control manager (if necessary)
+        If _hSCM.IsNotNull Then
+            Native.Objects.Service.CloseSCManagerHandle(_hSCM)
+        End If
+    End Sub
+
+    ' Called when socket receive data
+    Private Sub eventSockReceiveData(ByRef data As cSocketData)
+
+        ' Exit immediately if not connected
+        If Program.Connection.IsConnected AndAlso _
+            Program.Connection.Type = cConnection.TypeOfConnection.RemoteConnectionViaSocket Then
+
+            If data Is Nothing Then
+                Trace.WriteLine("Serialization error")
+                Exit Sub
+            End If
+
+            If data.Type = cSocketData.DataType.RequestedList AndAlso _
+                data.Order = cSocketData.OrderType.RequestServiceList Then
+                ' We receive the list
+                Me.GotListFromSocket(data.GetList, data.GetKeys)
+            End If
+
+        End If
+
+    End Sub
+
+    ' When socket got a list of processes !
+    Private Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
+        Dim _dico As New Dictionary(Of String, serviceInfos)
+
+        If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
+            For x As Integer = 0 To lst.Length - 1
+                If _dico.ContainsKey(keys(x)) = False Then
+                    _dico.Add(keys(x), DirectCast(lst(x), serviceInfos))
+                End If
+            Next
+        End If
+
+        ' Save current processes into a dictionary
+        ServiceProvider.CurrentServices = _dico
+
+    End Sub
+
+    ' Enumeration of services
+    Public Shared Sub ProcessEnumeration(ByVal thePoolObj As Object)
+
+        Try
+            ' Synchronisation
+            _semProcessEnumeration.WaitOne()
+
+            If Program.Connection.IsConnected Then
+
+                Dim pObj As asyncEnumPoolObj = DirectCast(thePoolObj, asyncEnumPoolObj)
+                Select Case Program.Connection.Type
+
+                    Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                        ' Send cDat
+                        Try
+                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestServiceList)
+                            Program.Connection.Socket.Send(cDat)
+                        Catch ex As Exception
+                            Misc.ShowError(ex, "Unable to send request to server")
+                        End Try
+
+                    Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+
+                        ' Save current collection
+                        Dim _dico As New Dictionary(Of String, serviceInfos)
+                        Dim res As Boolean
+                        Dim msg As String = ""
+
+                        res = Wmi.Objects.Service.EnumerateServices(wmiSearcher, _dico, msg)
+
+                        ' Save service list into a dictionary
+                        ServiceProvider.CurrentServices = _dico
+
+                    Case cConnection.TypeOfConnection.SnapshotFile
+                        ' Snapshot file
+
+                        Dim snap As cSnapshot = Program.Connection.Snapshot
+                        If snap IsNot Nothing Then
+                            ' Save service list into a dictionary
+                            ServiceProvider.CurrentServices = snap.Services
+                        End If
+
+                    Case Else
+                        ' Local
+
+                        Dim _dico As New Dictionary(Of String, serviceInfos)
+
+                        Native.Objects.Service.EnumerateServices(ServiceProvider.ServiceControlManaherHandle, _dico, pObj.complete)
+
+                        ' Save service list into a dictionary
+                        ServiceProvider.CurrentServices = _dico
+
+                End Select
+            End If
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            _semProcessEnumeration.Release()
+        End Try
+
+    End Sub
 
 End Class

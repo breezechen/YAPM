@@ -139,9 +139,7 @@ Namespace Native.Objects
         ' Enumerate services (local)
         Public Shared Sub EnumerateServices(ByVal hSCM As IntPtr, _
                                        ByRef _dico As Dictionary(Of String, serviceInfos), _
-                                       ByVal forAllProcesses As Boolean, _
-                                       ByVal completeInfos As Boolean, _
-                                       Optional ByVal processId As Integer = 0)
+                                       ByVal completeInfos As Boolean)
 
             Dim lBytesNeeded As Integer
             Dim lServicesReturned As Integer
@@ -185,24 +183,21 @@ Namespace Native.Objects
                         Dim obj As NativeStructs.EnumServiceStatusProcess = _
                                 _memBufferEnumServices.ReadStruct(Of NativeStructs.EnumServiceStatusProcess)(idx)
 
-                        If forAllProcesses OrElse processId = obj.ServiceStatusProcess.ProcessID Then
-                            Dim _servINFO As New serviceInfos(obj, completeInfos)
+                        Dim _servINFO As New serviceInfos(obj, completeInfos)
 
-                            If forAllProcesses = False OrElse ServiceProvider._dicoNewServices.Contains(obj.ServiceName) = False Or completeInfos Then
+                        If ServiceProvider._dicoNewServices.Contains(obj.ServiceName) = False Or completeInfos Then
 
-                                ' Get infos from registry
-                                GetServiceInformationsFromRegistry(obj.ServiceName, _servINFO)
+                            ' Get infos from registry
+                            GetServiceInformationsFromRegistry(obj.ServiceName, _servINFO)
 
-                                'PERFISSUE
-                                GetServiceConfigByName(hSCM, obj.ServiceName, _servINFO, True)
+                            'PERFISSUE
+                            GetServiceConfigByName(hSCM, obj.ServiceName, _servINFO, True)
 
-                                If forAllProcesses And completeInfos = False Then
-                                    ServiceProvider._dicoNewServices.Add(obj.ServiceName)
-                                End If
-                            End If
-
-                            _dico.Add(obj.ServiceName, _servINFO)
+                            ' Won't retrieve all infos next time
+                            ServiceProvider._dicoNewServices.Add(obj.ServiceName)
                         End If
+
+                        _dico.Add(obj.ServiceName, _servINFO)
                     Next idx
 
                 End If
@@ -212,7 +207,6 @@ Namespace Native.Objects
             Finally
                 ServiceProvider._semNewServices.Release()
             End Try
-
 
         End Sub
 

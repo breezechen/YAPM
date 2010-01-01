@@ -308,7 +308,7 @@ Public Class taskList
         'item.Group = Me.Groups(0)
 
         ' Add icon
-        If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+        If _connectionObject.Type = cConnection.TypeOfConnection.LocalConnection Then
             Try
                 Dim icon As System.Drawing.Icon = _dico(key).SmallIcon
                 If icon IsNot Nothing Then

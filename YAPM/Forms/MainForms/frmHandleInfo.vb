@@ -93,9 +93,9 @@ Public Class frmHandleInfo
 
         Me.Text = "Handle " & curHandle.Infos.Handle.ToString
 
-        _local = (cHandle.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
-        _notWMI = (cHandle.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
-        _notSnapshotMode = (cHandle.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile)
+        _local = (cHandle.Connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (cHandle.Connection.ConnectionObj.Type <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _notSnapshotMode = (cHandle.Connection.ConnectionObj.Type <> cConnection.TypeOfConnection.SnapshotFile)
 
         ' Add a custom usercontrol to our form depending of the handle type
         Select Case handle.Infos.Type

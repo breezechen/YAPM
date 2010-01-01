@@ -29,22 +29,7 @@ Public Class cService
 
     Private _firstRefresh As Boolean = True
     Private _serviceInfos As serviceInfos
-    Private _path As String
     Private __dep As String
-    Private Shared WithEvents _connection As cServiceConnection
-
-#Region "Properties"
-
-    Public Shared Property Connection() As cServiceConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cServiceConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 
@@ -80,16 +65,20 @@ Public Class cService
     ' Refresh Config
     ' (used for Reanalize)
     Public Sub Refresh()
-        Select Case _connection.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
 
             Case cConnection.TypeOfConnection.LocalConnection
-                Native.Objects.Service.GetServiceConfigByName(_connection.SCManagerLocalHandle, _
+                Native.Objects.Service.GetServiceConfigByName(ServiceProvider.ServiceControlManaherHandle, _
                                                         Me.Infos.Name, Me.Infos, True)
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                ' Everything is retrieved each time in wmi mode...
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                ' Everything is retrieved each time in socket mode...
 
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Won't refresh in snapshot mode...
 
         End Select
     End Sub
@@ -102,7 +91,7 @@ Public Class cService
     Public Function StartService() As Integer
 
         If _startServ Is Nothing Then
-            _startServ = New asyncCallbackServiceStart(New asyncCallbackServiceStart.HasStarted(AddressOf startServiceDone), _connection)
+            _startServ = New asyncCallbackServiceStart(New asyncCallbackServiceStart.HasStarted(AddressOf startServiceDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _startServ.Process)
@@ -126,7 +115,7 @@ Public Class cService
     Public Function DeleteService() As Integer
 
         If _deleteServ Is Nothing Then
-            _deleteServ = New asyncCallbackServiceDelete(New asyncCallbackServiceDelete.HasDeleted(AddressOf deleteServiceDone), _connection)
+            _deleteServ = New asyncCallbackServiceDelete(New asyncCallbackServiceDelete.HasDeleted(AddressOf deleteServiceDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _deleteServ.Process)
@@ -150,7 +139,7 @@ Public Class cService
     Public Function PauseService() As Integer
 
         If _pauseServ Is Nothing Then
-            _pauseServ = New asyncCallbackServicePause(New asyncCallbackServicePause.HasPaused(AddressOf pauseServiceDone), _connection)
+            _pauseServ = New asyncCallbackServicePause(New asyncCallbackServicePause.HasPaused(AddressOf pauseServiceDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _pauseServ.Process)
@@ -173,7 +162,7 @@ Public Class cService
     Public Function ResumeService() As Integer
 
         If _resumeServ Is Nothing Then
-            _resumeServ = New asyncCallbackServiceResume(New asyncCallbackServiceResume.HasResumed(AddressOf resumeServiceDone), _connection)
+            _resumeServ = New asyncCallbackServiceResume(New asyncCallbackServiceResume.HasResumed(AddressOf resumeServiceDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _resumeServ.Process)
@@ -196,7 +185,7 @@ Public Class cService
     Public Function StopService() As Integer
 
         If _stopServ Is Nothing Then
-            _stopServ = New asyncCallbackServiceStop(New asyncCallbackServiceStop.HasStopped(AddressOf stopServiceDone), _connection)
+            _stopServ = New asyncCallbackServiceStop(New asyncCallbackServiceStop.HasStopped(AddressOf stopServiceDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _stopServ.Process)
@@ -219,7 +208,7 @@ Public Class cService
     Public Sub SetServiceStartType(ByVal type As Native.Api.NativeEnums.ServiceStartType)
 
         If _setStartTypeServ Is Nothing Then
-            _setStartTypeServ = New asyncCallbackServiceSetStartType(New asyncCallbackServiceSetStartType.HasChangedStartType(AddressOf setServiceStartTypeDone), _connection)
+            _setStartTypeServ = New asyncCallbackServiceSetStartType(New asyncCallbackServiceSetStartType.HasChangedStartType(AddressOf setServiceStartTypeDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _setStartTypeServ.Process)
@@ -266,10 +255,7 @@ Public Class cService
             Case "ServiceType"
                 res = Me.Infos.ServiceType.ToString
             Case "ImagePath"
-                If _path = vbNullString Then
-                    _path = GetRealPath(Me.Infos.ImagePath)
-                End If
-                res = _path
+                res = GetRealPath(Me.Infos.ImagePath)
             Case "ErrorControl"
                 res = Me.Infos.ErrorControl.ToString
             Case "StartType"
@@ -351,6 +337,7 @@ Public Class cService
         Static _old_Process As String = ""
         Static _old_Dependencies As String = ""
         Static _old_ServiceFlags As String = ""
+        Static _path As String = NO_INFO_RETRIEVED
 
         Dim hasChanged As Boolean = True
 
@@ -395,7 +382,7 @@ Public Class cService
                     _old_ServiceType = res
                 End If
             Case "ImagePath"
-                If _path = vbNullString Then
+                If _path = NO_INFO_RETRIEVED Then
                     _path = GetRealPath(Me.Infos.ImagePath)
                 End If
                 res = _path

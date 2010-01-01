@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackProcUnloadModule
 
-    Private con As cProcessConnection
     Private _deg As HasUnloadedModule
 
     Public Delegate Sub HasUnloadedModule(ByVal Success As Boolean, ByVal pid As Integer, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasUnloadedModule, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasUnloadedModule)
         _deg = deg
-        con = procConnection
     End Sub
     Public Structure poolObj
         Public pid As Integer
@@ -51,15 +49,15 @@ Public Class asyncCallbackProcUnloadModule
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+        If Program.Connection.IsConnected = False Then
             Exit Sub
         End If
 
-        Select Case con.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ModuleUnload, pObj.pid, pObj.baseA)
-                    con.ConnectionObj.Socket.Send(cDat)
+                    Program.Connection.Socket.Send(cDat)
                 Catch ex As Exception
                     Misc.ShowError(ex, "Unable to send request to server")
                 End Try

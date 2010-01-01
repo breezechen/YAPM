@@ -53,7 +53,7 @@ Public Class cThread
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Thread
         ' Get a handle if local
         If _connection IsNot Nothing Then
-            If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            If _connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection Then
                 _handleQueryInfo = Native.Objects.Thread.GetThreadHandle(infos.Id, Native.Security.ThreadAccess.QueryInformation)
                 If getPriorityInfo Then
                     ' Here we get priority (used when YAPM is used as a server)
@@ -66,7 +66,7 @@ Public Class cThread
     Protected Overrides Sub Finalize()
         ' Close a handle if local
         If _connection IsNot Nothing Then
-            If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            If _connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection Then
                 If _handleQueryInfo.IsNotNull Then
                     Native.Objects.General.CloseHandle(_handleQueryInfo)
                 End If
@@ -86,7 +86,7 @@ Public Class cThread
 
     Public ReadOnly Property PriorityMod() As ThreadPriorityLevel
         Get
-            If _handleQueryInfo .IsNotNull Then
+            If _handleQueryInfo.IsNotNull Then
                 Dim priority As Integer = Native.Api.NativeFunctions.GetThreadPriority(_handleQueryInfo)
                 Return CType(priority, ThreadPriorityLevel)
             Else
@@ -111,7 +111,7 @@ Public Class cThread
     ' TOCHANGE
     Private WithEvents asyncNonFixed As asyncCallbackThreadGetOtherInfos
     Private Sub RefreshSpecialInformations()
-        Select Case _connection.ConnectionObj.ConnectionType
+        Select Case _connection.ConnectionObj.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

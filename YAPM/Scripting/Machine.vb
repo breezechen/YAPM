@@ -144,14 +144,14 @@ Namespace Scripting.Items
             ' Connect to machine
             Select Case Me.Type
                 Case Enums.MachineType.Local
-                    Me.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+                    Me.Connection.Type = cConnection.TypeOfConnection.LocalConnection
                 Case Enums.MachineType.Wmi
-                    Me.Connection.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                    Me.Connection.Type = cConnection.TypeOfConnection.RemoteConnectionViaWMI
                     Dim ss As New System.Security.SecureString
                     For Each c As Char In Me.Password
                         ss.AppendChar(c)
                     Next
-                    Me.Connection.WmiParameters = New cConnection.WMIConnectionParameters(Me.Name, Me.UserName, ss)
+                    Me.Connection.WmiParameters = New cConnection.WmiConnectionParameters(Me.Name, Me.UserName, ss)
             End Select
             ' Connect now
             Connection.Connect()

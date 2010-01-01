@@ -28,7 +28,6 @@ Public Class asyncCallbackProcGetNonFixedInfos
 
     Private _pid As Integer
     Private _handle As IntPtr
-    Private _connection As cProcessConnection
 
     Public Structure TheseInfos
         Dim gdiO As Integer
@@ -44,15 +43,13 @@ Public Class asyncCallbackProcGetNonFixedInfos
 
     Public Event GatheredInfos(ByVal infos As TheseInfos)
 
-    Public Sub New(ByVal pid As Integer, ByRef procConnection As cProcessConnection, _
-                   ByVal handle As IntPtr)
+    Public Sub New(ByVal pid As Integer, ByVal handle As IntPtr)
         _pid = pid
         _handle = handle
-        _connection = procConnection
     End Sub
 
     Public Sub Process()
-        Select Case _connection.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

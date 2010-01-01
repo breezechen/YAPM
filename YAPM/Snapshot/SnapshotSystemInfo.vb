@@ -116,7 +116,7 @@ Public Class SnapshotSystemInfo
     Public Sub New(ByVal con As cConnection)
 
         ' Automatically fill in properties
-        Select Case con.ConnectionType
+        Select Case con.Type
 
             Case cConnection.TypeOfConnection.LocalConnection
                 ' Local connection

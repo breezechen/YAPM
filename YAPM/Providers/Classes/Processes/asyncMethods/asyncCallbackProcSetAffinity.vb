@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackProcSetAffinity
 
-    Private con As cProcessConnection
     Private _deg As HasSetAffinity
 
     Public Delegate Sub HasSetAffinity(ByVal Success As Boolean, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasSetAffinity, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasSetAffinity)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj
@@ -50,15 +48,15 @@ Public Class asyncCallbackProcSetAffinity
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+        If Program.Connection.IsConnected = False Then
             Exit Sub
         End If
 
-        Select Case con.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessChangeAffinity, pObj.pid, pObj.level)
-                    con.ConnectionObj.Socket.Send(cDat)
+                    Program.Connection.Socket.Send(cDat)
                 Catch ex As Exception
                     Misc.ShowError(ex, "Unable to send request to server")
                 End Try

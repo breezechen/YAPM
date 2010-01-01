@@ -56,7 +56,7 @@ Public Class cNetwork
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.NetworkConnection
 
         ' Solve DNS (only on local mode)
-        If cNetwork.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+        If cNetwork.Connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection Then
             Try
                 If Me.Infos._Local.Address.Equals(nullAddress) = False Then
                     Dim t As New System.Threading.WaitCallback(AddressOf getHostNameLocal)
@@ -69,7 +69,7 @@ Public Class cNetwork
 
         ' If not Snapshot mode (it has no sense as the snapshot might refer
         ' to a system on another network...)
-        If cNetwork.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile Then
+        If cNetwork.Connection.ConnectionObj.Type <> cConnection.TypeOfConnection.SnapshotFile Then
             Try
                 If Me.Infos._remote IsNot Nothing AndAlso Me.Infos._remote.Address.Equals(nullAddress) = False Then
                     Dim t As New System.Threading.WaitCallback(AddressOf getHostNameRemote)

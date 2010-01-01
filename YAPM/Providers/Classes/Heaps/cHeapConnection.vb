@@ -60,7 +60,7 @@ Public Class cHeapConnection
     Protected Overrides Sub asyncConnect(ByVal useless As Object)
 
         ' Connect
-        Select Case _conObj.ConnectionType
+        Select Case _conObj.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 ' When we are here, the socket IS CONNECTED
                 _sock = ConnectionObj.Socket
@@ -83,7 +83,7 @@ Public Class cHeapConnection
 
     ' Disconnect
     Protected Overrides Sub asyncDisconnect(ByVal useless As Object)
-        Select Case _conObj.ConnectionType
+        Select Case _conObj.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 _connected = False
                 If Disconnected IsNot Nothing AndAlso _control.Created Then _
@@ -127,7 +127,7 @@ Public Class cHeapConnection
     Protected Shadows Sub _sock_ReceivedData(ByRef data As cSocketData) Handles _sock.ReceivedData
 
         ' Exit immediately if not connected
-        If Program.Connection.IsConnected = False OrElse Program.Connection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaSocket Then
+        If Program.Connection.IsConnected = False OrElse Program.Connection.Type <> cConnection.TypeOfConnection.RemoteConnectionViaSocket Then
             Exit Sub
         End If
 

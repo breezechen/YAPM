@@ -323,7 +323,7 @@ Public Class moduleList
 
         ' Add icon
         If My.Settings.IconsInList Then
-            If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            If _connectionObject.Type = cConnection.TypeOfConnection.LocalConnection Then
                 If InStr(key.ToLowerInvariant, "exe-") > 0 Then
                     Try
 

@@ -27,14 +27,12 @@ Imports System.Management
 
 Public Class asyncCallbackServiceStart
 
-    Private con As cServiceConnection
     Private _deg As HasStarted
 
     Public Delegate Sub HasStarted(ByVal Success As Boolean, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasStarted, ByRef procConnection As cServiceConnection)
+    Public Sub New(ByVal deg As HasStarted)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj
@@ -50,15 +48,15 @@ Public Class asyncCallbackServiceStart
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+        If Program.Connection.IsConnected = False Then
             Exit Sub
         End If
 
-        Select Case con.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 Try
                     Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ServiceStart, pObj.name)
-                    con.ConnectionObj.Socket.Send(cDat)
+                    Program.Connection.Socket.Send(cDat)
                 Catch ex As Exception
                     Misc.ShowError(ex, "Unable to send request to server")
                 End Try
@@ -66,7 +64,7 @@ Public Class asyncCallbackServiceStart
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                 Dim res As Boolean
                 Dim msg As String = ""
-                res = Wmi.Objects.Service.StartServiceByName(pObj.name, con.wmiSearcher, msg)
+                res = Wmi.Objects.Service.StartServiceByName(pObj.name, ServiceProvider.wmiSearcher, msg)
 
                 Try
                     _deg.Invoke(res, pObj.name, msg, pObj.newAction)
@@ -77,7 +75,7 @@ Public Class asyncCallbackServiceStart
             Case Else
                 ' Local
                 Dim res As Boolean = Native.Objects.Service.StartServiceByName(pObj.name, _
-                                                            con.SCManagerLocalHandle)
+                                                            ServiceProvider.ServiceControlManaherHandle)
                 _deg.Invoke(res, pObj.name, Native.Api.Win32.GetLastError, pObj.newAction)
         End Select
     End Sub

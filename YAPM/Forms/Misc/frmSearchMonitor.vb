@@ -48,7 +48,7 @@ Public Class frmSearchMonitor
         Me.LV.BeginUpdate()
 
         Dim machineName As String = Nothing
-        If Program.Connection.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+        If Program.Connection.Type = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
             machineName = Program.Connection.WmiParameters.serverName
         End If
 

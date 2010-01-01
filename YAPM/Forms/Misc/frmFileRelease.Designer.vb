@@ -47,7 +47,7 @@ Partial Class frmFileRelease
         Me.lv.CatchErrors = False
         Me.lv.CheckBoxes = True
         Me.lv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2})
-        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection1.Type = cConnection.TypeOfConnection.LocalConnection
         Me.lv.ConnectionObj = CConnection1
         Me.lv.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lv.FullRowSelect = True

@@ -993,7 +993,7 @@ Partial Class frmServiceInfo
         '
         'tv2
         '
-        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection1.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection1.Snapshot = CType(resources.GetObject("CConnection1.Snapshot"), cSnapshot)
         CConnection1.SnapshotFile = Nothing
         Me.tv2.ConnectionObj = CConnection1
@@ -1070,7 +1070,7 @@ Partial Class frmServiceInfo
         '
         'tv
         '
-        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection2.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection2.Snapshot = CType(resources.GetObject("CConnection2.Snapshot"), cSnapshot)
         CConnection2.SnapshotFile = Nothing
         Me.tv.ConnectionObj = CConnection2

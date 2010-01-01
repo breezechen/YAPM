@@ -103,7 +103,7 @@ Public Class cSearchItem
             Case GeneralObjectType.Process
                 ' Kill a process
                 If _closeP Is Nothing Then
-                    _closeP = New asyncCallbackProcKill(New asyncCallbackProcKill.HasKilled(AddressOf killDone), cProcess.Connection)
+                    _closeP = New asyncCallbackProcKill(New asyncCallbackProcKill.HasKilled(AddressOf killDone))
                 End If
 
                 Dim t As New System.Threading.WaitCallback(AddressOf _closeP.Process)
@@ -117,7 +117,7 @@ Public Class cSearchItem
             Case GeneralObjectType.Service
                 ' Stop service
                 If _closeS Is Nothing Then
-                    _closeS = New asyncCallbackServiceStop(New asyncCallbackServiceStop.HasStopped(AddressOf stopServiceDone), cService.Connection)
+                    _closeS = New asyncCallbackServiceStop(New asyncCallbackServiceStop.HasStopped(AddressOf stopServiceDone))
                 End If
 
                 Dim t As New System.Threading.WaitCallback(AddressOf _closeS.Process)

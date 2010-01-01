@@ -44,8 +44,7 @@ Namespace Wmi.Objects
         ' ========================================
 
         ' Enumerate services
-        Public Shared Function EnumerateProcesses(ByVal pid As Integer, ByVal all As Boolean, _
-                        ByVal objSearcher As Management.ManagementObjectSearcher, _
+        Public Shared Function EnumerateServices(ByVal objSearcher As Management.ManagementObjectSearcher, _
                         ByRef _dico As Dictionary(Of String, serviceInfos), _
                         ByRef errMsg As String) As Boolean
 
@@ -63,47 +62,44 @@ Namespace Wmi.Objects
                 Dim obj As New Native.Api.NativeStructs.EnumServiceStatusProcess
                 Dim theId As Integer = CInt(refService.GetPropertyValue(WmiInfoService.ProcessId.ToString))
 
-                If all OrElse pid = theId Then
-
-                    With obj
-                        .DisplayName = CStr(refService.GetPropertyValue(WmiInfoService.DisplayName.ToString))
-                        .ServiceName = CStr(refService.GetPropertyValue(WmiInfoService.Name.ToString))
-                        With .ServiceStatusProcess
-                            .CheckPoint = CInt(refService.GetPropertyValue(WmiInfoService.CheckPoint.ToString))
-                            If CBool(refService.GetPropertyValue(WmiInfoService.AcceptPause.ToString)) Then
-                                .ControlsAccepted = .ControlsAccepted Or Native.Api.NativeEnums.ServiceAccept.PauseContinue
-                            End If
-                            If CBool(refService.GetPropertyValue(WmiInfoService.AcceptStop.ToString)) Then
-                                .ControlsAccepted = .ControlsAccepted Or Native.Api.NativeEnums.ServiceAccept.Stop
-                            End If
-                            .CurrentState = Native.Functions.Service.GetServiceStateFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.State.ToString)))
-                            .ProcessID = theId
-                            '.ServiceFlags
-                            .ServiceSpecificExitCode = CInt(refService.GetPropertyValue(WmiInfoService.ServiceSpecificExitCode.ToString))
-                            .ServiceType = Native.Functions.Service.GetServiceTypeFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.ServiceType.ToString)))
-                            .WaitHint = CInt(refService.GetPropertyValue(WmiInfoService.WaitHint.ToString))
-                            .Win32ExitCode = CInt(refService.GetPropertyValue(WmiInfoService.ExitCode.ToString))
-                        End With
+                With obj
+                    .DisplayName = CStr(refService.GetPropertyValue(WmiInfoService.DisplayName.ToString))
+                    .ServiceName = CStr(refService.GetPropertyValue(WmiInfoService.Name.ToString))
+                    With .ServiceStatusProcess
+                        .CheckPoint = CInt(refService.GetPropertyValue(WmiInfoService.CheckPoint.ToString))
+                        If CBool(refService.GetPropertyValue(WmiInfoService.AcceptPause.ToString)) Then
+                            .ControlsAccepted = .ControlsAccepted Or Native.Api.NativeEnums.ServiceAccept.PauseContinue
+                        End If
+                        If CBool(refService.GetPropertyValue(WmiInfoService.AcceptStop.ToString)) Then
+                            .ControlsAccepted = .ControlsAccepted Or Native.Api.NativeEnums.ServiceAccept.Stop
+                        End If
+                        .CurrentState = Native.Functions.Service.GetServiceStateFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.State.ToString)))
+                        .ProcessID = theId
+                        '.ServiceFlags
+                        .ServiceSpecificExitCode = CInt(refService.GetPropertyValue(WmiInfoService.ServiceSpecificExitCode.ToString))
+                        .ServiceType = Native.Functions.Service.GetServiceTypeFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.ServiceType.ToString)))
+                        .WaitHint = CInt(refService.GetPropertyValue(WmiInfoService.WaitHint.ToString))
+                        .Win32ExitCode = CInt(refService.GetPropertyValue(WmiInfoService.ExitCode.ToString))
                     End With
+                End With
 
-                    ' Do we have to get fixed infos ?
-                    Dim _servInfos As New serviceInfos(obj, True)
+                ' Do we have to get fixed infos ?
+                Dim _servInfos As New serviceInfos(obj, True)
 
-                    Dim conf As New Native.Api.NativeStructs.QueryServiceConfig
-                    With conf
-                        .BinaryPathName = CStr(refService.GetPropertyValue(WmiInfoService.PathName.ToString))
-                        '.Dependencies
-                        .DisplayName = CStr(refService.GetPropertyValue(WmiInfoService.DisplayName.ToString))
-                        .ErrorControl = Native.Functions.Service.GetServiceErrorControlFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.ErrorControl.ToString)))
-                        '.LoadOrderGroup 
-                        .ServiceStartName = CStr(refService.GetPropertyValue(WmiInfoService.StartName.ToString))
-                        .StartType = Native.Functions.Service.GetServiceStartTypeFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.StartMode.ToString)))
-                        .TagID = CInt(refService.GetPropertyValue(WmiInfoService.TagId.ToString))
-                    End With
-                    _servInfos.SetConfig(conf)
+                Dim conf As New Native.Api.NativeStructs.QueryServiceConfig
+                With conf
+                    .BinaryPathName = CStr(refService.GetPropertyValue(WmiInfoService.PathName.ToString))
+                    '.Dependencies
+                    .DisplayName = CStr(refService.GetPropertyValue(WmiInfoService.DisplayName.ToString))
+                    .ErrorControl = Native.Functions.Service.GetServiceErrorControlFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.ErrorControl.ToString)))
+                    '.LoadOrderGroup 
+                    .ServiceStartName = CStr(refService.GetPropertyValue(WmiInfoService.StartName.ToString))
+                    .StartType = Native.Functions.Service.GetServiceStartTypeFromStringH(CStr(refService.GetPropertyValue(WmiInfoService.StartMode.ToString)))
+                    .TagID = CInt(refService.GetPropertyValue(WmiInfoService.TagId.ToString))
+                End With
+                _servInfos.SetConfig(conf)
 
-                    _dico.Add(obj.ServiceName, _servInfos)
-                End If
+                _dico.Add(obj.ServiceName, _servInfos)
             Next
 
             Return True

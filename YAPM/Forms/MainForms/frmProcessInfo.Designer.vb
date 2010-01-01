@@ -2526,7 +2526,7 @@ Partial Class frmProcessInfo
         Me.lvPrivileges.AllowColumnReorder = True
         Me.lvPrivileges.CatchErrors = False
         Me.lvPrivileges.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader51, Me.ColumnHeader52})
-        CConnection1.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection1.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection1.Snapshot = Nothing
         CConnection1.SnapshotFile = Nothing
         Me.lvPrivileges.ConnectionObj = CConnection1
@@ -2577,7 +2577,7 @@ Partial Class frmProcessInfo
         Me.lvProcMem.AllowColumnReorder = True
         Me.lvProcMem.CatchErrors = False
         Me.lvProcMem.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader53, Me.ColumnHeader54, Me.ColumnHeader55, Me.ColumnHeader56, Me.ColumnHeader13})
-        CConnection2.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection2.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection2.Snapshot = Nothing
         CConnection2.SnapshotFile = Nothing
         Me.lvProcMem.ConnectionObj = CConnection2
@@ -2707,10 +2707,9 @@ Partial Class frmProcessInfo
         Me.lvProcServices.AllowColumnReorder = True
         Me.lvProcServices.CatchErrors = False
         Me.lvProcServices.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader3, Me.ColumnHeader7, Me.ColumnHeader8, Me.ColumnHeader9, Me.ColumnHeader10, Me.ColumnHeader19})
-        CConnection3.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection3.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection3.Snapshot = Nothing
         CConnection3.SnapshotFile = Nothing
-        Me.lvProcServices.ConnectionObj = CConnection3
         Me.lvProcServices.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcServices.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcServices.FullRowSelect = True
@@ -2774,7 +2773,7 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.AllowColumnReorder = True
         Me.lvProcNetwork.CatchErrors = False
         Me.lvProcNetwork.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader49, Me.ColumnHeader57, Me.ColumnHeader58, Me.ColumnHeader59})
-        CConnection4.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection4.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection4.Snapshot = Nothing
         CConnection4.SnapshotFile = Nothing
         Me.lvProcNetwork.ConnectionObj = CConnection4
@@ -2970,7 +2969,7 @@ Partial Class frmProcessInfo
         Me.lvProcEnv.AllowColumnReorder = True
         Me.lvProcEnv.CatchErrors = False
         Me.lvProcEnv.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader60, Me.ColumnHeader61})
-        CConnection5.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection5.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection5.Snapshot = Nothing
         CConnection5.SnapshotFile = Nothing
         Me.lvProcEnv.ConnectionObj = CConnection5
@@ -3016,7 +3015,7 @@ Partial Class frmProcessInfo
         Me.lvModules.AllowColumnReorder = True
         Me.lvModules.CatchErrors = False
         Me.lvModules.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader29, Me.ColumnHeader43, Me.ColumnHeader44, Me.ColumnHeader45, Me.ColumnHeader46, Me.ColumnHeader1})
-        CConnection6.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection6.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection6.Snapshot = Nothing
         CConnection6.SnapshotFile = Nothing
         Me.lvModules.ConnectionObj = CConnection6
@@ -3086,7 +3085,7 @@ Partial Class frmProcessInfo
         Me.lvThreads.AllowColumnReorder = True
         Me.lvThreads.CatchErrors = False
         Me.lvThreads.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader32, Me.ColumnHeader12, Me.ColumnHeader34, Me.ColumnHeader35, Me.ColumnHeader36, Me.ColumnHeader37, Me.ColumnHeader38, Me.ColumnHeader6, Me.ColumnHeader11})
-        CConnection7.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection7.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection7.Snapshot = Nothing
         CConnection7.SnapshotFile = Nothing
         Me.lvThreads.ConnectionObj = CConnection7
@@ -3165,7 +3164,7 @@ Partial Class frmProcessInfo
         Me.lvWindows.AllowColumnReorder = True
         Me.lvWindows.CatchErrors = False
         Me.lvWindows.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader30, Me.ColumnHeader39, Me.ColumnHeader40, Me.ColumnHeader41, Me.ColumnHeader42})
-        CConnection8.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection8.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection8.Snapshot = Nothing
         CConnection8.SnapshotFile = Nothing
         Me.lvWindows.ConnectionObj = CConnection8
@@ -3224,7 +3223,7 @@ Partial Class frmProcessInfo
         Me.lvHandles.AllowColumnReorder = True
         Me.lvHandles.CatchErrors = False
         Me.lvHandles.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader24, Me.ColumnHeader25, Me.ColumnHeader26, Me.ColumnHeader27, Me.ColumnHeader28, Me.ColumnHeader15})
-        CConnection9.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection9.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection9.Snapshot = Nothing
         CConnection9.SnapshotFile = Nothing
         Me.lvHandles.ConnectionObj = CConnection9
@@ -3353,7 +3352,7 @@ Partial Class frmProcessInfo
         Me.lvLog.CaptureItems = asyncCallbackLogEnumerate.LogItemType.AllItems
         Me.lvLog.CatchErrors = False
         Me.lvLog.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader2, Me.ColumnHeader5, Me.ColumnHeader4})
-        CConnection10.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection10.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection10.Snapshot = Nothing
         CConnection10.SnapshotFile = Nothing
         Me.lvLog.ConnectionObj = CConnection10
@@ -3464,7 +3463,7 @@ Partial Class frmProcessInfo
         Me.lvHeaps.AllowColumnReorder = True
         Me.lvHeaps.CatchErrors = False
         Me.lvHeaps.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader16, Me.ColumnHeader17, Me.ColumnHeader18, Me.ColumnHeader20, Me.ColumnHeader14})
-        CConnection11.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        CConnection11.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection11.Snapshot = Nothing
         CConnection11.SnapshotFile = Nothing
         Me.lvHeaps.ConnectionObj = CConnection11

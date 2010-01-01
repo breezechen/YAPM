@@ -66,7 +66,7 @@ Public Class frmError
         s &= vbNewLine & vbTab & "Target : " & e.TargetSite.ToString
         s &= vbNewLine & vbNewLine
         s &= "Other informations : "
-        s &= vbNewLine & vbTab & "Connection : " & Program.Connection.ConnectionType.ToString
+        s &= vbNewLine & vbTab & "Connection : " & Program.Connection.Type.ToString
         s &= vbNewLine & vbTab & "Connected : " & Program.Connection.IsConnected.ToString
         s &= vbNewLine & vbTab & "Elapsed time : " & Program.ElapsedTime.ToString
         s &= vbNewLine & vbNewLine

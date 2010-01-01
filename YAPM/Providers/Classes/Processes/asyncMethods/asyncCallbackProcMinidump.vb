@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackProcMinidump
 
-    Private con As cProcessConnection
     Private _deg As HasCreatedDump
 
     Public Delegate Sub HasCreatedDump(ByVal Success As Boolean, ByVal pid As Integer, ByVal file As String, ByVal msg As String, ByVal actionN As Integer)
 
-    Public Sub New(ByVal deg As HasCreatedDump, ByRef procConnection As cProcessConnection)
+    Public Sub New(ByVal deg As HasCreatedDump)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj
@@ -52,11 +50,11 @@ Public Class asyncCallbackProcMinidump
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If con.ConnectionObj.IsConnected = False Then
+        If Program.Connection.IsConnected = False Then
             Exit Sub
         End If
 
-        Select Case con.ConnectionObj.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

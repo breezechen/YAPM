@@ -105,18 +105,18 @@ Public Class asyncCallbackLogEnumerate
             sem.WaitOne()
 
             Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-            If con.ConnectionObj.IsConnected = False Then
+            If Program.Connection.IsConnected = False Then
                 Exit Sub
             End If
 
-            Select Case con.ConnectionObj.ConnectionType
+            Select Case Program.Connection.Type
 
                 Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                     _poolObj = pObj
                     Try
                         Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestLogList, pObj.pid, pObj.infos)
                         cDat.InstanceId = _instanceId   ' Instance which request the list
-                        con.ConnectionObj.Socket.Send(cDat)
+                        Program.Connection.Socket.Send(cDat)
                     Catch ex As Exception
                         Misc.ShowError(ex, "Unable to send request to server")
                     End Try
@@ -324,7 +324,7 @@ Public Class asyncCallbackLogEnumerate
                         ' Get list
                         Dim pid(0) As Integer
                         pid(0) = pObj.pid
-                        Native.Objects.Service.EnumerateServices(pObj.hSCM, __dicoServices, False, False, pid(0))
+                        Native.Objects.Service.EnumerateServices(pObj.hSCM, __dicoServices, False)
 
                         ' Store in static dico if it is first refresh
                         If firstServices Then

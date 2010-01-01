@@ -23,41 +23,22 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class serviceList
+Public Class mainServiceList
     Inherits customLV
+
+    Public Event ItemAdded(ByRef item As cService)
+    Public Event ItemDeleted(ByRef item As cService)
+    Public Event HasRefreshed()
+    Public Event GotAnError(ByVal origin As String, ByVal msg As String)
+
 
     ' ========================================
     ' Private
     ' ========================================
-    Private _all As Boolean
-    Private _pid As Integer
     Private _first As Boolean
     Private _dico As New Dictionary(Of String, cService)
     Private WithEvents _connectionObject As New cConnection
 
-#Region "Properties"
-
-    ' ========================================
-    ' Properties
-    ' ========================================
-    Public Property ProcessId() As Integer
-        Get
-            Return _pid
-        End Get
-        Set(ByVal value As Integer)
-            _pid = value
-        End Set
-    End Property
-    Public Property ShowAll() As Boolean
-        Get
-            Return _all
-        End Get
-        Set(ByVal value As Boolean)
-            _all = value
-        End Set
-    End Property
-
-#End Region
 
     ' ========================================
     ' Public functions
@@ -78,8 +59,12 @@ Public Class serviceList
 
         _first = True
 
+        ' Create buffer 
+        Me.CreateSubItemsBuffer()
+
         ' Set handlers
         AddHandler ServiceProvider.GotRefreshed, AddressOf Me.GotRefreshed
+
     End Sub
 
     ' Get an item from listview
@@ -242,31 +227,29 @@ Public Class serviceList
                     For Each it In Me.Items
                         Dim x As Integer = 0
                         Dim _item As cService = _dico.Item(it.Name)
-                        If _item IsNot Nothing Then
-                            If Dico.ContainsKey(it.Name) Then
-                                _item.Merge(Dico.Item(it.Name))
+                        If Dico.ContainsKey(it.Name) Then
+                            _item.Merge(Dico.Item(it.Name))
+                        End If
+                        Dim ___info As String = Nothing
+                        For Each isub In it.SubItems
+                            If _item.GetInformation(_columnsName(x), ___info) Then
+                                isub.Text = ___info
                             End If
-                            Dim ___info As String = Nothing
-                            For Each isub In it.SubItems
-                                If _item.GetInformation(_columnsName(x), ___info) Then
-                                    isub.Text = ___info
-                                End If
-                                x += 1
-                            Next
-                            If _item.NewCount > 0 Then
-                                _item.NewCount -= 1
-                                If _timeToDisplayNewItemsGreen Then
-                                    it.BackColor = NEW_ITEM_COLOR
-                                End If
-                            ElseIf _item.KillCount > 0 Then
-                                it.BackColor = DELETED_ITEM_COLOR
-                                _item.KillCount -= 1
-                            ElseIf _item.KillCount = 0 Then
-                                toDel.Add(it.Name)
-                            Else
-                                _timeToDisplayNewItemsGreen = True
-                                it.BackColor = _item.GetBackColor
+                            x += 1
+                        Next
+                        If _item.NewCount > 0 Then
+                            _item.NewCount -= 1
+                            If _timeToDisplayNewItemsGreen Then
+                                it.BackColor = NEW_ITEM_COLOR
                             End If
+                        ElseIf _item.KillCount > 0 Then
+                            it.BackColor = DELETED_ITEM_COLOR
+                            _item.KillCount -= 1
+                        ElseIf _item.KillCount = 0 Then
+                            toDel.Add(it.Name)
+                        Else
+                            _timeToDisplayNewItemsGreen = True
+                            it.BackColor = _item.GetBackColor
                         End If
                     Next
 

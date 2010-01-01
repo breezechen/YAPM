@@ -130,9 +130,9 @@ Public Class frmChooseColumns
             ss = moduleInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is networkList Then
             ss = networkInfos.GetAvailableProperties
-        ElseIf TypeOf (ConcernedListView) Is processList Then
+        ElseIf TypeOf (ConcernedListView) Is mainProcessList Then
             ss = processInfos.GetAvailableProperties
-        ElseIf TypeOf (ConcernedListView) Is serviceList Then
+        ElseIf TypeOf (ConcernedListView) Is mainServiceList Then
             ss = serviceInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is taskList Then
             ss = taskInfos.GetAvailableProperties

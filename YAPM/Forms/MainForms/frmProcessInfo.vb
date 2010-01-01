@@ -200,7 +200,7 @@ Public Class frmProcessInfo
                 '   method.
 
                 Call refreshStatisticsTab()
-                If cProcess.Connection.ConnectionObj.ConnectionType <> _
+                If Program.Connection.Type <> _
                         cConnection.TypeOfConnection.LocalConnection Then
                     Call Threading.ThreadPool.QueueUserWorkItem(New  _
                        System.Threading.WaitCallback(AddressOf _
@@ -219,7 +219,7 @@ Public Class frmProcessInfo
                 '   method.
 
                 Call refreshInfosTab()
-                If cProcess.Connection.ConnectionObj.ConnectionType <> _
+                If Program.Connection.Type <> _
                         cConnection.TypeOfConnection.LocalConnection Then
                     Call Threading.ThreadPool.QueueUserWorkItem(New  _
                        System.Threading.WaitCallback(AddressOf _
@@ -523,7 +523,7 @@ Public Class frmProcessInfo
         End Select
 
         ' Icons
-        If cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
             If pctBigIcon.Image Is Nothing Then
                 Try
                     pctBigIcon.Image = GetIcon(curProc.Infos.Path, False).ToBitmap
@@ -596,14 +596,14 @@ Public Class frmProcessInfo
     Public Sub SetProcess(ByRef process As cProcess)
 
         curProc = process
-        asyncAllNonFixedInfos = New asyncCallbackProcGetAllNonFixedInfos(cProcess.Connection, curProc)
+        asyncAllNonFixedInfos = New asyncCallbackProcGetAllNonFixedInfos(curProc)
 
         Me.Text = curProc.Infos.Name & " (" & CStr(curProc.Infos.ProcessId) & ")"
         Me.cbPriority.Text = curProc.Infos.Priority.ToString
 
-        _local = (cProcess.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
-        _notWMI = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
-        _notSnapshotMode = (cProcess.Connection.ConnectionObj.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile)
+        _local = (Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (Program.Connection.Type <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _notSnapshotMode = (Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile)
 
         Me.cmdAffinity.Enabled = _notWMI And _notSnapshotMode
         Me.cmdPause.Enabled = _notWMI And _notSnapshotMode
@@ -1091,7 +1091,7 @@ Public Class frmProcessInfo
     End Function
 
     Private Sub lvProcMem_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcMem.DoubleClick
-        If cMemRegion.Connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+        If cMemRegion.Connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection Then
             For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
                 Dim frm As New frmHexEditor
                 Dim reg As New MemoryHexEditor.MemoryRegion(it.Infos.BaseAddress, it.Infos.RegionSize)
@@ -1479,7 +1479,6 @@ Public Class frmProcessInfo
             Me.lvLog.ConnectionObj = theConnection
             Me.lvPrivileges.ConnectionObj = theConnection
             Me.lvProcEnv.ConnectionObj = theConnection
-            Me.lvProcServices.ConnectionObj = theConnection
             Me.lvWindows.ConnectionObj = theConnection
             Me.lvHeaps.ConnectionObj = theConnection
             Me.lvProcNetwork.ConnectionObj = theConnection

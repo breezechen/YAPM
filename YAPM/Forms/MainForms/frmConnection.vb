@@ -98,20 +98,20 @@ Public Class frmConnection
         Me.lvData.Enabled = Me.optServer.Checked
         Me.gpWMI.Visible = optWMI.Checked
         Me.gpSnapshot.Visible = optSnapshot.Checked
-        Me.cmdSSFileInfos.Enabled = Program.Connection.ConnectionType = cConnection.TypeOfConnection.SnapshotFile AndAlso Program.Connection.IsConnected
+        Me.cmdSSFileInfos.Enabled = Program.Connection.Type = cConnection.TypeOfConnection.SnapshotFile AndAlso Program.Connection.IsConnected
 
         If optLocal.Checked Then
             Me.txtDesc.Text = _localDesc
-            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.Type = cConnection.TypeOfConnection.LocalConnection)
         ElseIf optServer.Checked Then
             Me.txtDesc.Text = _serverDes
-            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaSocket)
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.Type = cConnection.TypeOfConnection.RemoteConnectionViaSocket)
         ElseIf optSnapshot.Checked Then
             Me.txtDesc.Text = _snapshotDesc
             Me.gpShutdown.Enabled = False
         Else
             Me.txtDesc.Text = _wmiDesc
-            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.Type = cConnection.TypeOfConnection.RemoteConnectionViaWMI)
         End If
 
         Call updateShutdown()
@@ -122,36 +122,36 @@ Public Class frmConnection
         Static _oldConnected As Boolean = True
 
         If optLocal.Checked Then
-            If _formConnectionReference IsNot Nothing AndAlso (_oldType <> _formConnectionReference.ConnectionType OrElse _formConnectionReference.IsConnected <> _oldConnected) Then
+            If _formConnectionReference IsNot Nothing AndAlso (_oldType <> _formConnectionReference.Type OrElse _formConnectionReference.IsConnected <> _oldConnected) Then
                 Me.cbShutdown.Items.Clear()
                 Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Sleep", "Logoff", "Lock"}
                 Me.cbShutdown.Items.AddRange(_items)
                 Me.gpShutdown.Text = "Shutdown local system"
             End If
             Me.txtDesc.Text = _localDesc
-            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.Type = cConnection.TypeOfConnection.LocalConnection)
             _oldType = cConnection.TypeOfConnection.LocalConnection
         ElseIf optServer.Checked Then
-            If _formConnectionReference IsNot Nothing AndAlso (_oldType <> _formConnectionReference.ConnectionType OrElse _formConnectionReference.IsConnected <> _oldConnected) Then
+            If _formConnectionReference IsNot Nothing AndAlso (_oldType <> _formConnectionReference.Type OrElse _formConnectionReference.IsConnected <> _oldConnected) Then
                 Me.cbShutdown.Items.Clear()
                 Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Sleep", "Logoff", "Lock"}
                 Me.cbShutdown.Items.AddRange(_items)
                 Me.gpShutdown.Text = "Shutdown remote system via socket"
             End If
             Me.txtDesc.Text = _serverDes
-            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaSocket)
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.Type = cConnection.TypeOfConnection.RemoteConnectionViaSocket)
             _oldType = cConnection.TypeOfConnection.RemoteConnectionViaSocket
         ElseIf optSnapshot.Checked Then
             ' Nothing updated here
         Else
-            If _formConnectionReference IsNot Nothing AndAlso (_oldType <> _formConnectionReference.ConnectionType OrElse _formConnectionReference.IsConnected <> _oldConnected) Then
+            If _formConnectionReference IsNot Nothing AndAlso (_oldType <> _formConnectionReference.Type OrElse _formConnectionReference.IsConnected <> _oldConnected) Then
                 Me.cbShutdown.Items.Clear()
                 Dim _items() As String = {"Restart", "Shutdown", "Poweroff", "Logoff"}
                 Me.cbShutdown.Items.AddRange(_items)
                 Me.gpShutdown.Text = "Shutdown remote system via WMI"
             End If
             Me.txtDesc.Text = _wmiDesc
-            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+            Me.gpShutdown.Enabled = (_formConnectionReference IsNot Nothing AndAlso _formConnectionReference.IsConnected AndAlso _formConnectionReference.Type = cConnection.TypeOfConnection.RemoteConnectionViaWMI)
             _oldType = cConnection.TypeOfConnection.RemoteConnectionViaWMI
         End If
 
@@ -159,7 +159,7 @@ Public Class frmConnection
     End Sub
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdCancel.Click
-        Select Case Program.Connection.ConnectionType
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.LocalConnection
                 Me.optLocal.Checked = True
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
@@ -192,7 +192,7 @@ Public Class frmConnection
             Call _frmMain.DisconnectFromMachine()
         Else
             With Program.Connection
-                .ConnectionType = _connType
+                .Type = _connType
                 If _connType = cConnection.TypeOfConnection.RemoteConnectionViaSocket Then
 
                     ' First we have to get the available NICs
@@ -216,7 +216,7 @@ Public Class frmConnection
 
                     .SocketParameters = New cConnection.SocketConnectionParameters(Me.txtServerIP.Text, REMOTE_PORT, clientIp)
                 ElseIf _connType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
-                    .WmiParameters = New cConnection.WMIConnectionParameters(Me.txtServerMachine.Text, Me.txtServerUser.Text, Me.txtServerPassword.SecureText)
+                    .WmiParameters = New cConnection.WmiConnectionParameters(Me.txtServerMachine.Text, Me.txtServerUser.Text, Me.txtServerPassword.SecureText)
                 ElseIf _connType = cConnection.TypeOfConnection.SnapshotFile Then
                     .SnapshotFile = Me.txtSSFile.Text
                 End If

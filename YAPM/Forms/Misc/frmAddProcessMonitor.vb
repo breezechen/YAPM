@@ -72,7 +72,7 @@ Public Class frmAddProcessMonitor
             Dim myCat2 As PerformanceCounterCategory()
             Dim i As Integer
             Me.lstCategory.Items.Clear()
-            If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+            If _con.Type = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
                 myCat2 = PerformanceCounterCategory.GetCategories(_con.WmiParameters.serverName)
             Else    ' Local
                 myCat2 = PerformanceCounterCategory.GetCategories
@@ -106,7 +106,7 @@ Public Class frmAddProcessMonitor
                 Dim _count As String = .counterTypeName
 
                 Dim it As cMonitor
-                If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+                If _con.Type = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
                     it = New cMonitor(_cat, _count, _name, _con.WmiParameters.serverName)
                 Else
                     it = New cMonitor(_cat, _count, _name)
@@ -183,7 +183,7 @@ Public Class frmAddProcessMonitor
         Dim i As Integer
         If lstCategory.SelectedItems IsNot Nothing AndAlso lstCategory.SelectedItems.Count > 0 Then
             Dim myCat As PerformanceCounterCategory
-            If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+            If _con.Type = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
                 myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text, _con.WmiParameters.serverName)
             Else
                 myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
@@ -219,7 +219,7 @@ Public Class frmAddProcessMonitor
         Me.lstCounterType.Items.Clear()
         If lstInstance.SelectedItems.Count = 0 Then
             Dim myCat As PerformanceCounterCategory
-            If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+            If _con.Type = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
                 myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text, _con.WmiParameters.serverName)
             Else
                 myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
@@ -235,7 +235,7 @@ Public Class frmAddProcessMonitor
             End Try
         Else
             Dim myCat As PerformanceCounterCategory
-            If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+            If _con.Type = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
                 myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text, _con.WmiParameters.serverName)
             Else
                 myCat = New PerformanceCounterCategory(lstCategory.SelectedItems(0).Text)
@@ -261,7 +261,7 @@ Public Class frmAddProcessMonitor
         If lstCounterType.SelectedItems IsNot Nothing AndAlso lstCounterType.SelectedItems.Count > 0 Then
             Dim myCat As PerformanceCounter
             Try
-                If _con.ConnectionType = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
+                If _con.Type = cConnection.TypeOfConnection.RemoteConnectionViaWMI Then
                     myCat = New PerformanceCounter(Me.lstCategory.SelectedItems(0).Text, lstCounterType.SelectedItems(0).Text, Nothing, _con.WmiParameters.serverName)
                 Else
                     myCat = New PerformanceCounter(Me.lstCategory.SelectedItems(0).Text, lstCounterType.SelectedItems(0).Text)

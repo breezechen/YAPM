@@ -94,7 +94,7 @@ Public Class cWindow
     End Property
     Public ReadOnly Property SmallIcon() As System.Drawing.Icon
         Get
-            If _connection.ConnectionObj.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+            If _connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection Then
                 Dim i As IntPtr = Window.GetWindowSmallIconHandleByHandle(_windowInfos.Handle)
                 If i.IsNotNull Then
                     Return System.Drawing.Icon.FromHandle(i)
@@ -130,7 +130,7 @@ Public Class cWindow
 #Region "Special informations (GDI, affinity)"
 
     Private Sub RefreshSpecialInformations()
-        Select Case _connection.ConnectionObj.ConnectionType
+        Select Case _connection.ConnectionObj.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 ' Nothing here !!
                 ' We retrieve ALL informations about a window when

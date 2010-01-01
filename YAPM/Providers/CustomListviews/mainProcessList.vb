@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class processList
+Public Class mainProcessList
     Inherits customLV
 
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
@@ -32,35 +32,8 @@ Public Class processList
     ' Private
     ' ========================================
     Private _first As Boolean
-    Private _enumMethod As asyncCallbackProcEnumerate.ProcessEnumMethode = asyncCallbackProcEnumerate.ProcessEnumMethode.VisibleProcesses
     Private _dico As New Dictionary(Of String, cProcess)
-    Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _processConnection As New cProcessConnection(Me, _connectionObject)
 
-#Region "Properties"
-
-    ' ========================================
-    ' Properties
-    ' ========================================
-    Public Property ConnectionObj() As cConnection
-        Get
-            Return _connectionObject
-        End Get
-        Set(ByVal value As cConnection)
-            _connectionObject = value
-        End Set
-    End Property
-    Public Property EnumMethod() As asyncCallbackProcEnumerate.ProcessEnumMethode
-        Get
-            Return _enumMethod
-        End Get
-        Set(ByVal value As asyncCallbackProcEnumerate.ProcessEnumMethode)
-            _enumMethod = value
-            _processConnection.EnumMethod = _enumMethod
-        End Set
-    End Property
-
-#End Region
 
     ' ========================================
     ' Public functions
@@ -81,10 +54,12 @@ Public Class processList
 
         _first = True
 
+        ' Create buffer 
+        Me.CreateSubItemsBuffer()
+
         ' Set handlers
-        _processConnection.Disconnected = New cProcessConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
-        _processConnection.Connected = New cProcessConnection.ConnectedEventHandler(AddressOf HasConnected)
         AddHandler ProcessProvider.GotRefreshed, AddressOf Me.GotRefreshed  ' We will add/remove/refresh using this handler
+
     End Sub
 
     ' Get an item from listview
@@ -113,44 +88,12 @@ Public Class processList
         Next
         Try
             generalLvSemaphore.WaitOne()
-            asyncCallbackProcEnumerate.ReanalizeProcess(New asyncCallbackProcEnumerate.ReanalizeProcessObj(pid, _processConnection))
+            ProcessProvider.ProcessReanalize(New ProcessProvider.ReanalizeProcessObj(pid))
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         Finally
             generalLvSemaphore.Release()
         End Try
-    End Sub
-
-    ' Call this to update items in listview
-    Public Overrides Sub UpdateItems()
-
-        ' Create a buffer of subitems if necessary
-        If _columnsName Is Nothing Then
-            Call CreateSubItemsBuffer()
-        End If
-
-        If _processConnection.IsConnected Then
-
-            ' Now enumerate items
-            _processConnection.Enumerate(_first, enumMethod:=_enumMethod)
-
-        End If
-
-    End Sub
-    Public Sub UpdateItemsAllInfos()
-
-        ' Create a buffer of subitems if necessary
-        If _columnsName Is Nothing Then
-            Call CreateSubItemsBuffer()
-        End If
-
-        If _processConnection.IsConnected Then
-
-            ' Now enumerate items
-            _processConnection.Enumerate(_first, enumMethod:=_enumMethod, forceAllInfos:=True)
-
-        End If
-
     End Sub
 
     ' Get all items (associated to listviewitems)
@@ -263,7 +206,6 @@ Public Class processList
 
     Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of Integer), ByVal _dicoDel As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos))
     Private Sub GotRefreshed(ByVal _dicoNew As List(Of Integer), ByVal _dicoDel As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos))
-
         ' Have to call a delegate as will refresh the listview
         If Me.InvokeRequired Then
             Dim d As New degGotRefreshed(AddressOf GotRefreshed)
@@ -273,6 +215,11 @@ Public Class processList
                 ' Won't catch this...
             End Try
         Else
+
+            ' Create buffer if necessary
+            If _columnsName.Length = 0 Then
+                Me.CreateSubItemsBuffer()
+            End If
 
             ' DELETED ITEMS
             If _dicoDel.Count > 0 Then
@@ -394,7 +341,7 @@ Public Class processList
         Dim item As ListViewItem = Me.Items.Add(proc.Infos.Name)
         item.Name = key
 
-        If _connectionObject.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
             If proc.Infos.ProcessId > 4 Then
 
                 ' Add icon
@@ -429,46 +376,6 @@ Public Class processList
 
 #End Region
 
-#Region "Connection stuffs"
-
-    Private Sub _connectionObject_Connected() Handles _connectionObject.Connected
-        Call Connect()
-    End Sub
-
-    Private Sub _connectionObject_Disconnected() Handles _connectionObject.Disconnected
-        Call Disconnect()
-    End Sub
-
-    Protected Overrides Function Connect() As Boolean
-        If MyBase.Connect Then
-            Me.IsConnected = True
-            _first = True
-            _processConnection.ConnectionObj = _connectionObject
-            ProcessProvider.ClearNewProcessesDico()
-            _processConnection.Connect()
-            cProcess.Connection = _processConnection
-        End If
-    End Function
-
-    Protected Overrides Function Disconnect() As Boolean
-        If MyBase.Disconnect Then
-            Me.IsConnected = False
-            _processConnection.Disconnect()
-            ProcessProvider.ClearNewProcessesDico()
-        End If
-    End Function
-
-    Protected Sub HasDisconnected(ByVal Success As Boolean)
-        ' We HAVE TO disconnect, because this event is raised when we got an error
-        '_processConnection.Disconnect()
-        '     _processConnection.Con()
-    End Sub
-
-    Protected Sub HasConnected(ByVal Success As Boolean)
-        ' MyBase.HasConnected2(Success)
-    End Sub
-
-#End Region
 
     Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
         MyBase.OnKeyDown(e)

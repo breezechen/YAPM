@@ -21,6 +21,8 @@
 
 Option Strict On
 
+Imports System.Management
+
 Public Class ProcessProvider
 
     ' ========================================
@@ -31,6 +33,15 @@ Public Class ProcessProvider
     ' ========================================
     ' Private attributes
     ' ========================================
+
+    ' For WMI connection
+    Friend Shared wmiSearcher As Management.ManagementObjectSearcher
+
+    ' For processor count
+    Private Shared _processors As Integer = 1
+
+    ' Min rights
+    Private Shared _processMinRights As Native.Security.ProcessAccess = Native.Security.ProcessAccess.QueryInformation
 
     ' Current processes running
     Private Shared _currentProcesses As New Dictionary(Of Integer, processInfos)
@@ -43,10 +54,23 @@ Public Class ProcessProvider
     ' First refresh done ?
     Private Shared _firstRefreshDone As Boolean = False
 
+    ' Sempahore to protect async ProcessEnumeration
+    Friend Shared _semProcessEnumeration As New System.Threading.Semaphore(1, 1)
+
+    ' Sempahore to protect async reanalize
+    Friend Shared _semReanalize As New System.Threading.Semaphore(1, 1)
+
 
     ' ========================================
     ' Public properties
     ' ========================================
+
+    ' Min rights
+    Public Shared ReadOnly Property ProcessMinRights() As Native.Security.ProcessAccess
+        Get
+            Return _processMinRights
+        End Get
+    End Property
 
     ' First refresh done ?
     Public Shared ReadOnly Property FirstRefreshDone() As Boolean
@@ -104,6 +128,13 @@ Public Class ProcessProvider
         End Set
     End Property
 
+    ' Number of processors
+    Public Shared ReadOnly Property ProcessorCount() As Integer
+        Get
+            Return _processors
+        End Get
+    End Property
+
 
     ' ========================================
     ' Other public
@@ -114,11 +145,39 @@ Public Class ProcessProvider
     Public Shared Event GotDeletedItems(ByVal pids As Dictionary(Of Integer, processInfos))
     Public Shared Event GotRefreshed(ByVal newPids As List(Of Integer), ByVal delPids As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos))
 
+    ' Structure used to store parameters of enumeration
+    Public Structure asyncEnumPoolObj
+        Public force As Boolean
+        Public Sub New(ByVal forceAllInfos As Boolean)
+            force = forceAllInfos
+        End Sub
+    End Structure
+
+    ' Structure use for process reanalize operation
+    Public Structure ReanalizeProcessObj
+        Public pid() As Integer
+        Public Sub New(ByRef pi() As Integer)
+            pid = pi
+        End Sub
+    End Structure
+
+
 
     ' ========================================
     ' Public functions
     ' ========================================
 
+    ' Constructor
+    Public Sub New()
+        ' Minrights
+        If cEnvironment.SupportsMinRights Then
+            _processMinRights = Native.Security.ProcessAccess.QueryLimitedInformation
+        End If
+        ' Add handler for general connection/deconnection
+        AddHandler Program.Connection.Connected, AddressOf eventConnected
+        AddHandler Program.Connection.Disconnected, AddressOf eventDisConnected
+        AddHandler Program.Connection.Socket.ReceivedData, AddressOf eventSockReceiveData
+    End Sub
 
     ' Get a process by its id
     ' Thread safe
@@ -178,6 +237,42 @@ Public Class ProcessProvider
         End Try
     End Sub
 
+    ' Reanalize processes
+    Public Shared Sub ProcessReanalize(ByVal thePoolObj As Object)
+
+        Try
+            _semReanalize.WaitOne()
+
+            If Program.Connection.IsConnected = False Then
+                Dim pObj As ReanalizeProcessObj = DirectCast(thePoolObj,  _
+                                    ReanalizeProcessObj)
+
+                Select Case Program.Connection.Type
+                    Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                        Try
+                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.ProcessReanalize, pObj.pid)
+                            Program.Connection.Socket.Send(cDat)
+                        Catch ex As Exception
+                            Misc.ShowError(ex, "Unable to send request to server")
+                        End Try
+
+                    Case cConnection.TypeOfConnection.LocalConnection, cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                        RemoveProcessesFromListOfNewProcesses(pObj.pid)
+
+                    Case cConnection.TypeOfConnection.SnapshotFile
+                        ' Nothing to do
+
+                End Select
+
+            End If
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            _semReanalize.Release()
+        End Try
+    End Sub
+
     ' Clear new process dico
     Public Shared Sub ClearNewProcessesDico()
         Try
@@ -192,11 +287,211 @@ Public Class ProcessProvider
         _firstRefreshDone = False
     End Sub
 
+    ' Refresh list of processes depending on the connection NOW
+    Public Shared Sub Update(ByVal forceAllInfos As Boolean)
+        ' This is of course async
+        Call Threading.ThreadPool.QueueUserWorkItem( _
+                New System.Threading.WaitCallback(AddressOf ProcessProvider.ProcessEnumeration), _
+                New ProcessProvider.asyncEnumPoolObj(forceAllInfos))
+    End Sub
 
 
     ' ========================================
     ' Private functions
     ' ========================================
 
+    ' Called when connected
+    Private Sub eventConnected()
+        _processors = 0         ' Reinit processor count
+
+        ' Connect
+        Select Case Program.Connection.Type
+            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                ' Nothing special here
+
+            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                ' Have to connect some things when using WMI
+
+                Dim __con As New ConnectionOptions
+                __con.Impersonation = ImpersonationLevel.Impersonate
+                __con.Password = Common.Misc.SecureStringToCharArray(Program.Connection.WmiParameters.password)
+                __con.Username = Program.Connection.WmiParameters.userName
+
+                Try
+                    wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process")
+                    wmiSearcher.Scope = New Management.ManagementScope("\\" & Program.Connection.WmiParameters.serverName & "\root\cimv2", __con)
+                Catch ex As Exception
+                    Misc.ShowDebugError(ex)
+                End Try
+
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Nothing special here
+
+            Case cConnection.TypeOfConnection.LocalConnection
+                ' Nothing special here
+        End Select
+
+
+        ' Get processor count
+        Select Case Program.Connection.Type
+            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                ' We will try to retrieve processor count each time we GET data
+                ' from server (if procCount is still 0), because if we do it
+                ' HERE, the connection is not well initialized at this point
+                ' (i.e. _idToSend has not been sent by the server)
+
+            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                Try
+                    Dim objSearcherSystem As ManagementObjectSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Processor")
+                    objSearcherSystem.Scope = wmiSearcher.Scope
+                    Dim _count As Integer = 0
+                    For Each res As Management.ManagementObject In objSearcherSystem.Get
+                        _count += 1
+                    Next
+                    _processors = _count
+                Catch ex As Exception
+                    Misc.ShowError(ex, "Could not get informations about the remote system")
+                    _processors = 1
+                End Try
+
+            Case cConnection.TypeOfConnection.SnapshotFile
+                ' Nothing special here
+
+            Case cConnection.TypeOfConnection.LocalConnection
+                ' Local
+                _processors = cSystemInfo.GetProcessorCount
+        End Select
+
+    End Sub
+
+    ' Called when disconnected
+    Private Sub eventDisConnected()
+        ' Reinit processor count
+        _processors = 0
+    End Sub
+
+    ' Called when socket receive data
+    Private Sub eventSockReceiveData(ByRef data As cSocketData)
+
+        ' Exit immediately if not connected
+        If Program.Connection.IsConnected AndAlso _
+            Program.Connection.Type = cConnection.TypeOfConnection.RemoteConnectionViaSocket Then
+
+            If data Is Nothing Then
+                Trace.WriteLine("Serialization error")
+                Exit Sub
+            End If
+
+            If data.Type = cSocketData.DataType.Order AndAlso _
+                data.Order = cSocketData.OrderType.ReturnProcessorCount Then
+                _processors = CInt(data.Param1)
+            End If
+
+            If _processors = 0 Then
+                ' Send the request again
+                Try
+                    Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessorCount)
+                    Program.Connection.Socket.Send(cDat)
+                Catch ex As Exception
+                    Misc.ShowError(ex, "Could not send request to server")
+                End Try
+            End If
+
+            If data.Type = cSocketData.DataType.RequestedList AndAlso _
+                data.Order = cSocketData.OrderType.RequestProcessList Then
+                ' We receive the list
+                Me.GotListFromSocket(data.GetList, data.GetKeys)
+            End If
+
+        End If
+
+    End Sub
+
+    ' When socket got a list of processes !
+    Private Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
+        Dim _dico As New Dictionary(Of Integer, processInfos)
+
+        If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
+            For x As Integer = 0 To lst.Length - 1
+                If _dico.ContainsKey(Integer.Parse(keys(x))) = False Then
+                    _dico.Add(Integer.Parse(keys(x)), DirectCast(lst(x), processInfos))
+                End If
+            Next
+        End If
+
+        ' Save current processes into a dictionary
+        ProcessProvider.CurrentProcesses = _dico
+
+    End Sub
+
+    ' Enumeration of processes
+    Private Shared Sub ProcessEnumeration(ByVal thePoolObj As Object)
+
+        Try
+            ' Synchronisation
+            _semProcessEnumeration.WaitOne()
+
+            If Program.Connection.IsConnected Then
+
+                Dim pObj As asyncEnumPoolObj = DirectCast(thePoolObj, asyncEnumPoolObj)
+                Select Case Program.Connection.Type
+
+                    Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
+                        ' Send cDat
+                        Try
+                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessList)
+                            Program.Connection.Socket.Send(cDat)
+                        Catch ex As Exception
+                            Misc.ShowError(ex, "Unable to send request to server")
+                        End Try
+
+                    Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
+                        Dim _dico As New Dictionary(Of Integer, processInfos)
+                        Dim msg As String = ""
+                        Dim res As Boolean = _
+                            Wmi.Objects.Process.EnumerateProcesses(wmiSearcher, _dico, msg)
+
+                        ' Save current processes into a dictionary
+                        ProcessProvider.CurrentProcesses = _dico
+
+                    Case cConnection.TypeOfConnection.SnapshotFile
+                        ' Snapshot
+
+                        Dim _dico As New Dictionary(Of Integer, processInfos)
+                        Dim snap As cSnapshot = Program.Connection.Snapshot
+                        If snap IsNot Nothing Then
+                            _dico = snap.Processes
+                        End If
+
+                        ' Save current processes into a dictionary
+                        ProcessProvider.CurrentProcesses = _dico
+
+                    Case Else
+                        ' Local
+                        Dim _dico As Dictionary(Of Integer, processInfos)
+
+                        'Select Case pObj.method
+                        '    Case ProcessEnumMethode.BruteForce
+                        '        _dico = Native.Objects.Process.EnumerateHiddenProcessesBruteForce
+                        '    Case ProcessEnumMethode.HandleMethod
+                        '        _dico = Native.Objects.Process.EnumerateHiddenProcessesHandleMethod
+                        '    Case Else
+                        _dico = Native.Objects.Process.EnumerateVisibleProcesses(pObj.force)
+                        'End Select
+
+                        ' Save current processes into a dictionary
+                        ProcessProvider.CurrentProcesses = _dico
+
+                End Select
+
+            End If
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            _semProcessEnumeration.Release()
+        End Try
+
+    End Sub
 
 End Class

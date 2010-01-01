@@ -215,8 +215,7 @@ Public Class frmMain
     Public Sub refreshServiceList()
 
         ' Update list
-        Me.lvServices.ShowAll = True
-        Me.lvServices.UpdateTheItems()
+        ServiceProvider.Update(False)
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             If Me.Ribbon.ActiveTab.Text = "Services" Then
@@ -243,8 +242,8 @@ Public Class frmMain
     ' Refresh process list in listview
     Public Sub refreshProcessList()
 
-        ' Update list
-        Me.lvProcess.UpdateTheItems()
+        ' Update list of processes
+        ProcessProvider.Update(False)
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
@@ -414,7 +413,7 @@ Public Class frmMain
         Pref.LoadFormPositionAndSize(Me, "PSfrmMain")
 
         ' Connect to the local machine
-        Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection
+        Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection
         Call ConnectToMachine()
 
         Me.timerMonitoring.Enabled = True
@@ -512,7 +511,7 @@ Public Class frmMain
     End Sub
 
     Private Sub timerServices_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerServices.Tick
-        refreshServiceList()
+        Me.refreshServiceList()
     End Sub
 
     Private Sub Tray_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles Tray.MouseDoubleClick
@@ -1816,7 +1815,7 @@ Public Class frmMain
 
                 ' Treeviews stuffs
                 ' Only if we are in local mode...
-                If Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+                If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
                     With tv
                         .RootService = cS.Infos.Name
                         .InfosToGet = cServDepConnection.DependenciesToget.DependenciesOfMe
@@ -2376,7 +2375,7 @@ Public Class frmMain
                         WBHelp.Navigate(HELP_PATH_INTERNET)
                     End If
                 End If
-                    _tab.SelectedTab = Me.pageHelp
+                _tab.SelectedTab = Me.pageHelp
         End Select
         Me.Ribbon.ActiveTab = theTab
     End Sub
@@ -2491,7 +2490,7 @@ Public Class frmMain
     'End Sub
 
     Private Sub butNewProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles butNewProcess.Click
-        If Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
             cFile.ShowRunBox(Me.Handle, "Start a new process", "Enter the path of the process you want to start.")
         Else
             Dim sres As String = CInputBox("Enter the path of the process you want to start.", "Start a new process", "")
@@ -2547,9 +2546,9 @@ Public Class frmMain
 
     Public Sub ConnectToMachine()
 
-        _local = (Program.Connection.ConnectionType = cConnection.TypeOfConnection.LocalConnection)
-        _notWMI = (Program.Connection.ConnectionType <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
-        _notSnapshotMode = (Program.Connection.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile)
+        _local = (Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (Program.Connection.Type <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _notSnapshotMode = (Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile)
 
         ' Disable all refreshments
         Me.timerProcess.Enabled = False
@@ -2570,8 +2569,6 @@ Public Class frmMain
         Me.lvJob.ClearItems()
 
         ' Connect all lvItems
-        Me.lvProcess.ConnectionObj = Program.Connection
-        Me.lvServices.ConnectionObj = Program.Connection
         Me.lvNetwork.ConnectionObj = Program.Connection
         Me.lvTask.ConnectionObj = Program.Connection
         Me.tv.ConnectionObj = Program.Connection
@@ -3715,8 +3712,8 @@ Public Class frmMain
             Me.sbPanelServices.Text = Me.lvServices.Items.Count & " services"
 
             ' We disable some buttons on the main form
-            Me.butSaveSystemSnaphotFile.Enabled = Program.Connection.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile
-            Me.MenuItemSystemSaveSSFile.Enabled = Program.Connection.ConnectionType <> cConnection.TypeOfConnection.SnapshotFile
+            Me.butSaveSystemSnaphotFile.Enabled = Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile
+            Me.MenuItemSystemSaveSSFile.Enabled = Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile
 
         Catch ex As Exception
             Misc.ShowDebugError(ex)
