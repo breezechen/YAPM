@@ -1169,7 +1169,7 @@ Public Class frmProcessInfo
     ' Show env variables
     Public Sub ShowEnvVariables()
 
-        EnvVariableProvider.Update(curProc.Infos.ProcessId, curProc.Infos.PebAddress)
+        EnvVariableProvider.Update(curProc.Infos.ProcessId, curProc.Infos.PebAddress, Me.lvProcEnv.InstanceId)
 
     End Sub
 

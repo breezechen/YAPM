@@ -1007,6 +1007,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Providers\Providers\EnvVariableProvider.vb" />
+    <Compile Include="Providers\Providers\InstanceIdProvider.vb" />
     <Compile Include="Providers\Providers\ServiceProvider.vb" />
     <Compile Include="Providers\Providers\ProcessProvider.vb" />
     <Compile Include="Scripting\Command.vb" />

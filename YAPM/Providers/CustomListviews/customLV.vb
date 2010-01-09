@@ -57,6 +57,9 @@ Public MustInherit Class customLV
 
     Private _showObjDetailsOnDblClick As Boolean = True
 
+    ' Unique instance ID
+    Private _instanceId As Integer
+
 
     ' ========================================
     ' Public
@@ -108,6 +111,16 @@ Public MustInherit Class customLV
         End Set
     End Property
 
+    ' Unique instance ID
+    Public Property InstanceId() As Integer
+        Get
+            Return _instanceId
+        End Get
+        Set(ByVal value As Integer)
+            _instanceId = value
+        End Set
+    End Property
+
     ' Call this to update items in listview
     Public Overridable Sub UpdateItems()
         ' It's overriden, nothing here
@@ -138,6 +151,17 @@ Public MustInherit Class customLV
         Else
             Call UpdateItems()
         End If
+    End Sub
+
+    ' Common constructor
+    Public Sub New()
+
+        ' Cet appel est requis par le Concepteur Windows Form.
+        InitializeComponent()
+
+        ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
+        Me.InstanceId = InstanceIdProvider.GetNewInstanceId
+
     End Sub
 
     ' Choose column

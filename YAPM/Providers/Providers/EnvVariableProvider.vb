@@ -67,7 +67,7 @@ Public Class EnvVariableProvider
     End Sub
 
     ' List of current processes
-    Public Shared Property CurrentEnvVariables(ByVal pid As Integer) As Dictionary(Of String, envVariableInfos)
+    Public Shared ReadOnly Property CurrentEnvVariables(ByVal pid As Integer) As Dictionary(Of String, envVariableInfos)
         Get
             Try
                 _semEnvVariables.WaitOne()
@@ -80,52 +80,53 @@ Public Class EnvVariableProvider
                 _semEnvVariables.Release()
             End Try
         End Get
-        Friend Set(ByVal value As Dictionary(Of String, envVariableInfos))
-
-            Dim _dicoDel As New Dictionary(Of String, envVariableInfos)
-            Dim _dicoDelSimp As New List(Of String)
-            Dim _dicoNew As New List(Of String)
-
-            Try
-                _semEnvVariables.WaitOne()
-
-                ' Add a new entry
-                If _currentEnvVariables.ContainsKey(pid) = False Then
-                    _currentEnvVariables.Add(pid, New Dictionary(Of String, envVariableInfos))
-                End If
-
-                ' Get deleted items
-                For Each vars As String In _currentEnvVariables(pid).Keys
-                    If Not (value.ContainsKey(vars)) Then
-                        _dicoDel.Add(vars, _currentEnvVariables(pid)(vars))
-                        _dicoDelSimp.Add(vars)
-                    End If
-                Next
-
-                ' Get new items
-                For Each vars As String In value.Keys
-                    If Not (_currentEnvVariables(pid).ContainsKey(vars)) Then
-                        _dicoNew.Add(vars)
-                    End If
-                Next
-
-                ' Re-assign dico
-                _currentEnvVariables(pid) = value
-
-            Catch ex As Exception
-                Misc.ShowDebugError(ex)
-            Finally
-                _semEnvVariables.Release()
-            End Try
-
-            RaiseEvent GotDeletedItems(_dicoDel)
-            RaiseEvent GotNewItems(_dicoNew, value)
-            RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value)
-
-            _firstRefreshDone = True
-
-        End Set
     End Property
+
+    Public Shared Sub SetCurrentEnvVariables(ByVal pid As Integer, ByVal value As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer)
+
+        Dim _dicoDel As New Dictionary(Of String, envVariableInfos)
+        Dim _dicoDelSimp As New List(Of String)
+        Dim _dicoNew As New List(Of String)
+
+        Try
+            _semEnvVariables.WaitOne()
+
+            ' Add a new entry
+            If _currentEnvVariables.ContainsKey(pid) = False Then
+                _currentEnvVariables.Add(pid, New Dictionary(Of String, envVariableInfos))
+            End If
+
+            ' Get deleted items
+            For Each vars As String In _currentEnvVariables(pid).Keys
+                If Not (value.ContainsKey(vars)) Then
+                    _dicoDel.Add(vars, _currentEnvVariables(pid)(vars))
+                    _dicoDelSimp.Add(vars)
+                End If
+            Next
+
+            ' Get new items
+            For Each vars As String In value.Keys
+                If Not (_currentEnvVariables(pid).ContainsKey(vars)) Then
+                    _dicoNew.Add(vars)
+                End If
+            Next
+
+            ' Re-assign dico
+            _currentEnvVariables(pid) = value
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            _semEnvVariables.Release()
+        End Try
+
+        RaiseEvent GotDeletedItems(_dicoDel, instanceId)
+        RaiseEvent GotNewItems(_dicoNew, value, instanceId)
+        RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId)
+
+        _firstRefreshDone = True
+
+    End Sub
 
 
     ' ========================================
@@ -133,17 +134,19 @@ Public Class EnvVariableProvider
     ' ========================================
 
     ' Shared events
-    Public Shared Event GotNewItems(ByVal keys As List(Of String), ByVal newItems As Dictionary(Of String, envVariableInfos))
-    Public Shared Event GotDeletedItems(ByVal keys As Dictionary(Of String, envVariableInfos))
-    Public Shared Event GotRefreshed(ByVal newItems As List(Of String), ByVal delItems As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos))
+    Public Shared Event GotNewItems(ByVal keys As List(Of String), ByVal newItems As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer)
+    Public Shared Event GotDeletedItems(ByVal keys As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer)
+    Public Shared Event GotRefreshed(ByVal newItems As List(Of String), ByVal delItems As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer)
 
     ' Structure used to store parameters of enumeration
     Public Structure asyncEnumPoolObj
         Public pid As Integer
         Public peb As IntPtr
-        Public Sub New(ByVal procId As Integer, ByVal pebA As IntPtr)
+        Public instId As Integer
+        Public Sub New(ByVal procId As Integer, ByVal pebA As IntPtr, ByVal instanceId As Integer)
             pid = procId
             peb = pebA
+            instId = instanceId
         End Sub
     End Structure
 
@@ -162,11 +165,11 @@ Public Class EnvVariableProvider
     End Sub
 
     ' Refresh list of env variables by processId depending on the connection NOW
-    Public Shared Sub Update(ByVal pid As Integer, ByVal peb As IntPtr)
+    Public Shared Sub Update(ByVal pid As Integer, ByVal peb As IntPtr, ByVal instanceId As Integer)
         ' This is of course async
         Call Threading.ThreadPool.QueueUserWorkItem( _
                 New System.Threading.WaitCallback(AddressOf EnvVariableProvider.ProcessEnumeration), _
-                New EnvVariableProvider.asyncEnumPoolObj(pid, peb))
+                New EnvVariableProvider.asyncEnumPoolObj(pid, peb, instanceId))
     End Sub
 
 
@@ -234,7 +237,7 @@ Public Class EnvVariableProvider
         End If
 
         ' Save current processes into a dictionary
-        EnvVariableProvider.CurrentEnvVariables(0) = _dico  'TODO (have to retrieve pid)
+        EnvVariableProvider.SetCurrentEnvVariables(0, _dico, 0)  'TODO (have to retrieve pid)
 
     End Sub
 
@@ -254,6 +257,7 @@ Public Class EnvVariableProvider
                         ' Send cDat
                         Try
                             Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestEnvironmentVariableList, pObj.pid)
+                            cDat.InstanceId = pObj.instId
                             Program.Connection.Socket.Send(cDat)
                         Catch ex As Exception
                             Misc.ShowError(ex, "Unable to send request to server")
@@ -272,7 +276,7 @@ Public Class EnvVariableProvider
                         End If
 
                         ' Save current processes into a dictionary
-                        EnvVariableProvider.CurrentEnvVariables(pObj.pid) = _dico
+                        EnvVariableProvider.SetCurrentEnvVariables(pObj.pid, _dico, pObj.instId)
 
                     Case Else
                         ' Local
@@ -281,7 +285,7 @@ Public Class EnvVariableProvider
                         _dico = SharedLocalSyncEnumerate(pObj)
 
                         ' Save current processes into a dictionary
-                        EnvVariableProvider.CurrentEnvVariables(pObj.pid) = _dico
+                        EnvVariableProvider.SetCurrentEnvVariables(pObj.pid, _dico, pObj.instId)
 
                 End Select
 

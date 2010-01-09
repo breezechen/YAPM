@@ -111,7 +111,7 @@ Public Class frmServer
 #Region "Has enumerated lists"
 
     Private _TheIdToSend As String = ""
-    Private Sub HasEnumeratedEnvVar(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos))
+    Private Sub HasEnumeratedEnvVar(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer)
 
         If True Then
             Try
@@ -574,7 +574,7 @@ Public Class frmServer
                     Case cSocketData.OrderType.RequestEnvironmentVariableList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim peb As IntPtr = CType(cData.Param2, IntPtr)
-                        Call EnvVariableProvider.Update(pid, peb)
+                        Call EnvVariableProvider.Update(pid, peb, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestMemoryRegionList
                         Dim pid As Integer = CType(cData.Param1, Integer)
