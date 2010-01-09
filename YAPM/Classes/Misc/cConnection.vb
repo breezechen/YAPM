@@ -182,13 +182,13 @@ Public Class cConnection
     Public Sub Connect()
         If Me.Type = TypeOfConnection.RemoteConnectionViaSocket Then
             ' MCTC ???
-            'If _sock Is Nothing Then
-            '    _sock = New AsynchronousClient()
-            _sock.Connect(_conSocket.ServerName, _conSocket.port, _conSocket.ClientIp)
-            'Else
-            '    _isConnected = True
-            '    Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseConnected))
-            'End If
+            If _sock.IsConnected = False Then
+                '    _sock = New AsynchronousClient()
+                _sock.Connect(_conSocket.ServerName, _conSocket.port, _conSocket.ClientIp)
+                'Else
+                '    _isConnected = True
+                '    Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseConnected))
+            End If
         ElseIf Me.Type = TypeOfConnection.SnapshotFile Then
             If _isConnected = False Then
                 _snap = New cSnapshot(Me.SnapshotFile)

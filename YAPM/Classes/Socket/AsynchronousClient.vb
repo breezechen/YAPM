@@ -60,6 +60,14 @@ Public Class AsynchronousClient
     Private _CallbackSink As CallbackSink = Nothing
     ' this object lives here on the client
 
+    Private _connected As Boolean = False
+
+    Public ReadOnly Property IsConnected() As Boolean
+        Get
+            Return _connected
+        End Get
+    End Property
+
     Private Structure poolObjConnect
         Public ServerName As String
         Public ClientIp As String
@@ -78,6 +86,7 @@ Public Class AsynchronousClient
     Public Sub Disconnect()
         ServerTalk.ClientToServerQueue.Clear()
         _ServerTalk.SendMessageToServer(New CommsInfo("clientDisconnect"))
+        _connected = False
         RaiseEvent Disconnected()
     End Sub
 
@@ -124,8 +133,10 @@ Public Class AsynchronousClient
             _ServerTalk = DirectCast(obj, ServerTalk)
             ' Register ourselves to the server with a callback to the client sink.
             _ServerTalk.RegisterHostToClient("client", New delCommsInfo(AddressOf _CallbackSink.HandleToClient))
+            _connected = True
             RaiseEvent Connected()
         Catch ex As Exception
+            _connected = False
             RaiseEvent Disconnected()
         End Try
     End Sub

@@ -111,9 +111,9 @@ Public Class frmServer
 #Region "Has enumerated lists"
 
     Private _TheIdToSend As String = ""
-    Private Sub HasEnumeratedEnvVar(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer)
+    Private Sub HasEnumeratedEnvVar(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If True Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestEnvironmentVariableList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
@@ -125,7 +125,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate environnement variables")
+            Misc.ShowError("Unable to enumerate environnement variables : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -263,9 +263,9 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedProcess(ByVal newPids As List(Of Integer), ByVal delPids As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer)
+    Private Sub HasEnumeratedProcess(ByVal newPids As List(Of Integer), ByVal delPids As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If True Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestProcessList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
@@ -277,7 +277,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate processes")
+            Misc.ShowError("Unable to enumerate processes : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -301,9 +301,9 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedService(ByVal newNames As List(Of String), ByVal delServices As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
+    Private Sub HasEnumeratedService(ByVal newNames As List(Of String), ByVal delServices As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If True Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServiceList)
                 cDat.InstanceId = instanceId
@@ -315,7 +315,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate services")
+            Misc.ShowError("Unable to enumerate services : " & res.ErrorMessage)
         End If
 
     End Sub

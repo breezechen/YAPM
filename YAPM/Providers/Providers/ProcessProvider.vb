@@ -91,6 +91,8 @@ Public Class ProcessProvider
         Dim _dicoDelSimp As New List(Of Integer)
         Dim _dicoNew As New List(Of Integer)
 
+        Dim res As Native.Api.Structs.QueryResult
+
         Try
             _semProcess.WaitOne()
 
@@ -114,17 +116,20 @@ Public Class ProcessProvider
             ' Re-assign dico
             _currentProcesses = value
 
+            res = New Native.Api.Structs.QueryResult(True)
+
         Catch ex As Exception
             Misc.ShowDebugError(ex)
+            res = New Native.Api.Structs.QueryResult(ex)
         Finally
             _semProcess.Release()
         End Try
 
-        RaiseEvent GotDeletedItems(_dicoDel, instanceId)
-        RaiseEvent GotNewItems(_dicoNew, value, instanceId)
-        RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId)
-
+        ' Raise events
         _firstRefreshDone = True
+        RaiseEvent GotDeletedItems(_dicoDel, instanceId, res)
+        RaiseEvent GotNewItems(_dicoNew, value, instanceId, res)
+        RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId, res)
 
     End Sub
 
@@ -141,9 +146,9 @@ Public Class ProcessProvider
     ' ========================================
 
     ' Shared events
-    Public Shared Event GotNewItems(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer)
-    Public Shared Event GotDeletedItems(ByVal pids As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer)
-    Public Shared Event GotRefreshed(ByVal newPids As List(Of Integer), ByVal delPids As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer)
+    Public Shared Event GotNewItems(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotDeletedItems(ByVal pids As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotRefreshed(ByVal newPids As List(Of Integer), ByVal delPids As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
     ' Structure used to store parameters of enumeration
     Public Structure asyncEnumPoolObj

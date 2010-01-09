@@ -100,6 +100,8 @@ Public Class EnvVariableProvider
         Dim _dicoDelSimp As New List(Of String)
         Dim _dicoNew As New List(Of String)
 
+        Dim res As Native.Api.Structs.QueryResult
+
         Try
             _semEnvVariables.WaitOne()
 
@@ -126,17 +128,20 @@ Public Class EnvVariableProvider
             ' Re-assign dico
             _currentEnvVariables(pid) = value
 
+            res = New Native.Api.Structs.QueryResult(True)
+
         Catch ex As Exception
             Misc.ShowDebugError(ex)
+            res = New Native.Api.Structs.QueryResult(ex)
         Finally
             _semEnvVariables.Release()
         End Try
 
-        RaiseEvent GotDeletedItems(_dicoDel, instanceId)
-        RaiseEvent GotNewItems(_dicoNew, value, instanceId)
-        RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId)
-
+        ' Raise events
         _firstRefreshDone = True
+        RaiseEvent GotDeletedItems(_dicoDel, instanceId, res)
+        RaiseEvent GotNewItems(_dicoNew, value, instanceId, res)
+        RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId, res)
 
     End Sub
 
@@ -146,9 +151,9 @@ Public Class EnvVariableProvider
     ' ========================================
 
     ' Shared events
-    Public Shared Event GotNewItems(ByVal keys As List(Of String), ByVal newItems As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer)
-    Public Shared Event GotDeletedItems(ByVal keys As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer)
-    Public Shared Event GotRefreshed(ByVal newItems As List(Of String), ByVal delItems As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer)
+    Public Shared Event GotNewItems(ByVal keys As List(Of String), ByVal newItems As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotDeletedItems(ByVal keys As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotRefreshed(ByVal newItems As List(Of String), ByVal delItems As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
     ' Structure used to store parameters of enumeration
     Public Structure asyncEnumPoolObj

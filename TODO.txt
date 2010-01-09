@@ -12,6 +12,7 @@ Refactoring bugs
 - get rid of registry (services)
 
 - PEB nécessaire pour enum envVar via socket (cf TODO : 0, xxx , iid)
+- collection modifiée (cf. services via socket : liste + 1/2 svchost avec leur serviceList)
 
 
 

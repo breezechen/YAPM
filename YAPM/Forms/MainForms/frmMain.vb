@@ -1308,6 +1308,11 @@ Public Class frmMain
         Next
     End Sub
 
+    Private Sub lvServices_GotAnError(ByVal origin As String, ByVal msg As String) Handles lvServices.GotAnError
+        Misc.ShowError("Error : " & msg & vbNewLine & "Origin : " & origin & vbNewLine & vbNewLine & "YAPM will be disconnected from the machine.")
+        Call Me.DisconnectFromMachine()
+    End Sub
+
     Private Sub serviceCreated(ByRef item As cService) Handles lvServices.ItemAdded
         If item IsNot Nothing Then
             Program.Log.AppendLine("Service created : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
@@ -1868,8 +1873,8 @@ Public Class frmMain
         Call Me.DisconnectFromMachine()
     End Sub
 
-    Private Sub processCreated(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer)
-        If instanceId = Me.lvProcess.InstanceId Then    ' Associated with lvProcess
+    Private Sub processCreated(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+        If res.Success AndAlso instanceId = Me.lvProcess.InstanceId Then    ' Associated with lvProcess
             For Each id As Integer In pids
                 Dim item As cProcess = ProcessProvider.GetProcessById(id)
                 If item IsNot Nothing Then
@@ -1900,8 +1905,8 @@ Public Class frmMain
         End If
     End Sub
 
-    Private Sub processDeleted(ByVal processes As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer)
-        If instanceId = Me.lvProcess.InstanceId Then    ' Associated with lvProcess
+    Private Sub processDeleted(ByVal processes As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+        If res.Success AndAlso instanceId = Me.lvProcess.InstanceId Then    ' Associated with lvProcess
             For Each id As Integer In processes.Keys
                 Dim item As processInfos = processes(id)
                 If item IsNot Nothing Then

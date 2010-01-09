@@ -78,6 +78,8 @@ Public Class ServiceProvider
         Dim _dicoDelSimp As New List(Of String)
         Dim _dicoNew As New List(Of String)
 
+        Dim res As Native.Api.Structs.QueryResult
+
         Try
             _semServices.WaitOne()
 
@@ -101,17 +103,21 @@ Public Class ServiceProvider
             ' Re-assign dico
             _currentServices = value
 
+            res = New Native.Api.Structs.QueryResult(True)
+
         Catch ex As Exception
             Misc.ShowDebugError(ex)
+            res = New Native.Api.Structs.QueryResult(ex)
         Finally
             _semServices.Release()
         End Try
 
-        RaiseEvent GotDeletedItems(_dicoDel, instanceId)
-        RaiseEvent GotNewItems(_dicoNew, value, instanceId)
-        RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId)
-
+        ' Raise events
         _firstRefreshDone = True
+        RaiseEvent GotDeletedItems(_dicoDel, instanceId, res)
+        RaiseEvent GotNewItems(_dicoNew, value, instanceId, res)
+        RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId, res)
+
     End Sub
 
     ' Handle to service control manager
@@ -127,9 +133,9 @@ Public Class ServiceProvider
     ' ========================================
 
     ' Shared events
-    Public Shared Event GotNewItems(ByVal names As List(Of String), ByVal newItems As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
-    Public Shared Event GotDeletedItems(ByVal names As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
-    Public Shared Event GotRefreshed(ByVal newServices As List(Of String), ByVal delServices As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
+    Public Shared Event GotNewItems(ByVal names As List(Of String), ByVal newItems As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotDeletedItems(ByVal names As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotRefreshed(ByVal newServices As List(Of String), ByVal delServices As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
     ' Structure used to store parameters of enumeration
     Public Structure asyncEnumPoolObj
@@ -391,6 +397,7 @@ Public Class ServiceProvider
                         ' Send cDat
                         Try
                             Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestServiceList)
+                            cDat.InstanceId = pObj.instId
                             Program.Connection.Socket.Send(cDat)
                         Catch ex As Exception
                             Misc.ShowError(ex, "Unable to send request to server")

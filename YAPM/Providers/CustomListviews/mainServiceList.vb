@@ -185,39 +185,42 @@ Public Class mainServiceList
         Next
     End Sub
 
-    Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
-    Private Sub GotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
+    Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Private Sub GotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
         ' Have to call a delegate as will refresh the listview
         ' Only for the good instance
         If instanceId = Me.InstanceId Then
             If Me.InvokeRequired Then
                 Dim d As New degGotRefreshed(AddressOf GotRefreshed)
                 Try
-                    Me.Invoke(d, _dicoNew, _dicoDel, Dico, instanceId)
+                    Me.Invoke(d, _dicoNew, _dicoDel, Dico, instanceId, res)
                 Catch ex As Exception
                     ' Won't catch this...
                 End Try
             Else
-                Dim i As Integer = Native.Api.Win32.GetElapsedTime
 
-                ' Create buffer if necessary
-                If _columnsName.Length = 0 Then
-                    Me.CreateSubItemsBuffer()
-                End If
+                If res.Success Then
 
-                ' DELETED ITEMS
-                If _dicoDel.Count > 0 Then
-                    Me.GotDeletedItems(_dicoDel)
-                End If
+                    'Dim i As Integer = Native.Api.Win32.GetElapsedTime
 
-                ' NEW ITEMS
-                If _dicoNew.Count > 0 Then
-                    Me.GotNewItems(_dicoNew, Dico)
-                End If
+                    ' Create buffer if necessary
+                    If _columnsName.Length = 0 Then
+                        Me.CreateSubItemsBuffer()
+                    End If
 
-                ' We won't enumerate next time with all informations (included fixed infos)
-                _first = False
-                For iiii As Integer = 1 To 10
+                    ' DELETED ITEMS
+                    If _dicoDel.Count > 0 Then
+                        Me.GotDeletedItems(_dicoDel)
+                    End If
+
+                    ' NEW ITEMS
+                    If _dicoNew.Count > 0 Then
+                        Me.GotNewItems(_dicoNew, Dico)
+                    End If
+
+                    ' We won't enumerate next time with all informations (included fixed infos)
+                    _first = False
+                    'For iiii As Integer = 1 To 10
                     Try
 
                         Dim toDel As New List(Of String)   ' Keys of items to remove
@@ -280,9 +283,13 @@ Public Class mainServiceList
                     Catch ex As Exception
                         Misc.ShowDebugError(ex)
                     End Try
-                Next
-                i = Native.Api.Win32.GetElapsedTime - i
-                Trace.WriteLine("TOOK " & i)
+                    'Next
+                    'i = Native.Api.Win32.GetElapsedTime - i
+                    'Trace.WriteLine("TOOK " & i)
+
+                Else
+                    RaiseEvent GotAnError("Service enumeration", res.ErrorMessage)
+                End If
             End If
         End If
     End Sub

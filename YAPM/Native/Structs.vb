@@ -248,6 +248,21 @@ Namespace Native.Api
             End Sub
         End Structure
 
+        Public Structure QueryResult
+            Public Success As Boolean
+            Public ErrorMessage As String
+            Public [Exception] As Exception
+            Public Sub New(ByVal ok As Boolean, Optional ByVal errorMsg As String = Nothing)
+                Success = ok
+                ErrorMessage = errorMsg
+            End Sub
+            Public Sub New(ByVal ex As Exception)
+                Success = False
+                ErrorMessage = ex.Message
+                [Exception] = ex
+            End Sub
+        End Structure
+
 #End Region
 
     End Class
