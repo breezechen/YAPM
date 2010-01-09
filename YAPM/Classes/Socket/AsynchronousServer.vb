@@ -104,6 +104,7 @@ Public Class AsynchronousSocketListener
                     ' Let's empty the dictionnary of current processes/services
                     ProcessProvider.ClearNewProcessesDico()
                     ServiceProvider.ClearNewServicesList()
+                    EnvVariableProvider.ClearList()
                 Else
                     ClientToHost(message)
                 End If

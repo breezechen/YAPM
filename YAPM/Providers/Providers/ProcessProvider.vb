@@ -243,7 +243,7 @@ Public Class ProcessProvider
         Try
             _semReanalize.WaitOne()
 
-            If Program.Connection.IsConnected = False Then
+            If Program.Connection.IsConnected Then
                 Dim pObj As ReanalizeProcessObj = DirectCast(thePoolObj,  _
                                     ReanalizeProcessObj)
 

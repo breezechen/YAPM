@@ -881,9 +881,7 @@
     <Compile Include="Providers\Classes\JobLimits\jobLimitsInfos.vb" />
     <Compile Include="Providers\Classes\General\cGeneralConnection.vb" />
     <Compile Include="Providers\Classes\General\cGeneralObject.vb" />
-    <Compile Include="Providers\Classes\EnvVariables\asyncMethods\asyncCallbackEnvVariableEnumerate.vb" />
     <Compile Include="Providers\Classes\EnvVariables\cEnvVariable.vb" />
-    <Compile Include="Providers\Classes\EnvVariables\cEnvVariableConnection.vb" />
     <Compile Include="Providers\Classes\EnvVariables\envVariableInfos.vb" />
     <Compile Include="Providers\Classes\General\generalInfos.vb" />
     <Compile Include="Providers\Classes\Handles\asyncMethods\asyncCallbackHandleEnumerate.vb" />
@@ -1008,6 +1006,7 @@
     <Compile Include="Providers\CustomListviews\jobList.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Providers\Providers\EnvVariableProvider.vb" />
     <Compile Include="Providers\Providers\ServiceProvider.vb" />
     <Compile Include="Providers\Providers\ProcessProvider.vb" />
     <Compile Include="Scripting\Command.vb" />
@@ -1399,6 +1398,9 @@
     <None Include="My Project\app.manifest" />
     <None Include="Resources\tcp.txt" />
     <None Include="Resources\udp.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Providers\Classes\EnvVariables\asyncMethods\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

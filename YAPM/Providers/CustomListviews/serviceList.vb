@@ -78,6 +78,10 @@ Public Class serviceList
 
         _first = True
 
+        ' Create buffer
+        Me.CreateSubItemsBuffer()
+
+
         ' Set handlers
         AddHandler ServiceProvider.GotRefreshed, AddressOf Me.GotRefreshed
     End Sub

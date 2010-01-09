@@ -325,8 +325,9 @@ Public Class asyncCallbackSearchEnumerate
 
                                 ' ---- ENVVARIABLES
                                 If (pObj.includ And GeneralObjectType.EnvironmentVariable) = GeneralObjectType.EnvironmentVariable Then
-                                    Dim _tmpDico2 As Dictionary(Of String, cEnvVariable) = cEnvVariable.CurrentEnvVariables(cp)
-                                    For Each cm As cEnvVariable In _tmpDico2.Values
+                                    Dim _tmpDico2 As Dictionary(Of String, envVariableInfos) = EnvVariableProvider.CurrentEnvVariables(cp.Infos.ProcessId)
+                                    For Each cmm As envVariableInfos In _tmpDico2.Values
+                                        Dim cm As New cEnvVariable(cmm)
                                         For Each field2 As String In envVariableInfos.GetAvailableProperties(includeFirstProp:=True)
                                             Dim scomp2 As String = cm.GetInformation(field2)
                                             If scomp2 IsNot Nothing Then

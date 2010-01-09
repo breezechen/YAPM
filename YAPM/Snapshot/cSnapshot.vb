@@ -660,7 +660,7 @@ Public Class cSnapshot
                     Dim pid As Integer = proc.ProcessId
                     Using reader As New ProcessMemReader(pid)
                         Dim peb As IntPtr = reader.GetPebAddress
-                        Dim _dico As Dictionary(Of String, envVariableInfos) = asyncCallbackEnvVariableEnumerate.SharedLocalSyncEnumerate(New asyncCallbackEnvVariableEnumerate.poolObj(pid, peb, 0))
+                        Dim _dico As Dictionary(Of String, envVariableInfos) = EnvVariableProvider.CurrentEnvVariables(pid)
                         Me.EnvironnementVariablesByProcessId(pid) = _dico
                     End Using
                 Next

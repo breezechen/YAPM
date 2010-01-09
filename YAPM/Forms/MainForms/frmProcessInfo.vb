@@ -1169,9 +1169,7 @@ Public Class frmProcessInfo
     ' Show env variables
     Public Sub ShowEnvVariables()
 
-        lvProcEnv.ProcessId = curProc.Infos.ProcessId
-        lvProcEnv.Peb = curProc.Infos.PebAddress
-        lvProcEnv.UpdateTheItems()
+        EnvVariableProvider.Update(curProc.Infos.ProcessId, curProc.Infos.PebAddress)
 
     End Sub
 
@@ -1478,7 +1476,6 @@ Public Class frmProcessInfo
             Me.lvProcMem.ConnectionObj = theConnection
             Me.lvLog.ConnectionObj = theConnection
             Me.lvPrivileges.ConnectionObj = theConnection
-            Me.lvProcEnv.ConnectionObj = theConnection
             Me.lvWindows.ConnectionObj = theConnection
             Me.lvHeaps.ConnectionObj = theConnection
             Me.lvProcNetwork.ConnectionObj = theConnection

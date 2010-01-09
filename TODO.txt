@@ -5,6 +5,7 @@ Refactoring bugs
 - ==============
 - Item en vert boolean à remettre à zéro quand on connecte
 - gestion des erreurs 'GotAnError' à refaire
+- vidage des listes (par exemple list des cEnvVariables) quand le process est kické (car le prochain qui aura le même ID doit repartir de 0)
 - instanceId a gérer (par exemple pour les providers de service)
 - snapshot -> récupération directe avec CurrentProcesses/Services pose problème si liste pas encore crée (Me.processes = processprovider.Currentprocesses)
 

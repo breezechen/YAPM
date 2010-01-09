@@ -43,18 +43,10 @@ Namespace Native.Objects
         ' ========================================
 
         ' Return environment variables
-        Public Shared Function GetEnvironmentVariablesBycProcess(ByRef process As cProcess, _
-                        ByRef variables() As String, _
-                        ByRef values() As String) As Integer
-            Return GetEnvironmentVariables(process.Infos.PebAddress, _
-                                           process.Infos.ProcessId, variables, values)
-        End Function
-
-        ' Return environment variables
-        Public Shared Function GetEnvironmentVariables(ByVal peb As IntPtr, _
-                                        ByVal pid As Integer, _
-                                        ByRef variables() As String, _
-                                        ByRef values() As String) As Integer
+        Public Shared Function GetEnvironmentVariables(ByVal pid As Integer, _
+                                ByVal peb As IntPtr, _
+                                ByRef variables() As String, _
+                                ByRef values() As String) As Integer
 
             ReDim variables(-1)
             ReDim values(-1)
@@ -162,6 +154,7 @@ Namespace Native.Objects
             Return _envVar.Length
 
         End Function
+
 
 
         ' ========================================

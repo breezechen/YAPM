@@ -145,6 +145,7 @@ Public Module Program
 
     Private _processProvider As ProcessProvider
     Private _serviceProvider As ServiceProvider
+    Private _envVariableProvider As EnvVariableProvider
     Private WithEvents _updater As cUpdate
     Private _progParameters As ProgramParameters
     Private WithEvents theConnection As cConnection
@@ -236,6 +237,11 @@ Public Module Program
     Public ReadOnly Property ServiceProvider() As ServiceProvider
         Get
             Return _serviceProvider
+        End Get
+    End Property
+    Public ReadOnly Property EnvVariableProvider() As EnvVariableProvider
+        Get
+            Return _envVariableProvider
         End Get
     End Property
 
@@ -380,6 +386,7 @@ Public Module Program
             _frmMain = New frmMain                  ' Main form
             _processProvider = New ProcessProvider  ' Process provider
             _serviceProvider = New ServiceProvider  ' Service provider
+            _envVariableProvider = New EnvVariableProvider  ' Env variables provider
 
 
             ' ======= Load preferences
@@ -518,6 +525,7 @@ Public Module Program
         ' Clear lists of processes/services
         ProcessProvider.CurrentProcesses.Clear()
         ServiceProvider.CurrentServices.Clear()
+        EnvVariableProvider.ClearList()
     End Sub
 
     ' Create a snapshot file

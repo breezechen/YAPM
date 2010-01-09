@@ -38,7 +38,6 @@ Public Class frmServer
 
     Private theConnection As cConnection = Program.Connection
     Private _windowCon As New cWindowConnection(Me, theConnection, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedWindows))
-    Private _envCon As New cEnvVariableConnection(Me, theConnection, New cEnvVariableConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEnvVar))
     Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
     Private _memoryCon As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemoryReg))
     Private _moduleCon As New cModuleConnection(Me, theConnection, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule))
@@ -67,7 +66,6 @@ Public Class frmServer
             _networkCon.ConnectionObj = theConnection
             _windowCon.ConnectionObj = theConnection
             _threadCon.ConnectionObj = theConnection
-            _envCon.ConnectionObj = theConnection
             _handleCon.ConnectionObj = theConnection
             _moduleCon.ConnectionObj = theConnection
             _memoryCon.ConnectionObj = theConnection
@@ -82,7 +80,6 @@ Public Class frmServer
             _moduleCon.Connect()
             _searchCon.Connect()
             _servdepCon.Connect()
-            _envCon.Connect()
             _memoryCon.Connect()
             _taskCon.Connect()
             _priviCon.Connect()
@@ -94,7 +91,6 @@ Public Class frmServer
 
             cWindow.Connection = _windowCon
             cThread.Connection = _threadCon
-            cEnvVariable.Connection = _envCon
             cHandle.Connection = _handleCon
             cMemRegion.Connection = _memoryCon
             cModule.Connection = _moduleCon
@@ -115,12 +111,12 @@ Public Class frmServer
 #Region "Has enumerated lists"
 
     Private _TheIdToSend As String = ""
-    Private Sub HasEnumeratedEnvVar(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedEnvVar(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos))
 
-        If Success Then
+        If True Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestEnvironmentVariableList)
-                cDat.InstanceId = instanceId   ' The instance which requested the list
+                ' cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat._id = _TheIdToSend
                 cDat.SetEnvVarList(Dico)
                 sock.Send(cDat)
@@ -578,7 +574,7 @@ Public Class frmServer
                     Case cSocketData.OrderType.RequestEnvironmentVariableList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim peb As IntPtr = CType(cData.Param2, IntPtr)
-                        Call _envCon.Enumerate(True, pid, peb, _forInstanceId)
+                        Call EnvVariableProvider.Update(pid, peb)
                         Exit Sub
                     Case cSocketData.OrderType.RequestMemoryRegionList
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -1029,6 +1025,7 @@ Public Class frmServer
         ' Set some handlers
         AddHandler ProcessProvider.GotRefreshed, AddressOf HasEnumeratedProcess
         AddHandler ServiceProvider.GotRefreshed, AddressOf HasEnumeratedService
+        AddHandler EnvVariableProvider.GotRefreshed, AddressOf HasEnumeratedEnvVar
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

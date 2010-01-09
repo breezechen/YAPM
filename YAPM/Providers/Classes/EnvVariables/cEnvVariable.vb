@@ -24,21 +24,7 @@ Public Class cEnvVariable
     Inherits cGeneralObject
 
     Private _envInfos As envVariableInfos
-    Private Shared WithEvents _connection As cEnvVariableConnection
 
-
-#Region "Properties"
-
-    Public Shared Property Connection() As cEnvVariableConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cEnvVariableConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 
@@ -136,26 +122,6 @@ Public Class cEnvVariable
         End Select
 
         Return hasChanged
-    End Function
-
-#End Region
-
-#Region "Shared functions (local)"
-
-    Public Shared Function CurrentEnvVariables(ByVal process As cProcess) As Dictionary(Of String, cEnvVariable)
-        Dim _dico As New Dictionary(Of String, cEnvVariable)
-
-        Dim var() As String = Nothing
-        Dim val() As String = Nothing
-        Native.Objects.EnvVariable.GetEnvironmentVariablesBycProcess(process, var, val)
-
-        For x As Integer = 0 To var.Length - 1
-            If _dico.ContainsKey(var(x)) = False Then
-                _dico.Add(var(x), New cEnvVariable(New envVariableInfos(var(x), val(x), process.Infos.ProcessId)))
-            End If
-        Next
-
-        Return _dico
     End Function
 
 #End Region
