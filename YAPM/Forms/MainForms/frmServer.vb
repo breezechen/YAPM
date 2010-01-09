@@ -116,7 +116,7 @@ Public Class frmServer
         If True Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestEnvironmentVariableList)
-                ' cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat._id = _TheIdToSend
                 cDat.SetEnvVarList(Dico)
                 sock.Send(cDat)
@@ -263,12 +263,12 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedProcess(ByVal newPids As List(Of Integer), ByVal delPids As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos))
+    Private Sub HasEnumeratedProcess(ByVal newPids As List(Of Integer), ByVal delPids As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer)
 
         If True Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestProcessList)
-                'cDat.InstanceId = instanceId   ' The instance which requested the list
+                cDat.InstanceId = instanceId   ' The instance which requested the list
                 cDat._id = _TheIdToSend
                 cDat.SetProcessList(Dico)
                 sock.Send(cDat)
@@ -301,11 +301,12 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedService(ByVal newNames As List(Of String), ByVal delServices As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos))
+    Private Sub HasEnumeratedService(ByVal newNames As List(Of String), ByVal delServices As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
 
         If True Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestServiceList)
+                cDat.InstanceId = instanceId
                 cDat._id = _TheIdToSend
                 cDat.SetServiceList(Dico)
                 sock.Send(cDat)
@@ -516,7 +517,7 @@ Public Class frmServer
                 ' ===== Request lists and informations
                 Select Case cData.Order
                     Case cSocketData.OrderType.RequestProcessList
-                        Call ProcessProvider.Update(True)
+                        Call ProcessProvider.Update(True, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestNetworkConnectionList
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -537,7 +538,7 @@ Public Class frmServer
                     Case cSocketData.OrderType.RequestServiceList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim all As Boolean = CBool(cData.Param2)
-                        Call ServiceProvider.Update(True)
+                        Call ServiceProvider.Update(True, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestModuleList
                         Dim pid As Integer = CType(cData.Param1, Integer)

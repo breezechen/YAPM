@@ -66,6 +66,18 @@ Public Class EnvVariableProvider
         End Try
     End Sub
 
+    ' Clear list for a specific processID
+    Public Shared Sub ClearListForAnId(ByVal pid As Integer)
+        Try
+            _semEnvVariables.WaitOne()
+            If _currentEnvVariables.ContainsKey(pid) Then
+                _currentEnvVariables(pid).Clear()
+            End If
+        Finally
+            _semEnvVariables.Release()
+        End Try
+    End Sub
+
     ' List of current processes
     Public Shared ReadOnly Property CurrentEnvVariables(ByVal pid As Integer) As Dictionary(Of String, envVariableInfos)
         Get
@@ -217,7 +229,7 @@ Public Class EnvVariableProvider
             If data.Type = cSocketData.DataType.RequestedList AndAlso _
                 data.Order = cSocketData.OrderType.RequestEnvironmentVariableList Then
                 ' We receive the list
-                Me.GotListFromSocket(data.GetList, data.GetKeys)
+                Me.GotListFromSocket(data.GetList, data.GetKeys, data.InstanceId)
             End If
 
         End If
@@ -225,7 +237,7 @@ Public Class EnvVariableProvider
     End Sub
 
     ' When socket got a list of processes !
-    Private Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
+    Private Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String, ByVal instanceId As Integer)
         Dim _dico As New Dictionary(Of String, envVariableInfos)
 
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
@@ -237,7 +249,7 @@ Public Class EnvVariableProvider
         End If
 
         ' Save current processes into a dictionary
-        EnvVariableProvider.SetCurrentEnvVariables(0, _dico, 0)  'TODO (have to retrieve pid)
+        EnvVariableProvider.SetCurrentEnvVariables(0, _dico, instanceId)  'TODO (have to retrieve pid)
 
     End Sub
 

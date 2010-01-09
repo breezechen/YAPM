@@ -397,6 +397,10 @@ Public Class frmProcessInfo
         ReDim __lRes(0)
         ReDim __sRes(0)
 
+
+        ' Clear items in providers
+        EnvVariableProvider.ClearListForAnId(curProc.Infos.ProcessId)
+
     End Sub
 
     Private Sub frmProcessInfo_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp
@@ -1152,7 +1156,6 @@ Public Class frmProcessInfo
     Public Sub ShowServices()
 
         ' Update list
-        Me.lvProcServices.ShowAll = False
         Me.lvProcServices.ProcessId = curProc.Infos.ProcessId
         Me.lvProcServices.UpdateTheItems()
 

@@ -43,7 +43,7 @@ Public Class ServiceProvider
 
     ' Current services running (updated after each enumeration)
     Private Shared _currentServices As New Dictionary(Of String, serviceInfos)
-    Private Shared _semServices As New Threading.Semaphore(1, 1)
+    Friend Shared _semServices As New Threading.Semaphore(1, 1)
 
     ' First refresh done ?
     Private Shared _firstRefreshDone As Boolean = False
@@ -67,52 +67,52 @@ Public Class ServiceProvider
     End Property
 
     ' List of current processes
-    Public Shared Property CurrentServices() As Dictionary(Of String, serviceInfos)
+    Public Shared ReadOnly Property CurrentServices() As Dictionary(Of String, serviceInfos)
         Get
             Return _currentServices
         End Get
-        Friend Set(ByVal value As Dictionary(Of String, serviceInfos))
-
-            Dim _dicoDel As New Dictionary(Of String, serviceInfos)
-            Dim _dicoDelSimp As New List(Of String)
-            Dim _dicoNew As New List(Of String)
-
-            Try
-                _semServices.WaitOne()
-
-                ' Get deleted items
-                For Each name As String In _currentServices.Keys
-                    If Not (value.ContainsKey(name)) Then
-                        _dicoDel.Add(name, _currentServices(name))  ' name <-> service
-                        _dicoDelSimp.Add(name)                      ' only name
-                        ' Will be a 'new service' next time
-                        RemoveServiceFromListOfNewServices(name)
-                    End If
-                Next
-
-                ' Get new items
-                For Each name As String In value.Keys
-                    If Not (_currentServices.ContainsKey(name)) Then
-                        _dicoNew.Add(name)
-                    End If
-                Next
-
-                ' Re-assign dico
-                _currentServices = value
-
-            Catch ex As Exception
-                Misc.ShowDebugError(ex)
-            Finally
-                _semServices.Release()
-            End Try
-
-            RaiseEvent GotDeletedItems(_dicoDel)
-            RaiseEvent GotNewItems(_dicoNew, value)
-            RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value)
-
-            _firstRefreshDone = True
-        End Set
     End Property
+    Public Shared Sub SetCurrentServices(ByVal value As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
+
+        Dim _dicoDel As New Dictionary(Of String, serviceInfos)
+        Dim _dicoDelSimp As New List(Of String)
+        Dim _dicoNew As New List(Of String)
+
+        Try
+            _semServices.WaitOne()
+
+            ' Get deleted items
+            For Each name As String In _currentServices.Keys
+                If Not (value.ContainsKey(name)) Then
+                    _dicoDel.Add(name, _currentServices(name))  ' name <-> service
+                    _dicoDelSimp.Add(name)                      ' only name
+                    ' Will be a 'new service' next time
+                    RemoveServiceFromListOfNewServices(name)
+                End If
+            Next
+
+            ' Get new items
+            For Each name As String In value.Keys
+                If Not (_currentServices.ContainsKey(name)) Then
+                    _dicoNew.Add(name)
+                End If
+            Next
+
+            ' Re-assign dico
+            _currentServices = value
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            _semServices.Release()
+        End Try
+
+        RaiseEvent GotDeletedItems(_dicoDel, instanceId)
+        RaiseEvent GotNewItems(_dicoNew, value, instanceId)
+        RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId)
+
+        _firstRefreshDone = True
+    End Sub
 
     ' Handle to service control manager
     Public Shared ReadOnly Property ServiceControlManaherHandle() As IntPtr
@@ -127,15 +127,17 @@ Public Class ServiceProvider
     ' ========================================
 
     ' Shared events
-    Public Shared Event GotNewItems(ByVal names As List(Of String), ByVal newItems As Dictionary(Of String, serviceInfos))
-    Public Shared Event GotDeletedItems(ByVal names As Dictionary(Of String, serviceInfos))
-    Public Shared Event GotRefreshed(ByVal newServices As List(Of String), ByVal delServices As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos))
+    Public Shared Event GotNewItems(ByVal names As List(Of String), ByVal newItems As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
+    Public Shared Event GotDeletedItems(ByVal names As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
+    Public Shared Event GotRefreshed(ByVal newServices As List(Of String), ByVal delServices As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
 
     ' Structure used to store parameters of enumeration
     Public Structure asyncEnumPoolObj
         Public complete As Boolean
-        Public Sub New(ByVal comp As Boolean)
+        Public instId As Integer
+        Public Sub New(ByVal comp As Boolean, ByVal instanceId As Integer)
             complete = comp
+            instId = instanceId
         End Sub
     End Structure
 
@@ -277,11 +279,11 @@ Public Class ServiceProvider
     End Function
 
     ' Refresh list of services depending on the connection NOW
-    Public Shared Sub Update(ByVal forceAllInfos As Boolean)
+    Public Shared Sub Update(ByVal forceAllInfos As Boolean, ByVal instanceId As Integer)
         ' This is of course async
         Call Threading.ThreadPool.QueueUserWorkItem( _
                 New System.Threading.WaitCallback(AddressOf ServiceProvider.ProcessEnumeration), _
-                New ServiceProvider.asyncEnumPoolObj(forceAllInfos))
+                New ServiceProvider.asyncEnumPoolObj(forceAllInfos, instanceId))
     End Sub
 
 
@@ -349,7 +351,7 @@ Public Class ServiceProvider
             If data.Type = cSocketData.DataType.RequestedList AndAlso _
                 data.Order = cSocketData.OrderType.RequestServiceList Then
                 ' We receive the list
-                Me.GotListFromSocket(data.GetList, data.GetKeys)
+                Me.GotListFromSocket(data.GetList, data.GetKeys, data.InstanceId)
             End If
 
         End If
@@ -357,7 +359,7 @@ Public Class ServiceProvider
     End Sub
 
     ' When socket got a list of processes !
-    Private Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
+    Private Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String, ByVal instanceId As Integer)
         Dim _dico As New Dictionary(Of String, serviceInfos)
 
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
@@ -369,7 +371,7 @@ Public Class ServiceProvider
         End If
 
         ' Save current processes into a dictionary
-        ServiceProvider.CurrentServices = _dico
+        ServiceProvider.SetCurrentServices(_dico, instanceId)
 
     End Sub
 
@@ -404,7 +406,7 @@ Public Class ServiceProvider
                         res = Wmi.Objects.Service.EnumerateServices(wmiSearcher, _dico, msg)
 
                         ' Save service list into a dictionary
-                        ServiceProvider.CurrentServices = _dico
+                        ServiceProvider.SetCurrentServices(_dico, pObj.instId)
 
                     Case cConnection.TypeOfConnection.SnapshotFile
                         ' Snapshot file
@@ -412,7 +414,7 @@ Public Class ServiceProvider
                         Dim snap As cSnapshot = Program.Connection.Snapshot
                         If snap IsNot Nothing Then
                             ' Save service list into a dictionary
-                            ServiceProvider.CurrentServices = snap.Services
+                            ServiceProvider.SetCurrentServices(snap.Services, pObj.instId)
                         End If
 
                     Case Else
@@ -423,7 +425,7 @@ Public Class ServiceProvider
                         Native.Objects.Service.EnumerateServices(ServiceProvider.ServiceControlManaherHandle, _dico, pObj.complete)
 
                         ' Save service list into a dictionary
-                        ServiceProvider.CurrentServices = _dico
+                        ServiceProvider.SetCurrentServices(_dico, pObj.instId)
 
                 End Select
             End If

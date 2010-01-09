@@ -80,53 +80,53 @@ Public Class ProcessProvider
     End Property
 
     ' List of current processes
-    Public Shared Property CurrentProcesses() As Dictionary(Of Integer, processInfos)
+    Public Shared ReadOnly Property CurrentProcesses() As Dictionary(Of Integer, processInfos)
         Get
             Return _currentProcesses
         End Get
-        Friend Set(ByVal value As Dictionary(Of Integer, processInfos))
-
-            Dim _dicoDel As New Dictionary(Of Integer, processInfos)
-            Dim _dicoDelSimp As New List(Of Integer)
-            Dim _dicoNew As New List(Of Integer)
-
-            Try
-                _semProcess.WaitOne()
-
-                ' Get deleted items
-                For Each pid As Integer In _currentProcesses.Keys
-                    If Not (value.ContainsKey(pid)) Then
-                        _dicoDel.Add(pid, _currentProcesses(pid))   ' pid <-> process
-                        _dicoDelSimp.Add(pid)                       ' only pid
-                        ' Will be a 'new process' next time
-                        RemoveProcesseFromListOfNewProcesses(pid)
-                    End If
-                Next
-
-                ' Get new items
-                For Each pid As Integer In value.Keys
-                    If Not (_currentProcesses.ContainsKey(pid)) Then
-                        _dicoNew.Add(pid)
-                    End If
-                Next
-
-                ' Re-assign dico
-                _currentProcesses = value
-
-            Catch ex As Exception
-                Misc.ShowDebugError(ex)
-            Finally
-                _semProcess.Release()
-            End Try
-
-            RaiseEvent GotDeletedItems(_dicoDel)
-            RaiseEvent GotNewItems(_dicoNew, value)
-            RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value)
-
-            _firstRefreshDone = True
-
-        End Set
     End Property
+    Public Shared Sub SetCurrentProcesses(ByVal value As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer)
+
+        Dim _dicoDel As New Dictionary(Of Integer, processInfos)
+        Dim _dicoDelSimp As New List(Of Integer)
+        Dim _dicoNew As New List(Of Integer)
+
+        Try
+            _semProcess.WaitOne()
+
+            ' Get deleted items
+            For Each pid As Integer In _currentProcesses.Keys
+                If Not (value.ContainsKey(pid)) Then
+                    _dicoDel.Add(pid, _currentProcesses(pid))   ' pid <-> process
+                    _dicoDelSimp.Add(pid)                       ' only pid
+                    ' Will be a 'new process' next time
+                    RemoveProcesseFromListOfNewProcesses(pid)
+                End If
+            Next
+
+            ' Get new items
+            For Each pid As Integer In value.Keys
+                If Not (_currentProcesses.ContainsKey(pid)) Then
+                    _dicoNew.Add(pid)
+                End If
+            Next
+
+            ' Re-assign dico
+            _currentProcesses = value
+
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            _semProcess.Release()
+        End Try
+
+        RaiseEvent GotDeletedItems(_dicoDel, instanceId)
+        RaiseEvent GotNewItems(_dicoNew, value, instanceId)
+        RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId)
+
+        _firstRefreshDone = True
+
+    End Sub
 
     ' Number of processors
     Public Shared ReadOnly Property ProcessorCount() As Integer
@@ -141,15 +141,17 @@ Public Class ProcessProvider
     ' ========================================
 
     ' Shared events
-    Public Shared Event GotNewItems(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos))
-    Public Shared Event GotDeletedItems(ByVal pids As Dictionary(Of Integer, processInfos))
-    Public Shared Event GotRefreshed(ByVal newPids As List(Of Integer), ByVal delPids As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos))
+    Public Shared Event GotNewItems(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer)
+    Public Shared Event GotDeletedItems(ByVal pids As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer)
+    Public Shared Event GotRefreshed(ByVal newPids As List(Of Integer), ByVal delPids As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer)
 
     ' Structure used to store parameters of enumeration
     Public Structure asyncEnumPoolObj
         Public force As Boolean
-        Public Sub New(ByVal forceAllInfos As Boolean)
+        Public instId As Integer
+        Public Sub New(ByVal forceAllInfos As Boolean, ByVal instanceId As Integer)
             force = forceAllInfos
+            instId = instanceId
         End Sub
     End Structure
 
@@ -288,11 +290,11 @@ Public Class ProcessProvider
     End Sub
 
     ' Refresh list of processes depending on the connection NOW
-    Public Shared Sub Update(ByVal forceAllInfos As Boolean)
+    Public Shared Sub Update(ByVal forceAllInfos As Boolean, ByVal instanceId As Integer)
         ' This is of course async
         Call Threading.ThreadPool.QueueUserWorkItem( _
                 New System.Threading.WaitCallback(AddressOf ProcessProvider.ProcessEnumeration), _
-                New ProcessProvider.asyncEnumPoolObj(forceAllInfos))
+                New ProcessProvider.asyncEnumPoolObj(forceAllInfos, instanceId))
     End Sub
 
 
@@ -400,7 +402,7 @@ Public Class ProcessProvider
             If data.Type = cSocketData.DataType.RequestedList AndAlso _
                 data.Order = cSocketData.OrderType.RequestProcessList Then
                 ' We receive the list
-                Me.GotListFromSocket(data.GetList, data.GetKeys)
+                Me.GotListFromSocket(data.GetList, data.GetKeys, data.InstanceId)
             End If
 
         End If
@@ -408,7 +410,7 @@ Public Class ProcessProvider
     End Sub
 
     ' When socket got a list of processes !
-    Private Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String)
+    Private Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String, ByVal instanceId As Integer)
         Dim _dico As New Dictionary(Of Integer, processInfos)
 
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
@@ -420,7 +422,7 @@ Public Class ProcessProvider
         End If
 
         ' Save current processes into a dictionary
-        ProcessProvider.CurrentProcesses = _dico
+        ProcessProvider.SetCurrentProcesses(_dico, instanceId)
 
     End Sub
 
@@ -440,6 +442,7 @@ Public Class ProcessProvider
                         ' Send cDat
                         Try
                             Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestProcessList)
+                            cDat.InstanceId = pObj.instId
                             Program.Connection.Socket.Send(cDat)
                         Catch ex As Exception
                             Misc.ShowError(ex, "Unable to send request to server")
@@ -452,7 +455,7 @@ Public Class ProcessProvider
                             Wmi.Objects.Process.EnumerateProcesses(wmiSearcher, _dico, msg)
 
                         ' Save current processes into a dictionary
-                        ProcessProvider.CurrentProcesses = _dico
+                        ProcessProvider.SetCurrentProcesses(_dico, pObj.instId)
 
                     Case cConnection.TypeOfConnection.SnapshotFile
                         ' Snapshot
@@ -464,7 +467,7 @@ Public Class ProcessProvider
                         End If
 
                         ' Save current processes into a dictionary
-                        ProcessProvider.CurrentProcesses = _dico
+                        ProcessProvider.SetCurrentProcesses(_dico, pObj.instId)
 
                     Case Else
                         ' Local
@@ -480,7 +483,7 @@ Public Class ProcessProvider
                         'End Select
 
                         ' Save current processes into a dictionary
-                        ProcessProvider.CurrentProcesses = _dico
+                        ProcessProvider.SetCurrentProcesses(_dico, pObj.instId)
 
                 End Select
 

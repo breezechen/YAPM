@@ -185,103 +185,105 @@ Public Class mainServiceList
         Next
     End Sub
 
-    Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos))
-    Private Sub GotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos))
-
+    Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
+    Private Sub GotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer)
         ' Have to call a delegate as will refresh the listview
-        If Me.InvokeRequired Then
-            Dim d As New degGotRefreshed(AddressOf GotRefreshed)
-            Try
-                Me.Invoke(d, _dicoNew, _dicoDel, Dico)
-            Catch ex As Exception
-                ' Won't catch this...
-            End Try
-        Else
-            Dim i As Integer = Native.Api.Win32.GetElapsedTime
-
-            ' Create buffer if necessary
-            If _columnsName.Length = 0 Then
-                Me.CreateSubItemsBuffer()
-            End If
-
-            ' DELETED ITEMS
-            If _dicoDel.Count > 0 Then
-                Me.GotDeletedItems(_dicoDel)
-            End If
-
-            ' NEW ITEMS
-            If _dicoNew.Count > 0 Then
-                Me.GotNewItems(_dicoNew, Dico)
-            End If
-
-            ' We won't enumerate next time with all informations (included fixed infos)
-            _first = False
-            For iiii As Integer = 1 To 10
+        ' Only for the good instance
+        If instanceId = Me.InstanceId Then
+            If Me.InvokeRequired Then
+                Dim d As New degGotRefreshed(AddressOf GotRefreshed)
                 Try
-
-                    Dim toDel As New List(Of String)   ' Keys of items to remove
-
-                    ' Now refresh all subitems of the listview
-                    Dim isub As ListViewItem.ListViewSubItem
-                    Dim it As ListViewItem
-                    For Each it In Me.Items
-                        Dim x As Integer = 0
-                        Dim _item As cService = _dico.Item(it.Name)
-                        If Dico.ContainsKey(it.Name) Then
-                            _item.Merge(Dico.Item(it.Name))
-                        End If
-                        Dim ___info As String = Nothing
-                        For Each isub In it.SubItems
-                            If _item.GetInformation(_columnsName(x), ___info) Then
-                                isub.Text = ___info
-                            End If
-                            x += 1
-                        Next
-                        If _item.NewCount > 0 Then
-                            _item.NewCount -= 1
-                            If _timeToDisplayNewItemsGreen Then
-                                it.BackColor = NEW_ITEM_COLOR
-                            End If
-                        ElseIf _item.KillCount > 0 Then
-                            it.BackColor = DELETED_ITEM_COLOR
-                            _item.KillCount -= 1
-                        ElseIf _item.KillCount = 0 Then
-                            toDel.Add(it.Name)
-                        Else
-                            _timeToDisplayNewItemsGreen = True
-                            it.BackColor = _item.GetBackColor
-                        End If
-                    Next
-
-
-                    ' Now remove all deleted items from listview and _dico
-                    ' If first time, lock listview if necessary
-                    Dim _hasToLock As Boolean = (_firstItemUpdate _
-                                OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE)
-                    If _hasToLock Then
-                        Me.BeginUpdate()
-                    End If
-                    For Each key As String In toDel
-                        Me.Items.RemoveByKey(key)
-                        If _dico.ContainsKey(key) Then
-                            _dico.Remove(key)
-                        End If
-                    Next
-                    If _hasToLock Then
-                        Me.EndUpdate()
-                    End If
-
-                    ' Sort items
-                    Me.Sort()
-
-                    _firstItemUpdate = False
-
+                    Me.Invoke(d, _dicoNew, _dicoDel, Dico, instanceId)
                 Catch ex As Exception
-                    Misc.ShowDebugError(ex)
+                    ' Won't catch this...
                 End Try
-            Next
-            i = Native.Api.Win32.GetElapsedTime - i
-            Trace.WriteLine("TOOK " & i)
+            Else
+                Dim i As Integer = Native.Api.Win32.GetElapsedTime
+
+                ' Create buffer if necessary
+                If _columnsName.Length = 0 Then
+                    Me.CreateSubItemsBuffer()
+                End If
+
+                ' DELETED ITEMS
+                If _dicoDel.Count > 0 Then
+                    Me.GotDeletedItems(_dicoDel)
+                End If
+
+                ' NEW ITEMS
+                If _dicoNew.Count > 0 Then
+                    Me.GotNewItems(_dicoNew, Dico)
+                End If
+
+                ' We won't enumerate next time with all informations (included fixed infos)
+                _first = False
+                For iiii As Integer = 1 To 10
+                    Try
+
+                        Dim toDel As New List(Of String)   ' Keys of items to remove
+
+                        ' Now refresh all subitems of the listview
+                        Dim isub As ListViewItem.ListViewSubItem
+                        Dim it As ListViewItem
+                        For Each it In Me.Items
+                            Dim x As Integer = 0
+                            Dim _item As cService = _dico.Item(it.Name)
+                            If Dico.ContainsKey(it.Name) Then
+                                _item.Merge(Dico.Item(it.Name))
+                            End If
+                            Dim ___info As String = Nothing
+                            For Each isub In it.SubItems
+                                If _item.GetInformation(_columnsName(x), ___info) Then
+                                    isub.Text = ___info
+                                End If
+                                x += 1
+                            Next
+                            If _item.NewCount > 0 Then
+                                _item.NewCount -= 1
+                                If _timeToDisplayNewItemsGreen Then
+                                    it.BackColor = NEW_ITEM_COLOR
+                                End If
+                            ElseIf _item.KillCount > 0 Then
+                                it.BackColor = DELETED_ITEM_COLOR
+                                _item.KillCount -= 1
+                            ElseIf _item.KillCount = 0 Then
+                                toDel.Add(it.Name)
+                            Else
+                                _timeToDisplayNewItemsGreen = True
+                                it.BackColor = _item.GetBackColor
+                            End If
+                        Next
+
+
+                        ' Now remove all deleted items from listview and _dico
+                        ' If first time, lock listview if necessary
+                        Dim _hasToLock As Boolean = (_firstItemUpdate _
+                                    OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE)
+                        If _hasToLock Then
+                            Me.BeginUpdate()
+                        End If
+                        For Each key As String In toDel
+                            Me.Items.RemoveByKey(key)
+                            If _dico.ContainsKey(key) Then
+                                _dico.Remove(key)
+                            End If
+                        Next
+                        If _hasToLock Then
+                            Me.EndUpdate()
+                        End If
+
+                        ' Sort items
+                        Me.Sort()
+
+                        _firstItemUpdate = False
+
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
+                Next
+                i = Native.Api.Win32.GetElapsedTime - i
+                Trace.WriteLine("TOOK " & i)
+            End If
         End If
     End Sub
 

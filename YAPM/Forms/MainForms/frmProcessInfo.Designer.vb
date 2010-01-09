@@ -2720,7 +2720,6 @@ Partial Class frmProcessInfo
         Me.lvProcServices.OverriddenDoubleBuffered = True
         Me.lvProcServices.ProcessId = 0
         Me.lvProcServices.ReorganizeColumns = True
-        Me.lvProcServices.ShowAll = False
         Me.lvProcServices.ShowObjectDetailsOnDoubleClick = False
         Me.lvProcServices.Size = New System.Drawing.Size(641, 276)
         Me.lvProcServices.TabIndex = 2
