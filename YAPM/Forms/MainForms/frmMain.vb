@@ -1763,7 +1763,7 @@ Public Class frmMain
             Me.MenuItemServOpenDir.Enabled = selectionIsNotNothing AndAlso _local
             Me.MenuItemServSearch.Enabled = selectionIsNotNothing
             Me.MenuItemServDepe.Enabled = selectionIsNotNothing AndAlso _local
-            Me.MenuItemServSelService.Enabled = selectionIsNotNothing AndAlso _local
+            Me.MenuItemServSelService.Enabled = selectionIsNotNothing
             Me.MenuItemServReanalize.Enabled = selectionIsNotNothing AndAlso _notSnapshotMode
             Me.MenuItemCopyService.Enabled = selectionIsNotNothing
             Me.MenuItemServDelete.Enabled = selectionIsNotNothing AndAlso _notWMI AndAlso _notSnapshotMode

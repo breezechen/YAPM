@@ -71,7 +71,7 @@ Namespace Wmi.Objects
                         .KernelTime = 10000 * CInt(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.KernelModeTime.ToString))
                         .Priority = CInt(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.Priority.ToString))
                         Try
-                            .StartAddress = CType(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.StartAddress.ToString), IntPtr)
+                            .StartAddress = New IntPtr(CLng(refThread.GetPropertyValue(Native.Api.Enums.WmiInfoThread.StartAddress.ToString)))
                         Catch ex0 As Exception
                             .StartAddress = NativeConstants.InvalidHandleValue
                         End Try

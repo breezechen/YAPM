@@ -128,7 +128,7 @@ Namespace Wmi.Objects
 
                     '_____Native.Objects.Process.NewProcesses.Add(obj.ProcessId)
 
-                    Trace.WriteLine("Got fixed infos for id = " & obj.ProcessId.ToString)
+                    ''Trace.WriteLine("Got fixed infos for id = " & obj.ProcessId.ToString)
                     '_____End If
 
                     If _dico.ContainsKey(obj.ProcessId) = False Then

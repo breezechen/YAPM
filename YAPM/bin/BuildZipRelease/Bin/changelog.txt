@@ -1,4 +1,4 @@
-YAPM 2.4.3 BETA
+YAPM 2.5.0 BETA
 
 CHANGES FROM 2.4.2
 
@@ -17,6 +17,7 @@ CHANGES FROM 2.4.2
 - Now network/system info are always retrieved (even if the associated windows are not displayed)
 
 * Bug fixed
+- Fixed Thread address info when using WMI
 - Fixed a bug in service enumeration
 - No more need to use 'Reanalize processes' to get fixed information about processes if the first displayed tab is not the process tab
 - Now all 'Save report' features are well implemented

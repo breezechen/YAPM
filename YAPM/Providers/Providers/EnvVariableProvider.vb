@@ -253,8 +253,17 @@ Public Class EnvVariableProvider
             Next
         End If
 
-        ' Save current processes into a dictionary
-        EnvVariableProvider.SetCurrentEnvVariables(0, _dico, instanceId)  'TODO (have to retrieve pid)
+        ' Save current processes into a dictionary.
+        ' Have to get the processId of the current list of processes, as there might
+        ' be envvar enumeration for more than one process.
+        ' So we retrieve the informations by enumerating the variables and getting
+        ' the first PID
+        Dim pid As Integer
+        For Each it As envVariableInfos In _dico.Values
+            pid = it.ProcessId
+            Exit For
+        Next
+        EnvVariableProvider.SetCurrentEnvVariables(pid, _dico, instanceId)
 
     End Sub
 
@@ -273,7 +282,7 @@ Public Class EnvVariableProvider
                     Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                         ' Send cDat
                         Try
-                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestEnvironmentVariableList, pObj.pid)
+                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestEnvironmentVariableList, pObj.pid, pObj.peb)
                             cDat.InstanceId = pObj.instId
                             Program.Connection.Socket.Send(cDat)
                         Catch ex As Exception

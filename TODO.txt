@@ -4,17 +4,18 @@ Refactoring bugs
 
 - ==============
 - Item en vert boolean à remettre à zéro quand on connecte
-- gestion des erreurs 'GotAnError' à refaire
-- vidage des listes (par exemple list des cEnvVariables) quand le process est kické (car le prochain qui aura le même ID doit repartir de 0)
-- instanceId a gérer (par exemple pour les providers de service)
+- vidage des listes (par exemple list des cEnvVariables) quand le process est kické (car le prochain qui aura le même ID doit repartir de 0) et non quand frmProcessInfo se ferme
 - snapshot -> récupération directe avec CurrentProcesses/Services pose problème si liste pas encore crée (Me.processes = processprovider.Currentprocesses)
 
 - get rid of registry (services)
 
-- PEB nécessaire pour enum envVar via socket (cf TODO : 0, xxx , iid)
 - collection modifiée (cf. services via socket : liste + 1/2 svchost avec leur serviceList)
 
-
+- implémenter option "temps process rouge/vert"
+- gestion des erreurs 'GotAnError' à vérifier en mode socket/wmi (lors d'une déconnexion, par sur que çà fonctionne bien)
+- pas possible d'afficher la liste des services pour un process si la liste générale est pas affichée (via socket)
+- path process en WMI pas récupéré ???
+- ramage WMI pour les switchs thread/module/general dans la form details
 
 - xp sp3 : enum des env variables foire (regression : checker les modifications apportées à envVariableEnum) --> IDENTIFIE (commentaire sur l'affectation dico process)
 - ajouter écriture log (ShowDebugLog + option)
