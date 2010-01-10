@@ -167,7 +167,7 @@ Imports System.Runtime.InteropServices
         _caption = caption
     End Sub
 
-    Friend Sub SetNonFixedInfos(ByRef infos As asyncCallbackWindowGetNonFixedInfos.TheseInfos)
+    Friend Sub SetNonFixedInfos(ByRef infos As Native.Api.Structs.WindowNonFixedInfo)
         With infos
             _enabled = .enabled
             _height = .height

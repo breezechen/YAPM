@@ -245,7 +245,7 @@ Public Class windowList
 
                 ' Refresh non-fixed infos
                 If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
-                    _item.Refresh()
+                    _item.RefreshNonFixedInfoLocal()
                 Else
                     If Dico.ContainsKey(it.Name) Then
                         _item.Merge(Dico.Item(it.Name))

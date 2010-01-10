@@ -52,6 +52,17 @@ Namespace Native.Objects
         ' Public functions
         ' ========================================
 
+        ' Get non fixed infos
+        Public Shared Function GetNonFixedInfoByHandle(ByVal handle As IntPtr) As Structs.WindowNonFixedInfo
+            Dim enabled As Boolean = Window.IsWindowEnabled(handle)
+            Dim visible As Boolean = Window.IsWindowVisible(handle)
+            Dim opacity As Byte = Window.GetWindowOpacityByHandle(handle)
+            Dim isTask As Boolean = Window.IsWindowATask(handle)
+            Dim r As Native.Api.NativeStructs.Rect = Window.GetWindowPositionAndSizeByHandle(handle)
+            Dim s As String = Window.GetWindowCaption(handle)
+            Return New Structs.WindowNonFixedInfo(enabled, isTask, opacity, r, s, visible)
+        End Function
+
         ' Get all windows
         Public Shared Function EnumerateAllWindows() As Dictionary(Of String, cWindow)
             ' Local
@@ -106,7 +117,7 @@ Namespace Native.Objects
                                 ' (this is server mode)
                                 Dim wInfo As windowInfos
                                 wInfo = New windowInfos(pid, tid, currWnd, sCap)
-                                wInfo.SetNonFixedInfos(asyncCallbackWindowGetNonFixedInfos.ProcessAndReturnLocal(currWnd))
+                                wInfo.SetNonFixedInfos(GetNonFixedInfoByHandle(currWnd))
                                 _dico.Add(key, wInfo)
                             Else
                                 _dico.Add(key, New windowInfos(pid, tid, currWnd, sCap))

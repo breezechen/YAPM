@@ -113,34 +113,9 @@ Public Class cWindow
 #End Region
 
     ' Merge infos
-    Public Sub Refresh()
-        Call RefreshSpecialInformations()
+    Public Sub RefreshNonFixedInfoLocal()
+        Me.Infos.SetNonFixedInfos(Native.Objects.Window.GetNonFixedInfoByHandle(Me.Infos.Handle))
     End Sub
-
-#Region "Special informations (GDI, affinity)"
-
-    Private Sub RefreshSpecialInformations()
-        Select Case Program.Connection.Type
-            Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
-                ' Nothing here !!
-                ' We retrieve ALL informations about a window when
-                ' we are enumerating them in Server mode
-
-            Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
-                ' Not supported
-
-            Case cConnection.TypeOfConnection.SnapshotFile
-                ' Nothing here !!
-                ' We retrieve ALL informations about a window when
-                ' we are reading the ssfile
-
-            Case cConnection.TypeOfConnection.LocalConnection
-                ' Local and sync
-                Me.Infos.SetNonFixedInfos(asyncCallbackWindowGetNonFixedInfos.ProcessAndReturnLocal(Me.Infos.Handle))
-        End Select
-    End Sub
-
-#End Region
 
 #Region "All actions on window (close, ...)"
 

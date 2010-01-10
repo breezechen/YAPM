@@ -967,7 +967,6 @@
     <Compile Include="Providers\Classes\Threads\cThreadConnection.vb" />
     <Compile Include="Providers\Classes\Threads\threadInfos.vb" />
     <Compile Include="Providers\Classes\Windows\asyncMethods\asyncCallbackWindowAction.vb" />
-    <Compile Include="Providers\Classes\Windows\asyncMethods\asyncCallbackWindowGetNonFixedInfos.vb" />
     <Compile Include="Providers\Classes\Windows\cWindow.vb" />
     <Compile Include="Providers\Classes\Windows\windowInfos.vb" />
     <Compile Include="Providers\CustomListviews\networkConnectionsList.Designer.vb">

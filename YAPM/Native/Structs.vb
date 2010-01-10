@@ -235,6 +235,38 @@ Namespace Native.Api
 
 #End Region
 
+        ' OK
+#Region "Declarations used for windows"
+
+        ' These are non-fixed infos about a window
+        Public Structure WindowNonFixedInfo
+            Public enabled As Boolean
+            Public height As Integer
+            Public isTask As Boolean
+            Public left As Integer
+            Public opacity As Byte
+            Public top As Integer
+            Public visible As Boolean
+            Public width As Integer
+            Public theRect As Native.Api.NativeStructs.Rect
+            Public caption As String
+            Public Sub New(ByVal enab As Boolean, ByVal isTas As Boolean, _
+                           ByVal opac As Byte, ByRef r As Native.Api.NativeStructs.Rect, ByVal scap As String, ByVal isV As Boolean)
+                enabled = enab
+                isTask = isTas
+                opacity = opac
+                height = r.Bottom - r.Top
+                width = r.Right - r.Left
+                top = r.Top
+                left = r.Left
+                theRect = r
+                caption = scap
+                visible = isV
+            End Sub
+        End Structure
+
+#End Region
+
 #Region "Other declarations"
 
         Public Structure PerfCounter

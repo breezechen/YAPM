@@ -76,7 +76,7 @@ Namespace Native.Objects
                             ' (this is server mode)
                             Dim wInfo As windowInfos
                             wInfo = New windowInfos(pid, tid, currWnd, Window.GetWindowCaption(currWnd))
-                            wInfo.SetNonFixedInfos(asyncCallbackWindowGetNonFixedInfos.ProcessAndReturnLocal(currWnd))
+                            wInfo.SetNonFixedInfos(GetNonFixedInfoByHandle(currWnd))
                             _dico.Add(key, wInfo)
                         Else
                             _dico.Add(key, New windowInfos(pid, tid, currWnd, Window.GetWindowCaption(currWnd)))
