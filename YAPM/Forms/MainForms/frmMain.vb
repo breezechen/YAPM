@@ -1318,7 +1318,7 @@ Public Class frmMain
     Public Sub refreshTaskList()
 
         ' Update list
-        Me.lvTask.UpdateTheItems()
+        TaskProvider.Update(Me.lvTask.InstanceId)
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
@@ -2593,7 +2593,6 @@ Public Class frmMain
         Me.lvJob.ClearItems()
 
         ' Connect all lvItems
-        Me.lvTask.ConnectionObj = Program.Connection
         Me.tv.ConnectionObj = Program.Connection
         Me.tv2.ConnectionObj = Program.Connection
         Me.lvJob.ConnectionObj = Program.Connection

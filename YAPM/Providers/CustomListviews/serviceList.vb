@@ -205,7 +205,7 @@ Public Class serviceList
             For Each z As String In _dicoNew
                 Dim _it As New cService(Dico(z))
                 _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-                _dico.Add(z.ToString, _it)
+                _dico.Add(z, _it)
             Next
 
 

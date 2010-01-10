@@ -37,12 +37,10 @@ Public Class frmServer
     End Enum
 
     Private theConnection As cConnection = Program.Connection
-    Private _windowCon As New cWindowConnection(Me, theConnection, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedWindows))
     Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
     Private _memoryCon As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemoryReg))
     Private _moduleCon As New cModuleConnection(Me, theConnection, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule))
     Private _servdepCon As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServDep))
-    Private _taskCon As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedTask))
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
     Private _logCon As New cLogConnection(Me, theConnection, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedLog))
@@ -60,12 +58,10 @@ Public Class frmServer
                 .Connect()
             End With
 
-            _windowCon.ConnectionObj = theConnection
             _threadCon.ConnectionObj = theConnection
             _handleCon.ConnectionObj = theConnection
             _moduleCon.ConnectionObj = theConnection
             _memoryCon.ConnectionObj = theConnection
-            _taskCon.ConnectionObj = theConnection
             _searchCon.ConnectionObj = theConnection
             _servdepCon.ConnectionObj = theConnection
             _logCon.ConnectionObj = theConnection
@@ -74,18 +70,14 @@ Public Class frmServer
             _searchCon.Connect()
             _servdepCon.Connect()
             _memoryCon.Connect()
-            _taskCon.Connect()
-            _windowCon.Connect()
             _threadCon.Connect()
             _handleCon.Connect()
             _logCon.Connect()
 
-            cWindow.Connection = _windowCon
             cThread.Connection = _threadCon
             cHandle.Connection = _handleCon
             cMemRegion.Connection = _memoryCon
             cModule.Connection = _moduleCon
-            cTask.Connection = _taskCon
             cLogItem.Connection = _logCon
             cJob.Connection = _jobCon
             cJobLimit.Connection = _jobLimitsCon
@@ -403,9 +395,9 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedTask(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedTask(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, windowInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If Success Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestTaskList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
@@ -417,14 +409,14 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate tasks")
+            Misc.ShowError("Unable to enumerate tasks : " & res.ErrorMessage)
         End If
 
     End Sub
 
-    Private Sub HasEnumeratedWindows(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedWindows(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, windowInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If Success Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestWindowList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
@@ -436,7 +428,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate windows")
+            Misc.ShowError("Unable to enumerate windows : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -540,13 +532,10 @@ Public Class frmServer
                         Call _handleCon.Enumerate(True, pid, unn, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestWindowList
-                        Dim pid As Integer = CType(cData.Param1, Integer)
-                        Dim all As Boolean = CBool(cData.Param3)
-                        Dim unn As Boolean = CBool(cData.Param2)
-                        Call _windowCon.Enumerate(True, pid, unn, all, _forInstanceId)
+                        Call WindowProvider.Update(True, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestTaskList
-                        Call _taskCon.Enumerate(True, _forInstanceId)
+                        Call TaskProvider.Update(_forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestSearchList
                         Dim st As String = CStr(cData.Param1)
@@ -1016,6 +1005,8 @@ Public Class frmServer
         AddHandler HeapProvider.GotRefreshed, AddressOf HasEnumeratedHeaps
         AddHandler NetworkConnectionsProvider.GotRefreshed, AddressOf HasEnumeratedNetwork
         AddHandler PrivilegeProvider.GotRefreshed, AddressOf HasEnumeratedPrivilege
+        AddHandler TaskProvider.GotRefreshed, AddressOf HasEnumeratedTask
+        AddHandler WindowProvider.GotRefreshed, AddressOf HasEnumeratedWindows
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

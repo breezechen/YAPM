@@ -131,7 +131,7 @@ Public Class cSearchItem
             Case GeneralObjectType.Window
                 ' Close window
                 If _closeW Is Nothing Then
-                    _closeW = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf windowActionDone), cWindow.Connection)
+                    _closeW = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf windowActionDone))
                 End If
                 Dim t As New System.Threading.WaitCallback(AddressOf _closeW.Process)
                 Dim newAction As Integer = cGeneralObject.GetActionCount

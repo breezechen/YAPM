@@ -41,14 +41,14 @@ Public Class cSnapshot
     ' List of jobs
     Private _jobs As New Dictionary(Of String, jobInfos)
 
+    ' List of windows 
+    Private _windows As New Dictionary(Of String, windowInfos)
+
     ' List of tasks
     Private _tasks As New Dictionary(Of String, windowInfos)
 
     ' List of modules (PID <-> Dico)
     Private _modules As New Dictionary(Of Integer, Dictionary(Of String, moduleInfos))
-
-    ' List of windows (PID <-> Dico)
-    Private _windows As New Dictionary(Of Integer, Dictionary(Of String, windowInfos))
 
     ' List of threads (PID <-> Dico)
     Private _threads As New Dictionary(Of Integer, Dictionary(Of String, threadInfos))
@@ -255,22 +255,22 @@ Public Class cSnapshot
     End Property
 
     ' List of windows
-    Public Property WindowsByProcessId(ByVal processId As Integer) As Dictionary(Of String, windowInfos)
-        Get
-            If _windows.ContainsKey(processId) Then
-                Return _windows(processId)
-            Else
-                Return New Dictionary(Of String, windowInfos)
-            End If
-        End Get
-        Set(ByVal value As Dictionary(Of String, windowInfos))
-            If _windows.ContainsKey(processId) Then
-                _windows(processId) = value
-            Else
-                _windows.Add(processId, value)
-            End If
-        End Set
-    End Property
+    'Public Property WindowsByProcessId(ByVal processId As Integer) As Dictionary(Of String, windowInfos)
+    '    Get
+    '        If _windows.ContainsKey(processId) Then
+    '            Return _windows(processId)
+    '        Else
+    '            Return New Dictionary(Of String, windowInfos)
+    '        End If
+    '    End Get
+    '    Set(ByVal value As Dictionary(Of String, windowInfos))
+    '        If _windows.ContainsKey(processId) Then
+    '            _windows(processId) = value
+    '        Else
+    '            _windows.Add(processId, value)
+    '        End If
+    '    End Set
+    'End Property
 
     ' List of threads
     Public Property ThreadsByProcessId(ByVal processId As Integer) As Dictionary(Of String, threadInfos)
@@ -398,6 +398,16 @@ Public Class cSnapshot
         End Set
     End Property
 
+    ' List of windows
+    Public Property Windows() As Dictionary(Of String, windowInfos)
+        Get
+            Return _windows
+        End Get
+        Set(ByVal value As Dictionary(Of String, windowInfos))
+            _windows = value
+        End Set
+    End Property
+
 #End Region
 
 #Region "Private properties"
@@ -409,16 +419,6 @@ Public Class cSnapshot
         End Get
         Set(ByVal value As Dictionary(Of Integer, Dictionary(Of String, moduleInfos)))
             _modules = value
-        End Set
-    End Property
-
-    ' List of windows
-    Private Property Windows() As Dictionary(Of Integer, Dictionary(Of String, windowInfos))
-        Get
-            Return _windows
-        End Get
-        Set(ByVal value As Dictionary(Of Integer, Dictionary(Of String, windowInfos)))
-            _windows = value
         End Set
     End Property
 
@@ -581,6 +581,11 @@ Public Class cSnapshot
                 Me.NetworkConnections = NetworkConnectionsProvider.CurrentNetworkConnections
             End If
 
+            ' Windows
+            If (options And Native.Api.Enums.SnapshotObject.[Windows]) = Native.Api.Enums.SnapshotObject.[Windows] Then
+                Me.Windows = WindowProvider.CurrentWindows
+            End If
+
             ' Jobs
             If (options And Native.Api.Enums.SnapshotObject.[Jobs]) = Native.Api.Enums.SnapshotObject.[Jobs] Then
                 Me.Jobs = asyncCallbackJobEnumerate.SharedLocalSyncEnumerate
@@ -588,7 +593,7 @@ Public Class cSnapshot
 
             ' Tasks
             If (options And Native.Api.Enums.SnapshotObject.[Tasks]) = Native.Api.Enums.SnapshotObject.[Tasks] Then
-                Me.Tasks = asyncCallbackTaskEnumerate.SharedLocalSyncEnumerate
+                Me.Tasks = TaskProvider.CurrentTasks
             End If
 
             ' Modules
@@ -596,14 +601,6 @@ Public Class cSnapshot
                 For Each proc As processInfos In Me.Processes.Values
                     Dim _dico As Dictionary(Of String, moduleInfos) = asyncCallbackModuleEnumerate.SharedLocalSyncEnumerate(New asyncCallbackModuleEnumerate.poolObj(proc.ProcessId, 0))
                     Me.ModulesByProcessId(proc.ProcessId) = _dico
-                Next
-            End If
-
-            ' Windows
-            If (options And Native.Api.Enums.SnapshotObject.[Windows]) = Native.Api.Enums.SnapshotObject.[Windows] Then
-                For Each proc As processInfos In Me.Processes.Values
-                    Dim _dico As Dictionary(Of String, windowInfos) = asyncCallbackWindowEnumerate.SharedLocalSyncEnumerate(New asyncCallbackWindowEnumerate.poolObj(proc.ProcessId, False, True, 0))
-                    Me.WindowsByProcessId(proc.ProcessId) = _dico
                 Next
             End If
 

@@ -42,6 +42,7 @@ Imports System.Runtime.InteropServices
     Protected _left As Integer
     Protected _opacity As Byte
     Protected _caption As String
+    Protected _key As String
 
 #End Region
 
@@ -121,6 +122,15 @@ Imports System.Runtime.InteropServices
     Public ReadOnly Property Positions() As Native.Api.NativeStructs.Rect
         Get
             Return _positions
+        End Get
+    End Property
+    Public ReadOnly Property Key() As String
+        Get
+            Static _key As String = Nothing
+            If _key Is Nothing Then
+                _key = Me.ProcessId.ToString & "-" & Me.ThreadId.ToString & "-" & Me.Handle.ToString
+            End If
+            Return _key
         End Get
     End Property
 #End Region

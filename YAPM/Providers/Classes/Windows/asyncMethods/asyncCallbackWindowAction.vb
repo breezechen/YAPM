@@ -29,13 +29,11 @@ Imports Native.Objects
 Public Class asyncCallbackWindowAction
 
     Private _theDeg As HasMadeAction
-    Private con As cWindowConnection
 
     Public Delegate Sub HasMadeAction(ByVal Success As Boolean, ByVal action As AsyncWindowAction, ByVal handle As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasMadeAction, ByRef procConnection As cWindowConnection)
+    Public Sub New(ByVal deg As HasMadeAction)
         _theDeg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj

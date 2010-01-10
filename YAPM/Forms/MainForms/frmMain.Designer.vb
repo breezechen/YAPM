@@ -2840,7 +2840,6 @@ Partial Class frmMain
         CConnection1.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection1.Snapshot = Nothing
         CConnection1.SnapshotFile = Nothing
-        Me.lvTask.ConnectionObj = CConnection1
         Me.lvTask.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvTask.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvTask.FullRowSelect = True

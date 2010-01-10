@@ -27,22 +27,7 @@ Public Class cWindow
     Inherits cGeneralObject
 
     Private _windowInfos As windowInfos
-    Private Shared WithEvents _connection As cWindowConnection
-
     Private _oldCaption As String
-
-#Region "Properties"
-
-    Public Shared Property Connection() As cWindowConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cWindowConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 
@@ -94,7 +79,7 @@ Public Class cWindow
     End Property
     Public ReadOnly Property SmallIcon() As System.Drawing.Icon
         Get
-            If _connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection Then
+            If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
                 Dim i As IntPtr = Window.GetWindowSmallIconHandleByHandle(_windowInfos.Handle)
                 If i.IsNotNull Then
                     Return System.Drawing.Icon.FromHandle(i)
@@ -130,7 +115,7 @@ Public Class cWindow
 #Region "Special informations (GDI, affinity)"
 
     Private Sub RefreshSpecialInformations()
-        Select Case _connection.ConnectionObj.Type
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                 ' Nothing here !!
                 ' We retrieve ALL informations about a window when
@@ -165,7 +150,7 @@ Public Class cWindow
 
     Public Function Close() As Integer
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -175,7 +160,7 @@ Public Class cWindow
     End Function
     Public Function Flash() As Boolean
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -185,7 +170,7 @@ Public Class cWindow
     End Function
     Public Function StopFlashing() As Boolean
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -195,7 +180,7 @@ Public Class cWindow
     End Function
     Public Function BringToFront(ByVal value As Boolean) As Integer
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -205,7 +190,7 @@ Public Class cWindow
     End Function
     Public Function SetAsForegroundWindow() As Integer
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -215,7 +200,7 @@ Public Class cWindow
     End Function
     Public Function SetAsActiveWindow() As Integer
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -225,7 +210,7 @@ Public Class cWindow
     End Function
     Public Function Minimize() As Boolean
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -235,7 +220,7 @@ Public Class cWindow
     End Function
     Public Function Maximize() As Boolean
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -245,7 +230,7 @@ Public Class cWindow
     End Function
     Public Function Show() As Boolean
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -255,7 +240,7 @@ Public Class cWindow
     End Function
     Public Function Hide() As Boolean
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -265,7 +250,7 @@ Public Class cWindow
     End Function
     Public Function SetPositions(ByVal r As Native.Api.NativeStructs.Rect) As Boolean
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -275,7 +260,7 @@ Public Class cWindow
     End Function
     Public Function SendMessage(ByVal msg As Integer, ByVal param1 As Integer, ByVal param2 As Integer) As Integer
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -285,7 +270,7 @@ Public Class cWindow
     End Function
     Private Function SetEnabled(ByVal value As Boolean) As Integer
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -295,7 +280,7 @@ Public Class cWindow
     End Function
     Private Function SetOpacity(ByVal value As Byte) As Integer
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount
@@ -305,7 +290,7 @@ Public Class cWindow
     End Function
     Private Function SetCaption(ByVal st As String) As Integer
         If _theAction Is Nothing Then
-            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone), _connection)
+            _theAction = New asyncCallbackWindowAction(New asyncCallbackWindowAction.HasMadeAction(AddressOf actionDone))
         End If
         Dim t As New System.Threading.WaitCallback(AddressOf _theAction.Process)
         Dim newAction As Integer = cGeneralObject.GetActionCount

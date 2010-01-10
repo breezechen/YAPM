@@ -1220,7 +1220,6 @@ Public Class frmProcessInfo
     Public Sub ShowWindows()
 
         Me.lvWindows.ProcessId = curProc.Infos.ProcessId
-        Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowUnNamed = Me.MenuItemWShowUn.Checked
         Me.lvWindows.UpdateTheItems()
 
@@ -1477,7 +1476,6 @@ Public Class frmProcessInfo
             Me.lvHandles.ConnectionObj = theConnection
             Me.lvProcMem.ConnectionObj = theConnection
             Me.lvLog.ConnectionObj = theConnection
-            Me.lvWindows.ConnectionObj = theConnection
             theConnection.Connect()
             Me.timerProcPerf.Interval = CInt(My.Settings.ProcessInterval * Program.Connection.RefreshmentCoefficient)
         Catch ex As Exception

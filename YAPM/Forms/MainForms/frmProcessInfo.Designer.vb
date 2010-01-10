@@ -3159,7 +3159,6 @@ Partial Class frmProcessInfo
         CConnection8.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection8.Snapshot = Nothing
         CConnection8.SnapshotFile = Nothing
-        Me.lvWindows.ConnectionObj = CConnection8
         Me.lvWindows.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvWindows.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvWindows.FullRowSelect = True
@@ -3170,7 +3169,6 @@ Partial Class frmProcessInfo
         Me.lvWindows.OverriddenDoubleBuffered = True
         Me.lvWindows.ProcessId = 0
         Me.lvWindows.ReorganizeColumns = True
-        Me.lvWindows.ShowAllPid = False
         Me.lvWindows.ShowObjectDetailsOnDoubleClick = True
         Me.lvWindows.ShowUnNamed = False
         Me.lvWindows.Size = New System.Drawing.Size(647, 282)

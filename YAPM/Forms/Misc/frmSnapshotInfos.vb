@@ -210,10 +210,16 @@ Public Class frmSnapshotInfos
                 End If
 
                 ' Windows
-                If snap.WindowsByProcessId(pair.Value.ProcessId).Count > 0 Then
+                Dim _windowsOfProcess As New Dictionary(Of String, windowInfos)
+                For Each pair2 As Generic.KeyValuePair(Of String, windowInfos) In snap.Windows
+                    If pair2.Value.ProcessId = pair.Value.ProcessId Then
+                        _windowsOfProcess.Add(pair2.Key, pair2.Value)
+                    End If
+                Next
+                If _windowsOfProcess.Count > 0 Then
                     Dim nWindows As New TreeNode("Windows")
                     n.Nodes.Add(nWindows)
-                    For Each pair2 As Collections.Generic.KeyValuePair(Of String, windowInfos) In snap.WindowsByProcessId(pair.Value.ProcessId)
+                    For Each pair2 As Collections.Generic.KeyValuePair(Of String, windowInfos) In _windowsOfProcess
                         Dim tW As TreeNode = nWindows.Nodes.Add(pair2.Value.Handle.ToString)
                         For Each info2 As String In windowInfos.GetAvailableProperties
                             tW.Nodes.Add(info2 & " : " & New cWindow(pair2.Value).GetInformation(info2))

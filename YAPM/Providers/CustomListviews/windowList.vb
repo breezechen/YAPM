@@ -26,9 +26,6 @@ Imports System.Runtime.InteropServices
 Public Class windowList
     Inherits customLV
 
-    Public Event ItemAdded(ByRef item As cWindow)
-    Public Event ItemDeleted(ByRef item As cWindow)
-    Public Event HasRefreshed()
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
 
 
@@ -36,40 +33,21 @@ Public Class windowList
     ' Private
     ' ========================================
     Private _pid As Integer
-    Private _allPid As Boolean
     Private _unNamed As Boolean
     Private _first As Boolean
     Private _dico As New Dictionary(Of String, cWindow)
-    Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _windowConnection As New cWindowConnection(Me, _connectionObject, New cWindowConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
 #Region "Properties"
 
     ' ========================================
     ' Properties
     ' ========================================
-    Public Property ConnectionObj() As cConnection
-        Get
-            Return _connectionObject
-        End Get
-        Set(ByVal value As cConnection)
-            _connectionObject = value
-        End Set
-    End Property
     Public Property ProcessId() As Integer
         Get
             Return _pid
         End Get
         Set(ByVal value As Integer)
             _pid = value
-        End Set
-    End Property
-    Public Property ShowAllPid() As Boolean
-        Get
-            Return _allPid
-        End Get
-        Set(ByVal value As Boolean)
-            _allPid = value
         End Set
     End Property
     Public Property ShowUnNamed() As Boolean
@@ -102,9 +80,9 @@ Public Class windowList
 
         _first = True
 
-        ' Set handlers
-        _windowConnection.Disconnected = New cWindowConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
-        _windowConnection.Connected = New cWindowConnection.ConnectedEventHandler(AddressOf HasConnected)
+        ' Create buffer 
+        Me.CreateSubItemsBuffer()
+
     End Sub
 
     ' Get an item from listview
@@ -119,23 +97,6 @@ Public Class windowList
         _IMG.Images.Clear()
         _IMG.Images.Add("noIcon", My.Resources.application_blue16)
         Me.Items.Clear()
-    End Sub
-
-    ' Call this to update items in listview
-    Public Overrides Sub UpdateItems()
-
-        ' Create a buffer of subitems if necessary
-        If _columnsName Is Nothing Then
-            Call CreateSubItemsBuffer()
-        End If
-
-        If _windowConnection.IsConnected Then
-
-            ' Now enumerate items
-            _windowConnection.Enumerate(_first, _pid, _unNamed, _allPid)
-
-        End If
-
     End Sub
 
     ' Get all items (associated to listviewitems)
@@ -184,17 +145,19 @@ Public Class windowList
     ' Private properties
     ' ========================================
 
-    ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, windowInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+#Region "Update methods & callbacks"
+
+    Public Overrides Sub UpdateTheItems()
 
         Try
             generalLvSemaphore.WaitOne()
 
-            If Success = False Then
-                Trace.WriteLine("Cannot enumerate, an error was raised...")
-                RaiseEvent GotAnError("Window enumeration", errorMessage)
-                Exit Sub
-            End If
+            ' This should not be used elsewhere...
+            WindowProvider._semWindows.WaitOne()
+
+            ' Get current services
+            Dim Dico As Dictionary(Of String, windowInfos) = WindowProvider.CurrentWindows
 
             ' We won't enumerate next time with all informations (included fixed infos)
             _first = False
@@ -202,21 +165,21 @@ Public Class windowList
 
             ' Now add all items with isKilled = true to _dicoDel dictionnary
             Dim _dicoDel As New List(Of String)
+            Dim _dicoNew As New List(Of String)
             For Each z As cWindow In _dico.Values
                 If z.IsKilledItem Then
-                    _dicoDel.Add(z.Infos.ProcessId.ToString & "-" & z.Infos.ThreadId.ToString & "-" & z.Infos.Handle.ToString)
+                    _dicoDel.Add(z.Infos.Key)
                 End If
             Next
 
 
             ' Now add new items to dictionnary
-            Dim _dicoNew As New List(Of String)
             For Each pair As System.Collections.Generic.KeyValuePair(Of String, windowInfos) In Dico
-                If Not (_dico.ContainsKey(pair.Key)) Then
+                ' Services for ONLY one process
+                If Not (_dico.ContainsKey(pair.Key)) AndAlso pair.Value.ProcessId = Me.ProcessId Then
                     ' Add to dico
                     _dicoNew.Add(pair.Key)
                 End If
-
             Next
 
 
@@ -232,7 +195,6 @@ Public Class windowList
             ' Now remove all deleted items from listview and _dico
             For Each z As String In _dicoDel
                 Me.Items.RemoveByKey(z)
-                RaiseEvent ItemDeleted(_dico.Item(z))
                 _dico.Remove(z)
             Next
 
@@ -240,10 +202,15 @@ Public Class windowList
             ' Merge _dico and _dicoNew
             For Each z As String In _dicoNew
                 Dim _it As New cWindow(Dico(z))
-                RaiseEvent ItemAdded(_it)
                 _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-                _dico.Add(z.ToString, _it)
+                _dico.Add(z, _it)
             Next
+
+
+            ' Create buffer if necessary
+            If _columnsName.Length = 0 Then
+                Me.CreateSubItemsBuffer()
+            End If
 
 
             ' Now add all new items to listview
@@ -282,7 +249,7 @@ Public Class windowList
                 ElseIf _item.IsKilledItem Then
                     it.BackColor = DELETED_ITEM_COLOR
                 Else
-                    it.BackColor = Color.White
+                    it.BackColor = _item.GetBackColor
                 End If
             Next
 
@@ -291,13 +258,14 @@ Public Class windowList
 
             _firstItemUpdate = False
 
-            'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh thread list.")
+            'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh windows list.")
 
             MyBase.UpdateItems()
 
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         Finally
+            WindowProvider._semWindows.Release()
             generalLvSemaphore.Release()
         End Try
 
@@ -335,7 +303,7 @@ Public Class windowList
         'item.Group = Me.Groups(0)
 
         ' Add icon
-        If _connectionObject.Type = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
             Try
                 Dim icon As System.Drawing.Icon = _dico(key).SmallIcon
                 If icon IsNot Nothing Then
@@ -357,44 +325,8 @@ Public Class windowList
 
     End Function
 
-#Region "Connection stuffs"
-
-    Private Sub _connectionObject_Connected() Handles _connectionObject.Connected
-        Call Connect()
-    End Sub
-
-    Private Sub _connectionObject_Disconnected() Handles _connectionObject.Disconnected
-        Call Disconnect()
-    End Sub
-
-    Protected Overrides Function Connect() As Boolean
-        If MyBase.Connect Then
-            Me.IsConnected = True
-            _first = True
-            _windowConnection.ConnectionObj = _connectionObject
-            _windowConnection.Connect()
-            cWindow.Connection = _windowConnection
-        End If
-    End Function
-
-    Protected Overrides Function Disconnect() As Boolean
-        If MyBase.Disconnect Then
-            Me.IsConnected = False
-            _windowConnection.Disconnect()
-        End If
-    End Function
-
-    Private Sub HasDisconnected(ByVal Success As Boolean)
-        ' We HAVE TO disconnect, because this event is raised when we got an error
-        '_windowConnection.Disconnect()
-        '     _windowConnection.Con()
-    End Sub
-
-    Private Sub HasConnected(ByVal Success As Boolean)
-        '
-    End Sub
-
 #End Region
+
 
     Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
         MyBase.OnKeyDown(e)

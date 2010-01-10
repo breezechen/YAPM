@@ -237,10 +237,8 @@ Public Class asyncCallbackSearchEnumerate
                         ' ---- WINDOWS
                         If (pObj.includ And GeneralObjectType.Window) = GeneralObjectType.Window Then
                             If _procs IsNot Nothing Then
-                                For Each theproc As processInfos In _procs.Values
-                                    Dim _tmpDico As New Dictionary(Of String, windowInfos)
-                                    _tmpDico = snap.WindowsByProcessId(theproc.ProcessId)
-                                    For Each cp As windowInfos In _tmpDico.Values
+                                For Each cp As windowInfos In snap.Windows.Values
+                                    If _procs.ContainsKey(cp.ProcessId) Then
                                         Dim cpp As New cWindow(cp)
                                         For Each field As String In windowInfos.GetAvailableProperties(includeFirstProp:=True)
                                             Dim scomp As String = cpp.GetInformation(field)
@@ -256,7 +254,7 @@ Public Class asyncCallbackSearchEnumerate
                                                 End If
                                             End If
                                         Next
-                                    Next
+                                    End If
                                 Next
                             End If
                         End If
