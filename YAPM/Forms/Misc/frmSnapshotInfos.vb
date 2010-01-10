@@ -263,14 +263,16 @@ Public Class frmSnapshotInfos
         End If
 
         ' Tasks
-        If snap.Tasks IsNot Nothing Then
+        If snap.Windows IsNot Nothing Then
             Dim rootTask As TreeNode = rootData.Nodes.Add("Tasks")
-            For Each pair As Collections.Generic.KeyValuePair(Of String, windowInfos) In snap.Tasks
-                Dim n As New TreeNode("Handle : " & pair.Value.Handle.ToString)
-                rootTask.Nodes.Add(n)
-                For Each info As String In windowInfos.GetAvailableProperties
-                    n.Nodes.Add(info & " : " & New cTask(pair.Value).GetInformation(info))
-                Next
+            For Each pair As Collections.Generic.KeyValuePair(Of String, windowInfos) In snap.Windows
+                If pair.Value.IsTask Then
+                    Dim n As New TreeNode("Handle : " & pair.Value.Handle.ToString)
+                    rootTask.Nodes.Add(n)
+                    For Each info As String In windowInfos.GetAvailableProperties
+                        n.Nodes.Add(info & " : " & New cTask(pair.Value).GetInformation(info))
+                    Next
+                End If
             Next
         End If
 

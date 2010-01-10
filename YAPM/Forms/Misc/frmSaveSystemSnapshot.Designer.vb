@@ -49,7 +49,6 @@ Partial Class frmSaveSystemSnapshot
         Me.txtSSFile.Name = "txtSSFile"
         Me.txtSSFile.Size = New System.Drawing.Size(182, 22)
         Me.txtSSFile.TabIndex = 1
-        Me.txtSSFile.Text = ""
         '
         'Label1
         '
@@ -126,7 +125,7 @@ Partial Class frmSaveSystemSnapshot
         '
         Me.lstOptions.CheckOnClick = True
         Me.lstOptions.FormattingEnabled = True
-        Me.lstOptions.Items.AddRange(New Object() {"EnvironmentVariables", "Handles", "Heaps", "JobLimits", "Jobs", "MemoryRegions", "Modules", "NetworkConnections", "Privileges", "Services", "Tasks", "Threads", "Windows"})
+        Me.lstOptions.Items.AddRange(New Object() {"EnvironmentVariables", "Handles", "Heaps", "JobLimits", "Jobs", "MemoryRegions", "Modules", "NetworkConnections", "Privileges", "Services", "Threads", "Windows"})
         Me.lstOptions.Location = New System.Drawing.Point(306, 5)
         Me.lstOptions.Name = "lstOptions"
         Me.lstOptions.Size = New System.Drawing.Size(167, 191)

@@ -558,10 +558,9 @@ Namespace Native.Api
             [MemoryRegions] = &H200
             [NetworkConnections] = &H400
             [Privileges] = &H800
-            [Tasks] = &H2000
             [Threads] = &H4000
             [Heaps] = &H8000
-            [All] = [Windows] Or [Services] Or [Handles] Or [EnvironmentVariables] Or [Modules] Or [JobLimits] Or [Jobs] Or [MemoryRegions] Or [NetworkConnections] Or [Privileges] Or [Tasks] Or [Threads] Or [Heaps]
+            [All] = [Windows] Or [Services] Or [Handles] Or [EnvironmentVariables] Or [Modules] Or [JobLimits] Or [Jobs] Or [MemoryRegions] Or [NetworkConnections] Or [Privileges] Or [Threads] Or [Heaps]
         End Enum
 
 #End Region

@@ -44,9 +44,6 @@ Public Class cSnapshot
     ' List of windows 
     Private _windows As New Dictionary(Of String, windowInfos)
 
-    ' List of tasks
-    Private _tasks As New Dictionary(Of String, windowInfos)
-
     ' List of modules (PID <-> Dico)
     Private _modules As New Dictionary(Of Integer, Dictionary(Of String, moduleInfos))
 
@@ -97,7 +94,6 @@ Public Class cSnapshot
             Me.Services = .Services
             Me.NetworkConnections = .NetworkConnections
             Me.Jobs = .Jobs
-            Me.Tasks = .Tasks
             Me.Modules = .Modules
             Me.Windows = .Windows
             Me.Threads = .Threads
@@ -223,16 +219,6 @@ Public Class cSnapshot
         End Get
         Set(ByVal value As Dictionary(Of String, jobInfos))
             _jobs = value
-        End Set
-    End Property
-
-    ' List of tasks
-    Public Property Tasks() As Dictionary(Of String, windowInfos)
-        Get
-            Return _tasks
-        End Get
-        Set(ByVal value As Dictionary(Of String, windowInfos))
-            _tasks = value
         End Set
     End Property
 
@@ -569,11 +555,30 @@ Public Class cSnapshot
 
             ' Processes
             ' We HAVE to get the list cause some other informations depend on it
-            Me.Processes = ProcessProvider.CurrentProcesses
+            ' Do a local copy (avoid "the collection has been modified...")
+            ' Wait using the synchro semaphore (should not be used elsewhere....)
+            ' Use the main list view to get the infos, as we have to retrieve
+            ' fixed informations
+            Dim _processes As New Dictionary(Of Integer, processInfos)
+            ProcessProvider._semProcess.WaitOne()
+            For Each proc As cProcess In _frmMain.lvProcess.GetAllItems
+                _processes.Add(proc.Infos.ProcessId, proc.Infos)
+            Next
+            ProcessProvider._semProcess.Release()
+            Me.Processes = _processes
+
 
             ' Services
+            ' Use the main list view to get the infos, as we have to retrieve
+            ' fixed informations
             If (options And Native.Api.Enums.SnapshotObject.[Services]) = Native.Api.Enums.SnapshotObject.[Services] Then
-                Me.Services = ServiceProvider.CurrentServices
+                Dim _services As New Dictionary(Of String, serviceInfos)
+                ServiceProvider._semServices.WaitOne()
+                For Each serv As cService In _frmMain.lvServices.GetAllItems
+                    _services.Add(serv.Infos.Name, serv.Infos)
+                Next
+                ServiceProvider._semServices.Release()
+                Me.Services = _services
             End If
 
             ' Network connections
@@ -589,11 +594,6 @@ Public Class cSnapshot
             ' Jobs
             If (options And Native.Api.Enums.SnapshotObject.[Jobs]) = Native.Api.Enums.SnapshotObject.[Jobs] Then
                 Me.Jobs = asyncCallbackJobEnumerate.SharedLocalSyncEnumerate
-            End If
-
-            ' Tasks
-            If (options And Native.Api.Enums.SnapshotObject.[Tasks]) = Native.Api.Enums.SnapshotObject.[Tasks] Then
-                Me.Tasks = WindowProvider.CurrentWindows
             End If
 
             ' Modules
@@ -616,6 +616,7 @@ Public Class cSnapshot
             If (options And Native.Api.Enums.SnapshotObject.[Privileges]) = Native.Api.Enums.SnapshotObject.[Privileges] Then
                 For Each proc As processInfos In Me.Processes.Values
                     Dim pid As Integer = proc.ProcessId
+                    PrivilegeProvider.SyncUpdate(proc.ProcessId, -1)
                     Dim _dico As Dictionary(Of String, privilegeInfos) = PrivilegeProvider.CurrentPrivileges(pid)
                     Me.PrivilegesByProcessId(pid) = _dico
                 Next
@@ -655,11 +656,9 @@ Public Class cSnapshot
             If (options And Native.Api.Enums.SnapshotObject.[EnvironmentVariables]) = Native.Api.Enums.SnapshotObject.[EnvironmentVariables] Then
                 For Each proc As processInfos In Me.Processes.Values
                     Dim pid As Integer = proc.ProcessId
-                    Using reader As New ProcessMemReader(pid)
-                        Dim peb As IntPtr = reader.GetPebAddress
-                        Dim _dico As Dictionary(Of String, envVariableInfos) = EnvVariableProvider.CurrentEnvVariables(pid)
-                        Me.EnvironnementVariablesByProcessId(pid) = _dico
-                    End Using
+                    EnvVariableProvider.SyncUpdate(pid, proc.PebAddress, -1)
+                    Dim _dico As Dictionary(Of String, envVariableInfos) = EnvVariableProvider.CurrentEnvVariables(pid)
+                    Me.EnvironnementVariablesByProcessId(pid) = _dico
                 Next
             End If
 

@@ -20,7 +20,7 @@ TODO
 
 - get rid of registry (services)
 
-- collection modifiée (cf. services via socket : liste + 1/2 svchost avec leur serviceList)
+- collection modifiée (cf. services via socket : liste + 1/2 svchost avec leur serviceList) -> valable pour toutes les listes du même type (checker tasks, windows...)
 
 - implémenter option "temps process rouge/vert"
 - gestion des erreurs 'GotAnError' à vérifier en mode socket/wmi (lors d'une déconnexion, par sur que çà fonctionne bien)

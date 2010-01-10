@@ -187,6 +187,10 @@ Public Class PrivilegeProvider
                 New System.Threading.WaitCallback(AddressOf PrivilegeProvider.ProcessEnumeration), _
                 New PrivilegeProvider.asyncEnumPoolObj(pid, instanceId))
     End Sub
+    Public Shared Sub SyncUpdate(ByVal pid As Integer, ByVal instanceId As Integer)
+        ' This is of course sync
+        PrivilegeProvider.ProcessEnumeration(New PrivilegeProvider.asyncEnumPoolObj(pid, instanceId))
+    End Sub
 
 
     ' ========================================

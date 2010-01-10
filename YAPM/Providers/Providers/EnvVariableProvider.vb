@@ -189,6 +189,10 @@ Public Class EnvVariableProvider
                 New System.Threading.WaitCallback(AddressOf EnvVariableProvider.ProcessEnumeration), _
                 New EnvVariableProvider.asyncEnumPoolObj(pid, peb, instanceId))
     End Sub
+    Public Shared Sub SyncUpdate(ByVal pid As Integer, ByVal peb As IntPtr, ByVal instanceId As Integer)
+        ' This is of course sync
+        EnvVariableProvider.ProcessEnumeration(New EnvVariableProvider.asyncEnumPoolObj(pid, peb, instanceId))
+    End Sub
 
 
     ' ========================================
