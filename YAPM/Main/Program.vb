@@ -551,12 +551,25 @@ Public Module Program
     Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
         ' Clear lists of processes/services
         ProcessProvider.ClearList()
+        ProcessProvider.FirstRefreshDone = False
+
         ServiceProvider.ClearList()
+        ServiceProvider.FirstRefreshDone = False
+
         EnvVariableProvider.ClearList()
+        EnvVariableProvider.FirstRefreshDone = False
+
         HeapProvider.ClearList()
+        HeapProvider.FirstRefreshDone = False
+
         NetworkConnectionsProvider.ClearList()
+        NetworkConnectionsProvider.FirstRefreshDone = False
+
         PrivilegeProvider.ClearList()
+        PrivilegeProvider.FirstRefreshDone = False
+
         WindowProvider.ClearList()
+        WindowProvider.FirstRefreshDone = False
     End Sub
 
     ' Create a snapshot file

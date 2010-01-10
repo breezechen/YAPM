@@ -48,10 +48,13 @@ Public Class HeapProvider
     ' ========================================
 
     ' First refresh done ?
-    Public Shared ReadOnly Property FirstRefreshDone() As Boolean
+    Public Shared Property FirstRefreshDone() As Boolean
         Get
             Return _firstRefreshDone
         End Get
+        Friend Set(ByVal value As Boolean)
+            _firstRefreshDone = value
+        End Set
     End Property
 
     ' Clear list of env variables
