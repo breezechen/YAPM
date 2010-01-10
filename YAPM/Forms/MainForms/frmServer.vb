@@ -41,7 +41,6 @@ Public Class frmServer
     Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
     Private _memoryCon As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemoryReg))
     Private _moduleCon As New cModuleConnection(Me, theConnection, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule))
-    Private _networkCon As New cNetworkConnection(Me, theConnection, New cNetworkConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedNetwork))
     Private _servdepCon As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServDep))
     Private _priviCon As New cPrivilegeConnection(Me, theConnection, New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedPrivilege))
     Private _taskCon As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedTask))
@@ -63,7 +62,6 @@ Public Class frmServer
                 .Connect()
             End With
 
-            _networkCon.ConnectionObj = theConnection
             _windowCon.ConnectionObj = theConnection
             _threadCon.ConnectionObj = theConnection
             _handleCon.ConnectionObj = theConnection
@@ -76,7 +74,6 @@ Public Class frmServer
             _logCon.ConnectionObj = theConnection
             _heapCon.ConnectionObj = theConnection
 
-            _networkCon.Connect()
             _moduleCon.Connect()
             _searchCon.Connect()
             _servdepCon.Connect()
@@ -94,7 +91,6 @@ Public Class frmServer
             cHandle.Connection = _handleCon
             cMemRegion.Connection = _memoryCon
             cModule.Connection = _moduleCon
-            cNetwork.Connection = _networkCon
             cPrivilege.Connection = _priviCon
             cTask.Connection = _taskCon
             cLogItem.Connection = _logCon
@@ -377,9 +373,9 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedNetwork(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, networkInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedNetwork(ByVal news As List(Of String), ByVal dels As List(Of String), ByVal Dico As Dictionary(Of String, networkInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If Success Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestNetworkConnectionList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
@@ -391,7 +387,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate network connections")
+            Misc.ShowError("Unable to enumerate network connections : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -520,9 +516,7 @@ Public Class frmServer
                         Call ProcessProvider.Update(True, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestNetworkConnectionList
-                        Dim pid As Integer = CType(cData.Param1, Integer)
-                        Dim all As Boolean = CBool(cData.Param2)
-                        Call _networkCon.Enumerate(True, pid, all, _forInstanceId)
+                        Call NetworkConnectionsProvider.Update(_forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestJobList
                         Call _jobCon.Enumerate(True, _forInstanceId)
@@ -1027,6 +1021,7 @@ Public Class frmServer
         AddHandler ProcessProvider.GotRefreshed, AddressOf HasEnumeratedProcess
         AddHandler ServiceProvider.GotRefreshed, AddressOf HasEnumeratedService
         AddHandler EnvVariableProvider.GotRefreshed, AddressOf HasEnumeratedEnvVar
+        AddHandler NetworkConnectionsProvider.GotRefreshed, AddressOf HasEnumeratedNetwork
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

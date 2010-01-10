@@ -21,8 +21,6 @@
 
 Option Strict On
 
-Imports System.Management
-
 Public Class InstanceIdProvider
 
     ' ========================================

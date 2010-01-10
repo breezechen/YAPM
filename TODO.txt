@@ -7,6 +7,21 @@ Refactoring bugs
 - vidage des listes (par exemple list des cEnvVariables) quand le process est kické (car le prochain qui aura le même ID doit repartir de 0) et non quand frmProcessInfo se ferme
 - snapshot -> récupération directe avec CurrentProcesses/Services pose problème si liste pas encore crée (Me.processes = processprovider.Currentprocesses)
 
+TODO
+- handles (detail)
+- heaps (detail)
+- joblimits (detail)
+- jobs (main)
+- log (detail)
+- memRegions (detail)
+- modules (detail)
+- network (detail)
+- privileges (detail)
+- search (main)
+- tasks (main)
+- threads (detail)
+- windows (detail)
+
 - get rid of registry (services)
 
 - collection modifiée (cf. services via socket : liste + 1/2 svchost avec leur serviceList)

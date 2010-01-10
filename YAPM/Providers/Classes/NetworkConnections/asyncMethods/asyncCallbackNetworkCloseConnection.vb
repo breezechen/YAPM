@@ -26,14 +26,12 @@ Imports System.Net
 
 Public Class asyncCallbackNetworkCloseConnection
 
-    Private con As cNetworkConnection
     Private _deg As HasClosedConnection
 
     Public Delegate Sub HasClosedConnection(ByVal Success As Boolean, ByVal local As IPEndPoint, ByVal remote As IPEndPoint, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasClosedConnection, ByRef netConnection As cNetworkConnection)
+    Public Sub New(ByVal deg As HasClosedConnection)
         _deg = deg
-        con = netConnection
     End Sub
 
     Public Structure poolObj

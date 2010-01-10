@@ -316,7 +316,7 @@ Partial Class frmProcessInfo
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
         Me.TabPageNetwork = New System.Windows.Forms.TabPage
-        Me.lvProcNetwork = New networkList
+        Me.lvProcNetwork = New mainNetworkConnectionsList
         Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
@@ -2775,7 +2775,6 @@ Partial Class frmProcessInfo
         CConnection4.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection4.Snapshot = Nothing
         CConnection4.SnapshotFile = Nothing
-        Me.lvProcNetwork.ConnectionObj = CConnection4
         Me.lvProcNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcNetwork.FullRowSelect = True
@@ -2784,10 +2783,8 @@ Partial Class frmProcessInfo
         Me.lvProcNetwork.Location = New System.Drawing.Point(3, 3)
         Me.lvProcNetwork.Name = "lvProcNetwork"
         Me.lvProcNetwork.OverriddenDoubleBuffered = True
-        Me.lvProcNetwork.ProcessId = 0
         Me.lvProcNetwork.ReorganizeColumns = True
-        Me.lvProcNetwork.ShowAllPid = False
-        Me.lvProcNetwork.ShowConnectionsByProcessesGroup = False
+        Me.lvProcNetwork.ShowByProcessGroup = False
         Me.lvProcNetwork.ShowObjectDetailsOnDoubleClick = True
         Me.lvProcNetwork.Size = New System.Drawing.Size(641, 276)
         Me.lvProcNetwork.TabIndex = 21
@@ -3728,7 +3725,7 @@ Partial Class frmProcessInfo
     Friend WithEvents rtb As System.Windows.Forms.RichTextBox
     Friend WithEvents TabPageServices As System.Windows.Forms.TabPage
     Friend WithEvents TabPageNetwork As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcNetwork As networkList
+    Friend WithEvents lvProcNetwork As mainNetworkConnectionsList
     Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader57 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader58 As System.Windows.Forms.ColumnHeader

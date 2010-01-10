@@ -296,7 +296,7 @@ Partial Class frmMain
         Me.tv = New serviceDependenciesList
         Me.pageNetwork = New System.Windows.Forms.TabPage
         Me.panelMain14 = New System.Windows.Forms.Panel
-        Me.lvNetwork = New networkList
+        Me.lvNetwork = New mainNetworkConnectionsList
         Me.ColumnHeader66 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader67 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader68 = New System.Windows.Forms.ColumnHeader
@@ -3735,7 +3735,6 @@ Partial Class frmMain
         CConnection7.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection7.Snapshot = Nothing
         CConnection7.SnapshotFile = Nothing
-        Me.lvNetwork.ConnectionObj = CConnection7
         Me.lvNetwork.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvNetwork.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvNetwork.FullRowSelect = True
@@ -3744,10 +3743,8 @@ Partial Class frmMain
         Me.lvNetwork.Location = New System.Drawing.Point(0, 0)
         Me.lvNetwork.Name = "lvNetwork"
         Me.lvNetwork.OverriddenDoubleBuffered = True
-        Me.lvNetwork.ProcessId = 0
         Me.lvNetwork.ReorganizeColumns = True
-        Me.lvNetwork.ShowAllPid = False
-        Me.lvNetwork.ShowConnectionsByProcessesGroup = False
+        Me.lvNetwork.ShowByProcessGroup = False
         Me.lvNetwork.ShowItemToolTips = True
         Me.lvNetwork.ShowObjectDetailsOnDoubleClick = True
         Me.lvNetwork.Size = New System.Drawing.Size(852, 357)
@@ -5990,7 +5987,7 @@ Partial Class frmMain
     Friend WithEvents tv As serviceDependenciesList
     Friend WithEvents pageNetwork As System.Windows.Forms.TabPage
     Friend WithEvents panelMain14 As System.Windows.Forms.Panel
-    Friend WithEvents lvNetwork As networkList
+    Friend WithEvents lvNetwork As mainNetworkConnectionsList
     Friend WithEvents ColumnHeader66 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader67 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader68 As System.Windows.Forms.ColumnHeader

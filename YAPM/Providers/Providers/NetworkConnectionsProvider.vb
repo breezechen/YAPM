@@ -21,7 +21,9 @@
 
 Option Strict On
 
-Public Class EnvVariableProvider
+Imports System.Management
+
+Public Class NetworkConnectionsProvider
 
     ' ========================================
     ' Private constants
@@ -32,12 +34,9 @@ Public Class EnvVariableProvider
     ' Private attributes
     ' ========================================
 
-    ' Current processes running PID <-> (string <-> envVar)
-    Private Shared _currentEnvVariables As New Dictionary(Of Integer, Dictionary(Of String, envVariableInfos))
-    Friend Shared _semEnvVariables As New System.Threading.Semaphore(1, 1)
-
-    ' First refresh done ?
-    Private Shared _firstRefreshDone As Boolean = False
+    ' Current processes running
+    Private Shared _currentConnections As New Dictionary(Of String, networkInfos)
+    Friend Shared _semConnections As New System.Threading.Semaphore(1, 1)
 
     ' Sempahore to protect async ProcessEnumeration
     Friend Shared _semProcessEnumeration As New System.Threading.Semaphore(1, 1)
@@ -47,84 +46,40 @@ Public Class EnvVariableProvider
     ' Public properties
     ' ========================================
 
-    ' First refresh done ?
-    Public Shared ReadOnly Property FirstRefreshDone() As Boolean
-        Get
-            Return _firstRefreshDone
-        End Get
-    End Property
-
-    ' Clear list of env variables
-    Public Shared Sub ClearList()
-        Try
-            _semEnvVariables.WaitOne()
-            _currentEnvVariables.Clear()
-        Finally
-            _semEnvVariables.Release()
-        End Try
-    End Sub
-
-    ' Clear list for a specific processID
-    Public Shared Sub ClearListForAnId(ByVal pid As Integer)
-        Try
-            _semEnvVariables.WaitOne()
-            If _currentEnvVariables.ContainsKey(pid) Then
-                _currentEnvVariables(pid).Clear()
-            End If
-        Finally
-            _semEnvVariables.Release()
-        End Try
-    End Sub
-
     ' List of current processes
-    Public Shared ReadOnly Property CurrentEnvVariables(ByVal pid As Integer) As Dictionary(Of String, envVariableInfos)
+    Public Shared ReadOnly Property CurrentNetworkConnections() As Dictionary(Of String, networkInfos)
         Get
-            Try
-                _semEnvVariables.WaitOne()
-                If _currentEnvVariables.ContainsKey(pid) Then
-                    Return _currentEnvVariables(pid)
-                Else
-                    Return New Dictionary(Of String, envVariableInfos)
-                End If
-            Finally
-                _semEnvVariables.Release()
-            End Try
+            Return _currentConnections
         End Get
     End Property
+    Public Shared Sub SetCurrentConnections(ByVal value As Dictionary(Of String, networkInfos), ByVal instanceId As Integer)
 
-    Public Shared Sub SetCurrentEnvVariables(ByVal pid As Integer, ByVal value As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer)
-
-        Dim _dicoDel As New Dictionary(Of String, envVariableInfos)
+        Dim _dicoDel As New Dictionary(Of String, networkInfos)
         Dim _dicoDelSimp As New List(Of String)
         Dim _dicoNew As New List(Of String)
 
         Dim res As Native.Api.Structs.QueryResult
 
         Try
-            _semEnvVariables.WaitOne()
-
-            ' Add a new entry
-            If _currentEnvVariables.ContainsKey(pid) = False Then
-                _currentEnvVariables.Add(pid, New Dictionary(Of String, envVariableInfos))
-            End If
+            _semConnections.WaitOne()
 
             ' Get deleted items
-            For Each vars As String In _currentEnvVariables(pid).Keys
-                If Not (value.ContainsKey(vars)) Then
-                    _dicoDel.Add(vars, _currentEnvVariables(pid)(vars))
-                    _dicoDelSimp.Add(vars)
+            For Each key As String In _currentConnections.Keys
+                If Not (value.ContainsKey(key)) Then
+                    _dicoDel.Add(key, _currentConnections(key))
+                    _dicoDelSimp.Add(key)
                 End If
             Next
 
             ' Get new items
-            For Each vars As String In value.Keys
-                If Not (_currentEnvVariables(pid).ContainsKey(vars)) Then
-                    _dicoNew.Add(vars)
+            For Each key As String In value.Keys
+                If Not (_currentConnections.ContainsKey(key)) Then
+                    _dicoNew.Add(key)
                 End If
             Next
 
             ' Re-assign dico
-            _currentEnvVariables(pid) = value
+            _currentConnections = value
 
             res = New Native.Api.Structs.QueryResult(True)
 
@@ -132,11 +87,10 @@ Public Class EnvVariableProvider
             Misc.ShowDebugError(ex)
             res = New Native.Api.Structs.QueryResult(ex)
         Finally
-            _semEnvVariables.Release()
+            _semConnections.Release()
         End Try
 
         ' Raise events
-        _firstRefreshDone = True
         RaiseEvent GotDeletedItems(_dicoDel, instanceId, res)
         RaiseEvent GotNewItems(_dicoNew, value, instanceId, res)
         RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId, res)
@@ -144,23 +98,20 @@ Public Class EnvVariableProvider
     End Sub
 
 
+
     ' ========================================
     ' Other public
     ' ========================================
 
     ' Shared events
-    Public Shared Event GotNewItems(ByVal keys As List(Of String), ByVal newItems As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
-    Public Shared Event GotDeletedItems(ByVal keys As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
-    Public Shared Event GotRefreshed(ByVal newItems As List(Of String), ByVal delItems As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotNewItems(ByVal news As List(Of String), ByVal newItems As Dictionary(Of String, networkInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotDeletedItems(ByVal dels As Dictionary(Of String, networkInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotRefreshed(ByVal news As List(Of String), ByVal dels As List(Of String), ByVal Dico As Dictionary(Of String, networkInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
     ' Structure used to store parameters of enumeration
     Public Structure asyncEnumPoolObj
-        Public pid As Integer
-        Public peb As IntPtr
         Public instId As Integer
-        Public Sub New(ByVal procId As Integer, ByVal pebA As IntPtr, ByVal instanceId As Integer)
-            pid = procId
-            peb = pebA
+        Public Sub New(ByVal instanceId As Integer)
             instId = instanceId
         End Sub
     End Structure
@@ -179,12 +130,22 @@ Public Class EnvVariableProvider
         AddHandler Program.Connection.Socket.ReceivedData, AddressOf eventSockReceiveData
     End Sub
 
-    ' Refresh list of env variables by processId depending on the connection NOW
-    Public Shared Sub Update(ByVal pid As Integer, ByVal peb As IntPtr, ByVal instanceId As Integer)
+    ' Clear list of current elements
+    Public Shared Sub ClearList()
+        Try
+            _semConnections.WaitOne()
+            _currentConnections.Clear()
+        Finally
+            _semConnections.Release()
+        End Try
+    End Sub
+
+    ' Refresh list of processes depending on the connection NOW
+    Public Shared Sub Update(ByVal instanceId As Integer)
         ' This is of course async
         Call Threading.ThreadPool.QueueUserWorkItem( _
-                New System.Threading.WaitCallback(AddressOf EnvVariableProvider.ProcessEnumeration), _
-                New EnvVariableProvider.asyncEnumPoolObj(pid, peb, instanceId))
+                New System.Threading.WaitCallback(AddressOf NetworkConnectionsProvider.ProcessEnumeration), _
+                New NetworkConnectionsProvider.asyncEnumPoolObj(instanceId))
     End Sub
 
 
@@ -230,7 +191,7 @@ Public Class EnvVariableProvider
             End If
 
             If data.Type = cSocketData.DataType.RequestedList AndAlso _
-                data.Order = cSocketData.OrderType.RequestEnvironmentVariableList Then
+                data.Order = cSocketData.OrderType.RequestNetworkConnectionList Then
                 ' We receive the list
                 Me.GotListFromSocket(data.GetList, data.GetKeys, data.InstanceId)
             End If
@@ -241,27 +202,18 @@ Public Class EnvVariableProvider
 
     ' When socket got a list of processes !
     Private Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String, ByVal instanceId As Integer)
-        Dim _dico As New Dictionary(Of String, envVariableInfos)
+        Dim _dico As New Dictionary(Of String, networkInfos)
 
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
                 If _dico.ContainsKey(keys(x)) = False Then
-                    _dico.Add(keys(x), DirectCast(lst(x), envVariableInfos))
+                    _dico.Add(keys(x), DirectCast(lst(x), networkInfos))
                 End If
             Next
         End If
 
-        ' Save current processes into a dictionary.
-        ' Have to get the processId of the current list of processes, as there might
-        ' be envvar enumeration for more than one process.
-        ' So we retrieve the informations by enumerating the variables and getting
-        ' the first PID
-        Dim pid As Integer
-        For Each it As envVariableInfos In _dico.Values
-            pid = it.ProcessId
-            Exit For
-        Next
-        EnvVariableProvider.SetCurrentEnvVariables(pid, _dico, instanceId)
+        ' Save current processes into a dictionary
+        NetworkConnectionsProvider.SetCurrentConnections(_dico, instanceId)
 
     End Sub
 
@@ -280,7 +232,7 @@ Public Class EnvVariableProvider
                     Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                         ' Send cDat
                         Try
-                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestEnvironmentVariableList, pObj.pid, pObj.peb)
+                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestNetworkConnectionList)
                             cDat.InstanceId = pObj.instId
                             Program.Connection.Socket.Send(cDat)
                         Catch ex As Exception
@@ -293,23 +245,24 @@ Public Class EnvVariableProvider
                     Case cConnection.TypeOfConnection.SnapshotFile
                         ' Snapshot
 
-                        Dim _dico As New Dictionary(Of String, envVariableInfos)
+                        Dim _dico As New Dictionary(Of String, networkInfos)
                         Dim snap As cSnapshot = Program.Connection.Snapshot
                         If snap IsNot Nothing Then
-                            _dico = snap.EnvironnementVariablesByProcessId(pObj.pid)
+                            _dico = snap.NetworkConnections
                         End If
 
                         ' Save current processes into a dictionary
-                        EnvVariableProvider.SetCurrentEnvVariables(pObj.pid, _dico, pObj.instId)
+                        NetworkConnectionsProvider.SetCurrentConnections(_dico, pObj.instId)
 
                     Case Else
                         ' Local
-                        Dim _dico As Dictionary(Of String, envVariableInfos)
+                        Dim _dico As New Dictionary(Of String, networkInfos)
 
-                        _dico = SharedLocalSyncEnumerate(pObj)
+                        ' Enumeration
+                        Native.Objects.Network.EnumerateTcpUdpConnections(_dico, True)
 
                         ' Save current processes into a dictionary
-                        EnvVariableProvider.SetCurrentEnvVariables(pObj.pid, _dico, pObj.instId)
+                        NetworkConnectionsProvider.SetCurrentConnections(_dico, pObj.instId)
 
                 End Select
 
@@ -322,25 +275,5 @@ Public Class EnvVariableProvider
         End Try
 
     End Sub
-
-
-    ' Shared, local and sync enumeration
-    Private Shared Function SharedLocalSyncEnumerate(ByVal pObj As asyncEnumPoolObj) As Dictionary(Of String, envVariableInfos)
-        Dim _dico As New Dictionary(Of String, envVariableInfos)
-
-        Dim var() As String = Nothing
-        Dim val() As String = Nothing
-
-        ' Get the env variables
-        Native.Objects.EnvVariable.GetEnvironmentVariables(pObj.pid, pObj.peb, var, val)
-
-        For x As Integer = 0 To var.Length - 1
-            If _dico.ContainsKey(var(x)) = False Then
-                _dico.Add(var(x), New envVariableInfos(var(x), val(x), pObj.pid))
-            End If
-        Next
-
-        Return _dico
-    End Function
 
 End Class

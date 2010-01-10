@@ -186,6 +186,16 @@ Public Class ProcessProvider
         AddHandler Program.Connection.Socket.ReceivedData, AddressOf eventSockReceiveData
     End Sub
 
+    ' Clear list of current elements
+    Public Shared Sub ClearList()
+        Try
+            _semProcess.WaitOne()
+            _currentProcesses.Clear()
+        Finally
+            _semProcess.Release()
+        End Try
+    End Sub
+
     ' Get a process by its id
     ' Thread safe
     Public Shared Function GetProcessById(ByVal id As Integer) As cProcess

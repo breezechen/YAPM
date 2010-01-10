@@ -128,7 +128,7 @@ Public Class frmChooseColumns
             ss = memRegionInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is moduleList Then
             ss = moduleInfos.GetAvailableProperties
-        ElseIf TypeOf (ConcernedListView) Is networkList Then
+        ElseIf TypeOf (ConcernedListView) Is mainNetworkConnectionsList Then
             ss = networkInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is mainProcessList Then
             ss = processInfos.GetAvailableProperties

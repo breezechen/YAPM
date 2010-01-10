@@ -34,20 +34,6 @@ Public Class cNetwork
 
     Private _haveResolvedAnAddress As Boolean
     Private _networkInfos As networkInfos
-    Private Shared WithEvents _connection As cNetworkConnection
-
-#Region "Properties"
-
-    Public Shared Property Connection() As cNetworkConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cNetworkConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 
@@ -56,7 +42,7 @@ Public Class cNetwork
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.NetworkConnection
 
         ' Solve DNS (only on local mode)
-        If cNetwork.Connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
             Try
                 If Me.Infos._Local.Address.Equals(nullAddress) = False Then
                     Dim t As New System.Threading.WaitCallback(AddressOf getHostNameLocal)
@@ -69,7 +55,7 @@ Public Class cNetwork
 
         ' If not Snapshot mode (it has no sense as the snapshot might refer
         ' to a system on another network...)
-        If cNetwork.Connection.ConnectionObj.Type <> cConnection.TypeOfConnection.SnapshotFile Then
+        If Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile Then
             Try
                 If Me.Infos._remote IsNot Nothing AndAlso Me.Infos._remote.Address.Equals(nullAddress) = False Then
                     Dim t As New System.Threading.WaitCallback(AddressOf getHostNameRemote)
@@ -246,7 +232,7 @@ Public Class cNetwork
     Public Function CloseTCP() As Integer
 
         If _closeTCP Is Nothing Then
-            _closeTCP = New asyncCallbackNetworkCloseConnection(New asyncCallbackNetworkCloseConnection.HasClosedConnection(AddressOf closeTCPDone), _connection)
+            _closeTCP = New asyncCallbackNetworkCloseConnection(New asyncCallbackNetworkCloseConnection.HasClosedConnection(AddressOf closeTCPDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _closeTCP.Process)

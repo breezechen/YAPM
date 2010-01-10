@@ -161,6 +161,16 @@ Public Class ServiceProvider
         AddHandler Program.Connection.Socket.ReceivedData, AddressOf eventSockReceiveData
     End Sub
 
+    ' Clear list of current elements
+    Public Shared Sub ClearList()
+        Try
+            _semServices.WaitOne()
+            _currentServices.Clear()
+        Finally
+            _semServices.Release()
+        End Try
+    End Sub
+
     ' Get a service by its name
     ' Thread safe
     Public Shared Function GetServiceByName(ByVal name As String) As cService

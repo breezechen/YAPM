@@ -1203,9 +1203,9 @@ Public Class frmProcessInfo
     ' Show network connections
     Public Sub ShowNetwork()
 
-        Me.lvProcNetwork.ShowAllPid = False
-        Me.lvProcNetwork.ProcessId = curProc.Infos.ProcessId
-        Me.lvProcNetwork.UpdateTheItems()
+        'Me.lvProcNetwork.ShowAllPid = False
+        'Me.lvProcNetwork.ProcessId = curProc.Infos.ProcessId
+        'Me.lvProcNetwork.UpdateTheItems()
 
     End Sub
 
@@ -1481,7 +1481,6 @@ Public Class frmProcessInfo
             Me.lvPrivileges.ConnectionObj = theConnection
             Me.lvWindows.ConnectionObj = theConnection
             Me.lvHeaps.ConnectionObj = theConnection
-            Me.lvProcNetwork.ConnectionObj = theConnection
             theConnection.Connect()
             Me.timerProcPerf.Interval = CInt(My.Settings.ProcessInterval * Program.Connection.RefreshmentCoefficient)
         Catch ex As Exception

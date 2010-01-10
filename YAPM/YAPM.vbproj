@@ -419,8 +419,8 @@
       <DependentUpon>moduleList.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Providers\CustomListviews\networkList.resx">
-      <DependentUpon>networkList.vb</DependentUpon>
+    <EmbeddedResource Include="Providers\CustomListviews\mainNetworkConnectionsList.resx">
+      <DependentUpon>mainNetworkConnectionsList.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\privilegeList.resx">
@@ -1006,6 +1006,7 @@
     <Compile Include="Providers\CustomListviews\jobList.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Providers\Providers\NetworkConnectionsProvider.vb" />
     <Compile Include="Providers\Providers\EnvVariableProvider.vb" />
     <Compile Include="Providers\InstanceIdProvider.vb" />
     <Compile Include="Providers\Providers\ServiceProvider.vb" />
@@ -1090,10 +1091,10 @@
     <Compile Include="Providers\CustomListviews\moduleList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Providers\CustomListviews\networkList.Designer.vb">
-      <DependentUpon>networkList.vb</DependentUpon>
+    <Compile Include="Providers\CustomListviews\mainNetworkConnectionsList.Designer.vb">
+      <DependentUpon>mainNetworkConnectionsList.vb</DependentUpon>
     </Compile>
-    <Compile Include="Providers\CustomListviews\networkList.vb">
+    <Compile Include="Providers\CustomListviews\mainNetworkConnectionsList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Providers\CustomListviews\privilegeList.Designer.vb">

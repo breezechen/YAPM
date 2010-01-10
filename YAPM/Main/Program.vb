@@ -145,6 +145,7 @@ Public Module Program
 
     Private _processProvider As ProcessProvider
     Private _serviceProvider As ServiceProvider
+    Private _networkProvider As NetworkConnectionsProvider
     Private _envVariableProvider As EnvVariableProvider
     Private WithEvents _updater As cUpdate
     Private _progParameters As ProgramParameters
@@ -242,6 +243,11 @@ Public Module Program
     Public ReadOnly Property EnvVariableProvider() As EnvVariableProvider
         Get
             Return _envVariableProvider
+        End Get
+    End Property
+    Public ReadOnly Property NetworkConnectionsProvider() As NetworkConnectionsProvider
+        Get
+            Return _networkProvider
         End Get
     End Property
 
@@ -387,6 +393,7 @@ Public Module Program
             _processProvider = New ProcessProvider  ' Process provider
             _serviceProvider = New ServiceProvider  ' Service provider
             _envVariableProvider = New EnvVariableProvider  ' Env variables provider
+            _networkProvider = New NetworkConnectionsProvider   ' Network connections
 
 
             ' ======= Load preferences
@@ -523,9 +530,10 @@ Public Module Program
 
     Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
         ' Clear lists of processes/services
-        ProcessProvider.CurrentProcesses.Clear()
-        ServiceProvider.CurrentServices.Clear()
+        ProcessProvider.ClearList()
+        ServiceProvider.ClearList()
         EnvVariableProvider.ClearList()
+        NetworkConnectionsProvider.ClearList()
     End Sub
 
     ' Create a snapshot file

@@ -578,7 +578,7 @@ Public Class cSnapshot
 
             ' Network connections
             If (options And Native.Api.Enums.SnapshotObject.[NetworkConnections]) = Native.Api.Enums.SnapshotObject.[NetworkConnections] Then
-                Me.NetworkConnections = asyncCallbackNetworkEnumerate.SharedLocalSyncEnumerate(New asyncCallbackNetworkEnumerate.poolObj(Nothing, True, 0))
+                Me.NetworkConnections = NetworkConnectionsProvider.CurrentNetworkConnections
             End If
 
             ' Jobs

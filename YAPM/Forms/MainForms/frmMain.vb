@@ -1398,8 +1398,8 @@ Public Class frmMain
 
     Private Sub refreshNetworkList()
 
-        Me.lvNetwork.ShowAllPid = True
-        Me.lvNetwork.UpdateTheItems()
+        ' Update current connections list
+        NetworkConnectionsProvider.Update(Me.lvNetwork.InstanceId)
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text
@@ -2578,7 +2578,6 @@ Public Class frmMain
         Me.lvJob.ClearItems()
 
         ' Connect all lvItems
-        Me.lvNetwork.ConnectionObj = Program.Connection
         Me.lvTask.ConnectionObj = Program.Connection
         Me.tv.ConnectionObj = Program.Connection
         Me.tv2.ConnectionObj = Program.Connection
