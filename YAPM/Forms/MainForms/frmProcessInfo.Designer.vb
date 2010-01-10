@@ -2529,7 +2529,6 @@ Partial Class frmProcessInfo
         CConnection1.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection1.Snapshot = Nothing
         CConnection1.SnapshotFile = Nothing
-        Me.lvPrivileges.ConnectionObj = CConnection1
         Me.lvPrivileges.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvPrivileges.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvPrivileges.FullRowSelect = True
@@ -2538,7 +2537,6 @@ Partial Class frmProcessInfo
         Me.lvPrivileges.Location = New System.Drawing.Point(3, 3)
         Me.lvPrivileges.Name = "lvPrivileges"
         Me.lvPrivileges.OverriddenDoubleBuffered = True
-        Me.lvPrivileges.ProcessId = 0
         Me.lvPrivileges.ReorganizeColumns = True
         Me.lvPrivileges.ShowObjectDetailsOnDoubleClick = True
         Me.lvPrivileges.Size = New System.Drawing.Size(627, 244)
@@ -2977,7 +2975,6 @@ Partial Class frmProcessInfo
         Me.lvProcEnv.Name = "lvProcEnv"
         Me.lvProcEnv.OverriddenDoubleBuffered = True
         'TODO: La génération de code pour 'Me.lvProcEnv.Peb' a échoué en raison de l'exception 'Type Primitive non valide : System.IntPtr. Si possible, utilisez CodeObjectCreateExpression à la place.'.
-        Me.lvProcEnv.ProcessId = 0
         Me.lvProcEnv.ReorganizeColumns = True
         Me.lvProcEnv.ShowObjectDetailsOnDoubleClick = True
         Me.lvProcEnv.Size = New System.Drawing.Size(647, 282)
@@ -3470,7 +3467,6 @@ Partial Class frmProcessInfo
         Me.lvHeaps.Location = New System.Drawing.Point(0, 0)
         Me.lvHeaps.Name = "lvHeaps"
         Me.lvHeaps.OverriddenDoubleBuffered = True
-        Me.lvHeaps.ProcessId = 0
         Me.lvHeaps.ReorganizeColumns = True
         Me.lvHeaps.ShowObjectDetailsOnDoubleClick = False
         Me.lvHeaps.Size = New System.Drawing.Size(647, 282)

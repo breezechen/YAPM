@@ -619,7 +619,7 @@ Public Class cSnapshot
             If (options And Native.Api.Enums.SnapshotObject.[Privileges]) = Native.Api.Enums.SnapshotObject.[Privileges] Then
                 For Each proc As processInfos In Me.Processes.Values
                     Dim pid As Integer = proc.ProcessId
-                    Dim _dico As Dictionary(Of String, privilegeInfos) = asyncCallbackPrivilegesEnumerate.SharedLocalSyncEnumerate(New asyncCallbackPrivilegesEnumerate.poolObj(pid, 0))
+                    Dim _dico As Dictionary(Of String, privilegeInfos) = PrivilegeProvider.CurrentPrivileges(pid)
                     Me.PrivilegesByProcessId(pid) = _dico
                 Next
             End If

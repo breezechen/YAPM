@@ -401,6 +401,7 @@ Public Class frmProcessInfo
         ' Clear items in providers
         EnvVariableProvider.ClearListForAnId(curProc.Infos.ProcessId)
         HeapProvider.ClearListForAnId(curProc.Infos.ProcessId)
+        PrivilegeProvider.ClearListForAnId(curProc.Infos.ProcessId)
 
     End Sub
 
@@ -1177,8 +1178,7 @@ Public Class frmProcessInfo
     ' Show privileges
     Public Sub ShowPrivileges()
 
-        lvPrivileges.ProcessId = curProc.Infos.ProcessId
-        lvPrivileges.UpdateTheItems()
+        PrivilegeProvider.Update(curProc.Infos.ProcessId, Me.lvPrivileges.InstanceId)
 
     End Sub
 
@@ -1477,7 +1477,6 @@ Public Class frmProcessInfo
             Me.lvHandles.ConnectionObj = theConnection
             Me.lvProcMem.ConnectionObj = theConnection
             Me.lvLog.ConnectionObj = theConnection
-            Me.lvPrivileges.ConnectionObj = theConnection
             Me.lvWindows.ConnectionObj = theConnection
             theConnection.Connect()
             Me.timerProcPerf.Interval = CInt(My.Settings.ProcessInterval * Program.Connection.RefreshmentCoefficient)

@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackPrivilegeChangeStatus
 
-    Private con As cPrivilegeConnection
     Private _deg As HasChangedStatus
 
     Public Delegate Sub HasChangedStatus(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasChangedStatus, ByRef procConnection As cPrivilegeConnection)
+    Public Sub New(ByVal deg As HasChangedStatus)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj

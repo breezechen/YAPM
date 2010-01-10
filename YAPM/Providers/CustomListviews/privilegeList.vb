@@ -26,44 +26,15 @@ Imports System.Runtime.InteropServices
 Public Class privilegeList
     Inherits customLV
 
-    Public Event ItemAdded(ByRef item As cPrivilege)
-    Public Event ItemDeleted(ByRef item As cPrivilege)
-    Public Event HasRefreshed()
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
 
 
     ' ========================================
     ' Private
     ' ========================================
-    Private _pid As Integer
     Private _first As Boolean
     Private _dico As New Dictionary(Of String, cPrivilege)
-    Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _privilegeConnection As New cPrivilegeConnection(Me, _connectionObject, New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
-#Region "Properties"
-
-    ' ========================================
-    ' Properties
-    ' ========================================
-    Public Property ConnectionObj() As cConnection
-        Get
-            Return _connectionObject
-        End Get
-        Set(ByVal value As cConnection)
-            _connectionObject = value
-        End Set
-    End Property
-    Public Property ProcessId() As Integer
-        Get
-            Return _pid
-        End Get
-        Set(ByVal value As Integer)
-            _pid = value
-        End Set
-    End Property
-
-#End Region
 
     ' ========================================
     ' Public functions
@@ -76,9 +47,11 @@ Public Class privilegeList
 
         _first = True
 
+        ' Create buffer 
+        Me.CreateSubItemsBuffer()
+
         ' Set handlers
-        _privilegeConnection.Disconnected = New cPrivilegeConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
-        _privilegeConnection.Connected = New cPrivilegeConnection.ConnectedEventHandler(AddressOf HasConnected)
+        AddHandler PrivilegeProvider.GotRefreshed, AddressOf Me.GotRefreshed  ' We will add/remove/refresh using this handler
     End Sub
 
     ' Delete all items
@@ -86,23 +59,6 @@ Public Class privilegeList
         _first = True
         _dico.Clear()
         Me.Items.Clear()
-    End Sub
-
-    ' Call this to update items in listview
-    Public Overrides Sub UpdateItems()
-
-        ' Create a buffer of subitems if necessary
-        If _columnsName Is Nothing Then
-            Call CreateSubItemsBuffer()
-        End If
-
-        If _privilegeConnection.IsConnected Then
-
-            ' Now enumerate items
-            _privilegeConnection.Enumerate(_first, _pid)
-
-        End If
-
     End Sub
 
     ' Get all items (associated to listviewitems)
@@ -151,126 +107,155 @@ Public Class privilegeList
     ' Private properties
     ' ========================================
 
-    ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
-        Try
-            generalLvSemaphore.WaitOne()
+#Region "Update methods & callbacks"
 
-            If Success = False Then
-                Trace.WriteLine("Cannot enumerate, an error was raised...")
-                RaiseEvent GotAnError("Privilege enumeration", errorMessage)
-                Exit Sub
-            End If
+    ' GotNewProcesses, GotDeletedProcesses and GotRefreshed are ALWAYS called
+    ' sequentially, and are protected by a semaphore -> no need to reprotect it here
+    Private Delegate Sub degGotNewItems(ByVal news As List(Of String), ByVal newItems As Dictionary(Of String, privilegeInfos))
+    Private Sub GotNewItems(ByVal news As List(Of String), ByVal newItems As Dictionary(Of String, privilegeInfos))
 
-            ' We won't enumerate next time with all informations (included fixed infos)
-            _first = False
+        ' Lock lv if necesary
+        Dim _hasToLock As Boolean = (_firstItemUpdate OrElse newItems.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE)
+        If _hasToLock Then
+            Me.BeginUpdate()
+        End If
+        For Each var As String In news
+            If _dico.ContainsKey(var) = False Then
+                Dim envvar As New cPrivilege(newItems(var))
+                envvar.NewCount = 3
+                _dico.Add(var, envvar)
 
-
-            ' Now add all items with isKilled = true to _dicoDel dictionnary
-            Dim _dicoDel As New List(Of String)
-            For Each z As cPrivilege In _dico.Values
-                If z.IsKilledItem Then
-                    _dicoDel.Add(z.Infos.Name)
-                End If
-            Next
-
-
-            ' Now add new items to dictionnary
-            Dim _dicoNew As New List(Of String)
-            For Each pair As System.Collections.Generic.KeyValuePair(Of String, privilegeInfos) In Dico
-                If Not (_dico.ContainsKey(pair.Key)) Then
-                    ' Add to dico
-                    _dicoNew.Add(pair.Key)
-                End If
-
-            Next
-
-
-            ' Now remove deleted items from dictionnary
-            For Each z As String In _dico.Keys
-                If Dico.ContainsKey(z) = False Then
-                    ' Remove from dico
-                    _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
-                End If
-            Next
-
-
-            ' Now remove all deleted items from listview and _dico
-            For Each z As String In _dicoDel
-                Me.Items.RemoveByKey(z)
-                RaiseEvent ItemDeleted(_dico.Item(z))
-                _dico.Remove(z)
-            Next
-
-
-            ' Merge _dico and _dicoNew
-            For Each z As String In _dicoNew
-                Dim _it As New cPrivilege(Dico(z))
-                RaiseEvent ItemAdded(_it)
-                _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-                _dico.Add(z.ToString, _it)
-            Next
-
-
-            ' Now add all new items to listview
-            ' If first time, lock listview
-            If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
-            For Each z As String In _dicoNew
-
-                ' Add to listview
+                ' Add new item to lv
                 Dim _subItems() As String
                 ReDim _subItems(Me.Columns.Count - 1)
                 For x As Integer = 1 To _subItems.Length - 1
                     _subItems(x) = ""
                 Next
-                AddItemWithStyle(z).SubItems.AddRange(_subItems)
-            Next
-            If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.EndUpdate()
+                AddItemWithStyle(var, envvar).SubItems.AddRange(_subItems)
+            End If
+        Next
 
+        ' Unlock lv if necesary
+        If _hasToLock Then
+            Me.EndUpdate()
+        End If
 
-            ' Now refresh all subitems of the listview
-            Dim isub As ListViewItem.ListViewSubItem
-            Dim it As ListViewItem
-            For Each it In Me.Items
-                Dim x As Integer = 0
-                Dim _item As cPrivilege = _dico.Item(it.Name)
-                If Dico.ContainsKey(it.Name) Then
-                    _item.Merge(Dico.Item(it.Name))
-                End If
-                Dim __info As String = Nothing
-                For Each isub In it.SubItems
-                    If _item.GetInformation(_columnsName(x), __info) Then
-                        isub.Text = __info
+    End Sub
+    Private Sub GotDeletedItems(ByVal dels As List(Of String))
+        For Each var As String In dels
+            Dim cv As cPrivilege = Nothing
+            If _dico.ContainsKey(var) Then
+                cv = _dico(var)
+                cv.KillCount = 3
+            End If
+        Next
+    End Sub
+
+    Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Private Sub GotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+        ' Have to call a delegate as will refresh the listview
+        ' Only update if this is the good instanceId
+        If instanceId = Me.InstanceId Then
+            If Me.InvokeRequired Then
+                Dim d As New degGotRefreshed(AddressOf GotRefreshed)
+                Try
+                    Me.Invoke(d, _dicoNew, _dicoDel, Dico, instanceId, res)
+                Catch ex As Exception
+                    ' Won't catch this...
+                End Try
+            Else
+
+                If res.Success Then
+
+                    ' Create buffer if necessary
+                    If _columnsName.Length = 0 Then
+                        Me.CreateSubItemsBuffer()
                     End If
-                    x += 1
-                Next
-                If _item.IsNewItem Then
-                    _item.IsNewItem = False
-                    it.BackColor = NEW_ITEM_COLOR
-                ElseIf _item.IsKilledItem Then
-                    it.BackColor = DELETED_ITEM_COLOR
+
+                    ' DELETED ITEMS
+                    If _dicoDel.Count > 0 Then
+                        Me.GotDeletedItems(_dicoDel)
+                    End If
+
+                    ' NEW ITEMS
+                    If _dicoNew.Count > 0 Then
+                        Me.GotNewItems(_dicoNew, Dico)
+                    End If
+
+                    ' We won't enumerate next time with all informations (included fixed infos)
+                    _first = False
+
+                    Try
+
+                        Dim toDel As New List(Of String)   ' Keys of items to remove
+
+                        ' Now refresh all subitems of the listview
+                        Dim isub As ListViewItem.ListViewSubItem
+                        Dim it As ListViewItem
+                        For Each it In Me.Items
+                            Dim x As Integer = 0
+                            Dim _item As cPrivilege = _dico.Item(it.Name)
+                            Dim _key As String = _item.Infos.Name
+                            If Dico.ContainsKey(_key) Then
+                                _item.Merge(Dico.Item(_key))
+                            End If
+                            Dim ___info As String = Nothing
+                            For Each isub In it.SubItems
+                                If _item.GetInformation(_columnsName(x), ___info) Then
+                                    isub.Text = ___info
+                                End If
+                                x += 1
+                            Next
+                            If _item.NewCount > 0 Then
+                                _item.NewCount -= 1
+                                If _timeToDisplayNewItemsGreen Then
+                                    it.BackColor = NEW_ITEM_COLOR
+                                End If
+                            ElseIf _item.KillCount > 0 Then
+                                it.BackColor = DELETED_ITEM_COLOR
+                                _item.KillCount -= 1
+                            ElseIf _item.KillCount = 0 Then
+                                toDel.Add(it.Name)
+                            Else
+                                _timeToDisplayNewItemsGreen = True
+                                it.BackColor = _item.GetBackColor
+                            End If
+                            it.ForeColor = _item.GetForeColor
+                        Next
+
+
+                        ' Now remove all deleted items from listview and _dico
+                        ' If first time, lock listview if necessary
+                        Dim _hasToLock As Boolean = (_firstItemUpdate _
+                                    OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE)
+                        If _hasToLock Then
+                            Me.BeginUpdate()
+                        End If
+                        For Each key As String In toDel
+                            Me.Items.RemoveByKey(key)
+                            If _dico.ContainsKey(key) Then
+                                _dico.Remove(key)
+                            End If
+                        Next
+                        If _hasToLock Then
+                            Me.EndUpdate()
+                        End If
+
+                        ' Sort items
+                        Me.Sort()
+
+                        _firstItemUpdate = False
+
+                    Catch ex As Exception
+                        Misc.ShowDebugError(ex)
+                    End Try
+
                 Else
-                    it.BackColor = _item.GetBackColor
+                    RaiseEvent GotAnError("Privilege enumeration", res.ErrorMessage)
                 End If
-                Call SetItemBackColor(it)
-            Next
-
-            ' Sort items
-            Me.Sort()
-
-            _firstItemUpdate = False
-
-            'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh thread list.")
-
-            MyBase.UpdateItems()
-
-        Catch ex As Exception
-            Misc.ShowDebugError(ex)
-        Finally
-            generalLvSemaphore.Release()
-        End Try
-
+            End If
+        End If
     End Sub
 
     ' Force item refreshing
@@ -298,73 +283,18 @@ Public Class privilegeList
     End Sub
 
     ' Add an item (specific to type of list)
-    Friend Overrides Function AddItemWithStyle(ByVal key As String) As ListViewItem
+    Friend Shadows Function AddItemWithStyle(ByVal key As String, ByRef pri As cPrivilege) As ListViewItem
 
         Dim item As ListViewItem = Me.Items.Add(key)
         item.Name = key
         item.ForeColor = _foreColor
         item.Tag = key
+        item.BackColor = pri.GetBackColor
         'item.Group = Me.Groups(0)
 
         Return item
 
     End Function
-
-    ' Set backcolor
-    Private Sub SetItemBackColor(ByRef item As ListViewItem)
-
-        Select Case _dico.Item(item.Name).Infos.Status
-            Case Native.Api.NativeEnums.SePrivilegeAttributes.Enabled
-                item.BackColor = Color.FromArgb(224, 240, 224)
-            Case Native.Api.NativeEnums.SePrivilegeAttributes.EnabledByDefault, Native.Api.NativeEnums.SePrivilegeAttributes.DisabledByDefault
-                item.BackColor = Color.FromArgb(192, 240, 192)
-            Case Native.Api.NativeEnums.SePrivilegeAttributes.Disabled
-                item.BackColor = Color.FromArgb(240, 224, 224)
-            Case Native.Api.NativeEnums.SePrivilegeAttributes.Removed
-                item.BackColor = Color.FromArgb(240, 192, 192)
-            Case Else
-                item.BackColor = Color.White
-        End Select
-
-    End Sub
-
-
-#Region "Connection stuffs"
-
-    Private Sub _connectionObject_Connected() Handles _connectionObject.Connected
-        Call Connect()
-    End Sub
-
-    Private Sub _connectionObject_Disconnected() Handles _connectionObject.Disconnected
-        Call Disconnect()
-    End Sub
-
-    Protected Overrides Function Connect() As Boolean
-        If MyBase.Connect Then
-            Me.IsConnected = True
-            _first = True
-            _privilegeConnection.ConnectionObj = _connectionObject
-            _privilegeConnection.Connect()
-            cPrivilege.Connection = _privilegeConnection
-        End If
-    End Function
-
-    Protected Overrides Function Disconnect() As Boolean
-        If MyBase.Disconnect Then
-            Me.IsConnected = False
-            _privilegeConnection.Disconnect()
-        End If
-    End Function
-
-    Private Sub HasDisconnected(ByVal Success As Boolean)
-        ' We HAVE TO disconnect, because this event is raised when we got an error
-        '_privilegeConnection.Disconnect()
-        '     _privilegeConnection.Con()
-    End Sub
-
-    Private Sub HasConnected(ByVal Success As Boolean)
-        '
-    End Sub
 
 #End Region
 

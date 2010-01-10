@@ -1012,6 +1012,7 @@
     <Compile Include="Providers\CustomListviews\jobList.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Providers\Providers\PrivilegeProvider.vb" />
     <Compile Include="Providers\Providers\HeapProvider.vb" />
     <Compile Include="Providers\Providers\NetworkConnectionsProvider.vb" />
     <Compile Include="Providers\Providers\EnvVariableProvider.vb" />

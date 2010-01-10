@@ -33,25 +33,9 @@ Public Class heapList
     ' ========================================
     ' Private
     ' ========================================
-    Private _pid As Integer
     Private _first As Boolean
     Private _dico As New Dictionary(Of String, cHeap)
 
-#Region "Properties"
-
-    ' ========================================
-    ' Properties
-    ' ========================================
-    Public Property ProcessId() As Integer
-        Get
-            Return _pid
-        End Get
-        Set(ByVal value As Integer)
-            _pid = value
-        End Set
-    End Property
-
-#End Region
 
     ' ========================================
     ' Public functions

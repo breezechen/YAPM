@@ -42,7 +42,6 @@ Public Class frmServer
     Private _memoryCon As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemoryReg))
     Private _moduleCon As New cModuleConnection(Me, theConnection, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule))
     Private _servdepCon As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServDep))
-    Private _priviCon As New cPrivilegeConnection(Me, theConnection, New cPrivilegeConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedPrivilege))
     Private _taskCon As New cTaskConnection(Me, theConnection, New cTaskConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedTask))
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
@@ -66,7 +65,6 @@ Public Class frmServer
             _handleCon.ConnectionObj = theConnection
             _moduleCon.ConnectionObj = theConnection
             _memoryCon.ConnectionObj = theConnection
-            _priviCon.ConnectionObj = theConnection
             _taskCon.ConnectionObj = theConnection
             _searchCon.ConnectionObj = theConnection
             _servdepCon.ConnectionObj = theConnection
@@ -77,7 +75,6 @@ Public Class frmServer
             _servdepCon.Connect()
             _memoryCon.Connect()
             _taskCon.Connect()
-            _priviCon.Connect()
             _windowCon.Connect()
             _threadCon.Connect()
             _handleCon.Connect()
@@ -88,7 +85,6 @@ Public Class frmServer
             cHandle.Connection = _handleCon
             cMemRegion.Connection = _memoryCon
             cModule.Connection = _moduleCon
-            cPrivilege.Connection = _priviCon
             cTask.Connection = _taskCon
             cLogItem.Connection = _logCon
             cJob.Connection = _jobCon
@@ -123,6 +119,7 @@ Public Class frmServer
     End Sub
 
     Private Sub HasEnumeratedHeaps(ByVal news As List(Of String), ByVal dels As List(Of String), ByVal Dico As Dictionary(Of String, heapInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+
         If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestHeapList)
@@ -273,9 +270,9 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedPrivilege(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedPrivilege(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If Success Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestPrivilegesList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
@@ -287,7 +284,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate privileges")
+            Misc.ShowError("Unable to enumerate privileges : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -559,7 +556,7 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestPrivilegesList
                         Dim pid As Integer = CType(cData.Param1, Integer)
-                        Call _priviCon.Enumerate(True, pid, _forInstanceId)
+                        Call PrivilegeProvider.Update(pid, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestEnvironmentVariableList
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -1018,6 +1015,7 @@ Public Class frmServer
         AddHandler EnvVariableProvider.GotRefreshed, AddressOf HasEnumeratedEnvVar
         AddHandler HeapProvider.GotRefreshed, AddressOf HasEnumeratedHeaps
         AddHandler NetworkConnectionsProvider.GotRefreshed, AddressOf HasEnumeratedNetwork
+        AddHandler PrivilegeProvider.GotRefreshed, AddressOf HasEnumeratedPrivilege
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

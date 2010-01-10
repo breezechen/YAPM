@@ -145,6 +145,7 @@ Public Module Program
 
     Private _processProvider As ProcessProvider
     Private _serviceProvider As ServiceProvider
+    Private _privilegeProvider As PrivilegeProvider
     Private _heapProvider As HeapProvider
     Private _networkProvider As NetworkConnectionsProvider
     Private _envVariableProvider As EnvVariableProvider
@@ -254,6 +255,11 @@ Public Module Program
     Public ReadOnly Property HeapProvider() As HeapProvider
         Get
             Return _heapProvider
+        End Get
+    End Property
+    Public ReadOnly Property PrivilegeProvider() As PrivilegeProvider
+        Get
+            Return _privilegeProvider
         End Get
     End Property
 
@@ -401,6 +407,7 @@ Public Module Program
             _envVariableProvider = New EnvVariableProvider  ' Env variables provider
             _networkProvider = New NetworkConnectionsProvider   ' Network connections
             _heapProvider = New HeapProvider        ' Heap provider
+            _privilegeProvider = New PrivilegeProvider  ' Privilege provider
 
 
             ' ======= Load preferences
@@ -542,6 +549,7 @@ Public Module Program
         EnvVariableProvider.ClearList()
         HeapProvider.ClearList()
         NetworkConnectionsProvider.ClearList()
+        PrivilegeProvider.ClearList()
     End Sub
 
     ' Create a snapshot file

@@ -24,21 +24,7 @@ Public Class cPrivilege
     Inherits cGeneralObject
 
     Private _privilegeInfos As privilegeInfos
-    Private Shared WithEvents _connection As cPrivilegeConnection
 
-
-#Region "Properties"
-
-    Public Shared Property Connection() As cPrivilegeConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cPrivilegeConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 
@@ -71,7 +57,7 @@ Public Class cPrivilege
     Public Function ChangeStatus(ByVal status As Native.Api.NativeEnums.SePrivilegeAttributes) As Integer
 
         If _changeST Is Nothing Then
-            _changeST = New asyncCallbackPrivilegeChangeStatus(New asyncCallbackPrivilegeChangeStatus.HasChangedStatus(AddressOf changeStatusDone), _connection)
+            _changeST = New asyncCallbackPrivilegeChangeStatus(New asyncCallbackPrivilegeChangeStatus.HasChangedStatus(AddressOf changeStatusDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _changeST.Process)
@@ -184,5 +170,23 @@ Public Class cPrivilege
     End Function
 
 #End Region
+
+    ' Return backcolor of current item
+    Public Overrides Function GetBackColor() As System.Drawing.Color
+
+        Select Case Me.Infos.Status
+            Case Native.Api.NativeEnums.SePrivilegeAttributes.Enabled
+                Return Color.FromArgb(224, 240, 224)
+            Case Native.Api.NativeEnums.SePrivilegeAttributes.EnabledByDefault, Native.Api.NativeEnums.SePrivilegeAttributes.DisabledByDefault
+                Return Color.FromArgb(192, 240, 192)
+            Case Native.Api.NativeEnums.SePrivilegeAttributes.Disabled
+                Return Color.FromArgb(240, 224, 224)
+            Case Native.Api.NativeEnums.SePrivilegeAttributes.Removed
+                Return Color.FromArgb(240, 192, 192)
+            Case Else
+                Return MyBase.GetBackColor
+        End Select
+
+    End Function
 
 End Class
