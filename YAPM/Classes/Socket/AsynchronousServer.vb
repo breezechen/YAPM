@@ -102,9 +102,7 @@ Public Class AsynchronousSocketListener
                     ' Oh, the client has disconnected !
                     ServerTalk.ClientToServerQueue.Clear()
                     ' Let's empty the dictionnary of current processes/services
-                    ProcessProvider.ClearNewProcessesDico()
-                    ServiceProvider.ClearNewServicesList()
-                    EnvVariableProvider.ClearList()
+                    Program.ClearDictionaries()
                 Else
                     ClientToHost(message)
                 End If

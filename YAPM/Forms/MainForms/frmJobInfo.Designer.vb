@@ -974,7 +974,6 @@ Partial Class frmJobInfo
         Me.lvLimits.CatchErrors = False
         Me.lvLimits.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader11, Me.ColumnHeader13})
         CConnection2.Type = cConnection.TypeOfConnection.LocalConnection
-        Me.lvLimits.ConnectionObj = CConnection2
         Me.lvLimits.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvLimits.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvLimits.FullRowSelect = True

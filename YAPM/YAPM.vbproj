@@ -877,10 +877,8 @@
     <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleUnload.vb" />
     <Compile Include="Providers\Classes\Heaps\cHeap.vb" />
     <Compile Include="Providers\Classes\Heaps\heapInfos.vb" />
-    <Compile Include="Providers\Classes\JobLimits\asyncMethods\asyncCallbackJobLimitsEnumerate.vb" />
     <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobLimitsSetLimits.vb" />
     <Compile Include="Providers\Classes\JobLimits\cJobLimit.vb" />
-    <Compile Include="Providers\Classes\JobLimits\cJobLimitConnection.vb" />
     <Compile Include="Providers\Classes\JobLimits\jobLimitsInfos.vb" />
     <Compile Include="Providers\Classes\General\cGeneralConnection.vb" />
     <Compile Include="Providers\Classes\General\cGeneralObject.vb" />
@@ -1002,6 +1000,7 @@
     <Compile Include="Providers\CustomListviews\mainJobList.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Providers\Providers\JobLimitsProvider.vb" />
     <Compile Include="Providers\Providers\JobProvider.vb" />
     <Compile Include="Providers\Providers\WindowProvider.vb" />
     <Compile Include="Providers\Providers\PrivilegeProvider.vb" />
@@ -1404,6 +1403,7 @@
   <ItemGroup>
     <Folder Include="Providers\Classes\EnvVariables\asyncMethods\" />
     <Folder Include="Providers\Classes\Heaps\asyncMethods\" />
+    <Folder Include="Providers\Classes\JobLimits\asyncMethods\" />
     <Folder Include="Providers\Classes\Tasks\asyncMethods\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />

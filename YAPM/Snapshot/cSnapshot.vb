@@ -635,7 +635,8 @@ Public Class cSnapshot
             If (options And Native.Api.Enums.SnapshotObject.[JobLimits]) = Native.Api.Enums.SnapshotObject.[JobLimits] Then
                 For Each job As jobInfos In Me.Jobs.Values
                     Dim name As String = job.Name
-                    Dim _dico As Dictionary(Of String, jobLimitInfos) = asyncCallbackJobLimitsEnumerate.SharedLocalSyncEnumerate(New asyncCallbackJobLimitsEnumerate.poolObj(name, 0))
+                    JobLimitsProvider.SyncUpdate(job.Name, -1)
+                    Dim _dico As Dictionary(Of String, jobLimitInfos) = JobLimitsProvider.CurrentJobLimits(name)
                     Me.JobLimitsByJobName(name) = _dico
                 Next
             End If

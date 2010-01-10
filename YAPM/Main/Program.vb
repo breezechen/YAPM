@@ -146,6 +146,7 @@ Public Module Program
     Private _processProvider As ProcessProvider
     Private _windowProvider As WindowProvider
     Private _serviceProvider As ServiceProvider
+    Private _jobLimitsProvider As JobLimitsProvider
     Private _privilegeProvider As PrivilegeProvider
     Private _heapProvider As HeapProvider
     Private _networkProvider As NetworkConnectionsProvider
@@ -274,6 +275,12 @@ Public Module Program
             Return _jobProvider
         End Get
     End Property
+    Public ReadOnly Property JobLimitsProvider() As JobLimitsProvider
+        Get
+            Return _jobLimitsProvider
+        End Get
+    End Property
+
 
 
     Public Const HELP_PATH_INTERNET As String = "http://yaprocmon.sourceforge.net/help_static.html"
@@ -422,6 +429,7 @@ Public Module Program
             _privilegeProvider = New PrivilegeProvider  ' Privilege provider
             _windowProvider = New WindowProvider    ' Window provider
             _jobProvider = New JobProvider          ' Job provider
+            _jobLimitsProvider = New JobLimitsProvider   ' Job limits provider
 
 
             ' ======= Load preferences
@@ -556,7 +564,7 @@ Public Module Program
 
     End Sub
 
-    Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
+    Public Sub ClearDictionaries()
         ' Clear lists of processes/services
         ProcessProvider.ClearList()
         ProcessProvider.FirstRefreshDone = False
@@ -581,6 +589,16 @@ Public Module Program
 
         JobProvider.ClearList()
         JobProvider.FirstRefreshDone = False
+
+        JobLimitsProvider.ClearList()
+        JobLimitsProvider.FirstRefreshDone = False
+
+        ProcessProvider.ClearNewProcessesDico()
+        ServiceProvider.ClearNewServicesList()
+    End Sub
+
+    Private Sub theConnection_Disconnected() Handles theConnection.Disconnected
+        Program.ClearDictionaries()
     End Sub
 
     ' Create a snapshot file

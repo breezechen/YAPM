@@ -30,22 +30,6 @@ Public Class cJobLimit
     ' Infos
     Private _jobLimitsInfos As jobLimitInfos
 
-    Private Shared WithEvents _connection As cJobLimitConnection
-
-
-#Region "Properties"
-
-    Public Shared Property Connection() As cJobLimitConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cJobLimitConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
-
 #Region "Constructors & destructor"
 
     Public Sub New(ByRef infos As jobLimitInfos)

@@ -32,6 +32,7 @@ Imports System.Net
     Private _desc As String
     Private _value As String
     Private _valueObj As Object
+    Private _jobName As String
 
 #End Region
 
@@ -57,6 +58,11 @@ Imports System.Net
             Return _desc
         End Get
     End Property
+    Public ReadOnly Property JobName() As String
+        Get
+            Return _jobName
+        End Get
+    End Property
 
 #End Region
 
@@ -69,11 +75,12 @@ Imports System.Net
     Public Sub New()
         '
     End Sub
-    Public Sub New(ByVal name As String, ByVal desc As String, ByVal value As String, ByVal valObj As Object)
+    Public Sub New(ByVal name As String, ByVal desc As String, ByVal value As String, ByVal valObj As Object, ByVal job As String)
         _name = name
         _desc = desc
         _value = value
         _valueObj = valObj
+        _jobName = job
     End Sub
 
     ' Merge an old and a new instance

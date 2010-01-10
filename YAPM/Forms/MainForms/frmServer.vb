@@ -44,7 +44,6 @@ Public Class frmServer
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
     Private _logCon As New cLogConnection(Me, theConnection, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedLog))
-    Private _jobLimitsCon As New cJobLimitConnection(Me, theConnection, New cJobLimitConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedJobLimits))
 
     ' Connect to local machine
     Private Sub connectLocal()
@@ -77,7 +76,6 @@ Public Class frmServer
             cMemRegion.Connection = _memoryCon
             cModule.Connection = _moduleCon
             cLogItem.Connection = _logCon
-            cJobLimit.Connection = _jobLimitsCon
 
         Catch ex As Exception
             Misc.ShowError(ex, "Unable to connect")
@@ -466,7 +464,7 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestJobLimits
                         Dim name As String = CStr(cData.Param1)
-                        Call _jobLimitsCon.Enumerate(name, _forInstanceId)
+                        Call JobLimitsProvider.Update(name, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestServiceList
                         Dim pid As Integer = CType(cData.Param1, Integer)

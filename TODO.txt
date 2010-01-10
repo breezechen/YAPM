@@ -4,7 +4,7 @@ Refactoring bugs
 
 - ==============
 - Item en vert boolean à remettre à zéro quand on connecte
-- vidage des listes (par exemple list des cEnvVariables) quand le process est kické (car le prochain qui aura le même ID doit repartir de 0) et non quand frmProcessInfo se ferme
+- vidage des listes (par exemple list des cEnvVariables) quand le process est kické (car le prochain qui aura le même ID doit repartir de 0) et non quand frmProcessInfo se ferme. Idem pour jobLimits avec la fermeture de jobDetails
 - snapshot -> récupération directe avec CurrentProcesses/Services pose problème si liste pas encore crée (Me.processes = processprovider.Currentprocesses)
 - compatibilité snapshots avec anciennes version --> warning avant ouverture + message erreur si échec + proposition de télécharger une ancienne version de YAPM sur sourceforge
 

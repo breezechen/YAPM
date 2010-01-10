@@ -130,6 +130,9 @@ Public Class frmJobInfo
     Private Sub frmJobInfo_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         ' Save position & size
         Pref.SaveFormPositionAndSize(Me, "PSfrmJobInfo")
+
+        ' Clear list of job limits
+        JobLimitsProvider.ClearListForAJobName(curJob.Infos.Name)
     End Sub
 
     Private Sub frmServiceInfo_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp
@@ -171,7 +174,9 @@ Public Class frmJobInfo
                 Me.tabJob.SelectedTab = Me.pageLimitations
         End Select
 
-        Call Connect()
+        Me.Timer.Interval = CInt(1000 * Program.Connection.RefreshmentCoefficient)
+        Me.TimerLimits.Interval = CInt(1000 * Program.Connection.RefreshmentCoefficient)
+
         Call refreshJobTab()
 
     End Sub
@@ -227,21 +232,6 @@ Public Class frmJobInfo
         My.Settings.JobSelectedTab = Me.tabJob.SelectedTab.Text
     End Sub
 
-    ' Connection
-    Public Sub Connect()
-        ' Connect providers
-        'theConnection.CopyFromInstance(Program.Connection)
-        Try
-            theConnection = Program.Connection
-            Me.lvLimits.ConnectionObj = theConnection
-            theConnection.Connect()
-            Me.Timer.Interval = CInt(1000 * Program.Connection.RefreshmentCoefficient)
-            Me.TimerLimits.Interval = CInt(1000 * Program.Connection.RefreshmentCoefficient)
-        Catch ex As Exception
-            Misc.ShowError(ex, "Unable to connect")
-        End Try
-    End Sub
-
     Private Sub theConnection_Connected() Handles theConnection.Connected
         '
     End Sub
@@ -264,7 +254,7 @@ Public Class frmJobInfo
 
     Private Sub TimerLimits_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TimerLimits.Tick
         Me.lvLimits.JobName = curJob.Infos.Name
-        Me.lvLimits.UpdateTheItems()
+        JobLimitsProvider.Update(curJob.Infos.Name, Me.lvLimits.InstanceId)
     End Sub
 
     Private Sub lvLimits_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvLimits.MouseUp
