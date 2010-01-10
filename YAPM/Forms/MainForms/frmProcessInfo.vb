@@ -399,9 +399,11 @@ Public Class frmProcessInfo
 
 
         ' Clear items in providers
-        EnvVariableProvider.ClearListForAnId(curProc.Infos.ProcessId)
-        HeapProvider.ClearListForAnId(curProc.Infos.ProcessId)
-        PrivilegeProvider.ClearListForAnId(curProc.Infos.ProcessId)
+        If Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile Then
+            EnvVariableProvider.ClearListForAnId(curProc.Infos.ProcessId)
+            HeapProvider.ClearListForAnId(curProc.Infos.ProcessId)
+            PrivilegeProvider.ClearListForAnId(curProc.Infos.ProcessId)
+        End If
 
     End Sub
 

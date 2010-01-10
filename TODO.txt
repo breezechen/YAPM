@@ -28,7 +28,6 @@ TODO
 - path process en WMI pas récupéré ???
 - ramage WMI pour les switchs thread/module/general dans la form details
 - bug de récupération des processnames pour les première Networkconnection (exemple de Opera apparaissant en tant que (N/A) (PID) et en tant que opera.exe (PID))
-- caption des windows (task notamment) qui s'efface quand on ferme la fenêtre (rien d'affiché dans le rouge)
 
 
 
@@ -42,6 +41,7 @@ TODO
 - icone des service doit dépendre du type
 - rapport général
 - serviceDep et processesInJob pour le snapshot
+- setLimits via socket marche pas
 
 - x64 via server : peut pas énumérer handles, modules et memory, username/path des processus
 - checker pb encapsulation 64b pour les SetJobLimits (memory limits)

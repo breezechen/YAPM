@@ -26,7 +26,6 @@ Imports System.Windows.Forms
 Public Class frmAddToJob
 
     Private _pids As List(Of Integer)
-    Private WithEvents theConnection As cConnection
     Private _local As Boolean = True
     Private _notWMI As Boolean
 
@@ -37,15 +36,7 @@ Public Class frmAddToJob
     End Sub
 
     Private Sub frmAddToJob_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' Connect providers
-        'theConnection.CopyFromInstance(Program.Connection)
-        Try
-            theConnection = Program.Connection
-            theConnection.Connect()
-        Catch ex As Exception
-            Misc.ShowError(ex, "Unable to connect")
-        End Try
-
+ 
         Common.Misc.SetToolTip(Me.optAddGlobal, "Create global job")
         Common.Misc.SetToolTip(Me.optAddLocal, "Create local job")
         Common.Misc.SetToolTip(Me.OK_Button, "Add to job")
@@ -107,7 +98,8 @@ Public Class frmAddToJob
     End Sub
 
     Private Sub Timer_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer.Tick
-        Me.lvJob.UpdateTheItems()
+        ' Update list of current jobs
+        JobProvider.Update(False, Me.lvJob.InstanceId)
     End Sub
 
     Private Sub lvJob_MouseDoubleClick(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lvJob.MouseDoubleClick

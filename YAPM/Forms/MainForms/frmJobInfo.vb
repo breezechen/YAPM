@@ -132,7 +132,9 @@ Public Class frmJobInfo
         Pref.SaveFormPositionAndSize(Me, "PSfrmJobInfo")
 
         ' Clear list of job limits
-        JobLimitsProvider.ClearListForAJobName(curJob.Infos.Name)
+        If Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile Then
+            JobLimitsProvider.ClearListForAJobName(curJob.Infos.Name)
+        End If
     End Sub
 
     Private Sub frmServiceInfo_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp

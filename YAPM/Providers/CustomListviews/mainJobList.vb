@@ -174,12 +174,21 @@ Public Class mainJobList
                         Me.CreateSubItemsBuffer()
                     End If
 
+
                     ' DELETED ITEMS
                     If _dicoDel.Count > 0 Then
                         Me.GotDeletedItems(_dicoDel)
                     End If
 
                     ' NEW ITEMS
+                    If _firstItemUpdate Then
+                        ' If this is the first time we got the list, we have to add
+                        ' existing items
+                        _dicoNew.Clear()
+                        For Each s As String In Dico.Keys
+                            _dicoNew.Add(s)
+                        Next
+                    End If
                     If _dicoNew.Count > 0 Then
                         Me.GotNewItems(_dicoNew, Dico)
                     End If
