@@ -356,8 +356,19 @@ Public Module Program
                     New Native.Objects.HandleEnumeration(_progParameters.UseKernelDriver And _
                                                  cEnvironment.Is32Bits)
 
+            ' Providers
+            _processProvider = New ProcessProvider  ' Process provider
+            _serviceProvider = New ServiceProvider  ' Service provider
+            _envVariableProvider = New EnvVariableProvider  ' Env variables provider
+            _networkProvider = New NetworkConnectionsProvider   ' Network connections
+            _heapProvider = New HeapProvider        ' Heap provider
+            _privilegeProvider = New PrivilegeProvider  ' Privilege provider
+            _windowProvider = New WindowProvider    ' Window provider
+            _jobProvider = New JobProvider          ' Job provider
+            _jobLimitsProvider = New JobLimitsProvider   ' Job limits provider
+
             ' Connect to the local machine
-            theConnection.Connect()
+            theConnection.SyncConnect()     ' Synchronous connection !!!
 
             Call createSSFile(_progParameters.ValueCreateSSFile)
             Exit Sub

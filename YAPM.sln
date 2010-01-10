@@ -22,6 +22,7 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BuildZipRelease|Any CPU = BuildZipRelease|Any CPU
+		Debug_CreateSnapshot|Any CPU = Debug_CreateSnapshot|Any CPU
 		Debug_replace_taskmgr|Any CPU = Debug_replace_taskmgr|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		DebugServer|Any CPU = DebugServer|Any CPU
@@ -31,6 +32,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A82E9888-6B2A-44A7-B79A-27C93079ACDD}.BuildZipRelease|Any CPU.ActiveCfg = BuildZipRelease|Any CPU
 		{A82E9888-6B2A-44A7-B79A-27C93079ACDD}.BuildZipRelease|Any CPU.Build.0 = BuildZipRelease|Any CPU
+		{A82E9888-6B2A-44A7-B79A-27C93079ACDD}.Debug_CreateSnapshot|Any CPU.ActiveCfg = Debug_CreateSnapshot|Any CPU
+		{A82E9888-6B2A-44A7-B79A-27C93079ACDD}.Debug_CreateSnapshot|Any CPU.Build.0 = Debug_CreateSnapshot|Any CPU
 		{A82E9888-6B2A-44A7-B79A-27C93079ACDD}.Debug_replace_taskmgr|Any CPU.ActiveCfg = Debug - replace taskmgr|Any CPU
 		{A82E9888-6B2A-44A7-B79A-27C93079ACDD}.Debug_replace_taskmgr|Any CPU.Build.0 = Debug - replace taskmgr|Any CPU
 		{A82E9888-6B2A-44A7-B79A-27C93079ACDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -43,6 +46,8 @@ Global
 		{A82E9888-6B2A-44A7-B79A-27C93079ACDD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.BuildZipRelease|Any CPU.ActiveCfg = BuildZipRelease|Any CPU
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.BuildZipRelease|Any CPU.Build.0 = BuildZipRelease|Any CPU
+		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.Debug_CreateSnapshot|Any CPU.ActiveCfg = Debug_CreateSnapshot|Any CPU
+		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.Debug_CreateSnapshot|Any CPU.Build.0 = Debug_CreateSnapshot|Any CPU
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.Debug_replace_taskmgr|Any CPU.ActiveCfg = Debug - replace taskmgr|Any CPU
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.Debug_replace_taskmgr|Any CPU.Build.0 = Debug - replace taskmgr|Any CPU
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -55,6 +60,8 @@ Global
 		{5BF15AF5-DEB8-46A8-99C7-21993617D0C8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.BuildZipRelease|Any CPU.ActiveCfg = BuildZipRelease|Any CPU
 		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.BuildZipRelease|Any CPU.Build.0 = BuildZipRelease|Any CPU
+		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Debug_CreateSnapshot|Any CPU.ActiveCfg = Debug_CreateSnapshot|Any CPU
+		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Debug_CreateSnapshot|Any CPU.Build.0 = Debug_CreateSnapshot|Any CPU
 		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Debug_replace_taskmgr|Any CPU.ActiveCfg = Debug - replace taskmgr|Any CPU
 		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Debug_replace_taskmgr|Any CPU.Build.0 = Debug - replace taskmgr|Any CPU
 		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -67,6 +74,8 @@ Global
 		{7C2CCE0A-A288-4869-A7B7-CC0D18AF3B8C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.BuildZipRelease|Any CPU.ActiveCfg = BuildZipRelease|Any CPU
 		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.BuildZipRelease|Any CPU.Build.0 = BuildZipRelease|Any CPU
+		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Debug_CreateSnapshot|Any CPU.ActiveCfg = Debug_CreateSnapshot|Any CPU
+		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Debug_CreateSnapshot|Any CPU.Build.0 = Debug_CreateSnapshot|Any CPU
 		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Debug_replace_taskmgr|Any CPU.ActiveCfg = Debug - replace taskmgr|Any CPU
 		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Debug_replace_taskmgr|Any CPU.Build.0 = Debug - replace taskmgr|Any CPU
 		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -79,6 +88,8 @@ Global
 		{12EE0447-8AC7-4E1C-87B3-428A1A414CDF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{602F813A-2157-4050-8ADA-10217636F33E}.BuildZipRelease|Any CPU.ActiveCfg = Release|Any CPU
 		{602F813A-2157-4050-8ADA-10217636F33E}.BuildZipRelease|Any CPU.Build.0 = Release|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.Debug_CreateSnapshot|Any CPU.ActiveCfg = Debug_CreateSnapshot|Any CPU
+		{602F813A-2157-4050-8ADA-10217636F33E}.Debug_CreateSnapshot|Any CPU.Build.0 = Debug_CreateSnapshot|Any CPU
 		{602F813A-2157-4050-8ADA-10217636F33E}.Debug_replace_taskmgr|Any CPU.ActiveCfg = Debug|Any CPU
 		{602F813A-2157-4050-8ADA-10217636F33E}.Debug_replace_taskmgr|Any CPU.Build.0 = Debug|Any CPU
 		{602F813A-2157-4050-8ADA-10217636F33E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -91,6 +102,8 @@ Global
 		{602F813A-2157-4050-8ADA-10217636F33E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C8A134F-E0E8-4F5D-8DC5-57313CEC1E3A}.BuildZipRelease|Any CPU.ActiveCfg = Release|Any CPU
 		{6C8A134F-E0E8-4F5D-8DC5-57313CEC1E3A}.BuildZipRelease|Any CPU.Build.0 = Release|Any CPU
+		{6C8A134F-E0E8-4F5D-8DC5-57313CEC1E3A}.Debug_CreateSnapshot|Any CPU.ActiveCfg = Debug_CreateSnapshot|Any CPU
+		{6C8A134F-E0E8-4F5D-8DC5-57313CEC1E3A}.Debug_CreateSnapshot|Any CPU.Build.0 = Debug_CreateSnapshot|Any CPU
 		{6C8A134F-E0E8-4F5D-8DC5-57313CEC1E3A}.Debug_replace_taskmgr|Any CPU.ActiveCfg = Debug|Any CPU
 		{6C8A134F-E0E8-4F5D-8DC5-57313CEC1E3A}.Debug_replace_taskmgr|Any CPU.Build.0 = Debug|Any CPU
 		{6C8A134F-E0E8-4F5D-8DC5-57313CEC1E3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -103,6 +116,8 @@ Global
 		{6C8A134F-E0E8-4F5D-8DC5-57313CEC1E3A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E73BB233-D88B-44A7-A98F-D71EE158381D}.BuildZipRelease|Any CPU.ActiveCfg = Release|Any CPU
 		{E73BB233-D88B-44A7-A98F-D71EE158381D}.BuildZipRelease|Any CPU.Build.0 = Release|Any CPU
+		{E73BB233-D88B-44A7-A98F-D71EE158381D}.Debug_CreateSnapshot|Any CPU.ActiveCfg = Debug_CreateSnapshot|Any CPU
+		{E73BB233-D88B-44A7-A98F-D71EE158381D}.Debug_CreateSnapshot|Any CPU.Build.0 = Debug_CreateSnapshot|Any CPU
 		{E73BB233-D88B-44A7-A98F-D71EE158381D}.Debug_replace_taskmgr|Any CPU.ActiveCfg = Debug|Any CPU
 		{E73BB233-D88B-44A7-A98F-D71EE158381D}.Debug_replace_taskmgr|Any CPU.Build.0 = Debug|Any CPU
 		{E73BB233-D88B-44A7-A98F-D71EE158381D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

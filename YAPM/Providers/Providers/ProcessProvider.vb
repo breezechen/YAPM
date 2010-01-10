@@ -337,6 +337,10 @@ Public Class ProcessProvider
                 New System.Threading.WaitCallback(AddressOf ProcessProvider.ProcessEnumeration), _
                 New ProcessProvider.asyncEnumPoolObj(forceAllInfos, instanceId))
     End Sub
+    Public Shared Sub SyncUpdate(ByVal forceAllInfos As Boolean, ByVal instanceId As Integer)
+        ' This is of course sync
+        ProcessProvider.ProcessEnumeration(New ProcessProvider.asyncEnumPoolObj(forceAllInfos, instanceId))
+    End Sub
 
 
     ' ========================================

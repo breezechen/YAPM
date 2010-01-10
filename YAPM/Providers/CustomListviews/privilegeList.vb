@@ -160,7 +160,7 @@ Public Class privilegeList
             Dim cv As cPrivilege = Nothing
             If _dico.ContainsKey(var) Then
                 cv = _dico(var)
-                cv.KillCount = 3
+                cv.KillCount = 1
             End If
         Next
     End Sub

@@ -200,6 +200,27 @@ Public Class cConnection
             Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseConnected))
         End If
     End Sub
+    Public Sub SyncConnect()
+        If Me.Type = TypeOfConnection.RemoteConnectionViaSocket Then
+            ' MCTC ???
+            If _sock.IsConnected = False Then
+                '    _sock = New AsynchronousClient()
+                _sock.Connect(_conSocket.ServerName, _conSocket.port, _conSocket.ClientIp)
+                'Else
+                '    _isConnected = True
+                '    Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseConnected))
+            End If
+        ElseIf Me.Type = TypeOfConnection.SnapshotFile Then
+            If _isConnected = False Then
+                _snap = New cSnapshot(Me.SnapshotFile)
+                _isConnected = True
+            End If
+            asyncRaiseConnected(Nothing)
+        Else
+            _isConnected = True
+            asyncRaiseConnected(Nothing)
+        End If
+    End Sub
     Public Sub Disconnect()
         If Me.Type = TypeOfConnection.RemoteConnectionViaSocket Then
             _sock.Disconnect()

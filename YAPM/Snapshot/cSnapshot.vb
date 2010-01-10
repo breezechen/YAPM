@@ -557,25 +557,24 @@ Public Class cSnapshot
             ' We HAVE to get the list cause some other informations depend on it
             ' Do a local copy (avoid "the collection has been modified...")
             ' Wait using the synchro semaphore (should not be used elsewhere....)
-            ' Use the main list view to get the infos, as we have to retrieve
-            ' fixed informations
             Dim _processes As New Dictionary(Of Integer, processInfos)
+            ProcessProvider.SyncUpdate(True, -1)    ' All infos
             ProcessProvider._semProcess.WaitOne()
-            For Each proc As cProcess In _frmMain.lvProcess.GetAllItems
-                _processes.Add(proc.Infos.ProcessId, proc.Infos)
+            For Each proc As processInfos In ProcessProvider.CurrentProcesses.Values
+                _processes.Add(proc.ProcessId, proc)
             Next
             ProcessProvider._semProcess.Release()
             Me.Processes = _processes
 
 
             ' Services
-            ' Use the main list view to get the infos, as we have to retrieve
-            ' fixed informations
+            ' Just as Processes
             If (options And Native.Api.Enums.SnapshotObject.[Services]) = Native.Api.Enums.SnapshotObject.[Services] Then
                 Dim _services As New Dictionary(Of String, serviceInfos)
+                ServiceProvider.SyncUpdate(True, -1)    ' All infos
                 ServiceProvider._semServices.WaitOne()
-                For Each serv As cService In _frmMain.lvServices.GetAllItems
-                    _services.Add(serv.Infos.Name, serv.Infos)
+                For Each serv As serviceInfos In ServiceProvider.CurrentServices.Values
+                    _services.Add(serv.Name, serv)
                 Next
                 ServiceProvider._semServices.Release()
                 Me.Services = _services
@@ -583,16 +582,19 @@ Public Class cSnapshot
 
             ' Network connections
             If (options And Native.Api.Enums.SnapshotObject.[NetworkConnections]) = Native.Api.Enums.SnapshotObject.[NetworkConnections] Then
+                NetworkConnectionsProvider.SyncUpdate(-1)
                 Me.NetworkConnections = NetworkConnectionsProvider.CurrentNetworkConnections
             End If
 
             ' Windows
             If (options And Native.Api.Enums.SnapshotObject.[Windows]) = Native.Api.Enums.SnapshotObject.[Windows] Then
+                WindowProvider.SyncUpdate(True, -1)
                 Me.Windows = WindowProvider.CurrentWindows
             End If
 
             ' Jobs
             If (options And Native.Api.Enums.SnapshotObject.[Jobs]) = Native.Api.Enums.SnapshotObject.[Jobs] Then
+                JobProvider.SyncUpdate(True, -1)
                 Me.Jobs = JobProvider.CurrentJobs
             End If
 

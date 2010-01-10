@@ -207,6 +207,10 @@ Public Class WindowProvider
                 New System.Threading.WaitCallback(AddressOf WindowProvider.ProcessEnumeration), _
                 New WindowProvider.asyncEnumPoolObj(forceAllInfos, instanceId))
     End Sub
+    Public Shared Sub SyncUpdate(ByVal forceAllInfos As Boolean, ByVal instanceId As Integer)
+        ' This is of course async
+        WindowProvider.ProcessEnumeration(New WindowProvider.asyncEnumPoolObj(forceAllInfos, instanceId))
+    End Sub
 
 
     ' ========================================

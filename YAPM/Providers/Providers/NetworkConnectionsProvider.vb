@@ -161,6 +161,10 @@ Public Class NetworkConnectionsProvider
                 New System.Threading.WaitCallback(AddressOf NetworkConnectionsProvider.ProcessEnumeration), _
                 New NetworkConnectionsProvider.asyncEnumPoolObj(instanceId))
     End Sub
+    Public Shared Sub SyncUpdate(ByVal instanceId As Integer)
+        ' This is of course sync
+        NetworkConnectionsProvider.ProcessEnumeration(New NetworkConnectionsProvider.asyncEnumPoolObj(instanceId))
+    End Sub
 
 
     ' ========================================

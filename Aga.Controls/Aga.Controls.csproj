@@ -45,6 +45,16 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug_CreateSnapshot|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug_CreateSnapshot\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PERF_TEST</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRules>-Microsoft.Design#CA1020;-Microsoft.Design#CA1060;-Microsoft.Design#CA1062;-Microsoft.Globalization#CA1301;-Microsoft.Globalization#CA1302;-Microsoft.Globalization#CA1303;-Microsoft.Globalization#CA1306;-Microsoft.Globalization#CA1304;-Microsoft.Globalization#CA1305;-Microsoft.Globalization#CA1300;-Microsoft.Maintainability#CA1501;-Microsoft.Mobility#CA1601;-Microsoft.Performance#CA1805;-Microsoft.Performance#CA1815;-Microsoft.Performance#CA1819;-Microsoft.Usage#CA2208</CodeAnalysisRules>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />

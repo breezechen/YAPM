@@ -176,7 +176,7 @@ Public Class jobLimitList
             Dim cv As cJobLimit = Nothing
             If _dico.ContainsKey(var) Then
                 cv = _dico(var)
-                cv.KillCount = 3
+                cv.KillCount = 1
             End If
         Next
     End Sub
