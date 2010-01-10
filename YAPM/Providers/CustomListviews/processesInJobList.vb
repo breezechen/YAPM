@@ -75,7 +75,8 @@ Public Class processesInJobList
 
         ' Create buffer
         Me.CreateSubItemsBuffer()
-
+        AddHandler Program.Connection.Connected, AddressOf impConnected
+        AddHandler Program.Connection.Disconnected, AddressOf impDisConnected
     End Sub
 
     ' Get an item from listview
@@ -140,6 +141,16 @@ Public Class processesInJobList
     ' Private properties
     ' ========================================
 
+    ' Called when connected
+    Public Sub impConnected()
+        ' Nothing special here
+    End Sub
+
+    ' Called when disconnected
+    Public Sub impDisConnected()
+        _timeToDisplayNewItemsGreen = False
+        _firstItemUpdate = True
+    End Sub
 
     Public Overrides Sub UpdateTheItems()
 
@@ -237,10 +248,15 @@ Public Class processesInJobList
                 Next
                 If _item.IsNewItem Then
                     _item.IsNewItem = False
-                    it.BackColor = NEW_ITEM_COLOR
+                    If _timeToDisplayNewItemsGreen Then
+                        it.BackColor = NEW_ITEM_COLOR
+                    Else
+                        it.BackColor = _item.GetBackColor
+                    End If
                 ElseIf _item.IsKilledItem Then
                     it.BackColor = DELETED_ITEM_COLOR
                 Else
+                    _timeToDisplayNewItemsGreen = True
                     it.BackColor = _item.GetBackColor
                 End If
             Next

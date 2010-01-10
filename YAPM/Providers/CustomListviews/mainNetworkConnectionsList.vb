@@ -66,6 +66,8 @@ Public Class mainNetworkConnectionsList
 
         ' Set handlers
         AddHandler NetworkConnectionsProvider.GotRefreshed, AddressOf Me.GotRefreshed  ' We will add/remove/refresh using this handler
+        AddHandler Program.Connection.Connected, AddressOf impConnected
+        AddHandler Program.Connection.Disconnected, AddressOf impDisConnected
     End Sub
 
     ' Delete all items
@@ -122,6 +124,17 @@ Public Class mainNetworkConnectionsList
     ' ========================================
 
 #Region "Update methods & callbacks"
+
+    ' Called when connected
+    Public Sub impConnected()
+        ' Nothing special here
+    End Sub
+
+    ' Called when disconnected
+    Public Sub impDisConnected()
+        _timeToDisplayNewItemsGreen = False
+        _firstItemUpdate = True
+    End Sub
 
     ' GotNewProcesses, GotDeletedProcesses and GotRefreshed are ALWAYS called
     ' sequentially, and are protected by a semaphore -> no need to reprotect it here
@@ -232,6 +245,8 @@ Public Class mainNetworkConnectionsList
                                 _item.NewCount -= 1
                                 If _timeToDisplayNewItemsGreen Then
                                     it.BackColor = NEW_ITEM_COLOR
+                                Else
+                                    it.BackColor = _item.GetBackColor
                                 End If
                             ElseIf _item.KillCount > 0 Then
                                 it.BackColor = DELETED_ITEM_COLOR
