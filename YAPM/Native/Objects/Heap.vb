@@ -126,7 +126,7 @@ Namespace Native.Objects
                     Dim key As String = heap.BaseAddress.ToString
                     ' PERFISSUE ??
                     If retDico.ContainsKey(key) = False Then
-                        retDico.Add(key, New heapInfos(heap))
+                        retDico.Add(key, New heapInfos(heap, pid))
                     End If
                 Next
 

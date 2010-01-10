@@ -26,9 +26,6 @@ Imports System.Runtime.InteropServices
 Public Class envVariableList
     Inherits customLV
 
-    Public Event ItemAdded(ByRef item As cEnvVariable)
-    Public Event ItemDeleted(ByRef item As cEnvVariable)
-    Public Event HasRefreshed()
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
 
 

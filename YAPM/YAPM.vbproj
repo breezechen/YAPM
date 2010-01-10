@@ -876,7 +876,6 @@
     <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleEnumerate.vb" />
     <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleUnload.vb" />
     <Compile Include="Providers\Classes\Heaps\cHeap.vb" />
-    <Compile Include="Providers\Classes\Heaps\cHeapConnection.vb" />
     <Compile Include="Providers\Classes\Heaps\heapInfos.vb" />
     <Compile Include="Providers\Classes\JobLimits\asyncMethods\asyncCallbackJobLimitsEnumerate.vb" />
     <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobLimitsSetLimits.vb" />
@@ -910,7 +909,6 @@
     <Compile Include="Providers\Classes\MemoryRegions\cMemRegion.vb" />
     <Compile Include="Providers\Classes\MemoryRegions\cMemRegionConnection.vb" />
     <Compile Include="Providers\Classes\MemoryRegions\memRegionInfos.vb" />
-    <Compile Include="Providers\Classes\Heaps\asyncMethods\asyncCallbackHeapEnumerate.vb" />
     <Compile Include="Providers\Classes\Modules\cModule.vb" />
     <Compile Include="Providers\Classes\Modules\cModuleConnection.vb" />
     <Compile Include="Providers\Classes\Modules\moduleInfos.vb" />
@@ -1014,6 +1012,7 @@
     <Compile Include="Providers\CustomListviews\jobList.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Providers\Providers\HeapProvider.vb" />
     <Compile Include="Providers\Providers\NetworkConnectionsProvider.vb" />
     <Compile Include="Providers\Providers\EnvVariableProvider.vb" />
     <Compile Include="Providers\InstanceIdProvider.vb" />
@@ -1411,6 +1410,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Providers\Classes\EnvVariables\asyncMethods\" />
+    <Folder Include="Providers\Classes\Heaps\asyncMethods\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

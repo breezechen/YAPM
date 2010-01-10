@@ -38,6 +38,9 @@ Public Class NetworkConnectionsProvider
     Private Shared _currentConnections As New Dictionary(Of String, networkInfos)
     Friend Shared _semConnections As New System.Threading.Semaphore(1, 1)
 
+    ' First refresh done ?
+    Private Shared _firstRefreshDone As Boolean = False
+
     ' Sempahore to protect async ProcessEnumeration
     Friend Shared _semProcessEnumeration As New System.Threading.Semaphore(1, 1)
 
@@ -45,6 +48,13 @@ Public Class NetworkConnectionsProvider
     ' ========================================
     ' Public properties
     ' ========================================
+
+    ' First refresh done ?
+    Public Shared ReadOnly Property FirstRefreshDone() As Boolean
+        Get
+            Return _firstRefreshDone
+        End Get
+    End Property
 
     ' List of current processes
     Public Shared ReadOnly Property CurrentNetworkConnections() As Dictionary(Of String, networkInfos)
@@ -91,6 +101,7 @@ Public Class NetworkConnectionsProvider
         End Try
 
         ' Raise events
+        _firstRefreshDone = True
         RaiseEvent GotDeletedItems(_dicoDel, instanceId, res)
         RaiseEvent GotNewItems(_dicoNew, value, instanceId, res)
         RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId, res)

@@ -400,6 +400,7 @@ Public Class frmProcessInfo
 
         ' Clear items in providers
         EnvVariableProvider.ClearListForAnId(curProc.Infos.ProcessId)
+        HeapProvider.ClearListForAnId(curProc.Infos.ProcessId)
 
     End Sub
 
@@ -591,9 +592,6 @@ Public Class frmProcessInfo
         Me.graphIO.ReturnTooltipText = AddressOf Me.impTooltipIO
         Me.graphMemory.ReturnTooltipText = AddressOf Me.impTooltipMem
 
-        ' TOREMOVE
-        Me.lvHeaps.Enabled = False
-
     End Sub
 
     ' Get process to monitor
@@ -625,7 +623,7 @@ Public Class frmProcessInfo
         Me.lvProcNetwork.Enabled = _notWMI
         Me.lvProcString.Enabled = _notWMI And _notSnapshotMode
         Me.lvWindows.Enabled = _notWMI
-        Me.lvHeaps.Enabled = _notWMI
+        Me.cmdActivateHeapEnumeration.Enabled = _notWMI
         Me.SplitContainerStrings.Enabled = _notWMI And _notSnapshotMode
         Me.SplitContainerLog.Enabled = _notWMI And _notSnapshotMode
         Me.cmdShowFileDetails.Enabled = _local
@@ -1195,8 +1193,10 @@ Public Class frmProcessInfo
     ' Show heaps
     Public Sub ShowHeaps()
 
-        Me.lvHeaps.ProcessId = curProc.Infos.ProcessId
-        Me.lvHeaps.UpdateTheItems()
+        ' TOREMOVE (this is related to "manually unlock heap enumeration")
+        If Me.lvHeaps.Enabled Then
+            HeapProvider.Update(curProc.Infos.ProcessId, Me.lvHeaps.InstanceId)
+        End If
 
     End Sub
 
@@ -1479,7 +1479,6 @@ Public Class frmProcessInfo
             Me.lvLog.ConnectionObj = theConnection
             Me.lvPrivileges.ConnectionObj = theConnection
             Me.lvWindows.ConnectionObj = theConnection
-            Me.lvHeaps.ConnectionObj = theConnection
             theConnection.Connect()
             Me.timerProcPerf.Interval = CInt(My.Settings.ProcessInterval * Program.Connection.RefreshmentCoefficient)
         Catch ex As Exception

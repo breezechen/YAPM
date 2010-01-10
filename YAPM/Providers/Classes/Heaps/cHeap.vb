@@ -24,21 +24,7 @@ Public Class cHeap
     Inherits cGeneralObject
 
     Private _heapInfos As heapInfos
-    Private Shared WithEvents _connection As cHeapConnection
 
-
-#Region "Properties"
-
-    Public Shared Property Connection() As cHeapConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cHeapConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 

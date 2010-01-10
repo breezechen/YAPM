@@ -3461,8 +3461,8 @@ Partial Class frmProcessInfo
         CConnection11.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection11.Snapshot = Nothing
         CConnection11.SnapshotFile = Nothing
-        Me.lvHeaps.ConnectionObj = CConnection11
         Me.lvHeaps.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvHeaps.Enabled = False
         Me.lvHeaps.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvHeaps.FullRowSelect = True
         Me.lvHeaps.HideSelection = False

@@ -145,6 +145,7 @@ Public Module Program
 
     Private _processProvider As ProcessProvider
     Private _serviceProvider As ServiceProvider
+    Private _heapProvider As HeapProvider
     Private _networkProvider As NetworkConnectionsProvider
     Private _envVariableProvider As EnvVariableProvider
     Private WithEvents _updater As cUpdate
@@ -248,6 +249,11 @@ Public Module Program
     Public ReadOnly Property NetworkConnectionsProvider() As NetworkConnectionsProvider
         Get
             Return _networkProvider
+        End Get
+    End Property
+    Public ReadOnly Property HeapProvider() As HeapProvider
+        Get
+            Return _heapProvider
         End Get
     End Property
 
@@ -394,6 +400,7 @@ Public Module Program
             _serviceProvider = New ServiceProvider  ' Service provider
             _envVariableProvider = New EnvVariableProvider  ' Env variables provider
             _networkProvider = New NetworkConnectionsProvider   ' Network connections
+            _heapProvider = New HeapProvider        ' Heap provider
 
 
             ' ======= Load preferences
@@ -533,6 +540,7 @@ Public Module Program
         ProcessProvider.ClearList()
         ServiceProvider.ClearList()
         EnvVariableProvider.ClearList()
+        HeapProvider.ClearList()
         NetworkConnectionsProvider.ClearList()
     End Sub
 

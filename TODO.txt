@@ -9,7 +9,6 @@ Refactoring bugs
 
 TODO
 - handles (detail)
-- heaps (detail)
 - joblimits (detail)
 - jobs (main)
 - log (detail)

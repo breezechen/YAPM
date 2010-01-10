@@ -36,6 +36,7 @@ Imports System.Runtime.InteropServices
     Private _memCommitted As IntPtr
     Private _tagCount As Integer
     Private _tags As IntPtr
+    Private _pid As Integer
 
 #End Region
 
@@ -81,6 +82,11 @@ Imports System.Runtime.InteropServices
             Return _tags
         End Get
     End Property
+    Public ReadOnly Property ProcessId() As Integer
+        Get
+            Return _pid
+        End Get
+    End Property
 
 #End Region
 
@@ -93,7 +99,7 @@ Imports System.Runtime.InteropServices
     Public Sub New()
         '
     End Sub
-    Public Sub New(ByRef data As Native.Api.NativeStructs.HeapInformation)
+    Public Sub New(ByRef data As Native.Api.NativeStructs.HeapInformation, ByVal pid As Integer)
         With data
             _baseAddress = .BaseAddress
             _blockCount = .BlockCount
@@ -103,6 +109,7 @@ Imports System.Runtime.InteropServices
             _memCommitted = .MemCommitted
             _tagCount = .TagCount
             _tags = .Tags
+            _pid = pid
         End With
     End Sub
     Public Sub New(ByRef data As Native.Api.NativeStructs.HeapList32)
@@ -115,6 +122,7 @@ Imports System.Runtime.InteropServices
             '_memCommitted = ?
             '_tagCount = ?
             '_tags = ?
+            _pid = .ProcessID
         End With
     End Sub
 

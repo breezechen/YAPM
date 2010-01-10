@@ -50,7 +50,6 @@ Public Class frmServer
     Private _jobCon As New cJobConnection(Me, theConnection, New cJobConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedJobs))
     Private _procInJobCon As New cJobConnection(Me, theConnection, New cJobConnection.HasEnumeratedProcInJobEventHandler(AddressOf HasEnumeratedProcessInJob))
     Private _jobLimitsCon As New cJobLimitConnection(Me, theConnection, New cJobLimitConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedJobLimits))
-    Private _heapCon As New cHeapConnection(Me, theConnection, New cHeapConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHeaps))
 
     ' Connect to local machine
     Private Sub connectLocal()
@@ -72,7 +71,6 @@ Public Class frmServer
             _searchCon.ConnectionObj = theConnection
             _servdepCon.ConnectionObj = theConnection
             _logCon.ConnectionObj = theConnection
-            _heapCon.ConnectionObj = theConnection
 
             _moduleCon.Connect()
             _searchCon.Connect()
@@ -84,7 +82,6 @@ Public Class frmServer
             _threadCon.Connect()
             _handleCon.Connect()
             _logCon.Connect()
-            _heapCon.Connect()
 
             cWindow.Connection = _windowCon
             cThread.Connection = _threadCon
@@ -96,7 +93,6 @@ Public Class frmServer
             cLogItem.Connection = _logCon
             cJob.Connection = _jobCon
             cJobLimit.Connection = _jobLimitsCon
-            cHeap.Connection = _heapCon
 
         Catch ex As Exception
             Misc.ShowError(ex, "Unable to connect")
@@ -126,9 +122,8 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedHeaps(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, heapInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
-
-        If Success Then
+    Private Sub HasEnumeratedHeaps(ByVal news As List(Of String), ByVal dels As List(Of String), ByVal Dico As Dictionary(Of String, heapInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestHeapList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
@@ -140,7 +135,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate heap list")
+            Misc.ShowError("Unable to enumerate heap list : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -597,7 +592,7 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestHeapList
                         Dim pid As Integer = CInt(cData.Param1)
-                        Call _heapCon.Enumerate(pid, _forInstanceId) 'D'OH
+                        Call HeapProvider.Update(pid, _forInstanceId)
                         Exit Sub
                 End Select
 
@@ -1021,6 +1016,7 @@ Public Class frmServer
         AddHandler ProcessProvider.GotRefreshed, AddressOf HasEnumeratedProcess
         AddHandler ServiceProvider.GotRefreshed, AddressOf HasEnumeratedService
         AddHandler EnvVariableProvider.GotRefreshed, AddressOf HasEnumeratedEnvVar
+        AddHandler HeapProvider.GotRefreshed, AddressOf HasEnumeratedHeaps
         AddHandler NetworkConnectionsProvider.GotRefreshed, AddressOf HasEnumeratedNetwork
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)

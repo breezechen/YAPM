@@ -265,7 +265,7 @@ Public Class mainNetworkConnectionsList
                     End Try
 
                 Else
-                    RaiseEvent GotAnError("Process enumeration", res.ErrorMessage)
+                    RaiseEvent GotAnError("Network enumeration", res.ErrorMessage)
                 End If
             End If
         End If
