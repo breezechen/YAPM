@@ -211,7 +211,7 @@ Public Class mainProcessList
             Dim cp As cProcess = Nothing
             If _dico.ContainsKey(id.ToString) Then
                 cp = _dico(id.ToString)
-                cp.KillCount = 3
+                cp.KillCount = 1
             End If
         Next
     End Sub

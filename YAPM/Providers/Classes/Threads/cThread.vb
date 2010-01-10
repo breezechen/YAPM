@@ -26,25 +26,12 @@ Public Class cThread
     Inherits cGeneralObject
 
     Private _threadInfos As threadInfos
-    Private Shared WithEvents _connection As cThreadConnection
 
     Private _handleQueryInfo As IntPtr
 
     Private Shared _hlSuspendedThread As Boolean
     Private Shared _hlSuspendedThreadColor As Color
 
-#Region "Properties"
-
-    Public Shared Property Connection() As cThreadConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cThreadConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 
@@ -52,8 +39,8 @@ Public Class cThread
         _threadInfos = infos
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Thread
         ' Get a handle if local
-        If _connection IsNot Nothing Then
-            If _connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection IsNot Nothing Then
+            If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
                 _handleQueryInfo = Native.Objects.Thread.GetThreadHandle(infos.Id, Native.Security.ThreadAccess.QueryInformation)
                 If getPriorityInfo Then
                     ' Here we get priority (used when YAPM is used as a server)
@@ -65,8 +52,8 @@ Public Class cThread
 
     Protected Overrides Sub Finalize()
         ' Close a handle if local
-        If _connection IsNot Nothing Then
-            If _connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection IsNot Nothing Then
+            If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
                 If _handleQueryInfo.IsNotNull Then
                     Native.Objects.General.CloseHandle(_handleQueryInfo)
                 End If
@@ -111,7 +98,7 @@ Public Class cThread
     ' TOCHANGE
     Private WithEvents asyncNonFixed As asyncCallbackThreadGetOtherInfos
     Private Sub RefreshSpecialInformations()
-        Select Case _connection.ConnectionObj.Type
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
@@ -119,7 +106,7 @@ Public Class cThread
             Case Else
                 ' Local
                 If asyncNonFixed Is Nothing Then
-                    asyncNonFixed = New asyncCallbackThreadGetOtherInfos(Me.Infos.Id, _connection, _handleQueryInfo)
+                    asyncNonFixed = New asyncCallbackThreadGetOtherInfos(Me.Infos.Id, _handleQueryInfo)
                 End If
                 asyncNonFixed.Process()
         End Select
@@ -137,7 +124,7 @@ Public Class cThread
     Public Function SetPriority(ByVal level As System.Diagnostics.ThreadPriorityLevel) As Integer
 
         If _setPriority Is Nothing Then
-            _setPriority = New asyncCallbackThreadSetPriority(New asyncCallbackThreadSetPriority.HasSetPriority(AddressOf setPriorityDone), _connection)
+            _setPriority = New asyncCallbackThreadSetPriority(New asyncCallbackThreadSetPriority.HasSetPriority(AddressOf setPriorityDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _setPriority.Process)
@@ -161,7 +148,7 @@ Public Class cThread
     Public Function ThreadTerminate() As Integer
 
         If _killThread Is Nothing Then
-            _killThread = New asyncCallbackThreadKill(New asyncCallbackThreadKill.HasKilled(AddressOf killDone), _connection)
+            _killThread = New asyncCallbackThreadKill(New asyncCallbackThreadKill.HasKilled(AddressOf killDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _killThread.Process)
@@ -184,7 +171,7 @@ Public Class cThread
     Public Function DecreasePriority() As Integer
 
         If _decP Is Nothing Then
-            _decP = New asyncCallbackThreadDecreasePriority(New asyncCallbackThreadDecreasePriority.HasDecreasedPriority(AddressOf decreasePriorityDone), _connection)
+            _decP = New asyncCallbackThreadDecreasePriority(New asyncCallbackThreadDecreasePriority.HasDecreasedPriority(AddressOf decreasePriorityDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _decP.Process)
@@ -207,7 +194,7 @@ Public Class cThread
     Public Function IncreasePriority() As Integer
 
         If _incP Is Nothing Then
-            _incP = New asyncCallbackThreadIncreasePriority(New asyncCallbackThreadIncreasePriority.HasIncreasedPriority(AddressOf increasePriorityDone), _connection)
+            _incP = New asyncCallbackThreadIncreasePriority(New asyncCallbackThreadIncreasePriority.HasIncreasedPriority(AddressOf increasePriorityDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _incP.Process)
@@ -230,7 +217,7 @@ Public Class cThread
     Public Function ThreadSuspend() As Integer
 
         If _suspP Is Nothing Then
-            _suspP = New asyncCallbackThreadSuspend(New asyncCallbackThreadSuspend.HasSuspended(AddressOf suspendDone), _connection)
+            _suspP = New asyncCallbackThreadSuspend(New asyncCallbackThreadSuspend.HasSuspended(AddressOf suspendDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _suspP.Process)
@@ -253,7 +240,7 @@ Public Class cThread
     Public Function ThreadResume() As Integer
 
         If _resumeP Is Nothing Then
-            _resumeP = New asyncCallbackThreadResume(New asyncCallbackThreadResume.HasResumed(AddressOf resumeDone), _connection)
+            _resumeP = New asyncCallbackThreadResume(New asyncCallbackThreadResume.HasResumed(AddressOf resumeDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _resumeP.Process)
@@ -276,7 +263,7 @@ Public Class cThread
     Public Function SetAffinity(ByVal affinity As Integer) As Integer
 
         If _affinityP Is Nothing Then
-            _affinityP = New asyncCallbackThreadSetAffinity(New asyncCallbackThreadSetAffinity.HasSetAffinity(AddressOf setAffinityDone), _connection)
+            _affinityP = New asyncCallbackThreadSetAffinity(New asyncCallbackThreadSetAffinity.HasSetAffinity(AddressOf setAffinityDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _affinityP.Process)

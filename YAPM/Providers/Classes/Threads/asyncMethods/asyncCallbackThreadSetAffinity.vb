@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackThreadSetAffinity
 
-    Private con As cThreadConnection
     Private _deg As HasSetAffinity
 
     Public Delegate Sub HasSetAffinity(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasSetAffinity, ByRef procConnection As cThreadConnection)
+    Public Sub New(ByVal deg As HasSetAffinity)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj

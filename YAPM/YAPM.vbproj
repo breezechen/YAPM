@@ -886,7 +886,6 @@
     <Compile Include="Native\Structs.vb" />
     <Compile Include="Native\Objects\Process.vb" />
     <Compile Include="Providers\Classes\MemoryRegions\asyncMethods\asyncCallbackMemRegionDump.vb" />
-    <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleEnumerate.vb" />
     <Compile Include="Providers\Classes\Modules\asyncMethods\asyncCallbackModuleUnload.vb" />
     <Compile Include="Providers\Classes\Heaps\cHeap.vb" />
     <Compile Include="Providers\Classes\Heaps\heapInfos.vb" />
@@ -918,7 +917,6 @@
     <Compile Include="Providers\Classes\MemoryRegions\cMemRegionConnection.vb" />
     <Compile Include="Providers\Classes\MemoryRegions\memRegionInfos.vb" />
     <Compile Include="Providers\Classes\Modules\cModule.vb" />
-    <Compile Include="Providers\Classes\Modules\cModuleConnection.vb" />
     <Compile Include="Providers\Classes\Modules\moduleInfos.vb" />
     <Compile Include="Providers\Classes\NetworkConnections\asyncMethods\asyncCallbackNetworkCloseConnection.vb" />
     <Compile Include="Providers\Classes\NetworkConnections\cNetwork.vb" />
@@ -963,7 +961,6 @@
     <Compile Include="Providers\Classes\Tasks\cTask.vb" />
     <Compile Include="Providers\Classes\Tasks\taskInfos.vb" />
     <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadDecreasePriority.vb" />
-    <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadEnumerate.vb" />
     <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadGetOtherInfos.vb" />
     <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadIncreasePriority.vb" />
     <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadKill.vb" />
@@ -972,7 +969,6 @@
     <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadSetPriority.vb" />
     <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadSuspend.vb" />
     <Compile Include="Providers\Classes\Threads\cThread.vb" />
-    <Compile Include="Providers\Classes\Threads\cThreadConnection.vb" />
     <Compile Include="Providers\Classes\Threads\threadInfos.vb" />
     <Compile Include="Providers\Classes\Windows\asyncMethods\asyncCallbackWindowAction.vb" />
     <Compile Include="Providers\Classes\Windows\cWindow.vb" />
@@ -1013,6 +1009,7 @@
     <Compile Include="Providers\CustomListviews\mainJobList.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Providers\Providers\ThreadProvider.vb" />
     <Compile Include="Providers\Providers\ModuleProvider.vb" />
     <Compile Include="Providers\Providers\JobLimitsProvider.vb" />
     <Compile Include="Providers\Providers\JobProvider.vb" />

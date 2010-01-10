@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackThreadResume
 
-    Private con As cThreadConnection
     Private _deg As HasResumed
 
     Public Delegate Sub HasResumed(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasResumed, ByRef procConnection As cThreadConnection)
+    Public Sub New(ByVal deg As HasResumed)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj

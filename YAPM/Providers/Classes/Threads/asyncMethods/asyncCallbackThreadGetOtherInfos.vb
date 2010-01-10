@@ -28,7 +28,6 @@ Public Class asyncCallbackThreadGetOtherInfos
 
     Private _id As Integer
     Private _handle As IntPtr
-    Private _connection As cThreadConnection
     '  Private _deg As GatheredInfos
 
     Public Structure TheseInfos
@@ -40,15 +39,14 @@ Public Class asyncCallbackThreadGetOtherInfos
 
     Public Event GatheredInfos(ByVal infos As TheseInfos)
 
-    Public Sub New(ByVal pid As Integer, ByRef procConnection As cThreadConnection, ByVal handle As IntPtr)
+    Public Sub New(ByVal pid As Integer, ByVal handle As IntPtr)
         _id = pid
         ' _deg = deg
         _handle = handle
-        _connection = procConnection
     End Sub
 
     Public Sub Process()
-        Select Case _connection.ConnectionObj.Type
+        Select Case Program.Connection.Type
             Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
 
             Case cConnection.TypeOfConnection.RemoteConnectionViaWMI

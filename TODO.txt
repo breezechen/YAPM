@@ -10,7 +10,8 @@ TODO
 - log (detail)
 - memRegions (detail)
 - search (main)
-- threads (detail)
+
+- thread & modules par WMI
 
 
 - collection modifiée (cf. services via socket : liste + 1/2 svchost avec leur serviceList) -> valable pour toutes les listes du même type (checker tasks, windows...)

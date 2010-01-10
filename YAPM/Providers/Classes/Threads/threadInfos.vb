@@ -41,6 +41,7 @@ Imports System.Runtime.InteropServices
     Private _ContextSwitchCount As Integer
     Private _State As ThreadState
     Private _WaitReason As Native.Api.NativeEnums.KwaitReason
+    Private _key As String
 
 #End Region
 
@@ -111,6 +112,11 @@ Imports System.Runtime.InteropServices
             Return _WaitReason
         End Get
     End Property
+    Public ReadOnly Property Key() As String
+        Get
+            Return _key
+        End Get
+    End Property
 
     Public ReadOnly Property ContextSwitchDelta() As Integer
         Get
@@ -165,6 +171,7 @@ Imports System.Runtime.InteropServices
             _UserTime = .UserTime
             _WaitReason = .WaitReason
             _WaitTime = .WaitTime
+            _key = _Id.ToString & "-" & _ProcessId.ToString
         End With
 
     End Sub

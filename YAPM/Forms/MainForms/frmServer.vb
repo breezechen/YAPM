@@ -40,7 +40,6 @@ Public Class frmServer
     Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
     Private _memoryCon As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemoryReg))
     Private _servdepCon As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServDep))
-    Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
     Private _logCon As New cLogConnection(Me, theConnection, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedLog))
 
@@ -54,7 +53,6 @@ Public Class frmServer
                 .Connect()
             End With
 
-            _threadCon.ConnectionObj = theConnection
             _handleCon.ConnectionObj = theConnection
             _memoryCon.ConnectionObj = theConnection
             _searchCon.ConnectionObj = theConnection
@@ -64,11 +62,9 @@ Public Class frmServer
             _searchCon.Connect()
             _servdepCon.Connect()
             _memoryCon.Connect()
-            _threadCon.Connect()
             _handleCon.Connect()
             _logCon.Connect()
 
-            cThread.Connection = _threadCon
             cHandle.Connection = _handleCon
             cMemRegion.Connection = _memoryCon
             cLogItem.Connection = _logCon
@@ -272,12 +268,12 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedThread(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, threadInfos), ByVal errorMessage As String, ByVal forII As Integer)
+    Private Sub HasEnumeratedThread(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, threadInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If Success Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestThreadList)
-                cDat.InstanceId = forII   ' The instance which requested the list
+                cDat.InstanceId = instanceId    ' The instance which requested the list
                 cDat._id = _TheIdToSend
                 cDat.SetThreadList(Dico)
                 sock.Send(cDat)
@@ -286,7 +282,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate threads")
+            Misc.ShowError("Unable to enumerate threads : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -473,7 +469,7 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestThreadList
                         Dim pid As Integer = CType(cData.Param1, Integer)
-                        Call _threadCon.Enumerate(True, pid, _forInstanceId)
+                        Call ThreadProvider.Update(pid, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestHandleList
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -954,6 +950,7 @@ Public Class frmServer
         AddHandler WindowProvider.GotRefreshed, AddressOf HasEnumeratedWindows
         AddHandler JobProvider.GotRefreshed, AddressOf HasEnumeratedJobs
         AddHandler ModuleProvider.GotRefreshed, AddressOf HasEnumeratedModule
+        AddHandler ThreadProvider.GotRefreshed, AddressOf HasEnumeratedThread
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

@@ -1187,8 +1187,7 @@ Public Class frmProcessInfo
     ' Show threads
     Public Sub ShowThreads()
 
-        Me.lvThreads.ProcessId = curProc.Infos.ProcessId
-        Me.lvThreads.UpdateTheItems()
+        ThreadProvider.Update(curProc.Infos.ProcessId, Me.lvThreads.InstanceId)
 
     End Sub
 
@@ -1473,7 +1472,6 @@ Public Class frmProcessInfo
         'theConnection.CopyFromInstance(Program.Connection)
         Try
             theConnection = Program.Connection
-            Me.lvThreads.ConnectionObj = theConnection
             Me.lvHandles.ConnectionObj = theConnection
             Me.lvProcMem.ConnectionObj = theConnection
             Me.lvLog.ConnectionObj = theConnection

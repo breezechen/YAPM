@@ -26,7 +26,6 @@ Imports System.Text
 
 Public Class asyncCallbackThreadIncreasePriority
 
-    Private con As cThreadConnection
     Private _deg As HasIncreasedPriority
 
     Public Delegate Sub HasIncreasedPriority(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
@@ -46,9 +45,8 @@ Public Class asyncCallbackThreadIncreasePriority
         End Sub
     End Structure
 
-    Public Sub New(ByVal deg As HasIncreasedPriority, ByRef procConnection As cThreadConnection)
+    Public Sub New(ByVal deg As HasIncreasedPriority)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Sub Process(ByVal thePoolObj As Object)

@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackThreadSuspend
 
-    Private con As cThreadConnection
     Private _deg As HasSuspended
 
     Public Delegate Sub HasSuspended(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasSuspended, ByRef procConnection As cThreadConnection)
+    Public Sub New(ByVal deg As HasSuspended)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj

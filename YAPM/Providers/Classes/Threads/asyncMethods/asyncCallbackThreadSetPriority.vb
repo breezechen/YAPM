@@ -27,14 +27,12 @@ Imports System.Management
 
 Public Class asyncCallbackThreadSetPriority
 
-    Private con As cThreadConnection
     Private _deg As HasSetPriority
 
     Public Delegate Sub HasSetPriority(ByVal Success As Boolean, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasSetPriority, ByRef procConnection As cThreadConnection)
+    Public Sub New(ByVal deg As HasSetPriority)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj

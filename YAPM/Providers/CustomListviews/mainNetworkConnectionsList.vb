@@ -173,7 +173,7 @@ Public Class mainNetworkConnectionsList
             Dim cp As cNetwork = Nothing
             If _dico.ContainsKey(id) Then
                 cp = _dico(id)
-                cp.KillCount = 3
+                cp.KillCount = 1
             End If
         Next
     End Sub

@@ -389,7 +389,6 @@ Public Class moduleList
 
 #End Region
 
-
     Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
         MyBase.OnKeyDown(e)
         If e.Shift AndAlso e.Control Then

@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Management
 
-Public Class ModuleProvider
+Public Class ThreadProvider
 
     ' ========================================
     ' Private constants
@@ -37,19 +37,15 @@ Public Class ModuleProvider
     ' For WMI connection
     Friend Shared wmiSearcher As Management.ManagementObjectSearcher
 
-    ' Current processes running PID <-> (string <-> modules)
-    Private Shared _currentModules As New Dictionary(Of Integer, Dictionary(Of String, moduleInfos))
-    Friend Shared _semModules As New System.Threading.Semaphore(1, 1)
+    ' Current processes running PID <-> (string <-> threads)
+    Private Shared _currentThreads As New Dictionary(Of Integer, Dictionary(Of String, threadInfos))
+    Friend Shared _semThreads As New System.Threading.Semaphore(1, 1)
 
     ' First refresh done ?
     Private Shared _firstRefreshDone As Boolean = False
 
     ' Sempahore to protect async ProcessEnumeration
     Friend Shared _semProcessEnumeration As New System.Threading.Semaphore(1, 1)
-
-    ' Store module fileinfo (with semaphore)
-    Friend Shared fileInformations As New Dictionary(Of String, SerializableFileVersionInfo)
-    Friend Shared semDicoFileInfos As New System.Threading.Semaphore(1, 1)
 
 
     ' ========================================
@@ -69,74 +65,74 @@ Public Class ModuleProvider
     ' Clear list of env variables
     Public Shared Sub ClearList()
         Try
-            _semModules.WaitOne()
-            _currentModules.Clear()
+            _semThreads.WaitOne()
+            _currentThreads.Clear()
         Finally
-            _semModules.Release()
+            _semThreads.Release()
         End Try
     End Sub
 
     ' Clear list for a specific processID
     Public Shared Sub ClearListForAnId(ByVal pid As Integer)
         Try
-            _semModules.WaitOne()
-            If _currentModules.ContainsKey(pid) Then
-                _currentModules(pid).Clear()
+            _semThreads.WaitOne()
+            If _currentThreads.ContainsKey(pid) Then
+                _currentThreads(pid).Clear()
             End If
         Finally
-            _semModules.Release()
+            _semThreads.Release()
         End Try
     End Sub
 
     ' List of current processes
-    Public Shared ReadOnly Property CurrentModules(ByVal pid As Integer) As Dictionary(Of String, moduleInfos)
+    Public Shared ReadOnly Property CurrentThreads(ByVal pid As Integer) As Dictionary(Of String, threadInfos)
         Get
             Try
-                _semModules.WaitOne()
-                If _currentModules.ContainsKey(pid) Then
-                    Return _currentModules(pid)
+                _semThreads.WaitOne()
+                If _currentThreads.ContainsKey(pid) Then
+                    Return _currentThreads(pid)
                 Else
-                    Return New Dictionary(Of String, moduleInfos)
+                    Return New Dictionary(Of String, threadInfos)
                 End If
             Finally
-                _semModules.Release()
+                _semThreads.Release()
             End Try
         End Get
     End Property
 
-    Public Shared Sub SetCurrentModules(ByVal pid As Integer, ByVal value As Dictionary(Of String, moduleInfos), ByVal instanceId As Integer)
+    Public Shared Sub SetCurrentThreads(ByVal pid As Integer, ByVal value As Dictionary(Of String, threadInfos), ByVal instanceId As Integer)
 
-        Dim _dicoDel As New Dictionary(Of String, moduleInfos)
+        Dim _dicoDel As New Dictionary(Of String, threadInfos)
         Dim _dicoDelSimp As New List(Of String)
         Dim _dicoNew As New List(Of String)
 
         Dim res As Native.Api.Structs.QueryResult
 
         Try
-            _semModules.WaitOne()
+            _semThreads.WaitOne()
 
             ' Add a new entry
-            If _currentModules.ContainsKey(pid) = False Then
-                _currentModules.Add(pid, New Dictionary(Of String, moduleInfos))
+            If _currentThreads.ContainsKey(pid) = False Then
+                _currentThreads.Add(pid, New Dictionary(Of String, threadInfos))
             End If
 
             ' Get deleted items
-            For Each vars As String In _currentModules(pid).Keys
+            For Each vars As String In _currentThreads(pid).Keys
                 If Not (value.ContainsKey(vars)) Then
-                    _dicoDel.Add(vars, _currentModules(pid)(vars))
+                    _dicoDel.Add(vars, _currentThreads(pid)(vars))
                     _dicoDelSimp.Add(vars)
                 End If
             Next
 
             ' Get new items
             For Each vars As String In value.Keys
-                If Not (_currentModules(pid).ContainsKey(vars)) Then
+                If Not (_currentThreads(pid).ContainsKey(vars)) Then
                     _dicoNew.Add(vars)
                 End If
             Next
 
             ' Re-assign dico
-            _currentModules(pid) = value
+            _currentThreads(pid) = value
 
             res = New Native.Api.Structs.QueryResult(True)
 
@@ -144,7 +140,7 @@ Public Class ModuleProvider
             Misc.ShowDebugError(ex)
             res = New Native.Api.Structs.QueryResult(ex)
         Finally
-            _semModules.Release()
+            _semThreads.Release()
         End Try
 
         ' Raise events
@@ -161,9 +157,9 @@ Public Class ModuleProvider
     ' ========================================
 
     ' Shared events
-    Public Shared Event GotNewItems(ByVal keys As List(Of String), ByVal newItems As Dictionary(Of String, moduleInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
-    Public Shared Event GotDeletedItems(ByVal keys As Dictionary(Of String, moduleInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
-    Public Shared Event GotRefreshed(ByVal newItems As List(Of String), ByVal delItems As List(Of String), ByVal Dico As Dictionary(Of String, moduleInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotNewItems(ByVal keys As List(Of String), ByVal newItems As Dictionary(Of String, threadInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotDeletedItems(ByVal keys As Dictionary(Of String, threadInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotRefreshed(ByVal newItems As List(Of String), ByVal delItems As List(Of String), ByVal Dico As Dictionary(Of String, threadInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
     ' Structure used to store parameters of enumeration
     Public Structure asyncEnumPoolObj
@@ -193,12 +189,12 @@ Public Class ModuleProvider
     Public Shared Sub Update(ByVal pid As Integer, ByVal instanceId As Integer)
         ' This is of course async
         Call Threading.ThreadPool.QueueUserWorkItem( _
-                New System.Threading.WaitCallback(AddressOf ModuleProvider.ProcessEnumeration), _
-                New ModuleProvider.asyncEnumPoolObj(pid, instanceId))
+                New System.Threading.WaitCallback(AddressOf ThreadProvider.ProcessEnumeration), _
+                New ThreadProvider.asyncEnumPoolObj(pid, instanceId))
     End Sub
     Public Shared Sub SyncUpdate(ByVal pid As Integer, ByVal instanceId As Integer)
         ' This is of course sync
-        ModuleProvider.ProcessEnumeration(New ModuleProvider.asyncEnumPoolObj(pid, instanceId))
+        ThreadProvider.ProcessEnumeration(New ThreadProvider.asyncEnumPoolObj(pid, instanceId))
     End Sub
 
 
@@ -223,7 +219,7 @@ Public Class ModuleProvider
 
                 Try
                     'TOCHANGE
-                    wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Process")
+                    wmiSearcher = New Management.ManagementObjectSearcher("SELECT * FROM Win32_Thread")
                     wmiSearcher.Scope = New Management.ManagementScope("\\" & Program.Connection.WmiParameters.serverName & "\root\cimv2", __con)
                 Catch ex As Exception
                     Misc.ShowDebugError(ex)
@@ -256,7 +252,7 @@ Public Class ModuleProvider
             End If
 
             If data.Type = cSocketData.DataType.RequestedList AndAlso _
-                data.Order = cSocketData.OrderType.RequestModuleList Then
+                data.Order = cSocketData.OrderType.RequestThreadList Then
                 ' We receive the list
                 Me.GotListFromSocket(data.GetList, data.GetKeys, data.InstanceId)
             End If
@@ -265,29 +261,29 @@ Public Class ModuleProvider
 
     End Sub
 
-    ' When socket got a list of modules !
+    ' When socket got a list of threads !
     Private Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String, ByVal instanceId As Integer)
-        Dim _dico As New Dictionary(Of String, moduleInfos)
+        Dim _dico As New Dictionary(Of String, threadInfos)
 
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
                 If _dico.ContainsKey(keys(x)) = False Then
-                    _dico.Add(keys(x), DirectCast(lst(x), moduleInfos))
+                    _dico.Add(keys(x), DirectCast(lst(x), threadInfos))
                 End If
             Next
         End If
 
         ' Save current processes into a dictionary.
         ' Have to get the processId of the current list of processes, as there might
-        ' be module enumeration for more than one process.
+        ' be thread enumeration for more than one process.
         ' So we retrieve the informations by enumerating the variables and getting
         ' the first PID
         Dim pid As Integer
-        For Each it As moduleInfos In _dico.Values
+        For Each it As threadInfos In _dico.Values
             pid = it.ProcessId
             Exit For
         Next
-        ModuleProvider.SetCurrentModules(pid, _dico, instanceId)
+        ThreadProvider.SetCurrentThreads(pid, _dico, instanceId)
 
     End Sub
 
@@ -306,7 +302,7 @@ Public Class ModuleProvider
                     Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                         ' Send cDat
                         Try
-                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestModuleList, pObj.pid)
+                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestThreadList, pObj.pid)
                             cDat.InstanceId = pObj.instId
                             Program.Connection.Socket.Send(cDat)
                         Catch ex As Exception
@@ -315,10 +311,10 @@ Public Class ModuleProvider
 
                     Case cConnection.TypeOfConnection.RemoteConnectionViaWMI
                         ' WMI
-                        Dim _dico As New Dictionary(Of String, moduleInfos)
+                        Dim _dico As New Dictionary(Of String, threadInfos)
                         Dim msg As String = ""
                         Dim res As Boolean = _
-                                Wmi.Objects.Module.EnumerateModuleById(pObj.pid, _
+                                Wmi.Objects.Thread.EnumerateThreadByIds(pObj.pid, _
                                                                         wmiSearcher, _
                                                                         _dico, _
                                                                         msg)
@@ -326,24 +322,24 @@ Public Class ModuleProvider
                     Case cConnection.TypeOfConnection.SnapshotFile
                         ' Snapshot
 
-                        Dim _dico As New Dictionary(Of String, moduleInfos)
+                        Dim _dico As New Dictionary(Of String, threadInfos)
                         Dim snap As cSnapshot = Program.Connection.Snapshot
                         If snap IsNot Nothing Then
-                            _dico = snap.ModulesByProcessId(pObj.pid)
+                            _dico = snap.ThreadsByProcessId(pObj.pid)
                         End If
 
                         ' Save current processes into a dictionary
-                        ModuleProvider.SetCurrentModules(pObj.pid, _dico, pObj.instId)
+                        ThreadProvider.SetCurrentThreads(pObj.pid, _dico, pObj.instId)
 
                     Case Else
                         ' Local
-                        Dim _dico As Dictionary(Of String, moduleInfos)
+                        Dim _dico As Dictionary(Of String, threadInfos)
 
                         ' Enumeration
                         _dico = SharedLocalSyncEnumerate(pObj)
 
                         ' Save current processes into a dictionary
-                        ModuleProvider.SetCurrentModules(pObj.pid, _dico, pObj.instId)
+                        ThreadProvider.SetCurrentThreads(pObj.pid, _dico, pObj.instId)
 
                 End Select
 
@@ -358,18 +354,9 @@ Public Class ModuleProvider
     End Sub
 
     ' Shared, local and sync enumeration
-    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As asyncEnumPoolObj) As Dictionary(Of String, moduleInfos)
-        Dim _dico As Dictionary(Of String, moduleInfos)
-
-        ' If it's a Wow64 process, module enumeration is made using debug functions
-        Dim cProc As cProcess = ProcessProvider.GetProcessById(pObj.pid)
-        If cProc IsNot Nothing AndAlso cProc.IsWow64Process Then
-            _dico = Native.Objects.Module.EnumerateModulesWow64ByProcessId(pObj.pid, False)
-        Else
-            ' Normal native enumeration
-            _dico = Native.Objects.Module.EnumerateModulesByProcessId(pObj.pid, False)
-        End If
-
+    Public Shared Function SharedLocalSyncEnumerate(ByVal pObj As asyncEnumPoolObj) As Dictionary(Of String, threadInfos)
+        Dim _dico As New Dictionary(Of String, threadInfos)
+        Native.Objects.Thread.EnumerateThreadsByProcessId(_dico, pObj.pid)
         Return _dico
     End Function
 

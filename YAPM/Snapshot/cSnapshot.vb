@@ -601,8 +601,9 @@ Public Class cSnapshot
             ' Modules
             If (options And Native.Api.Enums.SnapshotObject.[Modules]) = Native.Api.Enums.SnapshotObject.[Modules] Then
                 For Each proc As processInfos In Me.Processes.Values
-                    ModuleProvider.SyncUpdate(proc.ProcessId, -1)
-                    Dim _dico As Dictionary(Of String, moduleInfos) = ModuleProvider.CurrentModules(proc.ProcessId)
+                    Dim pid As Integer = proc.ProcessId
+                    ModuleProvider.SyncUpdate(pid, -1)
+                    Dim _dico As Dictionary(Of String, moduleInfos) = ModuleProvider.CurrentModules(pid)
                     Me.ModulesByProcessId(proc.ProcessId) = _dico
                 Next
             End If
@@ -610,7 +611,9 @@ Public Class cSnapshot
             ' Threads
             If (options And Native.Api.Enums.SnapshotObject.[Threads]) = Native.Api.Enums.SnapshotObject.[Threads] Then
                 For Each proc As processInfos In Me.Processes.Values
-                    Dim _dico As Dictionary(Of String, threadInfos) = asyncCallbackThreadEnumerate.SharedLocalSyncEnumerate(New asyncCallbackThreadEnumerate.poolObj(proc.ProcessId, 0))
+                    Dim pid As Integer = proc.ProcessId
+                    ThreadProvider.SyncUpdate(pid, -1)
+                    Dim _dico As Dictionary(Of String, threadInfos) = ThreadProvider.CurrentThreads(pid)
                     Me.ThreadsByProcessId(proc.ProcessId) = _dico
                 Next
             End If

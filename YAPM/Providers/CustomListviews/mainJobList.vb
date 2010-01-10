@@ -161,7 +161,7 @@ Public Class mainJobList
             Dim cp As cJob = Nothing
             If _dico.ContainsKey(name) Then
                 cp = _dico(name)
-                cp.KillCount = 3
+                cp.KillCount = 1
             End If
         Next
     End Sub

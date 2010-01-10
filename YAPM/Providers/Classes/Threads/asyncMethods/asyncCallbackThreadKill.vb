@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackThreadKill
 
-    Private con As cThreadConnection
     Private _deg As HasKilled
 
     Public Delegate Sub HasKilled(ByVal Success As Boolean, ByVal id As Integer, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasKilled, ByRef procConnection As cThreadConnection)
+    Public Sub New(ByVal deg As HasKilled)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj
