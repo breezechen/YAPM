@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class taskList
+Public Class mainTaskList
     Inherits customLV
 
     Public Event ItemAdded(ByRef item As cTask)

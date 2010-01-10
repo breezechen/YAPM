@@ -14,7 +14,6 @@ TODO
 - log (detail)
 - memRegions (detail)
 - modules (detail)
-- privileges (detail)
 - search (main)
 - tasks (main)
 - threads (detail)

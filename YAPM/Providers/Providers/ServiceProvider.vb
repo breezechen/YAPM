@@ -113,10 +113,10 @@ Public Class ServiceProvider
         End Try
 
         ' Raise events
-        _firstRefreshDone = True
         RaiseEvent GotDeletedItems(_dicoDel, instanceId, res)
         RaiseEvent GotNewItems(_dicoNew, value, instanceId, res)
         RaiseEvent GotRefreshed(_dicoNew, _dicoDelSimp, value, instanceId, res)
+        _firstRefreshDone = True
 
     End Sub
 

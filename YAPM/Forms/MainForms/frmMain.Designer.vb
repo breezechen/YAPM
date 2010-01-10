@@ -217,7 +217,7 @@ Partial Class frmMain
         Me.Label19 = New System.Windows.Forms.Label
         Me.lblTaskCountResult = New System.Windows.Forms.Label
         Me.txtSearchTask = New System.Windows.Forms.TextBox
-        Me.lvTask = New taskList
+        Me.lvTask = New mainTaskList
         Me.ColumnHeader62 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader63 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader64 = New System.Windows.Forms.ColumnHeader
@@ -5914,7 +5914,7 @@ Partial Class frmMain
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents lblTaskCountResult As System.Windows.Forms.Label
     Friend WithEvents txtSearchTask As System.Windows.Forms.TextBox
-    Friend WithEvents lvTask As taskList
+    Friend WithEvents lvTask As mainTaskList
     Friend WithEvents ColumnHeader62 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader63 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader64 As System.Windows.Forms.ColumnHeader

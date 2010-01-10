@@ -184,7 +184,7 @@ Public Class mainProcessList
                 For x As Integer = 1 To _subItems.Length - 1
                     _subItems(x) = ""
                 Next
-                AddItemWithStyle(id.ToString).SubItems.AddRange(_subItems)
+                AddItemWithStyle(id.ToString, proc).SubItems.AddRange(_subItems)
             End If
         Next
 
@@ -344,11 +344,11 @@ Public Class mainProcessList
     End Sub
 
     ' Add an item (specific to type of list)
-    Friend Overrides Function AddItemWithStyle(ByVal key As String) As ListViewItem
+    Friend Shadows Function AddItemWithStyle(ByVal key As String, ByRef proc As cProcess) As ListViewItem
 
-        Dim proc As cProcess = _dico.Item(key)
         Dim item As ListViewItem = Me.Items.Add(proc.Infos.Name)
         item.Name = key
+        item.BackColor = proc.GetBackColor
 
         If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
             If proc.Infos.ProcessId > 4 Then

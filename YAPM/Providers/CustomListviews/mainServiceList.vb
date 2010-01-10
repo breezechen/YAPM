@@ -26,9 +26,6 @@ Imports System.Runtime.InteropServices
 Public Class mainServiceList
     Inherits customLV
 
-    Public Event ItemAdded(ByRef item As cService)
-    Public Event ItemDeleted(ByRef item As cService)
-    Public Event HasRefreshed()
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
 
 

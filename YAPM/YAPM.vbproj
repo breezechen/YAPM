@@ -447,8 +447,8 @@
       <DependentUpon>mainServiceList.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Providers\CustomListviews\taskList.resx">
-      <DependentUpon>taskList.vb</DependentUpon>
+    <EmbeddedResource Include="Providers\CustomListviews\mainTaskList.resx">
+      <DependentUpon>mainTaskList.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\threadList.resx">
@@ -916,9 +916,7 @@
     <Compile Include="Providers\Classes\NetworkConnections\cNetwork.vb" />
     <Compile Include="Providers\Classes\NetworkConnections\networkInfos.vb" />
     <Compile Include="Providers\Classes\Privileges\asyncMethods\asyncCallbackPrivilegeChangeStatus.vb" />
-    <Compile Include="Providers\Classes\Privileges\asyncMethods\asyncCallbackPrivilegesEnumerate.vb" />
     <Compile Include="Providers\Classes\Privileges\cPrivilege.vb" />
-    <Compile Include="Providers\Classes\Privileges\cPrivilegeConnection.vb" />
     <Compile Include="Providers\Classes\Privileges\privilegeInfos.vb" />
     <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcDecreasePriority.vb" />
     <Compile Include="Providers\Classes\Processes\asyncMethods\asyncCallbackProcEmptyWorkingSet.vb" />
@@ -1135,10 +1133,10 @@
     <Compile Include="Providers\CustomListviews\mainServiceList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Providers\CustomListviews\taskList.Designer.vb">
-      <DependentUpon>taskList.vb</DependentUpon>
+    <Compile Include="Providers\CustomListviews\mainTaskList.Designer.vb">
+      <DependentUpon>mainTaskList.vb</DependentUpon>
     </Compile>
-    <Compile Include="Providers\CustomListviews\taskList.vb">
+    <Compile Include="Providers\CustomListviews\mainTaskList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Providers\CustomListviews\threadList.Designer.vb">

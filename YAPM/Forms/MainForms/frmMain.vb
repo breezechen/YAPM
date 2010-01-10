@@ -319,7 +319,8 @@ Public Class frmMain
         ' Set some handlers
         AddHandler ProcessProvider.GotNewItems, AddressOf Me.processCreated
         AddHandler ProcessProvider.GotDeletedItems, AddressOf Me.processDeleted
-
+        AddHandler ServiceProvider.GotNewItems, AddressOf Me.serviceCreated
+        AddHandler ServiceProvider.GotDeletedItems, AddressOf Me.serviceDeleted
 
         ' For now, SBA is removed from menu...
         Me.Ribbon.OrbDropDown.MenuItems.Remove(Me.orbMenuSBA)
@@ -1313,50 +1314,6 @@ Public Class frmMain
         Call Me.DisconnectFromMachine()
     End Sub
 
-    Private Sub serviceCreated(ByRef item As cService) Handles lvServices.ItemAdded
-        If item IsNot Nothing Then
-            Program.Log.AppendLine("Service created : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
-            If My.Settings.NotifyNewServices AndAlso ServiceProvider.FirstRefreshDone Then
-                Dim text As String = "Name : " & item.Infos.Name
-                If item.Infos.ProcessId > 0 Then
-                    text &= " (" & item.Infos.ProcessId.ToString & ")"
-                End If
-                If item.Infos.FileInfo IsNot Nothing Then
-                    text &= vbNewLine & "Company : " & item.Infos.FileInfo.CompanyName & _
-                        vbNewLine & "Description : " & item.Infos.FileInfo.FileDescription
-                End If
-                With Me.Tray
-                    .BalloonTipText = text
-                    .BalloonTipIcon = ToolTipIcon.Info
-                    .BalloonTipTitle = "A new service has been created"
-                    .ShowBalloonTip(3000)
-                End With
-            End If
-        End If
-    End Sub
-
-    Private Sub serviceDeleted(ByRef item As cService) Handles lvServices.ItemDeleted
-        If item IsNot Nothing Then
-            Program.Log.AppendLine("Service deleted : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
-            If My.Settings.NotifyDeletedServices Then
-                Dim text As String = "Name : " & item.Infos.Name
-                If item.Infos.ProcessId > 0 Then
-                    text &= " (" & item.Infos.ProcessId.ToString & ")"
-                End If
-                If item.Infos.FileInfo IsNot Nothing Then
-                    text &= vbNewLine & "Company : " & item.Infos.FileInfo.CompanyName & _
-                        vbNewLine & "Description : " & item.Infos.FileInfo.FileDescription
-                End If
-                With Me.Tray
-                    .BalloonTipText = text
-                    .BalloonTipIcon = ToolTipIcon.Info
-                    .BalloonTipTitle = "A service has been deleted"
-                    .ShowBalloonTip(3000)
-                End With
-            End If
-        End If
-    End Sub
-
     ' Refresh  task list in listview
     Public Sub refreshTaskList()
 
@@ -1873,6 +1830,8 @@ Public Class frmMain
         Call Me.DisconnectFromMachine()
     End Sub
 
+#Region "Notifications (new/deleted process/service)"
+
     Private Sub processCreated(ByVal pids As List(Of Integer), ByVal newItems As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
         If res.Success AndAlso instanceId = Me.lvProcess.InstanceId Then    ' Associated with lvProcess
             For Each id As Integer In pids
@@ -1933,6 +1892,62 @@ Public Class frmMain
             Next
         End If
     End Sub
+
+    Private Sub serviceCreated(ByVal names As List(Of String), ByVal newItems As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+        If res.Success AndAlso instanceId = Me.lvServices.InstanceId Then    ' Associated with lvProcess
+            For Each serviceName As String In names
+                Dim item As cService = ServiceProvider.GetServiceByName(serviceName)
+                If item IsNot Nothing Then
+                    Program.Log.AppendLine("Service created : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
+                    If My.Settings.NotifyNewServices AndAlso ServiceProvider.FirstRefreshDone Then
+                        Dim text As String = "Name : " & item.Infos.Name
+                        If item.Infos.ProcessId > 0 Then
+                            text &= " (" & item.Infos.ProcessId.ToString & ")"
+                        End If
+                        If item.Infos.FileInfo IsNot Nothing Then
+                            text &= vbNewLine & "Company : " & item.Infos.FileInfo.CompanyName & _
+                                vbNewLine & "Description : " & item.Infos.FileInfo.FileDescription
+                        End If
+                        With Me.Tray
+                            .BalloonTipText = text
+                            .BalloonTipIcon = ToolTipIcon.Info
+                            .BalloonTipTitle = "A new service has been created"
+                            .ShowBalloonTip(3000)
+                        End With
+                    End If
+                End If
+            Next
+        End If
+    End Sub
+
+    Private Sub serviceDeleted(ByVal names As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+        If res.Success AndAlso instanceId = Me.lvServices.InstanceId Then    ' Associated with lvProcess
+            For Each serviceName As String In names.Keys
+                Dim item As serviceInfos = names(serviceName)
+                If item IsNot Nothing Then
+                    Program.Log.AppendLine("Service deleted : " & item.Name & " (" & item.ProcessId & ")")
+                    If My.Settings.NotifyDeletedServices Then
+                        Dim text As String = "Name : " & item.Name
+                        If item.ProcessId > 0 Then
+                            text &= " (" & item.ProcessId.ToString & ")"
+                        End If
+                        If item.FileInfo IsNot Nothing Then
+                            text &= vbNewLine & "Company : " & item.FileInfo.CompanyName & _
+                                vbNewLine & "Description : " & item.FileInfo.FileDescription
+                        End If
+                        With Me.Tray
+                            .BalloonTipText = text
+                            .BalloonTipIcon = ToolTipIcon.Info
+                            .BalloonTipTitle = "A service has been deleted"
+                            .ShowBalloonTip(3000)
+                        End With
+                    End If
+                End If
+            Next
+        End If
+    End Sub
+
+#End Region
 
     Private Sub lvProcess_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvProcess.KeyDown
         If e.KeyCode = Keys.Delete And Me.lvProcess.SelectedItems.Count > 0 Then

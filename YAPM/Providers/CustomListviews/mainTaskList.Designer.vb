@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class taskList
+Partial Class mainTaskList
     Inherits customLV
 
     'UserControl remplace la méthode Dispose pour nettoyer la liste des composants.
