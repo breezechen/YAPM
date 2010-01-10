@@ -1221,6 +1221,7 @@ Public Class frmProcessInfo
 
         Me.lvWindows.ProcessId = curProc.Infos.ProcessId
         Me.lvWindows.ShowUnNamed = Me.MenuItemWShowUn.Checked
+        WindowProvider.Update(False, Me.lvWindows.InstanceId)    'PERFISSUE
         Me.lvWindows.UpdateTheItems()
 
     End Sub
