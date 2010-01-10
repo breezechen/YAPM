@@ -178,7 +178,11 @@ Imports System.Runtime.InteropServices
             _top = .top
             _visible = .visible
             _width = .width
-            _caption = .caption
+            If _positions.IsNull = False Then
+                ' If it's Null, we assume the window has been closed (and as
+                ' the new caption is "", we do not update it)
+                _caption = .caption
+            End If
         End With
     End Sub
 

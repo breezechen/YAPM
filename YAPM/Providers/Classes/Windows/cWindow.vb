@@ -396,85 +396,89 @@ Public Class cWindow
                 If res = _old_Name Then
                     hasChanged = False
                 Else
-                    _old_Name = res
+                    If Me.Infos.Positions.IsNull = False Then
+                        ' If it's Null, we assume the window has been closed (and as
+                        ' the new caption is "", we do not update it)
+                        _old_Name = res
+                    End If
                 End If
             Case "Handle", "Id"
-                res = Me.Infos.Handle.ToString
-                If res = _old_Handle Then
-                    hasChanged = False
-                Else
-                    _old_Handle = res
-                End If
+                    res = Me.Infos.Handle.ToString
+                    If res = _old_Handle Then
+                        hasChanged = False
+                    Else
+                        _old_Handle = res
+                    End If
             Case "Process"
-                res = Me.Infos.ProcessId.ToString & " -- " & Me.Infos.ProcessName
-                If res = _old_Process Then
-                    hasChanged = False
-                Else
-                    _old_Process = res
-                End If
+                    res = Me.Infos.ProcessId.ToString & " -- " & Me.Infos.ProcessName
+                    If res = _old_Process Then
+                        hasChanged = False
+                    Else
+                        _old_Process = res
+                    End If
             Case "IsTask"
-                res = Me.Infos.IsTask.ToString
-                If res = _old_IsTask Then
-                    hasChanged = False
-                Else
-                    _old_IsTask = res
-                End If
+                    res = Me.Infos.IsTask.ToString
+                    If res = _old_IsTask Then
+                        hasChanged = False
+                    Else
+                        _old_IsTask = res
+                    End If
             Case "Enabled"
-                res = Me.Infos.Enabled.ToString
-                If res = _old_Enabled Then
-                    hasChanged = False
-                Else
-                    _old_Enabled = res
-                End If
+                    res = Me.Infos.Enabled.ToString
+                    If res = _old_Enabled Then
+                        hasChanged = False
+                    Else
+                        _old_Enabled = res
+                    End If
             Case "Visible"
-                res = Me.Infos.Visible.ToString
-                If res = _old_Visible Then
-                    hasChanged = False
-                Else
-                    _old_Visible = res
-                End If
+                    res = Me.Infos.Visible.ToString
+                    If res = _old_Visible Then
+                        hasChanged = False
+                    Else
+                        _old_Visible = res
+                    End If
             Case "ThreadId"
-                res = Me.Infos.ThreadId.ToString
-                If res = _old_ThreadId Then
-                    hasChanged = False
-                Else
-                    _old_ThreadId = res
-                End If
+                    res = Me.Infos.ThreadId.ToString
+                    If res = _old_ThreadId Then
+                        hasChanged = False
+                    Else
+                        _old_ThreadId = res
+                    End If
             Case "Opacity"
-                res = Me.Infos.Opacity.ToString
-                If res = _old_Opacity Then
-                    hasChanged = False
-                Else
-                    _old_Opacity = res
-                End If
+                    res = Me.Infos.Opacity.ToString
+                    If res = _old_Opacity Then
+                        hasChanged = False
+                    Else
+                        _old_Opacity = res
+                    End If
             Case "Left"
-                res = Me.Infos.Left.ToString
-                If res = _old_Left Then
-                    hasChanged = False
-                Else
-                    _old_Left = res
-                End If
+                    res = Me.Infos.Left.ToString
+                    If res = _old_Left Then
+                        hasChanged = False
+                    Else
+                        _old_Left = res
+                    End If
             Case "Height"
-                res = Me.Infos.Height.ToString
-                If res = _old_Height Then
-                    hasChanged = False
-                Else
-                    _old_Height = res
-                End If
+                    res = Me.Infos.Height.ToString
+                    If res = _old_Height Then
+                        hasChanged = False
+                    Else
+                        _old_Height = res
+                    End If
             Case "Top"
-                res = Me.Infos.Top.ToString
-                If res = _old_Top Then
-                    hasChanged = False
-                Else
-                    _old_Top = res
-                End If
+                    res = Me.Infos.Top.ToString
+                    If res = _old_Top Then
+                        hasChanged = False
+                    Else
+                        _old_Top = res
+                    End If
             Case "Width"
-                res = Me.Infos.Width.ToString
-                If res = _old_Width Then
-                    hasChanged = False
-                Else
-                    _old_Width = res
-                End If
+                    res = Me.Infos.Width.ToString
+                    If res = _old_Width Then
+                        hasChanged = False
+                    Else
+                        _old_Width = res
+                    End If
         End Select
 
         Return hasChanged

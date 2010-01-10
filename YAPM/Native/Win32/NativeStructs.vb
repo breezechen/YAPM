@@ -1293,6 +1293,11 @@ Namespace Native.Api
             Public Top As Integer
             Public Right As Integer
             Public Bottom As Integer
+            Public ReadOnly Property IsNull() As Boolean
+                Get
+                    Return (Left = 0 AndAlso Top = 0 AndAlso Right = 0 AndAlso Bottom = 0)
+                End Get
+            End Property
         End Structure
 
         <StructLayout(LayoutKind.Sequential)> _
