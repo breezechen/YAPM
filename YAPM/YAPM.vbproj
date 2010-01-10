@@ -351,6 +351,10 @@
       <DependentUpon>frmServer.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Providers\CustomListviews\networkConnectionsList.resx">
+      <DependentUpon>networkConnectionsList.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\serviceList.resx">
       <DependentUpon>serviceList.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -911,9 +915,7 @@
     <Compile Include="Providers\Classes\Modules\cModuleConnection.vb" />
     <Compile Include="Providers\Classes\Modules\moduleInfos.vb" />
     <Compile Include="Providers\Classes\NetworkConnections\asyncMethods\asyncCallbackNetworkCloseConnection.vb" />
-    <Compile Include="Providers\Classes\NetworkConnections\asyncMethods\asyncCallbackNetworkEnumerate.vb" />
     <Compile Include="Providers\Classes\NetworkConnections\cNetwork.vb" />
-    <Compile Include="Providers\Classes\NetworkConnections\cNetworkConnection.vb" />
     <Compile Include="Providers\Classes\NetworkConnections\networkInfos.vb" />
     <Compile Include="Providers\Classes\Privileges\asyncMethods\asyncCallbackPrivilegeChangeStatus.vb" />
     <Compile Include="Providers\Classes\Privileges\asyncMethods\asyncCallbackPrivilegesEnumerate.vb" />
@@ -976,6 +978,12 @@
     <Compile Include="Providers\Classes\Windows\cWindow.vb" />
     <Compile Include="Providers\Classes\Windows\cWindowConnection.vb" />
     <Compile Include="Providers\Classes\Windows\windowInfos.vb" />
+    <Compile Include="Providers\CustomListviews\networkConnectionsList.Designer.vb">
+      <DependentUpon>networkConnectionsList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\CustomListviews\networkConnectionsList.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Providers\CustomListviews\serviceList.Designer.vb">
       <DependentUpon>serviceList.vb</DependentUpon>
     </Compile>

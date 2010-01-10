@@ -316,7 +316,7 @@ Partial Class frmProcessInfo
         Me.ColumnHeader10 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader19 = New System.Windows.Forms.ColumnHeader
         Me.TabPageNetwork = New System.Windows.Forms.TabPage
-        Me.lvProcNetwork = New mainNetworkConnectionsList
+        Me.lvProcNetwork = New networkConnectionsList
         Me.ColumnHeader49 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader57 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader58 = New System.Windows.Forms.ColumnHeader
@@ -3725,7 +3725,7 @@ Partial Class frmProcessInfo
     Friend WithEvents rtb As System.Windows.Forms.RichTextBox
     Friend WithEvents TabPageServices As System.Windows.Forms.TabPage
     Friend WithEvents TabPageNetwork As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcNetwork As mainNetworkConnectionsList
+    Friend WithEvents lvProcNetwork As networkConnectionsList
     Friend WithEvents ColumnHeader49 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader57 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader58 As System.Windows.Forms.ColumnHeader

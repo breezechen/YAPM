@@ -86,6 +86,10 @@ Imports System.Net
     End Property
     Public ReadOnly Property Key() As String
         Get
+            Static _key As String = Nothing
+            If _key Is Nothing Then
+                _key = Me.ProcessId.ToString & "-" & Me.Protocol.ToString & "-" & Me.Local.ToString
+            End If
             Return _key
         End Get
     End Property

@@ -15,7 +15,6 @@ TODO
 - log (detail)
 - memRegions (detail)
 - modules (detail)
-- network (detail)
 - privileges (detail)
 - search (main)
 - tasks (main)
@@ -31,6 +30,9 @@ TODO
 - pas possible d'afficher la liste des services pour un process si la liste générale est pas affichée (via socket)
 - path process en WMI pas récupéré ???
 - ramage WMI pour les switchs thread/module/general dans la form details
+- bug de récupération des processnames pour les première Networkconnection (exemple de Opera apparaissant en tant que (N/A) (PID) et en tant que opera.exe (PID))
+
+
 
 - xp sp3 : enum des env variables foire (regression : checker les modifications apportées à envVariableEnum) --> IDENTIFIE (commentaire sur l'affectation dico process)
 - ajouter écriture log (ShowDebugLog + option)

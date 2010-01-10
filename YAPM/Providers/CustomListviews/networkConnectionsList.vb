@@ -23,15 +23,16 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class serviceList
+Public Class networkConnectionsList
     Inherits customLV
 
     ' ========================================
     ' Private
     ' ========================================
     Private _pid As Integer
+    Private _byGroup As Boolean = False
     Private _first As Boolean
-    Private _dico As New Dictionary(Of String, cService)
+    Private _dico As New Dictionary(Of String, cNetwork)
     Private WithEvents _connectionObject As New cConnection
 
 #Region "Properties"
@@ -48,6 +49,15 @@ Public Class serviceList
         End Set
     End Property
 
+    Public Property ShowByProcessGroup() As Boolean
+        Get
+            Return _byGroup
+        End Get
+        Set(ByVal value As Boolean)
+            _byGroup = value
+        End Set
+    End Property
+
 #End Region
 
     ' ========================================
@@ -60,13 +70,6 @@ Public Class serviceList
         InitializeComponent()
 
         ' Ajoutez une initialisation quelconque après l'appel InitializeComponent().
-        _IMG = New ImageList
-        _IMG.ImageSize = New Size(16, 16)
-        _IMG.ColorDepth = ColorDepth.Depth32Bit
-
-        Me.SmallImageList = _IMG
-        _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
-
         _first = True
 
         ' Create buffer
@@ -74,41 +77,20 @@ Public Class serviceList
 
     End Sub
 
-    ' Get an item from listview
-    Public Function GetImageFromImageList(ByVal key As String) As System.Drawing.Image
-        Return _IMG.Images.Item(key)
-    End Function
-
     ' Delete all items
     Public Sub ClearItems()
         _first = True
         _dico.Clear()
-        _IMG.Images.Clear()
-        _IMG.Images.Add("service", My.Resources.gear)   ' Icon is specific
         Me.Items.Clear()
     End Sub
 
-    ' Reanalize a process
-    Public Sub ReAnalizeServices()
-
-        ' In local mode, we simply refresh the service
-        ' In WMI and Socket mode, there IS NO NEED to reanalize because all informations
-        ' are retrieved each time we refresh
-        ' In fact, "Reanalize" is only available for Local mode
-        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
-            For Each cs As cService In Me.GetSelectedItems
-                cs.Refresh()
-            Next
-        End If
-    End Sub
-
     ' Get all items (associated to listviewitems)
-    Public Function GetAllItems() As Dictionary(Of String, cService).ValueCollection
+    Public Function GetAllItems() As Dictionary(Of String, cNetwork).ValueCollection
         Return _dico.Values
     End Function
 
     ' Get the selected item
-    Public Function GetSelectedItem() As cService
+    Public Function GetSelectedItem() As cNetwork
         If Me.SelectedItems.Count > 0 Then
             Return _dico.Item(Me.SelectedItems.Item(0).Name)
         Else
@@ -117,7 +99,7 @@ Public Class serviceList
     End Function
 
     ' Get a specified item
-    Public Function GetItemByKey(ByVal key As String) As cService
+    Public Function GetItemByKey(ByVal key As String) As cNetwork
         If _dico.ContainsKey(key) Then
             Return _dico.Item(key)
         Else
@@ -126,8 +108,8 @@ Public Class serviceList
     End Function
 
     ' Get selected items
-    Public Shadows Function GetSelectedItems() As Dictionary(Of String, cService).ValueCollection
-        Dim res As New Dictionary(Of String, cService)
+    Public Shadows Function GetSelectedItems() As Dictionary(Of String, cNetwork).ValueCollection
+        Dim res As New Dictionary(Of String, cNetwork)
 
         Try
             generalLvSemaphore.WaitOne()
@@ -156,10 +138,10 @@ Public Class serviceList
             generalLvSemaphore.WaitOne()
 
             ' This should not be used elsewhere...
-            ServiceProvider._semServices.WaitOne()
+            NetworkConnectionsProvider._semConnections.WaitOne()
 
             ' Get current services
-            Dim Dico As Dictionary(Of String, serviceInfos) = ServiceProvider.CurrentServices
+            Dim Dico As Dictionary(Of String, networkInfos) = NetworkConnectionsProvider.CurrentNetworkConnections
 
             ' We won't enumerate next time with all informations (included fixed infos)
             _first = False
@@ -168,16 +150,16 @@ Public Class serviceList
             ' Now add all items with isKilled = true to _dicoDel dictionnary
             Dim _dicoDel As New List(Of String)
             Dim _dicoNew As New List(Of String)
-            For Each z As cService In _dico.Values
+            For Each z As cNetwork In _dico.Values
                 If z.IsKilledItem Then
-                    _dicoDel.Add(z.Infos.Name)
+                    _dicoDel.Add(z.Infos.Key)
                 End If
             Next
 
 
             ' Now add new items to dictionnary
-            For Each pair As System.Collections.Generic.KeyValuePair(Of String, serviceInfos) In Dico
-                ' Services for ONLY one process
+            For Each pair As System.Collections.Generic.KeyValuePair(Of String, networkInfos) In Dico
+                ' Connections for ONLY one process
                 If Not (_dico.ContainsKey(pair.Key)) AndAlso pair.Value.ProcessId = Me.ProcessId Then
                     ' Add to dico
                     _dicoNew.Add(pair.Key)
@@ -203,7 +185,7 @@ Public Class serviceList
 
             ' Merge _dico and _dicoNew
             For Each z As String In _dicoNew
-                Dim _it As New cService(Dico(z))
+                Dim _it As New cNetwork(Dico(z))
                 _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
                 _dico.Add(z.ToString, _it)
             Next
@@ -219,7 +201,6 @@ Public Class serviceList
             ' If first time, lock listview
             If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
             For Each z As String In _dicoNew
-
                 ' Add to listview
                 Dim _subItems() As String
                 ReDim _subItems(Me.Columns.Count - 1)
@@ -236,7 +217,7 @@ Public Class serviceList
             Dim it As ListViewItem
             For Each it In Me.Items
                 Dim x As Integer = 0
-                Dim _item As cService = _dico.Item(it.Name)
+                Dim _item As cNetwork = _dico.Item(it.Name)
                 If Dico.ContainsKey(it.Name) Then
                     _item.Merge(Dico.Item(it.Name))
                 End If
@@ -269,7 +250,7 @@ Public Class serviceList
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         Finally
-            ServiceProvider._semServices.Release()
+            NetworkConnectionsProvider._semConnections.Release()
             generalLvSemaphore.Release()
         End Try
 

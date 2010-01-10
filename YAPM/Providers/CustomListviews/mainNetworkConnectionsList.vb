@@ -209,7 +209,7 @@ Public Class mainNetworkConnectionsList
                         For Each it In Me.Items
                             Dim x As Integer = 0
                             Dim _item As cNetwork = _dico.Item(it.Name)
-                            Dim key As String = _item.Infos.ProcessId.ToString & "-" & _item.Infos.Protocol.ToString & "-" & _item.Infos.Local.ToString
+                            Dim key As String = _item.Infos.Key
                             If Dico.ContainsKey(key) Then
                                 _item.Merge(Dico.Item(key))
                             End If

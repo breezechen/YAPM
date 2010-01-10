@@ -1203,9 +1203,8 @@ Public Class frmProcessInfo
     ' Show network connections
     Public Sub ShowNetwork()
 
-        'Me.lvProcNetwork.ShowAllPid = False
-        'Me.lvProcNetwork.ProcessId = curProc.Infos.ProcessId
-        'Me.lvProcNetwork.UpdateTheItems()
+        Me.lvProcNetwork.ProcessId = curProc.Infos.ProcessId
+        Me.lvProcNetwork.UpdateTheItems()
 
     End Sub
 
