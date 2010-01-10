@@ -1013,6 +1013,7 @@
     <Compile Include="Providers\CustomListviews\mainJobList.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Providers\Providers\ModuleProvider.vb" />
     <Compile Include="Providers\Providers\JobLimitsProvider.vb" />
     <Compile Include="Providers\Providers\JobProvider.vb" />
     <Compile Include="Providers\Providers\WindowProvider.vb" />

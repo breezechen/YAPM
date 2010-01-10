@@ -24,23 +24,9 @@ Public Class cModule
     Inherits cGeneralObject
 
     Private _moduleInfos As moduleInfos
-    Private Shared WithEvents _connection As cModuleConnection
 
     Private Shared _hlModuleRelocated As Boolean
     Private Shared _hlModuleRelocatedColor As System.Drawing.Color
-
-#Region "Properties"
-
-    Public Shared Property Connection() As cModuleConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cModuleConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 
@@ -73,7 +59,7 @@ Public Class cModule
     Public Function UnloadModule() As Integer
 
         If _closeM Is Nothing Then
-            _closeM = New asyncCallbackModuleUnload(New asyncCallbackModuleUnload.HasUnloadedModule(AddressOf unloadModuleDone), _connection)
+            _closeM = New asyncCallbackModuleUnload(New asyncCallbackModuleUnload.HasUnloadedModule(AddressOf unloadModuleDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _closeM.Process)
@@ -564,7 +550,7 @@ Public Class cModule
     Public Shared Function SharedLRUnloadModule(ByVal pid As Integer, ByVal name As String, ByVal baseAddress As IntPtr) As Integer
 
         If _sharedcloseM Is Nothing Then
-            _sharedcloseM = New asyncCallbackModuleUnload(New asyncCallbackModuleUnload.HasUnloadedModule(AddressOf unloadsharedModuleDone), _connection)
+            _sharedcloseM = New asyncCallbackModuleUnload(New asyncCallbackModuleUnload.HasUnloadedModule(AddressOf unloadsharedModuleDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _sharedcloseM.Process)

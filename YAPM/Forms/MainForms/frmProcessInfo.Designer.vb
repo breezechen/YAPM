@@ -3010,7 +3010,6 @@ Partial Class frmProcessInfo
         CConnection6.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection6.Snapshot = Nothing
         CConnection6.SnapshotFile = Nothing
-        Me.lvModules.ConnectionObj = CConnection6
         Me.lvModules.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvModules.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvModules.FullRowSelect = True

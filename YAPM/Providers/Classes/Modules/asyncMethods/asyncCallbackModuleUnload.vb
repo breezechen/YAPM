@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackModuleUnload
 
-    Private con As cModuleConnection
     Private _deg As HasUnloadedModule
 
     Public Delegate Sub HasUnloadedModule(ByVal Success As Boolean, ByVal pid As Integer, ByVal name As String, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasUnloadedModule, ByRef procConnection As cModuleConnection)
+    Public Sub New(ByVal deg As HasUnloadedModule)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj

@@ -89,7 +89,7 @@ Public Class cSearchItem
             Case GeneralObjectType.Module
                 ' Unload a module
                 If _closeM Is Nothing Then
-                    _closeM = New asyncCallbackModuleUnload(New asyncCallbackModuleUnload.HasUnloadedModule(AddressOf unloadModuleDone), cModule.Connection)
+                    _closeM = New asyncCallbackModuleUnload(New asyncCallbackModuleUnload.HasUnloadedModule(AddressOf unloadModuleDone))
                 End If
 
                 Dim t As New System.Threading.WaitCallback(AddressOf _closeM.Process)

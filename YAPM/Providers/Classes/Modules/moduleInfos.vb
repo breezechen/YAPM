@@ -150,21 +150,21 @@ Imports System.Runtime.InteropServices
             ' As this constructor is only used for local connection, there is
             ' nothing to check concerning connection
             Try
-                asyncCallbackModuleEnumerate.semDicoFileInfos.WaitOne()
-                If asyncCallbackModuleEnumerate.fileInformations.ContainsKey(_path) = False Then
+                ModuleProvider.semDicoFileInfos.WaitOne()
+                If ModuleProvider.fileInformations.ContainsKey(_path) = False Then
                     Try
                         _fileInfo = New SerializableFileVersionInfo(FileVersionInfo.GetVersionInfo(path))
                     Catch ex As Exception
                         _fileInfo = Nothing
                     End Try
-                    asyncCallbackModuleEnumerate.fileInformations.Add(_path, _fileInfo)
+                    ModuleProvider.fileInformations.Add(_path, _fileInfo)
                 Else
-                    _fileInfo = asyncCallbackModuleEnumerate.fileInformations.Item(_path)
+                    _fileInfo = ModuleProvider.fileInformations.Item(_path)
                 End If
             Catch ex As Exception
                 Misc.ShowDebugError(ex)
             Finally
-                asyncCallbackModuleEnumerate.semDicoFileInfos.Release()
+                ModuleProvider.semDicoFileInfos.Release()
             End Try
         Else
             _fileInfo = Nothing
@@ -227,21 +227,21 @@ Imports System.Runtime.InteropServices
             ' As this constructor is only used for local connection, there is
             ' nothing to check concerning connection
             Try
-                asyncCallbackModuleEnumerate.semDicoFileInfos.WaitOne()
-                If asyncCallbackModuleEnumerate.fileInformations.ContainsKey(_path) = False Then
+                ModuleProvider.semDicoFileInfos.WaitOne()
+                If ModuleProvider.fileInformations.ContainsKey(_path) = False Then
                     Try
                         _fileInfo = New SerializableFileVersionInfo(FileVersionInfo.GetVersionInfo(path))
                     Catch ex As Exception
                         _fileInfo = Nothing
                     End Try
-                    asyncCallbackModuleEnumerate.fileInformations.Add(_path, _fileInfo)
+                    ModuleProvider.fileInformations.Add(_path, _fileInfo)
                 Else
-                    _fileInfo = asyncCallbackModuleEnumerate.fileInformations.Item(_path)
+                    _fileInfo = ModuleProvider.fileInformations.Item(_path)
                 End If
             Catch ex As Exception
                 Misc.ShowDebugError(ex)
             Finally
-                asyncCallbackModuleEnumerate.semDicoFileInfos.Release()
+                ModuleProvider.semDicoFileInfos.Release()
             End Try
         Else
             _fileInfo = Nothing

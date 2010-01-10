@@ -403,6 +403,7 @@ Public Class frmProcessInfo
             EnvVariableProvider.ClearListForAnId(curProc.Infos.ProcessId)
             HeapProvider.ClearListForAnId(curProc.Infos.ProcessId)
             PrivilegeProvider.ClearListForAnId(curProc.Infos.ProcessId)
+            ModuleProvider.ClearListForAnId(curProc.Infos.ProcessId)
         End If
 
     End Sub
@@ -1165,8 +1166,7 @@ Public Class frmProcessInfo
     ' Show modules
     Public Sub ShowModules()
 
-        lvModules.ProcessId = curProc.Infos.ProcessId
-        lvModules.UpdateTheItems()
+        ModuleProvider.Update(curProc.Infos.ProcessId, Me.lvModules.InstanceId)
 
     End Sub
 
@@ -1474,7 +1474,6 @@ Public Class frmProcessInfo
         Try
             theConnection = Program.Connection
             Me.lvThreads.ConnectionObj = theConnection
-            Me.lvModules.ConnectionObj = theConnection
             Me.lvHandles.ConnectionObj = theConnection
             Me.lvProcMem.ConnectionObj = theConnection
             Me.lvLog.ConnectionObj = theConnection

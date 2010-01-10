@@ -110,7 +110,7 @@ Public Class frmCheckSignatures
         For Each proc As cProcess In Me.lvProcess.GetCheckedItems
 
             ' Get list of modules
-            Dim _modules As Dictionary(Of String, moduleInfos) = asyncCallbackModuleEnumerate.SharedLocalSyncEnumerate(New asyncCallbackModuleEnumerate.poolObj(proc.Infos.ProcessId, 0))
+            Dim _modules As Dictionary(Of String, moduleInfos) = Nothing 'TODO asyncCallbackModuleEnumerate.SharedLocalSyncEnumerate(New asyncCallbackModuleEnumerate.poolObj(proc.Infos.ProcessId, 0))
 
             ' For each module
             If _modules IsNot Nothing Then

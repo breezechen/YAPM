@@ -39,7 +39,6 @@ Public Class frmServer
     Private theConnection As cConnection = Program.Connection
     Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
     Private _memoryCon As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemoryReg))
-    Private _moduleCon As New cModuleConnection(Me, theConnection, New cModuleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedModule))
     Private _servdepCon As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServDep))
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
@@ -57,13 +56,11 @@ Public Class frmServer
 
             _threadCon.ConnectionObj = theConnection
             _handleCon.ConnectionObj = theConnection
-            _moduleCon.ConnectionObj = theConnection
             _memoryCon.ConnectionObj = theConnection
             _searchCon.ConnectionObj = theConnection
             _servdepCon.ConnectionObj = theConnection
             _logCon.ConnectionObj = theConnection
 
-            _moduleCon.Connect()
             _searchCon.Connect()
             _servdepCon.Connect()
             _memoryCon.Connect()
@@ -74,7 +71,6 @@ Public Class frmServer
             cThread.Connection = _threadCon
             cHandle.Connection = _handleCon
             cMemRegion.Connection = _memoryCon
-            cModule.Connection = _moduleCon
             cLogItem.Connection = _logCon
 
         Catch ex As Exception
@@ -295,9 +291,9 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedModule(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, moduleInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedModule(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, moduleInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If Success Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestModuleList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
@@ -309,7 +305,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate modules")
+            Misc.ShowError("Unable to enumerate modules : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -473,7 +469,7 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestModuleList
                         Dim pid As Integer = CType(cData.Param1, Integer)
-                        Call _moduleCon.Enumerate(True, pid, _forInstanceId)
+                        Call ModuleProvider.Update(pid, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestThreadList
                         Dim pid As Integer = CType(cData.Param1, Integer)
@@ -957,6 +953,7 @@ Public Class frmServer
         AddHandler PrivilegeProvider.GotRefreshed, AddressOf HasEnumeratedPrivilege
         AddHandler WindowProvider.GotRefreshed, AddressOf HasEnumeratedWindows
         AddHandler JobProvider.GotRefreshed, AddressOf HasEnumeratedJobs
+        AddHandler ModuleProvider.GotRefreshed, AddressOf HasEnumeratedModule
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

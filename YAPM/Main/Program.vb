@@ -144,6 +144,7 @@ Public Module Program
     Public _frmSystemInfo As frmSystemInfo
 
     Private _processProvider As ProcessProvider
+    Private _moduleProvider As ModuleProvider
     Private _windowProvider As WindowProvider
     Private _serviceProvider As ServiceProvider
     Private _jobLimitsProvider As JobLimitsProvider
@@ -280,6 +281,11 @@ Public Module Program
             Return _jobLimitsProvider
         End Get
     End Property
+    Public ReadOnly Property ModuleProvider() As ModuleProvider
+        Get
+            Return _moduleProvider
+        End Get
+    End Property
 
 
 
@@ -366,6 +372,7 @@ Public Module Program
             _windowProvider = New WindowProvider    ' Window provider
             _jobProvider = New JobProvider          ' Job provider
             _jobLimitsProvider = New JobLimitsProvider   ' Job limits provider
+            _moduleProvider = New ModuleProvider    ' Module provider
 
             ' Connect to the local machine
             theConnection.SyncConnect()     ' Synchronous connection !!!
@@ -441,6 +448,7 @@ Public Module Program
             _windowProvider = New WindowProvider    ' Window provider
             _jobProvider = New JobProvider          ' Job provider
             _jobLimitsProvider = New JobLimitsProvider   ' Job limits provider
+            _moduleProvider = New ModuleProvider    ' Module provider
 
 
             ' ======= Load preferences
@@ -603,6 +611,9 @@ Public Module Program
 
         JobLimitsProvider.ClearList()
         JobLimitsProvider.FirstRefreshDone = False
+
+        ModuleProvider.ClearList()
+        ModuleProvider.FirstRefreshDone = False
 
         ProcessProvider.ClearNewProcessesDico()
         ServiceProvider.ClearNewServicesList()

@@ -601,7 +601,8 @@ Public Class cSnapshot
             ' Modules
             If (options And Native.Api.Enums.SnapshotObject.[Modules]) = Native.Api.Enums.SnapshotObject.[Modules] Then
                 For Each proc As processInfos In Me.Processes.Values
-                    Dim _dico As Dictionary(Of String, moduleInfos) = asyncCallbackModuleEnumerate.SharedLocalSyncEnumerate(New asyncCallbackModuleEnumerate.poolObj(proc.ProcessId, 0))
+                    ModuleProvider.SyncUpdate(proc.ProcessId, -1)
+                    Dim _dico As Dictionary(Of String, moduleInfos) = ModuleProvider.CurrentModules(proc.ProcessId)
                     Me.ModulesByProcessId(proc.ProcessId) = _dico
                 Next
             End If
