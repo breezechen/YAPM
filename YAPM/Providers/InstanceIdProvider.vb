@@ -34,8 +34,8 @@ Public Class InstanceIdProvider
     ' Private attributes
     ' ========================================
 
-    ' Synchronisation object
-    Private Shared _sharedObj As New Object
+    ' Instance ID 
+    Private Shared _instanceId As Integer
 
 
     ' ========================================
@@ -54,11 +54,8 @@ Public Class InstanceIdProvider
 
     ' Get a new unique instance id
     Public Shared Function GetNewInstanceId() As Integer
-        Static val As Integer = 0
-        SyncLock _sharedObj
-            val += 1
-            Return val
-        End SyncLock
+        System.Threading.Interlocked.Increment(_instanceId)
+        Return _instanceId
     End Function
 
 
