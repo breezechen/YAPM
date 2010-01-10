@@ -1318,7 +1318,8 @@ Public Class frmMain
     Public Sub refreshTaskList()
 
         ' Update list
-        TaskProvider.Update(Me.lvTask.InstanceId)
+        WindowProvider.Update(True, Me.lvTask.InstanceId)
+        Me.lvTask.UpdateTheItems()
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             Dim ss As String = Me.Ribbon.ActiveTab.Text

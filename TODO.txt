@@ -16,9 +16,7 @@ TODO
 - memRegions (detail)
 - modules (detail)
 - search (main)
-- tasks (main)
 - threads (detail)
-- windows (detail)
 
 - get rid of registry (services)
 
@@ -30,12 +28,15 @@ TODO
 - path process en WMI pas récupéré ???
 - ramage WMI pour les switchs thread/module/general dans la form details
 - bug de récupération des processnames pour les première Networkconnection (exemple de Opera apparaissant en tant que (N/A) (PID) et en tant que opera.exe (PID))
-- merger task & windows (de sorte qu'on enumerate que pour les tasks)
+- caption des windows (task notamment) qui s'efface quand on ferme la fenêtre (rien d'affiché dans le rouge)
+
 
 
 - xp sp3 : enum des env variables foire (regression : checker les modifications apportées à envVariableEnum) --> IDENTIFIE (commentaire sur l'affectation dico process)
 - ajouter écriture log (ShowDebugLog + option)
 - bug col modif (cf. affectation dico process)
+
+
 
 - icone des service doit dépendre du type
 - rapport général

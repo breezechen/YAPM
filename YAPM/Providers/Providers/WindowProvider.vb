@@ -54,7 +54,26 @@ Public Class WindowProvider
         End Get
     End Property
 
-    ' List of current processes
+    ' List of current windows/tasks
+    Public Shared ReadOnly Property CurrentTasks() As Dictionary(Of String, windowInfos)
+        Get
+            Try
+                _semWindows.WaitOne()
+
+                ' Get all tasks
+                Dim _dico As New Dictionary(Of String, windowInfos)
+                For Each pair As Collections.Generic.KeyValuePair(Of String, windowInfos) In WindowProvider.CurrentWindows
+                    If pair.Value.IsTask Then
+                        _dico.Add(pair.Key, pair.Value)
+                    End If
+                Next
+
+                Return _dico
+            Finally
+                _semWindows.Release()
+            End Try
+        End Get
+    End Property
     Public Shared ReadOnly Property CurrentWindows() As Dictionary(Of String, windowInfos)
         Get
             Return _currentWindows

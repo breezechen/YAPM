@@ -111,7 +111,6 @@ Option Strict On
         [RequestThreadList]
         [RequestWindowList]
         [RequestHandleList]
-        [RequestTaskList]
         [RequestNetworkConnectionList]
         [RequestPrivilegesList]
         [RequestMemoryRegionList]

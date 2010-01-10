@@ -26,7 +26,7 @@ Imports Native.Objects
 Public Class cWindow
     Inherits cGeneralObject
 
-    Private _windowInfos As windowInfos
+    Protected _windowInfos As windowInfos
     Private _oldCaption As String
 
 #Region "Constructors & destructor"
@@ -55,6 +55,11 @@ Public Class cWindow
     End Property
 
 #End Region
+
+    ' Merge current infos and new infos
+    Public Sub Merge(ByRef Thr As windowInfos)
+        _windowInfos.Merge(Thr)
+    End Sub
 
 #Region "Other properties"
 

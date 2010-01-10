@@ -175,10 +175,12 @@ Public Class windowList
 
             ' Now add new items to dictionnary
             For Each pair As System.Collections.Generic.KeyValuePair(Of String, windowInfos) In Dico
-                ' Services for ONLY one process
-                If Not (_dico.ContainsKey(pair.Key)) AndAlso pair.Value.ProcessId = Me.ProcessId Then
-                    ' Add to dico
-                    _dicoNew.Add(pair.Key)
+                ' Windows for ONLY one process (and also check UnNamed)
+                If pair.Value.ProcessId = Me.ProcessId AndAlso Not (_dico.ContainsKey(pair.Key)) Then
+                    If Me.ShowUnNamed OrElse (pair.Value.Caption IsNot Nothing AndAlso pair.Value.Caption.Length > 0) Then
+                        ' Add to dico
+                        _dicoNew.Add(pair.Key)
+                    End If
                 End If
             Next
 
@@ -188,6 +190,11 @@ Public Class windowList
                 If Dico.ContainsKey(z) = False Then
                     ' Remove from dico
                     _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
+                Else
+                    ' If don't want to show unnamed, we remove it from list
+                    If Me.ShowUnNamed = False AndAlso (_dico(z).Infos.Caption Is Nothing OrElse _dico(z).Infos.Caption.Length = 0) Then
+                        _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
+                    End If
                 End If
             Next
 
@@ -235,7 +242,16 @@ Public Class windowList
             For Each it In Me.Items
                 Dim x As Integer = 0
                 Dim _item As cWindow = _dico.Item(it.Name)
-                _item.Refresh()
+
+                ' Refresh non-fixed infos
+                If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
+                    _item.Refresh()
+                Else
+                    If Dico.ContainsKey(it.Name) Then
+                        _item.Merge(Dico.Item(it.Name))
+                    End If
+                End If
+
                 Dim __info As String = Nothing
                 For Each isub In it.SubItems
                     If _item.GetInformation(_columnsName(x), __info) Then

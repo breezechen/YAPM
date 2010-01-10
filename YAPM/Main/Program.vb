@@ -144,7 +144,6 @@ Public Module Program
     Public _frmSystemInfo As frmSystemInfo
 
     Private _processProvider As ProcessProvider
-    Private _taskProvider As TaskProvider
     Private _windowProvider As WindowProvider
     Private _serviceProvider As ServiceProvider
     Private _privilegeProvider As PrivilegeProvider
@@ -262,11 +261,6 @@ Public Module Program
     Public ReadOnly Property PrivilegeProvider() As PrivilegeProvider
         Get
             Return _privilegeProvider
-        End Get
-    End Property
-    Public ReadOnly Property TaskProvider() As TaskProvider
-        Get
-            Return _taskProvider
         End Get
     End Property
     Public ReadOnly Property WindowProvider() As WindowProvider
@@ -420,7 +414,6 @@ Public Module Program
             _networkProvider = New NetworkConnectionsProvider   ' Network connections
             _heapProvider = New HeapProvider        ' Heap provider
             _privilegeProvider = New PrivilegeProvider  ' Privilege provider
-            _taskProvider = New TaskProvider        ' Task provider
             _windowProvider = New WindowProvider    ' Window provider
 
             ' ======= Load preferences
@@ -564,7 +557,6 @@ Public Module Program
         NetworkConnectionsProvider.ClearList()
         PrivilegeProvider.ClearList()
         WindowProvider.ClearList()
-        TaskProvider.ClearList()
     End Sub
 
     ' Create a snapshot file

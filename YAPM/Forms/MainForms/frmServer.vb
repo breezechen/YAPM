@@ -395,25 +395,6 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedTask(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, windowInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
-
-        If res.Success Then
-            Try
-                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestTaskList)
-                cDat.InstanceId = instanceId  ' The instance which requested the list
-                cDat._id = _TheIdToSend
-                cDat.SetWindowsList(Dico)
-                sock.Send(cDat)
-            Catch ex As Exception
-                Misc.ShowError(ex, "Unable to enumerate tasks")
-            End Try
-        Else
-            ' Send an error
-            Misc.ShowError("Unable to enumerate tasks : " & res.ErrorMessage)
-        End If
-
-    End Sub
-
     Private Sub HasEnumeratedWindows(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, windowInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
         If res.Success Then
@@ -533,9 +514,6 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestWindowList
                         Call WindowProvider.Update(True, _forInstanceId)
-                        Exit Sub
-                    Case cSocketData.OrderType.RequestTaskList
-                        Call TaskProvider.Update(_forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestSearchList
                         Dim st As String = CStr(cData.Param1)
@@ -1005,7 +983,6 @@ Public Class frmServer
         AddHandler HeapProvider.GotRefreshed, AddressOf HasEnumeratedHeaps
         AddHandler NetworkConnectionsProvider.GotRefreshed, AddressOf HasEnumeratedNetwork
         AddHandler PrivilegeProvider.GotRefreshed, AddressOf HasEnumeratedPrivilege
-        AddHandler TaskProvider.GotRefreshed, AddressOf HasEnumeratedTask
         AddHandler WindowProvider.GotRefreshed, AddressOf HasEnumeratedWindows
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)

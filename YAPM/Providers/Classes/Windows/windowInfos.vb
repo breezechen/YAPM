@@ -182,6 +182,25 @@ Imports System.Runtime.InteropServices
         End With
     End Sub
 
+
+    ' Merge an old and a new instance
+    Public Sub Merge(ByRef infos As windowInfos)
+
+        With infos
+            _enabled = .enabled
+            _height = .height
+            _isTask = .isTask
+            _left = .left
+            _opacity = .opacity
+            _positions = .Positions
+            _top = .top
+            _visible = .visible
+            _width = .width
+            _caption = .caption
+        End With
+
+    End Sub
+
     ' Retrieve all information's names availables
     Public Shared  Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False, Optional ByVal sorted As Boolean = False) As String()
         Dim s(10) As String

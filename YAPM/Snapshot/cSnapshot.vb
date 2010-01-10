@@ -593,7 +593,7 @@ Public Class cSnapshot
 
             ' Tasks
             If (options And Native.Api.Enums.SnapshotObject.[Tasks]) = Native.Api.Enums.SnapshotObject.[Tasks] Then
-                Me.Tasks = TaskProvider.CurrentTasks
+                Me.Tasks = WindowProvider.CurrentWindows
             End If
 
             ' Modules

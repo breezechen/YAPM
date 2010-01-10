@@ -952,9 +952,7 @@
     <Compile Include="Providers\Classes\Services\cServDepConnection.vb" />
     <Compile Include="Providers\Classes\Services\cService.vb" />
     <Compile Include="Providers\Classes\Services\serviceInfos.vb" />
-    <Compile Include="Providers\Classes\Tasks\asyncMethods\asyncCallbackTaskEnumerate.vb" />
     <Compile Include="Providers\Classes\Tasks\cTask.vb" />
-    <Compile Include="Providers\Classes\Tasks\cTaskConnection.vb" />
     <Compile Include="Providers\Classes\Tasks\taskInfos.vb" />
     <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadDecreasePriority.vb" />
     <Compile Include="Providers\Classes\Threads\asyncMethods\asyncCallbackThreadEnumerate.vb" />
@@ -969,10 +967,8 @@
     <Compile Include="Providers\Classes\Threads\cThreadConnection.vb" />
     <Compile Include="Providers\Classes\Threads\threadInfos.vb" />
     <Compile Include="Providers\Classes\Windows\asyncMethods\asyncCallbackWindowAction.vb" />
-    <Compile Include="Providers\Classes\Windows\asyncMethods\asyncCallbackWindowEnumerate.vb" />
     <Compile Include="Providers\Classes\Windows\asyncMethods\asyncCallbackWindowGetNonFixedInfos.vb" />
     <Compile Include="Providers\Classes\Windows\cWindow.vb" />
-    <Compile Include="Providers\Classes\Windows\cWindowConnection.vb" />
     <Compile Include="Providers\Classes\Windows\windowInfos.vb" />
     <Compile Include="Providers\CustomListviews\networkConnectionsList.Designer.vb">
       <DependentUpon>networkConnectionsList.vb</DependentUpon>
@@ -1010,7 +1006,6 @@
     <Compile Include="Providers\CustomListviews\jobList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Providers\Providers\TaskProvider.vb" />
     <Compile Include="Providers\Providers\WindowProvider.vb" />
     <Compile Include="Providers\Providers\PrivilegeProvider.vb" />
     <Compile Include="Providers\Providers\HeapProvider.vb" />
@@ -1412,6 +1407,7 @@
   <ItemGroup>
     <Folder Include="Providers\Classes\EnvVariables\asyncMethods\" />
     <Folder Include="Providers\Classes\Heaps\asyncMethods\" />
+    <Folder Include="Providers\Classes\Tasks\asyncMethods\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

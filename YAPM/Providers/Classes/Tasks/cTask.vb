@@ -25,8 +25,6 @@ Imports System.Text
 Public Class cTask
     Inherits cWindow
 
-    Private _taskinfos As taskInfos
-
     Private _pid As Integer
     Private _process As cProcess
 
@@ -35,22 +33,12 @@ Public Class cTask
     Public Sub New(ByRef infos As windowInfos)
         MyBase.New(infos)
         _pid = infos.ProcessId
-        _taskinfos = New taskInfos(infos)
+        _windowInfos = New taskInfos(infos)
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.Task
 
         ' Get process from process list
         _process = ProcessProvider.GetProcessById(_pid)
     End Sub
-
-#End Region
-
-#Region "Normal properties"
-
-    Public Overloads ReadOnly Property Infos() As taskInfos
-        Get
-            Return _taskinfos
-        End Get
-    End Property
 
 #End Region
 

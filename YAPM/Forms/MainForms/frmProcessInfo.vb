@@ -1221,7 +1221,6 @@ Public Class frmProcessInfo
 
         Me.lvWindows.ProcessId = curProc.Infos.ProcessId
         Me.lvWindows.ShowUnNamed = Me.MenuItemWShowUn.Checked
-        WindowProvider.Update(False, Me.lvWindows.InstanceId)    'PERFISSUE
         Me.lvWindows.UpdateTheItems()
 
     End Sub
@@ -1827,7 +1826,7 @@ Public Class frmProcessInfo
             Me.MenuItemWOpacity.Enabled = _notWMI AndAlso _notSnapshotMode AndAlso selectionIsNotNothing
             Me.MenuItemWPosSize.Enabled = _notWMI AndAlso _notSnapshotMode AndAlso selectionIsNotNothing
             Me.MenuItemWShow.Enabled = _notWMI AndAlso _notSnapshotMode AndAlso selectionIsNotNothing
-            Me.MenuItemWShowUn.Enabled = _notWMI AndAlso _notSnapshotMode AndAlso selectionIsNotNothing
+            Me.MenuItemWShowUn.Enabled = True
             Me.MenuItemWStopFlash.Enabled = _notWMI AndAlso _notSnapshotMode AndAlso selectionIsNotNothing
             Me.MenuItemWVisiblity.Enabled = _notWMI AndAlso _notSnapshotMode AndAlso selectionIsNotNothing
 
