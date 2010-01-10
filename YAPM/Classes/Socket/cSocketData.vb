@@ -118,7 +118,6 @@ Option Strict On
         [RequestSearchList]
         [RequestLogList]
         [RequestJobList]
-        [RequestProcessesInJobList]
         [RequestJobLimits]
         [RequestHeapList]
 

@@ -146,7 +146,7 @@ Public Class frmChooseColumns
             ss = envVariableInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is jobLimitList Then
             ss = jobLimitInfos.GetAvailableProperties
-        ElseIf TypeOf (ConcernedListView) Is jobList Then
+        ElseIf TypeOf (ConcernedListView) Is mainJobList Then
             ss = jobInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is processesInJobList Then
             ss = processInfos.GetAvailableProperties

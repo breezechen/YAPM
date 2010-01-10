@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackJobTerminateJob
 
-    Private con As cJobConnection
     Private _deg As HasTerminatedJob
 
     Public Delegate Sub HasTerminatedJob(ByVal Success As Boolean, ByVal jobName As String, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasTerminatedJob, ByRef jobConnection As cJobConnection)
+    Public Sub New(ByVal deg As HasTerminatedJob)
         _deg = deg
-        con = jobConnection
     End Sub
 
     Public Structure poolObj

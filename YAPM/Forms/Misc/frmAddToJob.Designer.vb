@@ -34,7 +34,7 @@ Partial Class frmAddToJob
         Me.optAddGlobal = New System.Windows.Forms.RadioButton
         Me.optAddLocal = New System.Windows.Forms.RadioButton
         Me.TabPage2 = New System.Windows.Forms.TabPage
-        Me.lvJob = New jobList
+        Me.lvJob = New mainJobList
         Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
@@ -151,7 +151,6 @@ Partial Class frmAddToJob
         Me.lvJob.CatchErrors = False
         Me.lvJob.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader50, Me.ColumnHeader5})
         CConnection1.Type = cConnection.TypeOfConnection.LocalConnection
-        Me.lvJob.ConnectionObj = CConnection1
         Me.lvJob.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJob.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvJob.FullRowSelect = True
@@ -249,7 +248,7 @@ Partial Class frmAddToJob
     Friend WithEvents tab As System.Windows.Forms.TabControl
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
     Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
-    Friend WithEvents lvJob As jobList
+    Friend WithEvents lvJob As mainJobList
     Friend WithEvents ColumnHeader50 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader5 As System.Windows.Forms.ColumnHeader
     Friend WithEvents TableLayoutPanel1 As System.Windows.Forms.TableLayoutPanel

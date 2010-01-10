@@ -44,8 +44,6 @@ Public Class frmServer
     Private _threadCon As New cThreadConnection(Me, theConnection, New cThreadConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedThread))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
     Private _logCon As New cLogConnection(Me, theConnection, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedLog))
-    Private _jobCon As New cJobConnection(Me, theConnection, New cJobConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedJobs))
-    Private _procInJobCon As New cJobConnection(Me, theConnection, New cJobConnection.HasEnumeratedProcInJobEventHandler(AddressOf HasEnumeratedProcessInJob))
     Private _jobLimitsCon As New cJobLimitConnection(Me, theConnection, New cJobLimitConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedJobLimits))
 
     ' Connect to local machine
@@ -79,7 +77,6 @@ Public Class frmServer
             cMemRegion.Connection = _memoryCon
             cModule.Connection = _moduleCon
             cLogItem.Connection = _logCon
-            cJob.Connection = _jobCon
             cJobLimit.Connection = _jobLimitsCon
 
         Catch ex As Exception
@@ -148,28 +145,9 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedProcessInJob(ByVal Success As Boolean, ByVal Dico As Dictionary(Of Integer, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedJobs(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, jobInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If Success Then
-            Try
-                Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestProcessesInJobList)
-                cDat.InstanceId = instanceId   ' The instance which requested the list
-                cDat._id = _TheIdToSend
-                cDat.SetProcessList(Dico)
-                sock.Send(cDat)
-            Catch ex As Exception
-                Misc.ShowError(ex, "Unable to enumerate processes in job")
-            End Try
-        Else
-            ' Send an error
-            Misc.ShowError("Unable to enumerate processes in job")
-        End If
-
-    End Sub
-
-    Private Sub HasEnumeratedJobs(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, jobInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
-
-        If Success Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestJobList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
@@ -181,7 +159,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate jobs")
+            Misc.ShowError("Unable to enumerate jobs : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -484,11 +462,7 @@ Public Class frmServer
                         Call NetworkConnectionsProvider.Update(_forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestJobList
-                        Call _jobCon.Enumerate(True, _forInstanceId)
-                        Exit Sub
-                    Case cSocketData.OrderType.RequestProcessesInJobList
-                        Dim name As String = CStr(cData.Param1)
-                        Call _procInJobCon.EnumerateProcessesInJob(name, _forInstanceId)
+                        Call JobProvider.Update(True, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestJobLimits
                         Dim name As String = CStr(cData.Param1)
@@ -984,6 +958,7 @@ Public Class frmServer
         AddHandler NetworkConnectionsProvider.GotRefreshed, AddressOf HasEnumeratedNetwork
         AddHandler PrivilegeProvider.GotRefreshed, AddressOf HasEnumeratedPrivilege
         AddHandler WindowProvider.GotRefreshed, AddressOf HasEnumeratedWindows
+        AddHandler JobProvider.GotRefreshed, AddressOf HasEnumeratedJobs
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

@@ -30,21 +30,6 @@ Public Class cJob
     ' Infos
     Private _jobInfos As jobInfos
 
-    Private Shared WithEvents _connection As cJobConnection
-
-
-#Region "Properties"
-
-    Public Shared Property Connection() As cJobConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cJobConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 
@@ -126,7 +111,7 @@ Public Class cJob
     Public Shared Function SharedLRTerminateJob(ByVal name As String) As Integer
 
         If _sharedTermJ Is Nothing Then
-            _sharedTermJ = New asyncCallbackJobTerminateJob(New asyncCallbackJobTerminateJob.HasTerminatedJob(AddressOf sharedKillJobDone), _connection)
+            _sharedTermJ = New asyncCallbackJobTerminateJob(New asyncCallbackJobTerminateJob.HasTerminatedJob(AddressOf sharedKillJobDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _sharedTermJ.Process)
@@ -149,7 +134,7 @@ Public Class cJob
     Public Shared Function SharedLRAddProcess(ByVal jobName As String, ByVal pids() As Integer) As Integer
 
         If _addedShared Is Nothing Then
-            _addedShared = New asyncCallbackJobAddProcess(New asyncCallbackJobAddProcess.HasAddedProcessesToJob(AddressOf sharedAddedJobDone), _connection)
+            _addedShared = New asyncCallbackJobAddProcess(New asyncCallbackJobAddProcess.HasAddedProcessesToJob(AddressOf sharedAddedJobDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _addedShared.Process)
@@ -174,7 +159,7 @@ Public Class cJob
                 ByVal limit2 As NativeStructs.JobObjectExtendedLimitInformation) As Integer
 
         If _setLshared Is Nothing Then
-            _setLshared = New asyncCallbackJobLimitsSetLimits(New asyncCallbackJobLimitsSetLimits.HasSetLimits(AddressOf sharedHasSetL), _connection)
+            _setLshared = New asyncCallbackJobLimitsSetLimits(New asyncCallbackJobLimitsSetLimits.HasSetLimits(AddressOf sharedHasSetL))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _setLshared.Process)
@@ -201,7 +186,7 @@ Public Class cJob
     Public Function AddProcess(ByVal pid As Integer) As Integer
 
         If _addedP Is Nothing Then
-            _addedP = New asyncCallbackJobAddProcess(New asyncCallbackJobAddProcess.HasAddedProcessesToJob(AddressOf addedProcessDone), _connection)
+            _addedP = New asyncCallbackJobAddProcess(New asyncCallbackJobAddProcess.HasAddedProcessesToJob(AddressOf addedProcessDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _addedP.Process)
@@ -227,7 +212,7 @@ Public Class cJob
     Public Function TerminateJob() As Integer
 
         If _killedJob Is Nothing Then
-            _killedJob = New asyncCallbackJobTerminateJob(New asyncCallbackJobTerminateJob.HasTerminatedJob(AddressOf killJobDone), _connection)
+            _killedJob = New asyncCallbackJobTerminateJob(New asyncCallbackJobTerminateJob.HasTerminatedJob(AddressOf killJobDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _killedJob.Process)
@@ -251,7 +236,7 @@ Public Class cJob
                 ByVal limit2 As NativeStructs.JobObjectExtendedLimitInformation) As Integer
 
         If _setL Is Nothing Then
-            _setL = New asyncCallbackJobLimitsSetLimits(New asyncCallbackJobLimitsSetLimits.HasSetLimits(AddressOf hasSetL), _connection)
+            _setL = New asyncCallbackJobLimitsSetLimits(New asyncCallbackJobLimitsSetLimits.HasSetLimits(AddressOf hasSetL))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _setL.Process)

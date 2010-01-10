@@ -211,9 +211,9 @@ Public Class frmJobInfo
 
         curJob = job
 
-        _local = (cJob.Connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection)
-        _notWMI = (cJob.Connection.ConnectionObj.Type <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
-        _notSnapshotMode = (cJob.Connection.ConnectionObj.Type <> cConnection.TypeOfConnection.SnapshotFile)
+        _local = (Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection)
+        _notWMI = (Program.Connection.Type <> cConnection.TypeOfConnection.RemoteConnectionViaWMI)
+        _notSnapshotMode = (Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile)
 
         Me.Timer.Enabled = True
         Me.TimerLimits.Enabled = True
@@ -233,7 +233,6 @@ Public Class frmJobInfo
         'theConnection.CopyFromInstance(Program.Connection)
         Try
             theConnection = Program.Connection
-            Me.lvProcess.ConnectionObj = theConnection
             Me.lvLimits.ConnectionObj = theConnection
             theConnection.Connect()
             Me.Timer.Interval = CInt(1000 * Program.Connection.RefreshmentCoefficient)
@@ -295,12 +294,7 @@ Public Class frmJobInfo
                 it.Kill()
             Next
         ElseIf e.KeyCode = Keys.Enter And Me.lvProcess.SelectedItems.Count > 0 Then
-            For Each it As cProcess In Me.lvProcess.GetSelectedItems
-                Dim frm As New frmProcessInfo
-                frm.SetProcess(it)
-                frm.TopMost = _frmMain.TopMost
-                frm.Show()
-            Next
+            Me.lvProcess_MouseDoubleClick(Nothing, Nothing)
         End If
     End Sub
 
@@ -308,7 +302,8 @@ Public Class frmJobInfo
         If e.Button = Windows.Forms.MouseButtons.Left Then
             For Each it As cProcess In Me.lvProcess.GetSelectedItems
                 Dim frm As New frmProcessInfo
-                frm.SetProcess(it)
+                Dim iit As cProcess = _frmMain.lvProcess.GetItemByKey(it.Infos.ProcessId.ToString)
+                frm.SetProcess(iit)
                 frm.TopMost = _frmMain.TopMost
                 frm.Show()
             Next

@@ -244,7 +244,7 @@ Partial Class frmMain
         Me.ColumnHeader20 = New System.Windows.Forms.ColumnHeader
         Me.pageJobs = New System.Windows.Forms.TabPage
         Me.panelMain12 = New System.Windows.Forms.Panel
-        Me.lvJob = New jobList
+        Me.lvJob = New mainJobList
         Me.ColumnHeader50 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader5 = New System.Windows.Forms.ColumnHeader
         Me.pageMonitor = New System.Windows.Forms.TabPage
@@ -3118,7 +3118,6 @@ Partial Class frmMain
         CConnection3.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection3.Snapshot = Nothing
         CConnection3.SnapshotFile = Nothing
-        Me.lvJob.ConnectionObj = CConnection3
         Me.lvJob.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvJob.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvJob.FullRowSelect = True
@@ -6283,7 +6282,7 @@ Partial Class frmMain
     Friend WithEvents JobTab As System.Windows.Forms.RibbonTab
     Friend WithEvents MenuItemJobs As System.Windows.Forms.MenuItem
     Friend WithEvents panelMain12 As System.Windows.Forms.Panel
-    Friend WithEvents lvJob As jobList
+    Friend WithEvents lvJob As mainJobList
     Friend WithEvents ColumnHeader50 As System.Windows.Forms.ColumnHeader
     Friend WithEvents timerJobs As System.Windows.Forms.Timer
     Private WithEvents mnuJob As System.Windows.Forms.ContextMenu

@@ -226,6 +226,29 @@ Public Class ProcessProvider
         Return tt
 
     End Function
+    ' No sync protection
+    Friend Shared Function GetProcessByIdNonThreadSafe(ByVal id As Integer) As cProcess
+
+        Dim tt As cProcess = Nothing
+
+        Try
+            If _currentProcesses IsNot Nothing Then
+                If _currentProcesses.ContainsKey(id) Then
+                    Try
+                        tt = New cProcess(_currentProcesses.Item(id))
+                    Catch ex As Exception
+
+                    End Try
+                End If
+            End If
+        Catch ex As Exception
+            ' Item was removed just after ContainsKey... bad luck :-(
+            Misc.ShowDebugError(ex)
+        End Try
+
+        Return tt
+
+    End Function
 
     ' Remove some PIDs from new processes list
     Public Shared Sub RemoveProcessesFromListOfNewProcesses(ByVal pid() As Integer)

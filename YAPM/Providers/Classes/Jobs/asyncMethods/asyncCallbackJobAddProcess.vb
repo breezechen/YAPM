@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackJobAddProcess
 
-    Private con As cJobConnection
     Private _deg As HasAddedProcessesToJob
 
     Public Delegate Sub HasAddedProcessesToJob(ByVal Success As Boolean, ByVal pid() As Integer, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasAddedProcessesToJob, ByRef jobConnection As cJobConnection)
+    Public Sub New(ByVal deg As HasAddedProcessesToJob)
         _deg = deg
-        con = jobConnection
     End Sub
 
     Public Structure poolObj

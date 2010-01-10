@@ -26,9 +26,6 @@ Imports System.Runtime.InteropServices
 Public Class processesInJobList
     Inherits customLV
 
-    Public Event ItemAdded(ByRef item As cProcess)
-    Public Event ItemDeleted(ByRef item As cProcess)
-    Public Event HasRefreshed()
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
 
 
@@ -38,8 +35,6 @@ Public Class processesInJobList
     Private _firstRefresh As Boolean
     Private _first As Boolean
     Private _dico As New Dictionary(Of String, cProcess)
-    Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _jobConnection As New cJobConnection(Me, _connectionObject, New cJobConnection.HasEnumeratedProcInJobEventHandler(AddressOf HasEnumeratedEventHandler))
     Private _job As cJob
 
 #Region "Properties"
@@ -47,14 +42,6 @@ Public Class processesInJobList
     ' ========================================
     ' Properties
     ' ========================================
-    Public Property ConnectionObj() As cConnection
-        Get
-            Return _connectionObject
-        End Get
-        Set(ByVal value As cConnection)
-            _connectionObject = value
-        End Set
-    End Property
     Public Property Job() As cJob
         Get
             Return _job
@@ -62,11 +49,6 @@ Public Class processesInJobList
         Set(ByVal value As cJob)
             _job = value
         End Set
-    End Property
-    Public ReadOnly Property FirstRefreshDone() As Boolean
-        Get
-            Return Not (_firstRefresh)
-        End Get
     End Property
 
 #End Region
@@ -91,9 +73,9 @@ Public Class processesInJobList
         _firstRefresh = True
         _first = True
 
-        ' Set handlers
-        _jobConnection.Disconnected = New cJobConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
-        _jobConnection.Connected = New cJobConnection.ConnectedEventHandler(AddressOf HasConnected)
+        ' Create buffer
+        Me.CreateSubItemsBuffer()
+
     End Sub
 
     ' Get an item from listview
@@ -110,24 +92,6 @@ Public Class processesInJobList
         _IMG.Images.Clear()
         _IMG.Images.Add("noIcon", My.Resources.application_blue16)
         Me.Items.Clear()
-    End Sub
-
-
-    ' Call this to update items in listview
-    Public Overrides Sub UpdateItems()
-
-        ' Create a buffer of subitems if necessary
-        If _columnsName Is Nothing Then
-            Call CreateSubItemsBuffer()
-        End If
-
-        If _jobConnection.IsConnected Then
-
-            ' Now enumerate items
-            _jobConnection.EnumerateProcessesInJob(_job.Infos.Name)
-
-        End If
-
     End Sub
 
     ' Get all items (associated to listviewitems)
@@ -176,48 +140,47 @@ Public Class processesInJobList
     ' Private properties
     ' ========================================
 
-    ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of Integer, processInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+
+    Public Overrides Sub UpdateTheItems()
 
         Try
             generalLvSemaphore.WaitOne()
 
-            Dim _test As Integer = Native.Api.Win32.GetElapsedTime
+            ' This should not be used elsewhere...
+            ProcessProvider._semProcess.WaitOne()
 
-            If Success = False Then
-                Trace.WriteLine("Cannot enumerate, an error was raised...")
-                RaiseEvent GotAnError("Process enumeration", errorMessage)
-                Exit Sub
-            End If
+            ' Get current processes
+            Dim Dico As List(Of Integer) = Job.Infos.PidList
 
             ' We won't enumerate next time with all informations (included fixed infos)
             _first = False
 
 
             ' Now add all items with isKilled = true to _dicoDel dictionnary
-            Dim _dicoDel As New List(Of String)
+            Dim _dicoDel As New List(Of Integer)
+            Dim _dicoNew As New List(Of Integer)
             For Each z As cProcess In _dico.Values
                 If z.IsKilledItem Then
-                    _dicoDel.Add(z.Infos.ProcessId.ToString)
+                    _dicoDel.Add(z.Infos.ProcessId)
                 End If
             Next
 
 
             ' Now add new items to dictionnary
-            Dim _dicoNew As New List(Of String)
-            For Each cp As processInfos In Dico.Values
-                If Not (_dico.ContainsKey(cp.ProcessId.ToString)) Then
+            For Each pid As Integer In Dico
+                ' Add to dico
+                If Not (_dico.ContainsKey(pid.ToString)) Then
                     ' Add to dico
-                    _dicoNew.Add(cp.ProcessId.ToString)
+                    _dicoNew.Add(pid)
                 End If
             Next
 
 
             ' Now remove deleted items from dictionnary
-            For Each z As Integer In _dico.Keys
-                If Dico.ContainsKey(z) = False Then
+            For Each z As String In _dico.Keys
+                If Dico.Contains(Integer.Parse(z)) = False Then
                     ' Remove from dico
-                    _dico.Item(z.ToString).IsKilledItem = True  ' Will be deleted next time
+                    _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
                 End If
             Next
 
@@ -225,18 +188,22 @@ Public Class processesInJobList
             ' Now remove all deleted items from listview and _dico
             For Each z As Integer In _dicoDel
                 Me.Items.RemoveByKey(z.ToString)
-                RaiseEvent ItemDeleted(_dico.Item(z.ToString))
                 _dico.Remove(z.ToString)
             Next
 
 
             ' Merge _dico and _dicoNew
             For Each z As Integer In _dicoNew
-                Dim _it As cProcess = ProcessProvider.GetProcessById(Dico(z).ProcessId)
-                RaiseEvent ItemAdded(_it)
+                Dim _it As cProcess = ProcessProvider.GetProcessByIdNonThreadSafe(z)
                 _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
                 _dico.Add(z.ToString, _it)
             Next
+
+
+            ' Create buffer if necessary
+            If _columnsName.Length = 0 Then
+                Me.CreateSubItemsBuffer()
+            End If
 
 
             ' Now add all new items to listview
@@ -261,12 +228,11 @@ Public Class processesInJobList
             For Each it In Me.Items
                 Dim x As Integer = 0
                 Dim _item As cProcess = _dico.Item(it.Name)
-                Dim ___info As String = Nothing
+                Dim __info As String = Nothing
                 For Each isub In it.SubItems
-                    'If _item.GetInformation(_columnsName(x), ___info) Then
-                    '    isub.Text = ___info
-                    'End If
-                    isub.Text = _item.GetInformation(_columnsName(x))
+                    If _item.GetInformation(_columnsName(x), __info) Then
+                        isub.Text = __info
+                    End If
                     x += 1
                 Next
                 If _item.IsNewItem Then
@@ -277,37 +243,23 @@ Public Class processesInJobList
                 Else
                     it.BackColor = _item.GetBackColor
                 End If
-                it.ForeColor = _item.GetForeColor
-
-                ' If we are in 'show hidden process mode', we have to set color red for
-                ' hidden processes
-                If _item.Infos.IsHidden Then
-                    it.ForeColor = Color.Red
-                Else
-                    If it.ForeColor = Color.Red Then
-                        it.ForeColor = Color.Black
-                    End If
-                End If
             Next
-
 
             ' Sort items
             Me.Sort()
 
             _firstItemUpdate = False
 
-            _test = Native.Api.Win32.GetElapsedTime - _test
-            Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
+            'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh process list.")
 
             MyBase.UpdateItems()
 
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         Finally
+            ProcessProvider._semProcess.Release()
             generalLvSemaphore.Release()
         End Try
-
-        _firstRefresh = False
 
     End Sub
 
@@ -342,7 +294,7 @@ Public Class processesInJobList
         Dim proc As cProcess = _dico.Item(key)
         item.Name = key
 
-        If _connectionObject.Type = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
             If proc.Infos.ProcessId > 4 Then
 
                 ' Add icon
@@ -373,47 +325,6 @@ Public Class processesInJobList
         Return item
 
     End Function
-
-#Region "Connection stuffs"
-
-    Private Sub _connectionObject_Connected() Handles _connectionObject.Connected
-        Call Connect()
-    End Sub
-
-    Private Sub _connectionObject_Disconnected() Handles _connectionObject.Disconnected
-        Call Disconnect()
-    End Sub
-
-    Protected Overrides Function Connect() As Boolean
-        If MyBase.Connect Then
-            Me.IsConnected = True
-            _first = True
-            _firstRefresh = True
-            _jobConnection.ConnectionObj = _connectionObject
-            ProcessProvider.ClearNewProcessesDico()
-            _jobConnection.Connect()
-        End If
-    End Function
-
-    Protected Overrides Function Disconnect() As Boolean
-        If MyBase.Disconnect Then
-            Me.IsConnected = False
-            _jobConnection.Disconnect()
-            ProcessProvider.ClearNewProcessesDico()
-        End If
-    End Function
-
-    Private Sub HasDisconnected(ByVal Success As Boolean)
-        ' We HAVE TO disconnect, because this event is raised when we got an error
-        '_jobConnection.Disconnect()
-        '     _jobConnection.Con()
-    End Sub
-
-    Private Sub HasConnected(ByVal Success As Boolean)
-        '
-    End Sub
-
-#End Region
 
     Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
         MyBase.OnKeyDown(e)

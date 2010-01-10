@@ -108,8 +108,8 @@ Public Class Pref
         mainTaskList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
         threadList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
         threadList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
-        jobList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
-        jobList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
+        mainJobList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        mainJobList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
         _frmMain.Tray.Visible = My.Settings.ShowTrayIcon
         _frmMain.StatusBar.Visible = My.Settings.ShowStatusBar
 

@@ -150,6 +150,7 @@ Public Module Program
     Private _heapProvider As HeapProvider
     Private _networkProvider As NetworkConnectionsProvider
     Private _envVariableProvider As EnvVariableProvider
+    Private _jobProvider As JobProvider
     Private WithEvents _updater As cUpdate
     Private _progParameters As ProgramParameters
     Private WithEvents theConnection As cConnection
@@ -266,6 +267,11 @@ Public Module Program
     Public ReadOnly Property WindowProvider() As WindowProvider
         Get
             Return _windowProvider
+        End Get
+    End Property
+    Public ReadOnly Property JobProvider() As JobProvider
+        Get
+            Return _jobProvider
         End Get
     End Property
 
@@ -415,6 +421,8 @@ Public Module Program
             _heapProvider = New HeapProvider        ' Heap provider
             _privilegeProvider = New PrivilegeProvider  ' Privilege provider
             _windowProvider = New WindowProvider    ' Window provider
+            _jobProvider = New JobProvider          ' Job provider
+
 
             ' ======= Load preferences
             If My.Settings.ShouldUpgrade Then
@@ -570,6 +578,9 @@ Public Module Program
 
         WindowProvider.ClearList()
         WindowProvider.FirstRefreshDone = False
+
+        JobProvider.ClearList()
+        JobProvider.FirstRefreshDone = False
     End Sub
 
     ' Create a snapshot file

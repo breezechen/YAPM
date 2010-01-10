@@ -27,14 +27,12 @@ Imports Native.Api
 
 Public Class asyncCallbackJobLimitsSetLimits
 
-    Private con As cJobConnection
     Private _deg As HasSetLimits
 
     Public Delegate Sub HasSetLimits(ByVal Success As Boolean, ByVal jobName As String, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasSetLimits, ByRef jobLimitConnection As cJobConnection)
+    Public Sub New(ByVal deg As HasSetLimits)
         _deg = deg
-        con = jobLimitConnection
     End Sub
 
     Public Structure poolObj

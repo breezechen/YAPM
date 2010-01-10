@@ -593,7 +593,7 @@ Public Class cSnapshot
 
             ' Jobs
             If (options And Native.Api.Enums.SnapshotObject.[Jobs]) = Native.Api.Enums.SnapshotObject.[Jobs] Then
-                Me.Jobs = asyncCallbackJobEnumerate.SharedLocalSyncEnumerate
+                Me.Jobs = JobProvider.CurrentJobs
             End If
 
             ' Modules

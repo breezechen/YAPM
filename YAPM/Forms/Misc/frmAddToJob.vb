@@ -41,7 +41,6 @@ Public Class frmAddToJob
         'theConnection.CopyFromInstance(Program.Connection)
         Try
             theConnection = Program.Connection
-            Me.lvJob.ConnectionObj = theConnection
             theConnection.Connect()
         Catch ex As Exception
             Misc.ShowError(ex, "Unable to connect")

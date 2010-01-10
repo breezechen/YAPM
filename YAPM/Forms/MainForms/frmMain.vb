@@ -229,7 +229,7 @@ Public Class frmMain
     Public Sub refreshJobList()
 
         ' Update list
-        Me.lvJob.UpdateTheItems()
+        JobProvider.Update(False, Me.lvJob.InstanceId)
 
         If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
             If Me.Ribbon.ActiveTab.Text = "Jobs" Then
@@ -2596,7 +2596,6 @@ Public Class frmMain
         ' Connect all lvItems
         Me.tv.ConnectionObj = Program.Connection
         Me.tv2.ConnectionObj = Program.Connection
-        Me.lvJob.ConnectionObj = Program.Connection
         Me.lvSearchResults.ConnectionObj = Program.Connection
         _shutdownConnection.ConnectionObj = Program.Connection
         Try
@@ -3889,15 +3888,7 @@ Public Class frmMain
     End Sub
 
     Private Sub timerJobs_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles timerJobs.Tick
-
-        Me.lvJob.UpdateTheItems()
-
-        If Me.Ribbon IsNot Nothing AndAlso Me.Ribbon.ActiveTab IsNot Nothing Then
-            Dim ss As String = Me.Ribbon.ActiveTab.Text
-            If ss = "Jobs" Then
-                Me.Text = "Yet Another (remote) Process Monitor -- " & CStr(Me.lvJob.Items.Count) & " jobs running"
-            End If
-        End If
+        Call refreshJobList()
     End Sub
 
     Private Sub lvJob_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lvJob.KeyDown

@@ -35,6 +35,7 @@ TODO
 - xp sp3 : enum des env variables foire (regression : checker les modifications apportées à envVariableEnum) --> IDENTIFIE (commentaire sur l'affectation dico process)
 - ajouter écriture log (ShowDebugLog + option)
 - bug col modif (cf. affectation dico process)
+- snapshot par server (récupérer l'objet snap entier)
 
 
 
