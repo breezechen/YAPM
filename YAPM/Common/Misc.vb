@@ -99,22 +99,22 @@ Namespace Common
 
 
         ' Get a formated value as a string (in Bytes, KB, MB or GB) from an Integer
-        Public Shared Function GetFormatedSize(ByVal size As Double, Optional ByVal digits As Integer = 3) As String
+        Public Shared Function GetFormatedSize(ByVal size As Double, Optional ByVal digits As Integer = 3, Optional ByVal forceZeo As Boolean = False) As String
             Return GetFormatedSize(New Decimal(size), digits)
         End Function
-        Public Shared Function GetFormatedSize(ByVal size As Integer, Optional ByVal digits As Integer = 3) As String
+        Public Shared Function GetFormatedSize(ByVal size As Integer, Optional ByVal digits As Integer = 3, Optional ByVal forceZeo As Boolean = False) As String
             Return GetFormatedSize(New Decimal(size), digits)
         End Function
-        Public Shared Function GetFormatedSize(ByVal size As ULong, Optional ByVal digits As Integer = 3) As String
+        Public Shared Function GetFormatedSize(ByVal size As ULong, Optional ByVal digits As Integer = 3, Optional ByVal forceZeo As Boolean = False) As String
             Return GetFormatedSize(New Decimal(size), digits)
         End Function
-        Public Shared Function GetFormatedSize(ByVal size As IntPtr, Optional ByVal digits As Integer = 3) As String
+        Public Shared Function GetFormatedSize(ByVal size As IntPtr, Optional ByVal digits As Integer = 3, Optional ByVal forceZeo As Boolean = False) As String
             Return GetFormatedSize(New Decimal(size.ToInt64), digits)
         End Function
-        Public Shared Function GetFormatedSize(ByVal size As UInteger, Optional ByVal digits As Integer = 3) As String
+        Public Shared Function GetFormatedSize(ByVal size As UInteger, Optional ByVal digits As Integer = 3, Optional ByVal forceZeo As Boolean = False) As String
             Return GetFormatedSize(New Decimal(size), digits)
         End Function
-        Public Shared Function GetFormatedSize(ByVal size As Decimal, Optional ByVal digits As Integer = 3) As String
+        Public Shared Function GetFormatedSize(ByVal size As Decimal, Optional ByVal digits As Integer = 3, Optional ByVal forceZeo As Boolean = False) As String
             Dim t As Decimal = size
             Dim dep As Integer = 0
 
@@ -128,7 +128,11 @@ Namespace Common
             If d > 0 Then
                 Return d.ToString & " " & sizeUnits(dep)
             Else
-                Return ""
+                If forceZeo Then
+                    Return "0 " & sizeUnits(0)
+                Else
+                    Return ""
+                End If
             End If
 
         End Function
@@ -1161,6 +1165,28 @@ Namespace Common
             Debug.WriteLine("       Message : " & ex.Message)
             Debug.WriteLine("       Trace : " & ex.StackTrace)
             Debug.WriteLine("================================================================")
+
+            ' Write error to log (if enabled)
+            If My.Settings.SaveErrorLog Then
+                Dim stream As StreamWriter = Nothing
+                Try
+                    stream = New StreamWriter(Program.LogPath, True)
+                    stream.WriteLine("======================================================")
+                    stream.WriteLine("Got an error, date = " & Date.Now.ToLongDateString & " - " & Date.Now.ToLongTimeString)
+                    stream.Write(Program.ErrorLog(ex) & vbNewLine)
+                    stream.WriteLine("======================================================")
+                    stream.WriteLine()
+                    stream.WriteLine()
+                Catch ex2 As Exception
+                    ' Won't catch this...
+                Finally
+                    If stream IsNot Nothing Then
+                        stream.Close()
+                    End If
+                End Try
+            End If
+
+            ' Beep for debug mode :-)
 #If RELEASE_MODE = 0 Then
             Beep()
 #End If

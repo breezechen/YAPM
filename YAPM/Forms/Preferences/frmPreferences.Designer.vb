@@ -33,6 +33,7 @@ Partial Class frmPreferences
         Dim ListViewItem9 As System.Windows.Forms.ListViewItem = New System.Windows.Forms.ListViewItem("System process")
         Me.TabControl = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
+        Me.chkSaveErrorLog = New System.Windows.Forms.CheckBox
         Me.chkWintrust = New System.Windows.Forms.CheckBox
         Me.chkAutoOnline = New System.Windows.Forms.CheckBox
         Me.cmdResetAll = New System.Windows.Forms.Button
@@ -53,6 +54,7 @@ Partial Class frmPreferences
         Me.lvHighlightingProcess = New System.Windows.Forms.ListView
         Me.Header = New System.Windows.Forms.ColumnHeader
         Me.TabPage3 = New System.Windows.Forms.TabPage
+        Me.chkShowIconsList = New System.Windows.Forms.CheckBox
         Me.chkRemember = New System.Windows.Forms.CheckBox
         Me.chkClassicMsgbox = New System.Windows.Forms.CheckBox
         Me.cbShownTab = New System.Windows.Forms.ComboBox
@@ -102,7 +104,8 @@ Partial Class frmPreferences
         Me.cmdQuit = New System.Windows.Forms.Button
         Me.cmdDefaut = New System.Windows.Forms.Button
         Me.colDial = New System.Windows.Forms.ColorDialog
-        Me.chkShowIconsList = New System.Windows.Forms.CheckBox
+        Me.cmdClearLog = New System.Windows.Forms.Button
+        Me.cmdOpenLog = New System.Windows.Forms.Button
         Me.TabControl.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -140,6 +143,9 @@ Partial Class frmPreferences
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.cmdOpenLog)
+        Me.TabPage1.Controls.Add(Me.cmdClearLog)
+        Me.TabPage1.Controls.Add(Me.chkSaveErrorLog)
         Me.TabPage1.Controls.Add(Me.chkWintrust)
         Me.TabPage1.Controls.Add(Me.chkAutoOnline)
         Me.TabPage1.Controls.Add(Me.cmdResetAll)
@@ -155,6 +161,16 @@ Partial Class frmPreferences
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'chkSaveErrorLog
+        '
+        Me.chkSaveErrorLog.AutoSize = True
+        Me.chkSaveErrorLog.Location = New System.Drawing.Point(14, 241)
+        Me.chkSaveErrorLog.Name = "chkSaveErrorLog"
+        Me.chkSaveErrorLog.Size = New System.Drawing.Size(97, 17)
+        Me.chkSaveErrorLog.TabIndex = 11
+        Me.chkSaveErrorLog.Text = "Save error log"
+        Me.chkSaveErrorLog.UseVisualStyleBackColor = True
         '
         'chkWintrust
         '
@@ -378,6 +394,16 @@ Partial Class frmPreferences
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Display"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'chkShowIconsList
+        '
+        Me.chkShowIconsList.AutoSize = True
+        Me.chkShowIconsList.Location = New System.Drawing.Point(181, 171)
+        Me.chkShowIconsList.Name = "chkShowIconsList"
+        Me.chkShowIconsList.Size = New System.Drawing.Size(166, 17)
+        Me.chkShowIconsList.TabIndex = 16
+        Me.chkShowIconsList.Text = "Show icons in detailed lists"
+        Me.chkShowIconsList.UseVisualStyleBackColor = True
         '
         'chkRemember
         '
@@ -869,15 +895,23 @@ Partial Class frmPreferences
         Me.colDial.AnyColor = True
         Me.colDial.FullOpen = True
         '
-        'chkShowIconsList
+        'cmdClearLog
         '
-        Me.chkShowIconsList.AutoSize = True
-        Me.chkShowIconsList.Location = New System.Drawing.Point(181, 171)
-        Me.chkShowIconsList.Name = "chkShowIconsList"
-        Me.chkShowIconsList.Size = New System.Drawing.Size(166, 17)
-        Me.chkShowIconsList.TabIndex = 16
-        Me.chkShowIconsList.Text = "Show icons in detailed lists"
-        Me.chkShowIconsList.UseVisualStyleBackColor = True
+        Me.cmdClearLog.Location = New System.Drawing.Point(117, 237)
+        Me.cmdClearLog.Name = "cmdClearLog"
+        Me.cmdClearLog.Size = New System.Drawing.Size(58, 23)
+        Me.cmdClearLog.TabIndex = 12
+        Me.cmdClearLog.Text = "Clear"
+        Me.cmdClearLog.UseVisualStyleBackColor = True
+        '
+        'cmdOpenLog
+        '
+        Me.cmdOpenLog.Location = New System.Drawing.Point(182, 237)
+        Me.cmdOpenLog.Name = "cmdOpenLog"
+        Me.cmdOpenLog.Size = New System.Drawing.Size(58, 23)
+        Me.cmdOpenLog.TabIndex = 13
+        Me.cmdOpenLog.Text = "Open"
+        Me.cmdOpenLog.UseVisualStyleBackColor = True
         '
         'frmPreferences
         '
@@ -1000,4 +1034,7 @@ Partial Class frmPreferences
     Friend WithEvents Label14 As System.Windows.Forms.Label
     Friend WithEvents chkRemember As System.Windows.Forms.CheckBox
     Friend WithEvents chkShowIconsList As System.Windows.Forms.CheckBox
+    Friend WithEvents chkSaveErrorLog As System.Windows.Forms.CheckBox
+    Friend WithEvents cmdOpenLog As System.Windows.Forms.Button
+    Friend WithEvents cmdClearLog As System.Windows.Forms.Button
 End Class

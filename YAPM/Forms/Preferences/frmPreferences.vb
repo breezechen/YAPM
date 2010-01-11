@@ -22,6 +22,7 @@
 Option Strict On
 
 Imports Common.Misc
+Imports System.Configuration
 
 Public Class frmPreferences
 
@@ -75,6 +76,7 @@ Public Class frmPreferences
         My.Settings.CoefTimeMul = CInt(Me.valCoefRemote.Value)
         My.Settings.RememberPosAndSize = Me.chkRemember.Checked
         My.Settings.IconsInList = Me.chkShowIconsList.Checked
+        My.Settings.SaveErrorLog = Me.chkSaveErrorLog.Checked
 
         If Me.chkUnlimitedBuf.Checked Then
             My.Settings.HistorySize = -1
@@ -196,6 +198,9 @@ Public Class frmPreferences
         SetToolTip(Me.valCoefRemote, "Coefficient for update interval in case of remote monitoring." & vbNewLine & "For example, if you set 200, all refreshment intervals for remote monitoring will" & vbNewLine & "be 2 times greater than intervals for local monitoring.")
         SetToolTip(Me.chkRemember, "Remember position and size of the main windows.")
         SetToolTip(Me.chkShowIconsList, "Show icons in detailed lists.")
+        SetToolTip(Me.chkSaveErrorLog, "Save error log to settings directory")
+        SetToolTip(Me.cmdOpenLog, "Open the log file")
+        SetToolTip(Me.cmdClearLog, "Clear the log file")
 
 
         ' Set control's values
@@ -235,6 +240,7 @@ Public Class frmPreferences
         Me.valCoefRemote.Value = My.Settings.CoefTimeMul
         Me.chkRemember.Checked = My.Settings.RememberPosAndSize
         Me.chkShowIconsList.Checked = My.Settings.IconsInList
+        Me.chkSaveErrorLog.Checked = My.Settings.SaveErrorLog
 
         If My.Settings.HistorySize > 0 Then
             Me.bufferSize.Value = CInt(My.Settings.HistorySize / 1024)
@@ -348,6 +354,7 @@ Public Class frmPreferences
         Me.valCoefRemote.Value = 250
         Me.chkShowIconsList.Checked = True
         Me.chkRemember.Checked = True
+        Me.chkSaveErrorLog.Checked = True
         If Me.chkClassicMsgbox.Enabled Then
             Me.chkClassicMsgbox.Checked = True
         End If
@@ -517,5 +524,35 @@ Public Class frmPreferences
         My.Settings.UpdateAlpha = Me.chkUpdateAlpha.Checked
         My.Settings.UpdateBeta = Me.chkUpdateBeta.Checked
         Program.Updater.CheckUpdates(False)
+    End Sub
+
+    Private Sub cmdClearLog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdClearLog.Click
+        Dim lSize As Long = cFile.GetFileSize(Program.LogPath)
+        Dim size As String = Misc.GetFormatedSize(lSize, 3, True)
+        If Misc.ShowMsg("Clear log", "Are you sure you want to clear the log ?", "Current log size = " & Size, MessageBoxButtons.YesNo, TaskDialogIcon.Information, True) = Windows.Forms.DialogResult.Yes Then
+            Try
+                ' Clear log
+                Dim stream As New IO.StreamWriter(Program.LogPath, False)
+                stream.Close()
+            Catch ex As Exception
+                Misc.ShowMsg("Could not clear log !", "Error : " & ex.Message, , MessageBoxButtons.OK, TaskDialogIcon.Error)
+            End Try
+        End If
+    End Sub
+
+    Private Sub cmdOpenLog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdOpenLog.Click
+        If IO.File.Exists(Program.LogPath) = False Then
+            Try
+                ' Create file (does not exist yet)
+                IO.File.CreateText(Program.LogPath).Close()
+            Catch ex As Exception
+                '
+            End Try
+        End If
+        If IO.File.Exists(Program.LogPath) Then
+            Dim frm As New frmErrorLog(Program.LogPath)
+            frm.TopMost = _frmMain.TopMost
+            frm.Show()
+        End If
     End Sub
 End Class

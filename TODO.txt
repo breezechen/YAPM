@@ -23,7 +23,6 @@ TODO
 
 
 - xp sp3 : enum des env variables foire (regression : checker les modifications apportées à envVariableEnum) --> IDENTIFIE (commentaire sur l'affectation dico process)
-- ajouter écriture log (ShowDebugLog + option)
 - bug col modif (cf. affectation dico process)
 - snapshot par server (récupérer l'objet snap entier)
 
@@ -120,6 +119,7 @@ BUGS NON CRITIQUES
 - modules Wow64 en WMI ?
 
 2) Plus tard
+- save error to log -> possibilité d'uploader le log quand on balance une erreur vers sourceforge
 - implémenter option "temps process rouge/vert"
 - SBA a réimplémenter
 - SBA -> sendmessage configurable

@@ -39,36 +39,7 @@ Public Class frmError
         _theExeption = e
 
         ' Create a log
-        Dim s As String = ""
-        s &= "System informations : "
-        s &= vbNewLine & vbTab & "Name : " & My.Computer.Info.OSFullName
-        s &= vbNewLine & vbTab & "Platform : " & My.Computer.Info.OSPlatform
-        s &= vbNewLine & vbTab & "Version : " & My.Computer.Info.OSVersion.ToString
-        s &= vbNewLine & vbTab & "UICulture : " & My.Computer.Info.InstalledUICulture.ToString
-        s &= vbNewLine & vbTab & "Processor count : " & Program.PROCESSOR_COUNT.ToString
-        s &= vbNewLine & vbTab & "Physical memory : " & GetFormatedSize(My.Computer.Info.AvailablePhysicalMemory) & "/" & GetFormatedSize(My.Computer.Info.TotalPhysicalMemory)
-        s &= vbNewLine & vbTab & "Virtual memory : " & GetFormatedSize(My.Computer.Info.AvailableVirtualMemory) & "/" & GetFormatedSize(My.Computer.Info.TotalVirtualMemory)
-        s &= vbNewLine & vbTab & "Screen : " & My.Computer.Screen.Bounds.ToString
-        s &= vbNewLine & vbTab & "IntPtr.Size : " & IntPtr.Size.ToString
-        s &= vbNewLine & vbNewLine
-        s &= "User informations : "
-        s &= vbNewLine & vbTab & "Admin : " & Program.IsAdministrator.ToString
-        s &= vbNewLine & vbNewLine
-        s &= "Application informations : "
-        s &= vbNewLine & vbTab & "Path : " & My.Application.Info.DirectoryPath
-        s &= vbNewLine & vbTab & "Version : " & My.Application.Info.Version.ToString
-        s &= vbNewLine & vbTab & "WorkingSetSize : " & My.Application.Info.WorkingSet.ToString
-        s &= vbNewLine & vbNewLine
-        s &= "Error informations : "
-        s &= vbNewLine & vbTab & "Message : " & e.Message
-        s &= vbNewLine & vbTab & "Source : " & e.Source
-        s &= vbNewLine & vbTab & "StackTrace : " & e.StackTrace
-        s &= vbNewLine & vbTab & "Target : " & e.TargetSite.ToString
-        s &= vbNewLine & vbNewLine
-        s &= "Other informations : "
-        s &= vbNewLine & vbTab & "Connection : " & Program.Connection.Type.ToString
-        s &= vbNewLine & vbTab & "Connected : " & Program.Connection.IsConnected.ToString
-        s &= vbNewLine & vbTab & "Elapsed time : " & Program.ElapsedTime.ToString
+        Dim s As String = Program.ErrorLog(e)
         s &= vbNewLine & vbNewLine
         s &= "Modules : "
         For Each mdl As ProcessModule In System.Diagnostics.Process.GetCurrentProcess.Modules

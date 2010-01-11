@@ -27,21 +27,11 @@ Imports System.Configuration
 
 Public Class frmHotkeys
 
-    Public ReadOnly Property HotkeysXmlPath() As String
-        Get
-            Static path As String = Nothing
-            If path Is Nothing Then
-                path = cFile.GetParentDir(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath)
-            End If
-            Return path & "\hotkeys.xml"
-        End Get
-    End Property
-
     Private atxtKey As Integer = -1
 
     Private Sub frmHotkeys_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles MyBase.FormClosing
         ' Save to XML
-        writeXML(Me.HotkeysXmlPath)
+        writeXML(Program.HotkeysXmlPath)
     End Sub
 
     ' Fill form from XML file
@@ -181,7 +171,7 @@ Public Class frmHotkeys
         '</hotkeys>
 
         Try
-            Call XmlDoc.Load(Me.HotkeysXmlPath)
+            Call XmlDoc.Load(Program.HotkeysXmlPath)
             element = XmlDoc.DocumentElement.GetElementsByTagName("key")
 
             For Each noeud In element
@@ -331,7 +321,7 @@ Public Class frmHotkeys
             If .ShowDialog = Windows.Forms.DialogResult.OK Then
                 Try
                     ' Copy file
-                    System.IO.File.Copy(.FileName, Me.HotkeysXmlPath, True)
+                    System.IO.File.Copy(.FileName, Program.HotkeysXmlPath, True)
                     ' Read it
                     Me.readHotkeysFromXML()
                     ' Fill form

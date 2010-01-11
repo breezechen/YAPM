@@ -252,6 +252,10 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Misc\frmErrorLog.resx">
+      <DependentUpon>frmErrorLog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Misc\frmCheckSignatures.resx">
       <DependentUpon>frmCheckSignatures.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -613,6 +617,12 @@
       <DependentUpon>frmJobInfo.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForms\frmJobInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Misc\frmErrorLog.Designer.vb">
+      <DependentUpon>frmErrorLog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Misc\frmErrorLog.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Misc\frmCheckSignatures.Designer.vb">

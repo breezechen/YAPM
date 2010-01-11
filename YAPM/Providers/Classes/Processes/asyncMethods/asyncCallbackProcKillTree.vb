@@ -46,7 +46,7 @@ Public Class asyncCallbackProcKillTree
     Public Sub Process(ByVal thePoolObj As Object)
 
         Dim pObj As poolObj = DirectCast(thePoolObj, poolObj)
-        If Program.Connection.IsConnected = False Then
+        If Program.Connection.IsConnected Then
 
             Select Case Program.Connection.Type
                 Case cConnection.TypeOfConnection.RemoteConnectionViaSocket

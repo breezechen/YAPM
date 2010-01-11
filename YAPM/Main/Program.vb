@@ -23,6 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 Imports Microsoft.Win32
+Imports System.Configuration
 
 Public Module Program
 
@@ -170,6 +171,59 @@ Public Module Program
     Private _isElevated As Boolean
     Private _mustCloseWithCloseButton As Boolean = False
 
+
+    Public ReadOnly Property LogPath() As String
+        Get
+            Static path As String = Nothing
+            If path Is Nothing Then
+                path = cFile.GetParentDir(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath)
+            End If
+            Return path & "log.txt"
+        End Get
+    End Property
+    Public ReadOnly Property HotkeysXmlPath() As String
+        Get
+            Static path As String = Nothing
+            If path Is Nothing Then
+                path = cFile.GetParentDir(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath)
+            End If
+            Return path & "hotkeys.xml"
+        End Get
+    End Property
+    Public ReadOnly Property ErrorLog(ByVal e As Exception) As String
+        Get
+            Dim s As String = "System informations : "
+            s &= vbNewLine & vbTab & "Name : " & My.Computer.Info.OSFullName
+            s &= vbNewLine & vbTab & "Platform : " & My.Computer.Info.OSPlatform
+            s &= vbNewLine & vbTab & "Version : " & My.Computer.Info.OSVersion.ToString
+            s &= vbNewLine & vbTab & "UICulture : " & My.Computer.Info.InstalledUICulture.ToString
+            s &= vbNewLine & vbTab & "Processor count : " & Program.PROCESSOR_COUNT.ToString
+            s &= vbNewLine & vbTab & "Physical memory : " & Misc.GetFormatedSize(My.Computer.Info.AvailablePhysicalMemory) & "/" & Misc.GetFormatedSize(My.Computer.Info.TotalPhysicalMemory)
+            s &= vbNewLine & vbTab & "Virtual memory : " & Misc.GetFormatedSize(My.Computer.Info.AvailableVirtualMemory) & "/" & Misc.GetFormatedSize(My.Computer.Info.TotalVirtualMemory)
+            s &= vbNewLine & vbTab & "Screen : " & My.Computer.Screen.Bounds.ToString
+            s &= vbNewLine & vbTab & "IntPtr.Size : " & IntPtr.Size.ToString
+            s &= vbNewLine & vbNewLine
+            s &= "User informations : "
+            s &= vbNewLine & vbTab & "Admin : " & Program.IsAdministrator.ToString
+            s &= vbNewLine & vbNewLine
+            s &= "Application informations : "
+            s &= vbNewLine & vbTab & "Path : " & My.Application.Info.DirectoryPath
+            s &= vbNewLine & vbTab & "Version : " & My.Application.Info.Version.ToString
+            s &= vbNewLine & vbTab & "WorkingSetSize : " & My.Application.Info.WorkingSet.ToString
+            s &= vbNewLine & vbNewLine
+            s &= "Error informations : "
+            s &= vbNewLine & vbTab & "Message : " & e.Message
+            s &= vbNewLine & vbTab & "Source : " & e.Source
+            s &= vbNewLine & vbTab & "StackTrace : " & e.StackTrace
+            s &= vbNewLine & vbTab & "Target : " & e.TargetSite.ToString
+            s &= vbNewLine & vbNewLine
+            s &= "Other informations : "
+            s &= vbNewLine & vbTab & "Connection : " & Program.Connection.Type.ToString
+            s &= vbNewLine & vbTab & "Connected : " & Program.Connection.IsConnected.ToString
+            s &= vbNewLine & vbTab & "Elapsed time : " & Program.ElapsedTime.ToString
+            Return s
+        End Get
+    End Property
     Public ReadOnly Property Parameters() As ProgramParameters
         Get
             Return _progParameters

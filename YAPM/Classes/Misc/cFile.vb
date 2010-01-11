@@ -591,14 +591,17 @@ Public Class cFile
              Native.Api.NativeEnums.EFileShare.Read Or Native.Api.NativeEnums.EFileShare.Write, IntPtr.Zero, _
              Native.Api.NativeEnums.ECreationDisposition.OpenExisting, 0, IntPtr.Zero)
 
-        If ptr = CType(-1, IntPtr) Then Return -1
+        If ptr.IsGreaterThan(0) Then
 
-        ' Get sizes
-        Native.Api.NativeFunctions.GetFileSizeEx(ptr, ret)
+            ' Get sizes
+            Native.Api.NativeFunctions.GetFileSizeEx(ptr, ret)
 
-        Native.Api.NativeFunctions.CloseHandle(ptr)
+            Native.Api.NativeFunctions.CloseHandle(ptr)
 
-        Return ret
+            Return ret
+        Else
+            Return -1
+        End If
 
     End Function
 

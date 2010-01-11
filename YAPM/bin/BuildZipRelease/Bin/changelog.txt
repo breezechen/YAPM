@@ -15,6 +15,7 @@ CHANGES FROM 2.4.2
 - Can now save report of ANY listview by using Ctrl+S shortcut
 - Now can open the bug report after submission
 - Now network/system info are always retrieved (even if the associated windows are not displayed)
+- Implemented 'Save error to log' feature
 
 * Bug fixed
 - Fixed Thread address info when using WMI
