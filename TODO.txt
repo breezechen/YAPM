@@ -4,7 +4,6 @@ Refactoring bugs
 
 - ==============
 - compatibilité snapshots avec anciennes version --> warning avant ouverture + message erreur si échec + proposition de télécharger une ancienne version de YAPM sur sourceforge
-- benchmarker events vs delegates
 TODO
 - handles (detail)
 - log (detail)
@@ -60,6 +59,7 @@ BUGS CRITIQUES
 - Save main report à faire
 	
 BUGS NON CRITIQUES
+- FAQ : dire que le port pour le server est en fait le port + le port+3
 - diviser les onglets de frmProcessInfos en usercontrol et les ajouter manuellement (en fonction de la connection et du type de process 4,0  ou >4)
 - close local process handle -> utiliser DuplicateHandle plutôt que remote thread
 - problème icones menu principal cachées (Vista seulement)

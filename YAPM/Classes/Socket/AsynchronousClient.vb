@@ -53,6 +53,9 @@ Public Class AsynchronousClient
     Public Event Connected As ConnectedEventHandler
     Public Event SocketError As SocketErrorHandler
 
+    ' Channel to connect
+    Private _theChannel As TcpChannel
+
     Private _uniqueClientKey As String = "cDat._id"
 
     Private _ServerTalk As ServerTalk = Nothing
@@ -86,6 +89,7 @@ Public Class AsynchronousClient
     Public Sub Disconnect()
         ServerTalk.ClientToServerQueue.Clear()
         _ServerTalk.SendMessageToServer(New CommsInfo("clientDisconnect"))
+        ChannelServices.UnregisterChannel(_theChannel)
         _connected = False
         RaiseEvent Disconnected()
     End Sub
@@ -122,6 +126,9 @@ Public Class AsynchronousClient
                 serverFormatter.TypeFilterLevel = System.Runtime.Serialization.Formatters.TypeFilterLevel.Full
                 channel = New TcpChannel(ht, Nothing, serverFormatter)
                 ChannelServices.RegisterChannel(channel, False)
+
+                ' Save the channel, so we'll be able to unregister it when disconnecting
+                _theChannel = channel
 
             Catch ex As Exception
                 ' Already exists (reconnection)
