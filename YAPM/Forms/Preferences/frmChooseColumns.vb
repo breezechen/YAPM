@@ -124,7 +124,7 @@ Public Class frmChooseColumns
         ' But as I can't write a MustOverride Shared Function...
         If TypeOf (ConcernedListView) Is handleList Then
             ss = handleInfos.GetAvailableProperties
-        ElseIf TypeOf (ConcernedListView) Is memoryList Then
+        ElseIf TypeOf (ConcernedListView) Is memRegionList Then
             ss = memRegionInfos.GetAvailableProperties
         ElseIf TypeOf (ConcernedListView) Is moduleList Then
             ss = moduleInfos.GetAvailableProperties

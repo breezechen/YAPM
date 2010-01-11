@@ -38,7 +38,6 @@ Public Class frmServer
 
     Private theConnection As cConnection = Program.Connection
     Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
-    Private _memoryCon As New cMemRegionConnection(Me, theConnection, New cMemRegionConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedMemoryReg))
     Private _servdepCon As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServDep))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
     Private _logCon As New cLogConnection(Me, theConnection, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedLog))
@@ -54,19 +53,16 @@ Public Class frmServer
             End With
 
             _handleCon.ConnectionObj = theConnection
-            _memoryCon.ConnectionObj = theConnection
             _searchCon.ConnectionObj = theConnection
             _servdepCon.ConnectionObj = theConnection
             _logCon.ConnectionObj = theConnection
 
             _searchCon.Connect()
             _servdepCon.Connect()
-            _memoryCon.Connect()
             _handleCon.Connect()
             _logCon.Connect()
 
             cHandle.Connection = _handleCon
-            cMemRegion.Connection = _memoryCon
             cLogItem.Connection = _logCon
 
         Catch ex As Exception
@@ -192,9 +188,9 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedMemoryReg(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedMemoryReg(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If Success Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestMemoryRegionList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
@@ -206,7 +202,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate memory regions")
+            Misc.ShowError("Unable to enumerate memory regions : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -496,7 +492,7 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestMemoryRegionList
                         Dim pid As Integer = CType(cData.Param1, Integer)
-                        Call _memoryCon.Enumerate(True, pid, _forInstanceId)
+                        Call MemRegionProvider.Update(pid, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestServDepList
                         Dim name As String = CStr(cData.Param1)
@@ -951,6 +947,7 @@ Public Class frmServer
         AddHandler JobProvider.GotRefreshed, AddressOf HasEnumeratedJobs
         AddHandler ModuleProvider.GotRefreshed, AddressOf HasEnumeratedModule
         AddHandler ThreadProvider.GotRefreshed, AddressOf HasEnumeratedThread
+        AddHandler MemRegionProvider.GotRefreshed, AddressOf HasEnumeratedMemoryReg
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

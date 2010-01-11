@@ -632,7 +632,8 @@ Public Class cSnapshot
             If (options And Native.Api.Enums.SnapshotObject.[MemoryRegions]) = Native.Api.Enums.SnapshotObject.[MemoryRegions] Then
                 For Each proc As processInfos In Me.Processes.Values
                     Dim pid As Integer = proc.ProcessId
-                    Dim _dico As Dictionary(Of String, memRegionInfos) = asyncCallbackMemRegionEnumerate.SharedLocalSyncEnumerate(New asyncCallbackMemRegionEnumerate.poolObj(pid, 0))
+                    MemRegionProvider.SyncUpdate(pid, -1)
+                    Dim _dico As Dictionary(Of String, memRegionInfos) = MemRegionProvider.CurrentMemRegions(pid)
                     Me.MemoryRegionsByProcessId(pid) = _dico
                 Next
             End If
@@ -652,8 +653,9 @@ Public Class cSnapshot
             If (options And Native.Api.Enums.SnapshotObject.[Heaps]) = Native.Api.Enums.SnapshotObject.[Heaps] Then
                 For Each proc As processInfos In Me.Processes.Values
                     Dim pid As Integer = proc.ProcessId
-                    If pid > 0 Then
-                        'Dim _dico As Dictionary(Of String, heapInfos) = asyncCallbackHeapEnumerate.SharedLocalSyncEnumerate(New asyncCallbackHeapEnumerate.poolObj(pid, 0))
+                    If pid > &H4 Then
+                        'HeapProvider.SyncUpdate(pid, -1)
+                        'Dim _dico As Dictionary(Of String, heapInfos) = HeapProvider.CurrentHeaps(pid)
                         'Me.HeapsByProcessId(pid) = _dico
                     End If
                 Next

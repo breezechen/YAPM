@@ -4,11 +4,10 @@ Refactoring bugs
 
 - ==============
 - compatibilité snapshots avec anciennes version --> warning avant ouverture + message erreur si échec + proposition de télécharger une ancienne version de YAPM sur sourceforge
-
+- benchmarker events vs delegates
 TODO
 - handles (detail)
 - log (detail)
-- memRegions (detail)
 - search (main)
 
 - thread & modules par WMI

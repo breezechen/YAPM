@@ -21,7 +21,7 @@
 
 Option Strict On
 
-Public Class HeapProvider
+Public Class MemRegionProvider
 
     ' ========================================
     ' Private constants
@@ -33,8 +33,8 @@ Public Class HeapProvider
     ' ========================================
 
     ' Current processes running PID <-> (string <-> heaps)
-    Private Shared _currentHeaps As New Dictionary(Of Integer, Dictionary(Of String, heapInfos))
-    Friend Shared _semHeaps As New System.Threading.Semaphore(1, 1)
+    Private Shared _currentMemRegions As New Dictionary(Of Integer, Dictionary(Of String, memRegionInfos))
+    Friend Shared _semMemRegions As New System.Threading.Semaphore(1, 1)
 
     ' First refresh done ?
     Private Shared _firstRefreshDone As Boolean = False
@@ -60,74 +60,74 @@ Public Class HeapProvider
     ' Clear list of env variables
     Public Shared Sub ClearList()
         Try
-            _semHeaps.WaitOne()
-            _currentHeaps.Clear()
+            _semMemRegions.WaitOne()
+            _currentMemRegions.Clear()
         Finally
-            _semHeaps.Release()
+            _semMemRegions.Release()
         End Try
     End Sub
 
     ' Clear list for a specific processID
     Public Shared Sub ClearListForAnId(ByVal pid As Integer)
         Try
-            _semHeaps.WaitOne()
-            If _currentHeaps.ContainsKey(pid) Then
-                _currentHeaps(pid).Clear()
+            _semMemRegions.WaitOne()
+            If _currentMemRegions.ContainsKey(pid) Then
+                _currentMemRegions(pid).Clear()
             End If
         Finally
-            _semHeaps.Release()
+            _semMemRegions.Release()
         End Try
     End Sub
 
     ' List of current processes
-    Public Shared ReadOnly Property CurrentHeaps(ByVal pid As Integer) As Dictionary(Of String, heapInfos)
+    Public Shared ReadOnly Property CurrentMemRegions(ByVal pid As Integer) As Dictionary(Of String, memRegionInfos)
         Get
             Try
-                _semHeaps.WaitOne()
-                If _currentHeaps.ContainsKey(pid) Then
-                    Return _currentHeaps(pid)
+                _semMemRegions.WaitOne()
+                If _currentMemRegions.ContainsKey(pid) Then
+                    Return _currentMemRegions(pid)
                 Else
-                    Return New Dictionary(Of String, heapInfos)
+                    Return New Dictionary(Of String, memRegionInfos)
                 End If
             Finally
-                _semHeaps.Release()
+                _semMemRegions.Release()
             End Try
         End Get
     End Property
 
-    Public Shared Sub SetCurrentHeaps(ByVal pid As Integer, ByVal value As Dictionary(Of String, heapInfos), ByVal instanceId As Integer)
+    Public Shared Sub SetCurrentMemRegions(ByVal pid As Integer, ByVal value As Dictionary(Of String, memRegionInfos), ByVal instanceId As Integer)
 
-        Dim _dicoDel As New Dictionary(Of String, heapInfos)
+        Dim _dicoDel As New Dictionary(Of String, memRegionInfos)
         Dim _dicoDelSimp As New List(Of String)
         Dim _dicoNew As New List(Of String)
 
         Dim res As Native.Api.Structs.QueryResult
 
         Try
-            _semHeaps.WaitOne()
+            _semMemRegions.WaitOne()
 
             ' Add a new entry
-            If _currentHeaps.ContainsKey(pid) = False Then
-                _currentHeaps.Add(pid, New Dictionary(Of String, heapInfos))
+            If _currentMemRegions.ContainsKey(pid) = False Then
+                _currentMemRegions.Add(pid, New Dictionary(Of String, memRegionInfos))
             End If
 
             ' Get deleted items
-            For Each vars As String In _currentHeaps(pid).Keys
+            For Each vars As String In _currentMemRegions(pid).Keys
                 If Not (value.ContainsKey(vars)) Then
-                    _dicoDel.Add(vars, _currentHeaps(pid)(vars))
+                    _dicoDel.Add(vars, _currentMemRegions(pid)(vars))
                     _dicoDelSimp.Add(vars)
                 End If
             Next
 
             ' Get new items
             For Each vars As String In value.Keys
-                If Not (_currentHeaps(pid).ContainsKey(vars)) Then
+                If Not (_currentMemRegions(pid).ContainsKey(vars)) Then
                     _dicoNew.Add(vars)
                 End If
             Next
 
             ' Re-assign dico
-            _currentHeaps(pid) = value
+            _currentMemRegions(pid) = value
 
             res = New Native.Api.Structs.QueryResult(True)
 
@@ -135,7 +135,7 @@ Public Class HeapProvider
             Misc.ShowDebugError(ex)
             res = New Native.Api.Structs.QueryResult(ex)
         Finally
-            _semHeaps.Release()
+            _semMemRegions.Release()
         End Try
 
         ' Raise events
@@ -152,9 +152,9 @@ Public Class HeapProvider
     ' ========================================
 
     ' Shared events
-    Public Shared Event GotNewItems(ByVal keys As List(Of String), ByVal newItems As Dictionary(Of String, heapInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
-    Public Shared Event GotDeletedItems(ByVal keys As Dictionary(Of String, heapInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
-    Public Shared Event GotRefreshed(ByVal newItems As List(Of String), ByVal delItems As List(Of String), ByVal Dico As Dictionary(Of String, heapInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotNewItems(ByVal keys As List(Of String), ByVal newItems As Dictionary(Of String, memRegionInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotDeletedItems(ByVal keys As Dictionary(Of String, memRegionInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Public Shared Event GotRefreshed(ByVal newItems As List(Of String), ByVal delItems As List(Of String), ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
     ' Structure used to store parameters of enumeration
     Public Structure asyncEnumPoolObj
@@ -184,14 +184,13 @@ Public Class HeapProvider
     Public Shared Sub Update(ByVal pid As Integer, ByVal instanceId As Integer)
         ' This is of course async
         Call Threading.ThreadPool.QueueUserWorkItem( _
-                New System.Threading.WaitCallback(AddressOf HeapProvider.ProcessEnumeration), _
-                New HeapProvider.asyncEnumPoolObj(pid, instanceId))
+                New System.Threading.WaitCallback(AddressOf MemRegionProvider.ProcessEnumeration), _
+                New MemRegionProvider.asyncEnumPoolObj(pid, instanceId))
     End Sub
     Public Shared Sub SyncUpdate(ByVal pid As Integer, ByVal instanceId As Integer)
         ' This is of course sync
-        HeapProvider.ProcessEnumeration(New HeapProvider.asyncEnumPoolObj(pid, instanceId))
+        MemRegionProvider.ProcessEnumeration(New MemRegionProvider.asyncEnumPoolObj(pid, instanceId))
     End Sub
-
 
     ' ========================================
     ' Private functions
@@ -235,7 +234,7 @@ Public Class HeapProvider
             End If
 
             If data.Type = cSocketData.DataType.RequestedList AndAlso _
-                data.Order = cSocketData.OrderType.RequestHeapList Then
+                data.Order = cSocketData.OrderType.RequestMemoryRegionList Then
                 ' We receive the list
                 Me.GotListFromSocket(data.GetList, data.GetKeys, data.InstanceId)
             End If
@@ -244,33 +243,33 @@ Public Class HeapProvider
 
     End Sub
 
-    ' When socket got a list of heaps !
+    ' When socket got a list of mem regions !
     Private Sub GotListFromSocket(ByRef lst() As generalInfos, ByRef keys() As String, ByVal instanceId As Integer)
-        Dim _dico As New Dictionary(Of String, heapInfos)
+        Dim _dico As New Dictionary(Of String, memRegionInfos)
 
         If lst IsNot Nothing AndAlso keys IsNot Nothing AndAlso lst.Length = keys.Length Then
             For x As Integer = 0 To lst.Length - 1
                 If _dico.ContainsKey(keys(x)) = False Then
-                    _dico.Add(keys(x), DirectCast(lst(x), heapInfos))
+                    _dico.Add(keys(x), DirectCast(lst(x), memRegionInfos))
                 End If
             Next
         End If
 
         ' Save current processes into a dictionary.
         ' Have to get the processId of the current list of processes, as there might
-        ' be heap enumeration for more than one process.
+        ' be memregion enumeration for more than one process.
         ' So we retrieve the informations by enumerating the variables and getting
         ' the first PID
         Dim pid As Integer
-        For Each it As heapInfos In _dico.Values
+        For Each it As memRegionInfos In _dico.Values
             pid = it.ProcessId
             Exit For
         Next
-        HeapProvider.SetCurrentHeaps(pid, _dico, instanceId)
+        MemRegionProvider.SetCurrentMemRegions(pid, _dico, instanceId)
 
     End Sub
 
-    ' Enumeration of processes
+    ' Enumeration of mem regions
     Private Shared Sub ProcessEnumeration(ByVal thePoolObj As Object)
 
         Try
@@ -285,7 +284,7 @@ Public Class HeapProvider
                     Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                         ' Send cDat
                         Try
-                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestHeapList, pObj.pid)
+                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestMemoryRegionList, pObj.pid)
                             cDat.InstanceId = pObj.instId
                             Program.Connection.Socket.Send(cDat)
                         Catch ex As Exception
@@ -298,23 +297,22 @@ Public Class HeapProvider
                     Case cConnection.TypeOfConnection.SnapshotFile
                         ' Snapshot
 
-                        Dim _dico As New Dictionary(Of String, heapInfos)
+                        Dim _dico As New Dictionary(Of String, memRegionInfos)
                         Dim snap As cSnapshot = Program.Connection.Snapshot
                         If snap IsNot Nothing Then
-                            _dico = snap.HeapsByProcessId(pObj.pid)
+                            _dico = snap.MemoryRegionsByProcessId(pObj.pid)
                         End If
 
                         ' Save current processes into a dictionary
-                        HeapProvider.SetCurrentHeaps(pObj.pid, _dico, pObj.instId)
+                        MemRegionProvider.SetCurrentMemRegions(pObj.pid, _dico, pObj.instId)
 
                     Case Else
                         ' Local
-                        Dim _dico As Dictionary(Of String, heapInfos)
-
-                        _dico = Native.Objects.Heap.EnumerateHeapsByProcessId(pObj.pid)
+                        Dim _dico As Dictionary(Of String, memRegionInfos) = _
+                                SharedLocalSyncEnumerate(pObj)
 
                         ' Save current processes into a dictionary
-                        HeapProvider.SetCurrentHeaps(pObj.pid, _dico, pObj.instId)
+                        MemRegionProvider.SetCurrentMemRegions(pObj.pid, _dico, pObj.instId)
 
                 End Select
 
@@ -327,5 +325,12 @@ Public Class HeapProvider
         End Try
 
     End Sub
+
+    ' Shared, local and sync enumeration
+    Private Shared Function SharedLocalSyncEnumerate(ByVal pObj As asyncEnumPoolObj) As Dictionary(Of String, memRegionInfos)
+        Dim _dico As New Dictionary(Of String, memRegionInfos)
+        Native.Objects.MemRegion.EnumerateMemoryRegionsByProcessId(pObj.pid, _dico)
+        Return _dico
+    End Function
 
 End Class

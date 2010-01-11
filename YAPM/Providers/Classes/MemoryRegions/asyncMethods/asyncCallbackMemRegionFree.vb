@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackMemRegionFree
 
-    Private con As cMemRegionConnection
     Private _deg As HasFreed
 
     Public Delegate Sub HasFreed(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasFreed, ByRef memConnection As cMemRegionConnection)
+    Public Sub New(ByVal deg As HasFreed)
         _deg = deg
-        con = memConnection
     End Sub
 
     Public Structure poolObj

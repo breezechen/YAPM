@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackMemRegionChangeProtection
 
-    Private con As cMemRegionConnection
     Private _deg As HasChangedProtection
 
     Public Delegate Sub HasChangedProtection(ByVal Success As Boolean, ByVal pid As Integer, ByVal address As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasChangedProtection, ByRef memConnection As cMemRegionConnection)
+    Public Sub New(ByVal deg As HasChangedProtection)
         _deg = deg
-        con = memConnection
     End Sub
 
     Public Structure poolObj

@@ -140,7 +140,7 @@ Public Class frmProcessInfo
 
             Case "Memory"
                 If _notWMI Then _
-                Call ShowRegions()
+                Call ShowMemRegions()
 
             Case "Environment"
                 If _notWMI Then _
@@ -404,6 +404,7 @@ Public Class frmProcessInfo
             HeapProvider.ClearListForAnId(curProc.Infos.ProcessId)
             PrivilegeProvider.ClearListForAnId(curProc.Infos.ProcessId)
             ModuleProvider.ClearListForAnId(curProc.Infos.ProcessId)
+            MemRegionProvider.ClearListForAnId(curProc.Infos.ProcessId)
         End If
 
     End Sub
@@ -1097,7 +1098,7 @@ Public Class frmProcessInfo
     End Function
 
     Private Sub lvProcMem_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lvProcMem.DoubleClick
-        If cMemRegion.Connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection Then
+        If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
             For Each it As cMemRegion In Me.lvProcMem.GetSelectedItems
                 Dim frm As New frmHexEditor
                 Dim reg As New MemoryHexEditor.MemoryRegion(it.Infos.BaseAddress, it.Infos.RegionSize)
@@ -1210,10 +1211,9 @@ Public Class frmProcessInfo
     End Sub
 
     ' Show memory regions
-    Public Sub ShowRegions()
+    Public Sub ShowMemRegions()
 
-        Me.lvProcMem.ProcessId = curProc.Infos.ProcessId
-        Me.lvProcMem.UpdateTheItems()
+        MemRegionProvider.Update(curProc.Infos.ProcessId, Me.lvProcMem.InstanceId)
 
     End Sub
 
@@ -1473,7 +1473,6 @@ Public Class frmProcessInfo
         Try
             theConnection = Program.Connection
             Me.lvHandles.ConnectionObj = theConnection
-            Me.lvProcMem.ConnectionObj = theConnection
             Me.lvLog.ConnectionObj = theConnection
             theConnection.Connect()
             Me.timerProcPerf.Interval = CInt(My.Settings.ProcessInterval * Program.Connection.RefreshmentCoefficient)
@@ -1947,7 +1946,7 @@ Public Class frmProcessInfo
     Private Sub MenuItemViewModuleMemory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuItemViewModuleMemory.Click
 
         If Me.lvProcMem.Items.Count = 0 Then
-            Call ShowRegions()
+            Call ShowMemRegions()
         End If
 
         For Each it As cModule In Me.lvModules.GetSelectedItems

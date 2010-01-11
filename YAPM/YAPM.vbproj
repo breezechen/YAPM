@@ -428,8 +428,8 @@
       <DependentUpon>logList.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Providers\CustomListviews\memoryList.resx">
-      <DependentUpon>memoryList.vb</DependentUpon>
+    <EmbeddedResource Include="Providers\CustomListviews\memRegionList.resx">
+      <DependentUpon>memRegionList.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Providers\CustomListviews\moduleList.resx">
@@ -1009,6 +1009,7 @@
     <Compile Include="Providers\CustomListviews\mainJobList.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Providers\Providers\MemRegionProvider.vb" />
     <Compile Include="Providers\Providers\ThreadProvider.vb" />
     <Compile Include="Providers\Providers\ModuleProvider.vb" />
     <Compile Include="Providers\Providers\JobLimitsProvider.vb" />
@@ -1089,10 +1090,10 @@
     <Compile Include="Providers\CustomListviews\logList.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Providers\CustomListviews\memoryList.Designer.vb">
-      <DependentUpon>memoryList.vb</DependentUpon>
+    <Compile Include="Providers\CustomListviews\memRegionList.Designer.vb">
+      <DependentUpon>memRegionList.vb</DependentUpon>
     </Compile>
-    <Compile Include="Providers\CustomListviews\memoryList.vb">
+    <Compile Include="Providers\CustomListviews\memRegionList.vb">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Providers\CustomListviews\moduleList.Designer.vb">

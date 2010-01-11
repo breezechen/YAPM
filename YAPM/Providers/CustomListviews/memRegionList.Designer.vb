@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class memoryList
+Partial Class memRegionList
     Inherits customLV
 
     'UserControl remplace la méthode Dispose pour nettoyer la liste des composants.

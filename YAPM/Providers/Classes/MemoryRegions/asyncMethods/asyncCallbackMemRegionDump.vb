@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackMemRegionDump
 
-    Private con As cMemRegionConnection
     Private _deg As HasDumped
 
     Public Delegate Sub HasDumped(ByVal Success As Boolean, ByVal file As String, ByVal address As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasDumped, ByRef memConnection As cMemRegionConnection)
+    Public Sub New(ByVal deg As HasDumped)
         _deg = deg
-        con = memConnection
     End Sub
 
     Public Structure poolObj

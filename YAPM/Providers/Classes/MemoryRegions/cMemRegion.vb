@@ -26,21 +26,8 @@ Public Class cMemRegion
     Inherits cGeneralObject
 
     Private _memInfos As memRegionInfos
-    Private Shared WithEvents _connection As cMemRegionConnection
     Private _moduleFileName As String
 
-#Region "Properties"
-
-    Public Shared Property Connection() As cMemRegionConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cMemRegionConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 
@@ -48,7 +35,7 @@ Public Class cMemRegion
         _memInfos = infos
         _TypeOfObject = Native.Api.Enums.GeneralObjectType.MemoryRegion
 
-        If _connection IsNot Nothing Then
+        If Program.Connection IsNot Nothing Then
             If Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection Then
                 If infos.Type = Native.Api.NativeEnums.MemoryType.Image Then
                     _moduleFileName = getModuleName(infos.BaseAddress)
@@ -111,7 +98,7 @@ Public Class cMemRegion
     Public Function Release() As Integer
 
         If _freeMem Is Nothing Then
-            _freeMem = New asyncCallbackMemRegionFree(New asyncCallbackMemRegionFree.HasFreed(AddressOf freedMemoryDone), _connection)
+            _freeMem = New asyncCallbackMemRegionFree(New asyncCallbackMemRegionFree.HasFreed(AddressOf freedMemoryDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _freeMem.Process)
@@ -125,7 +112,7 @@ Public Class cMemRegion
     Public Function Decommit() As Integer
 
         If _freeMem Is Nothing Then
-            _freeMem = New asyncCallbackMemRegionFree(New asyncCallbackMemRegionFree.HasFreed(AddressOf freedMemoryDone), _connection)
+            _freeMem = New asyncCallbackMemRegionFree(New asyncCallbackMemRegionFree.HasFreed(AddressOf freedMemoryDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _freeMem.Process)
@@ -148,7 +135,7 @@ Public Class cMemRegion
     Public Function DumpToFile(ByVal file As String) As Integer
 
         If _dump Is Nothing Then
-            _dump = New asyncCallbackMemRegionDump(New asyncCallbackMemRegionDump.HasDumped(AddressOf DumpDone), _connection)
+            _dump = New asyncCallbackMemRegionDump(New asyncCallbackMemRegionDump.HasDumped(AddressOf DumpDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _dump.Process)
@@ -171,7 +158,7 @@ Public Class cMemRegion
     Public Function ChangeProtectionType(ByVal newProtection As Native.Api.NativeEnums.MemoryProtectionType) As Integer
 
         If _changeProtec Is Nothing Then
-            _changeProtec = New asyncCallbackMemRegionChangeProtection(New asyncCallbackMemRegionChangeProtection.HasChangedProtection(AddressOf ChangedProtectionDone), _connection)
+            _changeProtec = New asyncCallbackMemRegionChangeProtection(New asyncCallbackMemRegionChangeProtection.HasChangedProtection(AddressOf ChangedProtectionDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _changeProtec.Process)
@@ -197,7 +184,7 @@ Public Class cMemRegion
     Public Shared Function SharedLRFree(ByVal pid As Integer, ByVal address As IntPtr, ByVal size As IntPtr, ByVal type As Native.Api.NativeEnums.MemoryState) As Integer
 
         If _sharedFree Is Nothing Then
-            _sharedFree = New asyncCallbackMemRegionFree(New asyncCallbackMemRegionFree.HasFreed(AddressOf freedSharedDone), _connection)
+            _sharedFree = New asyncCallbackMemRegionFree(New asyncCallbackMemRegionFree.HasFreed(AddressOf freedSharedDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _sharedFree.Process)
@@ -219,7 +206,7 @@ Public Class cMemRegion
     Public Shared Function SharedLRChangeProtection(ByVal pid As Integer, ByVal address As IntPtr, ByVal size As IntPtr, ByVal type As Native.Api.NativeEnums.MemoryProtectionType) As Integer
 
         If _sharedProtection Is Nothing Then
-            _sharedProtection = New asyncCallbackMemRegionChangeProtection(New asyncCallbackMemRegionChangeProtection.HasChangedProtection(AddressOf changedSharedProtectionDone), _connection)
+            _sharedProtection = New asyncCallbackMemRegionChangeProtection(New asyncCallbackMemRegionChangeProtection.HasChangedProtection(AddressOf changedSharedProtectionDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _sharedProtection.Process)

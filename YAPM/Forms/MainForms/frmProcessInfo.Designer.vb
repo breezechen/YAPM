@@ -296,7 +296,7 @@ Partial Class frmProcessInfo
         Me.ColumnHeader51 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader52 = New System.Windows.Forms.ColumnHeader
         Me.TabPageMemory = New System.Windows.Forms.TabPage
-        Me.lvProcMem = New memoryList
+        Me.lvProcMem = New memRegionList
         Me.ColumnHeader53 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader54 = New System.Windows.Forms.ColumnHeader
         Me.ColumnHeader55 = New System.Windows.Forms.ColumnHeader
@@ -2578,7 +2578,6 @@ Partial Class frmProcessInfo
         CConnection2.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection2.Snapshot = Nothing
         CConnection2.SnapshotFile = Nothing
-        Me.lvProcMem.ConnectionObj = CConnection2
         Me.lvProcMem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvProcMem.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvProcMem.FullRowSelect = True
@@ -3706,7 +3705,7 @@ Partial Class frmProcessInfo
     Friend WithEvents ColumnHeader51 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader52 As System.Windows.Forms.ColumnHeader
     Friend WithEvents TabPageMemory As System.Windows.Forms.TabPage
-    Friend WithEvents lvProcMem As memoryList
+    Friend WithEvents lvProcMem As memRegionList
     Friend WithEvents ColumnHeader53 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader54 As System.Windows.Forms.ColumnHeader
     Friend WithEvents ColumnHeader55 As System.Windows.Forms.ColumnHeader

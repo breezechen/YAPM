@@ -135,7 +135,7 @@ Public Class heapList
         For Each var As String In news
             If _dico.ContainsKey(var) = False Then
                 Dim envvar As New cHeap(newItems(var))
-                envvar.NewCount = 3
+                envvar.NewCount = 1
                 _dico.Add(var, envvar)
 
                 ' Add new item to lv

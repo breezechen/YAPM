@@ -92,8 +92,8 @@ Public Class Pref
         End Select
         handleList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
         handleList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
-        memoryList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
-        memoryList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
+        memRegionList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
+        memRegionList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
         windowList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)
         windowList.DELETED_ITEM_COLOR = Color.FromArgb(My.Settings.DeletedItemColor)
         moduleList.NEW_ITEM_COLOR = Color.FromArgb(My.Settings.NewItemColor)

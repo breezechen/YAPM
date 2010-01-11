@@ -147,6 +147,7 @@ Public Module Program
     Private _threadProvider As ThreadProvider
     Private _moduleProvider As ModuleProvider
     Private _windowProvider As WindowProvider
+    Private _memRegionProvider As MemRegionProvider
     Private _serviceProvider As ServiceProvider
     Private _jobLimitsProvider As JobLimitsProvider
     Private _privilegeProvider As PrivilegeProvider
@@ -380,6 +381,7 @@ Public Module Program
             _jobLimitsProvider = New JobLimitsProvider   ' Job limits provider
             _moduleProvider = New ModuleProvider    ' Module provider
             _threadProvider = New ThreadProvider    ' Thread provider
+            _memRegionProvider = New MemRegionProvider  ' mem region provider
 
             ' Connect to the local machine
             theConnection.SyncConnect()     ' Synchronous connection !!!
@@ -457,6 +459,7 @@ Public Module Program
             _jobLimitsProvider = New JobLimitsProvider   ' Job limits provider
             _moduleProvider = New ModuleProvider    ' Module provider
             _threadProvider = New ThreadProvider    ' Thread provider
+            _memRegionProvider = New MemRegionProvider  ' mem region provider
 
 
             ' ======= Load preferences
@@ -625,6 +628,9 @@ Public Module Program
 
         ThreadProvider.ClearList()
         ThreadProvider.FirstRefreshDone = False
+
+        MemRegionProvider.ClearList()
+        MemRegionProvider.FirstRefreshDone = False
 
         ProcessProvider.ClearNewProcessesDico()
         ServiceProvider.ClearNewServicesList()

@@ -23,7 +23,7 @@ Option Strict On
 
 Imports System.Runtime.InteropServices
 
-Public Class envVariableList
+Public Class memRegionList
     Inherits customLV
 
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
@@ -32,9 +32,25 @@ Public Class envVariableList
     ' ========================================
     ' Private
     ' ========================================
+    Private _pid As Integer
     Private _first As Boolean
-    Private _dico As New Dictionary(Of String, cEnvVariable)
+    Private _dico As New Dictionary(Of String, cMemRegion)
 
+#Region "Properties"
+
+    ' ========================================
+    ' Properties
+    ' ========================================
+    Public Property ProcessId() As Integer
+        Get
+            Return _pid
+        End Get
+        Set(ByVal value As Integer)
+            _pid = value
+        End Set
+    End Property
+
+#End Region
 
     ' ========================================
     ' Public functions
@@ -51,7 +67,7 @@ Public Class envVariableList
         Me.CreateSubItemsBuffer()
 
         ' Set handlers
-        AddHandler EnvVariableProvider.GotRefreshed, AddressOf Me.GotRefreshed  ' We will add/remove/refresh using this handler
+        AddHandler MemRegionProvider.GotRefreshed, AddressOf Me.GotRefreshed  ' We will add/remove/refresh using this handler
         AddHandler Program.Connection.Connected, AddressOf impConnected
         AddHandler Program.Connection.Disconnected, AddressOf impDisConnected
     End Sub
@@ -64,12 +80,12 @@ Public Class envVariableList
     End Sub
 
     ' Get all items (associated to listviewitems)
-    Public Function GetAllItems() As Dictionary(Of String, cEnvVariable).ValueCollection
+    Public Function GetAllItems() As Dictionary(Of String, cMemRegion).ValueCollection
         Return _dico.Values
     End Function
 
     ' Get the selected item
-    Public Function GetSelectedItem() As cEnvVariable
+    Public Function GetSelectedItem() As cMemRegion
         If Me.SelectedItems.Count > 0 Then
             Return _dico.Item(Me.SelectedItems.Item(0).Name)
         Else
@@ -78,7 +94,7 @@ Public Class envVariableList
     End Function
 
     ' Get a specified item
-    Public Function GetItemByKey(ByVal key As String) As cEnvVariable
+    Public Function GetItemByKey(ByVal key As String) As cMemRegion
         If _dico.ContainsKey(key) Then
             Return _dico.Item(key)
         Else
@@ -87,8 +103,8 @@ Public Class envVariableList
     End Function
 
     ' Get selected items
-    Public Shadows Function GetSelectedItems() As Dictionary(Of String, cEnvVariable).ValueCollection
-        Dim res As New Dictionary(Of String, cEnvVariable)
+    Public Shadows Function GetSelectedItems() As Dictionary(Of String, cMemRegion).ValueCollection
+        Dim res As New Dictionary(Of String, cMemRegion)
 
         Try
             generalLvSemaphore.WaitOne()
@@ -124,8 +140,8 @@ Public Class envVariableList
 
     ' GotNewProcesses, GotDeletedProcesses and GotRefreshed are ALWAYS called
     ' sequentially, and are protected by a semaphore -> no need to reprotect it here
-    Private Delegate Sub degGotNewItems(ByVal vars As List(Of String), ByVal newItems As Dictionary(Of String, envVariableInfos))
-    Private Sub GotNewItems(ByVal vars As List(Of String), ByVal newItems As Dictionary(Of String, envVariableInfos))
+    Private Delegate Sub degGotNewItems(ByVal vars As List(Of String), ByVal newItems As Dictionary(Of String, memRegionInfos))
+    Private Sub GotNewItems(ByVal vars As List(Of String), ByVal newItems As Dictionary(Of String, memRegionInfos))
 
         ' Lock lv if necesary
         Dim _hasToLock As Boolean = (_firstItemUpdate OrElse newItems.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE)
@@ -134,7 +150,7 @@ Public Class envVariableList
         End If
         For Each var As String In vars
             If _dico.ContainsKey(var) = False Then
-                Dim envvar As New cEnvVariable(newItems(var))
+                Dim envvar As New cMemRegion(newItems(var))
                 envvar.NewCount = 1
                 _dico.Add(var, envvar)
 
@@ -156,7 +172,7 @@ Public Class envVariableList
     End Sub
     Private Sub GotDeletedItems(ByVal vars As List(Of String))
         For Each var As String In vars
-            Dim cv As cEnvVariable = Nothing
+            Dim cv As cMemRegion = Nothing
             If _dico.ContainsKey(var) Then
                 cv = _dico(var)
                 cv.KillCount = 1
@@ -164,8 +180,8 @@ Public Class envVariableList
         Next
     End Sub
 
-    Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
-    Private Sub GotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Private Sub GotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
         ' Have to call a delegate as will refresh the listview
         ' Only update if this is the good instanceId
         If instanceId = Me.InstanceId Then
@@ -215,9 +231,9 @@ Public Class envVariableList
                         Dim it As ListViewItem
                         For Each it In Me.Items
                             Dim x As Integer = 0
-                            Dim _item As cEnvVariable = _dico.Item(it.Name)
-                            If Dico.ContainsKey(_item.Infos.Variable) Then
-                                _item.Merge(Dico.Item(_item.Infos.Variable))
+                            Dim _item As cMemRegion = _dico.Item(it.Name)
+                            If Dico.ContainsKey(_item.Infos.BaseAddress.ToString) Then
+                                _item.Merge(Dico.Item(_item.Infos.BaseAddress.ToString))
                             End If
                             Dim ___info As String = Nothing
                             For Each isub In it.SubItems
@@ -273,7 +289,7 @@ Public Class envVariableList
                     End Try
 
                 Else
-                    RaiseEvent GotAnError("Environement variable enumeration", res.ErrorMessage)
+                    RaiseEvent GotAnError("Mem region enumeration", res.ErrorMessage)
                 End If
             End If
         End If
