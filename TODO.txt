@@ -10,8 +10,6 @@ Refactoring bugs
 - ==============
 - compatibilité snapshots avec anciennes version --> warning avant ouverture + message erreur si échec + proposition de télécharger une ancienne version de YAPM sur sourceforge
 TODO
-- handles (detail)
-- log (detail)
 - search (main)
 
 - jobs -> pb de performances
@@ -25,6 +23,9 @@ TODO
 - collection modifiée (cf. services via socket : liste + 1/2 svchost avec leur serviceList) -> valable pour toutes les listes du même type (checker tasks, windows...)
 
 - gestion des erreurs 'GotAnError' à vérifier en mode socket/wmi (lors d'une déconnexion, par sur que çà fonctionne bien)
+
+- log (lvLog) à tester
+
 - pas possible d'afficher la liste des services pour un process si la liste générale est pas affichée (via socket)
 - path process en WMI pas récupéré ???
 - ramage WMI pour les switchs thread/module/general dans la form details

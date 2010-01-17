@@ -26,57 +26,35 @@ Imports System.Runtime.InteropServices
 Public Class logList
     Inherits customLV
 
-    Public Event ItemAdded(ByRef item As cLogItem)
-    Public Event ItemDeleted(ByRef item As cLogItem)
-    Public Event HasRefreshed()
     Public Event GotAnError(ByVal origin As String, ByVal msg As String)
 
 
     ' ========================================
     ' Private
     ' ========================================
-    Private _pid As Integer
     Private _first As Boolean
-    Private _capture As asyncCallbackLogEnumerate.LogItemType = asyncCallbackLogEnumerate.LogItemType.AllItems
-    Private _display As asyncCallbackLogEnumerate.LogItemType = asyncCallbackLogEnumerate.LogItemType.AllItems
+    Private _capture As Native.Api.Enums.LogItemType = Native.Api.Enums.LogItemType.AllItems
+    Private _display As Native.Api.Enums.LogItemType = Native.Api.Enums.LogItemType.AllItems
     Private _dico As New Dictionary(Of String, cLogItem)
-    Private WithEvents _connectionObject As New cConnection
-    Private WithEvents _logConnection As New cLogConnection(Me, _connectionObject, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedEventHandler))
 
 #Region "Properties"
 
     ' ========================================
     ' Properties
     ' ========================================
-    Public Property ConnectionObj() As cConnection
-        Get
-            Return _connectionObject
-        End Get
-        Set(ByVal value As cConnection)
-            _connectionObject = value
-        End Set
-    End Property
-    Public Property ProcessId() As Integer
-        Get
-            Return _pid
-        End Get
-        Set(ByVal value As Integer)
-            _pid = value
-        End Set
-    End Property
-    Public Property CaptureItems() As asyncCallbackLogEnumerate.LogItemType
+    Public Property CaptureItems() As Native.Api.Enums.LogItemType
         Get
             Return _capture
         End Get
-        Set(ByVal value As asyncCallbackLogEnumerate.LogItemType)
+        Set(ByVal value As Native.Api.Enums.LogItemType)
             _capture = value
         End Set
     End Property
-    Public Property DisplayItems() As asyncCallbackLogEnumerate.LogItemType
+    Public Property DisplayItems() As Native.Api.Enums.LogItemType
         Get
             Return _display
         End Get
-        Set(ByVal value As asyncCallbackLogEnumerate.LogItemType)
+        Set(ByVal value As Native.Api.Enums.LogItemType)
             _display = value
         End Set
     End Property
@@ -94,9 +72,13 @@ Public Class logList
 
         _first = True
 
+        ' Create buffer 
+        Me.CreateSubItemsBuffer()
+
         ' Set handlers
-        _logConnection.Disconnected = New cLogConnection.DisconnectedEventHandler(AddressOf HasDisconnected)
-        _logConnection.Connected = New cLogConnection.ConnectedEventHandler(AddressOf HasConnected)
+        AddHandler LogProvider.GotRefreshed, AddressOf Me.GotRefreshed  ' We will add/remove/refresh using this handler
+        AddHandler Program.Connection.Connected, AddressOf impConnected
+        AddHandler Program.Connection.Disconnected, AddressOf impDisConnected
     End Sub
 
     ' Delete all items
@@ -106,52 +88,54 @@ Public Class logList
         Me.Items.Clear()
     End Sub
 
-    ' Call this to update items in listview
-    Public Overrides Sub UpdateItems()
-
-        ' Create a buffer of subitems if necessary
-        If _columnsName Is Nothing Then
-            Call CreateSubItemsBuffer()
-        End If
-
-        If _logConnection.IsConnected Then
-
-            ' Now enumerate items
-            _logConnection.Enumerate(_capture, _pid)
-
-        End If
-
-    End Sub
-
     ' Add IF NECESSARY to listview
     ' No protection by sem here cause of safe context when called
     Private Sub conditionalAdd(ByVal item As cLogItem)
-        Dim b As Boolean = False
-        If item.Infos.State = logItemInfos.CREATED_OR_DELETED.created Then
-            b = ((_display And asyncCallbackLogEnumerate.LogItemType.CreatedItems) = asyncCallbackLogEnumerate.LogItemType.CreatedItems)
-        Else
-            b = ((_display And asyncCallbackLogEnumerate.LogItemType.DeletedItems) = asyncCallbackLogEnumerate.LogItemType.DeletedItems)
-        End If
-        If ((item.Infos.TypeMask And _display) = item.Infos.TypeMask) AndAlso b Then
+        Try
+            Dim b As Boolean = False
+            If item.Infos.State = logItemInfos.CreatedOrDeleted.Created Then
+                b = ((_display And Native.Api.Enums.LogItemType.CreatedItems) = Native.Api.Enums.LogItemType.CreatedItems)
+            Else
+                b = ((_display And Native.Api.Enums.LogItemType.DeletedItems) = Native.Api.Enums.LogItemType.DeletedItems)
+            End If
+            If ((item.Infos.TypeMask And _display) = item.Infos.TypeMask) AndAlso b Then
 
-            ' Add to listview
-            Dim x As Integer
-            Dim _subItems() As String
-            ReDim _subItems(Me.Columns.Count - 1)
-            For x = 1 To _subItems.Length - 1
-                _subItems(x) = ""
-            Next
-            Dim it As ListViewItem = AddItemWithStyle(item.Infos.Key)
-            it.SubItems.AddRange(_subItems)
+                ' Add to listview
+                Dim x As Integer
+                Dim _subItems() As String
+                ReDim _subItems(Me.Columns.Count - 1)
+                For x = 1 To _subItems.Length - 1
+                    _subItems(x) = ""
+                Next
+                Dim it As ListViewItem = AddItemWithStyle(item.Infos.Key)
+                it.SubItems.AddRange(_subItems)
 
-            ' Refresh subitems
-            x = 0
-            For Each isub As ListViewItem.ListViewSubItem In it.SubItems
-                isub.Text = item.GetInformation(_columnsName(x))
-                x += 1
-            Next
+                ' Refresh subitems
+                x = 0
+                For Each isub As ListViewItem.ListViewSubItem In it.SubItems
+                    isub.Text = item.GetInformation(_columnsName(x))
+                    x += 1
+                Next
 
-        End If
+            End If
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        End Try
+    End Sub
+
+    ' Clear log
+    Public Sub ClearLog()
+        Try
+            generalLvSemaphore.WaitOne()
+            Me.BeginUpdate()
+            Me.Items.Clear()
+            _firstItemUpdate = True
+        Catch ex As Exception
+            Misc.ShowDebugError(ex)
+        Finally
+            generalLvSemaphore.Release()
+            Me.EndUpdate()
+        End Try
     End Sub
 
     ' Call this to redraw all items
@@ -161,16 +145,17 @@ Public Class logList
             generalLvSemaphore.WaitOne()
             Me.BeginUpdate()
             Me.Items.Clear()
+            _firstItemUpdate = True
 
             For Each pair As System.Collections.Generic.KeyValuePair(Of String, cLogItem) In _dico
                 Call conditionalAdd(pair.Value)
             Next
 
-            Me.EndUpdate()
         Catch ex As Exception
             Misc.ShowDebugError(ex)
         Finally
             generalLvSemaphore.Release()
+            Me.EndUpdate()
         End Try
 
     End Sub
@@ -221,116 +206,99 @@ Public Class logList
     ' Private properties
     ' ========================================
 
-    ' Executed when enumeration is done
-    Private Sub HasEnumeratedEventHandler(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, logItemInfos), ByVal errorMessage As String, ByVal InstanceId As Integer)
 
-        Try
-            generalLvSemaphore.WaitOne()
+#Region "Update methods & callbacks"
 
-            If Success = False Then
-                Trace.WriteLine("Cannot enumerate, an error was raised...")
-                RaiseEvent GotAnError("Log enumeration", errorMessage)
-                Exit Sub
-            End If
+    ' Called when connected
+    Public Sub impConnected()
+        ' Nothing special here
+    End Sub
 
-            ' We won't enumerate next time with all informations (included fixed infos)
-            _first = False
+    ' Called when disconnected
+    Public Sub impDisConnected()
+        _timeToDisplayNewItemsGreen = False
+        _firstItemUpdate = True
+    End Sub
 
+    ' GotNewProcesses, GotDeletedProcesses and GotRefreshed are ALWAYS called
+    ' sequentially, and are protected by a semaphore -> no need to reprotect it here
+    Private Delegate Sub degGotNewItems(ByVal news As List(Of String), ByVal newItems As Dictionary(Of String, logItemInfos))
+    Private Sub GotNewItems(ByVal news As List(Of String), ByVal newItems As Dictionary(Of String, logItemInfos))
 
-            '' Now add all items with isKilled = true to _dicoDel dictionnary
-            'For Each z As cLogItem In _dico.Values
-            '    If z.IsKilledItem Then
-            '        _dicoDel.Add(z.Infos.BaseAddress.ToString, Nothing)
-            '    End If
-            'Next
+        ' Lock lv if necesary
+        Dim _hasToLock As Boolean = (_firstItemUpdate OrElse newItems.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE)
+        If _hasToLock Then
+            Me.BeginUpdate()
+        End If
+        For Each var As String In news
+            If _dico.ContainsKey(var) = False Then
 
+                ' Don't add the first time (as there are all items)
+                If _firstItemUpdate = False Then
+                    Dim envvar As New cLogItem(newItems(var))
+                    _dico.Add(var, envvar)
 
-            ' Now add new items to dictionnary
-            Dim _dicoNew As New Dictionary(Of String, cLogItem)
-            For Each pair As System.Collections.Generic.KeyValuePair(Of String, logItemInfos) In Dico
-                If Not (_dico.ContainsKey(pair.Key)) Then
-                    ' Add to dico
-                    _dicoNew.Add(pair.Key, New cLogItem(pair.Value))
-                    _dico.Add(pair.Key, _dicoNew(pair.Key))
+                    Call conditionalAdd(envvar)
                 End If
-            Next
+
+            End If
+        Next
+
+        ' Unlock lv if necesary
+        If _hasToLock Then
+            Me.EndUpdate()
+        End If
+
+    End Sub
+
+    Private Delegate Sub degGotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDels As Dictionary(Of String, logItemInfos), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, logItemInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+    Private Sub GotRefreshed(ByVal _dicoNew As List(Of String), ByVal _dicoDels As Dictionary(Of String, logItemInfos), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, logItemInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+        ' Have to call a delegate as will refresh the listview
+        ' Only update if this is the good instanceId
+        If instanceId = Me.InstanceId Then
+            If Me.InvokeRequired Then
+                Dim d As New degGotRefreshed(AddressOf GotRefreshed)
+                Try
+                    Me.Invoke(d, _dicoNew, _dicoDels, _dicoDel, Dico, instanceId, res)
+                Catch ex As Exception
+                    ' Won't catch this...
+                End Try
+            Else
+
+                If res.Success Then
+
+                    ' Create buffer if necessary
+                    If _columnsName.Length = 0 Then
+                        Me.CreateSubItemsBuffer()
+                    End If
+
+                    ' NEW ITEMS (created items)
+                    If _dicoNew.Count > 0 Then
+                        ' Set items as created
+                        For Each it As String In _dicoNew
+                            Dico(it).State = logItemInfos.CreatedOrDeleted.Created
+                        Next
+                        Me.GotNewItems(_dicoNew, Dico)
+                    End If
+
+                    ' DELETED ITEMS
+                    If _dicoDel.Count > 0 Then
+                        ' Deleted items are ADDED to the list :-)
+                        ' CreatedOrDeleted.Deleted is the default value
+                        Me.GotNewItems(_dicoDel, _dicoDels)
+                    End If
 
 
-            '' Now remove deleted items from dictionnary
-            'For Each z As String In _dico.Keys
-            '    If Dico.ContainsKey(z) = False Then
-            '        ' Remove from dico
-            '        _dico.Item(z).IsKilledItem = True  ' Will be deleted next time
-            '    End If
-            'Next
+                    ' Sort items
+                    Me.Sort()
 
+                    _firstItemUpdate = False
 
-            '' Now remove all deleted items from listview and _dico
-            'For Each z As String In _dicoDel.Keys
-            '    Me.Items.RemoveByKey(z)
-            '    RaiseEvent ItemDeleted(_dico.Item(z))
-            '    _dico.Remove(z)
-            'Next
-            '_dicoDel.Clear()
-
-
-            '' Merge _dico and _dicoNew
-            'For Each z As String In _dicoNew.Keys
-            '    Dim _it As cLogItem = _dicoNew.Item(z)
-            '    RaiseEvent ItemAdded(_it)
-            '    _it.IsNewItem = Not (_firstItemUpdate)        ' If first refresh, don't highlight item
-            '    _dico.Add(z.ToString, _it)
-            'Next
-
-
-            ' Now add all new items to listview
-            ' If first time, lock listview
-            'If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE OrElse _dicoDel.Count > EMPIRIC_MINIMAL_NUMBER_OF_DELETED_ITEMS_TO_BEGIN_UPDATE Then Me.BeginUpdate()
-            For Each z As String In _dicoNew.Keys
-                Call conditionalAdd(_dicoNew(z))
-            Next
-            'If _firstItemUpdate OrElse _dicoNew.Count > EMPIRIC_MINIMAL_NUMBER_OF_NEW_ITEMS_TO_BEGIN_UPDATE orelse _dicodel.count>EMPIRIC_MINIMAL_NUMBER_OF_deleted_ITEMS_TO_BEGIN_UPDATE Then Me.EndUpdate()
-            '_dicoNew.Clear()
-
-
-            ' Now refresh all subitems of the listview
-            'Dim isub As ListViewItem.ListViewSubItem
-            'Dim it As ListViewItem
-            'For Each it In Me.Items
-            '    Dim x As Integer = 0
-            '    Dim _item As cLogItem = _dico.Item(it.Name)
-            '    'If Dico.ContainsKey(it.Name) Then
-            '    '    _item.Merge(Dico.Item(it.Name))
-            '    'End If
-            '    For Each isub In it.SubItems
-            '        isub.Text = _item.GetInformation(_columnsName(x))
-            '        x += 1
-            '    Next
-            '    'If _item.IsNewItem Then
-            '    '    _item.IsNewItem = False
-            '    '    it.BackColor = NEW_ITEM_COLOR
-            '    'ElseIf _item.IsKilledItem Then
-            '    '    it.BackColor = DELETED_ITEM_COLOR
-            '    'Else
-            '    '    it.BackColor = Color.White
-            '    'End If
-            'Next
-
-            ' Sort items
-            Me.Sort()
-
-            _firstItemUpdate = False
-
-            'Trace.WriteLine("It tooks " & _test.ToString & " ms to refresh log list.")
-
-            MyBase.UpdateItems()
-
-        Catch ex As Exception
-            Misc.ShowDebugError(ex)
-        Finally
-            generalLvSemaphore.Release()
-        End Try
-
+                Else
+                    RaiseEvent GotAnError("Log enumeration", res.ErrorMessage)
+                End If
+            End If
+        End If
     End Sub
 
     ' Force item refreshing
@@ -370,44 +338,8 @@ Public Class logList
 
     End Function
 
-#Region "Connection stuffs"
-
-    Private Sub _connectionObject_Connected() Handles _connectionObject.Connected
-        Call Connect()
-    End Sub
-
-    Private Sub _connectionObject_Disconnected() Handles _connectionObject.Disconnected
-        Call Disconnect()
-    End Sub
-
-    Protected Overrides Function Connect() As Boolean
-        If MyBase.Connect Then
-            Me.IsConnected = True
-            _first = True
-            _logConnection.ConnectionObj = _connectionObject
-            _logConnection.Connect()
-            cLogItem.Connection = _logConnection
-        End If
-    End Function
-
-    Protected Overrides Function Disconnect() As Boolean
-        If MyBase.Disconnect Then
-            Me.IsConnected = False
-            _logConnection.Disconnect()
-        End If
-    End Function
-
-    Private Sub HasDisconnected(ByVal Success As Boolean)
-        ' We HAVE TO disconnect, because this event is raised when we got an error
-        '_logConnection.Disconnect()
-        '     _logConnection.Con()
-    End Sub
-
-    Private Sub HasConnected(ByVal Success As Boolean)
-        '
-    End Sub
-
 #End Region
+
 
     Protected Overrides Sub OnKeyDown(ByVal e As System.Windows.Forms.KeyEventArgs)
         MyBase.OnKeyDown(e)

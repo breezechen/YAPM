@@ -42,7 +42,6 @@ Imports System.Runtime.InteropServices
     Protected _left As Integer
     Protected _opacity As Byte
     Protected _caption As String
-    Protected _key As String
 
 #End Region
 
@@ -124,7 +123,7 @@ Imports System.Runtime.InteropServices
             Return _positions
         End Get
     End Property
-    Public ReadOnly Property Key() As String
+    Public Overrides ReadOnly Property Key() As String
         Get
             Static _key As String = Nothing
             If _key Is Nothing Then

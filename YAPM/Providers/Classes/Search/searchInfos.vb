@@ -74,6 +74,11 @@ Imports Native.Api.Enums
             Return _pid
         End Get
     End Property
+    Public Overrides ReadOnly Property Key() As String
+        Get
+            Return ""     ' Not used
+        End Get
+    End Property
 
 #End Region
 

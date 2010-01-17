@@ -291,8 +291,8 @@ Public Class handleList
                         For Each it In Me.Items
                             Dim x As Integer = 0
                             Dim _item As cHandle = _dico.Item(it.Name)
-                            If Dico.ContainsKey(_item.Infos.Handle.ToString) Then
-                                _item.Merge(Dico.Item(_item.Infos.Handle.ToString))
+                            If Dico.ContainsKey(_item.Infos.Key) Then
+                                _item.Merge(Dico.Item(_item.Infos.Key))
                             End If
                             Dim ___info As String = Nothing
                             For Each isub In it.SubItems

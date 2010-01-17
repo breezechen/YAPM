@@ -63,12 +63,6 @@ Imports Native.Api
 
 #Region "Read only properties"
 
-    Public ReadOnly Property Key() As String
-        Get
-            Return _ProcessID.ToString & "-" & _Handle.ToString
-        End Get
-    End Property
-
     Public ReadOnly Property ProcessId() As Integer
         Get
             Return _ProcessID
@@ -137,6 +131,11 @@ Imports Native.Api
     Public ReadOnly Property ObjectTypeNumber() As Integer
         Get
             Return _ObjectTypeNumber
+        End Get
+    End Property
+    Public Overrides ReadOnly Property Key() As String
+        Get
+            Return _ProcessID.ToString & "-" & _Handle.ToString
         End Get
     End Property
 

@@ -163,6 +163,11 @@ Imports System.Runtime.InteropServices
             Return _StartTime
         End Get
     End Property
+    Public Overrides ReadOnly Property Key() As String
+        Get
+            Return _Pid.ToString
+        End Get
+    End Property
 
 #End Region
 

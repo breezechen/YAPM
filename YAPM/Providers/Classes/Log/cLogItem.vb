@@ -26,20 +26,6 @@ Public Class cLogItem
     Inherits cGeneralObject
 
     Private _logInfos As logItemInfos
-    Private Shared WithEvents _connection As cLogConnection
-
-#Region "Properties"
-
-    Public Shared Property Connection() As cLogConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cLogConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 
@@ -89,6 +75,8 @@ Public Class cLogItem
                 res = Me.Infos.DateTime.ToLongDateString & " - " & Me.Infos.DateTime.ToLongTimeString
             Case "Description"
                 res = Me.Infos.Description
+            Case "State"
+                res = Me.Infos.State.ToString
         End Select
 
         Return res
@@ -101,6 +89,7 @@ Public Class cLogItem
         Static _old_Type As String = ""
         Static _old_DateTime As String = ""
         Static _old_Description As String = ""
+        Static _old_State As String = ""
 
         Dim hasChanged As Boolean = True
 
@@ -143,6 +132,13 @@ Public Class cLogItem
                     hasChanged = False
                 Else
                     _old_Description = res
+                End If
+            Case "State"
+                res = Me.Infos.State.ToString
+                If res = _old_State Then
+                    hasChanged = False
+                Else
+                    _old_State = res
                 End If
         End Select
 

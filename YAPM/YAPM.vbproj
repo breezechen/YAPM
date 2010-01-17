@@ -914,8 +914,6 @@
     <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobTerminateJob.vb" />
     <Compile Include="Providers\Classes\Jobs\cJob.vb" />
     <Compile Include="Providers\Classes\Jobs\jobInfos.vb" />
-    <Compile Include="Providers\Classes\Log\asyncMethods\asyncCallbackLogEnumerate.vb" />
-    <Compile Include="Providers\Classes\Log\cLogConnection.vb" />
     <Compile Include="Providers\Classes\Log\cLogItem.vb" />
     <Compile Include="Providers\Classes\Log\logItemInfos.vb" />
     <Compile Include="Providers\Classes\MemoryRegions\asyncMethods\asyncCallbackMemRegionEnumerate.vb" />
@@ -1017,6 +1015,7 @@
     <Compile Include="Providers\CustomListviews\mainJobList.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Providers\Providers\LogProvider.vb" />
     <Compile Include="Providers\Providers\HandleProvider.vb" />
     <Compile Include="Providers\Providers\MemRegionProvider.vb" />
     <Compile Include="Providers\Providers\ThreadProvider.vb" />
@@ -1425,6 +1424,7 @@
     <Folder Include="Providers\Classes\EnvVariables\asyncMethods\" />
     <Folder Include="Providers\Classes\Heaps\asyncMethods\" />
     <Folder Include="Providers\Classes\JobLimits\asyncMethods\" />
+    <Folder Include="Providers\Classes\Log\asyncMethods\" />
     <Folder Include="Providers\Classes\Tasks\asyncMethods\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />

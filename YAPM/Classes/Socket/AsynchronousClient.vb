@@ -130,18 +130,19 @@ Public Class AsynchronousClient
                 ' Save the channel, so we'll be able to unregister it when disconnecting
                 _theChannel = channel
 
+                ' now create a transparent proxy to the server component
+                Dim obj As Object = Activator.GetObject(GetType(ServerTalk), "tcp://" & pObj.ServerName & ":" & pObj.Port.ToString & "/TalkIsGood")
+                ' cast returned object
+                _ServerTalk = DirectCast(obj, ServerTalk)
+                ' Register ourselves to the server with a callback to the client sink.
+                _ServerTalk.RegisterHostToClient("client", New delCommsInfo(AddressOf _CallbackSink.HandleToClient))
+                _connected = True
+                RaiseEvent Connected()
+
             Catch ex As Exception
                 ' Already exists (reconnection)
                 Misc.ShowDebugError(ex)
             End Try
-            ' now create a transparent proxy to the server component
-            Dim obj As Object = Activator.GetObject(GetType(ServerTalk), "tcp://" & pObj.ServerName & ":" & pObj.Port.ToString & "/TalkIsGood")
-            ' cast returned object
-            _ServerTalk = DirectCast(obj, ServerTalk)
-            ' Register ourselves to the server with a callback to the client sink.
-            _ServerTalk.RegisterHostToClient("client", New delCommsInfo(AddressOf _CallbackSink.HandleToClient))
-            _connected = True
-            RaiseEvent Connected()
         Catch ex As Exception
             _connected = False
             RaiseEvent Disconnected()

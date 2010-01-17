@@ -219,7 +219,7 @@
       <Value Profile="(Default)">Variable?176?0$Value?445?1$</Value>
     </Setting>
     <Setting Name="COLprocdetail_log" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Date &amp; Time?164?0$Type?102?1$Description?343?2$</Value>
+      <Value Profile="(Default)">Date &amp; Time?164?0$State?50?1$Type?102?2$Description?343?3$</Value>
     </Setting>
     <Setting Name="ShowStatusBar" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>

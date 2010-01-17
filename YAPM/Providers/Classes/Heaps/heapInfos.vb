@@ -87,6 +87,11 @@ Imports System.Runtime.InteropServices
             Return _pid
         End Get
     End Property
+    Public Overrides ReadOnly Property Key() As String
+        Get
+            Return _baseAddress.ToString
+        End Get
+    End Property
 
 #End Region
 

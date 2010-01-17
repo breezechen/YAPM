@@ -39,7 +39,6 @@ Public Class frmServer
     Private theConnection As cConnection = Program.Connection
     Private _servdepCon As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServDep))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
-    Private _logCon As New cLogConnection(Me, theConnection, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedLog))
 
     ' Connect to local machine
     Private Sub connectLocal()
@@ -53,13 +52,9 @@ Public Class frmServer
 
             _searchCon.ConnectionObj = theConnection
             _servdepCon.ConnectionObj = theConnection
-            _logCon.ConnectionObj = theConnection
 
             _searchCon.Connect()
             _servdepCon.Connect()
-            _logCon.Connect()
-
-            cLogItem.Connection = _logCon
 
         Catch ex As Exception
             Misc.ShowError(ex, "Unable to connect")
@@ -146,9 +141,9 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedLog(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, logItemInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedLog(ByVal _dicoNew As List(Of String), ByVal _dicoDels As Dictionary(Of String, logItemInfos), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, logItemInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If Success Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestLogList)
                 cDat.InstanceId = instanceId   ' The instance which requested the list
@@ -160,7 +155,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate log items")
+            Misc.ShowError("Unable to enumerate log items : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -506,8 +501,8 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestLogList
                         Dim pid As Integer = CInt(cData.Param1)
-                        Dim infos As asyncCallbackLogEnumerate.LogItemType = CType(cData.Param2, asyncCallbackLogEnumerate.LogItemType)
-                        Call _logCon.Enumerate(infos, pid, _forInstanceId)
+                        Dim infos As Native.Api.Enums.LogItemType = CType(cData.Param2, Native.Api.Enums.LogItemType)
+                        Call LogProvider.Update(pid, infos, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestHeapList
                         Dim pid As Integer = CInt(cData.Param1)
@@ -944,6 +939,7 @@ Public Class frmServer
         AddHandler ThreadProvider.GotRefreshed, AddressOf HasEnumeratedThread
         AddHandler MemRegionProvider.GotRefreshed, AddressOf HasEnumeratedMemoryReg
         AddHandler HandleProvider.GotRefreshed, AddressOf HasEnumeratedHandle
+        AddHandler LogProvider.GotRefreshed, AddressOf HasEnumeratedLog
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

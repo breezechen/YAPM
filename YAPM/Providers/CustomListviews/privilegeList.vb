@@ -217,7 +217,7 @@ Public Class privilegeList
                         For Each it In Me.Items
                             Dim x As Integer = 0
                             Dim _item As cPrivilege = _dico.Item(it.Name)
-                            Dim _key As String = _item.Infos.Name
+                            Dim _key As String = _item.Infos.Key
                             If Dico.ContainsKey(_key) Then
                                 _item.Merge(Dico.Item(_key))
                             End If

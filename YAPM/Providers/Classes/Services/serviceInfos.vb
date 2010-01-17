@@ -202,6 +202,12 @@ Imports System.Text
             _fileInfo = value
         End Set
     End Property
+    Public Overrides ReadOnly Property Key() As String
+        Get
+            Return _name
+        End Get
+    End Property
+
 #End Region
 
 

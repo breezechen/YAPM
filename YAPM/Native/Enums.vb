@@ -547,6 +547,21 @@ Namespace Native.Api
         End Enum
 
         <Flags()> _
+        Public Enum LogItemType As Integer
+            ModuleItem = 1
+            ThreadItem = 2
+            ServiceItem = 4
+            WindowItem = 8
+            HandleItem = 16
+            MemoryItem = 32
+            NetworkItem = 64
+            DeletedItems = 128
+            CreatedItems = 256
+            AllItems = ModuleItem Or ThreadItem Or ServiceItem Or WindowItem Or HandleItem _
+                Or MemoryItem Or NetworkItem Or DeletedItems Or CreatedItems
+        End Enum
+
+        <Flags()> _
         Public Enum SnapshotObject
             [Windows] = &H1
             [Services] = &H4

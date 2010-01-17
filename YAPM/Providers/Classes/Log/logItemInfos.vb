@@ -26,25 +26,35 @@ Imports Common.Misc
 <Serializable()> Public Class logItemInfos
     Inherits generalInfos
 
-    Public Enum CREATED_OR_DELETED As Byte
-        created
-        deleted
+
+    Public Enum CreatedOrDeleted As Byte
+        Created
+        Deleted
     End Enum
 
 #Region "Private attributes"
 
     Private _dateTime As Date
+    Private _pid As Integer
     Private _type As String
     Private _description As String
-    Private _key As String
-    Private _state As CREATED_OR_DELETED
-    Private _typeMask As asyncCallbackLogEnumerate.LogItemType
+    Private _typeMask As Native.Api.Enums.LogItemType
     Private _defKey As String
+    Private _state As CreatedOrDeleted
+    Private _key As String
 
 #End Region
 
 #Region "Read only properties"
 
+    Public Property State() As CreatedOrDeleted
+        Get
+            Return _state
+        End Get
+        Friend Set(ByVal value As CreatedOrDeleted)
+            _state = value
+        End Set
+    End Property
     Public ReadOnly Property DateTime() As Date
         Get
             Return _dateTime
@@ -60,17 +70,7 @@ Imports Common.Misc
             Return _description
         End Get
     End Property
-    Public ReadOnly Property Key() As String
-        Get
-            Return _key
-        End Get
-    End Property
-    Public ReadOnly Property State() As CREATED_OR_DELETED
-        Get
-            Return _state
-        End Get
-    End Property
-    Public ReadOnly Property TypeMask() As asyncCallbackLogEnumerate.LogItemType
+    Public ReadOnly Property TypeMask() As Native.Api.Enums.LogItemType
         Get
             Return _typeMask
         End Get
@@ -78,6 +78,16 @@ Imports Common.Misc
     Public ReadOnly Property DefKey() As String
         Get
             Return _defKey
+        End Get
+    End Property
+    Public ReadOnly Property ProcessId() As Integer
+        Get
+            Return _pid
+        End Get
+    End Property
+    Public Overrides ReadOnly Property Key() As String
+        Get
+            Return _key
         End Get
     End Property
 
@@ -89,10 +99,10 @@ Imports Common.Misc
     ' ========================================
 
     ' Constructors of this class
-    Public Sub New(ByVal item As networkInfos, ByVal type As CREATED_OR_DELETED)
+    Public Sub New(ByVal item As networkInfos, ByVal state As CreatedOrDeleted)
+        _state = state
         _type = "Network connection"
-        _state = type
-        _description = "Network connection " & type.ToString & ", protocol = " & item.Protocol.ToString
+        _description = "Network connection " & ", protocol = " & item.Protocol.ToString
         If item.Local IsNot Nothing Then
             _description &= ", local = " & item.Local.ToString
         End If
@@ -100,63 +110,70 @@ Imports Common.Misc
             _description &= ", remote = " & item.Remote.ToString
         End If
         _dateTime = Date.Now
-        _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.NetworkItem
-        _defKey = ""        ' TODO
+        _key = _type & "|" & item.Key & "|" & CStr(state)
+        _typeMask = Native.Api.Enums.LogItemType.NetworkItem
+        _defKey = item.Key
+        _pid = item.ProcessId
     End Sub
-    Public Sub New(ByVal item As handleInfos, ByVal type As CREATED_OR_DELETED)
+    Public Sub New(ByVal item As handleInfos, ByVal state As CreatedOrDeleted)
+        _state = state
         _type = "Handle"
-        _state = type
-        _description = "Handle " & type.ToString & ", handle = " & item.Handle.ToString & ", type = " & item.Type & ", name = " & item.Name
+        _description = "Handle " & ", handle = " & item.Handle.ToString & ", type = " & item.Type & ", name = " & item.Name
         _dateTime = Date.Now
-        _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.HandleItem
-        _defKey = item.Handle.ToString
+        _key = _type & "|" & item.Key & "|" & CStr(state)
+        _typeMask = Native.Api.Enums.LogItemType.HandleItem
+        _defKey = item.Key
+        _pid = item.ProcessId
     End Sub
-    Public Sub New(ByVal item As memRegionInfos, ByVal type As CREATED_OR_DELETED)
+    Public Sub New(ByVal item As memRegionInfos, ByVal state As CreatedOrDeleted)
+        _state = state
         _type = "Memory region"
-        _state = type
-        _description = "Memory region " & type.ToString & ", address = " & item.BaseAddress.ToString & ", size = " & GetFormatedSize(item.RegionSize) & ", name = " & item.Name
+        _description = "Memory region " & ", address = " & item.BaseAddress.ToString & ", size = " & GetFormatedSize(item.RegionSize) & ", name = " & item.Name
         _dateTime = Date.Now
-        _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.MemoryItem
-        _defKey = item.BaseAddress.ToString
+        _key = _type & "|" & item.Key & "|" & CStr(state)
+        _typeMask = Native.Api.Enums.LogItemType.MemoryItem
+        _defKey = item.Key
+        _pid = item.ProcessId
     End Sub
-    Public Sub New(ByVal item As moduleInfos, ByVal type As CREATED_OR_DELETED)
+    Public Sub New(ByVal item As moduleInfos, ByVal state As CreatedOrDeleted)
+        _state = state
         _type = "Module"
-        _state = type
-        _description = "Module " & type.ToString & ", address = " & item.BaseAddress.ToString & ", path = " & item.Path
+        _description = "Module " & ", address = " & item.BaseAddress.ToString & ", path = " & item.Path
         _dateTime = Date.Now
-        _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.ModuleItem
-        _defKey = item.BaseAddress.ToString
+        _key = _type & "|" & item.Key & "|" & CStr(state)
+        _typeMask = Native.Api.Enums.LogItemType.ModuleItem
+        _defKey = item.Key
+        _pid = item.ProcessId
     End Sub
-    Public Sub New(ByVal item As serviceInfos, ByVal type As CREATED_OR_DELETED)
+    Public Sub New(ByVal item As serviceInfos, ByVal state As CreatedOrDeleted)
+        _state = state
         _type = "Service"
-        _state = type
-        _description = "Service " & type.ToString & ", name = " & item.Name & ", path = " & item.ImagePath & ", start type = " & item.StartType.ToString
+        _description = "Service " & ", name = " & item.Name & ", path = " & item.ImagePath & ", start type = " & item.StartType.ToString
         _dateTime = Date.Now
-        _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.ServiceItem
-        _defKey = item.Name
+        _key = _type & "|" & item.Key & "|" & CStr(state)
+        _typeMask = Native.Api.Enums.LogItemType.ServiceItem
+        _defKey = item.Key
+        _pid = item.ProcessId
     End Sub
-    Public Sub New(ByVal item As threadInfos, ByVal type As CREATED_OR_DELETED)
+    Public Sub New(ByVal item As threadInfos, ByVal state As CreatedOrDeleted)
+        _state = state
         _type = "Thread"
-        _state = type
-        _description = "Thread " & type.ToString & ", id = " & item.Id.ToString & ", priority = " & item.Priority.ToString & ", address = " & item.StartAddress.ToString
+        _description = "Thread " & ", id = " & item.Id.ToString & ", priority = " & item.Priority.ToString & ", address = " & item.StartAddress.ToString
         _dateTime = Date.Now
-        _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.ThreadItem
-        _defKey = item.Id.ToString
+        _key = _type & "|" & item.Key & "|" & CStr(state)
+        _typeMask = Native.Api.Enums.LogItemType.ThreadItem
+        _defKey = item.Key
+        _pid = item.ProcessId
     End Sub
-    Public Sub New(ByVal item As windowInfos, ByVal type As CREATED_OR_DELETED)
+    Public Sub New(ByVal item As windowInfos, ByVal state As CreatedOrDeleted)
+        _state = state
         _type = "Window"
-        _state = type
-        _description = "Window " & type.ToString & ", id = " & item.Handle.ToString & ", thread id = " & item.ThreadId.ToString & ", caption = " & item.Caption
+        _description = "Window " & ", id = " & item.Handle.ToString & ", thread id = " & item.ThreadId.ToString & ", caption = " & item.Caption
         _dateTime = Date.Now
-        _key = _type & "|" & _description & "|" & _dateTime.Ticks.ToString & type.ToString.Substring(1, 1)
-        _typeMask = asyncCallbackLogEnumerate.LogItemType.WindowItem
-        _defKey = item.Handle.ToString
+        _key = _type & "|" & item.Key & "|" & CStr(state)
+        _typeMask = Native.Api.Enums.LogItemType.WindowItem
+        _defKey = item.Key
+        _pid = item.ProcessId
     End Sub
 
 

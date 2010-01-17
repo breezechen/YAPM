@@ -934,7 +934,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Date & Time?164?0$Type?102?1$Description?343?2$")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Date & Time?164?0$State?50?1$Type?102?2$Description?343?3$")>  _
         Public Property COLprocdetail_log() As String
             Get
                 Return CType(Me("COLprocdetail_log"),String)

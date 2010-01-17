@@ -25,23 +25,23 @@ Imports frmProcessInfo
 
 Public Class frmLogOptions
 
-    Private _logDisplayMask As asyncCallbackLogEnumerate.LogItemType
-    Private _logCaptureMask As asyncCallbackLogEnumerate.LogItemType
+    Private _logDisplayMask As Native.Api.Enums.LogItemType
+    Private _logCaptureMask As Native.Api.Enums.LogItemType
     Private _frm As frmProcessInfo
 
-    Public Property LogCaptureMask() As asyncCallbackLogEnumerate.LogItemType
+    Public Property LogCaptureMask() As Native.Api.Enums.LogItemType
         Get
             Return _logCaptureMask
         End Get
-        Set(ByVal value As asyncCallbackLogEnumerate.LogItemType)
+        Set(ByVal value As Native.Api.Enums.LogItemType)
             _logCaptureMask = value
         End Set
     End Property
-    Public Property LogDisplayMask() As asyncCallbackLogEnumerate.LogItemType
+    Public Property LogDisplayMask() As Native.Api.Enums.LogItemType
         Get
             Return _logDisplayMask
         End Get
-        Set(ByVal value As asyncCallbackLogEnumerate.LogItemType)
+        Set(ByVal value As Native.Api.Enums.LogItemType)
             _logDisplayMask = value
         End Set
     End Property
@@ -58,32 +58,32 @@ Public Class frmLogOptions
 
         Common.Misc.CloseWithEchapKey(Me)
 
-        Me.captureHandles.Checked = (_logCaptureMask And asyncCallbackLogEnumerate.LogItemType.HandleItem) = asyncCallbackLogEnumerate.LogItemType.HandleItem
-        Me.showHandles.Checked = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.HandleItem) = asyncCallbackLogEnumerate.LogItemType.HandleItem
+        Me.captureHandles.Checked = (_logCaptureMask And Native.Api.Enums.LogItemType.HandleItem) = Native.Api.Enums.LogItemType.HandleItem
+        Me.showHandles.Checked = (_logDisplayMask And Native.Api.Enums.LogItemType.HandleItem) = Native.Api.Enums.LogItemType.HandleItem
 
-        Me.captureMemoryRegions.Checked = (_logCaptureMask And asyncCallbackLogEnumerate.LogItemType.MemoryItem) = asyncCallbackLogEnumerate.LogItemType.MemoryItem
-        Me.showMemoryRegions.Checked = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.MemoryItem) = asyncCallbackLogEnumerate.LogItemType.MemoryItem
+        Me.captureMemoryRegions.Checked = (_logCaptureMask And Native.Api.Enums.LogItemType.MemoryItem) = Native.Api.Enums.LogItemType.MemoryItem
+        Me.showMemoryRegions.Checked = (_logDisplayMask And Native.Api.Enums.LogItemType.MemoryItem) = Native.Api.Enums.LogItemType.MemoryItem
 
-        Me.captureModules.Checked = (_logCaptureMask And asyncCallbackLogEnumerate.LogItemType.ModuleItem) = asyncCallbackLogEnumerate.LogItemType.ModuleItem
-        Me.showModules.Checked = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.ModuleItem) = asyncCallbackLogEnumerate.LogItemType.ModuleItem
+        Me.captureModules.Checked = (_logCaptureMask And Native.Api.Enums.LogItemType.ModuleItem) = Native.Api.Enums.LogItemType.ModuleItem
+        Me.showModules.Checked = (_logDisplayMask And Native.Api.Enums.LogItemType.ModuleItem) = Native.Api.Enums.LogItemType.ModuleItem
 
-        Me.captureNetwork.Checked = (_logCaptureMask And asyncCallbackLogEnumerate.LogItemType.NetworkItem) = asyncCallbackLogEnumerate.LogItemType.NetworkItem
-        Me.showNetwork.Checked = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.NetworkItem) = asyncCallbackLogEnumerate.LogItemType.NetworkItem
+        Me.captureNetwork.Checked = (_logCaptureMask And Native.Api.Enums.LogItemType.NetworkItem) = Native.Api.Enums.LogItemType.NetworkItem
+        Me.showNetwork.Checked = (_logDisplayMask And Native.Api.Enums.LogItemType.NetworkItem) = Native.Api.Enums.LogItemType.NetworkItem
 
-        Me.captureServices.Checked = (_logCaptureMask And asyncCallbackLogEnumerate.LogItemType.ServiceItem) = asyncCallbackLogEnumerate.LogItemType.ServiceItem
-        Me.showServices.Checked = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.ServiceItem) = asyncCallbackLogEnumerate.LogItemType.ServiceItem
+        Me.captureServices.Checked = (_logCaptureMask And Native.Api.Enums.LogItemType.ServiceItem) = Native.Api.Enums.LogItemType.ServiceItem
+        Me.showServices.Checked = (_logDisplayMask And Native.Api.Enums.LogItemType.ServiceItem) = Native.Api.Enums.LogItemType.ServiceItem
 
-        Me.captureThreads.Checked = (_logCaptureMask And asyncCallbackLogEnumerate.LogItemType.ThreadItem) = asyncCallbackLogEnumerate.LogItemType.ThreadItem
-        Me.showThreads.Checked = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.ThreadItem) = asyncCallbackLogEnumerate.LogItemType.ThreadItem
+        Me.captureThreads.Checked = (_logCaptureMask And Native.Api.Enums.LogItemType.ThreadItem) = Native.Api.Enums.LogItemType.ThreadItem
+        Me.showThreads.Checked = (_logDisplayMask And Native.Api.Enums.LogItemType.ThreadItem) = Native.Api.Enums.LogItemType.ThreadItem
 
-        Me.captureWindows.Checked = (_logCaptureMask And asyncCallbackLogEnumerate.LogItemType.WindowItem) = asyncCallbackLogEnumerate.LogItemType.WindowItem
-        Me.showWindows.Checked = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.WindowItem) = asyncCallbackLogEnumerate.LogItemType.WindowItem
+        Me.captureWindows.Checked = (_logCaptureMask And Native.Api.Enums.LogItemType.WindowItem) = Native.Api.Enums.LogItemType.WindowItem
+        Me.showWindows.Checked = (_logDisplayMask And Native.Api.Enums.LogItemType.WindowItem) = Native.Api.Enums.LogItemType.WindowItem
 
-        Me.captureCreated.Checked = (_logCaptureMask And asyncCallbackLogEnumerate.LogItemType.CreatedItems) = asyncCallbackLogEnumerate.LogItemType.CreatedItems
-        Me.showCreated.Checked = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.CreatedItems) = asyncCallbackLogEnumerate.LogItemType.CreatedItems
+        Me.captureCreated.Checked = (_logCaptureMask And Native.Api.Enums.LogItemType.CreatedItems) = Native.Api.Enums.LogItemType.CreatedItems
+        Me.showCreated.Checked = (_logDisplayMask And Native.Api.Enums.LogItemType.CreatedItems) = Native.Api.Enums.LogItemType.CreatedItems
 
-        Me.captureDeleted.Checked = (_logCaptureMask And asyncCallbackLogEnumerate.LogItemType.DeletedItems) = asyncCallbackLogEnumerate.LogItemType.DeletedItems
-        Me.showDeleted.Checked = (_logDisplayMask And asyncCallbackLogEnumerate.LogItemType.DeletedItems) = asyncCallbackLogEnumerate.LogItemType.DeletedItems
+        Me.captureDeleted.Checked = (_logCaptureMask And Native.Api.Enums.LogItemType.DeletedItems) = Native.Api.Enums.LogItemType.DeletedItems
+        Me.showDeleted.Checked = (_logDisplayMask And Native.Api.Enums.LogItemType.DeletedItems) = Native.Api.Enums.LogItemType.DeletedItems
 
         Me.logInterval.Value = _frm.timerLog.Interval
     End Sub
@@ -93,25 +93,25 @@ Public Class frmLogOptions
         _logCaptureMask = 0
         _logDisplayMask = 0
 
-        If Me.captureHandles.Checked Then _logCaptureMask = _logCaptureMask Or asyncCallbackLogEnumerate.LogItemType.HandleItem
-        If Me.captureMemoryRegions.Checked Then _logCaptureMask = _logCaptureMask Or asyncCallbackLogEnumerate.LogItemType.MemoryItem
-        If Me.captureModules.Checked Then _logCaptureMask = _logCaptureMask Or asyncCallbackLogEnumerate.LogItemType.ModuleItem
-        If Me.captureNetwork.Checked Then _logCaptureMask = _logCaptureMask Or asyncCallbackLogEnumerate.LogItemType.NetworkItem
-        If Me.captureServices.Checked Then _logCaptureMask = _logCaptureMask Or asyncCallbackLogEnumerate.LogItemType.ServiceItem
-        If Me.captureThreads.Checked Then _logCaptureMask = _logCaptureMask Or asyncCallbackLogEnumerate.LogItemType.ThreadItem
-        If Me.captureWindows.Checked Then _logCaptureMask = _logCaptureMask Or asyncCallbackLogEnumerate.LogItemType.WindowItem
-        If Me.captureCreated.Checked Then _logCaptureMask = _logCaptureMask Or asyncCallbackLogEnumerate.LogItemType.CreatedItems
-        If Me.captureDeleted.Checked Then _logCaptureMask = _logCaptureMask Or asyncCallbackLogEnumerate.LogItemType.DeletedItems
+        If Me.captureHandles.Checked Then _logCaptureMask = _logCaptureMask Or Native.Api.Enums.LogItemType.HandleItem
+        If Me.captureMemoryRegions.Checked Then _logCaptureMask = _logCaptureMask Or Native.Api.Enums.LogItemType.MemoryItem
+        If Me.captureModules.Checked Then _logCaptureMask = _logCaptureMask Or Native.Api.Enums.LogItemType.ModuleItem
+        If Me.captureNetwork.Checked Then _logCaptureMask = _logCaptureMask Or Native.Api.Enums.LogItemType.NetworkItem
+        If Me.captureServices.Checked Then _logCaptureMask = _logCaptureMask Or Native.Api.Enums.LogItemType.ServiceItem
+        If Me.captureThreads.Checked Then _logCaptureMask = _logCaptureMask Or Native.Api.Enums.LogItemType.ThreadItem
+        If Me.captureWindows.Checked Then _logCaptureMask = _logCaptureMask Or Native.Api.Enums.LogItemType.WindowItem
+        If Me.captureCreated.Checked Then _logCaptureMask = _logCaptureMask Or Native.Api.Enums.LogItemType.CreatedItems
+        If Me.captureDeleted.Checked Then _logCaptureMask = _logCaptureMask Or Native.Api.Enums.LogItemType.DeletedItems
 
-        If Me.showHandles.Checked Then _logDisplayMask = _logDisplayMask Or asyncCallbackLogEnumerate.LogItemType.HandleItem
-        If Me.showMemoryRegions.Checked Then _logDisplayMask = _logDisplayMask Or asyncCallbackLogEnumerate.LogItemType.MemoryItem
-        If Me.showModules.Checked Then _logDisplayMask = _logDisplayMask Or asyncCallbackLogEnumerate.LogItemType.ModuleItem
-        If Me.showNetwork.Checked Then _logDisplayMask = _logDisplayMask Or asyncCallbackLogEnumerate.LogItemType.NetworkItem
-        If Me.showServices.Checked Then _logDisplayMask = _logDisplayMask Or asyncCallbackLogEnumerate.LogItemType.ServiceItem
-        If Me.showThreads.Checked Then _logDisplayMask = _logDisplayMask Or asyncCallbackLogEnumerate.LogItemType.ThreadItem
-        If Me.showWindows.Checked Then _logDisplayMask = _logDisplayMask Or asyncCallbackLogEnumerate.LogItemType.WindowItem
-        If Me.showCreated.Checked Then _logDisplayMask = _logDisplayMask Or asyncCallbackLogEnumerate.LogItemType.CreatedItems
-        If Me.showDeleted.Checked Then _logDisplayMask = _logDisplayMask Or asyncCallbackLogEnumerate.LogItemType.DeletedItems
+        If Me.showHandles.Checked Then _logDisplayMask = _logDisplayMask Or Native.Api.Enums.LogItemType.HandleItem
+        If Me.showMemoryRegions.Checked Then _logDisplayMask = _logDisplayMask Or Native.Api.Enums.LogItemType.MemoryItem
+        If Me.showModules.Checked Then _logDisplayMask = _logDisplayMask Or Native.Api.Enums.LogItemType.ModuleItem
+        If Me.showNetwork.Checked Then _logDisplayMask = _logDisplayMask Or Native.Api.Enums.LogItemType.NetworkItem
+        If Me.showServices.Checked Then _logDisplayMask = _logDisplayMask Or Native.Api.Enums.LogItemType.ServiceItem
+        If Me.showThreads.Checked Then _logDisplayMask = _logDisplayMask Or Native.Api.Enums.LogItemType.ThreadItem
+        If Me.showWindows.Checked Then _logDisplayMask = _logDisplayMask Or Native.Api.Enums.LogItemType.WindowItem
+        If Me.showCreated.Checked Then _logDisplayMask = _logDisplayMask Or Native.Api.Enums.LogItemType.CreatedItems
+        If Me.showDeleted.Checked Then _logDisplayMask = _logDisplayMask Or Native.Api.Enums.LogItemType.DeletedItems
 
         _frm.LogCaptureMask = _logCaptureMask
         _frm.LogDisplayMask = _logDisplayMask

@@ -46,7 +46,6 @@ Imports System.Net
     Private _Protocol As Native.Api.Enums.NetworkProtocol
     Friend _Local As IPEndPoint
     Friend _remote As IPEndPoint
-    Private _key As String
     Private _State As Native.Api.Enums.MibTcpState
     Private _procName As String
     Private _localString As String
@@ -84,13 +83,13 @@ Imports System.Net
             Return _Local
         End Get
     End Property
-    Public ReadOnly Property Key() As String
+    Public Overrides ReadOnly Property Key() As String
         Get
-            Static _key As String = Nothing
-            If _key Is Nothing Then
-                _key = Me.ProcessId.ToString & "-" & Me.Protocol.ToString & "-" & Me.Local.ToString
+            Static __key As String = Nothing
+            If __key Is Nothing Then
+                __key = Me.ProcessId.ToString & "-" & Me.Protocol.ToString & "-" & Me.Local.ToString
             End If
-            Return _key
+            Return __key
         End Get
     End Property
     Public ReadOnly Property Remote() As IPEndPoint

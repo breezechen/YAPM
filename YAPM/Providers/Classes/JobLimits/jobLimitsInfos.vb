@@ -63,6 +63,11 @@ Imports System.Net
             Return _jobName
         End Get
     End Property
+    Public Overrides ReadOnly Property Key() As String
+        Get
+            Return _name
+        End Get
+    End Property
 
 #End Region
 

@@ -66,17 +66,16 @@ Public Class frmProcessInfo
     Private _asyncDownloadDone As Boolean = False
 
     ' Some declarations used for "log feature"
-    Private _logCaptureMask As asyncCallbackLogEnumerate.LogItemType = asyncCallbackLogEnumerate.LogItemType.AllItems
-    Private _logDisplayMask As asyncCallbackLogEnumerate.LogItemType = asyncCallbackLogEnumerate.LogItemType.AllItems
+    Private _logCaptureMask As Native.Api.Enums.LogItemType = Native.Api.Enums.LogItemType.AllItems
+    Private _logDisplayMask As Native.Api.Enums.LogItemType = Native.Api.Enums.LogItemType.AllItems
     Private _autoScroll As Boolean = False
-    Private _logDico As New Dictionary(Of Integer, LogItem)
 
     Public Structure LogItem
         Public _date As Date
         Public _desc As String
-        Public _type As asyncCallbackLogEnumerate.LogItemType
+        Public _type As Native.Api.Enums.LogItemType
         Public _created As Boolean
-        Public Sub New(ByVal aDesc As String, ByVal aType As asyncCallbackLogEnumerate.LogItemType, _
+        Public Sub New(ByVal aDesc As String, ByVal aType As Native.Api.Enums.LogItemType, _
                        ByVal created As Boolean)
             _date = Date.Now
             _desc = aDesc
@@ -84,19 +83,19 @@ Public Class frmProcessInfo
             _created = created
         End Sub
     End Structure
-    Public Property LogCaptureMask() As asyncCallbackLogEnumerate.LogItemType
+    Public Property LogCaptureMask() As Native.Api.Enums.LogItemType
         Get
             Return _logCaptureMask
         End Get
-        Set(ByVal value As asyncCallbackLogEnumerate.LogItemType)
+        Set(ByVal value As Native.Api.Enums.LogItemType)
             _logCaptureMask = value
         End Set
     End Property
-    Public Property LogDisplayMask() As asyncCallbackLogEnumerate.LogItemType
+    Public Property LogDisplayMask() As Native.Api.Enums.LogItemType
         Get
             Return _logDisplayMask
         End Get
-        Set(ByVal value As asyncCallbackLogEnumerate.LogItemType)
+        Set(ByVal value As Native.Api.Enums.LogItemType)
             _logDisplayMask = value
         End Set
     End Property
@@ -381,6 +380,17 @@ Public Class frmProcessInfo
             Me.pctSmallIcon.Image.Dispose()
         End If
 
+        ' Clear items in providers
+        If Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile Then
+            EnvVariableProvider.ClearListForAnId(curProc.Infos.ProcessId)
+            HeapProvider.ClearListForAnId(curProc.Infos.ProcessId)
+            PrivilegeProvider.ClearListForAnId(curProc.Infos.ProcessId)
+            ModuleProvider.ClearListForAnId(curProc.Infos.ProcessId)
+            MemRegionProvider.ClearListForAnId(curProc.Infos.ProcessId)
+            HandleProvider.ClearListForAnId(curProc.Infos.ProcessId)
+            LogProvider.ClearListForAnId(curProc.Infos.ProcessId)
+        End If
+
         Me.lvHandles.ClearItems()
         Me.lvHeaps.ClearItems()
         Me.lvLog.ClearItems()
@@ -393,20 +403,8 @@ Public Class frmProcessInfo
         Me.lvProcString.Clear()
         Me.lvThreads.ClearItems()
         Me.lvWindows.ClearItems()
-        Me._logDico.Clear()
         ReDim __lRes(0)
         ReDim __sRes(0)
-
-
-        ' Clear items in providers
-        If Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile Then
-            EnvVariableProvider.ClearListForAnId(curProc.Infos.ProcessId)
-            HeapProvider.ClearListForAnId(curProc.Infos.ProcessId)
-            PrivilegeProvider.ClearListForAnId(curProc.Infos.ProcessId)
-            ModuleProvider.ClearListForAnId(curProc.Infos.ProcessId)
-            MemRegionProvider.ClearListForAnId(curProc.Infos.ProcessId)
-            HandleProvider.ClearListForAnId(curProc.Infos.ProcessId)
-        End If
 
     End Sub
 
@@ -549,7 +547,7 @@ Public Class frmProcessInfo
             pctBigIcon.Image = My.Resources.exe32
         End If
 
-        Call Connect()
+        Call Init()
         Call refreshProcessTab()
 
         If My.Settings.AutomaticInternetInfos Then
@@ -1238,9 +1236,10 @@ Public Class frmProcessInfo
     ' Update log items
     Private Sub ShowLogItems()
 
-        Me.lvLog.ProcessId = curProc.Infos.ProcessId
         Me.lvLog.CaptureItems = Me.LogCaptureMask
         Me.lvLog.DisplayItems = Me.LogDisplayMask
+
+        LogProvider.Update(curProc.Infos.ProcessId, Me.LogCaptureMask, Me.lvLog.InstanceId)
 
         Me.lvLog.UpdateTheItems()
 
@@ -1281,8 +1280,7 @@ Public Class frmProcessInfo
     End Sub
 
     Private Sub cmdClearLog_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdClearLog.Click
-        Me.lvLog.Items.Clear()
-        _logDico.Clear()
+        Me.lvLog.ClearLog()
         Call ChangeCaption()
     End Sub
 
@@ -1467,17 +1465,9 @@ Public Class frmProcessInfo
     End Sub
 
     ' Connection
-    Public Sub Connect()
-        ' Connect providers
-        'theConnection.CopyFromInstance(Program.Connection)
-        Try
-            theConnection = Program.Connection
-            Me.lvLog.ConnectionObj = theConnection
-            theConnection.Connect()
-            Me.timerProcPerf.Interval = CInt(My.Settings.ProcessInterval * Program.Connection.RefreshmentCoefficient)
-        Catch ex As Exception
-            Misc.ShowError(ex, "Unable to connect")
-        End Try
+    Public Sub Init()
+        ' 
+        Me.timerProcPerf.Interval = CInt(My.Settings.ProcessInterval * Program.Connection.RefreshmentCoefficient)
     End Sub
 
     Private Sub theConnection_Connected() Handles theConnection.Connected
@@ -2340,7 +2330,7 @@ Public Class frmProcessInfo
         ' Select item in associated listview
         With Me.lvLog.GetSelectedItem.Infos
             Select Case .TypeMask
-                Case asyncCallbackLogEnumerate.LogItemType.HandleItem
+                Case Native.Api.Enums.LogItemType.HandleItem
                     For Each it2 As ListViewItem In Me.lvHandles.Items
                         Dim tmp As cHandle = Me.lvHandles.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.Handle.ToString = .DefKey Then
@@ -2350,7 +2340,7 @@ Public Class frmProcessInfo
                             Exit For
                         End If
                     Next
-                Case asyncCallbackLogEnumerate.LogItemType.MemoryItem
+                Case Native.Api.Enums.LogItemType.MemoryItem
                     For Each it2 As ListViewItem In Me.lvProcMem.Items
                         Dim tmp As cMemRegion = Me.lvProcMem.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.BaseAddress.ToString = .DefKey Then
@@ -2360,7 +2350,7 @@ Public Class frmProcessInfo
                             Exit For
                         End If
                     Next
-                Case asyncCallbackLogEnumerate.LogItemType.ModuleItem
+                Case Native.Api.Enums.LogItemType.ModuleItem
                     For Each it2 As ListViewItem In Me.lvModules.Items
                         Dim tmp As cModule = Me.lvModules.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.BaseAddress.ToString = .DefKey Then
@@ -2370,9 +2360,9 @@ Public Class frmProcessInfo
                             Exit For
                         End If
                     Next
-                Case asyncCallbackLogEnumerate.LogItemType.NetworkItem
+                Case Native.Api.Enums.LogItemType.NetworkItem
                     ' TODO
-                Case asyncCallbackLogEnumerate.LogItemType.ServiceItem
+                Case Native.Api.Enums.LogItemType.ServiceItem
                     For Each it2 As ListViewItem In Me.lvProcServices.Items
                         Dim tmp As cService = Me.lvProcServices.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.Name = .DefKey Then
@@ -2382,7 +2372,7 @@ Public Class frmProcessInfo
                             Exit For
                         End If
                     Next
-                Case asyncCallbackLogEnumerate.LogItemType.ThreadItem
+                Case Native.Api.Enums.LogItemType.ThreadItem
                     For Each it2 As ListViewItem In Me.lvThreads.Items
                         Dim tmp As cThread = Me.lvThreads.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.Id.ToString = .DefKey Then
@@ -2392,7 +2382,7 @@ Public Class frmProcessInfo
                             Exit For
                         End If
                     Next
-                Case asyncCallbackLogEnumerate.LogItemType.WindowItem
+                Case Native.Api.Enums.LogItemType.WindowItem
                     For Each it2 As ListViewItem In Me.lvWindows.Items
                         Dim tmp As cWindow = Me.lvWindows.GetItemByKey(it2.Name)
                         If tmp IsNot Nothing AndAlso tmp.Infos.Handle.ToString = .DefKey Then

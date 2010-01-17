@@ -149,6 +149,7 @@ Public Module Program
     Private _threadProvider As ThreadProvider
     Private _moduleProvider As ModuleProvider
     Private _windowProvider As WindowProvider
+    Private _logProvider As LogProvider
     Private _memRegionProvider As MemRegionProvider
     Private _serviceProvider As ServiceProvider
     Private _jobLimitsProvider As JobLimitsProvider
@@ -159,7 +160,7 @@ Public Module Program
     Private _jobProvider As JobProvider
     Private WithEvents _updater As cUpdate
     Private _progParameters As ProgramParameters
-    Private WithEvents theConnection As cConnection
+    Private WithEvents theConnection As New cConnection
     Private _systemInfo As cSystemInfo
     Private _hotkeys As cHotkeys
     Private _pref As Pref
@@ -447,6 +448,7 @@ Public Module Program
             _threadProvider = New ThreadProvider    ' Thread provider
             _memRegionProvider = New MemRegionProvider  ' mem region provider
             _handleProvider = New HandleProvider    ' Handle provider
+            _logProvider = New LogProvider          ' Log provider
 
             ' Connect to the local machine
             theConnection.SyncConnect()     ' Synchronous connection !!!
@@ -526,6 +528,7 @@ Public Module Program
             _threadProvider = New ThreadProvider    ' Thread provider
             _memRegionProvider = New MemRegionProvider  ' mem region provider
             _handleProvider = New HandleProvider    ' Handle provider
+            _logProvider = New LogProvider          ' Log provider
 
 
             ' ======= Load preferences
@@ -700,6 +703,9 @@ Public Module Program
 
         HandleProvider.ClearList()
         HandleProvider.FirstRefreshDone = False
+
+        LogProvider.ClearList()
+        LogProvider.FirstRefreshDone = False
 
         ProcessProvider.ClearNewProcessesDico()
         ServiceProvider.ClearNewServicesList()
