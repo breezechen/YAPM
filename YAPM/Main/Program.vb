@@ -145,6 +145,7 @@ Public Module Program
     Public _frmSystemInfo As frmSystemInfo
 
     Private _processProvider As ProcessProvider
+    Private _handleProvider As HandleProvider
     Private _threadProvider As ThreadProvider
     Private _moduleProvider As ModuleProvider
     Private _windowProvider As WindowProvider
@@ -347,7 +348,16 @@ Public Module Program
             Return _threadProvider
         End Get
     End Property
-
+    Public ReadOnly Property HandleProvider() As HandleProvider
+        Get
+            Return _handleProvider
+        End Get
+    End Property
+    Public ReadOnly Property MemRegionProvider() As MemRegionProvider
+        Get
+            Return _memRegionProvider
+        End Get
+    End Property
 
 
     Public Const HELP_PATH_INTERNET As String = "http://yaprocmon.sourceforge.net/help_static.html"
@@ -436,6 +446,7 @@ Public Module Program
             _moduleProvider = New ModuleProvider    ' Module provider
             _threadProvider = New ThreadProvider    ' Thread provider
             _memRegionProvider = New MemRegionProvider  ' mem region provider
+            _handleProvider = New HandleProvider    ' Handle provider
 
             ' Connect to the local machine
             theConnection.SyncConnect()     ' Synchronous connection !!!
@@ -514,6 +525,7 @@ Public Module Program
             _moduleProvider = New ModuleProvider    ' Module provider
             _threadProvider = New ThreadProvider    ' Thread provider
             _memRegionProvider = New MemRegionProvider  ' mem region provider
+            _handleProvider = New HandleProvider    ' Handle provider
 
 
             ' ======= Load preferences
@@ -685,6 +697,9 @@ Public Module Program
 
         MemRegionProvider.ClearList()
         MemRegionProvider.FirstRefreshDone = False
+
+        HandleProvider.ClearList()
+        HandleProvider.FirstRefreshDone = False
 
         ProcessProvider.ClearNewProcessesDico()
         ServiceProvider.ClearNewServicesList()

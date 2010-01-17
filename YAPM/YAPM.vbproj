@@ -907,10 +907,8 @@
     <Compile Include="Providers\Classes\EnvVariables\cEnvVariable.vb" />
     <Compile Include="Providers\Classes\EnvVariables\envVariableInfos.vb" />
     <Compile Include="Providers\Classes\General\generalInfos.vb" />
-    <Compile Include="Providers\Classes\Handles\asyncMethods\asyncCallbackHandleEnumerate.vb" />
     <Compile Include="Providers\Classes\Handles\asyncMethods\asyncCallbackHandleUnload.vb" />
     <Compile Include="Providers\Classes\Handles\cHandle.vb" />
-    <Compile Include="Providers\Classes\Handles\cHandleConnection.vb" />
     <Compile Include="Providers\Classes\Handles\handleInfos.vb" />
     <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobAddProcess.vb" />
     <Compile Include="Providers\Classes\Jobs\asyncMethods\asyncCallbackJobTerminateJob.vb" />
@@ -1019,6 +1017,7 @@
     <Compile Include="Providers\CustomListviews\mainJobList.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Providers\Providers\HandleProvider.vb" />
     <Compile Include="Providers\Providers\MemRegionProvider.vb" />
     <Compile Include="Providers\Providers\ThreadProvider.vb" />
     <Compile Include="Providers\Providers\ModuleProvider.vb" />

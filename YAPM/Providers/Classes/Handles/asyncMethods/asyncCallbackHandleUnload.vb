@@ -26,14 +26,12 @@ Imports System.Text
 
 Public Class asyncCallbackHandleUnload
 
-    Private con As cHandleConnection
     Private _deg As HasUnloadedHandle
 
     Public Delegate Sub HasUnloadedHandle(ByVal Success As Boolean, ByVal pid As Integer, ByVal handle As IntPtr, ByVal msg As String, ByVal actionNumber As Integer)
 
-    Public Sub New(ByVal deg As HasUnloadedHandle, ByRef procConnection As cHandleConnection)
+    Public Sub New(ByVal deg As HasUnloadedHandle)
         _deg = deg
-        con = procConnection
     End Sub
 
     Public Structure poolObj

@@ -37,7 +37,6 @@ Public Class frmServer
     End Enum
 
     Private theConnection As cConnection = Program.Connection
-    Private _handleCon As New cHandleConnection(Me, theConnection, New cHandleConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedHandle))
     Private _servdepCon As New cServDepConnection(Me, theConnection, New cServDepConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedServDep))
     Private _searchCon As New cSearchConnection(Me, theConnection, New cSearchConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedSearch))
     Private _logCon As New cLogConnection(Me, theConnection, New cLogConnection.HasEnumeratedEventHandler(AddressOf HasEnumeratedLog))
@@ -52,17 +51,14 @@ Public Class frmServer
                 .Connect()
             End With
 
-            _handleCon.ConnectionObj = theConnection
             _searchCon.ConnectionObj = theConnection
             _servdepCon.ConnectionObj = theConnection
             _logCon.ConnectionObj = theConnection
 
             _searchCon.Connect()
             _servdepCon.Connect()
-            _handleCon.Connect()
             _logCon.Connect()
 
-            cHandle.Connection = _handleCon
             cLogItem.Connection = _logCon
 
         Catch ex As Exception
@@ -302,9 +298,9 @@ Public Class frmServer
 
     End Sub
 
-    Private Sub HasEnumeratedHandle(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, handleInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
+    Private Sub HasEnumeratedHandle(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, handleInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
-        If Success Then
+        If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestHandleList)
                 cDat.InstanceId = instanceId  ' The instance which requested the list
@@ -316,7 +312,7 @@ Public Class frmServer
             End Try
         Else
             ' Send an error
-            Misc.ShowError("Unable to enumerate handles")
+            Misc.ShowError("Unable to enumerate handles : " & res.ErrorMessage)
         End If
 
     End Sub
@@ -470,7 +466,7 @@ Public Class frmServer
                     Case cSocketData.OrderType.RequestHandleList
                         Dim pid As Integer = CType(cData.Param1, Integer)
                         Dim unn As Boolean = CBool(cData.Param2)
-                        Call _handleCon.Enumerate(True, pid, unn, _forInstanceId)
+                        Call HandleProvider.Update(pid, unn, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestWindowList
                         Call WindowProvider.Update(True, _forInstanceId)
@@ -948,6 +944,7 @@ Public Class frmServer
         AddHandler ModuleProvider.GotRefreshed, AddressOf HasEnumeratedModule
         AddHandler ThreadProvider.GotRefreshed, AddressOf HasEnumeratedThread
         AddHandler MemRegionProvider.GotRefreshed, AddressOf HasEnumeratedMemoryReg
+        AddHandler HandleProvider.GotRefreshed, AddressOf HasEnumeratedHandle
         'sock.ConnexionAccepted = New AsynchronousServer.ConnexionAcceptedEventHandle(AddressOf sock_ConnexionAccepted)
         'sock.Disconnected = New AsynchronousServer.DisconnectedEventHandler(AddressOf sock_Disconnected)
         'sock.SentData = New AsynchronousServer.SentDataEventHandler(AddressOf sock_SentData)

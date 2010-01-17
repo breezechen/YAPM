@@ -31,7 +31,7 @@ Public Class HKeyProp
 
     ' Refresh infos
     Public Overrides Sub RefreshInfos()
-        Me.cmdOpen.Enabled = (cHandle.Connection.ConnectionObj.Type = cConnection.TypeOfConnection.LocalConnection)
+        Me.cmdOpen.Enabled = (Program.Connection.Type = cConnection.TypeOfConnection.LocalConnection)
     End Sub
 
     Private Sub cmdOpen_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdOpen.Click

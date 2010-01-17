@@ -2586,7 +2586,6 @@ Partial Class frmProcessInfo
         Me.lvProcMem.Location = New System.Drawing.Point(3, 3)
         Me.lvProcMem.Name = "lvProcMem"
         Me.lvProcMem.OverriddenDoubleBuffered = True
-        Me.lvProcMem.ProcessId = 0
         Me.lvProcMem.ReorganizeColumns = True
         Me.lvProcMem.ShowObjectDetailsOnDoubleClick = False
         Me.lvProcMem.Size = New System.Drawing.Size(641, 276)
@@ -3213,7 +3212,6 @@ Partial Class frmProcessInfo
         CConnection9.Type = cConnection.TypeOfConnection.LocalConnection
         CConnection9.Snapshot = Nothing
         CConnection9.SnapshotFile = Nothing
-        Me.lvHandles.ConnectionObj = CConnection9
         Me.lvHandles.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvHandles.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lvHandles.FullRowSelect = True
@@ -3222,10 +3220,8 @@ Partial Class frmProcessInfo
         Me.lvHandles.Location = New System.Drawing.Point(0, 0)
         Me.lvHandles.Name = "lvHandles"
         Me.lvHandles.OverriddenDoubleBuffered = True
-        Me.lvHandles.ProcessId = 0
         Me.lvHandles.ReorganizeColumns = True
         Me.lvHandles.ShowObjectDetailsOnDoubleClick = False
-        Me.lvHandles.ShowUnnamed = False
         Me.lvHandles.Size = New System.Drawing.Size(647, 282)
         Me.lvHandles.TabIndex = 34
         Me.lvHandles.UseCompatibleStateImageBehavior = False

@@ -405,6 +405,7 @@ Public Class frmProcessInfo
             PrivilegeProvider.ClearListForAnId(curProc.Infos.ProcessId)
             ModuleProvider.ClearListForAnId(curProc.Infos.ProcessId)
             MemRegionProvider.ClearListForAnId(curProc.Infos.ProcessId)
+            HandleProvider.ClearListForAnId(curProc.Infos.ProcessId)
         End If
 
     End Sub
@@ -1229,9 +1230,7 @@ Public Class frmProcessInfo
     ' Display handles of process
     Private Sub ShowHandles()
 
-        Me.lvHandles.ShowUnnamed = Me.MenuItemShowUnnamedHandles.Checked
-        Me.lvHandles.ProcessId = curProc.Infos.ProcessId
-        Me.lvHandles.UpdateTheItems()
+        HandleProvider.Update(curProc.Infos.ProcessId, Me.MenuItemShowUnnamedHandles.Checked, Me.lvHandles.InstanceId)
 
     End Sub
 
@@ -1472,7 +1471,6 @@ Public Class frmProcessInfo
         'theConnection.CopyFromInstance(Program.Connection)
         Try
             theConnection = Program.Connection
-            Me.lvHandles.ConnectionObj = theConnection
             Me.lvLog.ConnectionObj = theConnection
             theConnection.Connect()
             Me.timerProcPerf.Interval = CInt(My.Settings.ProcessInterval * Program.Connection.RefreshmentCoefficient)

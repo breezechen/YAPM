@@ -1,3 +1,8 @@
+Supporters TODO LIST
+- 
+
+
+
 TODO LIST
 
 Refactoring bugs
@@ -9,8 +14,13 @@ TODO
 - log (detail)
 - search (main)
 
+- jobs -> pb de performances
+- performances générales foireuses (et qui augmentent avec le temps) + memory leak quelque part (tester indépendamment chaque provider avec timer = 1ms pour voir d'où çà vient)
+
 - thread & modules par WMI
 
+- cpuUsage des tâches foireux
+- ajout tâches foireux (affiche 555645-45454 le premier coup)
 
 - collection modifiée (cf. services via socket : liste + 1/2 svchost avec leur serviceList) -> valable pour toutes les listes du même type (checker tasks, windows...)
 

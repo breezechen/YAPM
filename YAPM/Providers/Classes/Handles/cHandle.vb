@@ -24,20 +24,6 @@ Public Class cHandle
     Inherits cGeneralObject
 
     Private _handleInfos As handleInfos
-    Private Shared WithEvents _connection As cHandleConnection
-
-#Region "Properties"
-
-    Public Shared Property Connection() As cHandleConnection
-        Get
-            Return _connection
-        End Get
-        Set(ByVal value As cHandleConnection)
-            _connection = value
-        End Set
-    End Property
-
-#End Region
 
 #Region "Constructors & destructor"
 
@@ -70,7 +56,7 @@ Public Class cHandle
     Public Function CloseHandle() As Integer
 
         If _closeH Is Nothing Then
-            _closeH = New asyncCallbackHandleUnload(New asyncCallbackHandleUnload.HasUnloadedHandle(AddressOf unloadHandleDone), _connection)
+            _closeH = New asyncCallbackHandleUnload(New asyncCallbackHandleUnload.HasUnloadedHandle(AddressOf unloadHandleDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _closeH.Process)
@@ -294,7 +280,7 @@ Public Class cHandle
     Public Shared Function SharedLRCloseHandle(ByVal pid As Integer, ByVal handle As IntPtr) As Integer
 
         If _sharedcloseH Is Nothing Then
-            _sharedcloseH = New asyncCallbackHandleUnload(New asyncCallbackHandleUnload.HasUnloadedHandle(AddressOf unloadsharedHandleDone), _connection)
+            _sharedcloseH = New asyncCallbackHandleUnload(New asyncCallbackHandleUnload.HasUnloadedHandle(AddressOf unloadsharedHandleDone))
         End If
 
         Dim t As New System.Threading.WaitCallback(AddressOf _sharedcloseH.Process)

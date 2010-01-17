@@ -75,7 +75,7 @@ Public Class cSearchItem
             Case GeneralObjectType.Handle
                 ' Close a handle
                 If _closeH Is Nothing Then
-                    _closeH = New asyncCallbackHandleUnload(New asyncCallbackHandleUnload.HasUnloadedHandle(AddressOf unloadHandleDone), cHandle.Connection)
+                    _closeH = New asyncCallbackHandleUnload(New asyncCallbackHandleUnload.HasUnloadedHandle(AddressOf unloadHandleDone))
                 End If
 
                 Dim t As New System.Threading.WaitCallback(AddressOf _closeH.Process)
