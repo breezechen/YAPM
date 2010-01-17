@@ -1,5 +1,8 @@
 Supporters TODO LIST
-- 
+- choix des types de service à afficher (+ icone != par type)
+- sorting XP des colonnes
+- première colonne à déplacer possible oopas ?
+- autoruns
 
 
 

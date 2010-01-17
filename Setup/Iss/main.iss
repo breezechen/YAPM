@@ -7,7 +7,7 @@
 #define MyAppName "Yet Another (remote) Process Monitor"
 #define MyAppPublisher "v_k softwares"
 #define MyAppURL "http://yaprocmon.sourceforge.net/"
-#define MyAppVersion "2.4.2"
+#define MyAppVersion "2.5.0"
 
 
 [Setup]
