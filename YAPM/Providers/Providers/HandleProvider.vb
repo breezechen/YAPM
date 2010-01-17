@@ -159,12 +159,10 @@ Public Class HandleProvider
     ' Structure used to store parameters of enumeration
     Public Structure asyncEnumPoolObj
         Public pid As Integer
-        Public unNamed As Boolean
         Public instId As Integer
-        Public Sub New(ByVal procId As Integer, ByVal showUnNamed As Boolean, ByVal instanceId As Integer)
+        Public Sub New(ByVal procId As Integer, ByVal instanceId As Integer)
             pid = procId
             instId = instanceId
-            unNamed = showUnNamed
         End Sub
     End Structure
 
@@ -183,15 +181,15 @@ Public Class HandleProvider
     End Sub
 
     ' Refresh list of env variables by processId depending on the connection NOW
-    Public Shared Sub Update(ByVal pid As Integer, ByVal showUnNamed As Boolean, ByVal instanceId As Integer)
+    Public Shared Sub Update(ByVal pid As Integer, ByVal instanceId As Integer)
         ' This is of course async
         Call Threading.ThreadPool.QueueUserWorkItem( _
                 New System.Threading.WaitCallback(AddressOf HandleProvider.ProcessEnumeration), _
-                New HandleProvider.asyncEnumPoolObj(pid, showUnNamed, instanceId))
+                New HandleProvider.asyncEnumPoolObj(pid, instanceId))
     End Sub
-    Public Shared Sub SyncUpdate(ByVal pid As Integer, ByVal showUnNamed As Boolean, ByVal instanceId As Integer)
+    Public Shared Sub SyncUpdate(ByVal pid As Integer, ByVal instanceId As Integer)
         ' This is of course sync
-        HandleProvider.ProcessEnumeration(New HandleProvider.asyncEnumPoolObj(pid, showUnNamed, instanceId))
+        HandleProvider.ProcessEnumeration(New HandleProvider.asyncEnumPoolObj(pid, instanceId))
     End Sub
 
     ' ========================================
@@ -286,7 +284,7 @@ Public Class HandleProvider
                     Case cConnection.TypeOfConnection.RemoteConnectionViaSocket
                         ' Send cDat
                         Try
-                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestHandleList, pObj.pid, pObj.unNamed)
+                            Dim cDat As New cSocketData(cSocketData.DataType.Order, cSocketData.OrderType.RequestHandleList, pObj.pid)
                             cDat.InstanceId = pObj.instId
                             Program.Connection.Socket.Send(cDat)
                         Catch ex As Exception
@@ -331,7 +329,7 @@ Public Class HandleProvider
     ' Shared, local and sync enumeration
     Private Shared Function SharedLocalSyncEnumerate(ByVal pObj As asyncEnumPoolObj) As Dictionary(Of String, handleInfos)
         Dim _dico As New Dictionary(Of String, handleInfos)
-        Native.Objects.Handle.EnumerateHandleByProcessId(pObj.pid, pObj.unNamed, _dico)
+        Native.Objects.Handle.EnumerateHandleByProcessId(pObj.pid, True, _dico)
         Return _dico
     End Function
 

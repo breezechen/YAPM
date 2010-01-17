@@ -33,9 +33,30 @@ Public Class handleList
     ' Private
     ' ========================================
     Private _unnamed As Boolean = False
-    Private _pid As Integer
+    Private _changedVisibility As Boolean = False
     Private _first As Boolean
     Private _dico As New Dictionary(Of String, cHandle)
+
+
+#Region "Properties"
+
+    ' ========================================
+    ' Properties
+    ' ========================================
+    Public Property ShowUnNamed() As Boolean
+        Get
+            Return _unnamed
+        End Get
+        Set(ByVal value As Boolean)
+            If value <> _unnamed Then
+                _unnamed = value
+                _changedVisibility = True
+            End If
+        End Set
+    End Property
+
+#End Region
+
 
     ' ========================================
     ' Public functions
@@ -159,8 +180,9 @@ Public Class handleList
             Me.BeginUpdate()
         End If
         For Each var As String In vars
-            If _dico.ContainsKey(var) = False Then
-                Dim envvar As New cHandle(newItems(var))
+            Dim theIt As handleInfos = newItems(var)
+            If (_dico.ContainsKey(var) = False) AndAlso (Me.ShowUnNamed OrElse Len(theIt.Name) > 0) Then
+                Dim envvar As New cHandle(theIt)
                 envvar.NewCount = 1
                 _dico.Add(var, envvar)
 
@@ -211,22 +233,49 @@ Public Class handleList
                         Me.CreateSubItemsBuffer()
                     End If
 
-                    ' DELETED ITEMS
-                    If _dicoDel.Count > 0 Then
-                        Me.GotDeletedItems(_dicoDel)
-                    End If
+                    If _changedVisibility Then
+                        ' Changed visibility
 
-                    ' NEW ITEMS
-                    If _firstItemUpdate Then
-                        ' If this is the first time we got the list, we have to add
-                        ' existing items
+                        ' Won't display 'green' items
+                        _timeToDisplayNewItemsGreen = False
+
+                        ' Delete all
+                        Me.BeginUpdate()
+                        _dico.Clear()
+                        Me.Items.Clear()
+
+                        ' Add all items
                         _dicoNew.Clear()
                         For Each s As String In Dico.Keys
                             _dicoNew.Add(s)
                         Next
-                    End If
-                    If _dicoNew.Count > 0 Then
-                        Me.GotNewItems(_dicoNew, Dico)
+                        If _dicoNew.Count > 0 Then
+                            Me.GotNewItems(_dicoNew, Dico)
+                        End If
+                        Me.EndUpdate()
+
+                        ' Won't do this next time
+                        _changedVisibility = False
+                    Else
+
+                        ' DELETED ITEMS
+                        If _dicoDel.Count > 0 Then
+                            Me.GotDeletedItems(_dicoDel)
+                        End If
+
+                        ' NEW ITEMS
+                        If _firstItemUpdate Then
+                            ' If this is the first time we got the list, we have to add
+                            ' existing items
+                            _dicoNew.Clear()
+                            For Each s As String In Dico.Keys
+                                _dicoNew.Add(s)
+                            Next
+                        End If
+                        If _dicoNew.Count > 0 Then
+                            Me.GotNewItems(_dicoNew, Dico)
+                        End If
+
                     End If
 
                     ' We won't enumerate next time with all informations (included fixed infos)

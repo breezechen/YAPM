@@ -1230,7 +1230,8 @@ Public Class frmProcessInfo
     ' Display handles of process
     Private Sub ShowHandles()
 
-        HandleProvider.Update(curProc.Infos.ProcessId, Me.MenuItemShowUnnamedHandles.Checked, Me.lvHandles.InstanceId)
+        Me.lvHandles.ShowUnNamed = Me.MenuItemShowUnnamedHandles.Checked
+        HandleProvider.Update(curProc.Infos.ProcessId, Me.lvHandles.InstanceId)
 
     End Sub
 

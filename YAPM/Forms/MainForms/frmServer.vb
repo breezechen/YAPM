@@ -465,8 +465,7 @@ Public Class frmServer
                         Exit Sub
                     Case cSocketData.OrderType.RequestHandleList
                         Dim pid As Integer = CType(cData.Param1, Integer)
-                        Dim unn As Boolean = CBool(cData.Param2)
-                        Call HandleProvider.Update(pid, unn, _forInstanceId)
+                        Call HandleProvider.Update(pid, _forInstanceId)
                         Exit Sub
                     Case cSocketData.OrderType.RequestWindowList
                         Call WindowProvider.Update(True, _forInstanceId)

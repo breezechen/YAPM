@@ -675,7 +675,7 @@ Public Class cSnapshot
             If (options And Native.Api.Enums.SnapshotObject.[Handles]) = Native.Api.Enums.SnapshotObject.[Handles] Then
                 For Each proc As processInfos In Me.Processes.Values
                     Dim pid As Integer = proc.ProcessId
-                    HandleProvider.SyncUpdate(pid, True, -1)
+                    HandleProvider.SyncUpdate(pid, -1)
                     Dim _dico As Dictionary(Of String, handleInfos) = HandleProvider.CurrentHandles(pid)
                     Me.HandlesByProcessId(proc.ProcessId) = _dico
                 Next
