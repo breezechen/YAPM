@@ -101,6 +101,7 @@ Namespace Wmi.Objects
                         _dico.Add(_key, _module)
 
                     Next
+                    Exit For
                 End If
             Next
 

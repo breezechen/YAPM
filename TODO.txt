@@ -18,8 +18,6 @@ TODO
 - jobs -> pb de performances
 - performances générales foireuses (et qui augmentent avec le temps) + memory leak quelque part (tester indépendamment chaque provider avec timer = 1ms pour voir d'où çà vient)
 
-- thread & modules par WMI
-
 - cpuUsage des tâches foireux
 - ajout tâches foireux (affiche 555645-45454 le premier coup)
 
@@ -30,7 +28,6 @@ TODO
 - log (lvLog) à tester
 
 - pas possible d'afficher la liste des services pour un process si la liste générale est pas affichée (via socket)
-- path process en WMI pas récupéré ???
 - ramage WMI pour les switchs thread/module/general dans la form details
 - bug de récupération des processnames pour les première Networkconnection (exemple de Opera apparaissant en tant que (N/A) (PID) et en tant que opera.exe (PID))
 - check signatures à refaire

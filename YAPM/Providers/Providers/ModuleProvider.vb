@@ -322,6 +322,8 @@ Public Class ModuleProvider
                                                                         wmiSearcher, _
                                                                         _dico, _
                                                                         msg)
+                        ' Save current processes into a dictionary
+                        ModuleProvider.SetCurrentModules(pObj.pid, _dico, pObj.instId)
 
                     Case cConnection.TypeOfConnection.SnapshotFile
                         ' Snapshot

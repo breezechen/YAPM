@@ -319,6 +319,9 @@ Public Class ThreadProvider
                                                                         _dico, _
                                                                         msg)
 
+                        ' Save current processes into a dictionary
+                        ThreadProvider.SetCurrentThreads(pObj.pid, _dico, pObj.instId)
+
                     Case cConnection.TypeOfConnection.SnapshotFile
                         ' Snapshot
 
