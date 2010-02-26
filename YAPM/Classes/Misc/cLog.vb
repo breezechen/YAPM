@@ -125,7 +125,7 @@ Public Class cLog
         '_s(_lineCount) = s
         Dim it As New ListViewItem(Date.Now.ToLongDateString & " -- " & Date.Now.ToLongTimeString)
         it.SubItems.Add(line)
-        Me.frm.lv.Items.Add(it)
+        Async.ListView.AddItem(Me.frm.lv, it)
     End Sub
 
     Public Function GetLog() As String

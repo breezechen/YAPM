@@ -36,6 +36,16 @@ Namespace Async
                 Return it
             End If
         End Function
+        Private Delegate Function degAddItem2(ByVal lv As Windows.Forms.ListView, ByVal item As ListViewItem) As Windows.Forms.ListViewItem
+        Public Shared Function AddItem(ByVal lv As Windows.Forms.ListView, ByVal item As ListViewItem) As Windows.Forms.ListViewItem
+            If lv.InvokeRequired Then
+                Dim d As New degAddItem2(AddressOf AddItem)
+                Return CType(lv.Invoke(d, lv, item), ListViewItem)
+            Else
+                Dim it As ListViewItem = lv.Items.Add(item)
+                Return it
+            End If
+        End Function
 
         Private Delegate Sub degChangeVirtualListSize(ByVal lv As Windows.Forms.ListView, ByVal value As Integer)
         Public Shared Sub ChangeVirtualListSize(ByVal lv As Windows.Forms.ListView, ByVal value As Integer)

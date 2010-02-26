@@ -1837,12 +1837,12 @@ Public Class frmMain
         If res.Success AndAlso instanceId = Me.lvProcess.InstanceId Then    ' Associated with lvProcess
             For Each id As Integer In pids
                 Dim item As cProcess = ProcessProvider.GetProcessById(id)
-                If item IsNot Nothing Then
+                If item IsNot Nothing AndAlso ProcessProvider.FirstRefreshDone Then
                     Program.Log.AppendLine("Process created : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
                     If Me.MenuItemTaskSelProc.Enabled = False Then
                         MenuItemTaskSelProc.Enabled = True
                     End If
-                    If My.Settings.NotifyNewProcesses AndAlso ProcessProvider.FirstRefreshDone Then
+                    If My.Settings.NotifyNewProcesses Then
                         Dim text As String = "Name : " & item.Infos.Name & " (" & item.Infos.ProcessId.ToString & ")"
                         If item.Infos.ParentProcessId > 0 Then
                             text &= vbNewLine & "Parent : " & _
@@ -1898,9 +1898,9 @@ Public Class frmMain
         If res.Success AndAlso instanceId = Me.lvServices.InstanceId Then    ' Associated with lvProcess
             For Each serviceName As String In names
                 Dim item As cService = ServiceProvider.GetServiceByName(serviceName)
-                If item IsNot Nothing Then
+                If item IsNot Nothing AndAlso ServiceProvider.FirstRefreshDone Then
                     Program.Log.AppendLine("Service created : " & item.Infos.Name & " (" & item.Infos.ProcessId & ")")
-                    If My.Settings.NotifyNewServices AndAlso ServiceProvider.FirstRefreshDone Then
+                    If My.Settings.NotifyNewServices Then
                         Dim text As String = "Name : " & item.Infos.Name
                         If item.Infos.ProcessId > 0 Then
                             text &= " (" & item.Infos.ProcessId.ToString & ")"
