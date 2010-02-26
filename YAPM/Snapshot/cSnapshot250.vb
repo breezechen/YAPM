@@ -25,7 +25,7 @@ Imports System.Xml.Serialization
 Imports System.IO
 
 <Serializable()> _
-Public Class cSnapshot
+Public Class cSnapshot250
 
 #Region "Private attributes"
 
@@ -86,7 +86,16 @@ Public Class cSnapshot
 
         ' Serialization part :
         Dim b() As Byte = System.IO.File.ReadAllBytes(ssFile)
-        Dim newObj As cSnapshot = cSerialization.DeserializeObject(Of cSnapshot)(b)
+        Dim newObj As cSnapshot250 = cSerialization.DeserializeObject(Of cSnapshot250)(b)
+
+        ' If we could not serialize to cSnapshot, we try to serialize to an old version
+        ' of cSnapshot (backward compatiblity)
+        ' V2.4.2
+        If b IsNot Nothing AndAlso newObj Is Nothing Then
+            Dim bind As System.Runtime.Serialization.SerializationBinder = New cSnap242to250Binder
+            Dim tmp As cSnapshot242 = cSerialization.DeserializeObject(Of cSnapshot242)(b, bind)
+            newObj = cSnap242to250Binder.Snap242to250(tmp)
+        End If
 
         ' Set objects
         With newObj

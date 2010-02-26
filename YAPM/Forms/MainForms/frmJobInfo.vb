@@ -135,6 +135,10 @@ Public Class frmJobInfo
         If Program.Connection.Type <> cConnection.TypeOfConnection.SnapshotFile Then
             JobLimitsProvider.ClearListForAJobName(curJob.Infos.Name)
         End If
+
+        Me.lvLimits.Dispose()
+        Me.lvProcess.Dispose()
+
     End Sub
 
     Private Sub frmServiceInfo_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp

@@ -82,10 +82,13 @@ Imports System.Runtime.InteropServices
             Return _tags
         End Get
     End Property
-    Public ReadOnly Property ProcessId() As Integer
+    Public Property ProcessId() As Integer
         Get
             Return _pid
         End Get
+        Friend Set(ByVal value As Integer)
+            _pid = value
+        End Set
     End Property
     Public Overrides ReadOnly Property Key() As String
         Get

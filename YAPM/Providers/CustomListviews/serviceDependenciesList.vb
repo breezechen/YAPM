@@ -151,6 +151,12 @@ Public Class serviceDependenciesList
         Me.Update()
     End Sub
 
+    ' Dispose
+    Public Overloads Sub Dispose()
+        MyBase.Dispose()
+        Me.ClearItems()
+    End Sub
+
 
     ' ========================================
     ' Private properties

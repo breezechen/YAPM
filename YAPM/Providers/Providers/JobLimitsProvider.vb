@@ -297,7 +297,7 @@ Public Class JobLimitsProvider
                         ' Snapshot
 
                         Dim _dico As New Dictionary(Of String, jobLimitInfos)
-                        Dim snap As cSnapshot = Program.Connection.Snapshot
+                        Dim snap As cSnapshot250 = Program.Connection.Snapshot
                         If snap IsNot Nothing Then
                             _dico = snap.JobLimitsByJobName(pObj.JobName)
                         End If

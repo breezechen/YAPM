@@ -435,7 +435,7 @@ Public Class ServiceProvider
                     Case cConnection.TypeOfConnection.SnapshotFile
                         ' Snapshot file
 
-                        Dim snap As cSnapshot = Program.Connection.Snapshot
+                        Dim snap As cSnapshot250 = Program.Connection.Snapshot
                         If snap IsNot Nothing Then
                             ' Save service list into a dictionary
                             ServiceProvider.SetCurrentServices(snap.Services, pObj.instId)

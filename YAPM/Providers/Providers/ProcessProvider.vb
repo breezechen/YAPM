@@ -506,7 +506,7 @@ Public Class ProcessProvider
                         ' Snapshot
 
                         Dim _dico As New Dictionary(Of Integer, processInfos)
-                        Dim snap As cSnapshot = Program.Connection.Snapshot
+                        Dim snap As cSnapshot250 = Program.Connection.Snapshot
                         If snap IsNot Nothing Then
                             _dico = snap.Processes
                         End If

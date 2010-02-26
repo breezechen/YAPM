@@ -58,10 +58,13 @@ Imports System.Net
             Return _desc
         End Get
     End Property
-    Public ReadOnly Property JobName() As String
+    Public Property JobName() As String
         Get
             Return _jobName
         End Get
+        Friend Set(ByVal value As String)
+            _jobName = value
+        End Set
     End Property
     Public Overrides ReadOnly Property Key() As String
         Get

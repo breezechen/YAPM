@@ -59,6 +59,18 @@ Public Class cSerialization
             Return Nothing
         End Try
     End Function
+    Public Shared Function DeserializeObject(Of T)(ByVal dataBytes As Byte(), ByVal binder As System.Runtime.Serialization.SerializationBinder) As T
+        Try
+            Dim formatter As System.Runtime.Serialization.IFormatter = New System.Runtime.Serialization.Formatters.Binary.BinaryFormatter()
+            Using ms As New MemoryStream(DeCompressByteArray(dataBytes))
+                formatter.Binder = binder
+                Return DirectCast(formatter.Deserialize(ms), T)
+            End Using
+        Catch ex As Exception
+            Trace.WriteLine("Error during serialization : " & ex.Message)
+            Return Nothing
+        End Try
+    End Function
 
     Private Shared Function CompressByteArray(ByRef b() As Byte) As Byte()
         'Return b

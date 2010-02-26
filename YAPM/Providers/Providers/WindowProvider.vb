@@ -32,7 +32,7 @@ Public Class WindowProvider
     ' Private attributes
     ' ========================================
 
-    ' Current services running (updated after each enumeration)
+    ' Current windows running (updated after each enumeration)
     Private Shared _currentWindows As New Dictionary(Of String, windowInfos)
     Friend Shared _semWindows As New Threading.Semaphore(1, 1)
 
@@ -57,26 +57,7 @@ Public Class WindowProvider
         End Set
     End Property
 
-    ' List of current windows/tasks
-    Public Shared ReadOnly Property CurrentTasks() As Dictionary(Of String, windowInfos)
-        Get
-            Try
-                _semWindows.WaitOne()
-
-                ' Get all tasks
-                Dim _dico As New Dictionary(Of String, windowInfos)
-                For Each pair As Collections.Generic.KeyValuePair(Of String, windowInfos) In WindowProvider.CurrentWindows
-                    If pair.Value.IsTask Then
-                        _dico.Add(pair.Key, pair.Value)
-                    End If
-                Next
-
-                Return _dico
-            Finally
-                _semWindows.Release()
-            End Try
-        End Get
-    End Property
+    ' List of current windows
     Public Shared ReadOnly Property CurrentWindows() As Dictionary(Of String, windowInfos)
         Get
             Return _currentWindows
@@ -310,7 +291,7 @@ Public Class WindowProvider
                     Case cConnection.TypeOfConnection.SnapshotFile
                         ' Snapshot file
 
-                        Dim snap As cSnapshot = Program.Connection.Snapshot
+                        Dim snap As cSnapshot250 = Program.Connection.Snapshot
                         If snap IsNot Nothing Then
                             ' Save service list into a dictionary
                             WindowProvider.SetCurrentWindows(snap.Windows, pObj.instId)

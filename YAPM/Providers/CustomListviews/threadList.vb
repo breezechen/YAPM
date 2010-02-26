@@ -119,6 +119,15 @@ Public Class threadList
         Return res.Values
     End Function
 
+    ' Dispose
+    Public Overloads Sub Dispose()
+        MyBase.Dispose()
+        Me.ClearItems()
+        RemoveHandler ThreadProvider.GotRefreshed, AddressOf Me.GotRefreshed
+        RemoveHandler Program.Connection.Connected, AddressOf impConnected
+        RemoveHandler Program.Connection.Disconnected, AddressOf impDisConnected
+    End Sub
+
 
     ' ========================================
     ' Private properties

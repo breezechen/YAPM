@@ -264,7 +264,7 @@ Public Class NetworkConnectionsProvider
                         ' Snapshot
 
                         Dim _dico As New Dictionary(Of String, networkInfos)
-                        Dim snap As cSnapshot = Program.Connection.Snapshot
+                        Dim snap As cSnapshot250 = Program.Connection.Snapshot
                         If snap IsNot Nothing Then
                             _dico = snap.NetworkConnections
                         End If

@@ -67,6 +67,10 @@ Public Class frmServer
     Private _TheIdToSend As String = ""
     Private Sub HasEnumeratedEnvVar(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, envVariableInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
+
         If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestEnvironmentVariableList)
@@ -85,6 +89,10 @@ Public Class frmServer
     End Sub
 
     Private Sub HasEnumeratedHeaps(ByVal news As List(Of String), ByVal dels As List(Of String), ByVal Dico As Dictionary(Of String, heapInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
 
         If res.Success Then
             Try
@@ -105,6 +113,10 @@ Public Class frmServer
 
     Private Sub HasEnumeratedJobLimits(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, jobLimitInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
+
         If Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestJobLimits)
@@ -123,6 +135,10 @@ Public Class frmServer
     End Sub
 
     Private Sub HasEnumeratedJobs(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, jobInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
 
         If res.Success Then
             Try
@@ -143,6 +159,10 @@ Public Class frmServer
 
     Private Sub HasEnumeratedLog(ByVal _dicoNew As List(Of String), ByVal _dicoDels As Dictionary(Of String, logItemInfos), ByVal _dicoDel As List(Of String), ByVal Dico As Dictionary(Of String, logItemInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
+
         If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestLogList)
@@ -161,6 +181,10 @@ Public Class frmServer
     End Sub
 
     Private Sub HasEnumeratedServDep(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, serviceInfos), ByVal errorMessage As String, ByVal instanceId As Integer, ByVal type As cServDepConnection.DependenciesToget)
+
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
 
         If Success Then
             Try
@@ -181,6 +205,10 @@ Public Class frmServer
 
     Private Sub HasEnumeratedMemoryReg(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, memRegionInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
+
         If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestMemoryRegionList)
@@ -199,6 +227,10 @@ Public Class frmServer
     End Sub
 
     Private Sub HasEnumeratedProcess(ByVal newPids As List(Of Integer), ByVal delPids As List(Of Integer), ByVal Dico As Dictionary(Of Integer, processInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
 
         If res.Success Then
             Try
@@ -219,6 +251,10 @@ Public Class frmServer
 
     Private Sub HasEnumeratedPrivilege(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, privilegeInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
+
         If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestPrivilegesList)
@@ -237,6 +273,10 @@ Public Class frmServer
     End Sub
 
     Private Sub HasEnumeratedService(ByVal newNames As List(Of String), ByVal delServices As List(Of String), ByVal Dico As Dictionary(Of String, serviceInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
 
         If res.Success Then
             Try
@@ -257,6 +297,10 @@ Public Class frmServer
 
     Private Sub HasEnumeratedThread(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, threadInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
+
         If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestThreadList)
@@ -275,6 +319,10 @@ Public Class frmServer
     End Sub
 
     Private Sub HasEnumeratedModule(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, moduleInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
 
         If res.Success Then
             Try
@@ -295,6 +343,10 @@ Public Class frmServer
 
     Private Sub HasEnumeratedHandle(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, handleInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
 
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
+
         If res.Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestHandleList)
@@ -313,6 +365,10 @@ Public Class frmServer
     End Sub
 
     Private Sub HasEnumeratedNetwork(ByVal news As List(Of String), ByVal dels As List(Of String), ByVal Dico As Dictionary(Of String, networkInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
 
         If res.Success Then
             Try
@@ -333,6 +389,10 @@ Public Class frmServer
 
     Private Sub HasEnumeratedSearch(ByVal Success As Boolean, ByVal Dico As Dictionary(Of String, searchInfos), ByVal errorMessage As String, ByVal instanceId As Integer)
 
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
+
         If Success Then
             Try
                 Dim cDat As New cSocketData(cSocketData.DataType.RequestedList, cSocketData.OrderType.RequestSearchList)
@@ -351,6 +411,10 @@ Public Class frmServer
     End Sub
 
     Private Sub HasEnumeratedWindows(ByVal newNames As List(Of String), ByVal delVars As List(Of String), ByVal Dico As Dictionary(Of String, windowInfos), ByVal instanceId As Integer, ByVal res As Native.Api.Structs.QueryResult)
+
+        If Program.Parameters.ModeServer = False Then
+            Exit Sub
+        End If
 
         If res.Success Then
             Try

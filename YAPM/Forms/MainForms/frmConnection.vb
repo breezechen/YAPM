@@ -369,7 +369,7 @@ Public Class frmConnection
 
     Private Sub cmdSSFileInfos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdSSFileInfos.Click
         ' Display informations about the snapshot
-        Dim snap As cSnapshot = Program.Connection.Snapshot
+        Dim snap As cSnapshot250 = Program.Connection.Snapshot
         If snap IsNot Nothing Then
             Dim s As String = vbNewLine & "FILE INFO" & vbNewLine & vbNewLine & _
                     "Date : " & snap.Date & vbNewLine & _

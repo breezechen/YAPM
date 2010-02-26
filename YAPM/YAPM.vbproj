@@ -1035,7 +1035,9 @@
     <Compile Include="Scripting\Enums.vb" />
     <Compile Include="Scripting\Machine.vb" />
     <Compile Include="Scripting\Tools.vb" />
-    <Compile Include="Snapshot\cSnapshot.vb" />
+    <Compile Include="Snapshot\cSnapshot250.vb" />
+    <Compile Include="Snapshot\v2.4.2\cSnap242to250Binder.vb" />
+    <Compile Include="Snapshot\v2.4.2\cSnapshot242.vb" />
     <Compile Include="Snapshot\SnapshotSystemInfo.vb" />
     <Compile Include="UserControls\HandleProps\HJobProp.Designer.vb">
       <DependentUpon>HJobProp.vb</DependentUpon>

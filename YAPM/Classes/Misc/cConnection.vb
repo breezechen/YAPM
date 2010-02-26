@@ -63,7 +63,7 @@ Public Class cConnection
     End Structure
 
     Private WithEvents _sock As New AsynchronousClient
-    Private _snap As cSnapshot
+    Private _snap As cSnapshot250
     Private _conType As TypeOfConnection
     Private _conSocket As SocketConnectionParameters
     Private _conWMI As WmiConnectionParameters
@@ -81,11 +81,11 @@ Public Class cConnection
     End Property
 
     ' Snaphot object
-    Public Property Snapshot() As cSnapshot
+    Public Property Snapshot() As cSnapshot250
         Get
             Return _snap
         End Get
-        Set(ByVal value As cSnapshot)
+        Set(ByVal value As cSnapshot250)
             _snap = value
         End Set
     End Property
@@ -167,7 +167,7 @@ Public Class cConnection
 
 
     Public Sub New()
-        _snap = New cSnapshot
+        _snap = New cSnapshot250
     End Sub
     Public Sub New(ByRef ccon As cConnection)
         _conSocket = ccon.SocketParameters
@@ -194,7 +194,7 @@ Public Class cConnection
             End If
         ElseIf Me.Type = TypeOfConnection.SnapshotFile Then
             If _isConnected = False Then
-                _snap = New cSnapshot(Me.SnapshotFile)
+                _snap = New cSnapshot250(Me.SnapshotFile)
                 _isConnected = True
             End If
             Threading.ThreadPool.QueueUserWorkItem(New Threading.WaitCallback(AddressOf asyncRaiseConnected))
@@ -215,7 +215,7 @@ Public Class cConnection
             End If
         ElseIf Me.Type = TypeOfConnection.SnapshotFile Then
             If _isConnected = False Then
-                _snap = New cSnapshot(Me.SnapshotFile)
+                _snap = New cSnapshot250(Me.SnapshotFile)
                 _isConnected = True
             End If
             asyncRaiseConnected(Nothing)

@@ -63,7 +63,7 @@ Public Class frmSaveSystemSnapshot
         Me.Enabled = False
 
         ' Create empty snapshot file
-        Dim snap As New cSnapshot
+        Dim snap As New cSnapshot250
 
         ' Get options
         Dim options As Native.Api.Enums.SnapshotObject

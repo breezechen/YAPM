@@ -85,7 +85,7 @@ Imports System.Net
     End Property
     Public Overrides ReadOnly Property Key() As String
         Get
-            Static __key As String = Nothing
+            Static __key As String
             If __key Is Nothing Then
                 __key = Me.ProcessId.ToString & "-" & Me.Protocol.ToString & "-" & Me.Local.ToString
             End If

@@ -149,6 +149,9 @@ Public Class frmServiceInfo
     Private Sub frmServiceInfo_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         ' Save position & size
         Pref.SaveFormPositionAndSize(Me, "PSfrmServiceInfo")
+
+        Me.tv.Dispose()
+        Me.tv2.Dispose()
     End Sub
 
     Private Sub frmServiceInfo_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyUp

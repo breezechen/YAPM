@@ -102,7 +102,7 @@ Public Class asyncCallbackSearchEnumerate
                         sToSearch = sToSearch.ToLowerInvariant
                     End If
 
-                    Dim snap As cSnapshot = con.ConnectionObj.Snapshot
+                    Dim snap As cSnapshot250 = con.ConnectionObj.Snapshot
                     If snap IsNot Nothing Then
 
                         ' ---- PROCESSES

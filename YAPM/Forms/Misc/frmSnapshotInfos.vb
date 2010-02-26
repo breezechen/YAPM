@@ -42,7 +42,7 @@ Public Class frmSnapshotInfos
         If System.IO.File.Exists(Me.txtSSFile.Text) Then
             Me.Text = "System Snapshot File information - Exploring file..."
             Try
-                Dim snap As New cSnapshot(Me.txtSSFile.Text)
+                Dim snap As New cSnapshot250(Me.txtSSFile.Text)
                 Me.Text = "System Snapshot File information - Building tree..."
                 Call Me.BuildTree(snap)
                 Me.Text = "System Snapshot File information"
@@ -61,7 +61,7 @@ Public Class frmSnapshotInfos
     End Sub
 
     ' Build the tree with ssfile info
-    Private Sub BuildTree(ByVal snap As cSnapshot)
+    Private Sub BuildTree(ByVal snap As cSnapshot250)
 
         Me.tv.Nodes.Clear()
         Me.tv.BeginUpdate()

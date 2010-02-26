@@ -188,6 +188,12 @@ Public Class searchList
         Return res.Values
     End Function
 
+    ' Dispose
+    Public Overloads Sub Dispose()
+        MyBase.Dispose()
+        Me.ClearItems()
+    End Sub
+
 
     ' ========================================
     ' Private properties

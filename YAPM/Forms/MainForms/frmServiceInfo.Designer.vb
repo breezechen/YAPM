@@ -994,7 +994,7 @@ Partial Class frmServiceInfo
         'tv2
         '
         CConnection1.Type = cConnection.TypeOfConnection.LocalConnection
-        CConnection1.Snapshot = CType(resources.GetObject("CConnection1.Snapshot"), cSnapshot)
+        CConnection1.Snapshot = CType(resources.GetObject("CConnection1.Snapshot"), cSnapshot250)
         CConnection1.SnapshotFile = Nothing
         Me.tv2.ConnectionObj = CConnection1
         Me.tv2.Dock = System.Windows.Forms.DockStyle.Fill
@@ -1071,7 +1071,7 @@ Partial Class frmServiceInfo
         'tv
         '
         CConnection2.Type = cConnection.TypeOfConnection.LocalConnection
-        CConnection2.Snapshot = CType(resources.GetObject("CConnection2.Snapshot"), cSnapshot)
+        CConnection2.Snapshot = CType(resources.GetObject("CConnection2.Snapshot"), cSnapshot250)
         CConnection2.SnapshotFile = Nothing
         Me.tv.ConnectionObj = CConnection2
         Me.tv.Dock = System.Windows.Forms.DockStyle.Fill

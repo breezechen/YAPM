@@ -57,10 +57,13 @@ Imports System.Runtime.InteropServices
             Return _processId
         End Get
     End Property
-    Public ReadOnly Property IsTask() As Boolean
+    Public Property IsTask() As Boolean
         Get
             Return _isTask
         End Get
+        Friend Set(ByVal value As Boolean)
+            _isTask = value
+        End Set
     End Property
     Public ReadOnly Property Enabled() As Boolean
         Get
@@ -125,7 +128,7 @@ Imports System.Runtime.InteropServices
     End Property
     Public Overrides ReadOnly Property Key() As String
         Get
-            Static _key As String = Nothing
+            Static _key As String
             If _key Is Nothing Then
                 _key = Me.ProcessId.ToString & "-" & Me.ThreadId.ToString & "-" & Me.Handle.ToString
             End If

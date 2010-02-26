@@ -41,7 +41,7 @@ Imports System.Runtime.InteropServices
 
     ' Retrieve all information's names availables
     Public Overloads Shared Function GetAvailableProperties(Optional ByVal includeFirstProp As Boolean = False) As String()
-        Dim s(11) As String
+        Dim s(12) As String
 
         s(0) = "Caption"
         s(1) = "Process"
@@ -55,6 +55,7 @@ Imports System.Runtime.InteropServices
         s(9) = "Top"
         s(10) = "Left"
         s(11) = "Opacity"
+        s(12) = "Handle"
 
         If includeFirstProp Then
             Dim s2(s.Length) As String
