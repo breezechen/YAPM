@@ -332,7 +332,7 @@ Public Class frmPreferences
         _newcolor = -8323328
         _deletedcolor = -49104
         Me.chkTrayIcon.Checked = True
-        Me.chkHideMinimized.Checked = False
+        Me.chkHideMinimized.Checked = True
         Me.cbPriority.SelectedIndex = 3
         Me.txtTaskInterval.Value = 1000
         Me.txtNetworkInterval.Value = 1000
@@ -341,7 +341,7 @@ Public Class frmPreferences
         Me.chkRibbon.Checked = True
         Me.txtSearchEngine.Text = "http://www.google.com/search?hl=en&q=ITEM"
         Me.chkWarn.Checked = True
-        Me.chkHideClosed.Checked = False
+        Me.chkHideClosed.Checked = True
         Me.chkUnlimitedBuf.Checked = False
         Me.chkAutoOnline.Checked = False
         Me.bufferSize.Value = 100

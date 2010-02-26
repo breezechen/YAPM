@@ -66,10 +66,10 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="HideWhenMinimized" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="HideWhenClosed" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="ReplaceTaskmgr" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

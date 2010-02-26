@@ -308,7 +308,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
         Public Property HideWhenMinimized() As Boolean
             Get
                 Return CType(Me("HideWhenMinimized"),Boolean)
@@ -320,7 +320,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
         Public Property HideWhenClosed() As Boolean
             Get
                 Return CType(Me("HideWhenClosed"),Boolean)

@@ -143,7 +143,7 @@ Public Class mainTaskList
             ' This should not be used elsewhere...
             WindowProvider._semWindows.WaitOne()
 
-            ' Get current services
+            ' Get current tasks
             Dim Dico As Dictionary(Of String, windowInfos) = WindowProvider.CurrentWindows
 
             ' We won't enumerate next time with all informations (included fixed infos)
