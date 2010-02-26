@@ -16,8 +16,8 @@ Refactoring bugs
 - jobs -> pb de performances
 - performances générales foireuses (et qui augmentent avec le temps) + memory leak quelque part (tester indépendamment chaque provider avec timer = 1ms pour voir d'où çà vient)
 
-- cpuUsage des tâches foireux
-- ajout tâches foireux (affiche 555645-45454 le premier coup)
+- cpuUsage des tâches foireux (pour les processus créés après le lancement de YAPM)
+- ajout tâches foireux (affiche 555645-45454 le premier coup) -> checker quand çà arrive
 
 - collection modifiée (cf. services via socket : liste + 1/2 svchost avec leur serviceList) -> valable pour toutes les listes du même type (checker tasks, windows...)
 
@@ -27,7 +27,6 @@ Refactoring bugs
 
 - pas possible d'afficher la liste des services pour un process si la liste générale est pas affichée (via socket)
 - ramage WMI pour les switchs thread/module/general dans la form details
-- bug de récupération des processnames pour les première Networkconnection (exemple de Opera apparaissant en tant que (N/A) (PID) et en tant que opera.exe (PID))
 - check signatures à refaire
 
 
@@ -67,6 +66,7 @@ BUGS CRITIQUES
 - Save main report à faire
 	
 BUGS NON CRITIQUES
+- bug de récupération des processnames pour les première Networkconnection (exemple de Opera apparaissant en tant que (N/A) (PID) et en tant que opera.exe (PID))
 - FAQ : dire que le port pour le server est en fait le port + le port+3
 - diviser les onglets de frmProcessInfos en usercontrol et les ajouter manuellement (en fonction de la connection et du type de process 4,0  ou >4)
 - close local process handle -> utiliser DuplicateHandle plutôt que remote thread
