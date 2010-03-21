@@ -828,7 +828,7 @@ Public Module Program
                 With _frmMain.Tray
                     .BalloonTipText = "YAPM is up to date !"
                     .BalloonTipIcon = ToolTipIcon.Info
-                    .BalloonTipTitle = "Now new version of YAPM is available."
+                    .BalloonTipTitle = "No new version of YAPM is available."
                     .ShowBalloonTip(3000)
                 End With
             End If
