@@ -66,10 +66,10 @@ Public Class BugReporter
         _postValues.Add("submit", "Add Artifact")
         _postValues.Add("category_id", "1252941")   ' Auto_report category
 
-        ' Cateogry, 100 = None
+        ' Private ?
         _postValues.Add("is_private", "0")
 
-        ' Private ?
+        ' Cateogry, 100 = None
         _postValues.Add("category_id", "100")
 
         ' Group, 100 = None
