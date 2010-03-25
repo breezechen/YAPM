@@ -121,7 +121,7 @@ Namespace Wmi.Objects
                             .UserName = NO_INFO_RETRIEVED
                         End Try
 
-                        .CommandLine = NO_INFO_RETRIEVED
+                        .CommandLine = CStr(refProcess.Item(WmiInfoProcess.CommandLine.ToString))
                         .FileInfo = Nothing
                         .PebAddress = IntPtr.Zero
                     End With
